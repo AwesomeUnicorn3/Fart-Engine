@@ -6,7 +6,8 @@
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 6.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -20,41 +21,44 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 1280.0
+margin_right = 1024.0
 margin_bottom = 75.0
 
 [node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_right = 750.0
+margin_right = 942.0
 margin_bottom = 75.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/CenterContainer2"]
-margin_left = 337.0
+margin_left = 433.0
 margin_top = 30.0
-margin_right = 413.0
+margin_right = 509.0
 margin_bottom = 44.0
 text = "Table Name"
 
 [node name="New_Table" type="Button" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 754.0
-margin_right = 832.0
+margin_left = 946.0
+margin_right = 1024.0
 margin_bottom = 75.0
 text = "New Table"
 
 [node name="Close_Table" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
 margin_left = 836.0
 margin_right = 921.0
 margin_bottom = 75.0
 text = "Close Table"
 
 [node name="Save" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
 margin_left = 925.0
 margin_right = 1023.0
 margin_bottom = 75.0
 text = "Save Changes"
 
 [node name="Change_Row_Order" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
 margin_left = 1027.0
 margin_right = 1097.0
 margin_bottom = 75.0
@@ -75,6 +79,7 @@ margin_bottom = 75.0
 text = "Delete Key"
 
 [node name="Change_Column_Order" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
 margin_left = 1101.0
 margin_right = 1183.0
 margin_bottom = 75.0
@@ -95,6 +100,7 @@ margin_bottom = 75.0
 text = "Delete Values"
 
 [node name="Delete_Table" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
 margin_left = 1187.0
 margin_right = 1280.0
 margin_bottom = 75.0
@@ -102,14 +108,14 @@ text = "Delete Table"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 79.0
-margin_right = 1280.0
+margin_right = 1024.0
 margin_bottom = 521.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = -5
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
-margin_right = 214.0
+margin_right = 175.0
 margin_bottom = 442.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
@@ -120,15 +126,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/ScrollContainer"]
-margin_right = 214.0
+[node name="Table_Buttons" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/ScrollContainer"]
+margin_right = 175.0
 margin_bottom = 442.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 209.0
-margin_right = 1280.0
+margin_left = 170.0
+margin_right = 1024.0
 margin_bottom = 442.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 3
@@ -139,14 +145,14 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 1064.0
+margin_right = 847.0
 margin_bottom = 435.0
 
 [node name="CenterContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 525.0
-margin_right = 1280.0
+margin_right = 1024.0
 margin_bottom = 600.0
-rect_min_size = Vector2( 1280, 75 )
+rect_min_size = Vector2( 720, 75 )
 size_flags_horizontal = 3
 
 [node name="Label2" type="Label" parent="VBoxContainer/CenterContainer"]
