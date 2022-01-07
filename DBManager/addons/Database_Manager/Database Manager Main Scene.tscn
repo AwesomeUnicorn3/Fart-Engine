@@ -178,9 +178,9 @@ text = "                             "
 [node name="Label" type="Label" parent="VBoxContainer/CenterContainer"]
 margin_left = 463.0
 margin_top = 30.0
-margin_right = 781.0
+margin_right = 847.0
 margin_bottom = 44.0
-text = "Awesome Unicorn 3 Database Creator Version 1.0"
+text = "Awesome Unicorn 3 Database Creator Version Pre-Alpha 0.1"
 
 [node name="Popups" type="ColorRect" parent="."]
 visible = false
