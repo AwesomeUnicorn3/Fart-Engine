@@ -1,8 +1,9 @@
-extends Node
+extends Control
 
 signal save_complete
 signal DbManager_loaded
 signal refresh_UI
+var uds_main_scene
 var Static_Game_Dict = {}
 var Dynamic_Game_Dict = {}
 var Global_Game_Dict = {}
@@ -20,12 +21,14 @@ var array_load_files = []
 var save_game_path = "user://"
 var load_game_path = ""
 var save_format = ".sav"
-var dbmanData_save_path = "res://addons/Database_Manager/Data/"
+var dbmanData_save_path : String = "res://addons/Database_Manager/Data/"
 var dict_loaded = false
+var op_sys : String = ""
 
 func _ready():
+	op_sys = OS.get_name()
 	emit_signal("DbManager_loaded")
-	var tbl_data = import_data("res://addons/Database_Manager/Data/Table Data.json")
+	var tbl_data = import_data(dbmanData_save_path + "/Table Data.json")
 	tables_list = list_files_in_directory(dbmanData_save_path, json)
 	var dict = {}
 	for d in tables_list:
@@ -58,6 +61,11 @@ func _ready():
 	set_var_type_dict(Static_Game_Dict)
 	new_game()
 
+func get_uds_main_scene():
+	return uds_main_scene
+
+func set_uds_main_scene(scene : Node):
+	return uds_main_scene
 
 func import_data(table_loc):
 	var curr_tbl_data = {}
@@ -299,3 +307,12 @@ func convert_string_to_Vector(value : String):
 			vector = Vector3(x,y,z)
 
 	return vector
+
+
+func edit_dict(dict, itm_nm, amt):
+	if Dynamic_Game_Dict[dict].has(itm_nm):
+		Dynamic_Game_Dict[dict][itm_nm]["ItemCount"] += amt
+	else:
+		var item = Static_Game_Dict["Items"][itm_nm]
+		Dynamic_Game_Dict[dict][itm_nm] = item
+		Dynamic_Game_Dict[dict][itm_nm]["ItemCount"] += amt

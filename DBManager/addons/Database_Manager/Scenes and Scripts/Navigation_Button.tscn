@@ -1,0 +1,10 @@
+[gd_scene format=2]
+
+[node name="Navigation Button" type="Button"]
+margin_right = 112.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 150, 75 )
+text = "Database Editor"
+__meta__ = {
+"_edit_use_anchors_": false
+}

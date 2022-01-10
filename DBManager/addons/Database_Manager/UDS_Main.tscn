@@ -1,0 +1,117 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/Database_Manager/UDS_Main.gd" type="Script" id=1]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Database Manager.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Navigation_Button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Background.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/Inventory Manager.tscn" type="PackedScene" id=5]
+
+[node name="UDS_Main" type="Control" groups=["UDS_Root"]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" parent="." instance=ExtResource( 4 )]
+
+[node name="HBox_1" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox_1" type="VBoxContainer" parent="HBox_1"]
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="Hbox_1" type="HBoxContainer" parent="HBox_1/VBox_1"]
+margin_right = 1024.0
+margin_bottom = 75.0
+
+[node name="Inventory" parent="HBox_1/VBox_1/Hbox_1" instance=ExtResource( 3 )]
+margin_right = 150.0
+margin_bottom = 75.0
+text = "Inventory"
+
+[node name="Quest" parent="HBox_1/VBox_1/Hbox_1" instance=ExtResource( 3 )]
+visible = false
+margin_left = 154.0
+margin_right = 304.0
+margin_bottom = 75.0
+text = "Quest"
+
+[node name="Database_Editor" parent="HBox_1/VBox_1/Hbox_1" instance=ExtResource( 3 )]
+margin_left = 154.0
+margin_right = 304.0
+margin_bottom = 75.0
+text = "Database"
+
+[node name="Welcome_Label" type="Label" parent="HBox_1/VBox_1"]
+margin_top = 79.0
+margin_right = 1024.0
+margin_bottom = 582.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Welcome to the Awesome Unicorn Database Manager"
+align = 1
+valign = 1
+
+[node name="Version_Info" type="Label" parent="HBox_1/VBox_1"]
+margin_top = 586.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Pre-Aplha Version 0.2"
+align = 1
+valign = 1
+
+[node name="Tabs" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 76.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Database_Manager" parent="Tabs" instance=ExtResource( 2 )]
+visible = false
+
+[node name="Inventory_Manager" parent="Tabs" instance=ExtResource( 5 )]
+visible = false
+
+[node name="Quest" type="Control" parent="Tabs"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" parent="Tabs/Quest" instance=ExtResource( 4 )]
+
+[node name="Label" type="Label" parent="Tabs/Quest/Background"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -7.0
+margin_bottom = 7.0
+text = "Quest Menu"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/Inventory" to="." method="_on_Inventory_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/Quest" to="." method="_on_Quest_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/Database_Editor" to="." method="_on_Database_Editor_button_up"]

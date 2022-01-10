@@ -1,0 +1,65 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/TableViewer.gd" type="Script" id=4]
+
+[node name="TableViewer" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+follow_focus = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridConainer" type="GridContainer" parent="ScrollContainer"]
+margin_right = 1440.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = -3
+custom_constants/hseparation = -3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Blank" type="Label" parent="ScrollContainer/GridConainer"]
+margin_right = 120.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 120, 20 )
+size_flags_vertical = 1
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Key"
+align = 1
+valign = 1
+
+[node name="ColorRect" type="ColorRect" parent="ScrollContainer/GridConainer/Blank"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="ScrollContainer/GridConainer/Blank"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 3.0
+margin_top = 3.0
+margin_right = -3.0
+margin_bottom = -3.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
