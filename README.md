@@ -1,2 +1,2 @@
 # DBManager
-Database Manager Add on for Godot
+Database Manager plug-in for Godot
