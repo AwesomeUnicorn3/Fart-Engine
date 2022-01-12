@@ -39,7 +39,7 @@ margin_bottom = 75.0
 [node name="Inventory" parent="HBox_1/VBox_1/Hbox_1" instance=ExtResource( 3 )]
 margin_right = 150.0
 margin_bottom = 75.0
-text = "Inventory"
+text = "Items"
 
 [node name="Quest" parent="HBox_1/VBox_1/Hbox_1" instance=ExtResource( 3 )]
 visible = false

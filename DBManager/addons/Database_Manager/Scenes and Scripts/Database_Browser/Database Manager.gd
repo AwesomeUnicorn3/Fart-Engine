@@ -440,6 +440,6 @@ func _on_popup_error_confirmed():
 
 func _on_Database_Manager_visibility_changed():
 	if visible:
-		pass
+		_ready()
 	else:
 		_on_Close_Table_button_up()

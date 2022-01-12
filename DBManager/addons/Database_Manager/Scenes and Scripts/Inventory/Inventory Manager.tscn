@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Background.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/Input_Text.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/Inventory Manager.gd" type="Script" id=3]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/Input_Text_Multiline.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/ItemType_Selection.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/Number_Counter.tscn" type="PackedScene" id=6]
 
-[node name="Inventory_Manager" type="Control"]
+[node name="Inventory_Manager" type="Control" groups=["Item_Manager"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -24,29 +28,30 @@ __meta__ = {
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
 margin_right = 1024.0
-margin_bottom = 14.0
+margin_bottom = 20.0
 
 [node name="Center1" type="CenterContainer" parent="VBox1/HBox1"]
-margin_right = 1024.0
-margin_bottom = 14.0
+margin_right = 922.0
+margin_bottom = 20.0
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBox1/HBox1/Center1"]
-margin_left = 512.0
-margin_right = 512.0
-margin_bottom = 14.0
+[node name="Save" type="Button" parent="VBox1/HBox1"]
+margin_left = 926.0
+margin_right = 1024.0
+margin_bottom = 20.0
+text = "Save Changes"
 
 [node name="HBox2" type="HBoxContainer" parent="VBox1"]
-margin_top = 18.0
+margin_top = 24.0
 margin_right = 1024.0
-margin_bottom = 600.0
+margin_bottom = 582.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = -5
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox2"]
 margin_right = 187.0
-margin_bottom = 582.0
+margin_bottom = 558.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -58,14 +63,14 @@ __meta__ = {
 
 [node name="Table_Buttons" type="VBoxContainer" parent="VBox1/HBox2/Scroll1"]
 margin_right = 175.0
-margin_bottom = 2050.0
+margin_bottom = 1971.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel1" type="PanelContainer" parent="VBox1/HBox2"]
 margin_left = 182.0
 margin_right = 1024.0
-margin_bottom = 582.0
+margin_bottom = 558.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -74,18 +79,181 @@ size_flags_vertical = 3
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 835.0
-margin_bottom = 575.0
+margin_bottom = 551.0
 color = Color( 1, 1, 1, 0.0823529 )
 
-[node name="Item_Name_Label" type="Label" parent="VBox1/HBox2/Panel1"]
+[node name="HBox1" type="HBoxContainer" parent="VBox1/HBox2/Panel1"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 835.0
-margin_bottom = 21.0
-size_flags_vertical = 2
+margin_bottom = 551.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBox1" type="VBoxContainer" parent="VBox1/HBox2/Panel1/HBox1"]
+margin_right = 412.0
+margin_bottom = 544.0
+size_flags_horizontal = 3
+
+[node name="VBox1" type="VBoxContainer" parent="VBox1/HBox2/Panel1/HBox1/VBox1"]
+margin_right = 412.0
+margin_bottom = 544.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemNameLabel" type="Label" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1"]
+margin_right = 412.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 125, 25 )
+size_flags_vertical = 1
+text = "Item Name"
+align = 1
+valign = 1
+
+[node name="ItemNameText" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 29.0
+margin_right = 412.0
+margin_bottom = 54.0
+
+[node name="ItemType_Selection" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 58.0
+margin_right = 412.0
+margin_bottom = 112.0
+main_tab_group = "Item_Manager"
+selection_table_name = "Item_Type"
+
+[node name="ItemTypeLabel" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemType_Selection" index="0"]
+margin_right = 412.0
+
+[node name="Hbox1" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemType_Selection" index="1"]
+margin_right = 412.0
+
+[node name="ColorRect" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemType_Selection/Hbox1" index="0"]
+margin_right = 281.0
+
+[node name="Button" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemType_Selection/Hbox1" index="1"]
+margin_left = 285.0
+margin_right = 412.0
+
+[node name="ItemCost_Counter" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 116.0
+margin_right = 412.0
+margin_bottom = 189.0
+
+[node name="ItemCostLabel" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemCost_Counter" index="0"]
+margin_right = 412.0
+
+[node name="HBoxContainer" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemCost_Counter" index="1"]
+margin_right = 412.0
+
+[node name="ItemCostText" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemCost_Counter/HBoxContainer" index="0"]
+margin_right = 323.0
+
+[node name="VBoxContainer" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemCost_Counter/HBoxContainer" index="1"]
+margin_left = 327.0
+margin_right = 412.0
+
+[node name="Add_Button" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemCost_Counter/HBoxContainer/VBoxContainer" index="0"]
+margin_right = 85.0
+
+[node name="Sub_Button" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemCost_Counter/HBoxContainer/VBoxContainer" index="1"]
+margin_right = 85.0
+
+[node name="ItemSellPrice_Counter" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 193.0
+margin_right = 412.0
+margin_bottom = 266.0
+
+[node name="ItemCostLabel" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemSellPrice_Counter" index="0"]
+margin_right = 412.0
+text = "Item Sell Price"
+
+[node name="HBoxContainer" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemSellPrice_Counter" index="1"]
+margin_right = 412.0
+
+[node name="ItemCostText" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemSellPrice_Counter/HBoxContainer" index="0"]
+margin_right = 323.0
+
+[node name="VBoxContainer" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemSellPrice_Counter/HBoxContainer" index="1"]
+margin_left = 327.0
+margin_right = 412.0
+
+[node name="Add_Button" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemSellPrice_Counter/HBoxContainer/VBoxContainer" index="0"]
+margin_right = 85.0
+
+[node name="Sub_Button" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemSellPrice_Counter/HBoxContainer/VBoxContainer" index="1"]
+margin_right = 85.0
+
+[node name="HBox1" type="HBoxContainer" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1"]
+margin_top = 270.0
+margin_right = 412.0
+margin_bottom = 295.0
+
+[node name="ItemCanSell_Label" type="Label" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/HBox1"]
+margin_right = 125.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 125, 25 )
+size_flags_vertical = 1
+text = "Can Sell Item"
+align = 1
+valign = 1
+
+[node name="ItemCanSell_CheckBox" type="CheckBox" parent="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/HBox1"]
+margin_left = 129.0
+margin_right = 153.0
+margin_bottom = 25.0
+
+[node name="VBox2" type="VBoxContainer" parent="VBox1/HBox2/Panel1/HBox1"]
+margin_left = 416.0
+margin_right = 828.0
+margin_bottom = 544.0
+size_flags_horizontal = 3
+
+[node name="ItemIconLabel" type="Label" parent="VBox1/HBox2/Panel1/HBox1/VBox2"]
+margin_right = 412.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 125, 25 )
+size_flags_vertical = 1
+text = "Icon"
+align = 1
+valign = 1
+
+[node name="ItemIconText" type="TextEdit" parent="VBox1/HBox2/Panel1/HBox1/VBox2"]
+margin_top = 29.0
+margin_right = 412.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 75, 25 )
+size_flags_horizontal = 3
+text = "OPTION NOT YET AVAILABLE"
+readonly = true
+selecting_enabled = false
+
+[node name="ItemDescriptionLabel" type="Label" parent="VBox1/HBox2/Panel1/HBox1/VBox2"]
+margin_top = 58.0
+margin_right = 412.0
+margin_bottom = 83.0
+rect_min_size = Vector2( 125, 25 )
+text = "Item Description"
+align = 1
+valign = 1
+
+[node name="ItemDescriptionText" parent="VBox1/HBox2/Panel1/HBox1/VBox2" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 87.0
+margin_right = 412.0
+margin_bottom = 237.0
+caret_block_mode = true
 
 [node name="Hbox3" type="HBoxContainer" parent="VBox1"]
-visible = false
 margin_top = 586.0
 margin_right = 1024.0
 margin_bottom = 600.0
@@ -100,13 +268,85 @@ text = "Awesome Unicorn 3 Database Creator Version Pre-Alpha 0.1"
 align = 1
 valign = 1
 
+[node name="Popups_old" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 500, 250 )
+color = Color( 1, 1, 1, 0.411765 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="popup_item_type" type="Popup" parent="Popups_old"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.0
+margin_top = -125.0
+margin_right = 250.0
+margin_bottom = 125.0
+popup_exclusive = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="Popups_old/popup_item_type"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popups_old/popup_item_type/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 493.0
+margin_bottom = 243.0
+
+[node name="Label" type="Label" parent="Popups_old/popup_item_type/PanelContainer/VBoxContainer"]
+margin_right = 486.0
+margin_bottom = 48.0
+size_flags_vertical = 1
+text = "Select Item type
+If you need to add a new item type  it must be done through the database tab, add a new key to the Item_Type Table"
+valign = 3
+autowrap = true
+
+[node name="Itemlist" type="ItemList" parent="Popups_old/popup_item_type/PanelContainer/VBoxContainer"]
+margin_top = 52.0
+margin_right = 486.0
+margin_bottom = 212.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+items = [ "Nestor", null, false, "Hilda", null, false ]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popups_old/popup_item_type/PanelContainer/VBoxContainer"]
+margin_top = 216.0
+margin_right = 486.0
+margin_bottom = 236.0
+
+[node name="Accept" type="Button" parent="Popups_old/popup_item_type/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_right = 241.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="Popups_old/popup_item_type/PanelContainer/VBoxContainer/HBoxContainer"]
+margin_left = 245.0
+margin_right = 486.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Cancel"
+
 [connection signal="visibility_changed" from="." to="." method="_on_Inventory_Manager_visibility_changed"]
+[connection signal="button_up" from="VBox1/HBox1/Save" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Sticky Aluminum" to="VBox1/HBox2/Scroll1/Table_Buttons/Sticky Aluminum" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/T-Shirt" to="VBox1/HBox2/Scroll1/Table_Buttons/T-Shirt" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Moonbeam Brownie" to="VBox1/HBox2/Scroll1/Table_Buttons/Moonbeam Brownie" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Currency" to="VBox1/HBox2/Scroll1/Table_Buttons/Currency" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Chode" to="VBox1/HBox2/Scroll1/Table_Buttons/Chode" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Gumball" to="VBox1/HBox2/Scroll1/Table_Buttons/Gumball" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Sandals" to="VBox1/HBox2/Scroll1/Table_Buttons/Sandals" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Crappy Sword" to="VBox1/HBox2/Scroll1/Table_Buttons/Crappy Sword" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Fist" to="VBox1/HBox2/Scroll1/Table_Buttons/Fist" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Frank's Special Sauce" to="VBox1/HBox2/Scroll1/Table_Buttons/Frank's Special Sauce" method="_on_TextureButton_button_up"]
@@ -127,3 +367,7 @@ valign = 1
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Glass Cup" to="VBox1/HBox2/Scroll1/Table_Buttons/Glass Cup" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Round Bottom Flask" to="VBox1/HBox2/Scroll1/Table_Buttons/Round Bottom Flask" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Wild Shroom" to="VBox1/HBox2/Scroll1/Table_Buttons/Wild Shroom" method="_on_TextureButton_button_up"]
+
+[editable path="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemType_Selection"]
+[editable path="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemCost_Counter"]
+[editable path="VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemSellPrice_Counter"]

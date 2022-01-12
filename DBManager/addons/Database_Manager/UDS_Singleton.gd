@@ -61,11 +61,6 @@ func _ready():
 	set_var_type_dict(Static_Game_Dict)
 	new_game()
 
-func get_uds_main_scene():
-	return uds_main_scene
-
-func set_uds_main_scene(scene : Node):
-	return uds_main_scene
 
 func import_data(table_loc):
 	var curr_tbl_data = {}

@@ -112,12 +112,11 @@ func update_sheet(name, rct):
 				for n in column_header_values.size():
 					var Columnname = column_header_values[index]
 					var newinput = datainput.instance()
-					table.add_child(newinput)
-
 					var y = table_data[i][column_header_values[n]]
 					var keyname = remove_special_char(i)
 					var columnname = remove_special_char(Columnname)
 					newinput.set_name(keyname + " " + columnname)
+					table.add_child(newinput)
 					newinput.get_node("input").set_text(str(y))
 					newinput.initial_values()
 					index += 1
@@ -224,6 +223,7 @@ func update_dict():
 					var rowname = remove_special_char(Row)
 					var Rowname = row_dict[rowname]
 					var Column = e.column
+
 					var Columnname = column_dict[Column]
 					var temp = e.new_data
 					if e.new_data != "" and e.new_data != null:
@@ -423,19 +423,21 @@ func update_sheet_RC():
 	#create row header cells
 	for i in row_header_values:
 		var newcell = datainput.instance()
-		table.add_child(newcell)
+		
 		newcell.get_node("input").set_text(str(i))
 		var t = remove_special_char(i)
 		newcell.set_name(t + " key")
+		table.add_child(newcell)
 		newcell.initial_values()
-
+		
 		# for each row header cell, create data cells
 		var columnname = "Order"
 		var newinput = datainput.instance()
-		table.add_child(newinput)
+		
 		var y = column_header_values[index]
 		var q = remove_special_char(i)
 		newinput.set_name(q + " " + columnname)
+		table.add_child(newinput)
 		newinput.get_node("input").set_text(str(y))
 		newinput.initial_values()
 		index += 1

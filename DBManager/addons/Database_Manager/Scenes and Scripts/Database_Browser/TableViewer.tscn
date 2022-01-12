@@ -23,8 +23,8 @@ __meta__ = {
 }
 
 [node name="GridConainer" type="GridContainer" parent="ScrollContainer"]
-margin_right = 1440.0
-margin_bottom = 720.0
+margin_right = 1024.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = -3

@@ -2,7 +2,6 @@
 
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/DataInput.gd" type="Script" id=1]
 
-
 [sub_resource type="StyleBoxEmpty" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=2]
@@ -44,9 +43,9 @@ margin_bottom = 20.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/normal = SubResource( 2 )
 custom_colors/cursor_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_styles/normal = SubResource( 2 )
 align = 1
 expand_to_text_length = true
 placeholder_alpha = 0.539
@@ -54,5 +53,6 @@ caret_blink = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="focus_exited" from="input" to="." method="_on_input_focus_exited"]
 [connection signal="text_entered" from="input" to="." method="_on_input_text_entered"]

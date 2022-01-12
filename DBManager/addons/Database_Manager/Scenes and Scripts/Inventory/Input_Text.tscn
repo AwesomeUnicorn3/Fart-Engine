@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="ItemNameText" type="LineEdit"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 75, 25 )
+size_flags_horizontal = 3
+max_length = 45
+placeholder_text = "Enter Value As Text"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
