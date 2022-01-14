@@ -28,29 +28,23 @@ margin_bottom = 54.0
 size_flags_horizontal = 3
 
 [node name="ColorRect" type="ColorRect" parent="Hbox1"]
-margin_right = 893.0
+margin_right = 1024.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color( 0.172549, 0.164706, 0.196078, 1 )
 
-[node name="ItemTypeText" type="Label" parent="Hbox1/ColorRect"]
-margin_left = 4.0
-margin_right = 281.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 75, 25 )
+[node name="OptionButton" type="OptionButton" parent="Hbox1/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+text = "Item 4"
+items = [ "Item 4", null, false, 4, null, "Item 1", null, false, 1, null, "Item 2", null, false, 2, null, "Item 3", null, false, 3, null ]
+selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="Hbox1"]
-margin_left = 897.0
-margin_right = 1024.0
-margin_bottom = 25.0
-size_flags_vertical = 3
-text = "Change Item Type"
-
-[connection signal="button_up" from="Hbox1/Button" to="." method="_on_Button_button_up"]
+[connection signal="button_down" from="Hbox1/ColorRect/OptionButton" to="." method="_on_OptionButton_button_down"]

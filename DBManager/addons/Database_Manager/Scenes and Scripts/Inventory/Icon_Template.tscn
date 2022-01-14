@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/Icon_Template.gd" type="Script" id=2]
+
+[node name="Icon_Template" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemIconLabel" type="Label" parent="."]
+margin_right = 1024.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 125, 25 )
+size_flags_vertical = 1
+text = "Icon"
+align = 1
+valign = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 29.0
+margin_right = 1024.0
+margin_bottom = 154.0
+
+[node name="ItemIconLabel2" type="Label" parent="HBoxContainer"]
+margin_right = 100.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 100, 25 )
+size_flags_horizontal = 9
+size_flags_vertical = 1
+text = "Icon Description"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="ItemIconText" type="TextEdit" parent="HBoxContainer"]
+margin_left = 104.0
+margin_right = 895.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 200, 25 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Icon Description: Godot Logo
+CURRENTLY THE ICON IS NOT AVAILABLE TO ADD TO THE DATABASE"
+readonly = true
+selecting_enabled = false
+wrap_enabled = true
+caret_block_mode = true
+caret_blink = true
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+margin_left = 899.0
+margin_right = 1024.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 125, 125 )
+color = Color( 0, 0, 0, 1 )
+
+[node name="TextureButton" type="TextureButton" parent="HBoxContainer/ColorRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -50.0
+margin_top = -50.0
+margin_right = 50.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 100, 100 )
+texture_normal = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="button_down" from="HBoxContainer/ColorRect/TextureButton" to="." method="_on_TextureButton_button_down"]
+[connection signal="button_up" from="HBoxContainer/ColorRect/TextureButton" to="." method="_on_TextureButton_button_up"]

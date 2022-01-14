@@ -56,6 +56,7 @@ func update_sheet(name, rct):
 	clear_cells()
 
 
+
 	match RCT:
 		
 		"T":
@@ -77,6 +78,18 @@ func update_sheet(name, rct):
 			var columndata_json = JSON.parse(columndata_file.get_as_text())
 			columndata_file.close()
 			column_header_order = columndata_json.result
+			
+			
+#			var tr = Timer.new()
+#			tr.set_one_shot(true)
+#			add_child(tr)
+#			tr.set_wait_time(.75)
+#			tr.start()
+#			print("TR Started")
+#			yield(tr, "timeout")
+#			tr.queue_free()
+#			print("TR Complete")
+			
 			
 			var temp = row_header_order["Row"].size()
 			for i in row_header_order["Row"].size():
@@ -101,6 +114,7 @@ func update_sheet(name, rct):
 			#set the number of columns in the grid Container
 			table.columns = columnCount
 
+
 			#create row header cells
 			for i in row_header_values:
 				var index = 0
@@ -120,14 +134,15 @@ func update_sheet(name, rct):
 					newinput.get_node("input").set_text(str(y))
 					newinput.initial_values()
 					index += 1
-				
+
+
 		"R":
 			data_type = "Row"
 			update_sheet_RC()
 		"C":
 			data_type = "Column"
 			update_sheet_RC()
-
+	
 
 
 func error_check():
@@ -231,7 +246,8 @@ func update_dict():
 			adj_file_format = file_format
 			adj_table_name = table_name
 			save_data()
-			update_sheet(table_name, RCT)
+
+			get_node("../../../..").refresh_data(table_name)
 		"R":
 			error_check()
 			if error == 0:
@@ -369,6 +385,7 @@ func update_dict():
 			
 			else:
 				error_display()
+	
 
 
 func save_data():
