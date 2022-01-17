@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/ItemType_Selection.gd" type="Script" id=1]
 
-[node name="HBox1" type="VBoxContainer"]
+[node name="ItemType_Selection" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -11,33 +11,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ItemTypeLabel" type="Label" parent="."]
+[node name="Label" type="Label" parent="."]
 margin_right = 1024.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 125, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "Item Type"
+text = "ItemType_Selection"
 align = 1
 valign = 1
 
-[node name="Hbox1" type="HBoxContainer" parent="."]
+[node name="Input" type="OptionButton" parent="."]
 margin_top = 29.0
 margin_right = 1024.0
-margin_bottom = 54.0
-size_flags_horizontal = 3
-
-[node name="ColorRect" type="ColorRect" parent="Hbox1"]
-margin_right = 1024.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 0, 25 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color( 0.172549, 0.164706, 0.196078, 1 )
-
-[node name="OptionButton" type="OptionButton" parent="Hbox1/ColorRect"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Item 4"
@@ -47,4 +34,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="button_down" from="Hbox1/ColorRect/OptionButton" to="." method="_on_OptionButton_button_down"]
+[connection signal="button_down" from="Input" to="." method="_on_OptionButton_button_down"]

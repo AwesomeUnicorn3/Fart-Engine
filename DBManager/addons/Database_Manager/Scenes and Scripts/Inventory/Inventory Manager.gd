@@ -1,25 +1,35 @@
 extends Control
 tool
 
-var btn_itemselect = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Btn_ItemSelect.tscn")
+
+const EDITSCRIPT = preload("res://addons/Database_Manager/Scenes and Scripts/Editor_Functions.gd")
+
+onready var btn_itemselect = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Btn_ItemSelect.tscn")
+
+onready var input_singleLine = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Input_Text.tscn")
+onready var input_multiLine = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Input_Text_Multiline.tscn")
+onready var input_checkBox = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Checkbox_Template.tscn")
+onready var input_intNumberCounter = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Number_Counter.tscn")
+onready var input_floatNumberCounter = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Number_Counter_Float.tscn")
+
+
+
 
 onready var btn_saveChanges = $VBox1/HBox1/SaveChanges
 onready var btn_saveNewItem = $VBox1/HBox1/SaveNewItem
 onready var btn_addNewItem = $VBox1/HBox1/AddNewItem
 onready var btn_cancel = $VBox1/HBox1/Cancel
 onready var btn_delete = $VBox1/HBox1/DeleteSelectedItem
-
 onready var table_list = $VBox1/HBox2/Scroll1/Table_Buttons
-onready var item_name_text = $VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemNameText
-onready var item_type_text = $VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemType_Selection/Hbox1/ColorRect/OptionButton
-onready var item_description_text = $VBox1/HBox2/Panel1/HBox1/VBox2/ItemDescriptionText
-onready var item_cost_text = $VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemCost_Counter/HBoxContainer/ItemCostText
-onready var item_sellprice_text = $VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemSellPrice_Counter/HBoxContainer/ItemCostText
-onready var item_cansell_chkbx = $VBox1/HBox2/Panel1/HBox1/VBox1/VBox1/ItemCanSell_Checkbox/ItemCanSell_CheckBox
+onready var container_list1 = $VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1
+onready var container_list2 = $VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox2
+onready var container_list3 = $VBox1/HBox2/Panel1/VBoxContainer2/Scroll1/HBox1/VBox1
+onready var container_list4 = $VBox1/HBox2/Panel1/VBoxContainer2/Scroll1/HBox1/VBox2
 onready var popup_main = $Popups
 onready var popup_deleteConfirm = $Popups/popup_delete_confirm
 
 
+var icon_folder = "res://addons/Database_Manager/Data/Icons"
 var save_path = "res://addons/Database_Manager/Data/"
 var table_path = "res://addons/Database_Manager/Data/Items.json"
 var row_path = "res://addons/Database_Manager/Data/Items_Row"
@@ -28,18 +38,75 @@ var column_path = "res://addons/Database_Manager/Data/Items_Column"
 var row_dict = {}
 var column_dict = {}
 var item_dict = {}
+var field_dict1 = {}
+var field_dict2 = {}
+var field_dict3 = {}
 var Item_Name = ""
+
+
+func _ready():
+	var input_data
+	var label_name
+	var field_name
+	for i in container_list1.get_children():
+		if i.get("labelNode") != null and i.get("inputNode") != null:
+			field_name = i.name
+			label_name = i.itemName
+			input_data = i.inputNode
+			field_dict1[label_name] = input_data
+		else:
+			print(i.name, " Does not have labelNode")
+	
+	for i in container_list2.get_children():
+		if i.get("labelNode") != null and i.get("inputNode") != null:
+			field_name = i.name
+			label_name = i.itemName
+			input_data = i.inputNode
+			field_dict2[label_name] = input_data
+		else:
+			print(i.name, " Does not have labelNode")
+	
+
 
 func _on_Inventory_Manager_visibility_changed():
 	if visible:
 		hide_all_popups()
 		update_dictionaries()
 		reload_buttons()
+
 		table_list.get_child(0)._on_TextureButton_button_up()
 	else:
 		hide_all_popups()
 		clear_data()
 		clear_buttons()
+
+
+
+func custom_values_dict():
+	var custom_dict = {}
+
+	for i in column_dict["Column"]:
+		var value_name = column_dict["Column"][i]
+		custom_dict[value_name] = i
+
+	for i in field_dict1:
+		if custom_dict.has(i):
+			custom_dict.erase(i)
+	for i in field_dict2:
+		if custom_dict.has(i):
+			custom_dict.erase(i)
+
+	
+	for i in custom_dict:
+		var value = item_dict[Item_Name][i]
+		value = convert_string_to_type(value)
+		custom_dict[i] = value
+
+#	print(custom_dict)
+	return custom_dict
+	
+
+
 
 func hide_all_popups():
 	popup_main.visible = false
@@ -64,41 +131,170 @@ func reload_buttons():
 	create_table_buttons()
 
 func clear_data():
-	#Clears all input data from item user form
-		#(Would like to make this more efficient Not currently sure best way to do so)
-	item_name_text.set_text("")
-	item_type_text.set_text("")
-	item_description_text.set_text("")
-	item_cost_text.set_text("")
-	item_sellprice_text.set_text("")
-	item_cansell_chkbx.pressed = false
-	
+	for i in field_dict1:
+		var current_node = container_list1.get_node(str(i))
+		clear_match(current_node, i)
+
+	for i in field_dict2:
+		var current_node = container_list2.get_node(str(i))
+		clear_match(current_node, i)
+
+	for i in container_list3.get_children():
+		var current_node = i
+		i.queue_free()
+
+
 func enable_all_buttons(value : bool = true):
 	#Enanables user to interact with all item buttons on table_list
 	for i in table_list.get_children():
 		i.disabled = !value
 
+func add_input_field(par: Node, nodeName):
+	var new_node = nodeName.instance()
+	par.add_child(new_node)
+	return new_node
+
+
+
 func refresh_data(item_name : String):
-	#Pulls specific item data when button is clicked
+#	#Pulls specific item data when button is clicked
 	Item_Name = item_name #reset the script variable Item_Name
 	enable_all_buttons()
 	clear_data()
 	
-	#Sets all data from item_table with values from item button that was pressed
-	item_name_text.set_text(item_name)
-	
-	item_type_text.get_node("../../..").populate_list()
-	var type_id = item_type_text.get_node("../../..").get_item_id(item_dict[item_name]["Type"])
-	item_type_text.select(type_id)
-	
-	item_description_text.set_text(item_dict[item_name]["Description"])
-	item_cost_text.set_text(item_dict[item_name]["Cost"])
-	item_sellprice_text.set_text(item_dict[item_name]["Sell Value"])
-	item_cansell_chkbx.pressed = to_bool(item_dict[item_name]["CanSell"])
+#	#Sets all data from item_table with values from item button that was pressed
+	for i in field_dict1:
+		var current_node = container_list1.get_node(str(i))
+		input_match(current_node, i, field_dict1)
+
+	for i in field_dict2:
+		var current_node = container_list2.get_node(str(i))
+		input_match(current_node, i, field_dict2)
+
+	field_dict3 = custom_values_dict()
+	for i in field_dict3:
+		var node_type = typeof(field_dict3[i])
+		var node_value = field_dict3[i]
+		match node_type: #Match variant type and then determine which input field to use (check box, long text, short text, number count etc)
+			1: #Bool
+				var new_field : Node = add_input_field(container_list3, input_checkBox)
+				new_field.set_name(i)
+				new_field.labelNode.set_text(i)
+				new_field.inputNode.set_pressed(field_dict3[i])
+
+			2: #INT
+				var new_field : Node = add_input_field(container_list3, input_intNumberCounter)
+				new_field.set_name(i)
+				new_field.labelNode.set_text(i)
+				new_field.inputNode.set_text(str(field_dict3[i]))
+			3: #Float
+				var new_field : Node = add_input_field(container_list3, input_floatNumberCounter)
+				new_field.set_name(i)
+				new_field.labelNode.set_text(i)
+				new_field.inputNode.set_text(str(field_dict3[i]))
+			4: #String
+				if node_value.length() <= 45:
+					var new_field : Node = add_input_field(container_list3, input_singleLine)
+					new_field.set_name(i)
+					new_field.labelNode.set_text(i)
+					new_field.inputNode.set_text(field_dict3[i])
+				else:
+					var new_field : Node = add_input_field(container_list3, input_multiLine)
+					new_field.set_name(i)
+					new_field.labelNode.set_text(i)
+					new_field.inputNode.set_text(field_dict3[i])
+
 	if item_name != "Default":
 		table_list.get_node(item_name).disabled = true #Sets current item button to disabled
-		table_list.get_node(item_name).grab_focus()
+		table_list.get_node(item_name).grab_focus() #sets focus to current item
+
+
+
+func input_match(current_node, i, dict):
+	var input_type = current_node.type
+	var input = dict[i]
+	match input_type:
+		"Text":
+			if i == "Key":
+				input.set_text(Item_Name)
+			else:
+				input.set_text(item_dict[Item_Name][i])
+		"Dropdown":
+			current_node.populate_list()
+			var type_id = current_node.get_item_id(item_dict[Item_Name]["Type"])
+			input.select(type_id)
+		"Number Counter":
+			input.set_text(item_dict[Item_Name][i])
+			
+		"Multiline Text":
+			input.set_text(item_dict[Item_Name][i])
 		
+		"Checkbox":
+			var ckbx_value = convert_string_to_type(item_dict[Item_Name][i])
+			input.pressed = ckbx_value
+		
+		"Icon":
+			input.set_text(item_dict[Item_Name]["IconDescription"])
+			var iconPath = item_dict[Item_Name]["IconPath"]
+			if is_file_in_folder(icon_folder, iconPath):
+				current_node.texture_button.set_normal_texture(load(iconPath))
+			else:
+				iconPath = item_dict["Default"]["IconPath"]
+				current_node.texture_button.set_normal_texture(load(iconPath))
+
+func clear_match(current_node, i):
+	var input_type = current_node.type
+	var input = current_node.inputNode
+	var default_value = current_node.default
+	match input_type:
+		"Text":
+			if i == "Key":
+				input.set_text(default_value)
+
+
+		"Dropdown":
+			current_node.populate_list()
+			var type_id = current_node.get_item_id(str(default_value))
+			input.select(type_id)
+		"Number Counter":
+			input.set_text(str(default_value))
+			
+		"Multiline Text":
+			input.set_text(default_value)
+		
+		"Checkbox":
+			input.pressed = default_value
+		
+		"Icon":
+			input.set_text(item_dict["Default"]["IconDescription"])
+			var iconPath = item_dict["Default"]["IconPath"]
+			current_node.texture_button.set_normal_texture(load(iconPath))
+
+func update_match(current_node, i):
+	var input_type = current_node.type
+	var input = current_node.inputNode
+	match input_type:
+		"Text":
+			if i == "Key":
+				update_item_name(Item_Name, input.text)
+			else:
+				item_dict[Item_Name][i] = input.text
+		"Dropdown":
+			item_dict[Item_Name][i] = input.text
+
+		"Number Counter":
+			item_dict[Item_Name][i] = input.text
+			
+		"Multiline Text":
+			item_dict[Item_Name][i] = input.text
+		
+		"Checkbox":
+			item_dict[Item_Name][i] = input.pressed
+		
+		"Icon":
+			item_dict[Item_Name]["IconDescription"] = input.text
+
+
 
 func create_table_buttons():
 	 #Loop through the item_list dictionary and add a button for each item
@@ -141,17 +337,35 @@ func _on_Save_button_up():
 		print("There was an error. Data has not been updated")
 
 func update_values():
-	#Uses input values from Items form to update item_dict 
+#Uses input values from Items form to update item_dict 
+	for i in field_dict1:
+		var current_node = container_list1.get_node(str(i))
+		update_match(current_node, i)
+
+	for i in field_dict2:
+		var current_node = container_list2.get_node(str(i))
+		update_match(current_node, i)
+	
+	for i in container_list3.get_children():
+		var value = i.labelNode.get_text()
+		update_match(i, value)
+	
 		#NOTE: Does NOT update the database files. That function is located in the save_data method
 	#insert code here to only run if values have changed (Not currently sure the best way to indicate changed values)
 	
 	##Would like to improve this area with less hard code data (Not currently sure the best way to do this)
-	update_item_name(Item_Name, item_name_text.text)
-	item_dict[Item_Name]["Type"] = item_type_text.text
-	item_dict[Item_Name]["Description"] = item_description_text.text
-	item_dict[Item_Name]["Cost"] = item_cost_text.text
-	item_dict[Item_Name]["Sell Value"] = item_sellprice_text.text
-	item_dict[Item_Name]["CanSell"] = item_cansell_chkbx.pressed
+#	update_item_name(Item_Name, item_name_text.text)
+#	for i in field_dict:
+#		if i == "Key":
+#			pass
+#		else:
+#			item_dict[Item_Name][i] = i.inputNode.text
+#	item_dict[Item_Name]["Type"] = item_type_text.text
+#	item_dict[Item_Name]["Description"] = item_description_text.text
+#	item_dict[Item_Name]["Cost"] = item_cost_text.text
+#	item_dict[Item_Name]["Sell Value"] = item_sellprice_text.text
+#	item_dict[Item_Name]["IconDescription"] = icon_description.text
+#	item_dict[Item_Name]["CanSell"] = item_cansell_chkbx.pressed
 	print("Value Update Complete")
 
 func save_data(sv_path, table_dict):
@@ -219,9 +433,9 @@ func has_empty_fields():
 	#loop through input fields (need a better way to identify them and pull automatically instead of hard code)
 	#if any of the fields are blank, return error
 	var value = false
-	var field_array = [item_name_text.text, item_description_text.text]
+#	field_dict = [item_name_text.text, item_description_text.text]
 	#Iterate through input fields and verify that they values are not empty
-	for i in field_array:
+	for i in field_dict1:
 		#Remove blank spaces (so that you can't have an item name that is just spaces
 		i = remove_special_char(i)
 		if i == "":
@@ -257,7 +471,7 @@ func _on_Cancel_button_up():
 
 
 func _on_SaveNewItem_button_up():
-	Item_Name = item_name_text.text
+	#NEED TO SET ITEM NAME VARIABLE HERE!!!
 	#THIS IS WHERE ERROR CHECKING NEEDS TO CONVERGE AND NOT RUN IF THERE IS AN ERROR
 	if !does_key_exist(Item_Name) and !does_key_contain_invalid_characters(Item_Name) and !has_empty_fields():
 	#NEED TO ADD ERROR NOTICE IF NAME IS DEFAULT
@@ -336,6 +550,75 @@ func _on__deletePopup_Cancel_button_up():
 	popup_main.visible = false
 	popup_deleteConfirm.visible = false
 
+
+func list_files_in_directory(sve_path):
+	var array_load_savefiles = []
+	var files = []
+	var dir = Directory.new()
+	dir.open(sve_path)
+	dir.list_dir_begin()
+	while true:
+		var file = dir.get_next()
+		if file == "":
+			break
+		elif !file.ends_with(".import"):
+			files.append(file)
+			array_load_savefiles.append(file)
+	return array_load_savefiles
+
+func is_file_in_folder(path : String, file_name : String):
+	var value = false
+	var dir = Directory.new()
+	dir.open(path)
+#	var dir_files = list_files_in_directory(dir)
+	if dir.file_exists(file_name):
+		value = true
+		print(file_name, " Exists!!!")
+	else:
+		print(file_name, " Does NOT Exist :(")
+	
+	
+	return value
+		
+
+
+
+
+func _on_FileDialog_file_selected(path):
+	var dir = Directory.new()
+	var new_file_name = path.get_file()
+	var new_file_path = icon_folder + "/" + new_file_name
+	var curr_icon_path = item_dict[Item_Name]["IconPath"]
+
+	if is_file_in_folder(icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
+		item_dict[Item_Name]["IconPath"] = new_file_path
+		save_data(table_path, item_dict)
+		refresh_data(Item_Name)
+	else:
+		print("Item selected is NOT in icon folder")
+		dir.copy(path, new_file_path)
+		if !is_file_in_folder(icon_folder, new_file_name):
+			print("File Not Added")
+		else:
+			print("File Added")
+			#THIS WORKS BUT YOU MUST trigger the import process for it to load to texture rect.  STILL TRYING TO IGURE OUT HOW TO DO THAT IN CODE
+			
+			var es = EDITSCRIPT.new()
+			es.refresh_data()
+			item_dict[Item_Name]["IconPath"] = new_file_path
+
+			var tr = Timer.new()
+			tr.set_one_shot(true)
+			add_child(tr)
+			tr.set_wait_time(.25)
+			tr.start()
+			yield(tr, "timeout")
+			tr.queue_free()
+
+			save_data(table_path, item_dict)
+			refresh_data(Item_Name)
+
+
 func remove_special_char(text : String):
 	var array = [" "]
 	var result = text
@@ -344,21 +627,50 @@ func remove_special_char(text : String):
 	return result
 
 func to_bool(value):
+	var found_match = false
 	#changes datatype from string value to bool (Not case specific, only works with yes,no,true, and false)
+	var original_value = value
 	value = str(value)
 	var value_lower = value.to_lower()
 	match value_lower:
 		"yes":
-			value = true
+			found_match = true
+			value = "true"
 		"no":
-			value = false
+			found_match = true
+			value = "false"
 		"true":
-			value = true
+			found_match = true
+			value = "true"
 		"false":
-			value = false
-	return value
+			found_match = true
+			value = "false"
+	if !found_match:
+		return original_value
+	else:
+		return value
 
 
-
-
+func convert_string_to_type(variant):
+	var found_match = false
+	variant = to_bool(variant)
+	variant = str2var(variant)
+	match typeof(variant):
+		TYPE_INT:
+			found_match = true
+#			print(variant, " is INTEGER")
+		TYPE_REAL:
+			found_match = true
+#			print(variant, " is FLOAT")
+		TYPE_BOOL:
+			found_match = true
+#			print(variant, " is BOOL")
+		TYPE_STRING:
+			found_match = true
+#			print(variant, " is STRING")
+		
+	if !found_match:
+		print("No Match found for ", variant)
+	else:
+		return variant
 

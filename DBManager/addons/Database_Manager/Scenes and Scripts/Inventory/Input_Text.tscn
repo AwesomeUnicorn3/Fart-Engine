@@ -1,8 +1,28 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
 
-[node name="ItemNameText" type="LineEdit"]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/Input_Text.gd" type="Script" id=1]
+
+[node name="Input_Text" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_right = 1024.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 125, 25 )
+size_flags_vertical = 1
+text = "Input_Text"
+align = 1
+valign = 1
+
+[node name="Input" type="LineEdit" parent="."]
+margin_top = 29.0
+margin_right = 1024.0
+margin_bottom = 54.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 max_length = 45

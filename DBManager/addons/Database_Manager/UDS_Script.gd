@@ -38,3 +38,6 @@ func get_plugin_icon():
 func make_visible(visible):
 	if main_panel_instance:
 		main_panel_instance.visible = visible
+
+func refresh_data():
+	get_editor_interface().get_resource_filesystem.scan()

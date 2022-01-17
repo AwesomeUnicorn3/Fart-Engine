@@ -1,0 +1,11 @@
+[gd_scene format=2]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+margin_top = 341.0
+margin_right = 828.0
+margin_bottom = 544.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
