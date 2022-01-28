@@ -110,7 +110,7 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 835.0
 margin_bottom = 551.0
-color = Color( 1, 1, 1, 0.0823529 )
+color = Color( 0, 0, 0, 0.0823529 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -123,19 +123,19 @@ margin_bottom = 551.0
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1/HBox2/Panel1/VBoxContainer2"]
 margin_right = 828.0
-margin_bottom = 348.0
+margin_bottom = 258.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1"]
-margin_right = 412.0
-margin_bottom = 348.0
+margin_right = 407.0
+margin_bottom = 258.0
 size_flags_horizontal = 3
 
 [node name="Key" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 412.0
+margin_right = 407.0
 margin_bottom = 54.0
 label_text = "Item Name"
 
@@ -143,7 +143,7 @@ label_text = "Item Name"
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 58.0
-margin_right = 412.0
+margin_right = 407.0
 margin_bottom = 107.0
 label_text = "Item Type"
 main_tab_group = "Item_Manager"
@@ -153,93 +153,91 @@ selection_table_name = "Item_Type"
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 111.0
-margin_right = 412.0
-margin_bottom = 213.0
+margin_right = 407.0
+margin_bottom = 155.0
 label_text = "Item Cost"
 
-[node name="Label" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost" index="0"]
-margin_right = 412.0
+[node name="HBox1" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost" index="0"]
+margin_right = 407.0
+
+[node name="Label" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost/HBox1" index="0"]
 text = "Item Cost"
 
-[node name="Input" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost" index="1"]
-margin_right = 412.0
+[node name="Input" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost/HBox1" index="1"]
+margin_right = 346.0
 text = "1"
 
-[node name="VBoxContainer" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost" index="2"]
-margin_right = 412.0
+[node name="VBox1" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost/HBox1" index="2"]
+margin_left = 350.0
+margin_right = 407.0
 
-[node name="Add_Button" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost/VBoxContainer" index="0"]
-margin_right = 412.0
+[node name="Add_Button" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost/HBox1/VBox1" index="0"]
+margin_right = 57.0
 
-[node name="Sub_Button" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost/VBoxContainer" index="1"]
-margin_right = 412.0
+[node name="Sub_Button" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost/HBox1/VBox1" index="1"]
+margin_right = 57.0
 
-[node name="Sell Value" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1" instance=ExtResource( 6 )]
+[node name="SellValue" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 217.0
-margin_right = 412.0
-margin_bottom = 319.0
-label_text = "Item Sell Value"
-
-[node name="Label" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Sell Value" index="0"]
-margin_right = 412.0
-text = "Item Sell Value"
-
-[node name="Input" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Sell Value" index="1"]
-margin_right = 412.0
-text = "1"
-
-[node name="VBoxContainer" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Sell Value" index="2"]
-margin_right = 412.0
-
-[node name="Add_Button" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Sell Value/VBoxContainer" index="0"]
-margin_right = 412.0
-
-[node name="Sub_Button" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Sell Value/VBoxContainer" index="1"]
-margin_right = 412.0
+margin_top = 159.0
+margin_right = 407.0
+margin_bottom = 203.0
+label_text = "Sell Value"
 
 [node name="CanSell" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1" instance=ExtResource( 7 )]
-margin_top = 323.0
-margin_bottom = 348.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 207.0
+margin_right = 407.0
+margin_bottom = 232.0
 label_text = "Can Sell Item?"
 
 [node name="Label" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/CanSell" index="0"]
-margin_right = 125.0
+margin_right = 201.0
+margin_bottom = 25.0
 text = "Can Sell Item?"
 
 [node name="Input" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/CanSell" index="1"]
-margin_left = 129.0
-margin_right = 153.0
+margin_left = 205.0
+margin_right = 407.0
+margin_bottom = 25.0
+
+[node name="Panel" type="Panel" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 411.0
+margin_right = 416.0
+margin_bottom = 258.0
+rect_min_size = Vector2( 5, 0 )
 
 [node name="VBox2" type="VBoxContainer" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1"]
-margin_left = 416.0
+margin_left = 420.0
 margin_right = 828.0
-margin_bottom = 348.0
+margin_bottom = 258.0
 size_flags_horizontal = 3
 
 [node name="IconPath" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox2" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 412.0
+margin_right = 408.0
 margin_bottom = 154.0
 label_text = "Icon"
 main_tab_group = "Item_Manager"
 
 [node name="Label" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox2/IconPath" index="0"]
-margin_right = 412.0
+margin_right = 408.0
 text = "Icon"
 
 [node name="HBoxContainer" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox2/IconPath" index="1"]
-margin_right = 412.0
+margin_right = 408.0
 
 [node name="Input" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox2/IconPath/HBoxContainer" index="1"]
-margin_right = 283.0
+margin_right = 279.0
 text = "A yellow \"C\" with a slash through from top to bottom. A smaller, yellow \"H\" is placed in the opening of the \"C\""
 
 [node name="ColorRect" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox2/IconPath/HBoxContainer" index="2"]
-margin_left = 287.0
-margin_right = 412.0
+margin_left = 283.0
+margin_right = 408.0
 
 [node name="TextureButton" parent="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox2/IconPath/HBoxContainer/ColorRect" index="0"]
 texture_normal = ExtResource( 9 )
@@ -248,20 +246,27 @@ texture_normal = ExtResource( 9 )
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 158.0
-margin_right = 412.0
+margin_right = 408.0
 margin_bottom = 258.0
 label_text = "Item Description"
 
-[node name="Label" type="Label" parent="VBox1/HBox2/Panel1/VBoxContainer2"]
-margin_top = 352.0
+[node name="Panel" type="Panel" parent="VBox1/HBox2/Panel1/VBoxContainer2"]
+modulate = Color( 0, 0, 0, 1 )
+margin_top = 262.0
 margin_right = 828.0
-margin_bottom = 366.0
+margin_bottom = 272.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="Label" type="Label" parent="VBox1/HBox2/Panel1/VBoxContainer2"]
+margin_top = 276.0
+margin_right = 828.0
+margin_bottom = 290.0
 text = "Custom Values"
 align = 1
 valign = 1
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox2/Panel1/VBoxContainer2"]
-margin_top = 370.0
+margin_top = 294.0
 margin_right = 828.0
 margin_bottom = 544.0
 size_flags_horizontal = 3
@@ -269,20 +274,27 @@ size_flags_vertical = 3
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1/HBox2/Panel1/VBoxContainer2/Scroll1"]
 margin_right = 816.0
-margin_bottom = 910.0
+margin_bottom = 518.0
 size_flags_horizontal = 3
 
 [node name="VBox1" parent="VBox1/HBox2/Panel1/VBoxContainer2/Scroll1/HBox1" instance=ExtResource( 10 )]
 margin_top = 0.0
-margin_right = 406.0
-margin_bottom = 910.0
+margin_right = 401.0
+margin_bottom = 518.0
 size_flags_vertical = 1
 
+[node name="Panel" type="Panel" parent="VBox1/HBox2/Panel1/VBoxContainer2/Scroll1/HBox1"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 405.0
+margin_right = 410.0
+margin_bottom = 518.0
+rect_min_size = Vector2( 5, 0 )
+
 [node name="VBox2" parent="VBox1/HBox2/Panel1/VBoxContainer2/Scroll1/HBox1" instance=ExtResource( 10 )]
-margin_left = 410.0
+margin_left = 414.0
 margin_top = 0.0
 margin_right = 816.0
-margin_bottom = 910.0
+margin_bottom = 518.0
 
 [node name="Hbox3" type="HBoxContainer" parent="VBox1"]
 margin_top = 586.0
@@ -411,10 +423,10 @@ __meta__ = {
 [connection signal="button_up" from="VBox1/HBox1/Cancel" to="." method="_on_Cancel_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Chode" to="VBox1/HBox2/Scroll1/Table_Buttons/Chode" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Gumball" to="VBox1/HBox2/Scroll1/Table_Buttons/Gumball" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Crappy Sword" to="VBox1/HBox2/Scroll1/Table_Buttons/Crappy Sword" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/CrappySword" to="VBox1/HBox2/Scroll1/Table_Buttons/CrappySword" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Fist" to="VBox1/HBox2/Scroll1/Table_Buttons/Fist" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Frank's Special Sauce2" to="VBox1/HBox2/Scroll1/Table_Buttons/Frank's Special Sauce2" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Fire Ball" to="VBox1/HBox2/Scroll1/Table_Buttons/Fire Ball" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Frank'sSpecialSauce2" to="VBox1/HBox2/Scroll1/Table_Buttons/Frank'sSpecialSauce2" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/FireBall" to="VBox1/HBox2/Scroll1/Table_Buttons/FireBall" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Shizzo_Can" to="VBox1/HBox2/Scroll1/Table_Buttons/Shizzo_Can" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Treasure_Chest" to="VBox1/HBox2/Scroll1/Table_Buttons/Treasure_Chest" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Medium_Box" to="VBox1/HBox2/Scroll1/Table_Buttons/Medium_Box" method="_on_TextureButton_button_up"]
@@ -422,16 +434,16 @@ __meta__ = {
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Book" to="VBox1/HBox2/Scroll1/Table_Buttons/Book" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Rock" to="VBox1/HBox2/Scroll1/Table_Buttons/Rock" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Trash_Can" to="VBox1/HBox2/Scroll1/Table_Buttons/Trash_Can" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Mike's Cell Phone" to="VBox1/HBox2/Scroll1/Table_Buttons/Mike's Cell Phone" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Light Bulb" to="VBox1/HBox2/Scroll1/Table_Buttons/Light Bulb" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Glass Shards" to="VBox1/HBox2/Scroll1/Table_Buttons/Glass Shards" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Wedding Ring" to="VBox1/HBox2/Scroll1/Table_Buttons/Wedding Ring" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Flat Bottom Flask" to="VBox1/HBox2/Scroll1/Table_Buttons/Flat Bottom Flask" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Glass Beaker" to="VBox1/HBox2/Scroll1/Table_Buttons/Glass Beaker" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Glass Cup" to="VBox1/HBox2/Scroll1/Table_Buttons/Glass Cup" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Round Bottom Flask" to="VBox1/HBox2/Scroll1/Table_Buttons/Round Bottom Flask" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Wild Shroom" to="VBox1/HBox2/Scroll1/Table_Buttons/Wild Shroom" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Sticky Aluminum" to="VBox1/HBox2/Scroll1/Table_Buttons/Sticky Aluminum" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Mike'sCellPhone" to="VBox1/HBox2/Scroll1/Table_Buttons/Mike'sCellPhone" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/LightBulb" to="VBox1/HBox2/Scroll1/Table_Buttons/LightBulb" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/GlassShards" to="VBox1/HBox2/Scroll1/Table_Buttons/GlassShards" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/WeddingRing" to="VBox1/HBox2/Scroll1/Table_Buttons/WeddingRing" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/FlatBottomFlask" to="VBox1/HBox2/Scroll1/Table_Buttons/FlatBottomFlask" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/GlassBeaker" to="VBox1/HBox2/Scroll1/Table_Buttons/GlassBeaker" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/GlassCup" to="VBox1/HBox2/Scroll1/Table_Buttons/GlassCup" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/RoundBottomFlask" to="VBox1/HBox2/Scroll1/Table_Buttons/RoundBottomFlask" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/WildShroom" to="VBox1/HBox2/Scroll1/Table_Buttons/WildShroom" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/StickyAluminum" to="VBox1/HBox2/Scroll1/Table_Buttons/StickyAluminum" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default4" to="VBox1/HBox2/Scroll1/Table_Buttons/Default4" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default5" to="VBox1/HBox2/Scroll1/Table_Buttons/Default5" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default7" to="VBox1/HBox2/Scroll1/Table_Buttons/Default7" method="_on_TextureButton_button_up"]
@@ -439,7 +451,7 @@ __meta__ = {
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default11" to="VBox1/HBox2/Scroll1/Table_Buttons/Default11" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default15" to="VBox1/HBox2/Scroll1/Table_Buttons/Default15" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default16" to="VBox1/HBox2/Scroll1/Table_Buttons/Default16" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Default 2" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default2" to="VBox1/HBox2/Scroll1/Table_Buttons/Default2" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default18" to="VBox1/HBox2/Scroll1/Table_Buttons/Default18" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Default20" to="VBox1/HBox2/Scroll1/Table_Buttons/Default20" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_deletePopup_Accept_button_up"]
@@ -447,6 +459,5 @@ __meta__ = {
 [connection signal="file_selected" from="Popups/FileDialog" to="." method="_on_FileDialog_file_selected"]
 
 [editable path="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost"]
-[editable path="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Sell Value"]
 [editable path="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/CanSell"]
 [editable path="VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox2/IconPath"]

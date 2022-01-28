@@ -13,25 +13,23 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="."]
 margin_right = 1024.0
-margin_bottom = 25.0
+margin_bottom = 298.0
 rect_min_size = Vector2( 125, 25 )
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 3
 text = "ItemType_Selection"
 align = 1
 valign = 1
 
 [node name="Input" type="OptionButton" parent="."]
-margin_top = 29.0
+margin_top = 302.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Item 4"
-items = [ "Item 4", null, false, 4, null, "Item 1", null, false, 1, null, "Item 2", null, false, 2, null, "Item 3", null, false, 3, null ]
-selected = 0
+text = "Item 0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="button_down" from="Input" to="." method="_on_OptionButton_button_down"]
+[connection signal="item_selected" from="Input" to="." method="_on_Input_item_selected"]

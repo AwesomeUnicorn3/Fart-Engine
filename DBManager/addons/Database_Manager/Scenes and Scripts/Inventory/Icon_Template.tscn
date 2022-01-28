@@ -24,7 +24,7 @@ margin_top = 29.0
 margin_right = 1024.0
 margin_bottom = 154.0
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label2" type="Label" parent="HBoxContainer"]
 margin_right = 100.0
 margin_bottom = 125.0
 rect_min_size = Vector2( 100, 25 )

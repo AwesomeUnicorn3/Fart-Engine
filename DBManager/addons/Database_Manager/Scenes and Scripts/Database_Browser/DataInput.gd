@@ -16,6 +16,7 @@ func initial_values():
 	column = array[1]
 	previous_data = $input.get_text()
 
+
 func update_values():
 	cellAddress = $".".get_name()
 	var array = []
@@ -48,3 +49,4 @@ func update_text():
 	new_data = $input.text
 	if column == "Order":
 		column = previous_data
+		print("order")

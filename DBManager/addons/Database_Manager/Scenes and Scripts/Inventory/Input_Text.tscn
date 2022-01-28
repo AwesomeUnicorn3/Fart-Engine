@@ -25,6 +25,7 @@ margin_right = 1024.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
+align = 1
 max_length = 45
 placeholder_text = "Enter Value As Text"
 caret_blink = true

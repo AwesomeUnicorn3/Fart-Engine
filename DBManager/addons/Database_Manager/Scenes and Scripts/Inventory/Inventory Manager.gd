@@ -2,7 +2,7 @@ extends Control
 tool
 
 
-const EDITSCRIPT = preload("res://addons/Database_Manager/Scenes and Scripts/Editor_Functions.gd")
+const UDSENGINE = preload("res://addons/Database_Manager/Scenes and Scripts/Editor_Functions.gd")
 
 onready var btn_itemselect = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Btn_ItemSelect.tscn")
 
@@ -11,9 +11,6 @@ onready var input_multiLine = preload("res://addons/Database_Manager/Scenes and 
 onready var input_checkBox = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Checkbox_Template.tscn")
 onready var input_intNumberCounter = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Number_Counter.tscn")
 onready var input_floatNumberCounter = preload("res://addons/Database_Manager/Scenes and Scripts/Inventory/Number_Counter_Float.tscn")
-
-
-
 
 onready var btn_saveChanges = $VBox1/HBox1/SaveChanges
 onready var btn_saveNewItem = $VBox1/HBox1/SaveNewItem
@@ -27,17 +24,18 @@ onready var container_list3 = $VBox1/HBox2/Panel1/VBoxContainer2/Scroll1/HBox1/V
 onready var container_list4 = $VBox1/HBox2/Panel1/VBoxContainer2/Scroll1/HBox1/VBox2
 onready var popup_main = $Popups
 onready var popup_deleteConfirm = $Popups/popup_delete_confirm
+onready var item_name_input = $VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Key/Input
+var udsEngine
+#var icon_folder = "res://addons/Database_Manager/Data/Icons"
+#var save_path = "res://addons/Database_Manager/Data/"
 
+#var current_table_path = "res://addons/Database_Manager/Data/Items.json"
+#var current_row_path = "res://addons/Database_Manager/Data/Items_Row"
+#var current_column_path = "res://addons/Database_Manager/Data/Items_Column"
 
-var icon_folder = "res://addons/Database_Manager/Data/Icons"
-var save_path = "res://addons/Database_Manager/Data/"
-var table_path = "res://addons/Database_Manager/Data/Items.json"
-var row_path = "res://addons/Database_Manager/Data/Items_Row"
-var column_path = "res://addons/Database_Manager/Data/Items_Column"
-
-var row_dict = {}
-var column_dict = {}
-var item_dict = {}
+#var current_row_dict = {}
+#var current_column_dict = {}
+#var current_dict = {}
 var field_dict1 = {}
 var field_dict2 = {}
 var field_dict3 = {}
@@ -45,9 +43,11 @@ var Item_Name = ""
 
 
 func _ready():
+	
 	var input_data
 	var label_name
 	var field_name
+	
 	for i in container_list1.get_children():
 		if i.get("labelNode") != null and i.get("inputNode") != null:
 			field_name = i.name
@@ -56,7 +56,7 @@ func _ready():
 			field_dict1[label_name] = input_data
 		else:
 			print(i.name, " Does not have labelNode")
-	
+
 	for i in container_list2.get_children():
 		if i.get("labelNode") != null and i.get("inputNode") != null:
 			field_name = i.name
@@ -65,17 +65,21 @@ func _ready():
 			field_dict2[label_name] = input_data
 		else:
 			print(i.name, " Does not have labelNode")
-	
+
 
 
 func _on_Inventory_Manager_visibility_changed():
 	if visible:
+		udsEngine = UDSENGINE.new()
+		udsEngine.current_table_name = "Items"
+		_ready()
 		hide_all_popups()
-		update_dictionaries()
+		udsEngine.update_dictionaries()
 		reload_buttons()
 
 		table_list.get_child(0)._on_TextureButton_button_up()
 	else:
+		udsEngine.queue_free()
 		hide_all_popups()
 		clear_data()
 		clear_buttons()
@@ -84,10 +88,13 @@ func _on_Inventory_Manager_visibility_changed():
 
 func custom_values_dict():
 	var custom_dict = {}
+	var datatype = udsEngine.data_type
+	udsEngine.data_type = "Column"
 
-	for i in column_dict["Column"]:
-		var value_name = column_dict["Column"][i]
-		custom_dict[value_name] = i
+	for i in udsEngine.currentData_dict["Column"]:
+		var value_name = udsEngine.currentData_dict["Column"][i]["FieldName"]
+		var itemType = udsEngine.currentData_dict["Column"][i]["DataType"]
+		custom_dict[value_name] = {"Value" : i, "DataType" : itemType}
 
 	for i in field_dict1:
 		if custom_dict.has(i):
@@ -98,11 +105,19 @@ func custom_values_dict():
 
 	
 	for i in custom_dict:
-		var value = item_dict[Item_Name][i]
-		value = convert_string_to_type(value)
-		custom_dict[i] = value
+		#only add fields that have ShowField marked as true
 
-#	print(custom_dict)
+		var value = udsEngine.current_dict[Item_Name][i]
+		var showField = convert_string_to_type(udsEngine.currentData_dict["Column"][udsEngine.get_data_index(i)]["ShowValue"])
+		var itemType = udsEngine.currentData_dict["Column"][udsEngine.get_data_index(i)]["DataType"]
+		if showField:
+
+			custom_dict[i] = {"Value" : value, "DataType" : itemType}
+		else:
+			custom_dict.erase(i)
+
+	udsEngine.data_type = datatype
+
 	return custom_dict
 	
 
@@ -112,11 +127,11 @@ func hide_all_popups():
 	popup_main.visible = false
 	popup_deleteConfirm.visible = false
 
-func update_dictionaries():
-	#replaces dictionary data with data from saved files
-	row_dict = import_data(row_path) 
-	column_dict = import_data(column_path)
-	item_dict = import_data(table_path)
+#func update_dictionaries():
+#	#replaces dictionary data with data from saved files
+#	udsEngine.current_row_dict = import_data(current_row_path) 
+#	udsEngine.current_column_dict = import_data(current_column_path)
+#	udsEngine.current_dict = import_data(current_table_path)
 
 
 func clear_buttons():
@@ -173,36 +188,38 @@ func refresh_data(item_name : String):
 
 	field_dict3 = custom_values_dict()
 	for i in field_dict3:
-		var node_type = typeof(field_dict3[i])
-		var node_value = field_dict3[i]
+		var node_value =  convert_string_to_type(field_dict3[i]["Value"], field_dict3[i]["DataType"])
+		var node_type = typeof(node_value)
+
+
 		match node_type: #Match variant type and then determine which input field to use (check box, long text, short text, number count etc)
 			1: #Bool
 				var new_field : Node = add_input_field(container_list3, input_checkBox)
 				new_field.set_name(i)
 				new_field.labelNode.set_text(i)
-				new_field.inputNode.set_pressed(field_dict3[i])
+				new_field.inputNode.set_pressed(node_value)
 
 			2: #INT
 				var new_field : Node = add_input_field(container_list3, input_intNumberCounter)
 				new_field.set_name(i)
 				new_field.labelNode.set_text(i)
-				new_field.inputNode.set_text(str(field_dict3[i]))
+				new_field.inputNode.set_text(str(node_value))
 			3: #Float
 				var new_field : Node = add_input_field(container_list3, input_floatNumberCounter)
 				new_field.set_name(i)
 				new_field.labelNode.set_text(i)
-				new_field.inputNode.set_text(str(field_dict3[i]))
+				new_field.inputNode.set_text(str(node_value))
 			4: #String
 				if node_value.length() <= 45:
 					var new_field : Node = add_input_field(container_list3, input_singleLine)
 					new_field.set_name(i)
 					new_field.labelNode.set_text(i)
-					new_field.inputNode.set_text(field_dict3[i])
+					new_field.inputNode.set_text(node_value)
 				else:
 					var new_field : Node = add_input_field(container_list3, input_multiLine)
 					new_field.set_name(i)
 					new_field.labelNode.set_text(i)
-					new_field.inputNode.set_text(field_dict3[i])
+					new_field.inputNode.set_text(node_value)
 
 	if item_name != "Default":
 		table_list.get_node(item_name).disabled = true #Sets current item button to disabled
@@ -218,28 +235,28 @@ func input_match(current_node, i, dict):
 			if i == "Key":
 				input.set_text(Item_Name)
 			else:
-				input.set_text(item_dict[Item_Name][i])
+				input.set_text(udsEngine.current_dict[Item_Name][i])
 		"Dropdown":
 			current_node.populate_list()
-			var type_id = current_node.get_item_id(item_dict[Item_Name]["Type"])
+			var type_id = current_node.get_item_id(udsEngine.current_dict[Item_Name]["Type"])
 			input.select(type_id)
 		"Number Counter":
-			input.set_text(item_dict[Item_Name][i])
+			input.set_text(udsEngine.current_dict[Item_Name][i])
 			
 		"Multiline Text":
-			input.set_text(item_dict[Item_Name][i])
+			input.set_text(udsEngine.current_dict[Item_Name][i])
 		
 		"Checkbox":
-			var ckbx_value = convert_string_to_type(item_dict[Item_Name][i])
+			var ckbx_value = convert_string_to_type(udsEngine.current_dict[Item_Name][i])
 			input.pressed = ckbx_value
 		
 		"Icon":
-			input.set_text(item_dict[Item_Name]["IconDescription"])
-			var iconPath = item_dict[Item_Name]["IconPath"]
-			if is_file_in_folder(icon_folder, iconPath):
+			input.set_text(udsEngine.current_dict[Item_Name]["IconDescription"])
+			var iconPath = udsEngine.current_dict[Item_Name]["IconPath"]
+			if udsEngine.is_file_in_folder(udsEngine.icon_folder, iconPath):
 				current_node.texture_button.set_normal_texture(load(iconPath))
 			else:
-				iconPath = item_dict["Default"]["IconPath"]
+				iconPath = udsEngine.current_dict["Default"]["IconPath"]
 				current_node.texture_button.set_normal_texture(load(iconPath))
 
 func clear_match(current_node, i):
@@ -266,8 +283,8 @@ func clear_match(current_node, i):
 			input.pressed = default_value
 		
 		"Icon":
-			input.set_text(item_dict["Default"]["IconDescription"])
-			var iconPath = item_dict["Default"]["IconPath"]
+			input.set_text(udsEngine.current_dict["Default"]["IconDescription"])
+			var iconPath = udsEngine.current_dict["Default"]["IconPath"]
 			current_node.texture_button.set_normal_texture(load(iconPath))
 
 func update_match(current_node, i):
@@ -278,32 +295,32 @@ func update_match(current_node, i):
 			if i == "Key":
 				update_item_name(Item_Name, input.text)
 			else:
-				item_dict[Item_Name][i] = input.text
+				udsEngine.current_dict[Item_Name][i] = input.text
 		"Dropdown":
-			item_dict[Item_Name][i] = input.text
+			udsEngine.current_dict[Item_Name][i] = input.text
 
 		"Number Counter":
-			item_dict[Item_Name][i] = input.text
+			udsEngine.current_dict[Item_Name][i] = input.text
 			
 		"Multiline Text":
-			item_dict[Item_Name][i] = input.text
+			udsEngine.current_dict[Item_Name][i] = input.text
 		
 		"Checkbox":
-			item_dict[Item_Name][i] = input.pressed
+			udsEngine.current_dict[Item_Name][i] = input.pressed
 		
 		"Icon":
-			item_dict[Item_Name]["IconDescription"] = input.text
+			udsEngine.current_dict[Item_Name]["IconDescription"] = input.text
 
 
 
 func create_table_buttons():
 	 #Loop through the item_list dictionary and add a button for each item
-	for i in row_dict["Row"].size():
+	for i in udsEngine.currentData_dict["Row"].size():
 		var item_number = str(i + 1) #row_dict key
-		if row_dict["Row"][item_number] != "Default":
+		if udsEngine.currentData_dict["Row"][item_number]["FieldName"] != "Default":
 			var newbtn = btn_itemselect.instance() #Create new instance of item button
 			table_list.add_child(newbtn) #Add new item button to table_list
-			var label = row_dict["Row"][item_number] #Use the row_dict key (item_number) to set the button label as the item name
+			var label = udsEngine.currentData_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
 			newbtn.set_name(label) #Set the name of the new button as the item name
 			newbtn.get_node("Label").set_text(label) #Sets the button label (name that the user sees)
 
@@ -328,16 +345,17 @@ func _on_Save_button_up():
 	#Check if values are blank return error if true
 	if !has_empty_fields():
 		update_values()
-		save_data(row_path, row_dict)
-		save_data(table_path, item_dict)
-		update_dictionaries()
+		udsEngine.save_all_db_files(udsEngine.current_table_name)
+#		save_data(udsEngine.row_path, udsEngine.current_row_dict)
+#		save_data(udsEngine.table_path, udsEngine.current_dict)
+		udsEngine.update_dictionaries()
 		reload_buttons()
 		refresh_data(Item_Name)
 	else:
 		print("There was an error. Data has not been updated")
 
 func update_values():
-#Uses input values from Items form to update item_dict 
+#Uses input values from Items form to update current_dict 
 	for i in field_dict1:
 		var current_node = container_list1.get_node(str(i))
 		update_match(current_node, i)
@@ -359,13 +377,13 @@ func update_values():
 #		if i == "Key":
 #			pass
 #		else:
-#			item_dict[Item_Name][i] = i.inputNode.text
-#	item_dict[Item_Name]["Type"] = item_type_text.text
-#	item_dict[Item_Name]["Description"] = item_description_text.text
-#	item_dict[Item_Name]["Cost"] = item_cost_text.text
-#	item_dict[Item_Name]["Sell Value"] = item_sellprice_text.text
-#	item_dict[Item_Name]["IconDescription"] = icon_description.text
-#	item_dict[Item_Name]["CanSell"] = item_cansell_chkbx.pressed
+#			current_dict[Item_Name][i] = i.inputNode.text
+#	current_dict[Item_Name]["Type"] = item_type_text.text
+#	current_dict[Item_Name]["Description"] = item_description_text.text
+#	current_dict[Item_Name]["Cost"] = item_cost_text.text
+#	current_dict[Item_Name]["Sell Value"] = item_sellprice_text.text
+#	current_dict[Item_Name]["IconDescription"] = icon_description.text
+#	current_dict[Item_Name]["CanSell"] = item_cansell_chkbx.pressed
 	print("Value Update Complete")
 
 func save_data(sv_path, table_dict):
@@ -383,35 +401,37 @@ func save_data(sv_path, table_dict):
 func update_item_name(old_name : String, new_name : String = ""):
 	if old_name != new_name: #if changes are made to item name
 		if !does_key_exist(new_name):
-			var item_name_dict = row_dict["Row"]
+			var item_name_dict = udsEngine.current_data_dict["Row"]
 			for i in item_name_dict: #loop through item_row table until it finds the key number for the item
 				if item_name_dict[i] == old_name:
-					row_dict["Row"][i] = new_name #Replace old value with new value
+					udsEngine.current_data_dict["Row"][i] = new_name #Replace old value with new value
 					break
 			
-			var old_key_entry : Dictionary = item_dict[Item_Name].duplicate(true) #Create copy of item values
-			item_dict.erase(Item_Name) #Erase old item entry
-			item_dict[new_name] = old_key_entry #add new item entry
+			var old_key_entry : Dictionary = udsEngine.current_dict[Item_Name].duplicate(true) #Create copy of item values
+			udsEngine.current_dict.erase(Item_Name) #Erase old item entry
+			udsEngine.current_dict[new_name] = old_key_entry #add new item entry
 			Item_Name = new_name #Update script variable with correct item name
 		else:
 			print("Duplicate key exists in table DATA WAS NOT UPDATED")
 
 func add_entry_row(entry_value):
-	var item_name_dict = row_dict["Row"]
+	var item_name_dict = udsEngine.current_data_dict["Row"]
 	var item_name_dict_size = item_name_dict.size()
-	row_dict["Row"][str(item_name_dict_size)] = entry_value
+	udsEngine.current_data_dict["Row"][str(item_name_dict_size)] = entry_value
 
 func add_table_key(key):
 	#duplicate "Default" value
-	var new_entry = item_dict["Default"].duplicate(true)
+	var new_entry = udsEngine.current_dict["Default"].duplicate(true)
 	#Add value to item dict
-	item_dict[key] = new_entry
+	udsEngine.current_dict[key] = new_entry
 	
 
 func does_key_exist(key):
+#	print(key)
 	var value = false
 	#Iterate through table values and compare to key if values are the same, return error
-	for i in item_dict:
+	for i in udsEngine.current_dict:
+#		print(i)
 		if i == key:
 			value = true
 			print("Item already exists!")
@@ -472,20 +492,24 @@ func _on_Cancel_button_up():
 
 func _on_SaveNewItem_button_up():
 	#NEED TO SET ITEM NAME VARIABLE HERE!!!
+	Item_Name = item_name_input.text
 	#THIS IS WHERE ERROR CHECKING NEEDS TO CONVERGE AND NOT RUN IF THERE IS AN ERROR
 	if !does_key_exist(Item_Name) and !does_key_contain_invalid_characters(Item_Name) and !has_empty_fields():
 	#NEED TO ADD ERROR NOTICE IF NAME IS DEFAULT
 #	if item_name_text.text != "Default":
-#		Item_Name = item_name_text.text
-		#save new item to item_dict
-		add_table_key(Item_Name)
+		
+		#save new item to current_dict
+#		add_table_key(Item_Name)
+		udsEngine.add_key(Item_Name, "TYPE_STRING", true)
 		#Update row file
-		add_entry_row(Item_Name)
+#		add_entry_row(Item_Name)
+#		udsEngine.add_field($VBox1/HBox2/Panel1/VBoxContainer2/HBox1/VBox1/Cost/Input.get_text(), TYPE_INT, true)
 		#update new dict entry with input values from item form
 		update_values()
 		#Save data to .json files
-		save_data(row_path, row_dict)
-		save_data(table_path, item_dict)
+		udsEngine.save_all_db_files(udsEngine.current_table_name)
+#		save_data(current_row_path, udsEngine.current_row_dict)
+#		save_data(current_table_path, udsEngine.current_dict)
 		reload_buttons()
 		refresh_data(Item_Name)
 
@@ -508,26 +532,28 @@ func _on_SaveNewItem_button_up():
 		print("ERROR! No changes were made")
 		
 func delete_selected_item():
-	item_dict.erase(Item_Name) #Remove entry from item dict
+#	udsEngine.current_dict.erase(Item_Name) #Remove entry from item dict
+	udsEngine.data_type = "Row"
+	udsEngine.Delete_Key(Item_Name)
 	#loop through row_dict to find item
-	for i in row_dict["Row"]:
-		if row_dict["Row"][i] == Item_Name:
-			row_dict["Row"].erase(i) #Erase entry
-	#Loop through number 0 to row_dict size
+#	for i in udsEngine.current_data_dict["Row"]:
+#		if udsEngine.current_data_dict["Row"][i] == Item_Name:
+#			udsEngine.current_data_dict["Row"].erase(i) #Erase entry
+#	#Loop through number 0 to row_dict size
+#
+#	var row_size = udsEngine.current_data_dict["Row"].size()
+#	for j in range(0, row_size):
+#		j += 1
+#		if !udsEngine.current_data_dict["Row"].has(str(j)): #If the row_dict does not have j key
+#			var next_entry_value = udsEngine.current_data_dict["Row"][str(j + 1)] #Get value of next entry #If ever more values are added to row table, .duplicate(true) needs to be added to this line
+##			row_dict.erase(str(j))
+#			udsEngine.current_data_dict["Row"][str(j)] = next_entry_value #create new entry with current index and next entry
+#			var next_entry = str(j + 1)
+#			udsEngine.current_data_dict["Row"].erase(next_entry) #Delete next entry
+	udsEngine.save_all_db_files(udsEngine.current_table_name)
 
-	var row_size = row_dict["Row"].size()
-	for j in range(0, row_size):
-		j += 1
-		if !row_dict["Row"].has(str(j)): #If the row_dict does not have j key
-			var next_entry_value = row_dict["Row"][str(j + 1)] #Get value of next entry #If ever more values are added to row table, .duplicate(true) needs to be added to this line
-#			row_dict["Row"].erase(str(j))
-			row_dict["Row"][str(j)] = next_entry_value #create new entry with current index and next entry
-			var next_entry = str(j + 1)
-			row_dict["Row"].erase(next_entry) #Delete next entry
-
-	#row_dict["Row"].erase(str(row_dict["Row"].size())) #Delete last row because it should be a duplicate by this point
-	save_data(row_path, row_dict)
-	save_data(table_path, item_dict)
+#	save_data(current_row_path, udsEngine.current_row_dict)
+#	save_data(current_table_path, udsEngine.current_dict)
 	reload_buttons()
 	table_list.get_child(0)._on_TextureButton_button_up()
 
@@ -566,46 +592,30 @@ func list_files_in_directory(sve_path):
 			array_load_savefiles.append(file)
 	return array_load_savefiles
 
-func is_file_in_folder(path : String, file_name : String):
-	var value = false
-	var dir = Directory.new()
-	dir.open(path)
-#	var dir_files = list_files_in_directory(dir)
-	if dir.file_exists(file_name):
-		value = true
-		print(file_name, " Exists!!!")
-	else:
-		print(file_name, " Does NOT Exist :(")
-	
-	
-	return value
+
 		
-
-
-
 
 func _on_FileDialog_file_selected(path):
 	var dir = Directory.new()
 	var new_file_name = path.get_file()
-	var new_file_path = icon_folder + "/" + new_file_name
-	var curr_icon_path = item_dict[Item_Name]["IconPath"]
+	var new_file_path = udsEngine.icon_folder + "/" + new_file_name
+	var curr_icon_path = udsEngine.current_dict[Item_Name]["IconPath"]
 
-	if is_file_in_folder(icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
-		item_dict[Item_Name]["IconPath"] = new_file_path
-		save_data(table_path, item_dict)
+	if udsEngine.is_file_in_folder(udsEngine.icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
+		udsEngine.current_dict[Item_Name]["IconPath"] = new_file_path
+		udsEngine.save_all_db_files(udsEngine.current_table_name)
 		refresh_data(Item_Name)
 	else:
 		print("Item selected is NOT in icon folder")
 		dir.copy(path, new_file_path)
-		if !is_file_in_folder(icon_folder, new_file_name):
+		if !udsEngine.is_file_in_folder(udsEngine.icon_folder, new_file_name):
 			print("File Not Added")
 		else:
 			print("File Added")
 			#THIS WORKS BUT YOU MUST trigger the import process for it to load to texture rect.  STILL TRYING TO IGURE OUT HOW TO DO THAT IN CODE
 			
-			var es = EDITSCRIPT.new()
-			es.refresh_data()
-			item_dict[Item_Name]["IconPath"] = new_file_path
+			udsEngine.refresh_editor()
+			udsEngine.current_dict[Item_Name]["IconPath"] = new_file_path
 
 			var tr = Timer.new()
 			tr.set_one_shot(true)
@@ -615,7 +625,7 @@ func _on_FileDialog_file_selected(path):
 			yield(tr, "timeout")
 			tr.queue_free()
 
-			save_data(table_path, item_dict)
+			udsEngine.save_all_db_files(udsEngine.current_table_name)
 			refresh_data(Item_Name)
 
 
@@ -651,26 +661,42 @@ func to_bool(value):
 		return value
 
 
-func convert_string_to_type(variant):
+func convert_string_to_type(variant, datatype = ""):
 	var found_match = false
-	variant = to_bool(variant)
-	variant = str2var(variant)
-	match typeof(variant):
-		TYPE_INT:
-			found_match = true
-#			print(variant, " is INTEGER")
-		TYPE_REAL:
-			found_match = true
-#			print(variant, " is FLOAT")
-		TYPE_BOOL:
-			found_match = true
-#			print(variant, " is BOOL")
-		TYPE_STRING:
-			found_match = true
-#			print(variant, " is STRING")
+	
+	if datatype == "":
+		variant = to_bool(variant)
+		variant = str2var(variant)
+		match typeof(variant):
+			TYPE_INT:
+				found_match = true
+	#			print(variant, " is INTEGER")
+			TYPE_REAL:
+				found_match = true
+	#			print(variant, " is FLOAT")
+			TYPE_BOOL:
+				found_match = true
+	#			print(variant, " is BOOL")
+			TYPE_STRING:
+				found_match = true
+	#			print(variant, " is STRING")
+			
+		if !found_match:
+			print("No Match found for ", variant)
+#		else:
+#			return variant
 		
-	if !found_match:
-		print("No Match found for ", variant)
 	else:
-		return variant
+
+		match datatype:
+			"TYPE_BOOL":
+				variant = bool(variant)
+			"TYPE_STRING":
+				variant = str(variant)
+			"TYPE_INT":
+				variant = str2var(variant)
+			"TYPE_REAL":
+				variant = float(variant)
+
+	return variant
 

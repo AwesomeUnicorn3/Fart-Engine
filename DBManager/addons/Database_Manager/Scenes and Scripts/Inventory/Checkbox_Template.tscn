@@ -3,23 +3,26 @@
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/Checkbox_Template.gd" type="Script" id=1]
 
 [node name="Checkbox_Template" type="HBoxContainer"]
-margin_right = 412.0
-margin_bottom = 25.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="."]
-margin_right = 127.0
-margin_bottom = 25.0
+margin_right = 510.0
+margin_bottom = 600.0
 rect_min_size = Vector2( 125, 25 )
+size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Checkbox_Template"
 align = 1
 valign = 1
 
 [node name="Input" type="CheckBox" parent="."]
-margin_left = 131.0
-margin_right = 155.0
-margin_bottom = 25.0
+margin_left = 514.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3

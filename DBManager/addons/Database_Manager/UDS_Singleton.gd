@@ -1,5 +1,5 @@
-extends Control
-
+extends Node
+#SHOULD ONLY INCLUDE SCRIPT THAT I WANT ACCESSIBLE TO THE USER
 signal save_complete
 signal DbManager_loaded
 signal refresh_UI

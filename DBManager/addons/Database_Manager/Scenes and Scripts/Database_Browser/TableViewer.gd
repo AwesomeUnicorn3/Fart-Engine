@@ -1,5 +1,7 @@
 extends Control
 tool
+
+#THIS SCRIPT SHOULD BE JUST FOR NAVIGATING AND LOADING DATA FOR THE DATABASE MANAGER TAB
 onready var column = preload("res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Column.tscn")
 onready var row = preload("res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Row.tscn")
 onready var datainput = preload("res://addons/Database_Manager/Scenes and Scripts/Database_Browser/DataInput.tscn")
