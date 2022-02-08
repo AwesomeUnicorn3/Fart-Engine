@@ -6,6 +6,8 @@ var inputNode
 var itemName = ""
 var default
 var type = ""
+var table_name = ""
+var table_ref = ""
 
 func get_all_nodes(node):
 	var node_array = []
@@ -29,6 +31,7 @@ func get_all_nodes(node):
 				elif j.name == "Input":
 					node_array.append(j)
 					input = true
+					
 				if j.get_child_count() > 0:
 					for k in j.get_children():
 						if k.name == "Label":
@@ -58,3 +61,33 @@ func _ready():
 		labelNode.set_text(itemName)
 	else:
 		labelNode.set_text(label_text)
+
+	connect_signals()
+
+func label_pressed():
+	var keyName = get_main_tab(self).Item_Name
+	var fieldName = labelNode.text
+	if fieldName == "Key": 
+		OS.set_clipboard("udsmain.Static_Game_Dict['" + table_ref + "']['" + keyName + "']")
+	else:
+		OS.set_clipboard("udsmain.Static_Game_Dict['" + table_ref + "']['" + keyName + "']['" + fieldName + "']")
+	labelNode.release_focus()
+
+
+func get_main_tab(par):
+	#Get main tab scene which should have the popup container and necessary script
+	while !par.get_groups().has("Tab"):
+		par = par.get_parent()
+	return par
+
+func on_mouse_entered():
+	
+	if get_main_tab(self).get("selected_field_name"):
+		get_main_tab(self).selected_field_name = labelNode.text
+
+func connect_signals():
+	labelNode.connect("pressed", self, "label_pressed")
+	inputNode.connect("mouse_entered", self, "on_mouse_entered")
+	labelNode.connect("mouse_entered", self, "on_mouse_entered")
+	self.connect("mouse_entered", self, "on_mouse_entered")
+	

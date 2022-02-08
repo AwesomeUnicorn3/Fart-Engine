@@ -20,3 +20,5 @@ func _on_popup_newTable_visibility_changed():
 	if visible:
 		$PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection.populate_list()
 		$PanelContainer/VBox1/HBox3/VBox2/ItemType_Selection.populate_list()
+		$PanelContainer/VBox1/HBox3/Table_Selection.populate_list()
+		$PanelContainer/VBox1/HBox1/Table_Selection.populate_list()

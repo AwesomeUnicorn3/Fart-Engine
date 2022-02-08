@@ -1,1 +1,1 @@
-{"TYPE_BOOL":{"ID":"True or False"},"TYPE_INT":{"ID":"Whole Number"},"TYPE_REAL":{"ID":"Decimal Number"},"TYPE_STRING":{"ID":"Text"}}
+{"1":{"Display Name":"True or False","ID":"TYPE_BOOL"},"2":{"Display Name":"Whole Number","ID":"TYPE_INT"},"3":{"Display Name":"Decimal Number","ID":"TYPE_REAL"},"4":{"Display Name":"Text","ID":"TYPE_STRING"},"5":{"Display Name":"Dropdown List","ID":"TYPE_DROPDOWN"},"6":{"Display Name":"Icon Display","ID":"TYPE_ICON"}}

@@ -19,3 +19,4 @@ func _ready():
 func _on_popup_newValue_visibility_changed():
 	if visible:
 		$PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection.populate_list()
+		$PanelContainer/VBox1/HBox1/Table_Selection.populate_list()

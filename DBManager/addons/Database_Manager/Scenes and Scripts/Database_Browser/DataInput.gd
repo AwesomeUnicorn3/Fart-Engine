@@ -9,9 +9,9 @@ var data_format = "String"
 
 
 func initial_values():
-	cellAddress = $".".get_name()
+	cellAddress = get_name()
 	var array = []
-	array = cellAddress.rsplit(" ")
+	array = cellAddress.rsplit("&")
 	row = array[0]
 	column = array[1]
 	previous_data = $input.get_text()
@@ -20,7 +20,7 @@ func initial_values():
 func update_values():
 	cellAddress = $".".get_name()
 	var array = []
-	array = cellAddress.rsplit(" ")
+	array = cellAddress.rsplit("&")
 	row = array[0]
 	column = array[1]
 	previous_data = $input.get_text()
@@ -30,7 +30,7 @@ func update_values():
 func update_rows():
 	cellAddress = $".".get_name()
 	var array = []
-	array = cellAddress.rsplit(" ")
+	array = cellAddress.rsplit("&")
 	row = array[0]
 	column = array[1]
 	previous_data = row
@@ -49,4 +49,3 @@ func update_text():
 	new_data = $input.text
 	if column == "Order":
 		column = previous_data
-		print("order")

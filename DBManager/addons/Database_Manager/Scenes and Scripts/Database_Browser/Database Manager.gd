@@ -244,6 +244,7 @@ func clear_cells():
 
 
 func update_sheet(name):
+	
 	#Clear and reset arrays, dictionaries, and variables
 	var row_header_order = {} #lists all keys by number
 	var column_header_order = {} #lists all fields  by number
@@ -297,7 +298,7 @@ func update_sheet(name):
 					var keyname = udsEngine.remove_special_char(i)
 					
 					var columnname = udsEngine.remove_special_char(Columnname)
-					newcell_value.set_name(keyname + " " + columnname)
+					newcell_value.set_name(keyname + "&" + columnname)
 					
 					table.add_child(newcell_value)
 					newcell_value.get_node("input").set_text(str(y))
@@ -343,12 +344,12 @@ func update_sheet_RC(selected_dict):
 				var newcell_key = datainput.instance()
 				table.add_child(newcell_key)
 				newcell_key.get_node("input").set_text(str(i))
-				newcell_key.set_name(i + " key")
+				newcell_key.set_name(i + "&key")
 				newcell_key.initial_values()
 
 				var newcell_order = datainput.instance()
 				table.add_child(newcell_order)
-				newcell_order.set_name(i + " Order")
+				newcell_order.set_name(i + "&Order")
 				newcell_order.get_node("input").set_text(row_header_order[i])
 				newcell_order.initial_values()
 				# for each row header cell, create data cells *Values
@@ -361,7 +362,7 @@ func update_sheet_RC(selected_dict):
 						var keyname = udsEngine.remove_special_char(i)
 
 						var columnname = udsEngine.remove_special_char(Columnname)
-						newcell_value.set_name(keyname + " " + columnname)
+						newcell_value.set_name(keyname + "&" + columnname)
 
 						table.add_child(newcell_value)
 						newcell_value.get_node("input").set_text(str(field_value))
@@ -418,12 +419,12 @@ func update_sheet_RC(selected_dict):
 				var newcell_key = datainput.instance()
 				table.add_child(newcell_key)
 				newcell_key.get_node("input").set_text(str(i))
-				newcell_key.set_name(i + " key")
+				newcell_key.set_name(i + "&key")
 				newcell_key.initial_values()
 
 				var newcell_order = datainput.instance()
 				table.add_child(newcell_order)
-				newcell_order.set_name(i + " Order")
+				newcell_order.set_name(i + "&Order")
 				newcell_order.get_node("input").set_text(row_header_order[i])
 				newcell_order.initial_values()
 				# for each row header cell, create data cells *Values
@@ -436,7 +437,7 @@ func update_sheet_RC(selected_dict):
 						var keyname = udsEngine.remove_special_char(i)
 
 						var columnname = udsEngine.remove_special_char(Columnname)
-						newcell_value.set_name(keyname + " " + columnname)
+						newcell_value.set_name(keyname + "&" + columnname)
 
 						table.add_child(newcell_value)
 						newcell_value.get_node("input").set_text(str(field_value))
@@ -543,7 +544,7 @@ func display_options():
 		var t = values_in_order_dict[n]
 		dlg_keySelect.add_item (t,null,true )
 
-	$Popups/popup_deleteKey.visible = true
+
 	dlg_keyDelete.visible = true
 	popupBkg(true)
 
@@ -623,6 +624,8 @@ func popupBkg(visible : bool):
 func update_dict():# input to file
 	#pulls values and saves all tables associated with selected dictionary
 # runs when save button pressed
+	
+	udsEngine.add_line_to_currDataDict()
 	match udsEngine.data_type:
 		"table":
 			update_table_values()
@@ -630,6 +633,8 @@ func update_dict():# input to file
 			update_row_values()
 		"Column":
 			update_column_values()
+	
+	get_node("../..").create_tabs()
 
 #
 func update_table_values(): #input to file
@@ -678,40 +683,41 @@ func update_row_values(): #input to file Changes currently selected table Keys
 				var prev = i.previous_data
 				var Prevnodename = udsEngine.remove_special_char(prev) #in order to find the correct node, all special characters must be removed from the name
 				var Newnodename =  udsEngine.remove_special_char(new)#in order to find the correct node, all special characters must be removed from the name
-				var array = i.get_name().rsplit(" ") 
+				var array = i.get_name().rsplit("&") 
 				var type = array[1] #First part of node name for i
 				if type == "key":
 					if new == "" or new == null: #if input is blank or null
 						pass
 					else:
-						var column_order = udsEngine.data_index(prev)
+						var column_order = udsEngine.get_data_index(prev)
 						var column_info = udsEngine.currentData_dict[udsEngine.data_type][column_order]
 						column_info["FieldName"] = new
 						udsEngine.currentData_dict[udsEngine.data_type][column_order] = column_info #Update the column dictionary key
-						i.set_name(Newnodename + " key") #Set new name for the current node
+						i.set_name(Newnodename + "&key") #Set new name for the current node
 						i.update_values() #updates all the variables for current node
 						i.new_data = ""
 
 						#update and save main table with new key
 						var main_tbl =  udsEngine.current_dict.duplicate(true)
 						var key_dict = {}
+
 						for k in main_tbl.keys():
+
 							var test = {}
-							var test2
-							test = main_tbl[k]
-							test2 = main_tbl[k][prev]
-							test.erase(prev)
-							test[new] = test2
-							main_tbl.erase(k)
-							main_tbl[k] = test
-						udsEngine.current_dict = main_tbl #update the current working dictionary with new data
-						index += 1
+							test = main_tbl[k] #key dictionary
+
+#							test2 = main_tbl[k][prev]
+							udsEngine.current_dict.erase(prev)
+#							test[new] = test2
+#							main_tbl.erase(k)
+#							main_tbl[k] = test
+							udsEngine.current_dict[new] = test #update the current working dictionary with new data
 
 		#This section only updates key order if changes are made
 		var column_tbl = {}
 		for i in table.get_children():
 			if i.get_class() == "PanelContainer":
-				var array = i.get_name().rsplit(" ")
+				var array = i.get_name().rsplit("&")
 				var type = array[1]
 				var nm = array[0]
 				var Row = i.row
@@ -733,7 +739,8 @@ func update_row_values(): #input to file Changes currently selected table Keys
 		#This section will update the field information if any has changed
 		for i in table.get_children():
 			if i.get_class() == "PanelContainer":
-				var array = i.get_name().rsplit(" ")
+				var array = i.get_name().rsplit("&")
+
 				var type = array[1]
 				var nm = array[0]
 				var Row = i.row
@@ -826,7 +833,7 @@ func update_column_values():
 				var prev = i.previous_data
 				var Prevnodename = udsEngine.remove_special_char(prev) #in order to find the correct node, all special characters must be removed from the name
 				var Newnodename =  udsEngine.remove_special_char(new)#in order to find the correct node, all special characters must be removed from the name
-				var array = i.get_name().rsplit(" ") 
+				var array = i.get_name().rsplit("&") 
 				var type = array[1] #First part of node name for i
 				if type == "key":
 					if new == "" or new == null: #if input is blank or null
@@ -836,7 +843,7 @@ func update_column_values():
 						var column_info = udsEngine.currentData_dict[udsEngine.data_type][column_order]
 						column_info["FieldName"] = new
 						udsEngine.currentData_dict[udsEngine.data_type][column_order] = column_info #Update the column dictionary key
-						i.set_name(Newnodename + " key") #Set new name for the current node
+						i.set_name(Newnodename + "&key") #Set new name for the current node
 						i.update_values() #updates all the variables for current node
 						i.new_data = ""
 
@@ -859,7 +866,7 @@ func update_column_values():
 		var column_tbl = {}
 		for i in table.get_children():
 			if i.get_class() == "PanelContainer":
-				var array = i.get_name().rsplit(" ")
+				var array = i.get_name().rsplit("&")
 				var type = array[1]
 				var nm = array[0]
 				var Row = i.row
@@ -881,7 +888,7 @@ func update_column_values():
 		#This section will update the field information if any has changed
 		for i in table.get_children():
 			if i.get_class() == "PanelContainer":
-				var array = i.get_name().rsplit(" ")
+				var array = i.get_name().rsplit("&")
 				var type = array[1]
 				var nm = array[0]
 				var Row = i.row
@@ -937,9 +944,10 @@ func add_newField():
 	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/LineEdit3.get_text()
 	var datatype = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection.selectedItemName
 	var showField = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox3/LineEdit3.is_pressed()
+	var required = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox4/LineEdit3.is_pressed()
 	#Get input values and send them to the editor functions add new value script
 	#NEED TO ADD ERROR CHECKING
-	udsEngine.add_field(fieldName, datatype, showField)
+	udsEngine.add_field(fieldName, datatype, showField, required)
 	_on_newValue_Cancel_button_up()
 	update_sheet(udsEngine.current_table_name)
 
@@ -1001,7 +1009,7 @@ func error_check():
 
 
 		if nm != "Blank" and nm != "Row" and !nm.begins_with("Column"):
-			array = nm.rsplit(" ")
+			array = nm.rsplit("&")
 			temp = array[1]
 
 		if i.get_class() == "PanelContainer":

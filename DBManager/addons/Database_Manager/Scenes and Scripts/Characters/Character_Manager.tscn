@@ -1,18 +1,17 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Tab_Template.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Tab_Template.tscn" type="PackedScene" id=1]
 
-[node name="Inventory_Manager" type="Control"]
+[node name="Characters" type="Control" groups=["Tab"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = 11.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tab_Manager" parent="." instance=ExtResource( 3 )]
-tableName = "Items"
+[node name="Tab_Manager" parent="." instance=ExtResource( 1 )]
+tableName = "Characters"
 
 [connection signal="visibility_changed" from="." to="Tab_Manager" method="_on_visibility_changed"]

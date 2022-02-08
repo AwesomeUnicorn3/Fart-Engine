@@ -16,6 +16,7 @@ var current_dict = {} #Currently selected table values Dictionary
 
 var data_type : String
 var current_table_name = ""
+var current_table_ref = ""
 
 func refresh_editor():
 	get_editor_interface().get_resource_filesystem().scan()
@@ -34,7 +35,6 @@ func get_data_index(value):
 		if fieldName == value:
 			index = i
 			break
-	
 	return index
 
 #func get_row_index(value):
@@ -91,7 +91,7 @@ func list_files_with_param(dirPath, file_type, ignore_table_array : Array = [], 
 	return files
 
 func remove_special_char(text : String):
-	var array = [":", "/", "." , " ", "_"]
+	var array = [":", "/", "."]
 	var result = text
 	for i in array:
 		result = result.replace(i, "")
@@ -277,7 +277,6 @@ func Delete_Key(key_name):
 
 			for i in current_dict: #loop trhough main dictionary
 				current_dict[i].erase(key_name)
-	print(data_type)
 	tmp_dict = currentData_dict[data_type].duplicate(true)
 	#loop through row_dict to find item
 	for i in tmp_dict:
@@ -327,13 +326,12 @@ func add_key(keyName, datatype, showKey, newTable : bool = false):
 
 	else:
 		var new_key_data = current_dict[current_dict.keys()[0]]
-		print(new_key_data)
 #		for n in current_dict: #loop through all keys and set value for this field to "empty"
 #			var field_name = current_column_dict[n]["FieldName"]
 
 		current_dict[keyName] = new_key_data  #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE #Set new key values based on the default (first line of table)
 
-func add_field(fieldName, datatype, showField, newTable : bool = false):
+func add_field(fieldName, datatype, showField, required_value, tblName = "empty", newTable : bool = false):
 
 	#THIS IS WHERE I SHOULD LOOP THROUGH THE USER_PREF TABLE AND ADD THE VALUES TO THE COLUMN TABLE
 	var index = currentData_dict["Column"].size() + 1 #Set index as next number in the order
@@ -351,9 +349,12 @@ func add_field(fieldName, datatype, showField, newTable : bool = false):
 			"FieldName":
 				newValue = fieldName
 			"RequiredValue":
-				newValue = false
+				newValue = required_value
 			"ShowValue":
 				newValue = showField
+			"TableRef":
+				newValue = tblName
+			
 
 		newFeild_dict[currentKey] = newValue
 
@@ -367,6 +368,7 @@ func add_field(fieldName, datatype, showField, newTable : bool = false):
 		for n in current_dict: #loop through all keys and set value for this file to "empty"
 			current_dict[n][fieldName] = "empty" #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE
 		save_all_db_files(current_table_name)
+		update_dictionaries()
 
 
 func is_file_in_folder(path : String, file_name : String):
@@ -376,7 +378,7 @@ func is_file_in_folder(path : String, file_name : String):
 #	var dir_files = list_files_in_directory(dir)
 	if dir.file_exists(file_name):
 		value = true
-		print(file_name, " Exists!!!")
+#		print(file_name, " Exists!!!")
 	else:
 		print(file_name, " Does NOT Exist :(")
 	
@@ -416,3 +418,73 @@ func convert_keyFile_to_new_format():
 	save_file(svpath, final_dict)
 	
 
+func add_line_to_currDataDict():
+	var this_dict = import_data(table_save_path + current_table_name + "_data.json")
+	for i in this_dict["Column"]:
+		var dict = currentData_dict["Column"][i]
+		if !dict.has("TableRef"):
+			currentData_dict["Column"][i]["TableRef"] = "empty"
+	for i in this_dict["Row"]:
+		var dict = currentData_dict["Row"][i]
+		if !dict.has("TableRef"):
+			currentData_dict["Row"][i]["TableRef"] = "empty"
+
+
+func to_bool(value):
+	var found_match = false
+	#changes datatype from string value to bool (Not case specific, only works with yes,no,true, and false)
+	var original_value = value
+	value = str(value)
+	var value_lower = value.to_lower()
+	match value_lower:
+		"yes":
+			found_match = true
+			value = "true"
+		"no":
+			found_match = true
+			value = "false"
+		"true":
+			found_match = true
+			value = "true"
+		"false":
+			found_match = true
+			value = "false"
+	if !found_match:
+		return original_value
+	else:
+		return value
+
+
+func convert_string_to_type(variant, datatype = ""):
+	var found_match = false
+	
+	if datatype == "":
+		variant = to_bool(variant)
+		variant = str2var(variant)
+		match typeof(variant):
+			TYPE_INT:
+				found_match = true
+			TYPE_REAL:
+				found_match = true
+			TYPE_BOOL:
+				found_match = true
+			TYPE_STRING:
+				found_match = true
+
+		if !found_match:
+			print("No Match found for ", variant)
+
+	else:
+		match datatype:
+			"TYPE_BOOL":
+				variant = bool(variant)
+			"TYPE_STRING":
+				variant = str(variant)
+			"TYPE_INT":
+				variant = str2var(variant)
+			"TYPE_REAL":
+				variant = float(variant)
+			"TYPE_ICON":
+				variant = str(variant)
+
+	return variant

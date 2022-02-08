@@ -5,29 +5,34 @@
 [node name="ItemType_Selection" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Button" parent="."]
 margin_right = 1024.0
 margin_bottom = 298.0
-rect_min_size = Vector2( 125, 25 )
+rect_min_size = Vector2( 125, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "ItemType_Selection"
-align = 1
-valign = 1
+flat = true
 
 [node name="Input" type="OptionButton" parent="."]
 margin_top = 302.0
 margin_right = 1024.0
 margin_bottom = 600.0
+rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Item 0"
+align = 1
+items = [ "Item 0", null, false, 0, null ]
+selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -1,1 +1,1 @@
-{"1":{"ID":"Consumable"},"2":{"ID":"Quest Items"},"3":{"ID":"object"},"4":{"ID":"Currency"},"5":{"ID":"weapon"},"6":{"ID":"defense"}}
+{"1":{"Display Name":"Consumable","ID":"Consumable"},"2":{"Display Name":"Quest Item","ID":"Quest Items"},"3":{"Display Name":"Currency","ID":"Currency"}}

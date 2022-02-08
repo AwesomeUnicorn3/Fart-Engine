@@ -60,6 +60,7 @@ func _ready():
 	Static_Game_Dict = dict
 	set_var_type_dict(Static_Game_Dict)
 	new_game()
+	print("Singleton Loaded and updated")
 
 
 func import_data(table_loc):
@@ -97,7 +98,7 @@ func list_files_in_directory(sve_path, file_type):
 			var file = dir.get_next()
 			if file == "":
 				break
-			elif not file.begins_with(".") and file != "Table Data.json":
+			elif not file.begins_with(".") and file != "Table Data.json" and !file.ends_with("_data.json"):
 				if file.ends_with(file_type):
 					files.append(file)
 					array_load_files.append(file)

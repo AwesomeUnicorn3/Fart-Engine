@@ -32,18 +32,11 @@ tool
 #var field_dict2 = {}
 #var field_dict3 = {}
 #var Item_Name = ""
-#var tableName = ""
-#var table_ref = ""
-
-
-func _ready():
-	tableName = "Items"
+#
+#
 #func _ready():
-#	tableName = "Items"
-#
-#	#Get Reference Dictionary from Table_Data
-#
-#
+#	tableName = "Characters"
+
 #	var input_data
 #	var label_name
 #	var field_name
@@ -71,17 +64,13 @@ func _ready():
 #func _on_visibility_changed():
 #	if visible:
 #		udsEngine = UDSENGINE.new()
-#		udsEngine.current_table_name = tableName
-#		var tbl_ref_dict = udsEngine.import_data(udsEngine.table_save_path + "Table Data" + udsEngine.file_format)
-#		table_ref = tbl_ref_dict[tableName]["Reference Dictionary"]
-#		udsEngine.current_table_ref = table_ref
-#
+#		udsEngine.current_table_name = "Characters"
 #		_ready()
 #		hide_all_popups()
 #		udsEngine.update_dictionaries()
 #		reload_buttons()
-#		table_list.get_child(0)._on_TextureButton_button_up()
 #
+#		table_list.get_child(0)._on_TextureButton_button_up()
 #	else:
 #		udsEngine.queue_free()
 #		hide_all_popups()
@@ -209,22 +198,18 @@ func _ready():
 #				new_field.labelNode.set_text(i)
 #				new_field.inputNode.set_pressed(node_value)
 #				new_field.table_name = udsEngine.current_table_name
-#				new_field.table_ref = table_ref
-##
 #			"TYPE_INT": #INT
 #				var new_field : Node = add_input_field(parent_container, input_intNumberCounter)
 #				new_field.set_name(i)
 #				new_field.labelNode.set_text(i)
 #				new_field.inputNode.set_text(str(node_value))
 #				new_field.table_name = udsEngine.current_table_name
-#				new_field.table_ref = table_ref
 #			"TYPE_REAL": #Float
 #				var new_field : Node = add_input_field(parent_container, input_floatNumberCounter)
 #				new_field.set_name(i)
 #				new_field.labelNode.set_text(i)
 #				new_field.inputNode.set_text(str(node_value))
 #				new_field.table_name = udsEngine.current_table_name
-#				new_field.table_ref = table_ref
 #			"TYPE_STRING": #String
 #				if node_value.length() <= 45:
 #					var new_field : Node = add_input_field(parent_container, input_singleLine)
@@ -232,14 +217,12 @@ func _ready():
 #					new_field.labelNode.set_text(i)
 #					new_field.inputNode.set_text(node_value)
 #					new_field.table_name = udsEngine.current_table_name
-#					new_field.table_ref = table_ref
 #				else:
 #					var new_field : Node = add_input_field(parent_container, input_multiLine)
 #					new_field.set_name(i)
 #					new_field.labelNode.set_text(i)
 #					new_field.inputNode.set_text(node_value)
 #					new_field.table_name = udsEngine.current_table_name
-#					new_field.table_ref = table_ref
 #			"TYPE_DROPDOWN":
 #					var new_field : Node = add_input_field(parent_container, input_dropDownMenu)
 #					new_field.set_name(i)
@@ -250,10 +233,6 @@ func _ready():
 #					var type_id = new_field.get_id(node_value)
 #					new_field.inputNode.select(type_id)
 #					new_field.table_name = udsEngine.current_table_name
-#					new_field.table_ref = table_ref
-#
-#
-#
 #
 #		index += 1
 #	if item_name != "Default":
@@ -265,7 +244,6 @@ func _ready():
 #	var input_type = current_node.type
 #	var input = dict[i]
 #	current_node.table_name = udsEngine.current_table_name
-#	current_node.table_ref = table_ref
 #	match input_type:
 #		"Text":
 #			if i == "Key":
@@ -363,19 +341,19 @@ func _ready():
 #			newbtn.get_node("Label").set_text(label) #Sets the button label (name that the user sees)
 #
 #
-##func import_data(table_loc):
-##	#Opens .json file located at table_loc, reads it, returns the data as a dictionary
-##	var curr_tbl_data : Dictionary = {}
-##	var currdata_file = File.new()
-##	if currdata_file.open(table_loc, File.READ) != OK:
-##		print(table_loc)
-##		print("Error Could not open file")
-##	else:
-##		currdata_file.open(table_loc, File.READ)
-##		var currdata_json = JSON.parse(currdata_file.get_as_text())
-##		curr_tbl_data = currdata_json.result
-##		currdata_file.close()
-##		return curr_tbl_data
+#func import_data(table_loc):
+#	#Opens .json file located at table_loc, reads it, returns the data as a dictionary
+#	var curr_tbl_data : Dictionary = {}
+#	var currdata_file = File.new()
+#	if currdata_file.open(table_loc, File.READ) != OK:
+#		print(table_loc)
+#		print("Error Could not open file")
+#	else:
+#		currdata_file.open(table_loc, File.READ)
+#		var currdata_json = JSON.parse(currdata_file.get_as_text())
+#		curr_tbl_data = currdata_json.result
+#		currdata_file.close()
+#		return curr_tbl_data
 #
 #
 #func _on_Save_button_up():
@@ -684,4 +662,3 @@ func _ready():
 #				variant = float(variant)
 #
 #	return variant
-#

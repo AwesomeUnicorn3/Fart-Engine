@@ -1,22 +1,25 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Reusable_Scenes/NewField_Input.gd" type="Script" id=1]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/ItemType_Selection.tscn" type="PackedScene" id=2]
 
 [node name="HBox1" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBox1" type="VBoxContainer" parent="."]
-margin_right = 470.0
+margin_right = 406.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Label3" type="Label" parent="VBox1"]
-margin_right = 470.0
+margin_right = 406.0
 margin_bottom = 298.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -27,7 +30,7 @@ autowrap = true
 
 [node name="LineEdit3" type="LineEdit" parent="VBox1"]
 margin_top = 302.0
-margin_right = 470.0
+margin_right = 406.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -36,30 +39,49 @@ __meta__ = {
 }
 
 [node name="VBox2" type="VBoxContainer" parent="."]
-margin_left = 474.0
-margin_right = 944.0
+margin_left = 410.0
+margin_right = 816.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="ItemType_Selection" parent="VBox2" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 470.0
+margin_right = 406.0
 margin_bottom = 600.0
-size_flags_vertical = 3
 label_text = "Field Data Type"
-main_tab_group = "Database_Manager"
 selection_table_name = "DataTypes"
 
-[node name="VBox3" type="VBoxContainer" parent="."]
-margin_left = 948.0
-margin_right = 1024.0
+[node name="Label" parent="VBox2/ItemType_Selection" index="0"]
+margin_right = 406.0
+text = "Field Data Type"
+
+[node name="Input" parent="VBox2/ItemType_Selection" index="1"]
+margin_right = 406.0
+items = [ "Item 0", null, false, 0, null ]
+
+[node name="Table_Selection" parent="." instance=ExtResource( 2 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 546.0
+margin_right = 816.0
 margin_bottom = 600.0
+label_text = "Table Selection"
+selection_table_name = "Table Data"
+
+[node name="VBox3" type="VBoxContainer" parent="."]
+margin_left = 820.0
+margin_right = 920.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
+size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
 
 [node name="Label3" type="Label" parent="VBox3"]
-margin_right = 76.0
+margin_right = 100.0
 margin_bottom = 298.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -70,8 +92,37 @@ autowrap = true
 
 [node name="LineEdit3" type="CheckButton" parent="VBox3"]
 margin_top = 302.0
-margin_right = 76.0
+margin_right = 100.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 pressed = true
+
+[node name="VBox4" type="VBoxContainer" parent="."]
+margin_left = 924.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+
+[node name="Label3" type="Label" parent="VBox4"]
+margin_right = 100.0
+margin_bottom = 298.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Required field?"
+align = 1
+valign = 3
+autowrap = true
+
+[node name="LineEdit3" type="CheckButton" parent="VBox4"]
+margin_top = 302.0
+margin_right = 100.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+pressed = true
+
+[editable path="VBox2/ItemType_Selection"]
