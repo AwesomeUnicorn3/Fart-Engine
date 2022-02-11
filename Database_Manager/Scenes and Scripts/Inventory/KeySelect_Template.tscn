@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Reusable_Scenes/KeySelect_Button.gd" type="Script" id=1]
+[ext_resource path="res://addons/Database_Manager/Theme and Style/main_theme.tres" type="Theme" id=2]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Inventory/KeySelect_Template.gd" type="Script" id=3]
+
+[node name="KeySelect_Template" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 75, 25 )
+theme = ExtResource( 2 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Button" parent="."]
+margin_right = 1024.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 125, 25 )
+text = "KeySelect_Template"
+
+[node name="Button1" type="Button" parent="."]
+show_behind_parent = true
+margin_top = 29.0
+margin_right = 1024.0
+margin_bottom = 79.0
+rect_min_size = Vector2( 0, 50 )
+focus_mode = 0
+size_flags_horizontal = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Input" type="Label" parent="Button1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Enter"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="button_up" from="Button1" to="Button1" method="_on_button_up"]
