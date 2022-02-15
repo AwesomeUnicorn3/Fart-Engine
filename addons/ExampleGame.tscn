@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/ExampleGame.gd" type="Script" id=1]
+[ext_resource path="res://addons/Character_Manager/Player_Template.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/Database_Manager/Theme and Style/ItemIconBackgroundPressed.png" type="Texture" id=3]
+[ext_resource path="res://addons/Database_Manager/Theme and Style/main_25.tres" type="Theme" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 513, 26 )
+
+[node name="GameRoot" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 513, 576 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 0, -4 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="StaticBody2D"]
+position = Vector2( -0.5, -11.15 )
+scale = Vector2( 10.23, 0.677001 )
+texture = ExtResource( 3 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 502, 286 )
+
+[node name="HUD" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox1" type="VBoxContainer" parent="HUD"]
+margin_top = 64.0
+margin_right = 369.0
+margin_bottom = 154.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/VBox1"]
+margin_right = 369.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Test Text"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="HUD/VBox1"]
+margin_top = 31.0
+margin_right = 369.0
+margin_bottom = 58.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Test Text"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="HUD/VBox1"]
+margin_top = 62.0
+margin_right = 369.0
+margin_bottom = 90.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Test Text"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

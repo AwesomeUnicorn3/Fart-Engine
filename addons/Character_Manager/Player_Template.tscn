@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/Database_Manager/Data/Icons/Downtown NPC.png" type="Texture" id=1]
+[ext_resource path="res://addons/Character_Manager/Player_Template.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 14, 36 )
+
+[node name="Player" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="Collision_Primary" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -36 )
+shape = SubResource( 1 )
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="FullBody" type="Sprite" parent="Body"]
+position = Vector2( 0, -57.5 )
+scale = Vector2( 1, 0.798611 )
+texture = ExtResource( 1 )
+hframes = 4
+vframes = 2
