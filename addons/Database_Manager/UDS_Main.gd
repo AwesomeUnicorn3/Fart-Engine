@@ -1,10 +1,8 @@
-extends "res://addons/Database_Manager/Scenes and Scripts/Editor_Functions.gd"
+extends DatabaseEngine
 tool
 
-#var UDSENGINE = preload("res://addons/Database_Manager/Scenes and Scripts/Editor_Functions.gd")
-
-onready var tabTemplate = preload("res://addons/Database_Manager/Scenes and Scripts/Tab_Template.tscn")
-onready var navButton = preload("res://addons/Database_Manager/Scenes and Scripts/Navigation_Button.tscn")
+onready var tabTemplate = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Tab_Template.tscn")
+onready var navButton = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
 onready var tabs = $Tabs
 onready var navigation_buttons = $HBox_1/VBox_1/Hbox_1
 

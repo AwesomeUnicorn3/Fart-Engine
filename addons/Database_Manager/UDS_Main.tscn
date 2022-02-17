@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/Database_Manager/UDS_Main.gd" type="Script" id=1]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Database Manager.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Navigation_Button.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Background.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/Database_Manager/Theme and Style/main_30.tres" type="Theme" id=5]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" type="PackedScene" id=6]
 
 [node name="UDS_Main" type="Control" groups=["UDS_Root"]]
 anchor_right = 1.0
@@ -52,15 +53,17 @@ text = "Welcome to the Awesome Unicorn Database Manager"
 align = 1
 valign = 1
 
-[node name="Version_Info" type="Label" parent="HBox_1/VBox_1"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBox_1/VBox_1"]
 margin_top = 570.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Pre-Alpha Version 0.2"
-align = 1
-valign = 1
+
+[node name="VersionLabel" parent="HBox_1/VBox_1/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1024.0
+margin_bottom = 30.0
 
 [node name="Tabs" type="Control" parent="."]
 anchor_right = 1.0
@@ -76,8 +79,6 @@ visible = false
 [connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/Characters" to="HBox_1/VBox_1/Hbox_1/Characters" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/Controls" to="HBox_1/VBox_1/Hbox_1/Controls" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/Items" to="HBox_1/VBox_1/Hbox_1/Items" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/QuestInformation" to="HBox_1/VBox_1/Hbox_1/QuestInformation" method="_on_Navigation_Button_button_up"]
 [connection signal="visibility_changed" from="Tabs/Characters" to="Tabs/Characters" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Controls" to="Tabs/Controls" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Items" to="Tabs/Items" method="_on_visibility_changed"]
-[connection signal="visibility_changed" from="Tabs/QuestInformation" to="Tabs/QuestInformation" method="_on_visibility_changed"]

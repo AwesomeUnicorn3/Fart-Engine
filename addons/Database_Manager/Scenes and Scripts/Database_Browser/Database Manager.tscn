@@ -1,14 +1,15 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Database Manager.gd" type="Script" id=1]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/TableViewer.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Background.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Reusable_Scenes/NewField_Input.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewField_Input.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/popup_newTable.gd" type="Script" id=5]
-[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Reusable_Scenes/popup_newValue.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newValue.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.gd" type="Script" id=7]
-[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Reusable_Scenes/popup_deleteKey.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/Database_Manager/Theme and Style/main_25.tres" type="Theme" id=9]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" type="PackedScene" id=10]
 
 [node name="Database_Manager" type="Control" groups=["Database", "Tab"]]
 anchor_right = 1.0
@@ -31,24 +32,24 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 1076.0
+margin_right = 1024.0
 margin_bottom = 75.0
 
 [node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_right = 992.0
+margin_right = 940.0
 margin_bottom = 75.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/CenterContainer2"]
-margin_left = 496.0
+margin_left = 470.0
 margin_top = 25.0
-margin_right = 496.0
+margin_right = 470.0
 margin_bottom = 50.0
 
 [node name="New_Table" type="Button" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 996.0
-margin_right = 1076.0
+margin_left = 944.0
+margin_right = 1024.0
 margin_bottom = 75.0
 text = "New Table"
 
@@ -124,7 +125,7 @@ text = "Delete Table"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 79.0
-margin_right = 1076.0
+margin_right = 1024.0
 margin_bottom = 521.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -150,7 +151,7 @@ size_flags_vertical = 3
 
 [node name="ScrollContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 182.0
-margin_right = 1076.0
+margin_right = 1024.0
 margin_bottom = 442.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 3
@@ -171,7 +172,7 @@ margin_bottom = 428.0
 
 [node name="CenterContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 525.0
-margin_right = 1076.0
+margin_right = 1024.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 720, 75 )
 size_flags_horizontal = 3
@@ -191,17 +192,18 @@ text = "res://addons/Database_Manager/Data/"
 
 [node name="Label4" type="Label" parent="VBoxContainer/CenterContainer"]
 margin_left = 428.0
-margin_top = 25.0
-margin_right = 602.0
-margin_bottom = 50.0
-text = "                             "
+margin_right = 524.0
+margin_bottom = 75.0
+size_flags_vertical = 1
+text = "                "
 
-[node name="Label" type="Label" parent="VBoxContainer/CenterContainer"]
-margin_left = 606.0
+[node name="VersionLabel" parent="VBoxContainer/CenterContainer" instance=ExtResource( 10 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 528.0
 margin_top = 25.0
-margin_right = 1076.0
+margin_right = 998.0
 margin_bottom = 50.0
-text = "Awesome Unicorn 3 Database Creator Version Pre-Alpha 0.1"
 
 [node name="Popups" type="ColorRect" parent="."]
 visible = false

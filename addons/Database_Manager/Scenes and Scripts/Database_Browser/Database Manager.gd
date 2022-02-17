@@ -1,10 +1,8 @@
-extends "res://addons/Database_Manager/Scenes and Scripts/Editor_Functions.gd"
+extends DatabaseEngine
 tool
 
 signal popup_confirmed
 #THIS SCRIPT SHOULD BE JUST FOR NAVIGATING AND LOADING DATA FOR THE DATABASE MANAGER TAB
-#var UDSENGINE = preload("res://addons/Database_Manager/Scenes and Scripts/Editor_Functions.gd")
-
 onready var btn_TableSelect = preload("res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Btn_TableSelect.tscn")
 onready var column = preload("res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Column.tscn")
 onready var row = preload("res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Row.tscn")

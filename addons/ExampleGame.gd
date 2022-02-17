@@ -2,14 +2,18 @@ extends Control
 
 
 func _ready():
-	var key1 = OS.get_scancode_string(udsmain.Static_Game_Dict['Controls']['jump']['Key1'])
-	var action1 = "Push " + key1 + " To Jump"
-	$HUD/VBox1/Label.set_text(str(action1))
-	
-	var key2 = OS.get_scancode_string(udsmain.Static_Game_Dict['Controls']['move_left']['Key1'])
-	var action2 = "Push " + key2 + " Move Left"
-	$HUD/VBox1/Label2.set_text(str(action2))
+	var key = OS.get_scancode_string(udsmain.Static_Game_Dict['Controls']['move_up']['Key1'])
+	var action = "Push " + key + " To Move Up"
+	$HUD/VBox1/Label.set_text(str(action))
 
-	var key3 = OS.get_scancode_string(udsmain.Static_Game_Dict['Controls']['move_right']['Key1'])
-	var action3 = "Push " + key3 + " Move Right"
-	$HUD/VBox1/Label3.set_text(str(action3))
+	key = OS.get_scancode_string(udsmain.Static_Game_Dict['Controls']['move_down']['Key1'])
+	action = "Push " + key + " To Move Down"
+	$HUD/VBox1/Label2.set_text(str(action))
+	
+	key = OS.get_scancode_string(udsmain.Static_Game_Dict['Controls']['move_left']['Key1'])
+	action = "Push " + key + " Move Left"
+	$HUD/VBox1/Label3.set_text(str(action))
+
+	key = OS.get_scancode_string(udsmain.Static_Game_Dict['Controls']['move_right']['Key1'])
+	action = "Push " + key + " Move Right"
+	$HUD/VBox1/Label4.set_text(str(action))

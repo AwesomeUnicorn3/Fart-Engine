@@ -20,14 +20,14 @@ __meta__ = {
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2( 513, 576 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 0, -4 )
-shape = SubResource( 1 )
-
 [node name="Sprite" type="Sprite" parent="StaticBody2D"]
 position = Vector2( -0.5, -11.15 )
 scale = Vector2( 10.23, 0.677001 )
 texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 6, -25 )
+shape = SubResource( 1 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 502, 286 )
@@ -46,7 +46,7 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="HUD/VBox1"]
 margin_right = 369.0
-margin_bottom = 27.0
+margin_bottom = 25.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Test Text"
@@ -58,9 +58,9 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="HUD/VBox1"]
-margin_top = 31.0
+margin_top = 29.0
 margin_right = 369.0
-margin_bottom = 58.0
+margin_bottom = 54.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Test Text"
@@ -72,9 +72,23 @@ __meta__ = {
 }
 
 [node name="Label3" type="Label" parent="HUD/VBox1"]
-margin_top = 62.0
+margin_top = 58.0
 margin_right = 369.0
-margin_bottom = 90.0
+margin_bottom = 83.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Test Text"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="HUD/VBox1"]
+margin_top = 87.0
+margin_right = 369.0
+margin_bottom = 112.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Test Text"

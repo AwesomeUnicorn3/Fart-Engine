@@ -7,7 +7,7 @@ var main_panel_instance
 	
 func _init():
 	add_autoload_singleton('udsmain', "res://addons/Database_Manager/UDS_Singleton.gd")
-	add_autoload_singleton('Quest', "res://addons/Database_Manager/Scenes and Scripts/Quest_System/Quest_Scripts.gd")
+#	add_autoload_singleton('Quest', "res://addons/Quest_Manager/Quest_Scripts.gd")
 
 	
 

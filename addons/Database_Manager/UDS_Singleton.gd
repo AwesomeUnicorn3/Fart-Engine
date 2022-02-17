@@ -1,4 +1,4 @@
-extends "res://addons/Database_Manager/Scenes and Scripts/Editor_Functions.gd"
+extends DatabaseEngine
 #SHOULD ONLY INCLUDE SCRIPT THAT I WANT ACCESSIBLE TO THE USER
 signal save_complete
 signal DbManager_loaded
