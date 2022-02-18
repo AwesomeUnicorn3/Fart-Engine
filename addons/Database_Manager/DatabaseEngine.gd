@@ -106,13 +106,22 @@ func save_all_db_files(table_name):
 	save_file(table_save_path + table_name + table_info_file_format, currentData_dict)
 
 
-func add_new_table(newTableName, keyName, keyDatatype, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown):
+func add_new_table(newTableName, keyName, keyDatatype, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown, RefName, createTab, canDelete, isDropdown, add_toSaveFile):
 	current_dict = {}
 	currentData_dict["Row"] = {}
 	currentData_dict["Column"] = {}
-	
-	add_key(keyName, keyDatatype, keyVisible, true, dropdown, true)
-	add_field(fieldName, fieldDatatype, fieldVisible, true,  dropdown, true)
+	current_table_name = newTableName
+	if isDropdown:
+		#THIS IS WHERE I WILL USE THE DROPDOWN TEMPLATE TO CREATE A NEW LIST STYLE TABLE (KEY IS NUMBER, ID, DISPLAY NAME)
+		print("create list table")
+		add_key("1", "TYPE_STRING", keyVisible, true, dropdown, true)
+		add_field("ID", "TYPE_STRING", fieldVisible, true,  dropdown, true)
+		add_field("Display Name", "TYPE_STRING", fieldVisible, true,  dropdown)
+
+
+	else:
+		add_key(keyName, keyDatatype, keyVisible, true, dropdown, true)
+		add_field(fieldName, fieldDatatype, fieldVisible, true,  dropdown, true)
 	save_all_db_files(newTableName)
 
 	#save information about new table in the Table Data file
@@ -120,10 +129,21 @@ func add_new_table(newTableName, keyName, keyDatatype, keyVisible, fieldName, fi
 	data_type = "Row"
 	update_dictionaries()
 	add_key(newTableName, keyDatatype, keyVisible, true, dropdown)
+	
+	#Input data for table list
+	if RefName == "":
+		current_dict[newTableName]["Reference Name"] = newTableName
+	else:
+		current_dict[newTableName]["Reference Name"] = RefName
+	current_dict[newTableName]["Create Tab"] = createTab
+	current_dict[newTableName]["Is Dropdown Table"] = isDropdown
+	current_dict[newTableName]["Include in Save File"] = add_toSaveFile
+	current_dict[newTableName]["Can Delete"] = true
 	save_all_db_files(current_table_name)
 
 
-func delete_table(delete_tbl_name):
+
+func Delete_Table(delete_tbl_name):
 	
 	#First delete table reference from "Table Data" file and delete the entry in the table_data main table
 	current_table_name = "Table Data"
@@ -135,9 +155,13 @@ func delete_table(delete_tbl_name):
 	#Then delete all of the files associated with the delted table
 	var dir = Directory.new()
 	var file_delete = table_save_path + delete_tbl_name + file_format
+
 	dir.remove(file_delete)
 	file_delete = table_save_path + delete_tbl_name + table_info_file_format
+
 	dir.remove(file_delete)
+	current_table_name = ""
+
 
 
 func Delete_Key(key_name):
@@ -232,15 +256,13 @@ func add_field(fieldName, datatype, showField, required_value, tblName = "empty"
 		newFeild_dict[currentKey] = newValue
 
 	currentData_dict["Column"][index] = newFeild_dict #Add new field to the column_dict
-	print(newTable)
+#	print(newTable)
 	if newTable:
 		for i in current_dict:
-			print(current_dict)
 			current_dict[i] = {fieldName : "empty"}
 	
 	else:
 		for n in current_dict: #loop through all keys and set value for this file to "empty"
-			
 			current_dict[n][fieldName] = "empty" #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE
 		save_all_db_files(current_table_name)
 		update_dictionaries()

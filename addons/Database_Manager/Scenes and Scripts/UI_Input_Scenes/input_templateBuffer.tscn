@@ -4,7 +4,9 @@
 margin_top = 68.0
 margin_right = 1024.0
 margin_bottom = 600.0
-rect_min_size = Vector2( 0, 15 )
+rect_min_size = Vector2( 0, 10 )
 size_flags_horizontal = 3
-size_flags_vertical = 3
 color = Color( 0, 0, 0, 0.215686 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

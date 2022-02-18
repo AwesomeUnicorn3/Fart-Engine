@@ -2,6 +2,7 @@ extends Control
 class_name InputEngine
 tool
 export var label_text = ""
+export var is_label_button = true
 var labelNode
 var inputNode
 var itemName = ""
@@ -53,32 +54,28 @@ func _ready():
 	for i in node_array:
 		if i.name == "Label":
 			labelNode = i
-#			print(itemName, " ", i.name)
 		elif i.name == "Input":
 			inputNode = i
-#			print(itemName, " ", i.name)
-#		else:
-#			print(itemName, " ", i.name)
 
 	if label_text == "":
 		labelNode.set_text(itemName)
 	else:
 		labelNode.set_text(label_text)
-
 	connect_signals()
-	
 	if me.has_method("startup"):
 		me.startup()
 
 	parent_node = get_main_tab(self)
+
 func label_pressed():
-	var keyName = get_main_tab(self).Item_Name
-	var fieldName = labelNode.text
-	if fieldName == "Key": 
-		OS.set_clipboard("udsmain.Static_Game_Dict['" + table_ref + "']['" + keyName + "']")
-	else:
-		OS.set_clipboard("udsmain.Static_Game_Dict['" + table_ref + "']['" + keyName + "']['" + fieldName + "']")
-	labelNode.release_focus()
+	if is_label_button:
+		var keyName = get_main_tab(self).Item_Name
+		var fieldName = labelNode.text
+		if fieldName == "Key": 
+			OS.set_clipboard("udsmain.Static_Game_Dict['" + table_ref + "']['" + keyName + "']")
+		else:
+			OS.set_clipboard("udsmain.Static_Game_Dict['" + table_ref + "']['" + keyName + "']['" + fieldName + "']")
+		labelNode.release_focus()
 
 
 func get_main_tab(par):

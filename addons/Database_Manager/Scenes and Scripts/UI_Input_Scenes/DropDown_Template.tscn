@@ -16,15 +16,19 @@ __meta__ = {
 
 [node name="Label" type="Button" parent="."]
 margin_right = 1024.0
-margin_bottom = 35.0
+margin_bottom = 288.0
 rect_min_size = Vector2( 125, 35 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "DropDown_Template"
 
 [node name="Input" type="OptionButton" parent="."]
-margin_top = 39.0
+margin_top = 292.0
 margin_right = 1024.0
-margin_bottom = 89.0
+margin_bottom = 581.0
 rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Item 0"
 align = 1
 items = [ "Item 0", null, false, 0, null ]
@@ -34,6 +38,6 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 93.0
+margin_top = 585.0
 
 [connection signal="item_selected" from="Input" to="." method="_on_Input_item_selected"]

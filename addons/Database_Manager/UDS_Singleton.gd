@@ -53,7 +53,7 @@ func _ready():
 			var name = d
 			array = name.rsplit(".")
 			var tblname = array[0]
-			var dictname = tbl_data[tblname]["Reference Dictionary"]
+			var dictname = tbl_data[tblname]["Reference Name"]
 			var main_dict = save_dict
 			dict[dictname] = import_data(dbmanData_save_path + d)
 
@@ -156,8 +156,8 @@ func new_game():
 			array = name.rsplit(".")
 			var tblname = array[0]
 			var deleteme = tbl_data[tblname]
-			var dictname = deleteme["Reference Dictionary"]
-			var dynamic = deleteme["Dynamic"]
+			var dictname = deleteme["Reference Name"]
+			var dynamic = deleteme["Include in Save File"]
 			if dynamic == true:
 				dict[dictname] = import_data(dbmanData_save_path + d)
 	Dynamic_Game_Dict = dict

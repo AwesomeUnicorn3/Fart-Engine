@@ -53,7 +53,7 @@ func _ready():
 
 func set_ref_table():
 	var tbl_ref_dict = import_data(table_save_path + "Table Data" + file_format)
-	table_ref = tbl_ref_dict[tableName]["Reference Dictionary"]
+	table_ref = tbl_ref_dict[tableName]["Reference Name"]
 	current_table_ref = table_ref
 	return table_ref
 

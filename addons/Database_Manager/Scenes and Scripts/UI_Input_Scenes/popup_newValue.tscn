@@ -43,39 +43,38 @@ margin_bottom = 132.0
 size_flags_vertical = 3
 
 [node name="VBox1" parent="PanelContainer/VBox1/HBox1" index="0"]
-margin_right = 236.0
+margin_right = 340.0
 margin_bottom = 132.0
 
 [node name="Label3" parent="PanelContainer/VBox1/HBox1/VBox1" index="0"]
-margin_right = 236.0
+margin_right = 340.0
 margin_bottom = 64.0
 
 [node name="LineEdit3" parent="PanelContainer/VBox1/HBox1/VBox1" index="1"]
 margin_top = 68.0
-margin_right = 236.0
+margin_right = 340.0
 margin_bottom = 132.0
 
 [node name="VBox2" parent="PanelContainer/VBox1/HBox1" index="1"]
-margin_left = 240.0
-margin_right = 476.0
+margin_left = 344.0
+margin_right = 684.0
 margin_bottom = 132.0
 
 [node name="ItemType_Selection" parent="PanelContainer/VBox1/HBox1/VBox2" index="0"]
-margin_right = 236.0
+margin_right = 340.0
 margin_bottom = 132.0
 
 [node name="Label" parent="PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="0"]
-margin_right = 236.0
+margin_right = 340.0
 margin_bottom = 64.0
 
 [node name="Input" parent="PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
 margin_top = 68.0
-margin_right = 236.0
+margin_right = 340.0
 margin_bottom = 132.0
 items = [ "Item 0", null, false, 0, null ]
 
 [node name="input_templateBuffer" parent="PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="2"]
-visible = false
 margin_top = 108.0
 margin_right = 236.0
 margin_bottom = 132.0
@@ -87,9 +86,6 @@ margin_bottom = 132.0
 
 [node name="Input" parent="PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
 items = [ "Item 0", null, false, 0, null ]
-
-[node name="input_templateBuffer" parent="PanelContainer/VBox1/HBox1/Table_Selection" index="2"]
-visible = false
 
 [node name="VBox3" parent="PanelContainer/VBox1/HBox1" index="3"]
 margin_left = 480.0

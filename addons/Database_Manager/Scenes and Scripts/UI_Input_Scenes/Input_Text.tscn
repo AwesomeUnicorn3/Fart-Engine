@@ -15,16 +15,19 @@ __meta__ = {
 
 [node name="Label" type="Button" parent="."]
 margin_right = 1024.0
-margin_bottom = 30.0
+margin_bottom = 291.0
 rect_min_size = Vector2( 125, 25 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 text = "Input_Text"
 
 [node name="Input" type="LineEdit" parent="."]
-margin_top = 34.0
+margin_top = 295.0
 margin_right = 1024.0
-margin_bottom = 74.0
-rect_min_size = Vector2( 75, 25 )
+margin_bottom = 586.0
+rect_min_size = Vector2( 75, 50 )
 size_flags_horizontal = 3
+size_flags_vertical = 3
 align = 1
 max_length = 45
 placeholder_text = "Enter Value As Text"
@@ -35,4 +38,4 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 78.0
+margin_top = 590.0

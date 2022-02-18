@@ -158,26 +158,30 @@ size_flags_horizontal = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1"]
 margin_right = 413.0
-margin_bottom = 93.0
+margin_bottom = 98.0
 size_flags_horizontal = 3
 
 [node name="Key" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 413.0
-margin_bottom = 93.0
+margin_bottom = 98.0
 label_text = "Key"
 
 [node name="Label" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key" index="0"]
 margin_right = 413.0
+margin_bottom = 30.0
 text = "Key"
 
 [node name="Input" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key" index="1"]
+margin_top = 34.0
 margin_right = 413.0
+margin_bottom = 84.0
 
 [node name="input_templateBuffer" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key" index="2"]
+margin_top = 88.0
 margin_right = 413.0
-margin_bottom = 93.0
+margin_bottom = 98.0
 
 [node name="Panel" type="Panel" parent="VBox1/HBox2/Panel1/VBox1/HBox1"]
 modulate = Color( 0, 0, 0, 1 )
@@ -293,8 +297,8 @@ alignment = 1
 [node name="VersionLabel" parent="VBox1/Hbox3" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 277.0
-margin_right = 747.0
+margin_left = 267.0
+margin_right = 757.0
 margin_bottom = 25.0
 
 [node name="Popups" type="ColorRect" parent="."]

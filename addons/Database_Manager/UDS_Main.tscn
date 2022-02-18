@@ -34,21 +34,29 @@ margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 
-[node name="Hbox_1" type="HBoxContainer" parent="HBox_1/VBox_1"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBox_1/VBox_1"]
 margin_right = 1024.0
+margin_bottom = 87.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_vertical_enabled = false
+
+[node name="Hbox_1" type="HBoxContainer" parent="HBox_1/VBox_1/ScrollContainer"]
+margin_right = 1627.0
 margin_bottom = 75.0
 
-[node name="Database" parent="HBox_1/VBox_1/Hbox_1" groups=["Database"] instance=ExtResource( 3 )]
+[node name="Database" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"] instance=ExtResource( 3 )]
 margin_right = 150.0
 margin_bottom = 75.0
 text = "Database"
 
 [node name="Welcome_Label" type="Label" parent="HBox_1/VBox_1"]
-margin_top = 79.0
+margin_top = 91.0
 margin_right = 1024.0
 margin_bottom = 566.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
 text = "Welcome to the Awesome Unicorn Database Manager"
 align = 1
 valign = 1
@@ -76,9 +84,21 @@ __meta__ = {
 [node name="Database" parent="Tabs" instance=ExtResource( 2 )]
 visible = false
 
-[connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/Characters" to="HBox_1/VBox_1/Hbox_1/Characters" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/Controls" to="HBox_1/VBox_1/Hbox_1/Controls" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/Hbox_1/Items" to="HBox_1/VBox_1/Hbox_1/Items" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Classes" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Classes" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Formation" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Formation" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Control Categories" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Control Categories" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/DataTypes" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/DataTypes" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Field_Pref_Values" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Field_Pref_Values" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Item_Type" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Item_Type" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" method="_on_Navigation_Button_button_up"]
+[connection signal="visibility_changed" from="Tabs/Character Classes" to="Tabs/Character Classes" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Character Formation" to="Tabs/Character Formation" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Characters" to="Tabs/Characters" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Control Categories" to="Tabs/Control Categories" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Controls" to="Tabs/Controls" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/DataTypes" to="Tabs/DataTypes" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Field_Pref_Values" to="Tabs/Field_Pref_Values" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Item_Type" to="Tabs/Item_Type" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Items" to="Tabs/Items" method="_on_visibility_changed"]

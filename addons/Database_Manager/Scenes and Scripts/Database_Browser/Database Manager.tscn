@@ -4,7 +4,7 @@
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/TableViewer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewField_Input.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/popup_newTable.gd" type="Script" id=5]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newValue.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.gd" type="Script" id=7]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" type="PackedScene" id=8]
@@ -145,7 +145,7 @@ __meta__ = {
 
 [node name="Table_Buttons" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/ScrollContainer"]
 margin_right = 175.0
-margin_bottom = 1102.0
+margin_bottom = 1181.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -202,7 +202,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 528.0
 margin_top = 25.0
-margin_right = 998.0
+margin_right = 1018.0
 margin_bottom = 50.0
 
 [node name="Popups" type="ColorRect" parent="."]
@@ -215,227 +215,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="popup_newTable" type="Popup" parent="Popups"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-rect_min_size = Vector2( 500, 250 )
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PanelContainer" type="Panel" parent="Popups/popup_newTable"]
-self_modulate = Color( 0, 0, 0, 1 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -320.5
-margin_top = -136.0
-margin_right = 320.5
-margin_bottom = 136.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBox1" type="VBoxContainer" parent="Popups/popup_newTable/PanelContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="Popups/popup_newTable/PanelContainer/VBox1"]
-margin_right = 641.0
-margin_bottom = 25.0
-size_flags_vertical = 3
-text = "Please enter a name for the new table"
-align = 1
-valign = 1
-autowrap = true
-
-[node name="LineEdit" type="LineEdit" parent="Popups/popup_newTable/PanelContainer/VBox1"]
-margin_top = 29.0
-margin_right = 641.0
-margin_bottom = 64.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBox3" parent="Popups/popup_newTable/PanelContainer/VBox1" instance=ExtResource( 4 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 68.0
-margin_right = 641.0
-margin_bottom = 172.0
-
-[node name="VBox1" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3" index="0"]
-margin_right = 318.0
-margin_bottom = 104.0
-
-[node name="Label3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox1" index="0"]
-margin_right = 318.0
-margin_bottom = 50.0
-text = "Key Name"
-
-[node name="LineEdit3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox1" index="1"]
-margin_top = 54.0
-margin_right = 318.0
-margin_bottom = 104.0
-
-[node name="VBox2" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3" index="1"]
-margin_left = 322.0
-margin_right = 641.0
-margin_bottom = 104.0
-
-[node name="ItemType_Selection" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox2" index="0"]
-margin_right = 319.0
-margin_bottom = 104.0
-
-[node name="Label" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox2/ItemType_Selection" index="0"]
-margin_right = 319.0
-margin_bottom = 50.0
-
-[node name="Input" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox2/ItemType_Selection" index="1"]
-margin_top = 54.0
-margin_right = 319.0
-margin_bottom = 104.0
-text = "True or False"
-items = [ "True or False", null, false, 0, null, "Whole Number", null, false, 1, null, "Decimal Number", null, false, 2, null, "Text", null, false, 3, null, "Dropdown List", null, false, 4, null, "Icon Display", null, false, 5, null, "Key Select", null, false, 6, null, "Sprite", null, false, 7, null, "Vector 2 or 3", null, false, 8, null ]
-
-[node name="input_templateBuffer" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox2/ItemType_Selection" index="2"]
+[node name="popup_newTable" parent="Popups" instance=ExtResource( 5 )]
 visible = false
-margin_top = 108.0
-margin_right = 319.0
-margin_bottom = 123.0
-
-[node name="Table_Selection" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3" index="2"]
-margin_left = 291.0
-margin_right = 433.0
-margin_bottom = 104.0
-
-[node name="VBox3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3" index="3"]
-visible = false
-margin_left = 437.0
-margin_right = 537.0
-margin_bottom = 104.0
-
-[node name="Label3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox3" index="0"]
-margin_bottom = 50.0
-text = "Show Key?"
-
-[node name="LineEdit3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox3" index="1"]
-margin_top = 54.0
-margin_bottom = 104.0
-
-[node name="VBox4" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3" index="4"]
-visible = false
-margin_left = 541.0
-margin_right = 641.0
-margin_bottom = 104.0
-
-[node name="Label3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox4" index="0"]
-margin_bottom = 50.0
-
-[node name="LineEdit3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox4" index="1"]
-margin_top = 54.0
-margin_bottom = 104.0
-
-[node name="HBox1" parent="Popups/popup_newTable/PanelContainer/VBox1" instance=ExtResource( 4 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 176.0
-margin_right = 641.0
-margin_bottom = 280.0
-
-[node name="VBox1" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1" index="0"]
-margin_right = 318.0
-margin_bottom = 104.0
-
-[node name="Label3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox1" index="0"]
-margin_right = 318.0
-margin_bottom = 50.0
-
-[node name="LineEdit3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox1" index="1"]
-margin_top = 54.0
-margin_right = 318.0
-margin_bottom = 104.0
-
-[node name="VBox2" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1" index="1"]
-margin_left = 322.0
-margin_right = 641.0
-margin_bottom = 104.0
-
-[node name="ItemType_Selection" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox2" index="0"]
-margin_right = 319.0
-margin_bottom = 104.0
-
-[node name="Label" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="0"]
-margin_right = 319.0
-margin_bottom = 50.0
-
-[node name="Input" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
-margin_top = 54.0
-margin_right = 319.0
-margin_bottom = 104.0
-text = "True or False"
-items = [ "True or False", null, false, 0, null, "Whole Number", null, false, 1, null, "Decimal Number", null, false, 2, null, "Text", null, false, 3, null, "Dropdown List", null, false, 4, null, "Icon Display", null, false, 5, null, "Key Select", null, false, 6, null, "Sprite", null, false, 7, null, "Vector 2 or 3", null, false, 8, null ]
-
-[node name="input_templateBuffer" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="2"]
-visible = false
-margin_top = 108.0
-margin_right = 319.0
-margin_bottom = 123.0
-
-[node name="Table_Selection" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1" index="2"]
-margin_left = 430.0
-margin_right = 641.0
-margin_bottom = 104.0
-
-[node name="VBox3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1" index="3"]
-visible = false
-margin_left = 541.0
-margin_right = 641.0
-margin_bottom = 104.0
-
-[node name="Label3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox3" index="0"]
-margin_bottom = 50.0
-
-[node name="LineEdit3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox3" index="1"]
-margin_top = 54.0
-margin_bottom = 104.0
-
-[node name="VBox4" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1" index="4"]
-visible = false
-margin_left = 541.0
-margin_right = 641.0
-margin_bottom = 104.0
-
-[node name="Label3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox4" index="0"]
-margin_bottom = 50.0
-
-[node name="LineEdit3" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox4" index="1"]
-margin_top = 54.0
-margin_bottom = 104.0
-
-[node name="HBox2" type="HBoxContainer" parent="Popups/popup_newTable/PanelContainer/VBox1"]
-margin_top = 284.0
-margin_right = 641.0
-margin_bottom = 319.0
-rect_min_size = Vector2( 0, 35 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Accept" type="Button" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox2"]
-margin_right = 318.0
-margin_bottom = 35.0
-size_flags_horizontal = 3
-text = "Accept"
-
-[node name="Cancel" type="Button" parent="Popups/popup_newTable/PanelContainer/VBox1/HBox2"]
-margin_left = 322.0
-margin_right = 641.0
-margin_bottom = 35.0
-size_flags_horizontal = 3
-text = "Cancel"
 
 [node name="popup_error" type="Popup" parent="Popups"]
 anchor_left = 0.5
@@ -571,14 +352,8 @@ margin_bottom = 58.0
 text = "True or False"
 items = [ "True or False", null, false, 0, null, "Whole Number", null, false, 1, null, "Decimal Number", null, false, 2, null, "Text", null, false, 3, null, "Dropdown List", null, false, 4, null, "Icon Display", null, false, 5, null ]
 
-[node name="input_templateBuffer" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="2"]
-visible = false
-
 [node name="Input" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
 items = [ "Item 0", null, false, 0, null ]
-
-[node name="input_templateBuffer" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/Table_Selection" index="2"]
-visible = false
 
 [node name="VBox3" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1" index="3"]
 margin_left = 424.0
@@ -759,8 +534,22 @@ margin_right = 760.0
 
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource( 8 )]
 
+[node name="Label" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="0"]
+margin_bottom = 25.0
+
 [node name="Itemlist" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="1"]
+margin_top = 29.0
+margin_bottom = 207.0
 items = [ "Nestor", null, false, "Hilda", null, false ]
+
+[node name="HBoxContainer" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="2"]
+margin_top = 211.0
+
+[node name="Accept" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
+margin_bottom = 25.0
+
+[node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
+margin_bottom = 25.0
 
 [connection signal="visibility_changed" from="." to="." method="_on_Database_Manager_visibility_changed"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer2/New_Table" to="." method="_on_New_Table_button_up"]
@@ -776,6 +565,7 @@ items = [ "Nestor", null, false, "Hilda", null, false ]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer2/Delete_Table" to="." method="_on_Delete_Table_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Table Data" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Table Data" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Character Classes" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Character Classes" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Character Formation" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Character Formation" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Characters" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Characters" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Control Categories" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Control Categories" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Controls" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Controls" method="_on_TextureButton_button_up"]
@@ -788,9 +578,6 @@ items = [ "Nestor", null, false, "Hilda", null, false ]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Options" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Options" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/QuestInformation" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/QuestInformation" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Save ID" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Save ID" method="_on_TextureButton_button_up"]
-[connection signal="visibility_changed" from="Popups/popup_newTable" to="Popups/popup_newTable" method="_on_popup_newTable_visibility_changed"]
-[connection signal="button_up" from="Popups/popup_newTable/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_new_table_Accept_button_up"]
-[connection signal="button_up" from="Popups/popup_newTable/PanelContainer/VBox1/HBox2/Cancel" to="." method="_on_newtable_Cancel_button_up"]
 [connection signal="button_up" from="Popups/popup_error/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_popup_error_confirmed"]
 [connection signal="button_up" from="Popups/popup_error/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_popupError_Cancel_button_up"]
 [connection signal="visibility_changed" from="Popups/popup_newKey1" to="Popups/popup_newKey1" method="_on_popup_newKey_visibility_changed"]
@@ -805,10 +592,6 @@ items = [ "Nestor", null, false, "Hilda", null, false ]
 [connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_DeleteKey_Cancel_button_up"]
 
 [editable path="VBoxContainer/HBoxContainer/ScrollContainer2/TableViewer"]
-[editable path="Popups/popup_newTable/PanelContainer/VBox1/HBox3"]
-[editable path="Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox2/ItemType_Selection"]
-[editable path="Popups/popup_newTable/PanelContainer/VBox1/HBox1"]
-[editable path="Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
 [editable path="Popups/popup_newKey1/PanelContainer/VBox1/HBox1"]
 [editable path="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
 [editable path="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/Table_Selection"]

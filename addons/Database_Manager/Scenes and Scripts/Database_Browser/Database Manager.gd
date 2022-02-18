@@ -27,13 +27,7 @@ onready var btn_closeTable =  $VBoxContainer/HBoxContainer2/Close_Table
 onready var lbl_tableName = $VBoxContainer/HBoxContainer2/CenterContainer2/Label
 
 onready var newTable = $Popups/popup_newTable
-onready var newTable_Name_Input = $Popups/popup_newTable/PanelContainer/VBox1/LineEdit
-onready var newTable_Key_Input = $Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox1/LineEdit3
-onready var newTable_keyDatatype_Input = $Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox2/ItemType_Selection/Input
-onready var newTable_keyShowHide_Input = $Popups/popup_newTable/PanelContainer/VBox1/HBox3/VBox3/LineEdit3
-onready var newTable_Value_Input = $Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox1/LineEdit3
-onready var newTable_feildDataType_Input = $Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Input
-onready var newTable_feildShowHide_Input = $Popups/popup_newTable/PanelContainer/VBox1/HBox1/VBox3/LineEdit3
+
 
 onready var newKey_popup = $Popups/popup_newKey
 onready var newKey_Name_Input = $Popups/popup_newKey/PanelContainer/VBox1/HBox1/VBox1/LineEdit3
@@ -54,7 +48,7 @@ var accept = false
 var delete_name
 var deleteKey
 var files
-var tbl_name = "" #Name of table that is currently selected
+#var tbl_name = "" #Name of table that is currently selected
 
 var horizontal
 var vertical
@@ -81,8 +75,8 @@ func _on_Database_Manager_visibility_changed():
 	if visible:
 		if current_table_name != "":
 			refresh_table_data(current_table_name)
-	else:
-		_on_Close_Table_button_up()
+#	else:
+#		_on_Close_Table_button_up()
 
 func _process(_delta):
 	if visible:
@@ -126,13 +120,13 @@ func refresh_table_data(name):
 	lbl_tableName.set_text(name)
 	var name_array = name.rsplit(".")
 	update_sheet(name_array[0])
-	tbl_name = name
+	current_table_name = name
 	update_dictionaries()
 	tableDisplay.visible = true
-	if tbl_name == "Table Data":
+	if current_table_name == "Table Data":
 		btn_save.visible = true
-		btn_editKey.visible = false
-		btn_editValue.visible = false
+		btn_editKey.visible = true
+		btn_editValue.visible = true
 		btn_newTable.visible = false
 		btn_deleteTable.visible = false
 		btn_newValue.visible = false
@@ -449,7 +443,7 @@ func update_sheet_RC(selected_dict):
 func _on_Row_button_up():
 	clear_frozenLines()
 	data_type = "Row"
-	tbl_name = lbl_tableName.get_text()
+	var tbl_name = lbl_tableName.get_text()
 	var name_array = tbl_name.rsplit(".")
 	tbl_name = name_array[0]
 	btn_save.visible = true
@@ -467,7 +461,7 @@ func _on_Row_button_up():
 func _on_Change_Column_Order_button_up():
 	clear_frozenLines()
 	data_type = "Column"
-	tbl_name = lbl_tableName.get_text()
+	var tbl_name = lbl_tableName.get_text()
 	var name_array = tbl_name.rsplit(".")
 	tbl_name = name_array[0]
 	btn_save.visible = true
@@ -494,11 +488,14 @@ func _on_Delete_Table_button_up():
 	yield(self, "popup_confirmed")
 	if accept == true:
 		pop_error.visible = false
-		delete_table(tbl_name)
+#		print(current_table_name)
+		delete_table(current_table_name)
 		accept = false
+		
 	else:
 		pop_error.visible = false
 		popupBkg(false)
+	
 
 
 func _on_new_key_Accept_button_up():
@@ -585,7 +582,7 @@ func _on_newValue_Cancel_button_up():
 func _on_New_Table_button_up():
 	newTable.visible = true
 	popupBkg(true)
-	newTable_Name_Input.grab_focus()
+#	newTable_Name_Input.grab_focus()
 
 
 func _on_new_table_Accept_button_up():
@@ -593,11 +590,10 @@ func _on_new_table_Accept_button_up():
 
 
 func _on_newtable_Cancel_button_up():
-	newTable_Name_Input.set_text("")
-	newTable_Key_Input.set_text("")
-	newTable_Value_Input.set_text("")
+	newTable.reset_values()
 	newTable.visible = false
 	popupBkg(false)
+#	update_dict()
 
 
 func _on_Close_Table_button_up():
@@ -605,6 +601,7 @@ func _on_Close_Table_button_up():
 	reset_buttons()
 	clear_cells()
 	lbl_tableName.set_text("")
+	current_table_name = ""
 
 
 func _on_popup_error_confirmed():
@@ -625,7 +622,7 @@ func update_dict():# input to file
 	#pulls values and saves all tables associated with selected dictionary
 # runs when save button pressed
 	
-	add_line_to_currDataDict()
+#	add_line_to_currDataDict()
 	match data_type:
 		"table":
 			update_table_values()
@@ -950,36 +947,46 @@ func add_newField():
 	#Get input values and send them to the editor functions add new value script
 	#NEED TO ADD ERROR CHECKING
 	add_field(fieldName, datatype, showField, required, dropdown)
-	_on_newValue_Cancel_button_up()
+
 	update_sheet(current_table_name)
 
 func add_table():
 	#Check for errors entered in to the form
 
-	var tableName = newTable_Name_Input.get_text()
-	var keyName = newTable_Key_Input.get_text()
-	var keyDataType = newTable_feildDataType_Input.get_parent().selectedItemName
-	var keyVisible = newTable_keyShowHide_Input.is_pressed()
-	var fieldName = newTable_Value_Input.get_text()
-	var fieldDatatype = newTable_feildDataType_Input.get_parent().selectedItemName
-	var fieldVisible = newTable_feildShowHide_Input.is_pressed()
-	var dropdown_table = $Popups/popup_newTable/PanelContainer/VBox1/HBox1/Table_Selection.selectedItemName
+	var tableName = newTable.tableName.text
+	var keyName = newTable.keyName.text
+	var keyDataType = "TYPE_STRING"
+	var keyVisible = true
+	var fieldName = newTable.fieldName.text
+	var fieldDatatype = "TYPE_STRING"
+	var fieldVisible = true
+	var dropdown_table = "empty"
+	var isDropdown = newTable.isList.pressed
+	var RefName = newTable.refName.text
+	var createTab = newTable.createTab.pressed
+	var canDelete = true
+	var add_toSaveFile = newTable.in_saveFile.pressed
 	var dup_check = tableName + file_format
 	
 	
-	if tableName == "" or keyName == "":
+	if tableName == "":
 		error = 4
+	if keyName == "":
+		if !isDropdown:
+			error = 4
 	elif files.has(dup_check):
 		error = 5
 	else:
 		error = 0
 	match error: 
 		0: #if there are no errors detected
-			add_new_table(tableName, keyName, keyDataType, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown_table)
+			add_new_table(tableName, keyName, keyDataType, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown_table, RefName, createTab, canDelete, isDropdown, add_toSaveFile )
 			_on_newtable_Cancel_button_up()
 			_on_Close_Table_button_up()
 			_ready()
 			clear_cells()
+			get_node("../..").create_tabs()
+
 		4:
 			error_display()
 		5:
@@ -988,11 +995,14 @@ func add_table():
 
 
 func delete_table(del_tbl_name):
-	delete_table(del_tbl_name)
+	Delete_Table(del_tbl_name)
 	#Clean up the display
-	_on_Close_Table_button_up()
+#	_on_Close_Table_button_up()
 	#Refresh the table list
 	_ready()
+#	update_dict()
+	_on_Close_Table_button_up()
+	get_node("../..").create_tabs()
 
 ###########Begin error checking functions ##########################
 
@@ -1046,7 +1056,7 @@ func error_check():
 
 #
 func error_display(): #NEED TO UPDATE SO IT CAN BE MOVED TO ENGINE SCRIPT
-	var popup = load("res://addons/Database_Manager/Scenes and Scripts/popup_error.tscn")
+	var popup = load("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_error.tscn")
 	var error_display = popup.instance()
 	add_child(error_display)
 	match error:

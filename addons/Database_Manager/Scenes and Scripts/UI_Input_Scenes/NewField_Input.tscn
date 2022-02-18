@@ -13,13 +13,13 @@ __meta__ = {
 }
 
 [node name="VBox1" type="VBoxContainer" parent="."]
-margin_right = 406.0
+margin_right = 510.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label3" type="Label" parent="VBox1"]
-margin_right = 406.0
+margin_right = 510.0
 margin_bottom = 298.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -30,7 +30,7 @@ autowrap = true
 
 [node name="LineEdit3" type="LineEdit" parent="VBox1"]
 margin_top = 302.0
-margin_right = 406.0
+margin_right = 510.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -39,8 +39,8 @@ __meta__ = {
 }
 
 [node name="VBox2" type="VBoxContainer" parent="."]
-margin_left = 410.0
-margin_right = 816.0
+margin_left = 514.0
+margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -48,29 +48,52 @@ size_flags_vertical = 3
 [node name="ItemType_Selection" parent="VBox2" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 406.0
+margin_right = 510.0
 margin_bottom = 600.0
 label_text = "Field Data Type"
 selection_table_name = "DataTypes"
 
 [node name="Label" parent="VBox2/ItemType_Selection" index="0"]
-margin_right = 406.0
+margin_right = 510.0
+margin_bottom = 298.0
 text = "Field Data Type"
 
 [node name="Input" parent="VBox2/ItemType_Selection" index="1"]
-margin_right = 406.0
+margin_top = 302.0
+margin_right = 510.0
+margin_bottom = 600.0
+items = [ "Item 0", null, false, 0, null ]
+
+[node name="input_templateBuffer" parent="VBox2/ItemType_Selection" index="2"]
+visible = false
+margin_right = 510.0
 
 [node name="Table_Selection" parent="." instance=ExtResource( 1 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 546.0
-margin_right = 816.0
+margin_left = 685.0
+margin_right = 1024.0
 margin_bottom = 600.0
 
+[node name="Label" parent="Table_Selection" index="0"]
+margin_right = 339.0
+margin_bottom = 298.0
+
+[node name="Input" parent="Table_Selection" index="1"]
+margin_top = 302.0
+margin_right = 339.0
+margin_bottom = 600.0
+items = [ "Item 0", null, false, 0, null ]
+
+[node name="input_templateBuffer" parent="Table_Selection" index="2"]
+visible = false
+margin_right = 339.0
+
 [node name="VBox3" type="VBoxContainer" parent="."]
-margin_left = 820.0
-margin_right = 920.0
+visible = false
+margin_left = 924.0
+margin_right = 1024.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
@@ -79,7 +102,7 @@ size_flags_stretch_ratio = 0.0
 
 [node name="Label3" type="Label" parent="VBox3"]
 margin_right = 100.0
-margin_bottom = 298.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Show field?"
@@ -96,6 +119,7 @@ size_flags_vertical = 3
 pressed = true
 
 [node name="VBox4" type="VBoxContainer" parent="."]
+visible = false
 margin_left = 924.0
 margin_right = 1024.0
 margin_bottom = 600.0
@@ -106,7 +130,7 @@ size_flags_stretch_ratio = 0.0
 
 [node name="Label3" type="Label" parent="VBox4"]
 margin_right = 100.0
-margin_bottom = 298.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Required field?"
@@ -123,3 +147,4 @@ size_flags_vertical = 3
 pressed = true
 
 [editable path="VBox2/ItemType_Selection"]
+[editable path="Table_Selection"]

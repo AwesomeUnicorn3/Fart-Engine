@@ -35,6 +35,9 @@ position = Vector2( 502, 286 )
 [node name="HUD" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="VBox1" type="VBoxContainer" parent="HUD"]
 margin_top = 64.0
@@ -98,3 +101,5 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="visibility_changed" from="." to="." method="_on_GameRoot_visibility_changed"]
