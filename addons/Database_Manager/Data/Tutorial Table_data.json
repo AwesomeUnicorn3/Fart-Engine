@@ -1,0 +1,1 @@
+{"Column":{"1":{"DataType":"TYPE_BOOL","FieldName":"Posted to TikTok","RequiredValue":true,"ShowValue":true,"TableRef":"empty"}},"Row":{"1":{"DataType":"TYPE_STRING","FieldName":"Tutorial Video1","RequiredValue":true,"ShowValue":true,"TableRef":"empty"},"2":{"DataType":"TYPE_STRING","FieldName":"Tutorial Video 2","RequiredValue":false,"ShowValue":true,"TableRef":false}}}

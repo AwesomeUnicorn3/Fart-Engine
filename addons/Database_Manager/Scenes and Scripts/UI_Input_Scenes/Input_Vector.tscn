@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/Database_Manager/Theme and Style/main_15.tres" type="Theme" id=2]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Vector.gd" type="Script" id=3]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" type="PackedScene" id=4]
 
 [node name="Input_Vector" type="VBoxContainer"]
 anchor_right = 1.0
@@ -13,45 +14,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Button" parent="."]
-margin_right = 1024.0
-margin_bottom = 116.0
-rect_min_size = Vector2( 125, 25 )
-size_flags_vertical = 3
-text = "Input_Vector"
+[node name="Label" parent="." instance=ExtResource( 4 )]
 
 [node name="Hbox1" type="HBoxContainer" parent="."]
-margin_top = 120.0
-margin_right = 1024.0
-margin_bottom = 237.0
+margin_top = 34.0
+margin_right = 1500.0
+margin_bottom = 315.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Button" type="Button" parent="Hbox1"]
-margin_right = 510.0
-margin_bottom = 117.0
+margin_right = 748.0
+margin_bottom = 281.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Vector 2"
 
 [node name="Button2" type="Button" parent="Hbox1"]
-margin_left = 514.0
-margin_right = 1024.0
-margin_bottom = 117.0
+margin_left = 752.0
+margin_right = 1500.0
+margin_bottom = 281.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Vector3"
 
 [node name="HBox2" type="HBoxContainer" parent="."]
-margin_top = 241.0
-margin_right = 1024.0
-margin_bottom = 358.0
+margin_top = 319.0
+margin_right = 1500.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="X" type="Label" parent="HBox2"]
-margin_right = 510.0
-margin_bottom = 117.0
+margin_right = 748.0
+margin_bottom = 281.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "X"
@@ -59,9 +55,9 @@ align = 1
 valign = 1
 
 [node name="Y" type="Label" parent="HBox2"]
-margin_left = 514.0
-margin_right = 1024.0
-margin_bottom = 117.0
+margin_left = 752.0
+margin_right = 1500.0
+margin_bottom = 281.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Y"
@@ -80,9 +76,9 @@ align = 1
 valign = 1
 
 [node name="HBox3" type="HBoxContainer" parent="."]
-margin_top = 362.0
-margin_right = 1024.0
-margin_bottom = 479.0
+margin_top = 604.0
+margin_right = 1500.0
+margin_bottom = 886.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -102,8 +98,8 @@ __meta__ = {
 }
 
 [node name="InputX" type="LineEdit" parent="HBox3"]
-margin_right = 510.0
-margin_bottom = 117.0
+margin_right = 748.0
+margin_bottom = 282.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 text = "0"
@@ -117,9 +113,9 @@ __meta__ = {
 }
 
 [node name="InputY" type="LineEdit" parent="HBox3"]
-margin_left = 514.0
-margin_right = 1024.0
-margin_bottom = 117.0
+margin_left = 752.0
+margin_right = 1500.0
+margin_bottom = 282.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 text = "0"
@@ -150,7 +146,9 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 483.0
+margin_top = 890.0
+margin_right = 1500.0
+margin_bottom = 900.0
 
 [connection signal="button_up" from="Hbox1/Button" to="." method="_on_Button_button_up"]
 [connection signal="button_up" from="Hbox1/Button2" to="." method="_on_Button2_button_up"]

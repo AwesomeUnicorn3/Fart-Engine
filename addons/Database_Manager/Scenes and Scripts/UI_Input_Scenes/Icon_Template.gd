@@ -10,6 +10,7 @@ tool
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	type = "IconDisplay"
+	default = "res://addons/Database_Manager/Data/Icons/Default.png"
 #	inputNode = $HBoxContainer/Input
 
 

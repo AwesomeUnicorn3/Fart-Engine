@@ -16,4 +16,4 @@ func item_selected(index):
 	match $VBox2/ItemType_Selection.get_selected_value(index):
 		"TYPE_DROPDOWN":
 			$Table_Selection.visible = true
-			print($VBox2/ItemType_Selection.get_selected_value(index))
+#			print($VBox2/ItemType_Selection.get_selected_value(index))

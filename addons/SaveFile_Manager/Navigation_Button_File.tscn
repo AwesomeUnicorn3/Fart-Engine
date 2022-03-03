@@ -1,11 +1,13 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.gd" type="Script" id=1]
+[ext_resource path="res://addons/SaveFile_Manager/Navigation_Button_File.gd" type="Script" id=1]
 
 [node name="Navigation Button" type="Button"]
-margin_right = 150.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 150, 50 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1350.0
+margin_bottom = -825.0
+rect_min_size = Vector2( 150, 75 )
 text = "Database Editor"
 script = ExtResource( 1 )
 __meta__ = {

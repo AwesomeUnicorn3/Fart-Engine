@@ -32,24 +32,24 @@ __meta__ = {
 }
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 1024.0
+margin_right = 1500.0
 margin_bottom = 75.0
 
 [node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_right = 940.0
+margin_right = 1416.0
 margin_bottom = 75.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/CenterContainer2"]
-margin_left = 470.0
+margin_left = 708.0
 margin_top = 25.0
-margin_right = 470.0
+margin_right = 708.0
 margin_bottom = 50.0
 
 [node name="New_Table" type="Button" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 944.0
-margin_right = 1024.0
+margin_left = 1420.0
+margin_right = 1500.0
 margin_bottom = 75.0
 text = "New Table"
 
@@ -125,15 +125,15 @@ text = "Delete Table"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 79.0
-margin_right = 1024.0
-margin_bottom = 521.0
+margin_right = 1500.0
+margin_bottom = 821.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = -5
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
-margin_right = 187.0
-margin_bottom = 442.0
+margin_right = 250.0
+margin_bottom = 742.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -144,15 +144,15 @@ __meta__ = {
 }
 
 [node name="Table_Buttons" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/ScrollContainer"]
-margin_right = 175.0
+margin_right = 238.0
 margin_bottom = 1181.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 182.0
-margin_right = 1024.0
-margin_bottom = 442.0
+margin_left = 245.0
+margin_right = 1500.0
+margin_bottom = 742.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -171,9 +171,9 @@ margin_right = 828.0
 margin_bottom = 428.0
 
 [node name="CenterContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 525.0
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_top = 825.0
+margin_right = 1500.0
+margin_bottom = 900.0
 rect_min_size = Vector2( 720, 75 )
 size_flags_horizontal = 3
 

@@ -53,8 +53,6 @@ anchor_bottom = 0.0
 margin_top = 102.0
 margin_right = 712.0
 margin_bottom = 200.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
 label_text = "Enter Nickname for table "
 is_label_button = false
 
@@ -63,80 +61,48 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 102.0
 margin_right = 712.0
-margin_bottom = 171.0
+margin_bottom = 180.0
 label_text = "Is Table a List?"
 is_label_button = null
-
-[node name="Hbox1" parent="PanelContainer/VBox1/List_Checkbox" index="0"]
-margin_right = 712.0
-
-[node name="Label" parent="PanelContainer/VBox1/List_Checkbox/Hbox1" index="1"]
-margin_right = 242.0
-text = "Is Table a List?"
-
-[node name="Background" parent="PanelContainer/VBox1/List_Checkbox/Hbox1" index="2"]
-margin_left = 246.0
-margin_right = 712.0
-
-[node name="input_templateBuffer" parent="PanelContainer/VBox1/List_Checkbox" index="1"]
-margin_right = 712.0
 
 [node name="Incl_inSavefile" parent="PanelContainer/VBox1" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 175.0
+margin_top = 184.0
 margin_right = 712.0
-margin_bottom = 245.0
+margin_bottom = 262.0
 label_text = "Include in Save Files?"
 is_label_button = null
-
-[node name="Hbox1" parent="PanelContainer/VBox1/Incl_inSavefile" index="0"]
-margin_right = 712.0
-
-[node name="Label" parent="PanelContainer/VBox1/Incl_inSavefile/Hbox1" index="1"]
-margin_right = 242.0
-text = "Include in Save Files?"
-
-[node name="Background" parent="PanelContainer/VBox1/Incl_inSavefile/Hbox1" index="2"]
-margin_left = 246.0
-margin_right = 712.0
-
-[node name="input_templateBuffer" parent="PanelContainer/VBox1/Incl_inSavefile" index="1"]
-margin_right = 712.0
 
 [node name="DB_Tab" parent="PanelContainer/VBox1" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 249.0
+margin_top = 266.0
 margin_right = 712.0
-margin_bottom = 318.0
+margin_bottom = 344.0
 label_text = "Create Database Tab?"
 is_label_button = null
 
 [node name="Key_Input" parent="PanelContainer/VBox1" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 322.0
+margin_top = 348.0
 margin_right = 712.0
-margin_bottom = 420.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+margin_bottom = 446.0
 label_text = "First Key Name"
 is_label_button = false
 
 [node name="Field_Input" parent="PanelContainer/VBox1" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 424.0
+margin_top = 450.0
 margin_right = 712.0
-margin_bottom = 522.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+margin_bottom = 548.0
 label_text = "First Field Name"
 is_label_button = false
 
 [node name="HBox2" type="HBoxContainer" parent="PanelContainer/VBox1"]
-margin_top = 526.0
+margin_top = 552.0
 margin_right = 712.0
 margin_bottom = 596.0
 rect_min_size = Vector2( 0, 35 )
@@ -145,14 +111,14 @@ size_flags_vertical = 3
 
 [node name="Accept" type="Button" parent="PanelContainer/VBox1/HBox2"]
 margin_right = 354.0
-margin_bottom = 70.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="PanelContainer/VBox1/HBox2"]
 margin_left = 358.0
 margin_right = 712.0
-margin_bottom = 70.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 text = "Cancel"
 
@@ -164,7 +130,3 @@ margin_bottom = 629.0
 size_flags_vertical = 1
 
 [connection signal="visibility_changed" from="." to="." method="_on_popup_newTable_visibility_changed"]
-[connection signal="toggled" from="PanelContainer/VBox1/List_Checkbox/Hbox1/Background/Input" to="." method="_on_Input_toggled"]
-
-[editable path="PanelContainer/VBox1/List_Checkbox"]
-[editable path="PanelContainer/VBox1/Incl_inSavefile"]

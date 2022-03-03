@@ -1,0 +1,10 @@
+[gd_scene format=2]
+
+[node name="Label" type="Button"]
+margin_right = 1500.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 175, 25 )
+text = "Number_Counter"
+__meta__ = {
+"_edit_use_anchors_": false
+}

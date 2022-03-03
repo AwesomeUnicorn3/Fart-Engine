@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.gd" type="Script" id=2]
 [ext_resource path="res://addons/Database_Manager/Theme and Style/main_15.tres" type="Theme" id=3]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" type="PackedScene" id=4]
 
 [node name="DropDown_Template" type="VBoxContainer"]
 anchor_right = 1.0
@@ -14,18 +15,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Button" parent="."]
-margin_right = 1024.0
-margin_bottom = 288.0
-rect_min_size = Vector2( 125, 35 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="Label" parent="." instance=ExtResource( 4 )]
 text = "DropDown_Template"
 
 [node name="Input" type="OptionButton" parent="."]
-margin_top = 292.0
-margin_right = 1024.0
-margin_bottom = 581.0
+margin_top = 34.0
+margin_right = 1500.0
+margin_bottom = 886.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -38,6 +34,8 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 585.0
+margin_top = 890.0
+margin_right = 1500.0
+margin_bottom = 900.0
 
 [connection signal="item_selected" from="Input" to="." method="_on_Input_item_selected"]

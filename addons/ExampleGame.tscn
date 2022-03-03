@@ -102,4 +102,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="visibility_changed" from="." to="." method="_on_GameRoot_visibility_changed"]
+[node name="SaveButton" type="Button" parent="HUD"]
+margin_right = 132.0
+margin_bottom = 41.0
+text = "Save"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD"]
+visible = false
+margin_left = 481.0
+margin_top = 278.0
+margin_right = 521.0
+margin_bottom = 303.0
+text = "FILE SAVED"
+
+[connection signal="button_up" from="HUD/SaveButton" to="." method="_on_SaveButton_button_up"]

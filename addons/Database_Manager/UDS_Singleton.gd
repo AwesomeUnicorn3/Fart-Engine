@@ -19,11 +19,9 @@ var id
 var save_id = 0
 var array_load_savefiles = []
 var array_load_files = []
-var save_game_path = "user://"
-var load_game_path = ""
-var dbmanData_save_path : String = "res://addons/Database_Manager/Data/"
+
 var dict_loaded = false
-var op_sys : String = ""
+
 
 func _ready():
 	op_sys = OS.get_name()
@@ -78,18 +76,13 @@ func save_global_options_data():
 		save_file.close()
 
 func save_game():
-	save_id = Dynamic_Game_Dict["SaveID"]["Save"]["ID"]
+	save_id = Dynamic_Game_Dict["SaveData"]["Save"]["ID"]
 	if int(save_id) == 0: #set save id when player loads game
 		set_save_path()
 	id = String(save_id)
 	var time = OS.get_datetime()
+	var dict_time = Dynamic_Game_Dict["SaveData"]["Time"]["ID"]
 
-	var dict_time = Dynamic_Game_Dict["Time"]["Save"]
-	dict_time["Day"] = time["day"]
-	dict_time["Month"] = time["month"]
-	dict_time["Year"] = time["year"]
-	dict_time["Hour"] = time["hour"]
-	dict_time["Minute"] = time["minute"]
 	var save_d = Dynamic_Game_Dict
 	var save_file = File.new()
 	var save_path = save_game_path + id + save_format
@@ -119,7 +112,7 @@ func set_save_path():
 	var save_path = save_game_path + id + save_format
 	var directory = Directory.new();
 	var doFileExists = directory.file_exists(save_path)
-	Dynamic_Game_Dict["SaveID"]["Save"]["ID"] = save_id
+	Dynamic_Game_Dict["SaveData"]["Save"]["ID"] = save_id
 	while doFileExists:
 		save_id = save_id + 1
 		id = String(save_id)
@@ -145,7 +138,7 @@ func load_game():
 func new_game():
 	var tbl_data = import_data("res://addons/Database_Manager/Data/Table Data.json")
 	tables_list = list_files_with_param(dbmanData_save_path, json)
-	set_var_type_table(tbl_data)
+#	set_var_type_table(tbl_data)
 	var dict = {}
 	for d in tables_list:
 		if d == "Table Data.json":
@@ -157,11 +150,16 @@ func new_game():
 			var tblname = array[0]
 			var deleteme = tbl_data[tblname]
 			var dictname = deleteme["Reference Name"]
-			var dynamic = deleteme["Include in Save File"]
+			var dynamic = convert_string_to_type(deleteme["Include in Save File"])
 			if dynamic == true:
 				dict[dictname] = import_data(dbmanData_save_path + d)
 	Dynamic_Game_Dict = dict
+	
+	#Set intital player inventory
 	set_var_type_dict(Dynamic_Game_Dict)
+	var intitial_inventory_dict = convert_string_to_type(Static_Game_Dict["Characters"][get_lead_character()]['Starting Inventory'])
+#	add_newGame_inventory(intitial_inventory_dict)
+	Dynamic_Game_Dict["SaveData"]["New Game"] = false
 
 
 class MyCustomSorter:
@@ -185,6 +183,12 @@ func edit_dict(dict, itm_nm, amt):
 		var item = Static_Game_Dict["Items"][itm_nm]
 		Dynamic_Game_Dict[dict][itm_nm] = item
 		Dynamic_Game_Dict[dict][itm_nm]["ItemCount"] += amt
+
+func get_lead_character(): #Character the player is actively controlling
+	var lead_char = udsmain.Static_Game_Dict['Character Formation']["1"]["ID"]
+	return lead_char
+
+#######BEGIN CONTROL FUNCTIONS###############################33
 
 func clear_key_bindings():
 	for h in InputMap.get_actions():
@@ -236,3 +240,47 @@ func update_key_bindings():
 							var key2object = InputEventKey.new()
 							key2object.set_scancode(key2)
 							InputMap.action_add_event(h, key2object)
+
+
+
+#BEGIN INVENTORY FUNCTIONS###############################################################################
+
+func add_newGame_inventory(itemDict : Dictionary = {}):
+	for i in itemDict:
+		add_item_to_player_inventory(i, itemDict[i])
+	udsmain.Dynamic_Game_Dict["Inventory"].erase("Default")
+
+func add_item_to_player_inventory(item_name : String, count : int = 0):
+	var added = false
+#	var dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
+	var dict_static_items = udsmain.Static_Game_Dict["Items"]
+	if dict_static_items.has(item_name):
+		if!is_item_in_inventory(item_name):
+			udsmain.Dynamic_Game_Dict["Inventory"][item_name] = {"ItemCount" : 0}
+		var inv_count = int(udsmain.Dynamic_Game_Dict["Inventory"][item_name]["ItemCount"])
+		udsmain.Dynamic_Game_Dict["Inventory"][item_name]["ItemCount"] =  inv_count + count
+		print(udsmain.Dynamic_Game_Dict["Inventory"])
+	else:
+		print(item_name, " needs to be added to Item Table")
+#	update_all_active_quests()
+
+
+func remove_inventory_item(itm_name : String, count : int = 1):
+	var dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
+	if is_item_in_inventory(itm_name) == true:
+		var itm_count = int(dict_inventory[itm_name]["ItemCount"])
+		if count > itm_count:
+			count = itm_count
+		dict_inventory[itm_name]["ItemCount"] =  itm_count - count
+#		Global.display_item_gained(itm_name, -count)
+	else:
+		count = 0
+	return count
+
+
+func is_item_in_inventory(itm_name : String):
+	var value = false
+	var dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
+	if dict_inventory.has(itm_name):
+		value = true
+	return value

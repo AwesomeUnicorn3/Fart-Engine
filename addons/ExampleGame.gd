@@ -2,6 +2,7 @@ extends Control
 
 
 func _ready():
+	udsmain.new_game()
 	var key = OS.get_scancode_string(udsmain.Static_Game_Dict['Controls']['move_up']['Key1'])
 	var action = "Push " + key + " To Move Up"
 	$HUD/VBox1/Label.set_text(str(action))
@@ -17,3 +18,16 @@ func _ready():
 	key = OS.get_scancode_string(udsmain.Static_Game_Dict['Controls']['move_right']['Key1'])
 	action = "Push " + key + " Move Right"
 	$HUD/VBox1/Label4.set_text(str(action))
+
+
+func _on_SaveButton_button_up() -> void:
+	udsmain.save_game()
+	$HUD/Label.visible = true
+	var t = Timer.new()
+	t.set_one_shot(true)
+	self.add_child(t)
+	t.set_wait_time(.5)
+	t.start()
+	yield(t, "timeout")
+	t.queue_free()
+	$HUD/Label.visible = false

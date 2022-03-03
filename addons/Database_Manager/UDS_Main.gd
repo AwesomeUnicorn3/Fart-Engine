@@ -19,22 +19,26 @@ func hide_all_tabs(): #Hides all of the modules
 func create_tabs():
 	clear_data_tabs()
 	clear_buttons()
+
 	var tables_dict = import_data(table_save_path + "Table Data.json")
-	for i in tables_dict:
+	var table_data = import_data(table_save_path + "Table Data_data.json")
+	for i in tables_dict.size():
+		i += 1
+		i = str(i)
+		i = table_data["Row"][i]["FieldName"]
 		var create_tab = convert_string_to_type(tables_dict[i]["Create Tab"])
+#		print(i, " ", create_tab)
 		if create_tab:
 			#Create button for tab
 			var newbtn = navButton.instance()
 			newbtn.name = i
 			newbtn.set_text(i)
 			navigation_buttons.add_child(newbtn)
-			
+
 			#Create tab datainput node
-			
 			var newtab = tabTemplate.instance()
 			newtab.tableName = i
 			newtab.name = i
-			
 			tabs.add_child(newtab)
 			newtab.get_node("VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key").table_ref = newtab.set_ref_table()
 			newtab.visible = false

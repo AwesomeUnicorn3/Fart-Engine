@@ -3,6 +3,24 @@ class_name DatabaseEngine
 tool
 
 
+onready var input_singleLine = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn")
+onready var input_multiLine = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text_Multiline.tscn")
+onready var input_checkBox = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn")
+onready var input_intNumberCounter = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn")
+onready var input_floatNumberCounter = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn")
+onready var input_dropDownMenu = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn")
+onready var input_iconDisplay = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.tscn")
+onready var input_keySelection = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect_Template.tscn")
+onready var input_spriteDisplay = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.tscn")
+onready var input_vector = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Vector.tscn")
+onready var input_dictionary = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dictionary.tscn")
+
+
+
+
+var load_game_path = ""
+var dbmanData_save_path : String = "res://addons/Database_Manager/Data/"
+var op_sys : String = ""
 var save_format = ".sav"
 var table_save_path = "res://addons/Database_Manager/Data/"
 var file_format = ".json"
@@ -10,10 +28,12 @@ var table_info_file_format = "_data.json"
 var icon_folder = "res://addons/Database_Manager/Data/Icons"
 var currentData_dict = {}
 var current_dict = {} #Currently selected table values Dictionary
-
+var save_game_path = "user://"
 var data_type : String
 var current_table_name = ""
 var current_table_ref = ""
+var table_ref = ""
+var Item_Name = ""
 
 func refresh_editor():
 	var editorNew = EditorPlugin.new()
@@ -326,7 +346,7 @@ func add_line_to_currDataDict():
 		if !dict.has("TableRef"):
 			currentData_dict["Row"][i]["TableRef"] = "empty"
 
-
+#----------------------------------------------------------------------------- Need to sort functions below
 func to_bool(value):
 	var found_match = false
 	#changes datatype from string value to bool (Not case specific, only works with yes,no,true, and false)
@@ -369,6 +389,10 @@ func convert_string_to_type(variant, datatype = ""):
 				found_match = true
 			TYPE_VECTOR2:
 				found_match = true
+			TYPE_DICTIONARY:
+				found_match = true
+			TYPE_ARRAY:
+				found_match = true
 
 		if !found_match:
 			print("No Match found for ", variant)
@@ -386,7 +410,12 @@ func convert_string_to_type(variant, datatype = ""):
 			"TYPE_ICON":
 				variant = str(variant)
 			"TYPE_VECTOR2":
+				variant = convert_string_to_Vector(str(variant))
+			"TYPE_VECTOR3":
 				variant = convert_string_to_Vector(variant)
+			"TYPE_DICTIONARY":
+				variant = string_to_dictionary(str(variant))
+#				print(variant)
 	return variant
 
 
@@ -459,4 +488,319 @@ func set_var_type_table(dict : Dictionary):
 					pass
 				TYPE_NIL:
 					pass
+
+
+func string_to_dictionary(value : String):
+#	print(value)
+#	print(typeof(value))
+
+#	print(str2var(value))
+#	print(typeof(str2var(value)))
+	var dict_value : Dictionary = {}
+#	if typeof(str2var(value)) == 4:
+#		print(value)
+#		var dict = "{"+ value + "}"
+#		dict = str2var(dict)
+##		print(dict.result)
+##		var dict_temp = to_json(dict.result)
+#		dict_value = dict
+##		print(dict_value)
+#	else:
+#	print(value)
+	dict_value = str2var(value)
+#		print(dict_value)
+#	var dict = {}
+#	var dict2 = {}
+#	var dict3 = {}
+#	var key
+#
+#
+#	value = value.trim_prefix("{")
+#	value = value.trim_suffix("}")
+#	key = convert_string_to_type(value.left(value.find(":")))
+#
+#
+#	if value.find("{") == -1:
+#		dict = value.split(",")
+#		if dict.size() > 1:
+#			for i in dict.size():
+#				dict2 = {}
+#				dict2 = dict[i].split(":")
+#				dict3[convert_string_to_type(dict2[0])] = convert_string_to_type(dict2[1])
+#			dict_value = {key : dict3}
+##			print(dict_value)
+#		else:
+#			dict2 = value.split(":")
+#			dict3 = convert_string_to_type(dict2[1])
+#			dict_value = {key:dict3}
+##			print(dict_value)
+#
+#	else:
+#		var split = value.split("{")
+#		var value2 = split[1]
+#		value2 = split[1].trim_prefix("{")
+#		value2 = split[1].trim_prefix(" ")
+#		value2 = split[1].trim_suffix("}")
+#		value2 = convert_string_to_type(value2, "TYPE_DICTIONARY")
+#		dict_value[key] = value2[value2.keys()[0]]
+#	print(dict_value)
+	return dict_value
+
+
+func add_input_field(par: Node, nodeName):
+	var new_node = nodeName.instance()
+	par.add_child(new_node)
+	return new_node
+
+func add_input_node(index, index_half, i, dict, container1, container2 = null, node_value = "", node_type = "", tableName = ""):
+	var parent_container = container1
+	if container2 != null:
+		if index_half < index:
+			parent_container = container2
+	if str(node_value) == "":
+		node_value =  convert_string_to_type(dict[i]["Value"], dict[i]["DataType"])
+	if str(node_type) == "":
+		node_type = dict[i]["DataType"]
+	var new_field : Node
+	match node_type: #Match variant type and then determine which input field to use (check box, long text, short text, number count etc)
+		"TYPE_BOOL": #Bool
+
+			new_field = add_input_field(parent_container, input_checkBox)
+			new_field.set_name(i)
+			new_field.labelNode.set_text(i)
+			if str(node_value) == "Default":
+				node_value = new_field.default
+			new_field.inputNode.set_pressed(node_value)
+			new_field.table_name = current_table_name
+			new_field.table_ref = table_ref
+		"TYPE_INT": #INT
+
+			new_field = add_input_field(parent_container, input_intNumberCounter)
+			new_field.set_name(i)
+			new_field.labelNode.set_text(i)
+			if str(node_value) == "Default":
+				node_value = new_field.default
+			new_field.inputNode.set_text(str(node_value))
+			new_field.table_name = current_table_name
+			new_field.table_ref = table_ref
+		"TYPE_REAL": #Float
+
+			new_field = add_input_field(parent_container, input_floatNumberCounter)
+			new_field.set_name(i)
+			new_field.labelNode.set_text(i)
+			if str(node_value) == "Default":
+				node_value = new_field.default
+			new_field.inputNode.set_text(str(node_value))
+			new_field.table_name = current_table_name
+			new_field.table_ref = table_ref
+		"TYPE_STRING": #String
+			if node_value.length() <= 45:
+				new_field  = add_input_field(parent_container, input_singleLine)
+				new_field.set_name(i)
+				new_field.labelNode.set_text(i)
+				if str(node_value) == "Default":
+					node_value = new_field.default
+				new_field.inputNode.set_text(node_value)
+				new_field.table_name = current_table_name
+				new_field.table_ref = table_ref
+			else:
+				new_field  = add_input_field(parent_container, input_multiLine)
+				new_field.set_name(i)
+				new_field.labelNode.set_text(i)
+				if str(node_value) == "Default":
+					node_value = new_field.default
+				new_field.inputNode.set_text(node_value)
+				new_field.table_name = current_table_name
+				new_field.table_ref = table_ref
+		"TYPE_DROPDOWN":
+
+				
+			new_field = add_input_field(parent_container, input_dropDownMenu)
+#			print(tableName)
+			if tableName == "":
+				new_field.selection_table_name = dict[i]["TableRef"]
+			else:
+				new_field.selection_table_name = tableName
+			new_field.set_name(i)
+			new_field.label_text = i
+			new_field.labelNode.set_text(i)
+
+			new_field.populate_list()
+			if str(node_value) == "Default":
+				node_value = new_field.default
+			var type_id = new_field.get_id(str(node_value))
+
+			new_field.inputNode.select(type_id)
+			var itemSelected = new_field._on_Input_item_selected(type_id)
+#			print(itemSelected)
+			new_field.table_name = current_table_name
+			new_field.table_ref = table_ref
+
+		"TYPE_ICON":
+
+			new_field = add_input_field(parent_container, input_iconDisplay)
+			if str(node_value) == "Default":
+				node_value = new_field.default
+			var texture_path = node_value
+			new_field.set_name(i)
+			new_field.labelNode.set_text(i)
+#				new_field.inputNode.set_text(str(node_value))
+			if texture_path == "empty":
+				texture_path = "res://addons/Database_Manager/Data/Icons/Default.png"
+			new_field.inputNode.set_normal_texture(load(str(texture_path)))
+			new_field.table_name = current_table_name
+			new_field.table_ref = table_ref
+		
+		"TYPE_KEYSELECT":
+
+			new_field = add_input_field(parent_container, input_keySelection)
+			new_field.set_name(i)
+			if str(node_value) == "Default":
+				node_value = new_field.default
+			var key = OS.get_scancode_string(int(node_value))
+			new_field.labelNode.set_text(i)
+			new_field.inputNode.set_text(key)
+			new_field.table_name = current_table_name
+			new_field.table_ref = table_ref
+		
+		'TYPE_SPRITEDISPLAY':
+			new_field = add_input_field(parent_container, input_spriteDisplay)
+			var sprite_data = []
+			if str(node_value) == "Default":
+				node_value = new_field.default[0]
+				sprite_data = new_field.default
+			var texture_path = node_value
+			var frameVector : Vector2
+			new_field.set_name(i)
+			new_field.labelNode.set_text(i)
+#			print(current_dict[Item_Name][i])
+#			if current_dict[Item_Name][i] == {}:
+#				sprite_data = str2var(new_field.default)
+#				frameVector = sprite_data[1]
+#			else:
+			if sprite_data == []:
+				sprite_data = current_dict[Item_Name][i]
+#			print(sprite_data)
+			frameVector = convert_string_to_type(sprite_data[1], "TYPE_VECTOR2")
+
+			var sprite_path = sprite_data[0]
+			new_field.get_node("HBox1/VBox1/VBox1/VInput").set_text(str(frameVector.x))
+			new_field.get_node("HBox1/VBox1/VBox1/HInput").set_text(str(frameVector.y))
+#			if sprite_path == "empty":
+#				sprite_path = "res://addons/Database_Manager/Data/Icons/Default.png"
+			new_field.inputNode.set_normal_texture(load(str(sprite_path)))
+			new_field.table_name = current_table_name
+			new_field.table_ref = table_ref
+			
+		"TYPE_VECTOR": 
+			new_field = add_input_field(parent_container, input_vector)
+			new_field.set_name(i)
+			new_field.labelNode.set_text(i)
+			if str(node_value) == "Default":
+				node_value = new_field.default
+			new_field.inputNode.set_text(node_value)
+			new_field.table_name = current_table_name
+			new_field.table_ref = table_ref
+			new_field.get_inputValue()
+		
+		"TYPE_DICTIONARY":
+			new_field = add_input_field(parent_container, input_dictionary)
+			new_field.set_name(i)
+			new_field.labelNode.set_text(i)
+			if str(node_value) == "Default":
+				node_value = convert_string_to_type(new_field.default)
+			if typeof(node_value) == TYPE_STRING:
+				node_value = str2var(node_value)
+			new_field.main_dictionary = node_value
+			new_field.inputNode.set_text(str(node_value))
+			new_field.table_name = current_table_name
+			new_field.table_ref = table_ref
+#			new_field.create_input_fields()
+	return new_field
+
+
+func update_match(current_node, i = ""):
+	
+	var input_type = current_node.type
+	var input = current_node.inputNode
+	var returnValue
+	match input_type:
+		"Text":
+			if i == "Key":
+				update_item_name(Item_Name, input.text)
+			else:
+				if i != "":
+					current_dict[Item_Name][i] = input.text
+				returnValue = input.text
+		"Dropdown List":
+#			print(current_node.selectedItemName)
+			if i != "":
+				current_dict[Item_Name][i] = current_node.selectedItemName
+#			print(current_node.selectedItemName)
+			returnValue = current_node.selectedItemName
+		"Number Counter":
+			if i != "":
+				current_dict[Item_Name][i] = input.text
+			returnValue = input.text
+		"Multiline Text":
+			if i != "":
+				current_dict[Item_Name][i] = input.text
+			returnValue = input.text
+		"Checkbox":
+			if i != "":
+				current_dict[Item_Name][i] = input.pressed
+			returnValue = input.pressed
+		"IconDisplay":
+			if i != "":
+				current_dict[Item_Name][i] = input.get_normal_texture().get_path()
+			returnValue = input.get_normal_texture().get_path()
+		'SpriteDisplay':
+			
+			var vframe = current_node.get_node("HBox1/VBox1/VBox1/VInput").get_text()
+			var hframe = current_node.get_node("HBox1/VBox1/VBox1/HInput").get_text()
+			var frames = Vector2(vframe,hframe)
+			var sprite_data = [input.get_normal_texture().get_path() , str(frames)]
+			if i != "":
+				current_dict[Item_Name][i] = sprite_data
+			returnValue = var2str(sprite_data)
+		"Vector":
+			if i != "":
+				current_dict[Item_Name][i] = input.text
+			returnValue = input.text
+		"Dictionary":
+			if i != "":
+				current_dict[Item_Name][i] = input.text  #var2str(current_node.main_dictionary)
+			returnValue = var2str(current_node.main_dictionary)
+
+	return returnValue
+
+func update_item_name(old_name : String, new_name : String = ""):
+	if old_name != new_name: #if changes are made to item name
+		if !does_key_exist(new_name):
+			var item_name_dict = currentData_dict["Row"]
+			for i in item_name_dict: #loop through item_row table until it finds the key number for the item
+				if item_name_dict[i]["FieldName"] == old_name:
+					currentData_dict["Row"][i]["FieldName"] = new_name #Replace old value with new value
+					break
+			
+			var old_key_entry : Dictionary = current_dict[Item_Name].duplicate(true) #Create copy of item values
+			current_dict.erase(Item_Name) #Erase old item entry
+			current_dict[new_name] = old_key_entry #add new item entry
+			Item_Name = new_name #Update script variable with correct item name
+
+#			reload_buttons()
+#			refresh_data(new_name)
+		else:
+			print("Duplicate key exists in table DATA WAS NOT UPDATED")
+
+func does_key_exist(key):
+	var value = false
+	#Iterate through table values and compare to key if values are the same, return error
+	for i in current_dict:
+		if i == key:
+			value = true
+			print("Item already exists!")
+			break
+	return value
+
 

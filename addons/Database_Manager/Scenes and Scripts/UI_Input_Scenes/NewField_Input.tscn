@@ -13,14 +13,14 @@ __meta__ = {
 }
 
 [node name="VBox1" type="VBoxContainer" parent="."]
-margin_right = 510.0
-margin_bottom = 600.0
+margin_right = 748.0
+margin_bottom = 900.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label3" type="Label" parent="VBox1"]
-margin_right = 510.0
-margin_bottom = 298.0
+margin_right = 748.0
+margin_bottom = 448.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Field Name"
@@ -29,9 +29,9 @@ valign = 1
 autowrap = true
 
 [node name="LineEdit3" type="LineEdit" parent="VBox1"]
-margin_top = 302.0
-margin_right = 510.0
-margin_bottom = 600.0
+margin_top = 452.0
+margin_right = 748.0
+margin_bottom = 900.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -39,29 +39,29 @@ __meta__ = {
 }
 
 [node name="VBox2" type="VBoxContainer" parent="."]
-margin_left = 514.0
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_left = 752.0
+margin_right = 1500.0
+margin_bottom = 900.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ItemType_Selection" parent="VBox2" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 510.0
-margin_bottom = 600.0
+margin_right = 748.0
+margin_bottom = 900.0
 label_text = "Field Data Type"
 selection_table_name = "DataTypes"
 
 [node name="Label" parent="VBox2/ItemType_Selection" index="0"]
-margin_right = 510.0
-margin_bottom = 298.0
+margin_right = 748.0
+margin_bottom = 448.0
 text = "Field Data Type"
 
 [node name="Input" parent="VBox2/ItemType_Selection" index="1"]
-margin_top = 302.0
-margin_right = 510.0
-margin_bottom = 600.0
+margin_top = 452.0
+margin_right = 748.0
+margin_bottom = 900.0
 items = [ "Item 0", null, false, 0, null ]
 
 [node name="input_templateBuffer" parent="VBox2/ItemType_Selection" index="2"]

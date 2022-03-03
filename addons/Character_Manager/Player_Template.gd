@@ -1,18 +1,10 @@
 extends Character
 
-#_____Variables for animation__________________________________________
-#onready var animationPlayer = $AnimationPlayer
-#onready var animationTree = $AnimationTree
-#onready var animationState = animationTree.get("parameters/playback")
 onready var characterBody = $Body/FullBody
 var state = "IDLE"
 
-#func _ready() -> void:
-
-#	animationTree.set_active(true)
 
 func _physics_process(delta: float) -> void:
-	
 	if velocity == Vector2.ZERO:
 		state = "IDLE"
 		#set animation speed
@@ -45,19 +37,17 @@ func state_machine():
 
 
 func set_character_sprite(sprite_field_name):
-	
 	var sprite_texture_info = udsmain.Static_Game_Dict['Characters'][activeCharacterName][sprite_field_name]
 	if characterSprite != sprite_texture_info:
 #		print(characterSprite, " ", sprite_field_name)
 		characterSprite = udsmain.Static_Game_Dict['Characters'][activeCharacterName][sprite_field_name] #udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Walk Sprite']
-		
 		var frameVector : Vector2 = udsmain.convert_string_to_Vector(characterSprite[1])
 		var spriteMap = load(characterSprite[0])
-	
+
 			#SET COLLISION SHAPE = TO SPRITE SIZE
 		var sprite_size = Vector2(spriteMap.get_size().x/frameVector.y,spriteMap.get_size().y/frameVector.x)
 		$Collision_Primary.shape.set_extents(Vector2(sprite_size.x / 2, sprite_size.y / 2))
-		
+
 		#CREATE ANIMATION BASED ON THE NUMBER OF FRAMES
 		var total_frames = frameVector.x * frameVector.y
 		var spriteFrame = SpriteFrames.new()

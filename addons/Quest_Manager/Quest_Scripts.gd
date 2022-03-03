@@ -64,24 +64,6 @@ func issue_reward(quest_number, objective_number):
 		print("item needs to be added to list")
 
 
-func add_item_to_player_inventory(item_name : String, count : int = 1):
-	dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
-	var reward_value = count
-	var reward_item = item_name
-	dict_static_items = udsmain.Static_Game_Dict["Items"]
-	if dict_static_items.has(reward_item):
-		if!dict_inventory.has(reward_item):
-			dict_inventory[reward_item] = {"ItemCount" : 0}
-		var inv_count = int(dict_inventory[reward_item]["ItemCount"])
-		dict_inventory[reward_item]["ItemCount"] =  inv_count + reward_value
-#		Global.display_item_gained(reward_item, reward_value)
-	else:
-		print("item needs to be added to list")
-
-#	Global.update_currency()
-	update_all_active_quests()
-#	Signal.emit_signal("is_quest_complete_or_active")
-
 func activate_quest(quest_number, inactive : bool = false):
 	quest_number = str(quest_number)
 	dict_PlayerQuestData = udsmain.Dynamic_Game_Dict["PlayerQuestData"]
@@ -144,7 +126,6 @@ func is_reward_recieved(quest_number):
 	return complete
 
 func set_objective_complete(quest_number, objective_number, giveReward : bool = true):
-	
 	quest_number = str(quest_number)
 	if !is_quest_active(quest_number):
 		activate_quest(quest_number)
@@ -166,7 +147,7 @@ func set_objective_complete(quest_number, objective_number, giveReward : bool = 
 	if complete == true:
 		set_quest_complete(quest_number)
 #	Signal.emit_signal("is_quest_complete_or_active")
-				
+
 func get_quest_objective_total(quest_number):
 	dict_quest = udsmain.Static_Game_Dict["Quest"]
 	quest_number = str(quest_number)
@@ -236,7 +217,7 @@ func update_quest_objctive(quest_number, objective_number, value):
 					curr_count += value
 					dict_PlayerQuestData[i]["Objective_item_" + str(objective_number) + "_count"] = curr_count
 #					print(dict_PlayerQuestData[i]["Objective_item_" + str(objective_number) + "_count"])
-			
+
 
 func set_quest_complete(quest_number):
 	quest_number = str(quest_number)
@@ -248,25 +229,6 @@ func set_quest_complete(quest_number):
 				dict_PlayerQuestData[i]["Active"] = false
 				dict_PlayerQuestData[i]["Complete"] = true
 
-func is_item_in_inventory(itm_name : String):
-	var value = false
-	dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
-	if dict_inventory.has(itm_name):
-		if int(dict_inventory[itm_name]["ItemCount"]) > 0:
-			value = true
-	return value
-
-func remove_inventory_item(itm_name : String, count : int = 1):
-	dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
-	if is_item_in_inventory(itm_name) == true:
-		var itm_count = int(dict_inventory[itm_name]["ItemCount"])
-		if count > itm_count:
-			count = itm_count
-		dict_inventory[itm_name]["ItemCount"] =  itm_count - count
-#		Global.display_item_gained(itm_name, -count)
-	else:
-		count = 0
-	return count
 
 func is_quest_active(quest_number):
 	var quest_status = false
@@ -283,6 +245,42 @@ func get_player_character():
 	return curr_char
 
 
+##BEGIN INVENTORY FUNCTIONS###############################################################################
+#
+#
+#func add_item_to_player_inventory(item_name : String, count : int = 0):
+#	var added = false
+#	dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
+#	dict_static_items = udsmain.Static_Game_Dict["Items"]
+#	if dict_static_items.has(item_name):
+#		if!is_item_in_inventory(item_name):
+#			dict_inventory[item_name] = {"ItemCount" : 0}
+#		var inv_count = int(dict_inventory[item_name]["ItemCount"])
+#		dict_inventory[item_name]["ItemCount"] =  inv_count + count
+#	else:
+#		print(item_name, " needs to be added to Item Table")
+##	update_all_active_quests()
+#
+#
+#func remove_inventory_item(itm_name : String, count : int = 1):
+#	dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
+#	if is_item_in_inventory(itm_name) == true:
+#		var itm_count = int(dict_inventory[itm_name]["ItemCount"])
+#		if count > itm_count:
+#			count = itm_count
+#		dict_inventory[itm_name]["ItemCount"] =  itm_count - count
+##		Global.display_item_gained(itm_name, -count)
+#	else:
+#		count = 0
+#	return count
+#
+#
+#func is_item_in_inventory(itm_name : String):
+#	var value = false
+#	dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
+#	if dict_inventory.has(itm_name):
+#		value = true
+#	return value
 
 #func display_item_gained(item_name : String, amount : int):
 #
