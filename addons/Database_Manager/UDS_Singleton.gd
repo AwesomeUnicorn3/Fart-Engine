@@ -281,14 +281,14 @@ func get_lead_character(): #Character the player is actively controlling
 
 func get_collision_shape(sprite_field_name := "Idle Sprite", character_name :String = get_lead_character()):
 #func get_character_sprite_animation(sprite_field_name := "Idle Sprite", character_name :String = get_lead_character()):
-	var sprite_texture_info = udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name]
+	var sprite_texture_info = udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name])
 	var character_sprite_array : Array
 	var character_animated_sprite : AnimatedSprite = AnimatedSprite.new()
 	var collision_shape = CollisionShape2D.new()
 #	character_animated_sprite.name = sprite_field_name
 	if character_sprite_array != sprite_texture_info:
 #		print(characterSprite, " ", sprite_field_name)
-		character_sprite_array = udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name] #udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Walk Sprite']
+		character_sprite_array = udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name]) #udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Walk Sprite']
 		var frameVector : Vector2 = udsmain.convert_string_to_Vector(character_sprite_array[1])
 		var spriteMap = load(table_save_path + icon_folder + character_sprite_array[0])
 		#SET COLLISION SHAPE = TO SPRITE SIZE

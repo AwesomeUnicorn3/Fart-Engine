@@ -13,11 +13,11 @@ func _ready() -> void:
 	if is_inside_tree():
 		sprite_animation = udsmain.create_sprite_animation()
 		var spriteFrames : SpriteFrames = SpriteFrames.new()
-		idle = udsmain.add_animation_to_animatedSprite(idle, udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][idle] ,sprite_animation, spriteFrames)
-		walk_left = udsmain.add_animation_to_animatedSprite(walk_left, udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][walk_left] ,sprite_animation, spriteFrames)
-		walk_right = udsmain.add_animation_to_animatedSprite(walk_right, udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][walk_right] ,sprite_animation, spriteFrames)
-		walk_up = udsmain.add_animation_to_animatedSprite(walk_up, udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][walk_up] ,sprite_animation, spriteFrames)
-		walk_down = udsmain.add_animation_to_animatedSprite(walk_down, udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][walk_down] ,sprite_animation, spriteFrames)
+		idle = udsmain.add_animation_to_animatedSprite(idle, udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][idle]) ,sprite_animation, spriteFrames)
+		walk_left = udsmain.add_animation_to_animatedSprite(walk_left, udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][walk_left]) ,sprite_animation, spriteFrames)
+		walk_right = udsmain.add_animation_to_animatedSprite(walk_right, udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][walk_right]) ,sprite_animation, spriteFrames)
+		walk_up = udsmain.add_animation_to_animatedSprite(walk_up, udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][walk_up]) ,sprite_animation, spriteFrames)
+		walk_down = udsmain.add_animation_to_animatedSprite(walk_down, udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][udsmain.get_lead_character()][walk_down]) ,sprite_animation, spriteFrames)
 		$Body.add_child(sprite_animation)
 
 		
