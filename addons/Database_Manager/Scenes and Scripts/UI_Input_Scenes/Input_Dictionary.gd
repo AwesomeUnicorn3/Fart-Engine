@@ -4,22 +4,26 @@ tool
 var omit_changed = true
 var main_dictionary : Dictionary = {}
 onready var input_form = load("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DictionaryInput_Form.tscn")
-var def_dict : Dictionary = {
-"1": {
-"Datatype 1": "TYPE_STRING",
-"Datatype 2": "TYPE_INT",
-"TableName 1" : "DataTypes",
-"TableName 2" : "DataTypes",
-"Value 1": "Default Value1",
-"Value 2": "1"
-}
-}
+#var def_dict : Dictionary = {
+#"1": {
+#"Datatype 1": "TYPE_STRING",
+#"Datatype 2": "TYPE_INT",
+#"TableName 1" : "DataTypes",
+#"TableName 2" : "DataTypes",
+#"Value 1": "Default Value1",
+#"Value 2": "1"
+#}
+#}
 
+func _init() -> void:
+	type = "TYPE_DICTIONARY"
+	
 
 func _ready():
-	type = "Dictionary"
-	default = var2str(def_dict)
-	inputNode.set_text(default)
+	default = var2str(default)
+#	type = "TYPE_DICTIONARY"
+#	default = var2str(default)
+#	inputNode.set_text(default)
 	
 
 func temp():

@@ -17,7 +17,7 @@ var action_control
 var main_tab 
 var label_name
 var control_dict: = {}
-
+var parent_node
 
 func _input(event):
 	main_tab = get_parent()
@@ -56,6 +56,7 @@ func _input(event):
 
 func _on_Accept_button_up():
 	main_tab.current_dict[main_tab.Item_Name][label_name] = key_scancode
+	parent_node.inputNode.get_node("Keycode").set_text(str(key_scancode))
 	main_tab.refresh_data(main_tab.Item_Name)
 	_on_Cancel_button_up()
 

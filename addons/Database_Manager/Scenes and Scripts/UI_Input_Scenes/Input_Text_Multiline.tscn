@@ -19,11 +19,13 @@ __meta__ = {
 }
 
 [node name="Label" parent="." instance=ExtResource( 4 )]
+margin_right = 900.0
+text = "Input_Text_Multiline"
 
 [node name="Input" type="TextEdit" parent="."]
 margin_top = 34.0
-margin_right = 1500.0
-margin_bottom = 891.0
+margin_right = 900.0
+margin_bottom = 591.0
 rect_min_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -36,6 +38,6 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 2 )]
-margin_top = 895.0
-margin_right = 1500.0
-margin_bottom = 905.0
+margin_top = 595.0
+margin_right = 900.0
+margin_bottom = 605.0

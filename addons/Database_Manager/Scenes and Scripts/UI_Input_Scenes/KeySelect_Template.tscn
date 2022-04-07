@@ -8,23 +8,24 @@
 [node name="KeySelect_Template" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 75, 25 )
+margin_bottom = -802.0
+rect_min_size = Vector2( 75, 50 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource( 3 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" parent="." instance=ExtResource( 4 )]
+margin_right = 900.0
+text = "KeySelect_Template"
 
 [node name="Button1" type="Button" parent="."]
 show_behind_parent = true
 margin_top = 34.0
-margin_right = 1500.0
-margin_bottom = 886.0
+margin_right = 900.0
+margin_bottom = 84.0
 rect_min_size = Vector2( 0, 50 )
 focus_mode = 0
-size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -33,17 +34,21 @@ __meta__ = {
 [node name="Input" type="Label" parent="Button1"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+size_flags_vertical = 1
 text = "Enter"
 align = 1
 valign = 1
 uppercase = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Keycode" type="Label" parent="Button1/Input"]
+visible = false
+margin_top = 68.0
+margin_right = 900.0
+margin_bottom = 98.0
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 2 )]
-margin_top = 890.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_top = 88.0
+margin_right = 900.0
+margin_bottom = 98.0
 
 [connection signal="button_up" from="Button1" to="." method="_on_button_up"]

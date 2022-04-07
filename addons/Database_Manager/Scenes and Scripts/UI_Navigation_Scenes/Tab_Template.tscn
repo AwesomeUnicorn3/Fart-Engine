@@ -16,9 +16,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 7 )
 script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Background" parent="." instance=ExtResource( 2 )]
 
@@ -30,29 +27,35 @@ __meta__ = {
 }
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
-margin_right = 1500.0
+margin_right = 900.0
 margin_bottom = 25.0
 
+[node name="RefreshData" type="Button" parent="VBox1/HBox1"]
+margin_right = 97.0
+margin_bottom = 25.0
+text = "Reset Values"
+
 [node name="Center1" type="CenterContainer" parent="VBox1/HBox1"]
-margin_right = 1139.0
+margin_left = 101.0
+margin_right = 539.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/Center1"]
-margin_left = 405.0
-margin_right = 734.0
+margin_left = 54.0
+margin_right = 383.0
 margin_bottom = 25.0
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
 [node name="SaveChanges" type="Button" parent="VBox1/HBox1"]
-margin_left = 1143.0
-margin_right = 1256.0
+margin_left = 543.0
+margin_right = 656.0
 margin_bottom = 25.0
 text = "Save Changes"
 
 [node name="Label" type="Label" parent="VBox1/HBox1"]
-margin_left = 1260.0
-margin_right = 1275.0
+margin_left = 660.0
+margin_right = 675.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 15, 0 )
 
@@ -71,20 +74,20 @@ margin_bottom = 25.0
 rect_min_size = Vector2( 15, 0 )
 
 [node name="AddNewItem" type="Button" parent="VBox1/HBox1"]
-margin_left = 1279.0
-margin_right = 1388.0
+margin_left = 679.0
+margin_right = 788.0
 margin_bottom = 25.0
 text = "Add New Item"
 
 [node name="Label3" type="Label" parent="VBox1/HBox1"]
-margin_left = 1392.0
-margin_right = 1407.0
+margin_left = 792.0
+margin_right = 807.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 15, 0 )
 
 [node name="DeleteSelectedItem" type="Button" parent="VBox1/HBox1"]
-margin_left = 1411.0
-margin_right = 1500.0
+margin_left = 811.0
+margin_right = 900.0
 margin_bottom = 25.0
 text = "Delete Item"
 
@@ -95,17 +98,24 @@ margin_right = 1024.0
 margin_bottom = 20.0
 text = "Cancel"
 
+[node name="Label4" type="Label" parent="VBox1/HBox1"]
+visible = false
+margin_left = 784.0
+margin_right = 799.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 15, 0 )
+
 [node name="HBox2" type="HBoxContainer" parent="VBox1"]
 margin_top = 29.0
-margin_right = 1500.0
-margin_bottom = 871.0
+margin_right = 900.0
+margin_bottom = 571.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = -5
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox2"]
-margin_right = 250.0
-margin_bottom = 842.0
+margin_right = 175.0
+margin_bottom = 542.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -116,15 +126,15 @@ __meta__ = {
 }
 
 [node name="Table_Buttons" type="VBoxContainer" parent="VBox1/HBox2/Scroll1"]
-margin_right = 250.0
-margin_bottom = 842.0
+margin_right = 175.0
+margin_bottom = 542.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel1" type="PanelContainer" parent="VBox1/HBox2"]
-margin_left = 245.0
-margin_right = 1500.0
-margin_bottom = 842.0
+margin_left = 170.0
+margin_right = 900.0
+margin_bottom = 542.0
 rect_min_size = Vector2( 120, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -132,8 +142,8 @@ size_flags_vertical = 3
 [node name="ColorRect" type="ColorRect" parent="VBox1/HBox2/Panel1"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 1248.0
-margin_bottom = 835.0
+margin_right = 723.0
+margin_bottom = 535.0
 color = Color( 0, 0, 0, 0.0823529 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -142,88 +152,88 @@ __meta__ = {
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox2/Panel1"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 1248.0
-margin_bottom = 835.0
+margin_right = 723.0
+margin_bottom = 535.0
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1/HBox2/Panel1/VBox1"]
-margin_right = 1241.0
-margin_bottom = 390.0
+margin_right = 716.0
+margin_bottom = 240.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox2/Panel1/VBox1/HBox1"]
-margin_right = 614.0
-margin_bottom = 390.0
+margin_right = 351.0
+margin_bottom = 240.0
 size_flags_horizontal = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1"]
-margin_right = 614.0
+margin_right = 351.0
 margin_bottom = 98.0
 size_flags_horizontal = 3
 
 [node name="Key" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 614.0
+margin_right = 351.0
 margin_bottom = 98.0
 label_text = "Key"
 
 [node name="Label" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key" index="0"]
-margin_right = 614.0
+margin_right = 351.0
 text = "Key"
 
 [node name="Input" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key" index="1"]
-margin_right = 614.0
+margin_right = 351.0
 margin_bottom = 84.0
 
 [node name="input_templateBuffer" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key" index="2"]
 margin_top = 88.0
-margin_right = 614.0
+margin_right = 351.0
 margin_bottom = 98.0
 
 [node name="Panel" type="Panel" parent="VBox1/HBox2/Panel1/VBox1/HBox1"]
 modulate = Color( 0, 0, 0, 1 )
-margin_left = 618.0
-margin_right = 623.0
-margin_bottom = 390.0
+margin_left = 355.0
+margin_right = 360.0
+margin_bottom = 240.0
 rect_min_size = Vector2( 5, 0 )
 
 [node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox2/Panel1/VBox1/HBox1"]
-margin_left = 627.0
-margin_right = 1241.0
-margin_bottom = 390.0
+margin_left = 364.0
+margin_right = 716.0
+margin_bottom = 240.0
 size_flags_horizontal = 3
 
 [node name="VBox2" type="VBoxContainer" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll2"]
-margin_right = 614.0
+margin_right = 352.0
 size_flags_horizontal = 3
 
 [node name="Panel" type="Panel" parent="VBox1/HBox2/Panel1/VBox1"]
 modulate = Color( 0, 0, 0, 1 )
-margin_top = 394.0
-margin_right = 1241.0
-margin_bottom = 404.0
+margin_top = 244.0
+margin_right = 716.0
+margin_bottom = 254.0
 rect_min_size = Vector2( 0, 10 )
 
 [node name="HBox2" type="HBoxContainer" parent="VBox1/HBox2/Panel1/VBox1"]
-margin_top = 408.0
-margin_right = 1241.0
-margin_bottom = 433.0
+margin_top = 258.0
+margin_right = 716.0
+margin_bottom = 283.0
 
 [node name="Label2" type="Label" parent="VBox1/HBox2/Panel1/VBox1/HBox2"]
+visible = false
 margin_right = 200.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox2/Panel1/VBox1/HBox2"]
-margin_left = 204.0
-margin_right = 1016.0
+margin_right = 491.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox2/Panel1/VBox1/HBox2/CenterContainer"]
-margin_left = 351.0
-margin_right = 461.0
+margin_left = 190.0
+margin_right = 300.0
 margin_bottom = 25.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -232,74 +242,76 @@ align = 1
 valign = 1
 
 [node name="AddField" type="Button" parent="VBox1/HBox2/Panel1/VBox1/HBox2"]
-margin_left = 1020.0
-margin_right = 1129.0
+margin_left = 495.0
+margin_right = 604.0
 margin_bottom = 25.0
 text = "Add New Field"
 
 [node name="Label" type="Label" parent="VBox1/HBox2/Panel1/VBox1/HBox2"]
-margin_left = 1133.0
-margin_right = 1148.0
+margin_left = 608.0
+margin_right = 623.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 15, 0 )
 
 [node name="DeleteField" type="Button" parent="VBox1/HBox2/Panel1/VBox1/HBox2"]
-margin_left = 1152.0
-margin_right = 1241.0
+margin_left = 627.0
+margin_right = 716.0
 margin_bottom = 25.0
 text = "Delete Field"
 
 [node name="Scroll1" type="HBoxContainer" parent="VBox1/HBox2/Panel1/VBox1"]
-margin_top = 437.0
-margin_right = 1241.0
-margin_bottom = 828.0
+margin_top = 287.0
+margin_right = 716.0
+margin_bottom = 528.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox2/Panel1/VBox1/Scroll1"]
-margin_right = 614.0
-margin_bottom = 391.0
+margin_right = 351.0
+margin_bottom = 241.0
 size_flags_horizontal = 3
 
 [node name="VBox1" parent="VBox1/HBox2/Panel1/VBox1/Scroll1/Scroll1" instance=ExtResource( 4 )]
 margin_top = 0.0
-margin_right = 614.0
+margin_right = 351.0
 margin_bottom = 0.0
 size_flags_vertical = 1
 
 [node name="Panel" type="Panel" parent="VBox1/HBox2/Panel1/VBox1/Scroll1"]
 modulate = Color( 0, 0, 0, 1 )
-margin_left = 618.0
-margin_right = 623.0
-margin_bottom = 391.0
+margin_left = 355.0
+margin_right = 360.0
+margin_bottom = 241.0
 rect_min_size = Vector2( 5, 0 )
 
 [node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox2/Panel1/VBox1/Scroll1"]
-margin_left = 627.0
-margin_right = 1241.0
-margin_bottom = 391.0
+margin_left = 364.0
+margin_right = 716.0
+margin_bottom = 241.0
 size_flags_horizontal = 3
 
 [node name="VBox2" parent="VBox1/HBox2/Panel1/VBox1/Scroll1/Scroll2" instance=ExtResource( 4 )]
 margin_top = 0.0
-margin_right = 614.0
-margin_bottom = 391.0
+margin_right = 352.0
+margin_bottom = 0.0
+size_flags_vertical = 1
 
 [node name="Hbox3" type="HBoxContainer" parent="VBox1"]
-margin_top = 875.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_top = 575.0
+margin_right = 900.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="VersionLabel" parent="VBox1/Hbox3" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 505.0
-margin_right = 995.0
+margin_left = 205.0
+margin_right = 695.0
 margin_bottom = 25.0
 
 [node name="Popups" type="ColorRect" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 500, 250 )
@@ -375,65 +387,30 @@ margin_bottom = 25.0
 size_flags_horizontal = 3
 text = "Cancel"
 
-[node name="FileDialog" type="FileDialog" parent="Popups"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -338.0
-margin_top = -187.5
-margin_right = 338.0
-margin_bottom = 187.5
-rect_min_size = Vector2( 255, 300 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-popup_exclusive = true
-window_title = "Open a File"
-resizable = true
-dialog_text = "Select Icon file"
-mode = 0
-access = 2
-filters = PoolStringArray( "*.png" )
-current_dir = "/Users/iamdj/OneDrive/Desktop/Godot Files/DBManager/addons/Database_Manager/Data/Icons"
-current_file = "Chode.png"
-current_path = "/Users/iamdj/OneDrive/Desktop/Godot Files/DBManager/addons/Database_Manager/Data/Icons/Chode.png"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="FileDialog_sprite" type="FileDialog" parent="Popups"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -338.0
-margin_top = -187.5
-margin_right = 338.0
-margin_bottom = 187.5
-rect_min_size = Vector2( 255, 300 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-popup_exclusive = true
-window_title = "Open a File"
-resizable = true
-dialog_text = "Select Icon file"
-mode = 0
-access = 2
-filters = PoolStringArray( "*.png" )
-current_dir = "/Users/iamdj/OneDrive/Desktop/Godot Files/DBManager/addons/Database_Manager/Data/Icons"
-current_file = "Chode.png"
-current_path = "/Users/iamdj/OneDrive/Desktop/Godot Files/DBManager/addons/Database_Manager/Data/Icons/Chode.png"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="popup_newValue" parent="Popups" instance=ExtResource( 3 )]
+visible = false
+
+[node name="Label" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="0"]
+margin_right = 340.0
+text = "New Field Name"
+
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="1"]
+margin_right = 340.0
+margin_bottom = 132.0
+
+[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="2"]
+visible = false
+margin_top = 122.0
+margin_right = 340.0
+margin_bottom = 132.0
 
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
-items = [ "Item 0", null, false, 0, null ]
+text = "Text"
+items = [ "Text", null, false, 0, null, "List", null, false, 1, null, "Input Control", null, false, 2, null, "Number Range", null, false, 3, null, "Sound Effect", null, false, 4, null, "Whole Number", null, false, 5, null, "Decimal Number", null, false, 6, null, "True or False", null, false, 7, null, "Dropdown List", null, false, 8, null, "Icon Display", null, false, 9, null, "Scene Path", null, false, 10, null, "Sprite", null, false, 11, null, "Vector 2 or 3", null, false, 12, null ]
 
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
-items = [ "Item 0", null, false, 0, null ]
+text = "Character Classes"
+items = [ "Character Classes", null, false, 0, null, "Control Categories", null, false, 1, null, "DataTypes", null, false, 2, null, "Field_Pref_Values", null, false, 3, null, "Item_Type", null, false, 4, null, "Items", null, false, 5, null, "Maps", null, false, 6, null ]
 
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource( 5 )]
 
@@ -458,7 +435,16 @@ margin_bottom = 25.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
+[node name="FileSelect" type="Control" parent="Popups"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="button_up" from="VBox1/HBox1/RefreshData" to="." method="_on_RefreshData_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/SaveNewItem" to="." method="_on_SaveNewItem_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/AddNewItem" to="." method="_on_AddNewItem_button_up"]
@@ -468,10 +454,6 @@ anchor_bottom = 1.0
 [connection signal="button_up" from="VBox1/HBox2/Panel1/VBox1/HBox2/DeleteField" to="." method="display_options"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_deletePopup_Accept_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on__deletePopup_Cancel_button_up"]
-[connection signal="file_selected" from="Popups/FileDialog" to="." method="_on_FileDialog_file_selected"]
-[connection signal="hide" from="Popups/FileDialog" to="." method="_on_FileDialog_hide"]
-[connection signal="file_selected" from="Popups/FileDialog_sprite" to="." method="_on_FileDialog_sprite_file_selected"]
-[connection signal="hide" from="Popups/FileDialog_sprite" to="." method="_on_FileDialog_sprite_hide"]
 [connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_NewField_Accept_button_up"]
 [connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Cancel" to="." method="_on_NewField_Cancel_button_up"]
 [connection signal="item_selected" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" to="." method="_on_Itemlist_item_selected"]
@@ -481,6 +463,7 @@ anchor_bottom = 1.0
 [editable path="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key"]
 [editable path="Popups/popup_newValue"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
 [editable path="Popups/popup_deleteKey"]

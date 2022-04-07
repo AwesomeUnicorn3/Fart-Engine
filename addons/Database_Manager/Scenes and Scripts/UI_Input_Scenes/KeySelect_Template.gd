@@ -8,9 +8,12 @@ var action_control
 var key_id 
 
 
-func _ready():
-	type = "KeySelect"
-	default = ""
+func _init() -> void:
+	type = "TYPE_KEYSELECT"
+
+#func _ready():
+#
+#	default = ""
 
 
 func startup():
@@ -22,6 +25,7 @@ func _on_button_up():
 	parent_node.popup_main.visible = true
 	var i = keyselect.instance()
 	i.key_number = key_id
+	i.parent_node = self
 #	i.connect("accept", self, "_on_accept")
 #	i.connect("exit", self, "_on_cancel")
 	#set the action key text to keyselect label 2

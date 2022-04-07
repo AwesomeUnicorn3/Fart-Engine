@@ -1,0 +1,69 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/Database_Manager/Theme and Style/main_15.tres" type="Theme" id=1]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Database_Manager/Theme and Style/font_5.tres" type="DynamicFont" id=4]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ScenePath_Template.gd" type="Script" id=5]
+
+[node name="ScenePath_Template" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+script = ExtResource( 5 )
+
+[node name="Label" parent="." instance=ExtResource( 3 )]
+margin_right = 900.0
+text = "ScenePath_Template"
+
+[node name="Space2" type="Label" parent="."]
+visible = false
+margin_top = 34.0
+margin_right = 900.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 4 )
+text = "Double Click Input Field to Select Scene from File"
+align = 1
+autowrap = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 34.0
+margin_right = 900.0
+margin_bottom = 586.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+visible = false
+margin_right = 448.0
+margin_bottom = 552.0
+rect_min_size = Vector2( 125, 125 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+
+[node name="Input" type="LineEdit" parent="HBoxContainer"]
+margin_right = 900.0
+margin_bottom = 552.0
+rect_min_size = Vector2( 100, 100 )
+hint_tooltip = "Double Click to Select Scene from File"
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Space" type="Label" parent="HBoxContainer"]
+visible = false
+margin_left = 452.0
+margin_right = 900.0
+margin_bottom = 552.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="input_templateBuffer" parent="." instance=ExtResource( 2 )]
+margin_top = 590.0
+margin_right = 900.0
+
+[connection signal="gui_input" from="HBoxContainer/Input" to="." method="_on_Input_gui_input"]

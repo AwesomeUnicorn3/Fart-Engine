@@ -1,5 +1,6 @@
 extends DatabaseEngine
 tool
+
 #onready var engine = preload("res://addons/Database_Manager/DatabaseEngine.gd")
 onready var input_dictionary_template = preload("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Dictionary_input.tscn")
 onready var inputContainer = $VBox1/Scroll1/VBox1
@@ -18,6 +19,7 @@ func close_form():
 	updateMainDict()
 	source_node.inputNode.set_text(var2str(mainDictionary))
 	source_node.main_dictionary = mainDictionary
+	get_parent().remove_child(self)
 	call_deferred("delete_me")
 
 func delete_me():
@@ -37,9 +39,7 @@ func updateMainDict():
 					mainDictionary[key][j.name] = update_match(j)
 				else:
 					key = update_match(j)
-	
 	source_node.inputNode.set_text(var2str(mainDictionary))
-
 	source_node.main_dictionary = mainDictionary
 
 
@@ -55,7 +55,7 @@ func _delete_selected_list_item(itemKey := ""):
 	#THIS SCRIPT WILL THEN DELETE THE SELECTED KEY FROM THE MAINDICTIONARY
 	mainDictionary.erase(itemKey)
 	refresh_form()
-	print(mainDictionary)
+#	print(mainDictionary)
 			#I HESITATE TO REORDER THE INPUT FIELDS BECAUSE THE VALUE IS A KEY
 			#HOWEVER I WILL NEED TO CHANGE THE mainDictSizePlusOne VALUE IN THE
 			# q ADD_LINE FUNCTION TO GET THE MAX KEY NUMBER RATHER THAN THE SIZE OF THE DICTIONARY
@@ -80,9 +80,12 @@ func create_input_fields():
 			dataType_Field.populate_list()
 			dataType_Field.inputNode.connect("item_selected", input_dict, "item_selected")
 #			dataType_Field.selectedItemName = dataType_Field.get_dataType_name(mainDictionary[i]["Datatype " + str(j)], true)
+#			print(mainDictionary[i]["Datatype " + str(j)])
 
-			var get_select_item = dataType_Field.get_dataType_name(mainDictionary[i]["Datatype " + str(j)], true)
-
+			var get_select_item = dataType_Field.get_index_from_displayName(mainDictionary[i]["Datatype " + str(j)])
+			
+#			print(mainDictionary[i]["Datatype " + str(j)], " ", get_select_item)
+			#THIS IS WHERE THE PROBLEM IS!!!!!
 			if dataType_Field.has_method("_on_Input_item_selected"):
 				var itemSelected = dataType_Field._on_Input_item_selected(get_select_item)
 				dataType_Field.inputNode.select(get_select_item)
@@ -99,28 +102,31 @@ func _on_AddItem_button_up() -> void:
 
 
 func _add_input_field():
+	_on_SaveChanges_button_up()
 	var nextKeyValue :int
 	
 	if mainDictionary.size() == 0:
-		print(mainDictionary)
+#		print(mainDictionary)
 		nextKeyValue = 1
 	else:
 		nextKeyValue = int(mainDictionary.keys().max()) + 1
-	print(nextKeyValue)
+#	print(nextKeyValue)
 	
-
-	var defaultValue :Dictionary = { #I NEED TO FIGURE OUT A WAY TO LINK THIS WITH THE INPUT_DICTIONARY SCENE DEFAULT VALUE, 
+#I NEED TO FIGURE OUT A WAY TO LINK THIS WITH THE INPUT_DICTIONARY SCENE DEFAULT VALUE, 
 		#POSSIBLY I CAN PUT ALL DEFAULTS IN THE DBENGINE by looping through the input scenes and setting the default in 
 		#a dictionary in the engine script
-"Datatype 1": "TYPE_STRING",
-"Datatype 2": "TYPE_INT",
-"TableName 1" : "DataTypes",
-"TableName 2" : "DataTypes",
-"Value 1": "Default Value1",
-"Value 2": "1"
-}
-	mainDictionary[str(nextKeyValue)] = defaultValue
+#	var defaultValue :Dictionary = { 
+#"Datatype 1": "TYPE_STRING",
+#"Datatype 2": "TYPE_INT",
+#"TableName 1" : "DataTypes",
+#"TableName 2" : "DataTypes",
+#"Value 1": "Default Value1",
+#"Value 2": "1"
+#}
+	mainDictionary[str(nextKeyValue)] = str2var(get_default_value("TYPE_DICTIONARY"))["1"]
+#	print(mainDictionary)
 	refresh_form()
+	_on_SaveChanges_button_up()
 
 
 func refresh_form():

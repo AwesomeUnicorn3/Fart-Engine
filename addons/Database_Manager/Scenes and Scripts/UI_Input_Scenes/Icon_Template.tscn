@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://addons/Database_Manager/Data/Icons/Default.png" type="Texture" id=1]
+[ext_resource path="res://Data/png/Default.png" type="Texture" id=1]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.gd" type="Script" id=2]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/Database_Manager/Theme and Style/main_15.tres" type="Theme" id=4]
@@ -9,32 +9,32 @@
 [node name="Icon_Template" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource( 4 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" parent="." instance=ExtResource( 5 )]
+margin_right = 900.0
 text = "Icon_Template"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_top = 34.0
-margin_right = 1500.0
-margin_bottom = 886.0
+margin_right = 900.0
+margin_bottom = 586.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Space2" type="Label" parent="HBoxContainer"]
-margin_right = 497.0
-margin_bottom = 852.0
+margin_right = 297.0
+margin_bottom = 552.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
-margin_left = 501.0
-margin_right = 998.0
-margin_bottom = 852.0
+margin_left = 301.0
+margin_right = 598.0
+margin_bottom = 552.0
 rect_min_size = Vector2( 125, 125 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -53,15 +53,14 @@ __meta__ = {
 }
 
 [node name="Space" type="Label" parent="HBoxContainer"]
-margin_left = 1002.0
-margin_right = 1500.0
-margin_bottom = 852.0
+margin_left = 602.0
+margin_right = 900.0
+margin_bottom = 552.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 3 )]
-margin_top = 890.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_top = 590.0
+margin_right = 900.0
 
 [connection signal="button_up" from="HBoxContainer/ColorRect/Input" to="." method="_on_TextureButton_button_up"]

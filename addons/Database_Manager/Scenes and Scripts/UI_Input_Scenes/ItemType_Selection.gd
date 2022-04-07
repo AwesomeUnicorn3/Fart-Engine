@@ -12,9 +12,13 @@ var selected_item_index
 var selectedItemName = ""
 var relatedInputNode : Node = null
 var relatedTableName = ""
-func _ready():
-	default = 0
-	type = "Dropdown List"
+
+func _init() -> void:
+	type = "TYPE_DROPDOWN"
+
+#func _ready():
+#	default = 0
+#	type = "Dropdown List"
 
 
 	
@@ -48,7 +52,7 @@ func populate_list():
 				inputNode.add_item (displayName)
 
 	if selectedItemName == "":
-		selectedItemName = get_selected_value(0)
+		selectedItemName = get_selected_value(0, true)
 
 
 func get_id(item_name : String = ""):
@@ -63,6 +67,8 @@ func get_id(item_name : String = ""):
 			break
 	return item_id
 
+
+
 func get_dataType_name(displayName : String, returnInt = false):
 	var returnValue
 	
@@ -70,31 +76,50 @@ func get_dataType_name(displayName : String, returnInt = false):
 
 	for i in displayDict:
 
-		if displayDict[i]["Display Name"] == displayName:
+		if displayDict[i]["ID"] == displayName:
+			if !returnInt:
+				returnValue = i
+			else:
+				returnValue = get_id(displayDict[i]["ID"])
+
+			break
+		if i == displayName:
 			if !returnInt:
 				returnValue = displayDict[i]["ID"]
 			else:
-				returnValue = get_id(displayDict[i]["Display Name"])
-
-			break
-		if displayDict[i]["ID"] == displayName:
-			if !returnInt:
-				returnValue = displayDict[i]["Display Name"]
-			else:
-				returnValue = get_id(displayDict[i]["Display Name"])
+				returnValue = get_id(displayDict[i]["ID"])
 #	print(returnValue)
 	return returnValue
 
 
-func get_selected_value(index):
+func get_index_from_displayName(display_name :String):
+	for i in selection_table:
+#		print(selection_table[i]["ID"])
+		if str(selection_table[i]["ID"]) == display_name:
+			var index = get_id(str(selection_table[i]["Display Name"]))
+			return int(index)
+			break
+
+func get_selected_value(index, get_id := false):
+#	print(index)
 	var type_name = inputNode.get_item_text(index)
 	var rand_item_array = selection_table.keys()
-	
-	if selection_table[rand_item_array[0]].has("Display Name"):
-		for i in selection_table:
-			if selection_table[i]["Display Name"] == type_name:
-				type_name = selection_table[i]["ID"]
-				break
+#	print(index)
+#	print(type_name)
+#	print(selection_table)
+	if get_id:
+		if selection_table[rand_item_array[0]].has("ID"):
+			for i in selection_table:
+				if selection_table[i]["Display Name"] == type_name:
+					type_name = selection_table[i]["ID"]
+	#				print(type_name)
+					break
+		elif selection_table[rand_item_array[0]].has("Display Name"):
+			for i in selection_table:
+				if selection_table[i]["Display Name"] == type_name:
+					type_name = selection_table[i]["Display Name"]
+	#				print(type_name)
+					break
 #	elif selection_table[rand_item_array[0]].has("Reference Name"):
 #		for i in selection_table:
 #			if selection_table[i]["Reference Name"] == type_name:
@@ -102,10 +127,12 @@ func get_selected_value(index):
 #				break
 	return type_name
 
+
 func _on_Input_item_selected(index):
 #	print(index)
-	selectedItemName = get_selected_value(index)
+	selectedItemName = get_selected_value(index, true)
+#	print(selectedItemName)
 	if relatedInputNode != null:
 		get_parent().swap_input_node(relatedInputNode, self, selectedItemName, relatedTableName)
-		
+
 	return selectedItemName

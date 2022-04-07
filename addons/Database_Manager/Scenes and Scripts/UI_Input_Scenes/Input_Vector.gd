@@ -12,9 +12,24 @@ var vector_type = "Vector2"
 
 var omit_changed = true
 
-func _ready():
-	type = "Vector"
-	default = ""
+
+func _init() -> void:
+	type = "TYPE_VECTOR"
+
+
+#func _ready():
+#	type = "Vector"
+
+	
+
+func set_default_values():
+	if vector_type == "Vector2":
+		default = Vector2(0,0)
+	else:
+		default = Vector3(0,0,0)
+	return default
+
+
 
 func temp():
 	pass
@@ -25,8 +40,11 @@ func _on_Button2_button_up() -> void:
 	$HBox3/InputZ.visible = true
 	z_label.visible = true
 	vector_type = "Vector3"
+	default = Vector3(0,0,0)
+	inputNode.set_text(str(default))
 
-	set_inputValue()
+
+
 
 
 func _on_Button_button_up() -> void:
@@ -35,45 +53,54 @@ func _on_Button_button_up() -> void:
 	$HBox3/InputZ.visible = false
 	z_label.visible = false
 	vector_type = "Vector2"
-	set_inputValue()
+	default = Vector2(0,0)
+	inputNode.set_text(str(default))
+
 
 
 func _on_InputZ_text_changed(new_text: String) -> void:
-	set_inputValue()
+	set_inputNode_value()
 
 
 func _on_InputY_text_changed(new_text: String) -> void:
-	set_inputValue()
+	set_inputNode_value()
 
 
 func _on_InputX_text_changed(new_text: String) -> void:
-	set_inputValue()
+	set_inputNode_value()
 
-func set_inputValue():
+func set_inputNode_value():
+	var returnVector
 	var xvalue = x_input.text
 	var yvalue = y_input.text
 	var zvalue = z_input.text
+	if inputNode.get_text().count(",") == 1:
+		vector_type = "Vector2"
+	else:
+		vector_type = "Vector3"
 
 	match vector_type:
 		"Vector2":
-			var vec2 = Vector2(xvalue, yvalue)
-			inputNode.set_text(str(vec2))
+			returnVector = Vector2(xvalue, yvalue)
+			inputNode.set_text(str(returnVector))
+			
 		"Vector3":
-			var vec3 = Vector3(xvalue, yvalue, zvalue)
-			inputNode.set_text(str(vec3))
+			returnVector = Vector3(xvalue, yvalue, zvalue)
+			inputNode.set_text(str(returnVector))
 	if !omit_changed:
 		inputNode.emit_signal("text_changed", inputNode.text)
 
 
 
-func get_inputValue():
-	var xvalue = x_input.text
-	var yvalue = y_input.text
-	var zvalue = z_input.text
+func set_user_input_value():
+#	var xvalue = x_input.text
+#	var yvalue = y_input.text
+#	var zvalue = z_input.text
 
 	var vec = inputNode.get_text()
+#	print("InputNodeText: ", str(vec))
 	vec = get_main_tab(get_parent()).convert_string_to_Vector(vec)
-	
+
 	match typeof(vec):
 		TYPE_VECTOR2:
 			_on_Button_button_up()
@@ -86,6 +113,10 @@ func get_inputValue():
 			y_input.set_text(str(vec.y))
 			z_input.set_text(str(vec.z))
 	omit_changed = false
+
+#	inputNode.set_text(str(vec))
+#	print("InputNodeText: ", str(vec))
+
 
 
 

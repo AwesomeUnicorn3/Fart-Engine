@@ -26,7 +26,7 @@ func _on_popup_newTable_visibility_changed():
 
 
 func _on_Input_toggled(button_pressed: bool) -> void:
-	$PanelContainer/VBox1/Key_Input.visible = !button_pressed
+#	$PanelContainer/VBox1/Key_Input.visible = !button_pressed
 	$PanelContainer/VBox1/Field_Input.visible = !button_pressed
 
 func reset_values():

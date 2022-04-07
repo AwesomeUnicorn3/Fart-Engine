@@ -1,23 +1,47 @@
 extends Control
 class_name InputEngine
 tool
+
 export var label_text = ""
 export var is_label_button = true
+
 var labelNode
 var inputNode
 var itemName = ""
-var default
+var default = null
 var type = ""
 var table_name = ""
 var table_ref = ""
 var parent_node
+var input_data = ""
+
+
+func _ready():
+	var me = self
+	itemName = self.name
+	var node_array = get_all_nodes(self)
+	for i in node_array:
+		if i.name == "Label":
+			labelNode = i
+		elif i.name == "Input":
+			inputNode = i
+
+	if label_text == "":
+		labelNode.set_text(itemName)
+	else:
+		labelNode.set_text(label_text)
+	connect_signals()
+	if me.has_method("startup"):
+		me.startup()
+	parent_node = get_main_tab(get_parent())
+	set_default_value()
 
 func get_all_nodes(node):
 	var node_array = []
 	var input = false
 	var label = false
 
-
+#THIS CAN BE IMPROVED WITH 
 	for i in get_children():
 		if i.name == "Label":
 			label = true
@@ -46,26 +70,12 @@ func get_all_nodes(node):
 
 	return node_array
 
+func set_default_value():
+	default = parent_node.get_default_value(type)
+#	if default == null:
+#		print(type)
 
-func _ready():
-	var me = self
-	itemName = self.name
-	var node_array = get_all_nodes(self)
-	for i in node_array:
-		if i.name == "Label":
-			labelNode = i
-		elif i.name == "Input":
-			inputNode = i
 
-	if label_text == "":
-		labelNode.set_text(itemName)
-	else:
-		labelNode.set_text(label_text)
-	connect_signals()
-	if me.has_method("startup"):
-		me.startup()
-
-	parent_node = get_main_tab(self)
 
 func label_pressed():
 	if is_label_button:
@@ -98,7 +108,7 @@ func on_text_changed(new_text = "Blank"):
 
 func connect_signals():
 	labelNode.connect("pressed", self, "label_pressed")
-	inputNode.connect("mouse_entered", self, "on_mouse_entered")
+#	connect("mouse_entered", self, "on_mouse_entered")
 
 	if inputNode.has_signal("text_changed"):
 		inputNode.connect("text_changed", self, "on_text_changed")

@@ -8,21 +8,20 @@
 [node name="Input_Text" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 3 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" parent="." instance=ExtResource( 4 )]
+margin_right = 900.0
 text = "Input_Text"
 
 [node name="Input" type="LineEdit" parent="."]
 margin_top = 34.0
-margin_right = 1500.0
-margin_bottom = 886.0
+margin_right = 900.0
+margin_bottom = 586.0
 rect_min_size = Vector2( 75, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -36,6 +35,5 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 890.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_top = 590.0
+margin_right = 900.0

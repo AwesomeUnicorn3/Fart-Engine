@@ -1,8 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/Database_Manager/Theme and Style/ItemIconBackground.png" type="Texture" id=1]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect.gd" type="Script" id=3]
-[ext_resource path="res://addons/Database_Manager/Theme and Style/ItemIconBackgroundPressed.png" type="Texture" id=5]
 [ext_resource path="res://addons/Database_Manager/Theme and Style/main_15.tres" type="Theme" id=7]
 
 [node name="KeySelect" type="Control"]
@@ -20,11 +18,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 5 )
-expand = true
+color = Color( 0, 0, 0, 1 )
 
 [node name="DropPanelContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
@@ -96,18 +93,12 @@ margin_bottom = 265.0
 size_flags_horizontal = 3
 theme = ExtResource( 7 )
 
-[node name="Accept" type="TextureButton" parent="DropPanelContainer/MainNodes/Buttons"]
+[node name="Accept" type="Button" parent="DropPanelContainer/MainNodes/Buttons"]
 margin_left = 35.0
 margin_right = 210.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 175, 50 )
 size_flags_horizontal = 6
-texture_normal = ExtResource( 1 )
-texture_disabled = ExtResource( 5 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="DropPanelContainer/MainNodes/Buttons/Accept"]
 anchor_right = 1.0
@@ -120,18 +111,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Cancel" type="TextureButton" parent="DropPanelContainer/MainNodes/Buttons"]
+[node name="Cancel" type="Button" parent="DropPanelContainer/MainNodes/Buttons"]
 margin_left = 284.0
 margin_right = 459.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 175, 50 )
 size_flags_horizontal = 6
-texture_normal = ExtResource( 1 )
-texture_disabled = ExtResource( 5 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="DropPanelContainer/MainNodes/Buttons/Cancel"]
 anchor_right = 1.0

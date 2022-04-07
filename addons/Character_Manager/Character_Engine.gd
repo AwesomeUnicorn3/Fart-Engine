@@ -7,7 +7,7 @@ class_name Character
 
 var velocity: = Vector2.ZERO #Needed for movement within the script - NO DB
 var gravity: float = 300 #Game gravity (Think of this as y acceleration) - DBAA
-var characterSprite #Character spritesheet texture - DBAA
+#var characterSprite #Character spritesheet texture - DBAA
 var characterMaxSpeed #character max speed - DBAA
 var characterMass # character mass (maximum down speed)- DBAA
 var characterJumpSpeed # character jump speed (jump velocity) - DBAA

@@ -6,9 +6,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -26,34 +23,34 @@ __meta__ = {
 }
 
 [node name="Hbox2" type="HBoxContainer" parent="VBox1"]
-margin_right = 1500.0
+margin_right = 900.0
 margin_bottom = 75.0
 
 [node name="CenterContainer2" type="CenterContainer" parent="VBox1/Hbox2"]
-margin_right = 1192.0
+margin_right = 592.0
 margin_bottom = 75.0
 rect_min_size = Vector2( 100, 75 )
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/Hbox2/CenterContainer2"]
 visible = false
-margin_left = 453.0
+margin_left = 153.0
 margin_top = 30.0
-margin_right = 738.0
+margin_right = 438.0
 margin_bottom = 44.0
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
 [node name="Save" type="Button" parent="VBox1/Hbox2"]
-margin_left = 1196.0
-margin_right = 1346.0
+margin_left = 596.0
+margin_right = 746.0
 margin_bottom = 75.0
 rect_min_size = Vector2( 150, 75 )
 disabled = true
 text = "Save Changes"
 
 [node name="DeleteFile" type="Button" parent="VBox1/Hbox2"]
-margin_left = 1350.0
-margin_right = 1500.0
+margin_left = 750.0
+margin_right = 900.0
 margin_bottom = 75.0
 rect_min_size = Vector2( 150, 75 )
 disabled = true
@@ -61,13 +58,13 @@ text = "Delete  File"
 
 [node name="HBox3" type="HBoxContainer" parent="VBox1"]
 margin_top = 79.0
-margin_right = 1500.0
+margin_right = 900.0
 margin_bottom = 79.0
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
 margin_top = 83.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_right = 900.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -76,7 +73,7 @@ __meta__ = {
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox1"]
 margin_right = 150.0
-margin_bottom = 817.0
+margin_bottom = 517.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 __meta__ = {
@@ -85,7 +82,7 @@ __meta__ = {
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll1"]
 margin_right = 150.0
-margin_bottom = 817.0
+margin_bottom = 517.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -99,7 +96,7 @@ valign = 1
 [node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox1"]
 margin_left = 154.0
 margin_right = 234.0
-margin_bottom = 817.0
+margin_bottom = 517.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 __meta__ = {
@@ -108,7 +105,7 @@ __meta__ = {
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll2"]
 margin_right = 80.0
-margin_bottom = 817.0
+margin_bottom = 517.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -122,7 +119,7 @@ valign = 1
 [node name="Scroll3" type="ScrollContainer" parent="VBox1/HBox1"]
 margin_left = 238.0
 margin_right = 303.0
-margin_bottom = 817.0
+margin_bottom = 517.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 __meta__ = {
@@ -131,7 +128,7 @@ __meta__ = {
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll3"]
 margin_right = 65.0
-margin_bottom = 817.0
+margin_bottom = 517.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -144,8 +141,8 @@ valign = 1
 
 [node name="Scroll4" type="ScrollContainer" parent="VBox1/HBox1"]
 margin_left = 307.0
-margin_right = 1500.0
-margin_bottom = 817.0
+margin_right = 900.0
+margin_bottom = 517.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -154,13 +151,13 @@ __meta__ = {
 }
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll4"]
-margin_right = 1193.0
-margin_bottom = 817.0
+margin_right = 593.0
+margin_bottom = 517.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/Scroll4/VBox1"]
-margin_right = 1193.0
+margin_right = 593.0
 margin_bottom = 14.0
 text = "Fields"
 align = 1
@@ -244,6 +241,6 @@ text = "Cancel"
 
 [connection signal="button_up" from="VBox1/Hbox2/Save" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/Hbox2/DeleteFile" to="." method="_on_DeleteFile_button_up"]
-[connection signal="button_up" from="VBox1/HBox1/Scroll1/VBox1/2" to="VBox1/HBox1/Scroll1/VBox1/2" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/Scroll1/VBox1/1" to="VBox1/HBox1/Scroll1/VBox1/1" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_Delete_Accept_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_Delete_Cancel_button_up"]

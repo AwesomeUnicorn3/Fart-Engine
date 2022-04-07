@@ -1,0 +1,154 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/Database_Manager/Theme and Style/main_15.tres" type="Theme" id=1]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_sfx.gd" type="Script" id=4]
+
+[node name="Input_sfx" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+script = ExtResource( 4 )
+
+[node name="Label" parent="." instance=ExtResource( 3 )]
+margin_right = 900.0
+text = "Input_sfx"
+
+[node name="Input" type="AudioStreamPlayer" parent="."]
+volume_db = 10.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 34.0
+margin_right = 900.0
+margin_bottom = 586.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Space2" type="Label" parent="HBoxContainer"]
+visible = false
+margin_right = 222.0
+margin_bottom = 552.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 298.0
+margin_bottom = 552.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="sfx_name" type="Button" parent="HBoxContainer/VBoxContainer2"]
+margin_right = 298.0
+margin_bottom = 181.0
+size_flags_vertical = 3
+text = "Replace %Filename"
+
+[node name="Play" type="Button" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 185.0
+margin_right = 298.0
+margin_bottom = 366.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Play"
+
+[node name="Stop" type="Button" parent="HBoxContainer/VBoxContainer2"]
+margin_top = 370.0
+margin_right = 298.0
+margin_bottom = 552.0
+size_flags_vertical = 3
+text = "Stop"
+
+[node name="Load" type="Button" parent="HBoxContainer"]
+visible = false
+margin_left = 452.0
+margin_right = 540.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+size_flags_stretch_ratio = 0.25
+text = "Load "
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 302.0
+margin_right = 900.0
+margin_bottom = 552.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Space" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_right = 598.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Volume"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 34.0
+margin_right = 598.0
+margin_bottom = 64.0
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 396.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = -10.0
+max_value = 10.0
+step = 0.1
+value = 10.0
+tick_count = 1
+
+[node name="Volume" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 400.0
+margin_right = 598.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 0.5
+text = "1%"
+
+[node name="Space2" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_top = 68.0
+margin_right = 598.0
+margin_bottom = 98.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Pitch"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 102.0
+margin_right = 598.0
+margin_bottom = 132.0
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 396.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = 0.3
+max_value = 2.0
+step = 0.01
+value = 1.0
+
+[node name="Pitch" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 400.0
+margin_right = 598.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+size_flags_stretch_ratio = 0.5
+
+[node name="input_templateBuffer" parent="." instance=ExtResource( 2 )]
+margin_top = 590.0
+margin_right = 900.0
+
+[connection signal="button_up" from="HBoxContainer/VBoxContainer2/sfx_name" to="." method="_on_Input_button_up"]
+[connection signal="button_up" from="HBoxContainer/VBoxContainer2/Play" to="." method="_on_Button_button_up"]
+[connection signal="button_up" from="HBoxContainer/VBoxContainer2/Stop" to="." method="_on_Stop_button_up"]
+[connection signal="button_up" from="HBoxContainer/Load" to="." method="_on_Input_button_up"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainer/HBoxContainer/HSlider" to="." method="_on_Volume_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainer/HBoxContainer2/HSlider" to="." method="_on_pitch_value_changed"]

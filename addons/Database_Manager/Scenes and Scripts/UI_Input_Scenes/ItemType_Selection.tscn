@@ -18,13 +18,14 @@ label_text = "Table Selection"
 selection_table_name = "Table Data"
 
 [node name="Label" parent="." instance=ExtResource( 3 )]
+margin_right = 900.0
 margin_bottom = 25.0
 text = "Table Selection"
 
 [node name="Input" type="OptionButton" parent="."]
 margin_top = 29.0
-margin_right = 1500.0
-margin_bottom = 886.0
+margin_right = 900.0
+margin_bottom = 586.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -37,8 +38,7 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 890.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_top = 590.0
+margin_right = 900.0
 
 [connection signal="item_selected" from="Input" to="." method="_on_Input_item_selected"]

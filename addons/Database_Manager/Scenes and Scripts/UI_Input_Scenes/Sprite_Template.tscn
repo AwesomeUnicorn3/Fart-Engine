@@ -1,91 +1,160 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=24 format=2]
 
-[ext_resource path="res://addons/Database_Manager/Data/Icons/Downtown NPC.png" type="Texture" id=1]
+[ext_resource path="res://Data/png/Downtown NPC.png" type="Texture" id=1]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.gd" type="Script" id=2]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/Database_Manager/Theme and Style/main_15.tres" type="Theme" id=4]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Data/png/TestSpritesheet_ReplaceMe.png" type="Texture" id=6]
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 200, 0, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 400, 0, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 600, 0, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 0, 300, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 200, 300, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 400, 300, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 600, 300, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 0, 600, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 200, 600, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 400, 600, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 600, 600, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 0, 900, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 200, 900, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=18]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 400, 900, 200, 300 )
+
+[sub_resource type="AtlasTexture" id=19]
+flags = 4
+atlas = ExtResource( 6 )
+region = Rect2( 600, 900, 200, 300 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Sprite_Template" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource( 4 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" parent="." instance=ExtResource( 5 )]
+margin_right = 900.0
 text = "Sprite_Template"
 
 [node name="HBox1" type="HBoxContainer" parent="."]
 margin_top = 34.0
-margin_right = 1500.0
-margin_bottom = 886.0
+margin_right = 900.0
+margin_bottom = 586.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Space2" type="Label" parent="HBox1"]
-visible = false
-margin_right = 253.0
-margin_bottom = 298.0
+[node name="Space3" type="Label" parent="HBox1"]
+margin_bottom = 552.0
+size_flags_vertical = 1
+
+[node name="Control" type="ColorRect" parent="HBox1"]
+margin_left = 4.0
+margin_right = 338.0
+margin_bottom = 552.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
 
-[node name="ColorRect" type="ColorRect" parent="HBox1"]
-margin_right = 1276.0
-margin_bottom = 852.0
-rect_min_size = Vector2( 125, 125 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.9
-color = Color( 1, 1, 1, 0 )
-
-[node name="Control" type="Control" parent="HBox1/ColorRect"]
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Input" type="TextureButton" parent="HBox1/ColorRect"]
+[node name="Input" type="TextureButton" parent="HBox1"]
 show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_left = 342.0
+margin_right = 676.0
+margin_bottom = 552.0
 rect_min_size = Vector2( 100, 100 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 1 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Space" type="Label" parent="HBox1"]
-visible = false
-margin_left = 342.0
-margin_right = 681.0
-margin_bottom = 298.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+stretch_mode = 5
 
 [node name="VBox1" type="VBoxContainer" parent="HBox1"]
-margin_left = 1280.0
-margin_right = 1500.0
-margin_bottom = 852.0
+margin_left = 680.0
+margin_right = 900.0
+margin_bottom = 552.0
 
 [node name="VBoxContainer" type="HBoxContainer" parent="HBox1/VBox1"]
 margin_right = 220.0
 margin_bottom = 30.0
 
-[node name="Label" type="Label" parent="HBox1/VBox1/VBoxContainer"]
+[node name="vlabel" type="Label" parent="HBox1/VBox1/VBoxContainer"]
 margin_right = 108.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "V Frames"
 
-[node name="Label2" type="Label" parent="HBox1/VBox1/VBoxContainer"]
+[node name="hlabel" type="Label" parent="HBox1/VBox1/VBoxContainer"]
 margin_left = 112.0
 margin_right = 220.0
 margin_bottom = 30.0
@@ -96,13 +165,13 @@ text = "H Frames"
 [node name="VBox1" type="HBoxContainer" parent="HBox1/VBox1"]
 margin_top = 34.0
 margin_right = 220.0
-margin_bottom = 852.0
+margin_bottom = 552.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VInput" type="LineEdit" parent="HBox1/VBox1/VBox1"]
 margin_right = 94.0
-margin_bottom = 818.0
+margin_bottom = 518.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 text = "1"
@@ -113,22 +182,22 @@ caret_blink = true
 [node name="VBox1" type="VBoxContainer" parent="HBox1/VBox1/VBox1"]
 margin_left = 98.0
 margin_right = 108.0
-margin_bottom = 818.0
+margin_bottom = 518.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="Add_ButtonV" type="Button" parent="HBox1/VBox1/VBox1/VBox1"]
 margin_right = 10.0
-margin_bottom = 407.0
+margin_bottom = 257.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "+"
 
 [node name="Sub_ButtonV" type="Button" parent="HBox1/VBox1/VBox1/VBox1"]
-margin_top = 411.0
+margin_top = 261.0
 margin_right = 10.0
-margin_bottom = 818.0
+margin_bottom = 518.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "-"
@@ -136,7 +205,7 @@ text = "-"
 [node name="HInput" type="LineEdit" parent="HBox1/VBox1/VBox1"]
 margin_left = 112.0
 margin_right = 206.0
-margin_bottom = 818.0
+margin_bottom = 518.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 text = "1"
@@ -147,31 +216,36 @@ caret_blink = true
 [node name="VBox2" type="VBoxContainer" parent="HBox1/VBox1/VBox1"]
 margin_left = 210.0
 margin_right = 220.0
-margin_bottom = 818.0
+margin_bottom = 518.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="Add_ButtonH" type="Button" parent="HBox1/VBox1/VBox1/VBox2"]
 margin_right = 10.0
-margin_bottom = 407.0
+margin_bottom = 257.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "+"
 
 [node name="Sub_ButtonH" type="Button" parent="HBox1/VBox1/VBox1/VBox2"]
-margin_top = 411.0
+margin_top = 261.0
 margin_right = 10.0
-margin_bottom = 818.0
+margin_bottom = 518.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "-"
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 3 )]
-margin_top = 890.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_top = 590.0
+margin_right = 900.0
 
-[connection signal="button_up" from="HBox1/ColorRect/Input" to="." method="_on_TextureButton_button_up"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 4, 34 )
+frames = SubResource( 3 )
+frame = 3
+centered = false
+
+[connection signal="button_up" from="HBox1/Input" to="." method="_on_TextureButton_button_up"]
 [connection signal="text_changed" from="HBox1/VBox1/VBox1/VInput" to="." method="_on_VInput_text_changed"]
 [connection signal="button_up" from="HBox1/VBox1/VBox1/VBox1/Add_ButtonV" to="." method="_on_Add_ButtonV_button_up"]
 [connection signal="button_up" from="HBox1/VBox1/VBox1/VBox1/Sub_ButtonV" to="." method="_on_Sub_ButtonV_button_up"]

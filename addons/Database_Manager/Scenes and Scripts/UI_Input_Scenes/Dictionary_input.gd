@@ -27,7 +27,7 @@ func swap_input_node(relatedNode, datatypeNode, itemType, tableName):
 		yield(tblSelect, "closed")
 		
 		tableName = table
-		var key = get_children()[0].name
+		var key = get_children()[1].name
 		var nodeNumber = relatedNodeName.rsplit(" ")[1]
 		parent_node.mainDictionary[key]["TableName " + nodeNumber] = tableName
 

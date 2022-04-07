@@ -115,9 +115,10 @@ func _on_Save_button_up() -> void:
 	#loop through input column, get all values
 	$Popups.visible = true
 	for i in valueContainer.get_children():
-		var curr_value = i.inputNode.text
-		var curr_field = i.labelNode.text
-		saveFile[TableSelected][KeySelected][curr_field] = curr_value
+		if "inputNode" in i:
+			var curr_value = i.inputNode.text
+			var curr_field = i.labelNode.text
+			saveFile[TableSelected][KeySelected][curr_field] = curr_value
 	var fileName = save_game_path + FileSelected + save_format
 	save_file(fileName, saveFile)
 	#Reset input_changed and hide notification

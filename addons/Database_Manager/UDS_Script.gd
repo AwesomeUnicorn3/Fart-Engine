@@ -30,7 +30,7 @@ func has_main_screen():
 	return true
 
 func get_plugin_name():
-	return "Unicorn Database System"
+	return "AU3DB"
 
 func get_plugin_icon():
 	return get_editor_interface().get_base_control().get_icon("Node", "EditorIcons")

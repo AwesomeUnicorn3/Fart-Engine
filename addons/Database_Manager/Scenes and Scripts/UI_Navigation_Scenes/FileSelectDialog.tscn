@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.gd" type="Script" id=1]
+
+[node name="FileSelectDialog" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.694118 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileSelectDialog" type="FileDialog" parent="."]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -552.0
+margin_top = -293.0
+margin_right = 552.0
+margin_bottom = 293.0
+rect_min_size = Vector2( 255, 300 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+popup_exclusive = true
+window_title = "Open a File"
+resizable = true
+dialog_autowrap = true
+mode = 0
+access = 2
+filters = PoolStringArray( "*.png" )
+current_dir = "/Users/iamdj/OneDrive/Desktop/Godot Files/DBManager"
+current_file = "AwesomeUnicorn (copy).png"
+current_path = "/Users/iamdj/OneDrive/Desktop/Godot Files/DBManager/AwesomeUnicorn (copy).png"
+__meta__ = {
+"_edit_use_anchors_": false
+}

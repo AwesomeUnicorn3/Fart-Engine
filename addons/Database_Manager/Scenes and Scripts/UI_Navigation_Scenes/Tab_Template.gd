@@ -19,7 +19,7 @@ onready var popup_main = $Popups
 onready var popup_deleteConfirm = $Popups/popup_delete_confirm
 onready var item_name_input = $VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key/Input
 onready var popup_deleteKey = $Popups/popup_deleteKey
-onready var popup_fileDialog = $Popups/FileDialog
+#onready var popup_fileDialog = $Popups/FileDialog
 onready var popup_newField = $Popups/popup_newValue
 
 #var udsEngine
@@ -54,6 +54,7 @@ func _on_visibility_changed():
 #		current_table_name = tableName
 		_ready()
 		hide_all_popups()
+		show_control_buttons()
 #		update_dictionaries()
 #		reload_buttons()
 
@@ -64,6 +65,15 @@ func _on_visibility_changed():
 		hide_all_popups()
 #		clear_data()
 #		clear_buttons()
+
+func show_control_buttons():
+	if tableName == "Controls":
+		$VBox1/HBox2/Panel1/VBox1/HBox2/AddField.visible = false
+		$VBox1/HBox2/Panel1/VBox1/HBox2/DeleteField.visible = false
+	else:
+		$VBox1/HBox2/Panel1/VBox1/HBox2/AddField.visible = true
+		$VBox1/HBox2/Panel1/VBox1/HBox2/DeleteField.visible = true
+
 
 func get_values_dict(var req = false):
 	var custom_dict = {}
@@ -78,8 +88,17 @@ func get_values_dict(var req = false):
 		var tableRef = currentData_dict["Column"][i]["TableRef"]
 		var required  = convert_string_to_type(currentData_dict["Column"][i]["RequiredValue"])
 		var showValue  = convert_string_to_type(currentData_dict["Column"][i]["ShowValue"])
+		
+		
+			#THIS IS WHERE ALL VALUES SHO8LD BE SET TO DATATYPE DEFAULTS
+			#DOING THIS WILL ALLOW ME TO DELETE ALL OF THE "DEFAULT" TABLES
+		var item_value
+		if Item_Name == "Default":
+			item_value = get_default_value(itemType)
+		else:
+			item_value = current_dict[Item_Name][value_name]
 		if required == req and showValue:
-			custom_dict[value_name] = {"Value" : current_dict[Item_Name][value_name], "DataType" : itemType, "TableRef" : tableRef, "Order" : i}
+			custom_dict[value_name] = {"Value" : item_value, "DataType" : itemType, "TableRef" : tableRef, "Order" : i}
 
 	return custom_dict
 
@@ -90,8 +109,13 @@ func hide_all_popups():
 	popup_deleteConfirm.visible = false
 	popup_newField.visible = false
 	popup_deleteKey.visible = false
-	popup_fileDialog.visible = false
-#	$Popups/ListInput.visible = false
+#	popup_fileDialog.visible = false
+	
+	var child_count := $Popups/ListInput.get_child_count()
+	while child_count > 0:
+		$Popups/ListInput.get_child(child_count - 1)._on_Close_button_up()
+		child_count -= 1
+
 
 func clear_buttons():
 	#Removes all item name buttons from table_list
@@ -166,38 +190,38 @@ func refresh_data(item_name : String):
 
 
 
-func clear_match(current_node, i):
-	var input_type = current_node.type
-	var input = current_node.inputNode
-	var default_value = current_node.default
-	match input_type:
-		"Text":
-			if i == "Key":
-				input.set_text(default_value)
-
-		"Dropdown List":
-			current_node.populate_list()
-
-		"Number Counter":
-			input.set_text(str(default_value))
-			
-		"Multiline Text":
-			input.set_text(default_value)
-		
-		"Checkbox":
-			input.pressed = default_value
-		
-		"IconDisplay":
-			input.set_text(current_dict["Default"]["IconDescription"])
-			var iconPath = current_dict["Default"]["IconPath"]
-			current_node.texture_button.set_normal_texture(load(iconPath))
-
-		'SpriteDisplay':
-			pass
-		"Vector":
-			input.set_text(default_value)
-		"Dictionary":
-			input.set_text(str(default_value))
+#func clear_match(current_node, i):
+#	var input_type = current_node.type
+#	var input = current_node.inputNode
+#	var default_value = current_node.default
+#	match input_type:
+#		"Text":
+#			if i == "Key":
+#				input.set_text(default_value)
+#
+#		"Dropdown List":
+#			current_node.populate_list()
+#
+#		"Number Counter":
+#			input.set_text(str(default_value))
+#
+#		"Multiline Text":
+#			input.set_text(default_value)
+#
+#		"Checkbox":
+#			input.pressed = default_value
+#
+#		"IconDisplay":
+#			input.set_text(current_dict["Default"]["IconDescription"])
+#			var iconPath = current_dict["Default"]["IconPath"]
+#			current_node.texture_button.set_normal_texture(load(iconPath))
+#
+#		'SpriteDisplay':
+#			pass
+#		"Vector":
+#			input.set_text(default_value)
+#		"Dictionary":
+#			input.set_text(str(default_value))
 		
 		
 
@@ -207,12 +231,12 @@ func create_table_buttons():
 	 #Loop through the item_list dictionary and add a button for each item
 	for i in currentData_dict["Row"].size():
 		var item_number = str(i + 1) #row_dict key
-		if currentData_dict["Row"][item_number]["FieldName"] != "Default":
-			var newbtn = btn_itemselect.instance() #Create new instance of item button
-			table_list.add_child(newbtn) #Add new item button to table_list
-			var label = currentData_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
-			newbtn.set_name(label) #Set the name of the new button as the item name
-			newbtn.get_node("Label").set_text(label) #Sets the button label (name that the user sees)
+#		if currentData_dict["Row"][item_number]["FieldName"] != "Default":
+		var newbtn = btn_itemselect.instance() #Create new instance of item button
+		table_list.add_child(newbtn) #Add new item button to table_list
+		var label = currentData_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
+		newbtn.set_name(label) #Set the name of the new button as the item name
+		newbtn.get_node("Label").set_text(label) #Sets the button label (name that the user sees)
 
 func _on_Save_button_up():
 	#Check if values are blank return error if true
@@ -220,10 +244,24 @@ func _on_Save_button_up():
 		update_values()
 		save_all_db_files(current_table_name)
 		update_dictionaries()
+		var table_dict : Dictionary = import_data(table_save_path + "Table Data" + file_format)
+		var is_dropown  = convert_string_to_type(table_dict[current_table_name]["Is Dropdown Table"])
+		if is_dropown: #THIS IS NOT WORKING CORRECTLY
+			update_dropdown_tables()
 		input_changed = true
 		$VBox1/HBox1/Center1/Label.visible = false
 	else:
 		print("There was an error. Data has not been updated")
+
+func update_dropdown_tables():
+	for i in get_node("..").get_children():
+		if i != self and i.is_in_group("Tab") and i.has_method("reload_buttons"):
+			i.reload_buttons()
+			i.table_list.get_child(0)._on_TextureButton_button_up()
+
+func reload_data_without_saving():
+	reload_buttons()
+	table_list.get_child(0)._on_TextureButton_button_up()
 
 func update_values():
 	var value
@@ -309,7 +347,11 @@ func has_empty_fields():
 
 func _on_AddNewItem_button_up():
 	#input default item values to form
+
+
 	refresh_data("Default")
+
+
 	#Disable all item buttons
 	enable_all_buttons(false)
 	#adjust button layaout
@@ -343,7 +385,7 @@ func _on_SaveNewItem_button_up():
 
 		#update new dict entry with input values from item form
 		update_values()
-		#Save data to .json files
+		#Global Data to .json files
 		save_all_db_files(current_table_name)
 		reload_buttons()
 		refresh_data(Item_Name)
@@ -394,90 +436,61 @@ func _on__deletePopup_Cancel_button_up():
 	popup_deleteConfirm.visible = false
 
 
-#func list_files_in_directory(sve_path):
-#	var array_load_savefiles = []
-#	var files = []
-#	var dir = Directory.new()
-#	dir.open(sve_path)
-#	dir.list_dir_begin()
-#	while true:
-#		var file = dir.get_next()
-#		if file == "":
-#			break
-#		elif !file.ends_with(".import"):
-#			files.append(file)
-#			array_load_savefiles.append(file)
-#	return array_load_savefiles
+#func _on_FileDialog_file_selected(path):
+#	var dir = Directory.new() #
+#	var new_file_name = path.get_file() #
+#	var new_file_path = icon_folder + "/" + new_file_name #
+#	var curr_icon_path = current_dict[Item_Name][selected_field_name] #
+#
+#	if is_file_in_folder(icon_folder, new_file_name): # #Check if selected folder is Icon folder and has selected file
+#		current_dict[Item_Name][selected_field_name] = new_file_path
+#		save_all_db_files(current_table_name)
+#	else:
+#		dir.copy(path, new_file_path)
+#		if !is_file_in_folder(icon_folder, new_file_name):
+#			print("File Not Added")
+#		else:
+#			print("File Added")
+#			refresh_editor()
+#			current_dict[Item_Name][selected_field_name] = new_file_path
+#			var tr = Timer.new()
+#			tr.set_one_shot(true)
+#			add_child(tr)
+#			tr.set_wait_time(.25)
+#			tr.start()
+#			yield(tr, "timeout")
+#			tr.queue_free()
+#	refresh_data(Item_Name)
 
-
-func _on_FileDialog_file_selected(path):
-	var dir = Directory.new()
-	var new_file_name = path.get_file()
-	var new_file_path = icon_folder + "/" + new_file_name
-	var curr_icon_path = current_dict[Item_Name][selected_field_name]
-
-	if is_file_in_folder(icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
-		current_dict[Item_Name][selected_field_name] = new_file_path
-		save_all_db_files(current_table_name)
-#		refresh_data(Item_Name)
-	else:
-#		print("Item selected is NOT in icon folder")
-		dir.copy(path, new_file_path)
-		if !is_file_in_folder(icon_folder, new_file_name):
-			print("File Not Added")
-		else:
-			print("File Added")
-			#trigger the import process for it to load to texture rect
-			refresh_editor()
-			current_dict[Item_Name][selected_field_name] = new_file_path
-
-			var tr = Timer.new()
-			tr.set_one_shot(true)
-			add_child(tr)
-			tr.set_wait_time(.25)
-			tr.start()
-			yield(tr, "timeout")
-			tr.queue_free()
-
-#			save_all_db_files(current_table_name)
-	refresh_data(Item_Name)
-
-func _on_FileDialog_sprite_file_selected(path: String) -> void:
-	var dir = Directory.new()
-	var new_file_name = path.get_file()
-	var new_file_path = icon_folder + "/" + new_file_name
-	var curr_icon_path = current_dict[Item_Name][selected_field_name]
-	#Get frame values
-
-	var sprite_path = curr_icon_path[0]
-	var frameVector : Vector2 = convert_string_to_type(curr_icon_path[1], "TYPE_VECTOR2")
-
-
-
-	if is_file_in_folder(icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
-		current_dict[Item_Name][selected_field_name] = [new_file_path , str(frameVector)]
-		save_all_db_files(current_table_name)
-#		refresh_data(Item_Name)
-	else:
-#		print("Item selected is NOT in icon folder")
-		dir.copy(path, new_file_path)
-		if !is_file_in_folder(icon_folder, new_file_name):
-			print("File Not Added")
-		else:
-			print("File Added")
-			#trigger the import process for it to load to texture rect
-			refresh_editor()
-			current_dict[Item_Name][selected_field_name] = [new_file_path , str(frameVector)]
-			var tr = Timer.new()
-			tr.set_one_shot(true)
-			add_child(tr)
-			tr.set_wait_time(.25)
-			tr.start()
-			yield(tr, "timeout")
-			tr.queue_free()
-
-#			save_all_db_files(current_table_name)
-	refresh_data(Item_Name)
+#func _on_FileDialog_sprite_file_selected(path: String) -> void:
+#	var dir = Directory.new() #
+#	var new_file_name = path.get_file() #
+#	var new_file_path = icon_folder + "/" + new_file_name #
+#	var curr_icon_path = current_dict[Item_Name][selected_field_name] #
+#	#Get frame values
+#	var sprite_path = curr_icon_path[0]
+#	var frameVector : Vector2 = convert_string_to_type(curr_icon_path[1], "TYPE_VECTOR2")
+#
+#	if is_file_in_folder(icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
+#		current_dict[Item_Name][selected_field_name] = [new_file_path , str(frameVector)]
+#		save_all_db_files(current_table_name)
+#	else:
+#		dir.copy(path, new_file_path)
+#		if !is_file_in_folder(icon_folder, new_file_name):
+#			print("File Not Added")
+#		else:
+#			print("File Added")
+#			#trigger the import process for it to load to texture rect
+#			refresh_editor()
+#			current_dict[Item_Name][selected_field_name] = [new_file_path , str(frameVector)]
+#			var tr = Timer.new()
+#			tr.set_one_shot(true)
+#			add_child(tr)
+#			tr.set_wait_time(.25)
+#			tr.start()
+#			yield(tr, "timeout")
+#			tr.queue_free()
+#	refresh_data(Item_Name)
 
 
 
@@ -511,15 +524,15 @@ func _on_NewField_Cancel_button_up():
 	$Popups/popup_newValue.visible = false
 
 
-func add_newField():
-	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/LineEdit3.get_text()
+func add_newField(): 
+	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input.get_text()
 	var datatype = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection.selectedItemName
 	var showField = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox3/LineEdit3.is_pressed()
 	var required = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox4/LineEdit3.is_pressed()
 	var tableName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection.selectedItemName
 	#Get input values and send them to the editor functions add new value script
 	#NEED TO ADD ERROR CHECKING
-	add_field(fieldName, datatype, showField, required, tableName)
+	add_field(fieldName, datatype, showField, false, tableName)
 	refresh_data(Item_Name)
 	
 
@@ -564,3 +577,7 @@ func _on_DeleteField_Cancel_button_up():
 func input_node_changed(value):
 	$VBox1/HBox1/Center1/Label.visible = true
 	input_changed = true
+
+
+func _on_RefreshData_button_up() -> void:
+	reload_data_without_saving()

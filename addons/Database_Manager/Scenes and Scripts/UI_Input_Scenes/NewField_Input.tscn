@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewField_Input.gd" type="Script" id=2]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" type="PackedScene" id=3]
 
 [node name="HBox1" type="HBoxContainer"]
 anchor_right = 1.0
@@ -13,55 +14,50 @@ __meta__ = {
 }
 
 [node name="VBox1" type="VBoxContainer" parent="."]
-margin_right = 748.0
-margin_bottom = 900.0
+margin_right = 448.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label3" type="Label" parent="VBox1"]
-margin_right = 748.0
-margin_bottom = 448.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Field Name"
-align = 1
-valign = 1
-autowrap = true
+[node name="Input_Text" parent="VBox1" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 448.0
+margin_bottom = 600.0
+label_text = "New Field Name"
+is_label_button = false
 
-[node name="LineEdit3" type="LineEdit" parent="VBox1"]
-margin_top = 452.0
-margin_right = 748.0
-margin_bottom = 900.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Label" parent="VBox1/Input_Text" index="0"]
+margin_right = 448.0
+
+[node name="Input" parent="VBox1/Input_Text" index="1"]
+margin_right = 448.0
+
+[node name="input_templateBuffer" parent="VBox1/Input_Text" index="2"]
+margin_right = 448.0
 
 [node name="VBox2" type="VBoxContainer" parent="."]
-margin_left = 752.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_left = 452.0
+margin_right = 900.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ItemType_Selection" parent="VBox2" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 748.0
-margin_bottom = 900.0
+margin_right = 448.0
+margin_bottom = 600.0
 label_text = "Field Data Type"
 selection_table_name = "DataTypes"
 
 [node name="Label" parent="VBox2/ItemType_Selection" index="0"]
-margin_right = 748.0
-margin_bottom = 448.0
+margin_right = 448.0
 text = "Field Data Type"
 
 [node name="Input" parent="VBox2/ItemType_Selection" index="1"]
-margin_top = 452.0
-margin_right = 748.0
-margin_bottom = 900.0
+margin_right = 448.0
+margin_bottom = 600.0
 items = [ "Item 0", null, false, 0, null ]
 
 [node name="input_templateBuffer" parent="VBox2/ItemType_Selection" index="2"]
@@ -146,5 +142,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 pressed = true
 
+[editable path="VBox1/Input_Text"]
 [editable path="VBox2/ItemType_Selection"]
 [editable path="Table_Selection"]

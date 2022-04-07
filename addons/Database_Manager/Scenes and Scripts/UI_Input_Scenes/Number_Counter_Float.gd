@@ -5,9 +5,12 @@ var increment = 0.1
 
 var num_value
 
-func _ready():
-	type = "Number Counter"
-	default  = 0.0
+func _init() -> void:
+	type = "TYPE_REAL"
+
+#func _ready():
+#	type = "Number Counter"
+#	default  = 0.0
 
 func _on_Add_Button_button_up():
 	num_value = float(inputNode.get_text())

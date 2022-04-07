@@ -8,6 +8,9 @@
 [node name="Input_Vector" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource( 2 )
 script = ExtResource( 3 )
 __meta__ = {
@@ -15,51 +18,48 @@ __meta__ = {
 }
 
 [node name="Label" parent="." instance=ExtResource( 4 )]
+margin_right = 900.0
+text = "Input_Vector"
 
 [node name="Hbox1" type="HBoxContainer" parent="."]
 margin_top = 34.0
-margin_right = 1500.0
-margin_bottom = 315.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+margin_right = 900.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 30 )
 
 [node name="Button" type="Button" parent="Hbox1"]
-margin_right = 748.0
-margin_bottom = 281.0
+margin_right = 448.0
+margin_bottom = 30.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
 text = "Vector 2"
 
 [node name="Button2" type="Button" parent="Hbox1"]
-margin_left = 752.0
-margin_right = 1500.0
-margin_bottom = 281.0
+margin_left = 452.0
+margin_right = 900.0
+margin_bottom = 30.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
 text = "Vector3"
 
 [node name="HBox2" type="HBoxContainer" parent="."]
-margin_top = 319.0
-margin_right = 1500.0
-margin_bottom = 600.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+margin_top = 68.0
+margin_right = 900.0
+margin_bottom = 98.0
 
 [node name="X" type="Label" parent="HBox2"]
-margin_right = 748.0
-margin_bottom = 281.0
+margin_right = 448.0
+margin_bottom = 30.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 1
 text = "X"
 align = 1
 valign = 1
 
 [node name="Y" type="Label" parent="HBox2"]
-margin_left = 752.0
-margin_right = 1500.0
-margin_bottom = 281.0
+margin_left = 452.0
+margin_right = 900.0
+margin_bottom = 30.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 1
 text = "Y"
 align = 1
 valign = 1
@@ -70,24 +70,26 @@ margin_left = 685.0
 margin_right = 1024.0
 margin_bottom = 147.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 1
 text = "Z"
 align = 1
 valign = 1
 
 [node name="HBox3" type="HBoxContainer" parent="."]
-margin_top = 604.0
-margin_right = 1500.0
-margin_bottom = 886.0
+margin_top = 102.0
+margin_right = 900.0
+margin_bottom = 586.0
+rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Input" type="LineEdit" parent="HBox3"]
 visible = false
-margin_right = 253.0
-margin_bottom = 147.0
+margin_right = 497.0
+margin_bottom = 784.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
+text = "(0,0,0)"
 align = 1
 max_length = 45
 placeholder_text = "Enter Value As Text"
@@ -98,8 +100,8 @@ __meta__ = {
 }
 
 [node name="InputX" type="LineEdit" parent="HBox3"]
-margin_right = 748.0
-margin_bottom = 282.0
+margin_right = 448.0
+margin_bottom = 484.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 text = "0"
@@ -113,9 +115,9 @@ __meta__ = {
 }
 
 [node name="InputY" type="LineEdit" parent="HBox3"]
-margin_left = 752.0
-margin_right = 1500.0
-margin_bottom = 282.0
+margin_left = 452.0
+margin_right = 900.0
+margin_bottom = 484.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 text = "0"
@@ -146,9 +148,8 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 890.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_top = 590.0
+margin_right = 900.0
 
 [connection signal="button_up" from="Hbox1/Button" to="." method="_on_Button_button_up"]
 [connection signal="button_up" from="Hbox1/Button2" to="." method="_on_Button2_button_up"]

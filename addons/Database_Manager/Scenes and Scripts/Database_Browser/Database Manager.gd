@@ -30,7 +30,7 @@ onready var newTable = $Popups/popup_newTable
 
 
 onready var newKey_popup = $Popups/popup_newKey
-onready var newKey_Name_Input = $Popups/popup_newKey/PanelContainer/VBox1/HBox1/VBox1/LineEdit3
+onready var newKey_Name_Input = $Popups/popup_newKey/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input
 onready var newKey_dataType_Input = $Popups/popup_newKey/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Input
 onready var newKey_ShowHide_Input = $Popups/popup_newKey/PanelContainer/VBox1/HBox1/VBox3/LineEdit3
 
@@ -939,7 +939,7 @@ func database_display_add_key(keyName, datatype, showKey):
 
 
 func add_newField():
-	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/LineEdit3.get_text()
+	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input.get_text()
 	var datatype = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection.selectedItemName
 	var showField = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox3/LineEdit3.is_pressed()
 	var required = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox4/LineEdit3.is_pressed()
@@ -980,6 +980,7 @@ func add_table():
 		error = 0
 	match error: 
 		0: #if there are no errors detected
+#			print(tableName)
 			add_new_table(tableName, keyName, keyDataType, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown_table, RefName, createTab, canDelete, isDropdown, add_toSaveFile )
 			_on_newtable_Cancel_button_up()
 			_on_Close_Table_button_up()

@@ -7,9 +7,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -27,12 +24,12 @@ __meta__ = {
 }
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
-margin_right = 1500.0
+margin_right = 900.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Button" parent="VBox1/HBox1"]
-margin_right = 1243.0
+margin_right = 713.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -40,8 +37,8 @@ size_flags_stretch_ratio = 10.0
 text = "DictionaryInput"
 
 [node name="AddItem" type="Button" parent="VBox1/HBox1"]
-margin_left = 1247.0
-margin_right = 1371.0
+margin_left = 717.0
+margin_right = 789.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 size_flags_horizontal = 3
@@ -66,8 +63,8 @@ size_flags_horizontal = 3
 text = "Delete Item"
 
 [node name="Close" type="Button" parent="VBox1/HBox1"]
-margin_left = 1375.0
-margin_right = 1500.0
+margin_left = 793.0
+margin_right = 900.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 size_flags_horizontal = 3
@@ -83,19 +80,19 @@ caret_blink_speed = 0.5
 
 [node name="input_templateBuffer" parent="VBox1" instance=ExtResource( 1 )]
 margin_top = 54.0
-margin_right = 1500.0
+margin_right = 900.0
 margin_bottom = 64.0
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1"]
 margin_top = 68.0
-margin_right = 1500.0
-margin_bottom = 900.0
+margin_right = 900.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/Scroll1"]
-margin_right = 1500.0
-margin_bottom = 832.0
+margin_right = 900.0
+margin_bottom = 532.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

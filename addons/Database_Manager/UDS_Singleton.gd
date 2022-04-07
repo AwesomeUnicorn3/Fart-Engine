@@ -4,9 +4,9 @@ signal save_complete
 signal DbManager_loaded
 signal refresh_UI
 
-var uds_main_scene
+var root : Node
 var Static_Game_Dict = {}
-var Dynamic_Game_Dict = {}
+var Dynamic_Game_Dict := {}
 var Global_Game_Dict = {}
 var save_dict = {}
 var curr_tbl_loc = ""
@@ -26,8 +26,8 @@ var dict_loaded = false
 func _ready():
 	op_sys = OS.get_name()
 	emit_signal("DbManager_loaded")
-	var tbl_data = import_data(dbmanData_save_path + "/Table Data.json")
-	tables_list = list_files_with_param(dbmanData_save_path, json, ["Table Data.json"])
+	var tbl_data = import_data(table_save_path + "/Table Data.json")
+	tables_list = list_files_with_param(table_save_path, json, ["Table Data.json"])
 	var dict = {}
 	for d in tables_list:
 		if d == "Table Data.json":
@@ -40,11 +40,11 @@ func _ready():
 #				###Updates global game dict from previous saves and overwrites with "Options" table data
 #				#Can delete with version 0.008
 #				if Global_Game_Dict["BGM"].has("Active"):
-#					Global_Game_Dict = import_data(dbmanData_save_path + "Options.json")
+#					Global_Game_Dict = import_data(table_save_path + "Options.json")
 #					save_global_options_data()
 				###########
 			else:
-				Global_Game_Dict = import_data(dbmanData_save_path + "Options.json")
+				Global_Game_Dict = import_data(table_save_path + "Options.json")
 				save_global_options_data()
 		else:
 			var array = []
@@ -53,14 +53,49 @@ func _ready():
 			var tblname = array[0]
 			var dictname = tbl_data[tblname]["Reference Name"]
 			var main_dict = save_dict
-			dict[dictname] = import_data(dbmanData_save_path + d)
+			dict[dictname] = import_data(table_save_path + d)
 
 	Static_Game_Dict = dict
 	set_var_type_dict(Static_Game_Dict)
-	new_game()
+#	set_root_node()
+#	new_game()
 	update_key_bindings()
+
 	print("Singleton Loaded and updated")
 
+func set_root_node():
+	var root_scene = load(import_data(table_save_path + "Global Data" + file_format)["Global Data"]["Project Root Scene"]).instance()
+	var root_node_name = root_scene.get_node(".").name
+	root_scene.queue_free()
+	root = get_tree().root.get_node(root_node_name)
+
+func get_root_node():
+	return root
+
+func delete_save_file(file_name : String):
+	#Can include the .sav ext but is not required, it can be just save name "1"
+	if file_name.get_extension() == save_format.trim_prefix("."):
+		file_name = file_name.trim_suffix(save_format)
+
+	var fileName = save_game_path + file_name + save_format
+
+	var dir = Directory.new()
+	dir.remove(fileName)
+
+
+func get_map_name(map_path : String):
+	var map_dict : Dictionary = import_data(table_save_path + "Maps" + file_format)
+	var map_name : String
+	for i in map_dict:
+		if map_dict[i]["Path"] == map_path:
+			map_name = map_dict[i]["Display Name"]
+			return map_name
+		else:
+			print("Error " + map_path + " not found")
+
+func load_map(map_path := ""):
+	root.get_node("map").add_child(load(map_path).instance())
+	Dynamic_Game_Dict["Global Data"]["Global Data"]["Current Map"] = map_path
 
 func save_global_options_data():
 	var save_d = Global_Game_Dict
@@ -76,12 +111,12 @@ func save_global_options_data():
 		save_file.close()
 
 func save_game():
-	save_id = Dynamic_Game_Dict["SaveData"]["Save"]["ID"]
+	save_id = Dynamic_Game_Dict["Global Data"]["Global Data"]["ID"]
 	if int(save_id) == 0: #set save id when player loads game
 		set_save_path()
 	id = String(save_id)
 	var time = OS.get_datetime()
-	var dict_time = Dynamic_Game_Dict["SaveData"]["Time"]["ID"]
+	Dynamic_Game_Dict["Global Data"]["Global Data"]["Time"] = time
 
 	var save_d = Dynamic_Game_Dict
 	var save_file = File.new()
@@ -96,6 +131,10 @@ func save_game():
 		save_file.close()
 		emit_signal("save_complete")
 
+
+func get_save_files():
+	var files = list_files_with_param(save_game_path, save_format)
+	return files
 
 func set_save_path():
 #	list_files_in_directory(save_game_path, save_format)
@@ -112,17 +151,22 @@ func set_save_path():
 	var save_path = save_game_path + id + save_format
 	var directory = Directory.new();
 	var doFileExists = directory.file_exists(save_path)
-	Dynamic_Game_Dict["SaveData"]["Save"]["ID"] = save_id
+
 	while doFileExists:
 		save_id = save_id + 1
 		id = String(save_id)
 		save_path = save_game_path + id + save_format
 		directory = Directory.new();
 		doFileExists = directory.file_exists(save_path)
+	Dynamic_Game_Dict["Global Data"]["Global Data"]["ID"] = save_id
 
-func load_game():
-	
-	var load_path = load_game_path
+func load_game(file_name : String):
+	#Can include the .sav ext but is not required, it can be just save name "1"
+	if file_name.get_extension() == save_format.trim_prefix("."):
+		file_name = file_name.trim_suffix(save_format)
+
+	var fileName = save_game_path + file_name + save_format
+	var load_path = fileName
 	var load_file = File.new()
 
 	if not load_file.file_exists(load_path):
@@ -132,12 +176,26 @@ func load_game():
 	Dynamic_Game_Dict = parse_json(load_file.get_as_text())
 	set_var_type_dict(Dynamic_Game_Dict)
 	load_file.close()
+	load_map(get_current_map_path())
 	dict_loaded = true
+
+func get_player_node():
+	return root.get_node("YSort/Player")
+
+
+func set_player_position():
+	var player = get_player_node()
+	print(udsmain.Dynamic_Game_Dict['Global Data']["Global Data"]["Player POS"])
+	var player_position = convert_string_to_Vector(Dynamic_Game_Dict['Global Data']["Global Data"]["Player POS"])
+	player.set_global_position(player_position)
+
+
+
 
 
 func new_game():
-	var tbl_data = import_data("res://addons/Database_Manager/Data/Table Data.json")
-	tables_list = list_files_with_param(dbmanData_save_path, json)
+	var tbl_data = import_data( table_save_path + "Table Data.json")
+	tables_list = list_files_with_param(table_save_path, json)
 #	set_var_type_table(tbl_data)
 	var dict = {}
 	for d in tables_list:
@@ -152,15 +210,47 @@ func new_game():
 			var dictname = deleteme["Reference Name"]
 			var dynamic = convert_string_to_type(deleteme["Include in Save File"])
 			if dynamic == true:
-				dict[dictname] = import_data(dbmanData_save_path + d)
+				dict[dictname] = import_data(table_save_path + d)
+				
 	Dynamic_Game_Dict = dict
 	
 	#Set intital player inventory
 	set_var_type_dict(Dynamic_Game_Dict)
-	var intitial_inventory_dict = convert_string_to_type(Static_Game_Dict["Characters"][get_lead_character()]['Starting Inventory'])
+#	var intitial_inventory_dict = convert_string_to_type(Static_Game_Dict["Characters"][get_lead_character()]['Starting Inventory'])
 #	add_newGame_inventory(intitial_inventory_dict)
-	Dynamic_Game_Dict["SaveData"]["New Game"] = false
+	Dynamic_Game_Dict["Global Data"]["Global Data"]["NewGame"] = false
+	Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Project Root Scene")
+	Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Project Root Scene")
+	#Add new map to root/map
+	load_map(get_starting_map_path())
 
+
+func get_game_title():
+	var initial_save_data : Dictionary = import_data(table_save_path + "Global Data" + file_format)
+	var game_title = initial_save_data["Global Data"]["Game Title"]
+	return game_title
+
+func get_starting_map_path():
+	var current_map_name : String = Dynamic_Game_Dict['Global Data']["Global Data"]['Starting Map']
+	var current_map_path := ""
+	for i in Static_Game_Dict['Maps']:
+		if current_map_name == Static_Game_Dict['Maps'][i]["Display Name"]:
+			current_map_path = Static_Game_Dict['Maps'][i]["Path"]
+			Dynamic_Game_Dict["Global Data"]["Global Data"]["Current Map"] = current_map_path
+			Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Starting Map")
+			break
+	return current_map_path
+
+func get_current_map_path():
+	var current_map_path : String = Dynamic_Game_Dict['Global Data']["Global Data"]['Current Map']
+#	var current_map_path := ""
+#	for i in Static_Game_Dict['Maps']:
+#		if current_map_name == Static_Game_Dict['Maps'][i]["Display Name"]:
+#			current_map_path = Static_Game_Dict['Maps'][i]["Path"]
+#			Dynamic_Game_Dict["Global Data"]["Global Data"]["Current Map"] = current_map_path
+#			Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Starting Map")
+#			break
+	return current_map_path
 
 class MyCustomSorter:
 	static func sort_ascending(a, b):
@@ -188,6 +278,39 @@ func get_lead_character(): #Character the player is actively controlling
 	var lead_char = udsmain.Static_Game_Dict['Character Formation']["1"]["ID"]
 	return lead_char
 
+
+func get_collision_shape(sprite_field_name := "Idle Sprite", character_name :String = get_lead_character()):
+#func get_character_sprite_animation(sprite_field_name := "Idle Sprite", character_name :String = get_lead_character()):
+	var sprite_texture_info = udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name]
+	var character_sprite_array : Array
+	var character_animated_sprite : AnimatedSprite = AnimatedSprite.new()
+	var collision_shape = CollisionShape2D.new()
+#	character_animated_sprite.name = sprite_field_name
+	if character_sprite_array != sprite_texture_info:
+#		print(characterSprite, " ", sprite_field_name)
+		character_sprite_array = udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name] #udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Walk Sprite']
+		var frameVector : Vector2 = udsmain.convert_string_to_Vector(character_sprite_array[1])
+		var spriteMap = load(table_save_path + icon_folder + character_sprite_array[0])
+		#SET COLLISION SHAPE = TO SPRITE SIZE
+		var sprite_size = Vector2(spriteMap.get_size().x/frameVector.y,spriteMap.get_size().y/frameVector.x)
+		var new_rectangle_2d : = RectangleShape2D.new()
+		collision_shape.set_shape(new_rectangle_2d)
+		collision_shape.shape.set_extents(Vector2(sprite_size.x / 2, sprite_size.y / 2))
+		collision_shape.name = "Collision_Shape"
+		#CREATE ANIMATION BASED ON THE NUMBER OF FRAMES
+#		var total_frames = frameVector.x * frameVector.y
+#		var spriteFrame = SpriteFrames.new()
+#		if spriteFrame.has_animation(sprite_field_name):
+#			spriteFrame.clear(sprite_field_name)
+#		spriteFrame.add_animation(sprite_field_name)
+#
+#		for i in range(0, total_frames):
+#			character_animated_sprite.set_sprite_frames(spriteFrame)
+#			var region_offset = sprite_size * i
+#			var region := Rect2( region_offset.x ,  0, sprite_size.x , sprite_size.y)
+#			var cropped_texture = get_cropped_texture(spriteMap, region)
+#			spriteFrame.add_frame(sprite_field_name, cropped_texture , i)
+	return collision_shape
 #######BEGIN CONTROL FUNCTIONS###############################33
 
 func clear_key_bindings():

@@ -1,0 +1,101 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://addons/Database_Manager/UDS_Main.gd" type="Script" id=1]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Database Manager.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/Database_Manager/Theme and Style/main_30.tres" type="Theme" id=5]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/SaveFile_Manager/DisplaySaveFile.tscn" type="PackedScene" id=7]
+
+[node name="UDS_Main" type="Control" groups=["UDS_Root"]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 5 )
+script = ExtResource( 1 )
+
+[node name="Background" parent="." instance=ExtResource( 4 )]
+
+[node name="HBox_1" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox_1" type="VBoxContainer" parent="HBox_1"]
+margin_right = 900.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBox_1/VBox_1"]
+margin_right = 900.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_vertical_enabled = false
+
+[node name="Hbox_1" type="HBoxContainer" parent="HBox_1/VBox_1/ScrollContainer"]
+margin_right = 1074.0
+margin_bottom = 50.0
+
+[node name="Database" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"] instance=ExtResource( 3 )]
+text = "Database"
+
+[node name="DisplaySaveFile" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"] instance=ExtResource( 3 )]
+margin_left = 154.0
+margin_right = 304.0
+text = "View Save Files"
+
+[node name="Welcome_Label" type="Label" parent="HBox_1/VBox_1"]
+margin_top = 84.0
+margin_right = 900.0
+margin_bottom = 566.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
+text = "Welcome to the Awesome Unicorn Database Manager"
+align = 1
+valign = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBox_1/VBox_1"]
+margin_top = 570.0
+margin_right = 900.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="VersionLabel" parent="HBox_1/VBox_1/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 900.0
+margin_bottom = 30.0
+
+[node name="Tabs" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 76.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Database" parent="Tabs" instance=ExtResource( 2 )]
+visible = false
+
+[node name="DisplaySaveFile" parent="Tabs" instance=ExtResource( 7 )]
+visible = false
+
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" method="_on_Navigation_Button_button_up"]
+[connection signal="visibility_changed" from="Tabs/DisplaySaveFile" to="Tabs/DisplaySaveFile" method="_on_DisplaySaveFile_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Characters" to="Tabs/Characters" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Items" to="Tabs/Items" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Controls" to="Tabs/Controls" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Maps" to="Tabs/Maps" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Global Data" to="Tabs/Global Data" method="_on_visibility_changed"]
