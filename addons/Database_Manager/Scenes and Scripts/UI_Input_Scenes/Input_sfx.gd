@@ -8,7 +8,7 @@ onready var pitch_slider := $HBoxContainer/VBoxContainer/HBoxContainer2/HSlider
 var fileSelectedNode :Node
 
 func _init() -> void:
-	type = "TYPE_SFX"
+	type = "13"
 
 func remove_dialog():
 	var par = get_main_tab(self)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/Database_Manager/UDS_Main.gd" type="Script" id=1]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/Database_Browser/Database Manager.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://addons/Database_Manager/Theme and Style/main_30.tres" type="Theme" id=5]
 [ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/SaveFile_Manager/DisplaySaveFile.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/Event_Manager/Event_Manager.tscn" type="PackedScene" id=8]
 
 [node name="UDS_Main" type="Control" groups=["UDS_Root"]]
 anchor_right = 1.0
@@ -40,7 +41,7 @@ size_flags_vertical = 3
 scroll_vertical_enabled = false
 
 [node name="Hbox_1" type="HBoxContainer" parent="HBox_1/VBox_1/ScrollContainer"]
-margin_right = 1602.0
+margin_right = 2202.0
 margin_bottom = 50.0
 
 [node name="Database" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"] instance=ExtResource( 3 )]
@@ -50,6 +51,11 @@ text = "Database"
 margin_left = 154.0
 margin_right = 304.0
 text = "View Save Files"
+
+[node name="EventManager" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"] instance=ExtResource( 3 )]
+margin_left = 308.0
+margin_right = 458.0
+text = "Events"
 
 [node name="Welcome_Label" type="Label" parent="HBox_1/VBox_1"]
 margin_top = 84.0
@@ -85,20 +91,29 @@ visible = false
 [node name="DisplaySaveFile" parent="Tabs" instance=ExtResource( 7 )]
 visible = false
 
+[node name="EventManager" parent="Tabs" instance=ExtResource( 8 )]
+visible = false
+
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Formation" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Formation" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Control Categories" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Control Categories" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/DataTypes" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/DataTypes" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Triggers" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Triggers" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Table Template" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Table Template" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Inequalities" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Inequalities" method="_on_Navigation_Button_button_up"]
 [connection signal="visibility_changed" from="Tabs/DisplaySaveFile" to="Tabs/DisplaySaveFile" method="_on_DisplaySaveFile_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Global Data" to="Tabs/Global Data" method="_on_visibility_changed"]
-[connection signal="visibility_changed" from="Tabs/Maps" to="Tabs/Maps" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Characters" to="Tabs/Characters" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Items" to="Tabs/Items" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Controls" to="Tabs/Controls" method="_on_visibility_changed"]
-[connection signal="visibility_changed" from="Tabs/Character Formation" to="Tabs/Character Formation" method="_on_visibility_changed"]
-[connection signal="visibility_changed" from="Tabs/Control Categories" to="Tabs/Control Categories" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/DataTypes" to="Tabs/DataTypes" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="Tabs/Tutorial Table" to="Tabs/Tutorial Table" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Sprite Groups" to="Tabs/Sprite Groups" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Event Triggers" to="Tabs/Event Triggers" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Event Table Template" to="Tabs/Event Table Template" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Global Variables" to="Tabs/Global Variables" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="Tabs/Inequalities" to="Tabs/Inequalities" method="_on_visibility_changed"]

@@ -18,3 +18,5 @@ position = Vector2( 502, 286 )
 current = true
 
 [node name="UI" parent="." instance=ExtResource( 3 )]
+
+[node name="events" type="Node" parent="."]

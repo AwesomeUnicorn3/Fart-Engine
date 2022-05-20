@@ -14,7 +14,7 @@ var omit_changed = true
 
 
 func _init() -> void:
-	type = "TYPE_MINMAX"
+	type = "12"
 
 
 #func _ready():

@@ -8,27 +8,27 @@
 [node name="Input_Dictionary" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 100 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 2 )
 script = ExtResource( 3 )
 
 [node name="Label" parent="." instance=ExtResource( 4 )]
+anchor_right = 0.0
 margin_right = 900.0
-text = "Input_Dictionary"
+margin_bottom = 25.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_top = 34.0
+margin_top = 29.0
 margin_right = 900.0
-margin_bottom = 586.0
+margin_bottom = 591.0
 rect_min_size = Vector2( 0, 75 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Input" type="TextEdit" parent="HBoxContainer"]
 margin_right = 718.0
-margin_bottom = 552.0
+margin_bottom = 562.0
 rect_min_size = Vector2( 100, 0 )
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.05
@@ -48,13 +48,13 @@ smooth_scrolling = true
 [node name="Add_New_Item" type="Button" parent="HBoxContainer"]
 margin_left = 722.0
 margin_right = 900.0
-margin_bottom = 552.0
+margin_bottom = 562.0
 rect_min_size = Vector2( 5, 40 )
 size_flags_horizontal = 3
 text = "Edit List"
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 590.0
+margin_top = 595.0
 margin_right = 900.0
 
 [connection signal="button_up" from="HBoxContainer/Add_New_Item" to="." method="_on_Add_New_Item_button_up"]

@@ -81,10 +81,10 @@ caret_blink_speed = 0.5
 [node name="input_templateBuffer" parent="VBox1" instance=ExtResource( 1 )]
 margin_top = 54.0
 margin_right = 900.0
-margin_bottom = 64.0
+margin_bottom = 59.0
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1"]
-margin_top = 68.0
+margin_top = 63.0
 margin_right = 900.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
@@ -92,7 +92,7 @@ size_flags_vertical = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/Scroll1"]
 margin_right = 900.0
-margin_bottom = 532.0
+margin_bottom = 537.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

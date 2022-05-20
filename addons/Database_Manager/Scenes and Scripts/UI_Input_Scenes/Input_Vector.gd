@@ -14,7 +14,7 @@ var omit_changed = true
 
 
 func _init() -> void:
-	type = "TYPE_VECTOR"
+	type = "9"
 
 
 #func _ready():

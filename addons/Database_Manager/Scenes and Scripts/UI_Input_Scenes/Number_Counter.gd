@@ -6,7 +6,7 @@ export var increment = 1
 var num_value
 
 func _init() -> void:
-	type = "TYPE_INT"
+	type = "2"
 
 #func _ready():
 ##	inputNode = $HBox1/Input

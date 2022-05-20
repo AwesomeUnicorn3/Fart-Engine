@@ -168,28 +168,27 @@ size_flags_horizontal = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1"]
 margin_right = 351.0
-margin_bottom = 98.0
+margin_bottom = 88.0
 size_flags_horizontal = 3
 
 [node name="Key" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 351.0
-margin_bottom = 98.0
+margin_bottom = 88.0
 label_text = "Key"
 
 [node name="Label" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key" index="0"]
 margin_right = 351.0
-text = "Key"
 
 [node name="Input" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key" index="1"]
 margin_right = 351.0
-margin_bottom = 84.0
+margin_bottom = 79.0
 
 [node name="input_templateBuffer" parent="VBox1/HBox2/Panel1/VBox1/HBox1/Scroll1/VBox1/Key" index="2"]
-margin_top = 88.0
+margin_top = 83.0
 margin_right = 351.0
-margin_bottom = 98.0
+margin_bottom = 88.0
 
 [node name="Panel" type="Panel" parent="VBox1/HBox2/Panel1/VBox1/HBox1"]
 modulate = Color( 0, 0, 0, 1 )
@@ -388,21 +387,9 @@ size_flags_horizontal = 3
 text = "Cancel"
 
 [node name="popup_newValue" parent="Popups" instance=ExtResource( 3 )]
-visible = false
-
-[node name="Label" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="0"]
-margin_right = 340.0
-text = "New Field Name"
-
-[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="1"]
-margin_right = 340.0
-margin_bottom = 132.0
 
 [node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="2"]
-visible = false
 margin_top = 122.0
-margin_right = 340.0
-margin_bottom = 132.0
 
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
 text = "Text"

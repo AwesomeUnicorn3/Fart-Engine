@@ -21,6 +21,7 @@ bg_color = Color( 0.00392157, 0, 0.054902, 1 )
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 
 [sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.14902, 0.172549, 0.231373, 1 )
@@ -43,6 +44,7 @@ Button/styles/hover = SubResource( 3 )
 Button/styles/normal = SubResource( 2 )
 Button/styles/pressed = SubResource( 4 )
 CheckButton/styles/focus = SubResource( 11 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 1 )
 OptionButton/styles/disabled = SubResource( 8 )
 OptionButton/styles/focus = SubResource( 9 )
 OptionButton/styles/hover = SubResource( 10 )

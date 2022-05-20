@@ -6,8 +6,8 @@ var main_dictionary : Dictionary = {}
 onready var input_form = load("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DictionaryInput_Form.tscn")
 #var def_dict : Dictionary = {
 #"1": {
-#"Datatype 1": "TYPE_STRING",
-#"Datatype 2": "TYPE_INT",
+#"Datatype 1": "1",
+#"Datatype 2": "2",
 #"TableName 1" : "DataTypes",
 #"TableName 2" : "DataTypes",
 #"Value 1": "Default Value1",
@@ -16,12 +16,12 @@ onready var input_form = load("res://addons/Database_Manager/Scenes and Scripts/
 #}
 
 func _init() -> void:
-	type = "TYPE_DICTIONARY"
+	type = "10"
 	
 
 func _ready():
 	default = var2str(default)
-#	type = "TYPE_DICTIONARY"
+#	type = "10"
 #	default = var2str(default)
 #	inputNode.set_text(default)
 	

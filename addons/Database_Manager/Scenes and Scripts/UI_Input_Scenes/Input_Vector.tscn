@@ -8,7 +8,6 @@
 [node name="Input_Vector" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 2 )
@@ -18,13 +17,14 @@ __meta__ = {
 }
 
 [node name="Label" parent="." instance=ExtResource( 4 )]
+anchor_right = 0.0
 margin_right = 900.0
-text = "Input_Vector"
+margin_bottom = 25.0
 
 [node name="Hbox1" type="HBoxContainer" parent="."]
-margin_top = 34.0
+margin_top = 29.0
 margin_right = 900.0
-margin_bottom = 64.0
+margin_bottom = 59.0
 rect_min_size = Vector2( 0, 30 )
 
 [node name="Button" type="Button" parent="Hbox1"]
@@ -41,9 +41,10 @@ size_flags_horizontal = 3
 text = "Vector3"
 
 [node name="HBox2" type="HBoxContainer" parent="."]
-margin_top = 68.0
+margin_top = 63.0
 margin_right = 900.0
-margin_bottom = 98.0
+margin_bottom = 93.0
+rect_min_size = Vector2( 0, 25 )
 
 [node name="X" type="Label" parent="HBox2"]
 margin_right = 448.0
@@ -76,9 +77,9 @@ align = 1
 valign = 1
 
 [node name="HBox3" type="HBoxContainer" parent="."]
-margin_top = 102.0
+margin_top = 97.0
 margin_right = 900.0
-margin_bottom = 586.0
+margin_bottom = 591.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -101,7 +102,7 @@ __meta__ = {
 
 [node name="InputX" type="LineEdit" parent="HBox3"]
 margin_right = 448.0
-margin_bottom = 484.0
+margin_bottom = 494.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 text = "0"
@@ -117,7 +118,7 @@ __meta__ = {
 [node name="InputY" type="LineEdit" parent="HBox3"]
 margin_left = 452.0
 margin_right = 900.0
-margin_bottom = 484.0
+margin_bottom = 494.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 text = "0"
@@ -148,7 +149,7 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 590.0
+margin_top = 595.0
 margin_right = 900.0
 
 [connection signal="button_up" from="Hbox1/Button" to="." method="_on_Button_button_up"]

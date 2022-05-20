@@ -1,1 +1,0 @@
-{"Column":{"1":{"DataType":"TYPE_INT","FieldName":"ItemCount","RequiredValue":true,"ShowValue":true,"TableRef":"empty"}},"Row":{"1":{"DataType":"TYPE_STRING","FieldName":"Default","RequiredValue":true,"ShowValue":true,"TableRef":"empty"}}}

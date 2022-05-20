@@ -1,0 +1,165 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/Event_Manager/popup_newEvent.gd" type="Script" id=1]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Database_Manager/Theme and Style/main_30.tres" type="Theme" id=4]
+
+[node name="popup_newEvent" type="Popup"]
+visible = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 500, 250 )
+theme = ExtResource( 4 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -356.0
+margin_top = -298.0
+margin_right = 356.0
+margin_bottom = 298.0
+color = Color( 0.0588235, 0, 0.337255, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox1" type="VBoxContainer" parent="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Input_Text" parent="PanelContainer/VBox1" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 712.0
+margin_bottom = 296.0
+label_text = "Table Name"
+is_label_button = false
+
+[node name="Table_RefName" parent="PanelContainer/VBox1" instance=ExtResource( 2 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 102.0
+margin_right = 712.0
+margin_bottom = 200.0
+label_text = "Enter Nickname for table "
+is_label_button = false
+
+[node name="List_Checkbox" parent="PanelContainer/VBox1" instance=ExtResource( 3 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 92.0
+margin_right = 712.0
+margin_bottom = 180.0
+label_text = "Is Table a List?"
+is_label_button = null
+
+[node name="Label" parent="PanelContainer/VBox1/List_Checkbox" index="0"]
+margin_right = 712.0
+
+[node name="Hbox1" parent="PanelContainer/VBox1/List_Checkbox" index="1"]
+margin_right = 712.0
+margin_bottom = 79.0
+
+[node name="Label2" parent="PanelContainer/VBox1/List_Checkbox/Hbox1" index="0"]
+margin_right = 176.0
+margin_bottom = 30.0
+
+[node name="Background" parent="PanelContainer/VBox1/List_Checkbox/Hbox1" index="1"]
+margin_right = 712.0
+margin_bottom = 50.0
+
+[node name="Label3" parent="PanelContainer/VBox1/List_Checkbox/Hbox1" index="2"]
+margin_left = 536.0
+margin_right = 712.0
+margin_bottom = 30.0
+
+[node name="input_templateBuffer" parent="PanelContainer/VBox1/List_Checkbox" index="2"]
+margin_top = 83.0
+margin_right = 712.0
+margin_bottom = 88.0
+
+[node name="Incl_inSavefile" parent="PanelContainer/VBox1" instance=ExtResource( 3 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 100.0
+margin_right = 712.0
+margin_bottom = 196.0
+label_text = "Include in Save Files?"
+is_label_button = null
+
+[node name="DB_Tab" parent="PanelContainer/VBox1" instance=ExtResource( 3 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 120.0
+margin_right = 712.0
+margin_bottom = 236.0
+label_text = "Create Database Tab?"
+is_label_button = null
+
+[node name="Key_Input" parent="PanelContainer/VBox1" instance=ExtResource( 2 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 200.0
+margin_right = 712.0
+margin_bottom = 396.0
+label_text = "First Key Name"
+is_label_button = false
+
+[node name="Field_Input" parent="PanelContainer/VBox1" instance=ExtResource( 2 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 300.0
+margin_right = 712.0
+margin_bottom = 446.0
+label_text = "First Field Name"
+is_label_button = false
+
+[node name="HBox2" type="HBoxContainer" parent="PanelContainer/VBox1"]
+margin_top = 300.0
+margin_right = 712.0
+margin_bottom = 596.0
+rect_min_size = Vector2( 0, 35 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Accept" type="Button" parent="PanelContainer/VBox1/HBox2"]
+margin_right = 354.0
+margin_bottom = 296.0
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="PanelContainer/VBox1/HBox2"]
+margin_left = 358.0
+margin_right = 712.0
+margin_bottom = 296.0
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="Label2" type="Label" parent="PanelContainer/VBox1"]
+visible = false
+margin_top = 599.0
+margin_right = 508.0
+margin_bottom = 629.0
+size_flags_vertical = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_popup_newTable_visibility_changed"]
+[connection signal="toggled" from="PanelContainer/VBox1/List_Checkbox/Hbox1/Background/Input" to="." method="_on_Input_toggled"]
+
+[editable path="PanelContainer/VBox1/List_Checkbox"]

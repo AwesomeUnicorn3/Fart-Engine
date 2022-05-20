@@ -1,1 +1,1 @@
-{"1":{"ItemID":"FieldName"},"2":{"ItemID":"ShowValue"},"3":{"ItemID":"DataType"},"4":{"ItemID":"RequiredValue"},"5":{"ItemID":"TableRef"}}
+{"1":{"DataType":"TYPE_STRING","ItemID":"FieldName"},"2":{"DataType":"TYPE_BOOL","ItemID":"ShowValue"},"3":{"DataType":"TYPE_DROPDOWN","ItemID":"DataType"},"4":{"DataType":"TYPE_BOOL","ItemID":"RequiredValue"},"5":{"DataType":"TYPE_DROPDOWN","ItemID":"TableRef"}}

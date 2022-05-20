@@ -67,7 +67,6 @@ is_label_button = null
 [node name="Label" parent="PanelContainer/VBox1/List_Checkbox" index="0"]
 margin_right = 712.0
 margin_bottom = 30.0
-text = "Is Table a List?"
 
 [node name="Hbox1" parent="PanelContainer/VBox1/List_Checkbox" index="1"]
 margin_top = 34.0
@@ -75,7 +74,6 @@ margin_right = 712.0
 margin_bottom = 64.0
 
 [node name="Label2" parent="PanelContainer/VBox1/List_Checkbox/Hbox1" index="0"]
-margin_top = 0.0
 margin_right = 176.0
 margin_bottom = 30.0
 
@@ -86,7 +84,6 @@ margin_bottom = 30.0
 
 [node name="Label3" parent="PanelContainer/VBox1/List_Checkbox/Hbox1" index="2"]
 margin_left = 536.0
-margin_top = 0.0
 margin_right = 712.0
 margin_bottom = 30.0
 

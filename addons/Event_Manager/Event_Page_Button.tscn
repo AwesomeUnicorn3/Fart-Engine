@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/Event_Manager/Event_Page_Button.gd" type="Script" id=1]
+
+[node name="Button" type="Button"]
+margin_right = 57.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 50, 0 )
+text = "Page 1"
+script = ExtResource( 1 )
+
+[connection signal="button_up" from="." to="." method="on_Button_button_up"]

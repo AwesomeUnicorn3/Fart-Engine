@@ -56,7 +56,6 @@ var error = 0
 
 
 func _ready():
-#	udsEngine = new()
 	clear_frozenLines()
 	save_path_label.set_text(table_save_path)
 	files = list_files_with_param(table_save_path, file_format, ["Table Data.json"])
@@ -955,10 +954,10 @@ func add_table():
 
 	var tableName = newTable.tableName.text
 	var keyName = newTable.keyName.text
-	var keyDataType = "TYPE_STRING"
+	var keyDataType = "1"
 	var keyVisible = true
 	var fieldName = newTable.fieldName.text
-	var fieldDatatype = "TYPE_STRING"
+	var fieldDatatype = "1"
 	var fieldVisible = true
 	var dropdown_table = "empty"
 	var isDropdown = newTable.isList.pressed
@@ -981,7 +980,7 @@ func add_table():
 	match error: 
 		0: #if there are no errors detected
 #			print(tableName)
-			add_new_table(tableName, keyName, keyDataType, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown_table, RefName, createTab, canDelete, isDropdown, add_toSaveFile )
+			add_new_table(tableName, keyName, keyDataType, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown_table, RefName, createTab, canDelete, isDropdown, add_toSaveFile, false )
 			_on_newtable_Cancel_button_up()
 			_on_Close_Table_button_up()
 			_ready()
@@ -1105,3 +1104,10 @@ func error_display(): #NEED TO UPDATE SO IT CAN BE MOVED TO ENGINE SCRIPT
 
 func _on_Conver_File_Data_button_up():
 	convert_keyFile_to_new_format()
+
+
+func _on_Refresh_Data_button_up() -> void:
+	get_main_node()._ready()
+	_on_Close_Table_button_up()
+	_ready()
+

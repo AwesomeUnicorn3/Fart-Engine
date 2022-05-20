@@ -2,9 +2,9 @@ extends DatabaseEngine
 #SHOULD ONLY INCLUDE SCRIPT THAT I WANT ACCESSIBLE TO THE USER
 signal save_complete
 signal DbManager_loaded
-signal refresh_UI
+#signal refresh_UI
 
-var root : Node
+
 var Static_Game_Dict = {}
 var Dynamic_Game_Dict := {}
 var Global_Game_Dict = {}
@@ -51,23 +51,18 @@ func _ready():
 			var name = d
 			array = name.rsplit(".")
 			var tblname = array[0]
-			var dictname = tbl_data[tblname]["Reference Name"]
-			var main_dict = save_dict
+			var dictname = tbl_data[tblname]["Display Name"]
 			dict[dictname] = import_data(table_save_path + d)
 
 	Static_Game_Dict = dict
 	set_var_type_dict(Static_Game_Dict)
-#	set_root_node()
+	set_root_node()
 #	new_game()
-	update_key_bindings()
 
+	update_key_bindings()
 	print("Singleton Loaded and updated")
 
-func set_root_node():
-	var root_scene = load(import_data(table_save_path + "Global Data" + file_format)["Global Data"]["Project Root Scene"]).instance()
-	var root_node_name = root_scene.get_node(".").name
-	root_scene.queue_free()
-	root = get_tree().root.get_node(root_node_name)
+
 
 func get_root_node():
 	return root
@@ -87,6 +82,7 @@ func get_map_name(map_path : String):
 	var map_dict : Dictionary = import_data(table_save_path + "Maps" + file_format)
 	var map_name : String
 	for i in map_dict:
+		print(map_dict[i]["Path"])
 		if map_dict[i]["Path"] == map_path:
 			map_name = map_dict[i]["Display Name"]
 			return map_name
@@ -172,11 +168,12 @@ func load_game(file_name : String):
 	if not load_file.file_exists(load_path):
 		return
 	load_file.open(load_path, File.READ)
-	var data = {}
 	Dynamic_Game_Dict = parse_json(load_file.get_as_text())
 	set_var_type_dict(Dynamic_Game_Dict)
 	load_file.close()
 	load_map(get_current_map_path())
+	add_all_items_to_player_inventory()
+	Dynamic_Game_Dict["Global Data"]["Global Data"]["Is Game Active"] = true
 	dict_loaded = true
 
 func get_player_node():
@@ -207,22 +204,24 @@ func new_game():
 			array = name.rsplit(".")
 			var tblname = array[0]
 			var deleteme = tbl_data[tblname]
-			var dictname = deleteme["Reference Name"]
-			var dynamic = convert_string_to_type(deleteme["Include in Save File"])
-			if dynamic == true:
+			var dictname = deleteme["Display Name"]
+			var include_in_save_file = convert_string_to_type(deleteme["Include in Save File"])
+			if include_in_save_file == true:
 				dict[dictname] = import_data(table_save_path + d)
 				
 	Dynamic_Game_Dict = dict
 	
 	#Set intital player inventory
 	set_var_type_dict(Dynamic_Game_Dict)
-#	var intitial_inventory_dict = convert_string_to_type(Static_Game_Dict["Characters"][get_lead_character()]['Starting Inventory'])
-#	add_newGame_inventory(intitial_inventory_dict)
+
+	
 	Dynamic_Game_Dict["Global Data"]["Global Data"]["NewGame"] = false
 	Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Project Root Scene")
-	Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Project Root Scene")
+#	Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Project Root Scene")
 	#Add new map to root/map
 	load_map(get_starting_map_path())
+	add_all_items_to_player_inventory()
+	Dynamic_Game_Dict["Global Data"]["Global Data"]["Is Game Active"] = true
 
 
 func get_game_title():
@@ -232,6 +231,7 @@ func get_game_title():
 
 func get_starting_map_path():
 	var current_map_name : String = Dynamic_Game_Dict['Global Data']["Global Data"]['Starting Map']
+#	print(current_map_name)
 	var current_map_path := ""
 	for i in Static_Game_Dict['Maps']:
 		if current_map_name == Static_Game_Dict['Maps'][i]["Display Name"]:
@@ -279,38 +279,7 @@ func get_lead_character(): #Character the player is actively controlling
 	return lead_char
 
 
-func get_collision_shape(sprite_field_name := "Idle Sprite", character_name :String = get_lead_character()):
-#func get_character_sprite_animation(sprite_field_name := "Idle Sprite", character_name :String = get_lead_character()):
-	var sprite_texture_info = udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name])
-	var character_sprite_array : Array
-	var character_animated_sprite : AnimatedSprite = AnimatedSprite.new()
-	var collision_shape = CollisionShape2D.new()
-#	character_animated_sprite.name = sprite_field_name
-	if character_sprite_array != sprite_texture_info:
-#		print(characterSprite, " ", sprite_field_name)
-		character_sprite_array = udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name]) #udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Walk Sprite']
-		var frameVector : Vector2 = udsmain.convert_string_to_Vector(character_sprite_array[1])
-		var spriteMap = load(table_save_path + icon_folder + character_sprite_array[0])
-		#SET COLLISION SHAPE = TO SPRITE SIZE
-		var sprite_size = Vector2(spriteMap.get_size().x/frameVector.y,spriteMap.get_size().y/frameVector.x)
-		var new_rectangle_2d : = RectangleShape2D.new()
-		collision_shape.set_shape(new_rectangle_2d)
-		collision_shape.shape.set_extents(Vector2(sprite_size.x / 2, sprite_size.y / 2))
-		collision_shape.name = "Collision_Shape"
-		#CREATE ANIMATION BASED ON THE NUMBER OF FRAMES
-#		var total_frames = frameVector.x * frameVector.y
-#		var spriteFrame = SpriteFrames.new()
-#		if spriteFrame.has_animation(sprite_field_name):
-#			spriteFrame.clear(sprite_field_name)
-#		spriteFrame.add_animation(sprite_field_name)
-#
-#		for i in range(0, total_frames):
-#			character_animated_sprite.set_sprite_frames(spriteFrame)
-#			var region_offset = sprite_size * i
-#			var region := Rect2( region_offset.x ,  0, sprite_size.x , sprite_size.y)
-#			var cropped_texture = get_cropped_texture(spriteMap, region)
-#			spriteFrame.add_frame(sprite_field_name, cropped_texture , i)
-	return collision_shape
+
 #######BEGIN CONTROL FUNCTIONS###############################33
 
 func clear_key_bindings():
@@ -366,39 +335,29 @@ func update_key_bindings():
 
 
 
-#BEGIN INVENTORY FUNCTIONS###############################################################################
+#######################################BEGIN INVENTORY FUNCTIONS###############################################################################
 
-func add_newGame_inventory(itemDict : Dictionary = {}):
-	for i in itemDict:
-		add_item_to_player_inventory(i, itemDict[i])
-	udsmain.Dynamic_Game_Dict["Inventory"].erase("Default")
+func add_all_items_to_player_inventory():
+	var item_dict : Dictionary = Static_Game_Dict["Items"]
+	if !Dynamic_Game_Dict.has("Inventory"):
+		Dynamic_Game_Dict["Inventory"] = {}
+	for i in item_dict:
+		modify_player_inventory(i)
 
-func add_item_to_player_inventory(item_name : String, count : int = 0):
-	var added = false
-#	var dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
+
+func modify_player_inventory(item_name :String, count :int = 0, increase_value := true):
 	var dict_static_items = udsmain.Static_Game_Dict["Items"]
+	count = int(abs(count))
+	if !increase_value:
+		count = int(-abs(count))
 	if dict_static_items.has(item_name):
 		if!is_item_in_inventory(item_name):
 			udsmain.Dynamic_Game_Dict["Inventory"][item_name] = {"ItemCount" : 0}
 		var inv_count = int(udsmain.Dynamic_Game_Dict["Inventory"][item_name]["ItemCount"])
 		udsmain.Dynamic_Game_Dict["Inventory"][item_name]["ItemCount"] =  inv_count + count
-		print(udsmain.Dynamic_Game_Dict["Inventory"])
 	else:
 		print(item_name, " needs to be added to Item Table")
-#	update_all_active_quests()
-
-
-func remove_inventory_item(itm_name : String, count : int = 1):
-	var dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
-	if is_item_in_inventory(itm_name) == true:
-		var itm_count = int(dict_inventory[itm_name]["ItemCount"])
-		if count > itm_count:
-			count = itm_count
-		dict_inventory[itm_name]["ItemCount"] =  itm_count - count
-#		Global.display_item_gained(itm_name, -count)
-	else:
-		count = 0
-	return count
+	return udsmain.Dynamic_Game_Dict["Inventory"][item_name]["ItemCount"]
 
 
 func is_item_in_inventory(itm_name : String):
@@ -407,3 +366,17 @@ func is_item_in_inventory(itm_name : String):
 	if dict_inventory.has(itm_name):
 		value = true
 	return value
+
+
+##############################EVENT SCRIPTS#####################################3
+
+func get_event(event_name : String, function_name : String):
+	var event_script = load(Static_Game_Dict['events']['DefaultGDScript']['Script Path'])
+	var events_node : Node = root.get_node("events")
+	events_node.set_script(event_script)
+
+	if events_node.has_method(function_name):
+		events_node.call(function_name)
+	else:
+		print("Function ", function_name, " not found in ", event_name)
+	return events_node

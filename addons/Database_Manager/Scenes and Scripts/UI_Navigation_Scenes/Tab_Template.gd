@@ -45,7 +45,7 @@ func _ready():
 
 func set_ref_table():
 	var tbl_ref_dict = import_data(table_save_path + "Table Data" + file_format)
-	table_ref = tbl_ref_dict[tableName]["Reference Name"]
+	table_ref = tbl_ref_dict[tableName]["Display Name"]
 	current_table_ref = table_ref
 	return table_ref
 
@@ -56,7 +56,9 @@ func _on_visibility_changed():
 		hide_all_popups()
 		show_control_buttons()
 #		update_dictionaries()
-#		reload_buttons()
+		if is_data_updated():
+			reload_buttons()
+			_on_RefreshData_button_up()
 
 #		table_list.get_child(0)._on_TextureButton_button_up()
 
@@ -65,6 +67,17 @@ func _on_visibility_changed():
 		hide_all_popups()
 #		clear_data()
 #		clear_buttons()
+
+func is_data_updated():
+	var is_updated := false
+	var old_data_dict :Dictionary = currentData_dict.duplicate(true)
+	update_dictionaries()
+	for i in current_dict:
+		if !old_data_dict.keys().has(i):
+			is_updated = true
+			break
+	return is_updated
+			
 
 func show_control_buttons():
 	if tableName == "Controls":
@@ -96,8 +109,9 @@ func get_values_dict(var req = false):
 		if Item_Name == "Default":
 			item_value = get_default_value(itemType)
 		else:
+
 			item_value = current_dict[Item_Name][value_name]
-		if required == req and showValue:
+		if required == req:# and showValue:
 			custom_dict[value_name] = {"Value" : item_value, "DataType" : itemType, "TableRef" : tableRef, "Order" : i}
 
 	return custom_dict
@@ -157,7 +171,7 @@ func enable_all_buttons(value : bool = true):
 
 
 
-func refresh_data(item_name : String):
+func refresh_data(item_name : String = Item_Name):
 #	#Pulls specific item data when button is clicked
 	Item_Name = item_name #reset the script variable Item_Name
 	enable_all_buttons()
@@ -238,18 +252,20 @@ func create_table_buttons():
 		newbtn.set_name(label) #Set the name of the new button as the item name
 		newbtn.get_node("Label").set_text(label) #Sets the button label (name that the user sees)
 
-func _on_Save_button_up():
+func _on_Save_button_up(update_values : bool = true):
 	#Check if values are blank return error if true
 	if !has_empty_fields():
-		update_values()
+		if update_values:
+			update_values()
 		save_all_db_files(current_table_name)
 		update_dictionaries()
 		var table_dict : Dictionary = import_data(table_save_path + "Table Data" + file_format)
 		var is_dropown  = convert_string_to_type(table_dict[current_table_name]["Is Dropdown Table"])
-		if is_dropown: #THIS IS NOT WORKING CORRECTLY
+		if is_dropown: 
 			update_dropdown_tables()
 		input_changed = true
-		$VBox1/HBox1/Center1/Label.visible = false
+#		$VBox1/HBox1/Center1/Label.visible = false
+		print("Save Successful")
 	else:
 		print("There was an error. Data has not been updated")
 
@@ -381,7 +397,7 @@ func _on_SaveNewItem_button_up():
 	if !does_key_exist(Item_Name) and !does_key_contain_invalid_characters(str(Item_Name)) and !has_empty_fields():
 
 		#save new item to current_dict
-		add_key(Item_Name, "TYPE_STRING", true, false, false)
+		add_key(Item_Name, "1", true, false, false)
 
 		#update new dict entry with input values from item form
 		update_values()
@@ -525,13 +541,17 @@ func _on_NewField_Cancel_button_up():
 
 
 func add_newField(): 
+	var datafield = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection
 	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input.get_text()
-	var datatype = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection.selectedItemName
+	var selected_item_name = datafield.selectedItemName
+	var datatype = datafield.get_dataType_ID(selected_item_name)
+#	print(datatype)
 	var showField = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox3/LineEdit3.is_pressed()
 	var required = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox4/LineEdit3.is_pressed()
 	var tableName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection.selectedItemName
 	#Get input values and send them to the editor functions add new value script
 	#NEED TO ADD ERROR CHECKING
+	
 	add_field(fieldName, datatype, showField, false, tableName)
 	refresh_data(Item_Name)
 	

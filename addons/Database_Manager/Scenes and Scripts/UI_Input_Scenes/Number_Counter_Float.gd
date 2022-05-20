@@ -6,7 +6,7 @@ var increment = 0.1
 var num_value
 
 func _init() -> void:
-	type = "TYPE_REAL"
+	type = "3"
 
 #func _ready():
 #	type = "Number Counter"

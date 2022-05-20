@@ -15,26 +15,27 @@ theme = ExtResource( 4 )
 script = ExtResource( 2 )
 
 [node name="Label" parent="." instance=ExtResource( 5 )]
+anchor_right = 0.0
 margin_right = 900.0
-text = "Icon_Template"
+margin_bottom = 25.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_top = 34.0
+margin_top = 29.0
 margin_right = 900.0
-margin_bottom = 586.0
+margin_bottom = 591.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Space2" type="Label" parent="HBoxContainer"]
 margin_right = 297.0
-margin_bottom = 552.0
+margin_bottom = 562.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
 margin_left = 301.0
 margin_right = 598.0
-margin_bottom = 552.0
+margin_bottom = 562.0
 rect_min_size = Vector2( 125, 125 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -48,19 +49,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 1 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Space" type="Label" parent="HBoxContainer"]
 margin_left = 602.0
 margin_right = 900.0
-margin_bottom = 552.0
+margin_bottom = 562.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 3 )]
-margin_top = 590.0
+margin_top = 595.0
 margin_right = 900.0
 
 [connection signal="button_up" from="HBoxContainer/ColorRect/Input" to="." method="_on_TextureButton_button_up"]

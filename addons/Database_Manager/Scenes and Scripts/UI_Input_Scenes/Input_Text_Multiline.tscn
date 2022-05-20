@@ -9,21 +9,19 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 5.0
-rect_min_size = Vector2( 0, 100 )
+rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
-size_flags_vertical = 3
 theme = ExtResource( 3 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" parent="." instance=ExtResource( 4 )]
+anchor_right = 0.0
 margin_right = 900.0
-text = "Input_Text_Multiline"
+margin_bottom = 25.0
 
 [node name="Input" type="TextEdit" parent="."]
-margin_top = 34.0
+visible = false
+margin_top = 29.0
 margin_right = 900.0
 margin_bottom = 591.0
 rect_min_size = Vector2( 0, 100 )
@@ -38,6 +36,6 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 2 )]
-margin_top = 595.0
+margin_top = 29.0
 margin_right = 900.0
-margin_bottom = 605.0
+margin_bottom = 39.0

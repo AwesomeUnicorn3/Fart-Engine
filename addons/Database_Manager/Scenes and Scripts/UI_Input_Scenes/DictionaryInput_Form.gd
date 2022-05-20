@@ -64,35 +64,51 @@ func _delete_selected_list_item(itemKey := ""):
 	
 func create_input_fields():
 	for i in mainDictionary:
+		
 		var input_dict : Node =  input_dictionary_template.instance()
 		inputContainer.add_child(input_dict)
 		input_dict.Input_field.name = str(i)
 		input_dict.Input_field.inputNode.set_text(str(i))
-
+#		print(i , " "  , mainDictionary[i])
 		for j in mainDictionary[i].size() / 3:
+			
 			j += 1
-
+			
 			var dataType_Field = add_input_field(input_dict, input_dropDownMenu)
+			
 			dataType_Field.set_name("Datatype " + str(j))
+			
 			var tableName = "DataTypes"
 			dataType_Field.selection_table_name = tableName
 			dataType_Field.relatedTableName = mainDictionary[i]["TableName " + str(j)]
 			dataType_Field.populate_list()
 			dataType_Field.inputNode.connect("item_selected", input_dict, "item_selected")
 #			dataType_Field.selectedItemName = dataType_Field.get_dataType_name(mainDictionary[i]["Datatype " + str(j)], true)
-#			print(mainDictionary[i]["Datatype " + str(j)])
 
-			var get_select_item = dataType_Field.get_index_from_displayName(mainDictionary[i]["Datatype " + str(j)])
-			
+
+
+#			print(i , " "  , mainDictionary[i])
+			var display_name = mainDictionary[i]["Datatype " + str(j)]
+			var get_select_item = dataType_Field.get_id(display_name)
+#			print(display_name, " ", get_select_item)
 #			print(mainDictionary[i]["Datatype " + str(j)], " ", get_select_item)
-			#THIS IS WHERE THE PROBLEM IS!!!!!
+
+
+
 			if dataType_Field.has_method("_on_Input_item_selected"):
 				var itemSelected = dataType_Field._on_Input_item_selected(get_select_item)
 				dataType_Field.inputNode.select(get_select_item)
 
 			dataType_Field.labelNode.set_text("Datatype " + str(j))
 
-			var dataType_Input = add_input_node(1, 1, "Value " + str(j), mainDictionary, input_dict, null, mainDictionary[i]["Value " + str(j)], mainDictionary[i]["Datatype " + str(j)], mainDictionary[i]["TableName " + str(j)])
+			var datatype :String = mainDictionary[i]["Datatype " + str(j)]
+#			print("Datatype is ", datatype)
+			#need to convert datatype to datatype key
+			var datatype_dict :Dictionary = import_data(table_save_path + "DataTypes" + file_format)
+			for key in datatype_dict:
+				if datatype_dict[key]["Display Name"] == datatype:
+					datatype = key
+			var dataType_Input = add_input_node(1, 1, "Value " + str(j), mainDictionary, input_dict, null, mainDictionary[i]["Value " + str(j)], datatype, mainDictionary[i]["TableName " + str(j)])
 
 			dataType_Field.relatedInputNode = dataType_Input
 
@@ -110,7 +126,7 @@ func _add_input_field():
 		nextKeyValue = 1
 	else:
 		nextKeyValue = int(mainDictionary.keys().max()) + 1
-#	print(nextKeyValue)
+
 	
 #I NEED TO FIGURE OUT A WAY TO LINK THIS WITH THE INPUT_DICTIONARY SCENE DEFAULT VALUE, 
 		#POSSIBLY I CAN PUT ALL DEFAULTS IN THE DBENGINE by looping through the input scenes and setting the default in 
@@ -122,8 +138,9 @@ func _add_input_field():
 #"TableName 2" : "DataTypes",
 #"Value 1": "Default Value1",
 #"Value 2": "1"
-#}
-	mainDictionary[str(nextKeyValue)] = str2var(get_default_value("TYPE_DICTIONARY"))["1"]
+	var default_value : Dictionary = get_default_value("10")
+#	print(default_value)
+	mainDictionary[str(nextKeyValue)] = default_value["1"]#"TYPE_DICTIONARY"))["1"]
 #	print(mainDictionary)
 	refresh_form()
 	_on_SaveChanges_button_up()

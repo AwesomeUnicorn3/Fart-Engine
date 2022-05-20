@@ -2,7 +2,7 @@ extends InputEngine
 tool
 
 func _init() -> void:
-	type = "TYPE_STRING"
+	type = "1"
 
 #func _ready():
 #

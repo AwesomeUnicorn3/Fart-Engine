@@ -8,20 +8,20 @@
 [node name="DropDown_Template" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 75, 100 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 3 )
 script = ExtResource( 2 )
 
 [node name="Label" parent="." instance=ExtResource( 4 )]
+anchor_right = 0.0
 margin_right = 900.0
-text = "DropDown_Template"
+margin_bottom = 25.0
 
 [node name="Input" type="OptionButton" parent="."]
-margin_top = 34.0
+margin_top = 29.0
 margin_right = 900.0
-margin_bottom = 586.0
+margin_bottom = 591.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -34,7 +34,7 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 1 )]
-margin_top = 590.0
+margin_top = 595.0
 margin_right = 900.0
 
 [connection signal="item_selected" from="Input" to="." method="_on_Input_item_selected"]

@@ -19,7 +19,7 @@ func swap_input_node(relatedNode, datatypeNode, itemType, tableName):
 	remove_child(relatedNode)
 	call_deferred("removeNode",relatedNode)
 	
-	if itemType == "TYPE_DROPDOWN":
+	if itemType == "5":
 		var tblSelect_tscn = load("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_TableSelect.tscn")
 		var tblSelect = tblSelect_tscn.instance()
 		tblSelect.par_node = self

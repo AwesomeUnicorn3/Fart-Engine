@@ -9,7 +9,7 @@ var key_id
 
 
 func _init() -> void:
-	type = "TYPE_KEYSELECT"
+	type = "11"
 
 #func _ready():
 #

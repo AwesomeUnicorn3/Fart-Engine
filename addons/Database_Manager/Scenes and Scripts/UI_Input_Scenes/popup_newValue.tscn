@@ -5,7 +5,6 @@
 [ext_resource path="res://addons/Database_Manager/Theme and Style/main_15.tres" type="Theme" id=3]
 
 [node name="popup_newValue" type="Popup"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -51,6 +50,19 @@ margin_bottom = 132.0
 margin_right = 340.0
 margin_bottom = 132.0
 
+[node name="Label" parent="PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="0"]
+margin_right = 340.0
+
+[node name="Input" parent="PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="1"]
+margin_right = 340.0
+margin_bottom = 132.0
+
+[node name="input_templateBuffer" parent="PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="2"]
+visible = false
+margin_top = 127.0
+margin_right = 340.0
+margin_bottom = 132.0
+
 [node name="VBox2" parent="PanelContainer/VBox1/HBox1" index="1"]
 margin_left = 344.0
 margin_right = 684.0
@@ -62,10 +74,8 @@ margin_bottom = 132.0
 
 [node name="Label" parent="PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="0"]
 margin_right = 340.0
-margin_bottom = 30.0
 
 [node name="Input" parent="PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
-margin_top = 34.0
 margin_right = 340.0
 margin_bottom = 132.0
 items = [ "Item 0", null, false, 0, null ]
@@ -76,16 +86,23 @@ margin_right = 236.0
 margin_bottom = 132.0
 
 [node name="Table_Selection" parent="PanelContainer/VBox1/HBox1" index="2"]
-margin_left = 320.0
-margin_right = 476.0
+margin_left = 458.0
+margin_right = 684.0
 margin_bottom = 132.0
 
+[node name="Label" parent="PanelContainer/VBox1/HBox1/Table_Selection" index="0"]
+margin_right = 226.0
+margin_bottom = 25.0
+
 [node name="Input" parent="PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
+margin_top = 29.0
+margin_right = 226.0
+margin_bottom = 132.0
 items = [ "Item 0", null, false, 0, null ]
 
 [node name="VBox3" parent="PanelContainer/VBox1/HBox1" index="3"]
-margin_left = 480.0
-margin_right = 580.0
+margin_left = 584.0
+margin_right = 684.0
 margin_bottom = 132.0
 
 [node name="Label3" parent="PanelContainer/VBox1/HBox1/VBox3" index="0"]
@@ -130,5 +147,6 @@ text = "Cancel"
 [connection signal="visibility_changed" from="." to="." method="_on_popup_newValue_visibility_changed"]
 
 [editable path="PanelContainer/VBox1/HBox1"]
+[editable path="PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
 [editable path="PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
 [editable path="PanelContainer/VBox1/HBox1/Table_Selection"]

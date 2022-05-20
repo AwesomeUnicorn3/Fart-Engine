@@ -10,26 +10,60 @@ var fileSelectedNode :Node
 var num_value
 var sprite_player : AnimatedSprite
 var control_rect_height = 64
+var control_position :Vector2 = Vector2.ZERO
 
 
 func _init() -> void:
 	type = "TYPE_SPRITEDISPLAY"
 
-func _ready():
-#	type = "SpriteDisplay"
-#	default = ["addons/Database_Manager/Data/Icons/Default.png", Vector2(1, 1)]
+func startup():
+	set_process(false)
 #	par = get_main_tab(self)
 	$AnimatedSprite.visible = false
-	yield(get_tree().create_timer(.1),"timeout")
+#	yield(get_tree().create_timer(.1),"timeout")
+	var t = Timer.new()
+	t.set_one_shot(true)
+	self.add_child(t)
+	t.set_wait_time(.25)
+	t.start()
+	yield(t, "timeout")
+	t.queue_free()
+
+
+	if show_field:
+		$AnimatedSprite.visible = true
+#		yield(get_tree().create_timer(.1),"timeout")
+
+	if typeof(input_data) != TYPE_ARRAY: #Should only be false when called from event
+#		parent_node = get_main_tab(self)
+#		control_node = $HBox1/Control
+		
+		input_data = parent_node.get_default_value(type)
+#		input_data = get_input_data()
+#		print(input_data)
+
 	create_sprite_animation()
-	$AnimatedSprite.visible = true
+	set_process(true)
 
 
 func _process(delta: float) -> void:
-	var control_position :Vector2 = control_node.get_rect().position
-	control_position.y += height_node.margin_top
-	$AnimatedSprite.set_position(control_position)
-	
+	if show_field:
+		if !$AnimatedSprite.visible:
+			$AnimatedSprite.visible = true
+			create_sprite_animation()
+#			print("Visible")
+		elif control_node.get_size().y != control_rect_height:
+			create_sprite_animation()
+		control_position = control_node.get_rect().position
+		control_position.y += height_node.margin_top
+		$AnimatedSprite.set_position(control_position)
+
+	else:
+		if $AnimatedSprite.visible:
+			$AnimatedSprite.visible = false
+			$AnimatedSprite.stop()
+#			print("Not Visible")
+
 
 func _on_TextureButton_button_up():
 	on_text_changed(true)
@@ -46,26 +80,20 @@ func _on_TextureButton_button_up():
 
 func create_sprite_animation():
 	control_rect_height = control_node.get_size().y
-	#I CANT FIGURE OUT WHY BUT FOR SOME REASON WHEN THE TAB LOADS FOR THE FIRST TIME, IT IS SETTING
-	#THE CONTROL_RECT_HEIGHT TO THE DEFAULT INPUT SIZE INSTEAD OF THE SIZE AFTER ADJUSTING TO THE FORM
-	if control_rect_height > 124:
-		control_rect_height = 124
+	control_node.set_size(Vector2(control_rect_height, control_rect_height))
 
 	sprite_player = $AnimatedSprite
 	if sprite_player.is_playing():
 		sprite_player.stop()
 	sprite_player.get_sprite_frames().remove_animation(labelNode.get_text())
 
-	parent_node.add_animation_to_animatedSprite(labelNode.get_text(), input_data, sprite_player)
+	parent_node.add_animation_to_animatedSprite(labelNode.get_text(), input_data, false,  sprite_player)
 	sprite_player.play(labelNode.get_text())
 
-	
 	var sprite_texture = load(parent_node.table_save_path + parent_node.icon_folder + get_input_data()[0])
 	var sprite_count = parent_node.convert_string_to_Vector(get_input_data()[1])
 	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_count.y ,sprite_texture.get_size().y / sprite_count.x)
 	var sprite_cell_ratio : float = sprite_cell_size.y / sprite_cell_size.x
-
-	
 	var modified_sprite_size_y = control_rect_height
 	var y_scale_value = modified_sprite_size_y / sprite_cell_size.y
 	var x_scale_value = y_scale_value * sprite_cell_ratio
@@ -134,10 +162,11 @@ func _on_Sub_ButtonV_button_up() -> void:
 	var numInputNode = $HBox1/VBox1/VBox1/VInput
 	num_value = int(numInputNode.get_text())
 	num_value -= increment
-	numInputNode.set_text(str(num_value))
-	on_text_changed(true)
-	input_data = get_input_data()
-	create_sprite_animation()
+	if num_value >= 1:
+		numInputNode.set_text(str(num_value))
+		on_text_changed(true)
+		input_data = get_input_data()
+		create_sprite_animation()
 
 
 func _on_Add_ButtonH_button_up() -> void:
@@ -154,10 +183,11 @@ func _on_Sub_ButtonH_button_up() -> void:
 	var numInputNode = $HBox1/VBox1/VBox1/HInput
 	num_value = int(numInputNode.get_text())
 	num_value -= increment
-	numInputNode.set_text(str(num_value))
-	on_text_changed(true)
-	input_data = get_input_data()
-	create_sprite_animation()
+	if num_value >= 1:
+		numInputNode.set_text(str(num_value))
+		on_text_changed(true)
+		input_data = get_input_data()
+		create_sprite_animation()
 
 
 func _on_HInput_text_changed(new_text: String) -> void:
@@ -167,3 +197,9 @@ func _on_HInput_text_changed(new_text: String) -> void:
 func _on_VInput_text_changed(new_text: String) -> void:
 	on_text_changed(true)
 
+
+
+func _on_Sprite_Template_resized() -> void:
+	if is_processing():
+		if show_field:
+			create_sprite_animation()

@@ -8,29 +8,27 @@
 [node name="Number_Counter_Float" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 3 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" parent="." instance=ExtResource( 4 )]
+anchor_right = 0.0
 margin_right = 900.0
-text = "Number_Counter_Float"
+margin_bottom = 25.0
 
 [node name="HBox1" type="HBoxContainer" parent="."]
-margin_top = 34.0
+margin_top = 29.0
 margin_right = 900.0
-margin_bottom = 586.0
+margin_bottom = 591.0
+rect_min_size = Vector2( 0, 30 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Input" type="LineEdit" parent="HBox1"]
 margin_right = 711.0
-margin_bottom = 552.0
+margin_bottom = 562.0
 rect_min_size = Vector2( 75, 25 )
 size_flags_horizontal = 3
 align = 1
@@ -40,7 +38,7 @@ caret_blink = true
 [node name="VBox1" type="VBoxContainer" parent="HBox1"]
 margin_left = 715.0
 margin_right = 900.0
-margin_bottom = 552.0
+margin_bottom = 562.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.26
 
@@ -56,7 +54,7 @@ margin_bottom = 64.0
 text = "-"
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 2 )]
-margin_top = 590.0
+margin_top = 595.0
 margin_right = 900.0
 
 [connection signal="button_up" from="HBox1/VBox1/Add_Button" to="." method="_on_Add_Button_button_up"]

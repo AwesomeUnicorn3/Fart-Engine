@@ -5,7 +5,7 @@ tool
 var fileSelectedNode :Node
 
 func _init() -> void:
-	type = "TYPE_SCENE"
+	type = "7"
 
 #func _ready():
 #	type = "ScenePath"

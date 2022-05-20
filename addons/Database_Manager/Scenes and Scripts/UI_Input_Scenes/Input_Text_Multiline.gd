@@ -7,7 +7,7 @@ tool
 # var b = "text"
 
 func _init() -> void:
-	type = "TYPE_STRING"
+	type = "1"
 # Called when the node enters the scene tree for the first time.
 #func _ready():
 #	type = "Multiline Text"

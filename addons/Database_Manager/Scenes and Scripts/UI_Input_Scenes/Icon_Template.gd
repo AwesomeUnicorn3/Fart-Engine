@@ -5,7 +5,7 @@ tool
 var fileSelectedNode :Node
 
 func _init() -> void:
-	type = "TYPE_ICON"
+	type = "6"
 
 
 #func _ready():

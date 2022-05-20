@@ -8,22 +8,21 @@
 [node name="MinMax" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 1 )
 script = ExtResource( 4 )
 
 [node name="Label" parent="." instance=ExtResource( 3 )]
+anchor_right = 0.0
 margin_right = 900.0
-text = "MinMax"
+margin_bottom = 25.0
 
 [node name="Hbox1" type="HBoxContainer" parent="."]
 visible = false
-margin_top = 34.0
+margin_top = 29.0
 margin_right = 900.0
-margin_bottom = 64.0
-rect_min_size = Vector2( 0, 30 )
+margin_bottom = 59.0
 
 [node name="Button" type="Button" parent="Hbox1"]
 visible = false
@@ -40,9 +39,10 @@ size_flags_horizontal = 3
 text = "Vector3"
 
 [node name="HBox2" type="HBoxContainer" parent="."]
-margin_top = 34.0
+margin_top = 29.0
 margin_right = 900.0
-margin_bottom = 64.0
+margin_bottom = 59.0
+rect_min_size = Vector2( 0, 25 )
 
 [node name="X" type="Label" parent="HBox2"]
 margin_right = 297.0
@@ -74,9 +74,9 @@ align = 1
 valign = 1
 
 [node name="HBox3" type="HBoxContainer" parent="."]
-margin_top = 68.0
+margin_top = 63.0
 margin_right = 900.0
-margin_bottom = 586.0
+margin_bottom = 591.0
 rect_min_size = Vector2( 0, 25 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -99,8 +99,7 @@ __meta__ = {
 
 [node name="InputX" type="LineEdit" parent="HBox3"]
 margin_right = 297.0
-margin_bottom = 518.0
-rect_min_size = Vector2( 75, 25 )
+margin_bottom = 528.0
 size_flags_horizontal = 3
 text = "0"
 align = 1
@@ -115,8 +114,7 @@ __meta__ = {
 [node name="InputY" type="LineEdit" parent="HBox3"]
 margin_left = 301.0
 margin_right = 598.0
-margin_bottom = 518.0
-rect_min_size = Vector2( 75, 25 )
+margin_bottom = 528.0
 size_flags_horizontal = 3
 text = "0"
 align = 1
@@ -131,8 +129,7 @@ __meta__ = {
 [node name="InputZ" type="LineEdit" parent="HBox3"]
 margin_left = 602.0
 margin_right = 900.0
-margin_bottom = 518.0
-rect_min_size = Vector2( 75, 25 )
+margin_bottom = 528.0
 size_flags_horizontal = 3
 text = "0"
 align = 1
@@ -145,7 +142,7 @@ __meta__ = {
 }
 
 [node name="input_templateBuffer" parent="." instance=ExtResource( 2 )]
-margin_top = 590.0
+margin_top = 595.0
 margin_right = 900.0
 
 [connection signal="text_changed" from="HBox3/InputX" to="." method="_on_InputX_text_changed"]
