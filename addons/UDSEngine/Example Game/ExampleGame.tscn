@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cug68ueq7pj0o"]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/Example Game/ExampleGame.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://ye5bvxga638c" path="res://addons/UDSEngine/Example Game/Player_Template.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://addons/UDSEngine/Example Game/UI.tscn" id="3"]
+
+[node name="Project Root Scene" type="Node2D"]
+script = ExtResource( "1" )
+
+[node name="map" type="Node2D" parent="."]
+
+[node name="YSort" type="Node2D" parent="."]
+
+[node name="Player" parent="YSort" instance=ExtResource( "2" )]
+position = Vector2(502, 286)
+
+[node name="Camera2D" type="Camera2D" parent="YSort/Player"]
+current = true
+
+[node name="UI" parent="." instance=ExtResource( "3" )]
+
+[node name="events" type="Node" parent="."]

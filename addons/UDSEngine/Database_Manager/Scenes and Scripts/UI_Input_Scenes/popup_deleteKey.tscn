@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://c1klfol683pf1"]
+
+[node name="popup_deleteKey" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -214.5
+offset_top = -100.5
+offset_right = 214.5
+offset_bottom = 100.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+offset_right = 429.0
+offset_bottom = 201.0
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+offset_right = 429.0
+offset_bottom = 26.0
+size_flags_vertical = 1
+text = "Which key do you want to delete?"
+
+[node name="Itemlist" type="ItemList" parent="PanelContainer/VBoxContainer"]
+offset_top = 30.0
+offset_right = 429.0
+offset_bottom = 166.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 2
+item_0/text = "Nestor"
+item_1/text = "Hilda"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+offset_top = 170.0
+offset_right = 429.0
+offset_bottom = 201.0
+
+[node name="Accept" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+offset_right = 212.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+offset_left = 216.0
+offset_right = 429.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Cancel"

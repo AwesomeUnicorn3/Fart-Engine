@@ -1,0 +1,116 @@
+[gd_scene load_steps=5 format=3 uid="uid://sfdclm03ss0u"]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/UDS_Main.gd" id="2_if1nk"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.gd" id="2_sb3v4"]
+[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="3_ukiag"]
+[ext_resource type="PackedScene" uid="uid://4gnnlr5esr5e" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/Database_Browser/Database Manager.tscn" id="6_cdrik"]
+
+[node name="UDS_Main" type="Control" groups=["UDS_Root"]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("2_if1nk")
+metadata/_edit_vertical_guides_ = []
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.14902, 0.145098, 0.152941, 1)
+
+[node name="HBox_1" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_layout_mode = 1
+
+[node name="VBox_1" type="VBoxContainer" parent="HBox_1"]
+offset_right = 900.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBox_1/VBox_1"]
+custom_minimum_size = Vector2(0, 50)
+offset_right = 900.0
+offset_bottom = 50.0
+size_flags_horizontal = 3
+
+[node name="Hbox_1" type="HBoxContainer" parent="HBox_1/VBox_1/ScrollContainer"]
+custom_minimum_size = Vector2(0, 50)
+offset_right = 81.0
+offset_bottom = 50.0
+
+[node name="Database" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
+offset_right = 81.0
+offset_bottom = 50.0
+hint_tooltip = "View Raw Database Data"
+action_mode = 0
+text = "Database"
+script = ExtResource("2_sb3v4")
+
+[node name="DisplaySaveFile" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
+visible = false
+offset_right = 124.0
+offset_bottom = 31.0
+text = "View Save Files"
+script = ExtResource("2_sb3v4")
+
+[node name="EventManager" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
+visible = false
+offset_right = 96.0
+offset_bottom = 42.0
+text = "Events"
+script = ExtResource("2_sb3v4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBox_1/VBox_1"]
+offset_top = 54.0
+offset_right = 900.0
+offset_bottom = 108.0
+
+[node name="RefreshAllTables_Button" type="Button" parent="HBox_1/VBox_1/HBoxContainer"]
+offset_right = 96.0
+offset_bottom = 54.0
+text = "Refresh All 
+Tables"
+
+[node name="Welcome_Label" type="Label" parent="HBox_1/VBox_1"]
+offset_top = 112.0
+offset_right = 900.0
+offset_bottom = 596.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.0
+text = "Welcome to the Awesome Unicorn Game Engine"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBox_1/VBox_1"]
+offset_top = 600.0
+offset_right = 900.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="Control" parent="HBox_1/VBox_1/VBoxContainer" instance=ExtResource("3_ukiag")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 900.0
+size_flags_vertical = 3
+
+[node name="Tabs" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 109.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="Database" parent="Tabs" instance=ExtResource("6_cdrik")]
+visible = false
+
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/EventManager" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/EventManager" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/HBoxContainer/RefreshAllTables_Button" to="." method="_ready"]
+
+[editable path="HBox_1/VBox_1/VBoxContainer/Control"]

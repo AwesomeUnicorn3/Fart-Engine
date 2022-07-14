@@ -1,1 +1,1 @@
-{"Global Data":{"Current Map":"empty","Game Title":"The Adventures of Blobby","ID":"0","Is Game Active":false,"NewGame":true,"Player POS":"(0, 0)","Project Root Scene":"res://addons/Example Game/ExampleGame.tscn","Starting Map":"Level 2","Time":"empty"}}
+{"Global Data":{"Active Character":"Character 1","Current Map":"empty","Game Title":"The Adventures of Blobby","ID":"0","Is Game Active":"false","NewGame":"true","Player POS":"(0, 0)","Project Root Scene":"res://addons/Example Game/ExampleGame.tscn","Starting Character":"Character 1","Starting Map":"Level 1","Time":"empty"}}

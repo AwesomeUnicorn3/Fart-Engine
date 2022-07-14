@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bl1nyj51u0sv"]
+
+[node name="Background" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.14902, 0.145098, 0.152941, 1)

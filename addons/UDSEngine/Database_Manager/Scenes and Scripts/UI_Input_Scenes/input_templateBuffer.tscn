@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c0mw0jwbq1np4"]
+
+[node name="input_templateBuffer" type="ColorRect" groups=["Label"]]
+anchor_right = 1.0
+offset_bottom = 17.0
+color = Color(0, 0, 0, 0.215686)

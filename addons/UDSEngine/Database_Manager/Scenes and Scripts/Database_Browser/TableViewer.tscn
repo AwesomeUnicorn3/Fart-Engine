@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://bwdqvn04476n4"]
+
+[node name="TableViewer" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="GridConainer" type="GridContainer" parent="ScrollContainer"]
+offset_right = 1024.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Blank" type="Label" parent="ScrollContainer/GridConainer"]
+offset_right = 29.0
+offset_bottom = 26.0
+size_flags_vertical = 1
+text = "Key"
+
+[node name="ColorRect" type="ColorRect" parent="ScrollContainer/GridConainer/Blank"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ScrollContainer/GridConainer/Blank"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0

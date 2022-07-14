@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dt6l57m25hulg"]
+
+[node name="Button_Separator" type="Label"]
+offset_left = 781.0
+offset_top = 6.0
+offset_right = 782.0
+offset_bottom = 34.0

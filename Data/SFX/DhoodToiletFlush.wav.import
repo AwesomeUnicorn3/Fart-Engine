@@ -2,12 +2,13 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/DhoodToiletFlush.wav-088221e848559beb8f8ada022ab28ebf.sample"
+uid="uid://cqb37dbq8l6ud"
+path="res://.godot/imported/DhoodToiletFlush.wav-088221e848559beb8f8ada022ab28ebf.sample"
 
 [deps]
 
 source_file="res://Data/SFX/DhoodToiletFlush.wav"
-dest_files=[ "res://.import/DhoodToiletFlush.wav-088221e848559beb8f8ada022ab28ebf.sample" ]
+dest_files=["res://.godot/imported/DhoodToiletFlush.wav-088221e848559beb8f8ada022ab28ebf.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

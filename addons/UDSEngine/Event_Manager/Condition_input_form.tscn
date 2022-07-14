@@ -1,0 +1,101 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Condition_input_form.gd" id="1"]
+[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="2"]
+
+[node name="Condition_input_form" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.188235, 0.188235, 0.188235, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox1" type="HBoxContainer" parent="VBox1"]
+margin_right = 900.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Button" parent="VBox1/HBox1"]
+margin_right = 683.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+text = "Conditions Necessary for Event to Run"
+
+[node name="AddItem" type="Button" parent="VBox1/HBox1"]
+margin_left = 687.0
+margin_right = 789.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+size_flags_horizontal = 3
+text = "Add Condition"
+
+[node name="SaveChanges" type="Button" parent="VBox1/HBox1"]
+visible = false
+margin_left = 727.0
+margin_right = 788.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="DeleteItem" type="Button" parent="VBox1/HBox1"]
+visible = false
+margin_left = 902.0
+margin_right = 1199.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 100, 50 )
+size_flags_horizontal = 3
+text = "Delete Item"
+
+[node name="Close" type="Button" parent="VBox1/HBox1"]
+margin_left = 793.0
+margin_right = 900.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+size_flags_horizontal = 3
+text = "Save and Close"
+
+[node name="Input" type="LineEdit" parent="VBox1/HBox1"]
+visible = false
+margin_left = 1377.0
+margin_right = 1435.0
+margin_bottom = 50.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="input_templateBuffer" parent="VBox1" instance=ExtResource( 2 )]
+margin_top = 54.0
+margin_right = 900.0
+margin_bottom = 59.0
+
+[node name="Scroll1" type="ScrollContainer" parent="VBox1"]
+margin_top = 63.0
+margin_right = 900.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBox1" type="VBoxContainer" parent="VBox1/Scroll1"]
+margin_right = 900.0
+margin_bottom = 537.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="button_up" from="VBox1/HBox1/AddItem" to="." method="_on_AddItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_SaveChanges_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/Close" to="." method="_on_Close_button_up"]

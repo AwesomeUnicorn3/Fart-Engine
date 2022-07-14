@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://c76r884m1htwx"]
+
+[node name="HBox2" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Scroll1" type="ScrollContainer" parent="."]
+offset_right = 170.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Table_Buttons" type="VBoxContainer" parent="Scroll1"]
+offset_right = 170.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Scroll2" type="ScrollContainer" parent="."]
+offset_left = 174.0
+offset_right = 1024.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel1" type="PanelContainer" parent="Scroll2"]
+offset_right = 850.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="Scroll2/Panel1"]
+offset_right = 850.0
+offset_bottom = 600.0
+color = Color(0, 0, 0, 0.0823529)

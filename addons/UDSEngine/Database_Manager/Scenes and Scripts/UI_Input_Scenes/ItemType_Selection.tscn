@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.gd" id="2"]
+[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3"]
+
+[node name="ItemType_Selection" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( "2" )
+label_text = "Table Selection"
+selection_table_name = "Table Data"
+
+[node name="Label" parent="." instance=ExtResource( "3" )]
+anchor_right = 0.0
+offset_right = 1024.0
+offset_bottom = 35.0
+
+[node name="Input" type="OptionButton" parent="."]
+offset_top = 39.0
+offset_right = 1024.0
+offset_bottom = 596.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="input_templateBuffer" parent="." instance=ExtResource( "1" )]
+anchor_right = 0.0
+offset_top = 600.0
+offset_right = 1024.0
+offset_bottom = 600.0
+
+[connection signal="item_selected" from="Input" to="." method="_on_Input_item_selected"]

@@ -1,0 +1,171 @@
+[gd_scene load_steps=6 format=3 uid="uid://yngqagf24tfm"]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="3"]
+[ext_resource type="Texture2D" uid="uid://drn7pem71psym" path="res://Data/png/AwesomeUnicorn (copy).png" id="3_4jusd"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="5"]
+
+[sub_resource type="SpriteFrames" id="3"]
+
+[node name="Sprite_Template" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+script = ExtResource("2")
+
+[node name="Label" parent="." instance=ExtResource("5")]
+anchor_right = 0.0
+offset_right = 900.0
+
+[node name="HBox1" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 100)
+offset_top = 29.0
+offset_right = 900.0
+offset_bottom = 596.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Input" type="TextureButton" parent="HBox1"]
+show_behind_parent = true
+offset_right = 324.0
+offset_bottom = 567.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource("3_4jusd")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Space3" type="Label" parent="HBox1"]
+visible = false
+offset_left = 240.0
+offset_right = 477.0
+offset_bottom = 557.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" type="ColorRect" parent="HBox1"]
+offset_left = 328.0
+offset_right = 652.0
+offset_bottom = 567.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+
+[node name="VBox1" type="VBoxContainer" parent="HBox1"]
+offset_left = 656.0
+offset_right = 900.0
+offset_bottom = 567.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.75
+
+[node name="VBoxContainer" type="HBoxContainer" parent="HBox1/VBox1"]
+offset_right = 244.0
+offset_bottom = 26.0
+
+[node name="vlabel" type="Label" parent="HBox1/VBox1/VBoxContainer"]
+offset_right = 120.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "V Frames"
+
+[node name="hlabel" type="Label" parent="HBox1/VBox1/VBoxContainer"]
+offset_left = 124.0
+offset_right = 244.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "H Frames"
+
+[node name="VBox1" type="HBoxContainer" parent="HBox1/VBox1"]
+offset_top = 30.0
+offset_right = 244.0
+offset_bottom = 567.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VInput" type="LineEdit" parent="HBox1/VBox1/VBox1"]
+offset_right = 92.0
+offset_bottom = 537.0
+size_flags_horizontal = 3
+text = "1"
+placeholder_text = "0"
+alignment = 1
+caret_blink = true
+
+[node name="VBox1" type="VBoxContainer" parent="HBox1/VBox1/VBox1"]
+offset_left = 96.0
+offset_right = 120.0
+offset_bottom = 537.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.26
+
+[node name="Add_ButtonV" type="Button" parent="HBox1/VBox1/VBox1/VBox1"]
+offset_right = 24.0
+offset_bottom = 266.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "+"
+
+[node name="Sub_ButtonV" type="Button" parent="HBox1/VBox1/VBox1/VBox1"]
+offset_top = 270.0
+offset_right = 24.0
+offset_bottom = 537.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "-"
+
+[node name="HInput" type="LineEdit" parent="HBox1/VBox1/VBox1"]
+offset_left = 124.0
+offset_right = 216.0
+offset_bottom = 537.0
+size_flags_horizontal = 3
+text = "1"
+placeholder_text = "0"
+alignment = 1
+caret_blink = true
+
+[node name="VBox2" type="VBoxContainer" parent="HBox1/VBox1/VBox1"]
+offset_left = 220.0
+offset_right = 244.0
+offset_bottom = 537.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.26
+
+[node name="Add_ButtonH" type="Button" parent="HBox1/VBox1/VBox1/VBox2"]
+offset_right = 24.0
+offset_bottom = 266.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "+"
+
+[node name="Sub_ButtonH" type="Button" parent="HBox1/VBox1/VBox1/VBox2"]
+offset_top = 270.0
+offset_right = 24.0
+offset_bottom = 537.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "-"
+
+[node name="input_templateBuffer" parent="." instance=ExtResource("3")]
+anchor_right = 0.0
+offset_top = 600.0
+offset_right = 900.0
+offset_bottom = 600.0
+
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(4, 29)
+frames = SubResource("3")
+centered = false
+
+[connection signal="resized" from="." to="." method="_on_Sprite_Template_resized"]
+[connection signal="button_up" from="HBox1/Input" to="." method="_on_TextureButton_button_up"]
+[connection signal="text_changed" from="HBox1/VBox1/VBox1/VInput" to="." method="_on_VInput_text_changed"]
+[connection signal="button_up" from="HBox1/VBox1/VBox1/VBox1/Add_ButtonV" to="." method="_on_Add_ButtonV_button_up"]
+[connection signal="button_up" from="HBox1/VBox1/VBox1/VBox1/Sub_ButtonV" to="." method="_on_Sub_ButtonV_button_up"]
+[connection signal="text_changed" from="HBox1/VBox1/VBox1/HInput" to="." method="_on_HInput_text_changed"]
+[connection signal="button_up" from="HBox1/VBox1/VBox1/VBox2/Add_ButtonH" to="." method="_on_Add_ButtonH_button_up"]
+[connection signal="button_up" from="HBox1/VBox1/VBox1/VBox2/Sub_ButtonH" to="." method="_on_Sub_ButtonH_button_up"]

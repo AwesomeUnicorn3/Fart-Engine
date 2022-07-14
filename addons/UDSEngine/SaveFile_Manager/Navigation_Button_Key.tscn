@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/SaveFile_Manager/Navigation_Button_Key.gd" id="1"]
+
+[node name="Navigation Button" type="Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1350.0
+margin_bottom = -825.0
+rect_min_size = Vector2( 150, 75 )
+text = "Database Editor"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="button_up" from="." to="." method="_on_Navigation_Button_button_up"]

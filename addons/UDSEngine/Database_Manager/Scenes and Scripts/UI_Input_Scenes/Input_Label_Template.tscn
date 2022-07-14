@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://b0x40ln8a6syy"]
+
+[node name="Input_Label_Template" type="Control" groups=["Label"]]
+custom_minimum_size = Vector2(0, 25)
+anchor_right = 1.0
+offset_bottom = 25.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="HBox1" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 30)
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+metadata/_edit_layout_mode = 1
+
+[node name="Label_Button" type="Button" parent="HBox1"]
+offset_right = 900.0
+offset_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 17
+text = "Number_Counter"
+
+[node name="Hide_Button" type="Button" parent="HBox1"]
+visible = false
+offset_left = 809.0
+offset_right = 900.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+theme_override_font_sizes/font_size = 17
+text = "Hide Value"

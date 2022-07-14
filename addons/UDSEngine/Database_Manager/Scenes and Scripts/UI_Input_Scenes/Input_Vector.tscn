@@ -1,0 +1,129 @@
+[gd_scene load_steps=4 format=3 uid="uid://di34e2qhwmsav"]
+
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Vector.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4"]
+
+[node name="Input_Vector" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+script = ExtResource( "3" )
+
+[node name="Label" parent="." instance=ExtResource( "4" )]
+anchor_right = 0.0
+offset_right = 900.0
+offset_bottom = 35.0
+
+[node name="Hbox1" type="HBoxContainer" parent="."]
+offset_top = 39.0
+offset_right = 900.0
+offset_bottom = 70.0
+
+[node name="Button" type="Button" parent="Hbox1"]
+offset_right = 448.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Vector 2"
+
+[node name="Button2" type="Button" parent="Hbox1"]
+offset_left = 452.0
+offset_right = 900.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Vector3"
+
+[node name="HBox2" type="HBoxContainer" parent="."]
+offset_top = 74.0
+offset_right = 900.0
+offset_bottom = 100.0
+
+[node name="X" type="Label" parent="HBox2"]
+offset_right = 448.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Y" type="Label" parent="HBox2"]
+offset_left = 452.0
+offset_right = 900.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Y"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Z" type="Label" parent="HBox2"]
+visible = false
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Z"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBox3" type="HBoxContainer" parent="."]
+offset_top = 104.0
+offset_right = 900.0
+offset_bottom = 596.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Input" type="LineEdit" parent="HBox3"]
+visible = false
+offset_right = 297.0
+offset_bottom = 502.0
+size_flags_horizontal = 3
+text = "(0,0,0)"
+placeholder_text = "Enter Value As Text"
+max_length = 45
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="InputX" type="LineEdit" parent="HBox3"]
+offset_right = 448.0
+offset_bottom = 492.0
+size_flags_horizontal = 3
+text = "0"
+placeholder_text = "Enter Value As Text"
+alignment = 1
+max_length = 45
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="InputY" type="LineEdit" parent="HBox3"]
+offset_left = 452.0
+offset_right = 900.0
+offset_bottom = 492.0
+size_flags_horizontal = 3
+text = "0"
+placeholder_text = "Enter Value As Text"
+alignment = 1
+max_length = 45
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="InputZ" type="LineEdit" parent="HBox3"]
+visible = false
+size_flags_horizontal = 3
+text = "0"
+placeholder_text = "Enter Value As Text"
+alignment = 1
+max_length = 45
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="input_templateBuffer" parent="." instance=ExtResource( "1" )]
+anchor_right = 0.0
+offset_top = 600.0
+offset_right = 900.0
+offset_bottom = 600.0
+
+[connection signal="button_up" from="Hbox1/Button" to="." method="_on_Button_button_up"]
+[connection signal="button_up" from="Hbox1/Button2" to="." method="_on_Button2_button_up"]
+[connection signal="text_changed" from="HBox3/InputX" to="." method="_on_InputX_text_changed"]
+[connection signal="text_changed" from="HBox3/InputY" to="." method="_on_InputY_text_changed"]
+[connection signal="text_changed" from="HBox3/InputZ" to="." method="_on_InputZ_text_changed"]

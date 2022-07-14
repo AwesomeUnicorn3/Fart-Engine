@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://5h2qq1gjp4uy"]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect_Template.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="2"]
+[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="3"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4"]
+
+[node name="KeySelect_Template" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( "3" )
+script = ExtResource( "1" )
+
+[node name="Label" parent="." instance=ExtResource( "4" )]
+anchor_right = 0.0
+offset_right = 900.0
+offset_bottom = 35.0
+
+[node name="Button1" type="Button" parent="."]
+show_behind_parent = true
+offset_top = 39.0
+offset_right = 900.0
+offset_bottom = 596.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+focus_mode = 0
+
+[node name="Input" type="Label" parent="Button1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 1
+text = "Enter"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Keycode" type="Label" parent="Button1/Input"]
+visible = false
+
+[node name="input_templateBuffer" parent="." instance=ExtResource( "2" )]
+anchor_right = 0.0
+offset_top = 600.0
+offset_right = 900.0
+offset_bottom = 600.0
+
+[connection signal="button_up" from="Button1" to="." method="_on_button_up"]

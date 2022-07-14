@@ -1,0 +1,384 @@
+[gd_scene load_steps=11 format=3 uid="uid://hs28786utbeg"]
+
+[ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="1"]
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_ivdqc"]
+[ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://dt6l57m25hulg" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Button_Separator.tscn" id="4_22jb8"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Tab_Template.gd" id="6"]
+[ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Popup_Delete_Confirm.tscn" id="7_itioh"]
+[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://blxyner5c5f73" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newValue.tscn" id="8_cxjnt"]
+[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="9_juqh1"]
+[ext_resource type="PackedScene" uid="uid://bormmevkvb1kv" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.tscn" id="10_e3qqy"]
+
+[node name="Tab_Template" type="Control" groups=["Tab"]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("1_ivdqc")
+script = ExtResource("6")
+
+[node name="Background" parent="." instance=ExtResource("2")]
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="HBox1" type="HBoxContainer" parent="VBox1"]
+offset_right = 900.0
+offset_bottom = 56.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="RefreshData_Button" type="Button" parent="VBox1/HBox1"]
+offset_right = 80.0
+offset_bottom = 56.0
+text = "Refresh 
+Table"
+
+[node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox1"]
+offset_left = 84.0
+offset_right = 557.0
+offset_bottom = 56.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBox1/HBox1/CenterContainer"]
+offset_left = 96.0
+offset_top = 17.0
+offset_right = 376.0
+offset_bottom = 38.0
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 13
+text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
+
+[node name="AddNewTable_Button" type="Button" parent="VBox1/HBox1"]
+visible = false
+offset_left = 505.0
+offset_right = 607.0
+offset_bottom = 56.0
+text = "New Table"
+
+[node name="DeleteTable_Button" type="Button" parent="VBox1/HBox1"]
+visible = false
+offset_left = 520.0
+offset_right = 641.0
+offset_bottom = 56.0
+text = "Delete Table"
+
+[node name="Button_Separator" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
+visible = false
+offset_left = 541.0
+offset_top = 14.0
+offset_right = 542.0
+offset_bottom = 42.0
+
+[node name="SaveNewKey_Button" type="Button" parent="VBox1/HBox1"]
+visible = false
+offset_left = 551.0
+offset_right = 685.0
+offset_bottom = 51.0
+text = "Save New Key"
+
+[node name="Button_Separator2" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
+visible = false
+offset_left = 546.0
+offset_top = 14.0
+offset_right = 547.0
+offset_bottom = 42.0
+
+[node name="AddNewKey_Button" type="Button" parent="VBox1/HBox1"]
+offset_left = 561.0
+offset_right = 689.0
+offset_bottom = 56.0
+text = "Add New Key"
+
+[node name="Button_Separator3" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
+visible = false
+offset_left = 683.0
+offset_top = 14.0
+offset_right = 684.0
+offset_bottom = 42.0
+
+[node name="DeleteSelectedKey_Button" type="Button" parent="VBox1/HBox1"]
+offset_left = 693.0
+offset_right = 796.0
+offset_bottom = 56.0
+text = "Delete Key"
+
+[node name="Button_Separator4" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
+visible = false
+offset_left = 795.0
+offset_top = 14.0
+offset_right = 796.0
+offset_bottom = 42.0
+
+[node name="CancelChanges_Button" type="Button" parent="VBox1/HBox1"]
+visible = false
+offset_left = 810.0
+offset_right = 962.0
+offset_bottom = 39.0
+text = "Cancel Changes"
+
+[node name="SaveChanges_Button" type="Button" parent="VBox1/HBox1"]
+custom_minimum_size = Vector2(100, 0)
+offset_left = 800.0
+offset_right = 900.0
+offset_bottom = 56.0
+text = "Save"
+
+[node name="Key" parent="VBox1" instance=ExtResource("1")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 60.0
+offset_right = 900.0
+offset_bottom = 143.0
+label_text = "Key"
+
+[node name="Label_Button" parent="VBox1/Key/Label/HBox1" index="0"]
+offset_bottom = 30.0
+text = "Key"
+
+[node name="Input" parent="VBox1/Key" index="1"]
+offset_bottom = 79.0
+
+[node name="input_templateBuffer" parent="VBox1/Key" index="2"]
+offset_top = 83.0
+offset_bottom = 83.0
+
+[node name="HBox2" type="HBoxContainer" parent="VBox1"]
+offset_top = 147.0
+offset_right = 900.0
+offset_bottom = 187.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox2"]
+offset_right = 678.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBox1/HBox2/CenterContainer"]
+offset_left = 338.0
+offset_top = 11.0
+offset_right = 339.0
+offset_bottom = 29.0
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 13
+
+[node name="AddNewField_Button" type="Button" parent="VBox1/HBox2"]
+offset_left = 682.0
+offset_right = 777.0
+offset_bottom = 40.0
+text = "New Field"
+
+[node name="Button_Separator" parent="VBox1/HBox2" instance=ExtResource("4_22jb8")]
+
+[node name="DeleteField_Button" type="Button" parent="VBox1/HBox2"]
+offset_left = 786.0
+offset_right = 900.0
+offset_bottom = 40.0
+text = "Delete Field"
+
+[node name="HBox3" type="HBoxContainer" parent="VBox1"]
+offset_top = 191.0
+offset_right = 900.0
+offset_bottom = 595.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox3"]
+offset_right = 177.0
+offset_bottom = 404.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Key_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll1"]
+offset_right = 177.0
+offset_bottom = 404.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox3"]
+offset_left = 181.0
+offset_right = 536.0
+offset_bottom = 404.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll2"]
+offset_right = 355.0
+offset_bottom = 404.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Vetical_Separator" type="PanelContainer" parent="VBox1/HBox3"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 540.0
+offset_right = 540.0
+offset_bottom = 404.0
+
+[node name="Scroll3" type="ScrollContainer" parent="VBox1/HBox3"]
+offset_left = 544.0
+offset_right = 900.0
+offset_bottom = 404.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll3"]
+offset_right = 356.0
+offset_bottom = 404.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Version_Label" parent="VBox1" instance=ExtResource("8")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 599.0
+offset_right = 900.0
+offset_bottom = 599.0
+
+[node name="Popups" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0862745, 0.0862745, 0.0862745, 0.866667)
+
+[node name="FileSelect" type="Control" parent="Popups"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ListInput" type="Control" parent="Popups"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Popup_Delete_Confirm" parent="Popups" instance=ExtResource("7_itioh")]
+visible = false
+
+[node name="popup_newValue" parent="Popups" instance=ExtResource("8_cxjnt")]
+visible = false
+
+[node name="Input_Text" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1" index="0"]
+offset_bottom = 79.0
+
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="1"]
+offset_bottom = 79.0
+
+[node name="Label" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="0"]
+offset_bottom = 25.0
+
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
+offset_top = 29.0
+item_count = 14
+selected = 0
+popup/item_0/text = "Text"
+popup/item_0/id = 0
+popup/item_1/text = "List"
+popup/item_1/id = 1
+popup/item_2/text = "Input Control"
+popup/item_2/id = 2
+popup/item_3/text = "Number Range"
+popup/item_3/id = 3
+popup/item_4/text = "Sound Effect"
+popup/item_4/id = 4
+popup/item_5/text = "Conditions"
+popup/item_5/id = 5
+popup/item_6/text = "Whole Number"
+popup/item_6/id = 6
+popup/item_7/text = "Decimal Number"
+popup/item_7/id = 7
+popup/item_8/text = "True or False"
+popup/item_8/id = 8
+popup/item_9/text = "Dropdown List"
+popup/item_9/id = 9
+popup/item_10/text = "Icon Display"
+popup/item_10/id = 10
+popup/item_11/text = "Scene Path"
+popup/item_11/id = 11
+popup/item_12/text = "Sprite"
+popup/item_12/id = 12
+popup/item_13/text = "Vector 2 or 3"
+popup/item_13/id = 13
+
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
+item_count = 13
+selected = 0
+popup/item_0/text = "Character Classes"
+popup/item_0/id = 0
+popup/item_1/text = "Characters"
+popup/item_1/id = 1
+popup/item_2/text = "Control Categories"
+popup/item_2/id = 2
+popup/item_3/text = "DataTypes"
+popup/item_3/id = 3
+popup/item_4/text = "Event Triggers"
+popup/item_4/id = 4
+popup/item_5/text = "FieldPref"
+popup/item_5/id = 5
+popup/item_6/text = "Global Variables"
+popup/item_6/id = 6
+popup/item_7/text = "Inequalities"
+popup/item_7/id = 7
+popup/item_8/text = "ItemType"
+popup/item_8/id = 8
+popup/item_9/text = "Items"
+popup/item_9/id = 9
+popup/item_10/text = "Maps"
+popup/item_10/id = 10
+popup/item_11/text = "Sprite Groups"
+popup/item_11/id = 11
+popup/item_12/text = "Table Data"
+popup/item_12/id = 12
+
+[node name="popup_deleteKey" parent="Popups" instance=ExtResource("9_juqh1")]
+visible = false
+
+[node name="Label" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="0"]
+offset_bottom = 31.0
+
+[node name="Itemlist" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="1"]
+offset_top = 35.0
+offset_bottom = 169.0
+
+[node name="HBoxContainer" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="2"]
+offset_top = 173.0
+
+[node name="Accept" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
+offset_bottom = 28.0
+
+[node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
+offset_bottom = 28.0
+
+[node name="popup_newTable" parent="Popups" instance=ExtResource("10_e3qqy")]
+visible = false
+
+[connection signal="button_up" from="VBox1/HBox1/RefreshData_Button" to="." method="reload_data_without_saving"]
+[connection signal="button_up" from="VBox1/HBox1/AddNewTable_Button" to="." method="_on_add_new_table_button_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/SaveNewKey_Button" to="." method="_on_SaveNewItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/AddNewKey_Button" to="." method="_on_AddNewItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/DeleteSelectedKey_Button" to="." method="_on_DeleteSelectedItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/CancelChanges_Button" to="." method="_on_Cancel_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/SaveChanges_Button" to="." method="_on_Save_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/AddNewField_Button" to="." method="_on_AddField_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/DeleteField_Button" to="." method="display_options"]
+[connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept_Button" to="." method="_on_deletePopup_Accept_button_up"]
+[connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel_Button" to="." method="_on_FileDialog_hide"]
+[connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_NewField_Accept_button_up"]
+[connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Cancel" to="." method="_on_NewField_Cancel_button_up"]
+[connection signal="item_selected" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" to="." method="_on_Itemlist_item_selected"]
+[connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_DeleteField_Accept_button_up"]
+[connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_DeleteField_Cancel_button_up"]
+
+[editable path="VBox1/Key"]
+[editable path="VBox1/Key/Label"]
+[editable path="Popups/Popup_Delete_Confirm"]
+[editable path="Popups/popup_newValue"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
+[editable path="Popups/popup_deleteKey"]
