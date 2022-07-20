@@ -2,7 +2,7 @@
 extends Button
 
 #var par
-var event_page_number = ""
+var event_page_number :String = ""
 # Declare member variables here. Examples:
 # var a: int = 2
 # var b: String = "text"

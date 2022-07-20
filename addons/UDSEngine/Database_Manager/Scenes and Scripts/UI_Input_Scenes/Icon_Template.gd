@@ -46,29 +46,21 @@ func remove_dialog():
 func _on_FileDialog_file_selected(path):
 	remove_dialog()
 	var par = get_main_tab(self)
-#	par.popup_main.visible = false
-	var dir = Directory.new() #
 	var new_file_name = path.get_file() #
 	var new_file_path = par.table_save_path + par.icon_folder + new_file_name #
 	var curr_icon_path : Node = inputNode #
-#	var file_dialog_signal = "file_selected"
-	if par.is_file_in_folder(par.table_save_path + par.icon_folder, new_file_name): # #Check if selected folder is Icon folder and has selected file
+	var does_selected_file_exist = par.is_file_in_folder(par.table_save_path + par.icon_folder, new_file_name)
+	if does_selected_file_exist: # #Check if selected folder is Icon folder and has selected file
 		curr_icon_path.set_normal_texture(load(str(new_file_path)))
-#		save_all_db_files(current_table_name)
 	else:
-		dir.copy(path, new_file_path)
-		if !par.is_file_in_folder(par.icon_folder, new_file_name):
+		var dir = Directory.new()
+		dir.open(par.table_save_path + par.icon_folder)
+		await dir.copy(path, new_file_path)
+		
+		if par.is_file_in_folder(par.icon_folder, new_file_name):
 			print("File Not Added")
 		else:
 			print("File Added")
-			par.refresh_editor()
-			await get_tree().create_timer(.25).timeout
-#			var tr = Timer.new()
-#			tr.set_one_shot(true)
-#			add_child(tr)
-#			tr.set_wait_time(.25)
-#			tr.start()
-#			yield(tr, "timeout")
-#			tr.queue_free()
+			await par.refresh_editor()
+			print("Scan Complete")
 			curr_icon_path.set_normal_texture(load(str(new_file_path)))
-#	refresh_data(Item_Name)

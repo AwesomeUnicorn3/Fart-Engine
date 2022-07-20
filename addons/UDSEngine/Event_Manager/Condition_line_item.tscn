@@ -1,390 +1,204 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=11 format=3 uid="uid://b24337icxgmrk"]
 
-[ext_resource type="Theme" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="1"]
+[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="1"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Condition_line_item.gd" id="2"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.gd" id="5"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="7"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="9"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn" id="10"]
+[ext_resource type="PackedScene" uid="uid://ccbd0dxfbgbkm" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://b4i04twjpw3iu" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://bop4ol1uh1lbf" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn" id="10"]
 
 [node name="Condition_line_item" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -800.0
-rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="DeleteButton" type="Button" parent="."]
-margin_right = 55.0
-margin_bottom = 79.0
-rect_min_size = Vector2( 50, 0 )
+offset_right = 59.0
+offset_bottom = 600.0
 size_flags_horizontal = 9
 text = "Delete"
 
 [node name="Key" type="VBoxContainer" parent="."]
-margin_left = 59.0
-margin_right = 153.0
-margin_bottom = 79.0
-rect_min_size = Vector2( 0, 50 )
-theme = ExtResource( 1 )
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 63.0
+offset_right = 126.0
+offset_bottom = 600.0
+theme = ExtResource("1")
+script = ExtResource("5")
 label_text = "Key"
 is_label_button = false
 
-[node name="Label" parent="Key" instance=ExtResource( 3 )]
+[node name="Label" parent="Key" instance=ExtResource("3")]
 anchor_right = 0.0
-margin_right = 94.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 75, 25 )
+offset_right = 63.0
 
 [node name="Label_Button" parent="Key/Label/HBox1" index="0"]
-margin_right = 94.0
-margin_bottom = 30.0
+offset_right = 63.0
+offset_bottom = 30.0
 text = "Key"
 
 [node name="Input" type="LineEdit" parent="Key"]
-margin_top = 29.0
-margin_right = 94.0
-margin_bottom = 79.0
-rect_min_size = Vector2( 75, 50 )
+offset_top = 29.0
+offset_right = 63.0
+offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "0"
-align = 1
+placeholder_text = "Enter Value As Text"
 max_length = 100
 editable = false
 selecting_enabled = false
-placeholder_text = "Enter Value As Text"
 caret_blink = true
 caret_blink_speed = 0.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="input_templateBuffer" parent="Key" instance=ExtResource( 4 )]
+[node name="input_templateBuffer" parent="Key" instance=ExtResource("4")]
 visible = false
-margin_top = 83.0
-margin_right = 94.0
-margin_bottom = 93.0
+anchor_right = 0.0
+offset_top = 316.0
+offset_right = 63.0
+offset_bottom = 600.0
 size_flags_vertical = 3
 
-[node name="If_DropDown" parent="." instance=ExtResource( 6 )]
+[node name="If_DropDown" parent="." instance=ExtResource("6")]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 157.0
-margin_right = 900.0
-margin_bottom = 79.0
+offset_left = 130.0
+offset_right = 900.0
+offset_bottom = 600.0
 label_text = "If"
 is_label_button = false
 
 [node name="Label" parent="If_DropDown" index="0"]
-margin_right = 743.0
+offset_right = 770.0
 
 [node name="Input" parent="If_DropDown" index="1"]
-margin_right = 743.0
-margin_bottom = 79.0
-items = [ "Item 0", null, false, 0, null ]
+offset_right = 770.0
+offset_bottom = 600.0
 
 [node name="input_templateBuffer" parent="If_DropDown" index="2"]
 visible = false
-margin_top = 83.0
-margin_right = 145.0
-margin_bottom = 88.0
 
-[node name="If_Table_Name_DropDown" parent="." instance=ExtResource( 6 )]
+[node name="If_Table_Name_DropDown" parent="." instance=ExtResource("6")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 59.0
-margin_right = 135.0
-margin_bottom = 93.0
+offset_left = 517.0
+offset_right = 900.0
+offset_bottom = 600.0
 label_text = "Table Name"
 is_label_button = false
 selection_table_name = "Table Data"
 
 [node name="Label" parent="If_Table_Name_DropDown" index="0"]
-margin_right = 76.0
+offset_right = 383.0
 
 [node name="Input" parent="If_Table_Name_DropDown" index="1"]
-margin_right = 76.0
-margin_bottom = 93.0
-items = [ "Item 0", null, false, 0, null ]
+offset_right = 383.0
+offset_bottom = 600.0
 
 [node name="input_templateBuffer" parent="If_Table_Name_DropDown" index="2"]
 visible = false
-margin_top = 83.0
-margin_right = 145.0
-margin_bottom = 88.0
 
-[node name="If_Key_Name_DropDown" parent="." instance=ExtResource( 6 )]
+[node name="If_Key_Name_DropDown" parent="." instance=ExtResource("6")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 530.0
-margin_right = 900.0
-margin_bottom = 79.0
 label_text = "Key Name"
 is_label_button = false
 selection_table_name = "Table Data"
 
-[node name="Label" parent="If_Key_Name_DropDown" index="0"]
-margin_right = 370.0
-
-[node name="Input" parent="If_Key_Name_DropDown" index="1"]
-margin_right = 370.0
-margin_bottom = 79.0
-items = [ "Item 0", null, false, 0, null ]
-
 [node name="input_templateBuffer" parent="If_Key_Name_DropDown" index="2"]
 visible = false
-margin_top = 83.0
-margin_right = 145.0
-margin_bottom = 88.0
 
-[node name="if_Value_Name_DropDown" parent="." instance=ExtResource( 6 )]
+[node name="if_Value_Name_DropDown" parent="." instance=ExtResource("6")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 59.0
-margin_right = 158.0
-margin_bottom = 93.0
 label_text = "Value Name"
 is_label_button = false
 selection_table_name = "Table Data"
 
-[node name="Label" parent="if_Value_Name_DropDown" index="0"]
-margin_right = 99.0
-
-[node name="Input" parent="if_Value_Name_DropDown" index="1"]
-margin_right = 99.0
-margin_bottom = 93.0
-items = [ "Item 0", null, false, 0, null ]
-
 [node name="input_templateBuffer" parent="if_Value_Name_DropDown" index="2"]
 visible = false
-margin_top = 83.0
-margin_right = 146.0
-margin_bottom = 88.0
 
-[node name="Is_Event_Variable" parent="." instance=ExtResource( 6 )]
+[node name="Is_Event_Variable" parent="." instance=ExtResource("6")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 59.0
-margin_right = 175.0
-margin_bottom = 93.0
 label_text = "Event Variable"
 is_label_button = false
 selection_table_name = "Table Data"
 
-[node name="Label" parent="Is_Event_Variable" index="0"]
-margin_right = 116.0
-
-[node name="Input" parent="Is_Event_Variable" index="1"]
-margin_right = 116.0
-margin_bottom = 93.0
-items = [ "Item 0", null, false, 0, null ]
-
 [node name="input_templateBuffer" parent="Is_Event_Variable" index="2"]
 visible = false
-margin_top = 83.0
-margin_right = 146.0
-margin_bottom = 88.0
 
-[node name="Is_DropDown" parent="." instance=ExtResource( 6 )]
+[node name="Is_DropDown" parent="." instance=ExtResource("6")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 59.0
-margin_right = 195.0
-margin_bottom = 93.0
 label_text = "Is"
 is_label_button = false
 selection_table_name = "Inequalities"
 
-[node name="Label" parent="Is_DropDown" index="0"]
-margin_right = 136.0
-
-[node name="Input" parent="Is_DropDown" index="1"]
-margin_right = 136.0
-margin_bottom = 93.0
-items = [ "Item 0", null, false, 0, null ]
-
 [node name="input_templateBuffer" parent="Is_DropDown" index="2"]
 visible = false
-margin_top = 83.0
-margin_right = 145.0
-margin_bottom = 88.0
 
-[node name="Is_Text" parent="." instance=ExtResource( 7 )]
+[node name="Is_Text" parent="." instance=ExtResource("7")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 59.0
-margin_right = 224.0
-margin_bottom = 93.0
 label_text = " Is"
 is_label_button = false
 
-[node name="Label" parent="Is_Text" index="0"]
-margin_right = 165.0
-
 [node name="Input" parent="Is_Text" index="1"]
-margin_right = 165.0
-margin_bottom = 93.0
 editable = false
 
 [node name="input_templateBuffer" parent="Is_Text" index="2"]
 visible = false
-margin_top = 83.0
-margin_right = 117.0
-margin_bottom = 88.0
 
-[node name="Is_Value_Text" parent="." instance=ExtResource( 7 )]
+[node name="Is_Value_Text" parent="." instance=ExtResource("7")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 59.0
-margin_right = 266.0
-margin_bottom = 93.0
 label_text = "Text Value"
 is_label_button = false
 
-[node name="Label" parent="Is_Value_Text" index="0"]
-margin_right = 207.0
-
-[node name="Input" parent="Is_Value_Text" index="1"]
-margin_right = 207.0
-margin_bottom = 93.0
-
 [node name="input_templateBuffer" parent="Is_Value_Text" index="2"]
 visible = false
-margin_top = 83.0
-margin_right = 102.0
-margin_bottom = 88.0
 
-[node name="Is_Value_Float" parent="." instance=ExtResource( 8 )]
+[node name="Is_Value_Float" parent="." instance=ExtResource("8")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 59.0
-margin_right = 336.0
-margin_bottom = 93.0
 label_text = "Number Value"
 is_label_button = false
-
-[node name="Label" parent="Is_Value_Float" index="0"]
-margin_right = 277.0
-
-[node name="HBox1" parent="Is_Value_Float" index="1"]
-margin_right = 277.0
-margin_bottom = 93.0
-
-[node name="Input" parent="Is_Value_Float/HBox1" index="0"]
-margin_right = 216.0
-margin_bottom = 64.0
-
-[node name="VBox1" parent="Is_Value_Float/HBox1" index="1"]
-margin_left = 220.0
-margin_right = 277.0
-margin_bottom = 64.0
-
-[node name="Add_Button" parent="Is_Value_Float/HBox1/VBox1" index="0"]
-margin_right = 57.0
-
-[node name="Sub_Button" parent="Is_Value_Float/HBox1/VBox1" index="1"]
-margin_right = 57.0
 
 [node name="input_templateBuffer" parent="Is_Value_Float" index="2"]
 visible = false
-margin_top = 97.0
-margin_right = 108.0
-margin_bottom = 102.0
 
-[node name="Is_Value_Int" parent="." instance=ExtResource( 10 )]
+[node name="Is_Value_Int" parent="." instance=ExtResource("10")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 59.0
-margin_right = 477.0
-margin_bottom = 93.0
 label_text = "Number Value"
 is_label_button = false
 
-[node name="Label" parent="Is_Value_Int" index="0"]
-margin_right = 418.0
-
-[node name="HBox1" parent="Is_Value_Int" index="1"]
-margin_right = 418.0
-margin_bottom = 93.0
-
-[node name="Input" parent="Is_Value_Int/HBox1" index="0"]
-margin_right = 328.0
-margin_bottom = 64.0
-
-[node name="VBox1" parent="Is_Value_Int/HBox1" index="1"]
-margin_left = 332.0
-margin_right = 418.0
-margin_bottom = 64.0
-
-[node name="Add_Button" parent="Is_Value_Int/HBox1/VBox1" index="0"]
-margin_right = 86.0
-margin_bottom = 30.0
-
-[node name="Sub_Button" parent="Is_Value_Int/HBox1/VBox1" index="1"]
-margin_top = 34.0
-margin_right = 86.0
-margin_bottom = 64.0
-
 [node name="input_templateBuffer" parent="Is_Value_Int" index="2"]
 visible = false
-margin_top = 97.0
-margin_right = 108.0
-margin_bottom = 102.0
 
-[node name="Is_Value_Bool" parent="." instance=ExtResource( 9 )]
+[node name="Is_Value_Bool" parent="." instance=ExtResource("9")]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 59.0
-margin_right = 900.0
-margin_bottom = 79.0
 label_text = "True or False Value"
 is_label_button = false
 
-[node name="Label" parent="Is_Value_Bool" index="0"]
-margin_right = 841.0
-
-[node name="Hbox1" parent="Is_Value_Bool" index="1"]
-margin_right = 841.0
-margin_bottom = 79.0
-
-[node name="Label2" parent="Is_Value_Bool/Hbox1" index="0"]
-margin_right = 0.0
-margin_bottom = 64.0
-
-[node name="Background" parent="Is_Value_Bool/Hbox1" index="1"]
-margin_right = 841.0
-margin_bottom = 50.0
-
-[node name="Label3" parent="Is_Value_Bool/Hbox1" index="2"]
-margin_left = 8.0
-margin_right = 8.0
-margin_bottom = 64.0
-
 [node name="input_templateBuffer" parent="Is_Value_Bool" index="2"]
 visible = false
-margin_top = 88.0
-margin_right = 53.0
-margin_bottom = 93.0
 
 [connection signal="button_up" from="DeleteButton" to="." method="_on_DeleteButton_button_up"]
 [connection signal="selected_item_changed" from="If_DropDown" to="." method="_on_If_DropDown_selected_item_changed"]

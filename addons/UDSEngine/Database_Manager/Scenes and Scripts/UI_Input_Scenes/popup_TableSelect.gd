@@ -32,7 +32,6 @@ func _on_popup_newValue_visibility_changed():
 
 func _on_Input_item_selected(index: int) -> void:
 	selectedTable = $PanelContainer/VBox1/HBox1/Table_Selection._on_Input_item_selected(index)
-#	print(selectedTable)
 	par_node.table = selectedTable
 
 

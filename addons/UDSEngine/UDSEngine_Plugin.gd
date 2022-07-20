@@ -61,22 +61,17 @@ var selected_node  = null
 func _process(delta: float) -> void:
 	var selected_nodes :Array = get_editor_interface().get_selection().get_selected_nodes()
 	if selected_nodes.size() == 1:
-#		print(selected_nodes.size())
 		var current_selection :Node = selected_nodes[0]
 		if !is_instance_valid(selected_node):
 			selected_node = current_selection
-#		print(selected_node, " ", current_selection)
 		if selected_node != current_selection:
 			selected_node = current_selection
-#			print(current_selection.has_method("show_toolbar_in_editor"))
 			if current_selection.has_method("show_toolbar_in_editor"):
 				current_selection._get_property_list()
 				current_selection.show_toolbar_in_editor(current_selection.name)
 				toolbar.visible = true
-#				print(current_selection.event_name)
 #				toolbar.event_node_name = current_selection.name
 #				toolbar.event_Node = selected_node
-#				print(current_selection.get_parent().get_parent())
 				
 			else:
 				toolbar.visible = false

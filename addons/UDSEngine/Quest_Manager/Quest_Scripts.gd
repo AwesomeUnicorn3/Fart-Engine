@@ -216,7 +216,7 @@ func update_quest_objctive(quest_number, objective_number, value):
 				if curr_count < int(total):
 					curr_count += value
 					dict_PlayerQuestData[i]["Objective_item_" + str(objective_number) + "_count"] = curr_count
-#					print(dict_PlayerQuestData[i]["Objective_item_" + str(objective_number) + "_count"])
+
 
 
 func set_quest_complete(quest_number):
@@ -243,54 +243,3 @@ func get_player_character():
 	var dict_formation = udsmain.Dynamic_Game_Dict["Formation"]
 	var curr_char = dict_formation["1"]["CharName"]
 	return curr_char
-
-
-##BEGIN INVENTORY FUNCTIONS###############################################################################
-#
-#
-#func add_item_to_player_inventory(item_name : String, count : int = 0):
-#	var added = false
-#	dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
-#	dict_static_items = udsmain.Static_Game_Dict["Items"]
-#	if dict_static_items.has(item_name):
-#		if!is_item_in_inventory(item_name):
-#			dict_inventory[item_name] = {"ItemCount" : 0}
-#		var inv_count = int(dict_inventory[item_name]["ItemCount"])
-#		dict_inventory[item_name]["ItemCount"] =  inv_count + count
-#	else:
-#		print(item_name, " needs to be added to Item Table")
-##	update_all_active_quests()
-#
-#
-#func remove_inventory_item(itm_name : String, count : int = 1):
-#	dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
-#	if is_item_in_inventory(itm_name) == true:
-#		var itm_count = int(dict_inventory[itm_name]["ItemCount"])
-#		if count > itm_count:
-#			count = itm_count
-#		dict_inventory[itm_name]["ItemCount"] =  itm_count - count
-##		Global.display_item_gained(itm_name, -count)
-#	else:
-#		count = 0
-#	return count
-#
-#
-#func is_item_in_inventory(itm_name : String):
-#	var value = false
-#	dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
-#	if dict_inventory.has(itm_name):
-#		value = true
-#	return value
-
-#func display_item_gained(item_name : String, amount : int):
-#
-#	var root = level_root()
-#	var display = root.get_node("main/Player/Viewport/Drop_Item")
-#	var anim_player = root.get_node("main/Player/Viewport/AnimationPlayer")
-#	if anim_player.is_playing():
-#		yield(anim_player, "animation_finished")
-#	#display.get_node("VBoxContainer/HBoxContainer/Item_Name").set_text(item_name)
-#	display.get_node("VBoxContainer/HBoxContainer/Item_Amount").set_text(str(amount))
-#	display.get_node("VBoxContainer/HBoxContainer/TextureRect").set_texture(load("res://Icons/" + item_name + ".png"))
-#	anim_player.queue("Item_gained")
-#	update_currency()

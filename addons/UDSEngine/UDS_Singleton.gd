@@ -75,6 +75,7 @@ func delete_save_file(file_name : String):
 	var fileName = save_game_path + file_name + save_format
 
 	var dir = Directory.new()
+	dir.open(save_game_path)
 	dir.remove(fileName)
 
 
@@ -82,7 +83,6 @@ func get_map_name(map_path : String):
 	var map_dict : Dictionary = import_data(table_save_path + "Maps" + file_format)
 	var map_name : String
 	for i in map_dict:
-		print(map_dict[i]["Path"])
 		if map_dict[i]["Path"] == map_path:
 			map_name = map_dict[i]["Display Name"]
 			return map_name
@@ -91,43 +91,24 @@ func get_map_name(map_path : String):
 
 func load_map(map_path := ""):
 	root.get_node("map").add_child(load(map_path).instantiate())
-	Dynamic_Game_Dict["Global Data"]["Global Data"]["Current Map"] = map_path
+	Dynamic_Game_Dict["Global Data"][global_settings]["Current Map"] = map_path
 
 func save_global_options_data():
 	save_file("user://OptionsData.json", Global_Game_Dict)
-#	var save_d = Global_Game_Dict
-#	var save_file = File.new()
-#	var save_path = "user://OptionsData.json"
-#	if save_file.open(save_path, File.WRITE) != OK:
-#		print(save_path)
-#		print("Error Could not update Global optionsfile")
-#	else:
-#		save_file.open(save_path, File.WRITE)
-#		save_d = to_json(save_d)
-#		save_file.store_line(save_d)
-#		save_file.close()
+
 
 func save_game():
-	save_id = Dynamic_Game_Dict["Global Data"]["Global Data"]["ID"]
+	save_id = Dynamic_Game_Dict["Global Data"][global_settings]["ID"]
 	if int(save_id) == 0: #set save id when player loads game
 		set_save_path()
-	id = String(save_id)
+	id = str(save_id)
 	var time = Time.get_date_dict_from_system()
-	Dynamic_Game_Dict["Global Data"]["Global Data"]["Time"] = time
+	Dynamic_Game_Dict["Global Data"][global_settings]["Time"] = time
 	
 	var save_d = Dynamic_Game_Dict
 	var save_file = File.new()
 	var save_path = save_game_path + id + save_format
 	save_file(save_path, save_d)
-#
-#	if save_file.open(save_path, File.WRITE) != OK:
-#		print(save_path)
-#		print("Error Could not open file in Write mode")
-#	else:
-#		save_file.open(save_path, File.WRITE)
-#		save_d = to_json(save_d)
-#		save_file.store_line(save_d)
-#		save_file.close()
 	emit_signal("save_complete")
 
 
@@ -147,18 +128,18 @@ func set_save_path():
 				break
 			count += 1
 	save_id = count
-	id = String(save_id)
+	id = str(save_id)
 	var save_path = save_game_path + id + save_format
 	var directory = Directory.new();
 	var doFileExists = directory.file_exists(save_path)
 
 	while doFileExists:
 		save_id = save_id + 1
-		id = String(save_id)
+		id = str(save_id)
 		save_path = save_game_path + id + save_format
 		directory = Directory.new();
 		doFileExists = directory.file_exists(save_path)
-	Dynamic_Game_Dict["Global Data"]["Global Data"]["ID"] = save_id
+	Dynamic_Game_Dict["Global Data"][global_settings]["ID"] = save_id
 
 func load_game(file_name : String):
 	#Can include the .sav ext but is not required, it can be just save name "1"
@@ -177,7 +158,7 @@ func load_game(file_name : String):
 #	load_file.close()
 	load_map(get_current_map_path())
 	add_all_items_to_player_inventory()
-	Dynamic_Game_Dict["Global Data"]["Global Data"]["Is Game Active"] = true
+	Dynamic_Game_Dict["Global Data"][global_settings]["Is Game Active"] = true
 	dict_loaded = true
 
 func get_player_node():
@@ -186,8 +167,8 @@ func get_player_node():
 
 func set_player_position():
 	var player = get_player_node()
-	print(udsmain.Dynamic_Game_Dict['Global Data']["Global Data"]["Player POS"])
-	var player_position = convert_string_to_Vector(Dynamic_Game_Dict['Global Data']["Global Data"]["Player POS"])
+
+	var player_position = convert_string_to_Vector(Dynamic_Game_Dict['Global Data'][global_settings]["Player POS"])
 	player.set_global_position(player_position)
 
 
@@ -219,34 +200,34 @@ func new_game():
 	set_var_type_dict(Dynamic_Game_Dict)
 
 	
-	Dynamic_Game_Dict["Global Data"]["Global Data"]["NewGame"] = false
-	Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Project Root Scene")
+	Dynamic_Game_Dict["Global Data"][global_settings]["NewGame"] = false
+	Dynamic_Game_Dict["Global Data"][global_settings].erase("Project Root Scene")
 #	Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Project Root Scene")
 	#Add new map to root/map
 	load_map(get_starting_map_path())
-	add_all_items_to_player_inventory()
-	Dynamic_Game_Dict["Global Data"]["Global Data"]["Is Game Active"] = true
+
+#	add_all_items_to_player_inventory()
+	Dynamic_Game_Dict["Global Data"][global_settings]["Is Game Active"] = true
 
 
 func get_game_title():
-	var initial_save_data : Dictionary = import_data(table_save_path + "Global Data" + file_format)
-	var game_title = initial_save_data["Global Data"]["Game Title"]
+	var initial_save_data : Dictionary = await import_data(table_save_path + "Global Data" + file_format)
+	var game_title = initial_save_data[global_settings]["Game Title"]
 	return game_title
 
 func get_starting_map_path():
-	var current_map_name : String = Dynamic_Game_Dict['Global Data']["Global Data"]['Starting Map']
-#	print(current_map_name)
+	var current_map_name : String = Dynamic_Game_Dict['Global Data'][global_settings]['Starting Map']
 	var current_map_path := ""
 	for i in Static_Game_Dict['Maps']:
 		if current_map_name == Static_Game_Dict['Maps'][i]["Display Name"]:
 			current_map_path = Static_Game_Dict['Maps'][i]["Path"]
-			Dynamic_Game_Dict["Global Data"]["Global Data"]["Current Map"] = current_map_path
-			Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Starting Map")
+			Dynamic_Game_Dict["Global Data"][global_settings]["Current Map"] = current_map_path
+			Dynamic_Game_Dict["Global Data"][global_settings].erase("Starting Map")
 			break
 	return current_map_path
 
 func get_current_map_path():
-	var current_map_path : String = Dynamic_Game_Dict['Global Data']["Global Data"]['Current Map']
+	var current_map_path : String = Dynamic_Game_Dict['Global Data'][global_settings]['Current Map']
 #	var current_map_path := ""
 #	for i in Static_Game_Dict['Maps']:
 #		if current_map_name == Static_Game_Dict['Maps'][i]["Display Name"]:
@@ -300,6 +281,7 @@ func update_key_bindings():
 	#set all of the action key bindings from the options#
 	# first remove all previous keys bound to each action
 	clear_key_bindings()
+#	await get_tree().create_timer(.5)
 	#find the lead character
 #	lead_char_name = get_player_character()
 
@@ -311,7 +293,7 @@ func update_key_bindings():
 	#add each key from the options table
 		
 		if options_stats.has(h):
-			var cat = options_stats[h]["Category"]
+			var cat :String = options_stats[h]["Category"]
 			match cat: 
 #				"PlaceHolder":
 #					var input_action = options_stats[h]["Input_Action"]
@@ -326,14 +308,14 @@ func update_key_bindings():
 					if key1 != 0:
 #						var key2_text : String = str(options_stats[h]["Key2"])
 						var key1object = InputEventKey.new()
-						key1object.set_scancode(key1)
+						key1object.set_keycode(key1)
 						InputMap.action_add_event(h, key1object)
 
 
 						var key2 : int = int(options_stats[h]["Key2"])
 						if key2 != 0:
 							var key2object = InputEventKey.new()
-							key2object.set_scancode(key2)
+							key2object.set_keycode(key2)
 							InputMap.action_add_event(h, key2object)
 
 

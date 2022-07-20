@@ -22,5 +22,6 @@ func _on_popup_newValue_visibility_changed():
 		$PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection.populate_list()
 		$PanelContainer/VBox1/HBox1/Table_Selection.populate_list()
 
-
+func reset_values():
+	$PanelContainer/VBox1/HBox1/Table_Selection.visible = false
 

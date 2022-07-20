@@ -67,7 +67,7 @@ func _ready():
 
 	create_table_buttons()
 	reset_buttons()
-#	print("Database tables successfully loaded")
+
 
 
 func _on_Database_Manager_visibility_changed():
@@ -490,10 +490,8 @@ func _on_Delete_Table_button_up():
 	popupBkg(true)
 	pop_error.visible = true
 	await popup_confirmed
-#	yield(self, "popup_confirmed")
 	if accept == true:
 		pop_error.visible = false
-#		print(current_table_name)
 		delete_table(current_table_name)
 		accept = false
 		
@@ -991,7 +989,6 @@ func add_table():
 		error = 0
 	match error: 
 		0: #if there are no errors detected
-#			print(tableName)
 			add_new_table(tableName, keyName, keyDataType, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown_table, RefName, createTab, canDelete, isDropdown, add_toSaveFile, false )
 			_on_newtable_Cancel_button_up()
 			_on_Close_Table_button_up()

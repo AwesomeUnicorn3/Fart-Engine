@@ -87,16 +87,7 @@ func update_sheet(name, rct):
 #			columndata_file.close()
 #			column_header_order = columndata_json.result
 			column_header_order = DBENGINE.import_data(DBENGINE.main_page.save_path + DBENGINE.table_name + "_Column")
-			
-#			var tr = Timer.new()
-#			tr.set_one_shot(true)
-#			add_child(tr)
-#			tr.set_wait_time(.75)
-#			tr.start()
-#			print("TR Started")
-#			yield(tr, "timeout")
-#			tr.queue_free()
-#			print("TR Complete")
+
 			
 			
 			var temp = row_header_order["Row"].size()
@@ -356,11 +347,6 @@ func update_dict():
 								d.update_rows()
 								#update and save main table with new key
 								main_tbl = {}
-#								var main_tbl_data_file = File.new()
-#								main_tbl_data_file.open(main_page.save_path + table_name + file_format, File.READ)
-#								var data_json = JSON.parse(main_tbl_data_file.get_as_text())
-#								main_tbl_data_file.close()
-#								main_tbl = data_json.result
 								main_tbl = DBENGINE.import_data(DBENGINE.main_page.save_path + DBENGINE.table_name + DBENGINE.file_format)
 								var tbldta = table_data
 								for k in main_tbl.keys():
@@ -404,19 +390,9 @@ func update_dict():
 
 func save_data():
 #Save dictionary to .json upon user confirmation
-
-#	var save_file = File.new()
 	var sv_path = main_page.save_path + adj_table_name + adj_file_format
 	DBENGINE.save_file(sv_path, table_data)
-	
-#	if save_file.open(sv_path, File.WRITE) != OK:
-#		print("Error Could not update file")
-#	else:
-#		var save_d = table_data
-#		save_file.open(sv_path, File.WRITE)
-#		save_d = to_json(save_d)
-#		save_file.store_line(save_d)
-#		save_file.close()
+
 
 
 func clear_cells():
@@ -433,11 +409,6 @@ func update_sheet_RC():
 			RC = "Row"
 		"C":
 			RC = "Column"
-#	var tabledata_file = File.new()
-#	tabledata_file.open(main_page.save_path + table_name + "_" + RC, File.READ)
-#	var tabledata_json = JSON.parse(tabledata_file.get_as_text())
-#	tabledata_file.close()
-#	table_data = tabledata_json.result
 	table_data = table_data
 	column_header_orderA = []
 	for n in table_data[RC].size():

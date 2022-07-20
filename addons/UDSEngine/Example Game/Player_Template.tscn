@@ -5,11 +5,12 @@
 [sub_resource type="SpriteFrames" id="19"]
 
 [node name="Player" type="CharacterBody2D"]
-script = ExtResource( "2" )
+motion_mode = 1
+script = ExtResource("2")
 
 [node name="Body" type="Node2D" parent="."]
 
 [node name="FullBody" type="AnimatedSprite2D" parent="Body"]
-frames = SubResource( "19" )
+frames = SubResource("19")
 
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]

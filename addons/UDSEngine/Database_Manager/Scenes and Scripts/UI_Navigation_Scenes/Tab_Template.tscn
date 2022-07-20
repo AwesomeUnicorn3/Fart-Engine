@@ -134,7 +134,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 60.0
 offset_right = 900.0
-offset_bottom = 143.0
+offset_bottom = 127.0
 label_text = "Key"
 
 [node name="Label_Button" parent="VBox1/Key/Label/HBox1" index="0"]
@@ -142,23 +142,24 @@ offset_bottom = 30.0
 text = "Key"
 
 [node name="Input" parent="VBox1/Key" index="1"]
-offset_bottom = 79.0
+custom_minimum_size = Vector2(0, 25)
+offset_bottom = 63.0
 
 [node name="input_templateBuffer" parent="VBox1/Key" index="2"]
-offset_top = 83.0
-offset_bottom = 83.0
+offset_top = 67.0
+offset_bottom = 67.0
 
 [node name="HBox2" type="HBoxContainer" parent="VBox1"]
-offset_top = 147.0
+offset_top = 131.0
 offset_right = 900.0
-offset_bottom = 187.0
+offset_bottom = 172.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox2"]
 offset_right = 678.0
-offset_bottom = 40.0
+offset_bottom = 41.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox2/CenterContainer"]
@@ -172,7 +173,7 @@ theme_override_font_sizes/font_size = 13
 [node name="AddNewField_Button" type="Button" parent="VBox1/HBox2"]
 offset_left = 682.0
 offset_right = 777.0
-offset_bottom = 40.0
+offset_bottom = 41.0
 text = "New Field"
 
 [node name="Button_Separator" parent="VBox1/HBox2" instance=ExtResource("4_22jb8")]
@@ -180,67 +181,63 @@ text = "New Field"
 [node name="DeleteField_Button" type="Button" parent="VBox1/HBox2"]
 offset_left = 786.0
 offset_right = 900.0
-offset_bottom = 40.0
+offset_bottom = 41.0
 text = "Delete Field"
 
 [node name="HBox3" type="HBoxContainer" parent="VBox1"]
-offset_top = 191.0
+offset_top = 176.0
 offset_right = 900.0
-offset_bottom = 595.0
+offset_bottom = 596.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox3"]
-offset_right = 177.0
-offset_bottom = 404.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
+offset_bottom = 420.0
+horizontal_scroll_mode = 0
 
 [node name="Key_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll1"]
-offset_right = 177.0
-offset_bottom = 404.0
+offset_bottom = 420.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox3"]
-offset_left = 181.0
-offset_right = 536.0
-offset_bottom = 404.0
+offset_left = 4.0
+offset_right = 448.0
+offset_bottom = 420.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll2"]
-offset_right = 355.0
-offset_bottom = 404.0
+offset_right = 444.0
+offset_bottom = 420.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Vetical_Separator" type="PanelContainer" parent="VBox1/HBox3"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 540.0
-offset_right = 540.0
-offset_bottom = 404.0
+offset_left = 452.0
+offset_right = 452.0
+offset_bottom = 420.0
 
 [node name="Scroll3" type="ScrollContainer" parent="VBox1/HBox3"]
-offset_left = 544.0
+offset_left = 456.0
 offset_right = 900.0
-offset_bottom = 404.0
+offset_bottom = 420.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll3"]
-offset_right = 356.0
-offset_bottom = 404.0
+offset_right = 444.0
+offset_bottom = 420.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Version_Label" parent="VBox1" instance=ExtResource("8")]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 599.0
+offset_top = 600.0
 offset_right = 900.0
-offset_bottom = 599.0
+offset_bottom = 600.0
 
 [node name="Popups" type="ColorRect" parent="."]
 visible = false
@@ -262,17 +259,30 @@ visible = false
 [node name="popup_newValue" parent="Popups" instance=ExtResource("8_cxjnt")]
 visible = false
 
+[node name="HBox1" parent="Popups/popup_newValue/PanelContainer/VBox1" index="0"]
+offset_bottom = 104.0
+
+[node name="VBox1" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="0"]
+offset_bottom = 104.0
+
 [node name="Input_Text" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1" index="0"]
-offset_bottom = 79.0
+offset_bottom = 104.0
 
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="1"]
-offset_bottom = 79.0
+offset_bottom = 104.0
 
-[node name="Label" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="0"]
-offset_bottom = 25.0
+[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="2"]
+offset_top = 89.0
+offset_bottom = 89.0
+
+[node name="VBox2" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="1"]
+offset_bottom = 104.0
+
+[node name="ItemType_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2" index="0"]
+offset_bottom = 104.0
 
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
-offset_top = 29.0
+offset_bottom = 104.0
 item_count = 14
 selected = 0
 popup/item_0/text = "Text"
@@ -334,6 +344,15 @@ popup/item_11/id = 11
 popup/item_12/text = "Table Data"
 popup/item_12/id = 12
 
+[node name="HBox2" parent="Popups/popup_newValue/PanelContainer/VBox1" index="1"]
+offset_top = 108.0
+
+[node name="Accept" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox2" index="0"]
+offset_bottom = 74.0
+
+[node name="Cancel" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox2" index="1"]
+offset_bottom = 74.0
+
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource("9_juqh1")]
 visible = false
 
@@ -358,6 +377,7 @@ visible = false
 
 [connection signal="button_up" from="VBox1/HBox1/RefreshData_Button" to="." method="reload_data_without_saving"]
 [connection signal="button_up" from="VBox1/HBox1/AddNewTable_Button" to="." method="_on_add_new_table_button_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/DeleteTable_Button" to="." method="delete_table"]
 [connection signal="button_up" from="VBox1/HBox1/SaveNewKey_Button" to="." method="_on_SaveNewItem_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/AddNewKey_Button" to="." method="_on_AddNewItem_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/DeleteSelectedKey_Button" to="." method="_on_DeleteSelectedItem_button_up"]

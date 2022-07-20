@@ -38,20 +38,16 @@ var error
 func _ready():
 	if first_load:
 		current_table_name = tableName
-		
 		first_load = false
-
 		set_ref_table()
 		update_dictionaries()
 		reload_buttons()
 		table_list.get_child(0)._on_TextureButton_button_up()
-
 		custom_table_settings()
 
 func custom_table_settings():
 	match tableName:
 		"Table Data":
-			print("This is The Table Data Table")
 			#lock key name input
 			$VBox1/Key/Input.editable = false
 			$VBox1/Key.is_label_button = false
@@ -67,29 +63,24 @@ func custom_table_settings():
 			$VBox1/HBox2.visible = false
 
 		"Global Data":
-			$VBox1/Key/Input.editable = false
+			$VBox1/Key/Input.editable = true
 	
 	
 
 func set_ref_table():
 	var tbl_ref_dict = import_data(table_save_path + "Table Data" + file_format)
-#	print(tableName)
 	table_ref = tbl_ref_dict[tableName]["Display Name"]
 	current_table_ref = table_ref
 	return table_ref
 
 func _on_visibility_changed():
 	if visible:
-#		current_table_name = tableName
 		_ready()
 		hide_all_popups()
 		show_control_buttons()
-#		update_dictionaries()
 		if is_data_updated():
 			reload_buttons()
 			reload_data_without_saving()
-
-#		table_list.get_child(0)._on_TextureButton_button_up()
 
 	else:
 #		queue_free()
@@ -221,12 +212,15 @@ func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
 	for i in currentData_dict["Row"].size():
 		var item_number = str(i + 1) #row_dict key
-#		if currentData_dict["Row"][item_number]["FieldName"] != "Default":
-		var newbtn = btn_itemselect.instantiate() #Create new instance of item button
-		table_list.add_child(newbtn) #Add new item button to table_list
 		var label = currentData_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
-		newbtn.set_name(label) #Set the name of the new button as the item name
-		newbtn.get_node("Label").set_text(label) #Sets the button label (name that the user sees)
+		var do_not_edit_array :Array = ["Table Data"]
+		if !do_not_edit_array.has(currentData_dict["Row"][item_number]["FieldName"]):
+			var newbtn :Button = btn_itemselect.instantiate() #Create new instance of item button
+			table_list.add_child(newbtn) #Add new item button to table_list
+
+			newbtn.set_name(label) #Set the name of the new button as the item name
+			newbtn.get_node("Label").set_text(label) #Sets the button label (name that the user sees)
+
 
 func _on_Save_button_up(update_Values : bool = true):
 	#Check if values are blank return error if true
@@ -241,6 +235,10 @@ func _on_Save_button_up(update_Values : bool = true):
 			update_dropdown_tables()
 		input_changed = true
 		$VBox1/HBox1/CenterContainer/Label.visible = false
+		match current_table_name:
+			"Table Data":
+				get_udsmain().create_tabs()
+				
 		print("Save Successful")
 	else:
 		print("There was an error. Data has not been updated")
@@ -266,40 +264,17 @@ func update_values():
 	for i in container_list1.get_children():
 		value = i.labelNode.get_text()
 		update_match(i, value)
-#		if value == "Key":
-#			keyNode = i
+
 		
 	for i in container_list2.get_children():
 		value = i.labelNode.get_text()
 		update_match(i, value)
 
-#	for i in container_list3.get_children():
-#		value = i.labelNode.get_text()
-#		update_match(i, value)
-	
-#	for i in container_list4.get_children():
-#		value = i.labelNode.get_text()
-#		update_match(i, value)
-	
 		#NOTE: Does NOT update the database files. That function is located in the save_data method
 	if keyNode != null:
 		reload_buttons()
 		refresh_data(keyNode.inputNode.text)
 
-#func save_data(sv_path, table_dict):
-##Save dictionary to .json using sv_path as the file location and table_dict as the data saved to file
-#	var save_file = File.new()
-#	if save_file.open(sv_path, File.WRITE) != OK:
-#		print("Error Could not update file")
-#	else:
-#		var save_d = table_dict
-#		save_file.open(sv_path, File.WRITE)
-#		save_d = to_json(save_d)
-#		save_file.store_line(save_d)
-#		save_file.close()
-
-
-		
 
 func add_entry_row(entry_value):
 	var item_name_dict = currentData_dict["Row"]
@@ -373,7 +348,6 @@ func _on_Cancel_button_up():
 func _on_SaveNewItem_button_up():
 	#NEED TO SET ITEM NAME VARIABLE HERE!!!
 	Item_Name = item_name_input.text
-	print(Item_Name)
 	#THIS IS WHERE ERROR CHECKING NEEDS TO CONVERGE AND NOT RUN IF THERE IS AN ERROR
 	if !does_key_exist(Item_Name) and !does_key_contain_invalid_characters(str(Item_Name)) and !has_empty_fields():
 
@@ -429,64 +403,6 @@ func _on__deletePopup_Cancel_button_up():
 	popup_deleteConfirm.visible = false
 
 
-#func _on_FileDialog_file_selected(path):
-#	var dir = Directory.new() #
-#	var new_file_name = path.get_file() #
-#	var new_file_path = icon_folder + "/" + new_file_name #
-#	var curr_icon_path = current_dict[Item_Name][selected_field_name] #
-#
-#	if is_file_in_folder(icon_folder, new_file_name): # #Check if selected folder is Icon folder and has selected file
-#		current_dict[Item_Name][selected_field_name] = new_file_path
-#		save_all_db_files(current_table_name)
-#	else:
-#		dir.copy(path, new_file_path)
-#		if !is_file_in_folder(icon_folder, new_file_name):
-#			print("File Not Added")
-#		else:
-#			print("File Added")
-#			refresh_editor()
-#			current_dict[Item_Name][selected_field_name] = new_file_path
-#			var tr = Timer.new()
-#			tr.set_one_shot(true)
-#			add_child(tr)
-#			tr.set_wait_time(.25)
-#			tr.start()
-#			yield(tr, "timeout")
-#			tr.queue_free()
-#	refresh_data(Item_Name)
-
-#func _on_FileDialog_sprite_file_selected(path: String) -> void:
-#	var dir = Directory.new() #
-#	var new_file_name = path.get_file() #
-#	var new_file_path = icon_folder + "/" + new_file_name #
-#	var curr_icon_path = current_dict[Item_Name][selected_field_name] #
-#	#Get frame values
-#	var sprite_path = curr_icon_path[0]
-#	var frameVector : Vector2 = convert_string_to_type(curr_icon_path[1], "TYPE_VECTOR2")
-#
-#	if is_file_in_folder(icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
-#		current_dict[Item_Name][selected_field_name] = [new_file_path , str(frameVector)]
-#		save_all_db_files(current_table_name)
-#	else:
-#		dir.copy(path, new_file_path)
-#		if !is_file_in_folder(icon_folder, new_file_name):
-#			print("File Not Added")
-#		else:
-#			print("File Added")
-#			#trigger the import process for it to load to texture rect
-#			refresh_editor()
-#			current_dict[Item_Name][selected_field_name] = [new_file_path , str(frameVector)]
-#			var tr = Timer.new()
-#			tr.set_one_shot(true)
-#			add_child(tr)
-#			tr.set_wait_time(.25)
-#			tr.start()
-#			yield(tr, "timeout")
-#			tr.queue_free()
-#	refresh_data(Item_Name)
-
-
-
 func _on_FileDialog_hide() -> void:
 	hide_all_popups()
 
@@ -515,6 +431,7 @@ func _on_NewField_Accept_button_up():
 func _on_NewField_Cancel_button_up():
 	popup_main.visible = false
 	popup_newField.visible = false
+	popup_newField.reset_values()
 
 
 func add_newField(): 
@@ -522,7 +439,6 @@ func add_newField():
 	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input.get_text()
 	var selected_item_name = datafield.selectedItemName
 	var datatype = datafield.get_dataType_ID(selected_item_name)
-#	print(datatype)
 	var showField = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox3/LineEdit3.is_pressed()
 	var required = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox4/LineEdit3.is_pressed()
 	var tableName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection.selectedItemName
@@ -590,7 +506,6 @@ func get_udsmain():
 			main_node = curr_selected_node.get_parent()
 		else:
 			curr_selected_node = curr_selected_node.get_parent()
-#	print(main_node)
 	return main_node
 
 
@@ -599,11 +514,15 @@ func _on_add_new_table_button_button_up():
 	popup_main.visible = true
 
 func _on_new_table_Accept_button_up():
-	add_table()
+	await add_table()
+	get_udsmain().create_tabs()
+	_on_newtable_Cancel_button_up()
 
 func _on_newtable_Cancel_button_up():
 	$Popups/popup_newTable.reset_values()
 	$Popups/popup_newTable.visible = false
+	popup_main.visible = false
+
 
 func add_table():
 	#Check for errors entered in to the form
@@ -616,14 +535,14 @@ func add_table():
 	var fieldDatatype = "1"
 	var fieldVisible = true
 	var dropdown_table = "empty"
-	var isDropdown = newTable.isList.pressed
+	var isDropdown = newTable.isList.button_pressed
 	var RefName = newTable.refName.text
-	var createTab = newTable.createTab.pressed
+	var createTab = newTable.createTab.button_pressed
 	var canDelete = true
-	var add_toSaveFile = newTable.in_saveFile.pressed
+	var add_toSaveFile = newTable.in_saveFile.button_pressed
 	var dup_check = tableName + file_format
 	
-	var files = list_files_with_param(table_save_path, file_format, ["Table Data.json"])
+	var files = await list_files_with_param(table_save_path, file_format, ["Table Data.json"])
 	
 	if tableName == "":
 		error = 4
@@ -636,7 +555,6 @@ func add_table():
 		error = 0
 	match error: 
 		0: #if there are no errors detected
-#			print(tableName)
 			add_new_table(tableName, keyName, keyDataType, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown_table, RefName, createTab, canDelete, isDropdown, add_toSaveFile, false )
 
 #
@@ -647,89 +565,6 @@ func add_table():
 	error = 0
 
 
-func delete_table(del_tbl_name):
+func delete_table(del_tbl_name = key_node.inputNode.get_text()):
 	Delete_Table(del_tbl_name)
-	#Clean up the display
-#	_on_Close_Table_button_up()
-	#Refresh the table list
-#	_ready()
-##	update_dict()
-#	_on_Close_Table_button_up()
-#	get_node("../..").create_tabs()
-
-
-#func error_check():
-#	var new_key_array = []
-#	error = 0
-#	var new_order_array = []
-#
-#
-#	for i in table.get_children():
-#		var id
-#		var array
-#		var temp
-#		var nm = i.get_name()
-#
-#
-#		if nm != "Blank" and nm != "Row" and !nm.begins_with("Column"):
-#			array = nm.rsplit("&")
-#			temp = array[1]
-#
-#		if i.get_class() == "PanelContainer":
-#			var y = i.new_data
-#			if i.new_data == "" or i.new_data == null:
-#				id = i.previous_data
-#				if temp == "key":
-#					new_key_array += [id]
-#				if temp == "Order":
-#					new_order_array += [id]
-#
-#			else:
-#				id = i.new_data
-#				if temp == "key":
-#					new_key_array += [id]
-#				if temp == "Order":
-#					new_order_array += [id]
-#
-#	for i in new_key_array:
-#		var q = new_key_array.count(i)
-#		if q >= 2:
-#			error = 1
-#		else:
-#			pass
-#
-#	for i in new_order_array:
-#		var q = new_order_array.count(i)
-#		if q >= 2:
-#			error = 2
-#		else:
-#			pass
-
-#
-#func error_display(): #NEED TO UPDATE SO IT CAN BE MOVED TO ENGINE SCRIPT
-#	var popup = load("res://addons/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_error.tscn")
-#	var error_display = popup.instance()
-#	add_child(error_display)
-#	match error:
-#		1:
-#			print("Error 1 - Duplicate Key name")
-#			error_display.set_labeltext("Cannot have duplicate Key names. Values will be reset")
-##			popup_error.visible = true
-#			update_sheet(current_table_name)
-#		2:
-#			print("Error 2 - duplicate order number")
-#			error_display.set_labeltext("Cannot have duplicate order numbers. Values will be reset")
-##			popup_error.visible = true
-#			update_sheet(current_table_name)
-#		3:
-#			print("Error 3 - Key cannot be Blank")
-#			error_display.set_labeltext("Key cannot be Blank")
-##			popup_error.visible = true
-#			update_sheet(current_table_name)
-#		4:
-#			print("Error 4 - Table name, key and values cannot be blank")
-#			error_display.set_labeltext("Table name, key and values cannot be blank")
-##			popup_error.visible = true
-#		5:
-#			print("Error 5 - A table with the same name already exists")
-#			error_display.set_labeltext("A table with the same name already exists")
+	get_udsmain().create_tabs()

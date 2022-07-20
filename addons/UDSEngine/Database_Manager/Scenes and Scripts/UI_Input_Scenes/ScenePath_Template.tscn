@@ -14,12 +14,6 @@ script = ExtResource("5")
 anchor_right = 0.0
 offset_right = 900.0
 
-[node name="Space2" type="Label" parent="."]
-visible = false
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Double Click Input Field to Select Scene from File"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 offset_top = 29.0
 offset_right = 900.0
@@ -27,18 +21,41 @@ offset_bottom = 596.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="Button" type="Button" parent="HBoxContainer"]
+offset_right = 179.0
+offset_bottom = 567.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+text = "Change Scene"
+
 [node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
 visible = false
+offset_left = 12.0
+offset_right = 454.0
+offset_bottom = 567.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
 [node name="Input" type="LineEdit" parent="HBoxContainer"]
+visible = false
 offset_right = 900.0
 offset_bottom = 567.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 hint_tooltip = "Double Click to Select Scene from File"
+
+[node name="Display" type="LineEdit" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+offset_left = 183.0
+offset_right = 900.0
+offset_bottom = 567.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+editable = false
+expand_to_text_length = true
+selecting_enabled = false
 
 [node name="Space" type="Label" parent="HBoxContainer"]
 visible = false
@@ -51,4 +68,4 @@ offset_top = 600.0
 offset_right = 900.0
 offset_bottom = 600.0
 
-[connection signal="gui_input" from="HBoxContainer/Input" to="." method="_on_Input_gui_input"]
+[connection signal="button_up" from="HBoxContainer/Button" to="." method="_on_TextureButton_button_up"]

@@ -19,17 +19,5 @@ func _ready() -> void:
 func _on_SaveButton_button_up() -> void:
 	udsmain.save_game()
 	$Label.visible = true
-	timer(1.5)
-	await Timer_Complete
+	await get_tree().create_timer(1.5).timeout
 	$Label.visible = false
-
-
-func timer(wait_time : float = 1.0):
-	var t = Timer.new()
-	t.set_one_shot(true)
-	self.add_child(t)
-	t.set_wait_time(.5)
-	t.start()
-	await t.timeout
-	t.queue_free()
-	emit_signal("Timer_Complete")

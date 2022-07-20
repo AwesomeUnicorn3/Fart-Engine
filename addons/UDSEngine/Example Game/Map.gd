@@ -20,7 +20,7 @@ func _ready() -> void:
 #			child.queue_free()
 #
 #	if event_name != "":
-#		print(event_name)
+
 #		get_event_dict()
 #		var sprite_animation :AnimatedSprite2D = DBENGINE.create_sprite_animation()
 #
@@ -79,7 +79,7 @@ func get_event_dict():
 #			event_list = event_dict[i]
 #		else:
 #			event_list = event_list + "," + event_dict[i]
-##		print(event_list)
+
 #	if event_name != "":
 #		# Same as "export(int) var my_property"
 #		properties.append({

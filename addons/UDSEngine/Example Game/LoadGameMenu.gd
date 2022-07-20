@@ -1,6 +1,6 @@
 extends Control
 
-@onready var loadFileSelect : Resource = load("res://addons/Example Game/LoadFileSelect.tscn")
+@onready var loadFileSelect : Resource = load("res://addons/UDSEngine/Example Game/LoadFileSelect.tscn")
 @onready var file_list_container := $VBox1/Scroll1/VBox1
 
 func _ready() -> void:
@@ -10,7 +10,7 @@ func _ready() -> void:
 		var save_file_dict : Dictionary = udsmain.import_data(udsmain.save_game_path + i)
 		var loadFileSelect_new :Node = loadFileSelect.instantiate()
 		loadFileSelect_new.get_node("Load").set_text("Load File " + i)
-		var map_path : String = save_file_dict["Global Data"]["Global Data"]["Current Map"]
+		var map_path : String = save_file_dict["Global Data"][udsmain.global_settings]["Current Map"]
 		loadFileSelect_new.file_name = i
 		loadFileSelect_new.parent_container = self
 		loadFileSelect_new.get_node("ColorRect/VBoxContainer/MapNameInput").set_text(udsmain.get_map_name(map_path))

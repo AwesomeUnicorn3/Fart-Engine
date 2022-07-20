@@ -28,7 +28,7 @@ func match_fields_to_template():
 				for tab in event_dict:
 					if !event_dict[tab].has(field):
 						event_dict[tab][field] = event_template_dict[key][field]
-
+#
 	var remove_field_array = []
 	for tab in event_dict:
 		for field in event_dict[tab]:
@@ -44,8 +44,6 @@ func match_fields_to_template():
 func load_event_data(event_tab := tab_number):
 	#load data
 	match_fields_to_template()
-#	event_script = load(event_dict[event_tab]["Script Path"])
-#	print(event_dict)
 	for child in event_page_button_list.get_children():
 		child.queue_free()
 	load_page_buttons()
@@ -55,16 +53,16 @@ func load_event_data(event_tab := tab_number):
 	event_name_label.inputNode.set_text(initial_event_display_name)
 
 func load_page_buttons():
-	var page_button = load("res://addons/Event_Manager/Event_Page_Button.tscn")
-	for index in event_dict.size():
-		index = str(index + 1)
+	var page_button = load("res://addons/UDSEngine/Event_Manager/Event_Page_Button.tscn")
+	var event_size : int = event_dict.size()
+	for index in event_size:
+		var index_text :String = str(index + 1)
 		var new_button = page_button.instantiate()
-		new_button.set_text("Page " + index)
-		new_button.set_name(index)
+		new_button.set_text("Page " + index_text)
+		new_button.set_name(index_text)
 		event_page_button_list.add_child(new_button)
-		new_button.event_page_number = index
+		new_button.event_page_number = index_text
 		if new_button.event_page_number == tab_number:
-#			print(tab_number)
 			new_button.on_Button_button_up()
 
 func load_event_notes(event_tab):
@@ -75,20 +73,17 @@ func load_event_notes(event_tab):
 
 func load_event_trigger_input(event_tab):
 	var input_value = event_dict[event_tab]["Event Trigger"]
-#	print(input_value)
 	var trigger_selection_container  = await add_input_node(1, 1, "Event Trigger", event_dict[event_tab], event_trigger_display, null, input_value, "5", "Event Triggers")
 	input_node_array.append(trigger_selection_container)
 
 func load_event_conditions_input(event_tab):
 	var input_value = event_dict[event_tab]["Conditions"]
-#	print(input_value)
 	var conditions_container  = await add_input_node(1, 1, "Conditions", event_dict[event_tab], conditions_node, null, input_value, "14", "")
 	conditions_container.parent_node = self
 	input_node_array.append(conditions_container)
 
 func load_event_animation_input(event_tab):
 	var input_value = event_dict[event_tab]["Default Animation"]
-#	print(input_value)
 	var event_animation_container  = await add_input_node(1, 1, "Default Animation", event_dict[event_tab], event_trigger_display, null, input_value, "8")
 	input_node_array.append(event_animation_container)
 
@@ -111,14 +106,12 @@ func on_page_button_pressed(event_page_number :String):
 	else:
 		$Scroll1/VBox1/HBox3/HBox1/Delete_Page_Button.disabled = false
 	clear_all_input_forms()
-#	enable_all_page_buttons()
 	tab_number = event_page_number
 	input_node_array = []
 	load_event_notes(event_page_number)
 	load_event_trigger_input(event_page_number)
 	load_event_animation_input(event_page_number)
 	load_event_conditions_input(event_page_number)
-#	print(event_page_number)
 	
 	
 func get_table_data_key(table_name := "", return_display_name := false):
@@ -193,7 +186,6 @@ func get_next_event_key():
 	#if that key exists, add 1 and try again until key does not exist
 	var next_key :String = ""
 	event_dict = get_list_of_events(true)
-#	print(event_dict)
 	if event_dict == {}:
 		next_key = "1"
 
@@ -205,24 +197,16 @@ func get_next_event_key():
 			event_number = event_array[1]
 			event_number_array.append(event_number)
 		var event_size = event_number_array.size() + 2
-#		print(event_size," ", event_number_array)
 		for index in range(1,event_size):
-#			print(index)
 			if !event_number_array.has(str(index)):
 				next_key = str(index)
 				break
 
-#	print(next_key)
 	return next_key
 
 
 func _on_Create_New_Event_Button_button_up(change_event_name_in_node := true):
 	event_name = "Event " + get_next_event_key()
-#	print(event_name)
-
-#	print(event_name) 
-	
-	
 	#copy event table template and save as current event
 	current_table_name = "Event Table Template"
 	update_dictionaries()
@@ -256,9 +240,7 @@ func _on_Create_New_Event_Button_button_up(change_event_name_in_node := true):
 
 
 func set_initial_values(tabNumber := tab_number):
-#	print("Event Name is: " + event_name)
 	current_table_name = event_name
-#	event_node.event_name = event_name
 	update_dictionaries()
 	event_dict = current_dict
 	load_event_data(tabNumber)
@@ -293,8 +275,6 @@ func load_event() -> void:
 				set_initial_values()
 
 func _on_Button_button_up() -> void: #close form - event node
-#	visible = false
-#	clear_event_data()
 	emit_signal("event_editor_input_form_closed")
 	var editor = EditorPlugin.new()
 	editor.remove_control_from_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_BOTTOM, self)
@@ -306,12 +286,7 @@ func close_event_input_form_in_dbmanager():
 func _on_Save_Close_Button_button_up() -> void:
 	#Save Data to currDict
 	save_event_data()
-	
-#	print(event_node.event_name)
 	save_all_db_files()
-#	print(event_node.event_name)
-#	event_node.event_name = event_name
-#	print(event_node.event_name)
 	event_node._ready()
 	call_deferred("_on_Button_button_up")
 
@@ -364,13 +339,10 @@ func input_node_changed(value):
 func _on_Delete_Page_Button_button_up() -> void:
 	data_type = "Row"
 	Delete_Key(tab_number)
-	
 	#RENAME ALL PAGE KEYS THAT ARE GREATER THAN THE DELETED KEY
-#	print(event_dict.keys())
 	for index in event_dict.size():
 		index += 1
 		if !event_dict.has(str(index)):
-#			print(index)
 			var next_page_number = str(index + 1)
 			var next_line = event_dict[next_page_number]
 			event_dict[index] = next_line
@@ -392,7 +364,6 @@ func _on_Save_Page_Button_button_up() -> void:
 
 
 func _on_Copy_Page_Button_button_up() -> void:
-	print("Copy Page #" + tab_number)
 	var new_page_dict :Dictionary = current_dict[tab_number].duplicate(true)
 	#Copy current page dictionary
 	#save current page dictionary as temp dict

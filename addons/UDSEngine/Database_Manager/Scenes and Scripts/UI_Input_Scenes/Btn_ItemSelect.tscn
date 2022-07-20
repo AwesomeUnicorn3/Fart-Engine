@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://bo3gu4nrkb880" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_25.tres" id="2"]
 
 [node name="TextureButton" type="Button"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(175, 50)
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -14,8 +14,12 @@ script = ExtResource("1")
 [node name="Label" type="Label" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "Options Table"
+grow_horizontal = 2
+grow_vertical = 2
+text = "Options Table in the corner of my mind"
 horizontal_alignment = 1
 vertical_alignment = 1
+text_overrun_behavior = 3
+metadata/_edit_layout_mode = 1
 
 [connection signal="button_up" from="." to="." method="_on_TextureButton_button_up"]

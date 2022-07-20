@@ -12,19 +12,14 @@ func _init() -> void:
 	await input_load_complete
 	pitch_slider = get_node("HBoxContainer/VBoxContainer/HBoxContainer2/HSlider")
 	volume_slider = get_node("HBoxContainer/VBoxContainer/HBoxContainer/HSlider")
-#func _ready():
-#	inputNode = $Input
-#	labelNode = $Label/HBox1/Label_Button
 
 
 func remove_dialog():
-	print("Remove dialog")
 	var par = get_main_tab(self)
 	var list_node :Node = par.get_node("Popups/ListInput")
 	var child_count = list_node.get_child_count()
 	if child_count <= 0:
 		par.get_node("Popups").visible = false
-#	par.get_node("Popups/FileSelect").visible = false
 	par._on_FileDialog_hide()
 	fileSelectedNode.queue_free()
 	
@@ -33,16 +28,13 @@ func remove_dialog():
 func _on_FileDialog_file_selected(path):
 	remove_dialog()
 	var par = get_main_tab(self)
-#	par.popup_main.visible = false
 	var dir = Directory.new() #
 	var new_file_name = path.get_file() #
 	var new_file_path = par.table_save_path + par.sfx_folder + new_file_name #
 	var curr_sfx_path : Node = inputNode #
-#	var file_dialog_signal = "file_selected"
 	if par.is_file_in_folder(par.table_save_path + par.sfx_folder, new_file_name): # #Check if selected folder is sfx folder and has selected file
 		curr_sfx_path.set_stream(load(str(new_file_path)))
 		$HBoxContainer/VBoxContainer2/sfx_name.set_text(new_file_path.get_file())
-#		save_all_db_files(current_table_name)
 	else:
 		dir.copy(path, new_file_path)
 		if !par.is_file_in_folder(par.table_save_path + par.sfx_folder, new_file_name):
@@ -68,17 +60,13 @@ func _on_Input_button_up() -> void:
 	popupDialog.show_hidden_files = true
 	popupDialog.set_access(2)
 	popupDialog.set_filters(Array(["*.wav"]))
-#	popupDialog.connect("file_selected", self, "_on_FileDialog_file_selected")
 	popupDialog.file_selected.connect(_on_FileDialog_file_selected)
-#	popupDialog.connect("hide", self, "remove_dialog")
 	popupDialog.cancelled.connect(remove_dialog)
 
 func _on_Button_button_up() -> void:
 	inputNode.play()
 	await inputNode.finished
-#	yield(inputNode,"finished")
 	inputNode.stop()
-#	print("Finished")
 
 
 func _on_Volume_value_changed(value: float) -> void:
@@ -97,7 +85,6 @@ func _on_pitch_value_changed(value: float) -> void:
 	var min_value = pitch_slider.min_value
 	var max_value = pitch_slider.max_value
 	var total_pitch_option_value = max_value - min_value
-#	print(total_pitch_option_value,  " " , ((value - abs(min_value))/total_pitch_option_value) * 100)
 	var pitch_percent = round(((value - abs(min_value))/total_pitch_option_value) * 100)
 	pitch_label.set_text(str(pitch_percent)  + "%")
 

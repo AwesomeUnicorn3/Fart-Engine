@@ -148,6 +148,7 @@ func input_node_changed(value, hidden = true):
 func _on_Delete_Accept_button_up() -> void:
 	var fileName = save_game_path + FileSelected + save_format
 	var dir = Directory.new()
+	dir.open(save_game_path)
 	dir.remove(fileName)
 	_ready()
 	$VBox1/Hbox2/DeleteFile.disabled = true

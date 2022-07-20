@@ -3,18 +3,15 @@ extends InputEngine
 
 var fileSelectedNode :Node
 var popupDialog : FileDialog
+var current_path :String = ""
 
 func _init() -> void:
 	type = "7"
 
-#func _ready():
-#	inputNode = $HBoxContainer/Input
-#	labelNode = $Label/HBox1/Label_Button
-
 
 func _on_TextureButton_button_up():
 	on_text_changed(true)
-	var FileSelectDialog = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
+	var FileSelectDialog  := preload("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
 	fileSelectedNode = FileSelectDialog.instantiate()
 	var par = get_main_tab(self)
 	par.get_node("Popups").visible = true
@@ -22,8 +19,11 @@ func _on_TextureButton_button_up():
 	par.get_node("Popups/FileSelect").add_child(fileSelectedNode)
 	popupDialog = fileSelectedNode.get_node("FileSelectDialog")
 	popupDialog.show_hidden_files = true
-	popupDialog.set_access(2)
+	popupDialog.set_access(0)
 	popupDialog.set_filters(Array(["*.tscn"]))
+	current_path = inputNode.get_text()
+	current_path = current_path.get_base_dir()
+	popupDialog.set_current_dir(current_path)
 #	popupDialog.connect("file_selected", self, "_on_FileDialog_file_selected")
 	popupDialog.file_selected.connect(_on_FileDialog_file_selected)
 #	popupDialog.connect("hide", self, "remove_dialog")
@@ -37,28 +37,22 @@ func remove_dialog():
 		par.get_node("Popups").visible = false
 	par.get_node("Popups/FileSelect").visible = false
 	fileSelectedNode.queue_free()
-	
 
 
 func _on_FileDialog_file_selected(path):
+	current_path = path.get_base_dir() #necessary to navigate filedialog to correct directory
 	inputNode.set_text(path)
+	$HBoxContainer/Display.set_text(get_filename_from_path(path))
 	remove_dialog()
 
 
-
-#func _on_Input_mouse_entered() -> void:
-#	print("Mouse Entered")
-
-var click_index = 0
-func _on_Input_gui_input(event: InputEvent) -> void:
-	if event.is_pressed() and event is InputEventMouseButton and event.button_index == 1:
-		double_click()
-	if click_index >= 2:
-		click_index = 0
-		_on_TextureButton_button_up()
+func _on_input_text_changed(new_text):
+	$HBoxContainer/Display.set_text(get_filename_from_path(new_text))
 
 
-func double_click():
-	click_index += 1
-	await get_tree().create_timer(.2).timeout
-	click_index = 0
+func get_filename_from_path(path:String):
+	var filename :String
+	filename = path.get_file().trim_suffix("." + path.get_extension())
+	$HBoxContainer/Display.set_tooltip(path)
+	return filename
+

@@ -23,6 +23,18 @@ var line_item_dictionary :Dictionary = {}
 var condition_type : String
 
 func _ready() -> void:
+#	Key_field = $Key
+#	If = $If_DropDown
+#	If_Table_Node = $If_Table_Name_DropDown
+#	If_Key_Node = $If_Key_Name_DropDown
+#	If_Value_Node = $if_Value_Name_DropDown
+#	Is = $Is_DropDown
+#	Is_Text_Node = $Is_Text
+#	Is_Value_Text = $Is_Value_Text
+#	Is_Value_Float = $Is_Value_Float
+#	Is_Value_Bool = $Is_Value_Bool
+#	If_Event_Variable = $Is_Event_Variable
+#	Is_Value_Int = $Is_Value_Int
 	Is.populate_list()
 
 
@@ -38,21 +50,18 @@ func set_line_item_dictionary():
 				var tableName = ""
 				if item_node.type == "5":
 					tableName = item_node.selection_table_name
-#					print(tableName)
 				line_item_dictionary[item_node.name] = {"value" :item_node.inputNode.get_text(), "table_name" : tableName}
 
 
 func _on_DeleteButton_button_up() -> void:
-#	var parent_node = get_node("../../../..")
 	var keyValue = Key_field.inputNode.text
 	parent_node._delete_selected_list_item(keyValue)
-#	print(keyValue)
 
 
 
 func _on_If_DropDown_selected_item_changed() -> void:
 	condition_type = If.selectedItemName
-#	print(condition_type)
+
 	If_Key_Node.visible = false
 	If_Value_Node.visible = false
 	If_Table_Node.visible = false
@@ -137,28 +146,22 @@ func _on_if_Value_Name_DropDown_selected_item_changed() -> void:
 	Is_Value_Bool.visible = false
 	Is_Text_Node.visible = false
 	Is.visible = false
-#	print(data_type)
+
 	match data_type:
 		"1":
 			Is_Text_Node.inputNode.set_text("Equal To")
 			Is_Text_Node.visible = true
 			Is_Value_Text.visible = true
 		"3":
-#			Is.selection_table_name = "Local"
-#			Is.selection_table = parent_node.condition_number_inequality_dict
-#			Is.populate_list()
-#			Is.select_index()
+
 			Is.visible = true
 			Is_Value_Float.visible = true
 		"5":
-#			Is.selection_table_name = "Local"
-#			Is.selection_table = parent_node.condition_number_inequality_dict
-#			Is.populate_list()
-#			Is.select_index()
+
 			Is_Value_Int.visible = true
 			Is.visible = true
 		"4":
-#			Is_Node.visible = false
+
 			Is_Text_Node.visible = true
 			Is_Text_Node.inputNode.set_text("Equal To")
 			Is_Value_Bool.visible = true

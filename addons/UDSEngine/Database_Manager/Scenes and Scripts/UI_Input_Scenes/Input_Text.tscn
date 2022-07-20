@@ -7,6 +7,7 @@
 [node name="Input_Text" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -517.0
 size_flags_horizontal = 3
 script = ExtResource("2")
 
@@ -18,7 +19,7 @@ offset_right = 900.0
 custom_minimum_size = Vector2(0, 50)
 offset_top = 29.0
 offset_right = 900.0
-offset_bottom = 596.0
+offset_bottom = 79.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 18
@@ -30,6 +31,6 @@ caret_blink_speed = 0.5
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("1")]
 anchor_right = 0.0
-offset_top = 600.0
+offset_top = 83.0
 offset_right = 900.0
-offset_bottom = 600.0
+offset_bottom = 83.0

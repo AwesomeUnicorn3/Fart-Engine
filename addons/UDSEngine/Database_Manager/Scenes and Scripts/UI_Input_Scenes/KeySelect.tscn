@@ -1,12 +1,12 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://xrukrixttdlq"]
 
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect.gd" id="3"]
-[ext_resource type="Theme" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="7"]
+[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="7"]
 
 [node name="KeySelect" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( "3" )
+script = ExtResource("3")
 
 [node name="Background" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -30,13 +30,13 @@ metadata/_edit_layout_mode = 1
 
 [node name="LeftMargin" type="Label" parent="DropPanelContainer"]
 offset_right = 1.0
-offset_bottom = 176.0
+offset_bottom = 191.0
 size_flags_vertical = 3
 
 [node name="MainNodes" type="VBoxContainer" parent="DropPanelContainer"]
 offset_left = 5.0
 offset_right = 547.0
-offset_bottom = 176.0
+offset_bottom = 191.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -48,44 +48,42 @@ size_flags_vertical = 1
 [node name="Label" type="Label" parent="DropPanelContainer/MainNodes"]
 offset_top = 27.0
 offset_right = 542.0
-offset_bottom = 47.0
-theme = ExtResource( "7" )
+offset_bottom = 52.0
+theme = ExtResource("7")
 text = "Press the key you wish to assign for "
+horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="DropPanelContainer/MainNodes"]
-offset_top = 51.0
+offset_top = 56.0
 offset_right = 542.0
-offset_bottom = 71.0
-theme = ExtResource( "7" )
+offset_bottom = 81.0
+theme = ExtResource("7")
 text = "move up"
+horizontal_alignment = 1
 uppercase = true
 
 [node name="Label3" type="Label" parent="DropPanelContainer/MainNodes"]
-offset_top = 75.0
+offset_top = 85.0
 offset_right = 542.0
-offset_bottom = 95.0
-theme = ExtResource( "7" )
+offset_bottom = 110.0
+theme = ExtResource("7")
 text = "Press Key"
+horizontal_alignment = 1
 
 [node name="Buttons" type="HBoxContainer" parent="DropPanelContainer/MainNodes"]
-minimum_size = Vector2(0, 50)
-offset_top = 99.0
+offset_top = 114.0
 offset_right = 542.0
-offset_bottom = 149.0
-theme = ExtResource( "7" )
+offset_bottom = 164.0
+theme = ExtResource("7")
 
 [node name="Accept" type="Button" parent="DropPanelContainer/MainNodes/Buttons"]
+custom_minimum_size = Vector2(50, 50)
 offset_right = 269.0
 offset_bottom = 50.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 15
-
-[node name="Label" type="Label" parent="DropPanelContainer/MainNodes/Buttons/Accept"]
-anchor_right = 1.0
-anchor_bottom = 1.0
 text = "Accept"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Cancel" type="Button" parent="DropPanelContainer/MainNodes/Buttons"]
 offset_left = 273.0
@@ -93,24 +91,18 @@ offset_right = 542.0
 offset_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="DropPanelContainer/MainNodes/Buttons/Cancel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
 text = "Cancel"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="BottomMargin" type="Label" parent="DropPanelContainer/MainNodes"]
-offset_top = 153.0
+offset_top = 168.0
 offset_right = 542.0
-offset_bottom = 176.0
+offset_bottom = 191.0
 size_flags_vertical = 1
 
 [node name="RightMargin" type="Label" parent="DropPanelContainer"]
 offset_left = 551.0
 offset_right = 552.0
-offset_bottom = 176.0
+offset_bottom = 191.0
 size_flags_vertical = 3
 
 [connection signal="button_up" from="DropPanelContainer/MainNodes/Buttons/Accept" to="." method="_on_Accept_button_up"]

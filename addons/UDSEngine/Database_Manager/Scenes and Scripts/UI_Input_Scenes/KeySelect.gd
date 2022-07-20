@@ -26,9 +26,9 @@ func _input(event):
 
 	#When an event happens if the event is an input event key and is pressed
 	if event is InputEventKey and event.is_pressed() == true: 
-		get_tree().set_input_as_handled()
+#		get_tree().set_input_as_handled()
 		#set the label to display the recorded keypress
-		key_scancode = event.get_scancode()
+		key_scancode = event.get_keycode()
 		key = OS.get_keycode_string(event.get_keycode_with_modifiers())
 		key_object = event
 		key_container.set_text(key)

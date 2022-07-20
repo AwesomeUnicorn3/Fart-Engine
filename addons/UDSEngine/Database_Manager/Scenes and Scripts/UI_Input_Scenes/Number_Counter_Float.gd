@@ -12,14 +12,14 @@ func _init() -> void:
 #	labelNode = $Label/HBox1/Label_Button
 
 func _on_Add_Button_button_up():
-	num_value = float(inputNode.get_text())
+	num_value = inputNode.get_text().to_float()
 	num_value += increment
 	inputNode.set_text(str(num_value))
 	inputNode.emit_signal("text_changed", inputNode.text)
 
 
 func _on_Sub_Button_button_up():
-	num_value = float(inputNode.get_text())
+	num_value = inputNode.get_text().to_float()
 	num_value -= increment
 	inputNode.set_text(str(num_value))
 	inputNode.emit_signal("text_changed", inputNode.text)

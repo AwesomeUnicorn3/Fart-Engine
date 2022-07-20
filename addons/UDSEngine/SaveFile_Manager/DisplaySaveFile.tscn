@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://d8q6e6cx2fyl"]
 
 [ext_resource type="Script" path="res://addons/UDSEngine/SaveFile_Manager/DisplaySaveFile.gd" id="1"]
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_62w8q"]
 
 [node name="DisplaySaveFile" type="Control" groups=["Database", "Tab"]]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( "1" )
+theme = ExtResource("1_62w8q")
+script = ExtResource("1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -17,117 +19,117 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Hbox2" type="HBoxContainer" parent="VBox1"]
-offset_right = 1024.0
-offset_bottom = 31.0
+offset_right = 900.0
+offset_bottom = 28.0
 
 [node name="CenterContainer2" type="CenterContainer" parent="VBox1/Hbox2"]
-offset_right = 808.0
-offset_bottom = 31.0
+offset_right = 652.0
+offset_bottom = 28.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/Hbox2/CenterContainer2"]
 visible = false
-offset_left = 232.0
-offset_top = 2.0
-offset_right = 576.0
-offset_bottom = 28.0
+offset_left = 111.0
+offset_top = -2.0
+offset_right = 541.0
+offset_bottom = 29.0
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
 [node name="Save" type="Button" parent="VBox1/Hbox2"]
-offset_left = 812.0
-offset_right = 926.0
-offset_bottom = 31.0
+offset_left = 656.0
+offset_right = 789.0
+offset_bottom = 28.0
 disabled = true
 text = "Save Changes"
 
 [node name="DeleteFile" type="Button" parent="VBox1/Hbox2"]
-offset_left = 930.0
-offset_right = 1024.0
-offset_bottom = 31.0
+offset_left = 793.0
+offset_right = 900.0
+offset_bottom = 28.0
 disabled = true
 text = "Delete  File"
 
 [node name="HBox3" type="HBoxContainer" parent="VBox1"]
-offset_top = 35.0
-offset_right = 1024.0
-offset_bottom = 35.0
+offset_top = 32.0
+offset_right = 900.0
+offset_bottom = 32.0
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
-offset_top = 39.0
-offset_right = 1024.0
+offset_top = 36.0
+offset_right = 900.0
 offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox1"]
-offset_right = 253.0
-offset_bottom = 561.0
+offset_right = 222.0
+offset_bottom = 564.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll1"]
-offset_right = 95.0
-offset_bottom = 26.0
+offset_right = 222.0
+offset_bottom = 564.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/Scroll1/VBox1"]
-offset_right = 253.0
-offset_bottom = 26.0
+offset_right = 222.0
+offset_bottom = 31.0
 text = "File Number"
 
 [node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox1"]
-offset_left = 257.0
-offset_right = 510.0
-offset_bottom = 561.0
+offset_left = 226.0
+offset_right = 448.0
+offset_bottom = 564.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll2"]
-offset_right = 97.0
-offset_bottom = 26.0
+offset_right = 222.0
+offset_bottom = 564.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/Scroll2/VBox1"]
-offset_right = 253.0
-offset_bottom = 26.0
+offset_right = 222.0
+offset_bottom = 31.0
 text = "Table  Name"
 
 [node name="Scroll3" type="ScrollContainer" parent="VBox1/HBox1"]
-offset_left = 514.0
-offset_right = 767.0
-offset_bottom = 561.0
+offset_left = 452.0
+offset_right = 674.0
+offset_bottom = 564.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll3"]
-offset_right = 79.0
-offset_bottom = 26.0
+offset_right = 222.0
+offset_bottom = 564.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/Scroll3/VBox1"]
-offset_right = 253.0
-offset_bottom = 26.0
+offset_right = 222.0
+offset_bottom = 31.0
 text = "Key Name"
 
 [node name="Scroll4" type="ScrollContainer" parent="VBox1/HBox1"]
-offset_left = 771.0
-offset_right = 1024.0
-offset_bottom = 561.0
+offset_left = 678.0
+offset_right = 900.0
+offset_bottom = 564.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll4"]
-offset_right = 45.0
-offset_bottom = 26.0
+offset_right = 222.0
+offset_bottom = 564.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/Scroll4/VBox1"]
-offset_right = 253.0
-offset_bottom = 26.0
+offset_right = 222.0
+offset_bottom = 31.0
 text = "Fields"
 
 [node name="Popups" type="ColorRect" parent="."]
@@ -193,5 +195,8 @@ text = "Cancel"
 
 [connection signal="button_up" from="VBox1/Hbox2/Save" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/Hbox2/DeleteFile" to="." method="_on_DeleteFile_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/Scroll1/VBox1/1" to="VBox1/HBox1/Scroll1/VBox1/1" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/Scroll1/VBox1/2" to="VBox1/HBox1/Scroll1/VBox1/2" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/Scroll1/VBox1/3" to="VBox1/HBox1/Scroll1/VBox1/3" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_Delete_Accept_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_Delete_Cancel_button_up"]

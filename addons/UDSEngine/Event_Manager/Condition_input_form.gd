@@ -25,7 +25,7 @@ func _ready() -> void:
 	pass
 	#WHEN EVENT IS ABLE TO LOAD DATA- DONT FORGET TO SET LOCAL VAR DICT TO DICT FROM THE EVENT DATA
 	#SAME AS ABOVE BUT WITH SETTING THE PARENT NODE
-#	print(mainDictionary)
+
 #DELETE THIS WHEN CONDITION LINE ITEM IS LOADED AT RUNTIME
 
 func _on_Close_button_up() -> void:
@@ -73,12 +73,13 @@ func create_input_fields():
 		condition_line_node.Key_field.inputNode.set_text(condition_line)
 		condition_line_node.parent_node = self
 		for key in mainDictionary[condition_line]:
+
 			var value = mainDictionary[condition_line][key]["value"]
 			var table = mainDictionary[condition_line][key]["table_name"]
 			var display_node = condition_line_node.get_node(key)
 			
 			display_node.visible = true
-#			print(display_node.name)
+
 			match display_node.type:
 				"4": #Bool
 					value = convert_string_to_type(value)
@@ -88,30 +89,28 @@ func create_input_fields():
 				"1": #String
 					display_node.inputNode.set_text(value)
 				"5": #Dropdown
+
 					if table == "":
-#						print(display_node.name)
-						match display_node.name:
+						var displayName :String = display_node.name
+
+						match displayName:
 							"If_DropDown":
-								display_node.selection_table = condition_types_dict
+
+								display_node.selection_table = condition_types_dict.duplicate(true)
 								display_node.populate_list(false)
 #								display_node.If.selectedItemName = value
-#								print("IF DROPDOWN")
 								condition_line_node._on_If_DropDown_selected_item_changed()
 #
 #							"Is_DropDown":
 #								display_node.selection_table = condition_number_inequality_dict
 #								display_node.populate_list(false)
-#								print("IS DROPDOWN")
 
 
 
 					if str(value) == "Default":
 						value = display_node.default
-#					print(value)
 					var type_id = display_node.get_id(str(value))
-#					print(value)
 					display_node.select_index(type_id)
-#					var itemSelected = display_node._on_Input_item_selected(type_id)
 				"2":
 					display_node.inputNode.set_text(value)
 				"3":
@@ -127,14 +126,12 @@ func _add_input_field():
 	var nextKeyValue :int
 	
 	if mainDictionary.size() == 0:
-#		print(mainDictionary)
 		nextKeyValue = 1
 	else:
-		nextKeyValue = int(mainDictionary.keys().max()) + 1
+		nextKeyValue = (mainDictionary.keys().max()).to_int() + 1
 	var default_dictionary :Dictionary = get_default_value("14")
 
 	mainDictionary[str(nextKeyValue)] = default_dictionary["1"]
-#	print(mainDictionary)
 	refresh_form()
 	_on_SaveChanges_button_up()
 

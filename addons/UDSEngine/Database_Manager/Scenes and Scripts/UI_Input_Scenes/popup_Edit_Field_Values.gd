@@ -32,21 +32,17 @@ func add_field_data_to_container():
 	reset_values()
 
 	for i in data_dict:
-#		print(data_dict[i])
 		var field_data_type :String
 		for j in field_type_dict:
-#			print(i, " ", field_type_dict[j]["ItemID"])
 			if str(field_type_dict[j]["ItemID"]) == i:
 				field_data_type = str(field_type_dict[j]["DataType"])
 				break
-#		var input_node :Object = main_node.get_input_type_node(field_data_type)
 		var node_value = main_node.convert_string_to_type(data_dict[i], field_data_type)
 		var ref_table_name :String = ""
 		match i:
 			"DataType":
 				ref_table_name = "DataTypes"
 				for data_key in data_type_dict:
-#					print(node_value, " ", data_key)
 					if node_value == data_key:
 						if data_type_dict[data_key].has("Display Name"):
 							node_value = data_type_dict[data_key]["Display Name"]
@@ -65,7 +61,6 @@ func add_field_data_to_container():
 			"DataType":
 				datatype_input = new_field
 				initial_data_type = datatype_input.selectedItemName
-#				datatype_input.connect("selected_item_changed", self, "on_text_changed")
 				datatype_input.selected_item_changed.connect(on_text_changed)
 			
 			"FieldName":
@@ -81,7 +76,6 @@ func on_text_changed(new_text = "Blank"):
 		reference_table_input.visible = false
 
 func _on_Input_toggled(button_pressed: bool) -> void:
-#	$PanelContainer/VBox1/Key_Input.visible = !button_pressed
 	$PanelContainer/VBox1/Field_Input.visible = !button_pressed
 
 func reset_values():
@@ -94,10 +88,7 @@ func _on_Accept_button_up() -> void:
 	if datatype_input.selectedItemName != initial_data_type:
 		is_datatype_changed = true
 		initial_data_type = datatype_input.selectedItemName
-		
-
 	_on_Cancel_button_up()
-	
 
 
 func _on_Cancel_button_up() -> void:

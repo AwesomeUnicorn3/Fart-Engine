@@ -11,12 +11,6 @@ func _init() -> void:
 	type = "10"
 	
 
-#func _ready():
-#	default = var2str(default)
-#	inputNode = $HBoxContainer/Input
-#	labelNode = $Label/HBox1/Label_Button
-	
-
 func temp():
 	pass
 
@@ -29,9 +23,7 @@ func _on_Add_New_Item_button_up() -> void:
 	var inputForm = input_form.instantiate()
 	on_text_changed()
 	parent_node.popup_main.visible = true
-#	parent_node.popup_main.get_node("ListInput").visible = true
 	inputForm = parent_node.add_input_field(main_node_for_dict_form, input_form)
-#	print(inputForm.mainDictionary)
 	inputForm.mainDictionary = main_dictionary
 	inputForm.parent_node = main_node_for_dict_form
 	inputForm.source_node = self

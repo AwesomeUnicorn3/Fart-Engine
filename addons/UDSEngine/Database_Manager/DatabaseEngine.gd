@@ -19,7 +19,7 @@ signal Timer_Complete
 @onready var input_minmax = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_MinMax.tscn")
 @onready var input_sfx = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_sfx.tscn")
 @onready var input_conditions = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Conditions.tscn")
-#var dbmanData_save_path : String = "res://addons/Database_Manager/UDSEngine/Data/"
+
 var op_sys : String = ""
 var save_format = ".sav"
 var script_format = ".gd"
@@ -39,6 +39,8 @@ var table_ref = ""
 var Item_Name = ""
 var root : Node
 var json_object : JSON = JSON.new()
+var global_settings :String = "Global Data 1"
+
 
 func get_main_node():
 	var main_node = null
@@ -48,13 +50,15 @@ func get_main_node():
 			main_node = curr_selected_node.get_parent()
 		else:
 			curr_selected_node = curr_selected_node.get_parent()
-#	print(main_node)
 	return main_node
 
 
 func refresh_editor():
 	var editorNew = EditorPlugin.new()
 	editorNew.get_editor_interface().get_resource_filesystem().scan()
+	while editorNew.get_editor_interface().get_resource_filesystem().is_scanning():
+		print("Scanning...")
+		await get_tree().create_timer(.1).timeout
 
 
 func update_file_in_editor(file_path: String):
@@ -70,14 +74,12 @@ func update_dictionaries():
 
 func get_data_index(value: String, dataType := data_type):
 	var index = ""
-	
+
 	for i in currentData_dict[dataType]:
 		var fieldName = currentData_dict[dataType][i]["FieldName"]
-#		print(fieldName)
 		if fieldName == value:
 			index = i
 			break
-#	print(index)
 	return index
 
 
@@ -130,14 +132,10 @@ func import_data(table_loc):
 	var curr_tbl_data : Dictionary = {}
 	var currdata_file = File.new()
 	if currdata_file.open(table_loc, File.READ) != OK:
-		print(table_loc)
-		print("Error Could not open file")
+		print("Error Could not open file at: " + table_loc)
 	else:
 		currdata_file.open(table_loc, File.READ)
-#		print(table_loc)
 		var currdata_json = json_object.parse(currdata_file.get_as_text())
-#		var currdata_json = json_object.parse(currdata_file.get_as_text())
-#		print(currdata_json)
 		curr_tbl_data = json_object.get_data()
 		currdata_file.close()
 		
@@ -145,7 +143,6 @@ func import_data(table_loc):
 
 
 func save_file(sv_path, tbl_data):
-#	print("Attempted to Save")
 #Save dictionary to .json upon user confirmation
 	var save_file = File.new()
 	if save_file.open(sv_path, File.WRITE) != OK:
@@ -155,11 +152,8 @@ func save_file(sv_path, tbl_data):
 		var jsonObject = JSON.new()
 		save_file.open(sv_path, File.WRITE)
 		var json_string = jsonObject.stringify(save_d)
-#		print(sv_path)
 		save_file.store_line(json_string)
-#		save_file.store_line(save_d)
 		save_file.close()
-		#print("Save Successful")
 
 
 func save_all_db_files(table_name :String = current_table_name):
@@ -177,16 +171,18 @@ func update_project_settings(): #called when save_all_db_files is run
 
 
 func set_game_root():
-	var root_path = import_data(table_save_path + "Global Data" + file_format)["Global Data"]['Project Root Scene']
+	var root_path = import_data(table_save_path + "Global Data" + file_format)[global_settings]['Project Root Scene']
 	var current_root_scene = ProjectSettings.get("application/run/main_scene")
 	#!!!!!!!!IN GODOT 4.0 THE EXAMPLE SCENE LOADING AT RUNTIME CAUSES THE ENGINE TO CRASH!!!!!!!!!!!
-#	if root_path != current_root_scene:
-#		ProjectSettings.set("application/run/main_scene", root_path) 
+	if root_path != current_root_scene:
+		ProjectSettings.set("application/run/main_scene", root_path) 
 
 
 func set_root_node():
-	var root_scene = load(import_data(table_save_path + "Global Data" + file_format)["Global Data"]["Project Root Scene"]).instantiate()
-	var root_node_name = root_scene.get_node(".").name
+	var globalDataDict :Dictionary = await import_data(table_save_path + "Global Data" + file_format)
+	var rootScenePath :String = globalDataDict[global_settings]["Project Root Scene"]
+	var root_scene = load(rootScenePath).instantiate()
+	var root_node_name :String = root_scene.get_node(".").name
 	root_scene.queue_free()
 	root = get_tree().root.get_node(root_node_name)
 
@@ -199,9 +195,7 @@ func add_new_table(newTableName, keyName, keyDatatype, keyVisible, fieldName, fi
 	if isDropdown:
 		#THIS IS WHERE I WILL USE THE DROPDOWN TEMPLATE TO CREATE A NEW LIST STYLE TABLE (KEY IS NUMBER, ID, DISPLAY NAME)
 		add_key("1", "1", keyVisible, true, dropdown, true)
-#		add_field("ID", "1", fieldVisible, true,  dropdown, true)
-		add_field("Display Name", "1", fieldVisible, true,  dropdown)
-#		current_dict["1"]["ID"] = keyName
+		add_field("Display Name", "1", fieldVisible, true,  dropdown, true)
 		current_dict["1"]["Display Name"] = keyName
 
 	else:
@@ -243,11 +237,12 @@ func Delete_Table(delete_tbl_name):
 	#Then delete all of the files associated with the delted table
 	var dir = Directory.new()
 	var file_delete = table_save_path + delete_tbl_name + file_format
-
+	dir.open(table_save_path)
 	dir.remove(file_delete)
 	file_delete = table_save_path + delete_tbl_name + table_info_file_format
 
 	dir.remove(file_delete)
+
 	current_table_name = ""
 
 
@@ -255,7 +250,6 @@ func Delete_Table(delete_tbl_name):
 func Delete_Key(key_name):
 	var tmp_dict = {}
 	var main_tbl = {}
-#	print(current_dict[key_name])
 	match data_type:
 		"Row": #Deletes keys
 			
@@ -318,17 +312,8 @@ func add_key(keyName, datatype, showKey, requiredValue, dropdown,  newTable : bo
 		var new_key_data = current_dict[current_dict.keys()[0]].duplicate(true)
 		if new_line != {}:
 			new_key_data = new_line
-#			print(new_key_data)
 		current_dict[keyName] = new_key_data  #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE #Set new key values based on the default (first line of table)
 
-
-#func get_default_value():
-#	var datatype_dictionary : Dictionary = parent_node.import_data(parent_node.table_save_path + "DataTypes" + parent_node.file_format)
-#	for i in datatype_dictionary:
-#		if datatype_dictionary[i]["Display Name"] == type:
-#			return  datatype_dictionary[i]["Default Values"]
-#			print(type, " ", default)
-#			break
 
 func get_default_value(itemType):
 	var data_default_dict :Dictionary = import_data(table_save_path + "DataTypes" + file_format)
@@ -348,7 +333,6 @@ func get_value_type(value:String, data_dict :Dictionary):
 		if data_dict[i].has("FieldName"):
 			if data_dict[i]["FieldName"] == value:
 				value_type = data_dict[i]["DataType"]
-#				print(value_type)
 				break
 	return value_type
 
@@ -380,14 +364,15 @@ func add_field(fieldName, datatype, showField, required_value, tblName = "empty"
 		newFeild_dict[currentKey] = newValue
 
 	currentData_dict["Column"][index] = newFeild_dict #Add new field to the column_dict
-#	print(newTable)
+
 	if newTable:
 		for i in current_dict:
-			current_dict[i] = {fieldName : get_default_value(datatype)}
-	
+			var default_value = get_default_value(datatype)
+			current_dict[i] = {fieldName :default_value }
 	else:
 		for n in current_dict: #loop through all keys and set value for this file to "empty"
-			current_dict[n][fieldName] = get_default_value(datatype) #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE
+			var default_value = get_default_value(datatype)
+			current_dict[n][fieldName] = default_value #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE
 		save_all_db_files(current_table_name)
 		update_dictionaries()
 
@@ -396,13 +381,10 @@ func is_file_in_folder(path : String, file_name : String):
 	var value = false
 	var dir = Directory.new()
 	dir.open(path)
-#	var dir_files = list_files_in_directory(dir)
 	if dir.file_exists(file_name):
 		value = true
-#		print(file_name, " Exists!!!")
 	else:
 		print(file_name, " Does NOT Exist :(")
-	
 	
 	return value
 
@@ -432,10 +414,7 @@ func convert_keyFile_to_new_format():
 
 	final_dict["Row"] = newRow_dict
 	final_dict["Column"] = newColumn_dict
-	
-#	print(final_dict)
-			
-	
+
 	save_file(svpath, final_dict)
 	
 
@@ -485,7 +464,6 @@ func convert_string_to_type(variant, datatype = ""):
 		variant = custom_to_bool(variant)
 		if !found_match:
 			if typeof(variant) != 1:
-#				print(typeof(variant))
 				variant = str2var(variant)
 		match typeof(variant):
 			TYPE_INT:
@@ -515,7 +493,7 @@ func convert_string_to_type(variant, datatype = ""):
 			"2":
 				variant = str2var(str(variant))
 			"3":
-				variant = variant.to_float()
+				variant = str(variant).to_float()
 			"6":
 				variant = str(variant)
 			"TYPE_VECTOR2":
@@ -528,15 +506,10 @@ func convert_string_to_type(variant, datatype = ""):
 				variant = string_to_dictionary(variant)
 			"TYPE_ARRAY":
 				variant = string_to_array(str(variant))
-			
-#	print(variant)
 
 	return variant
 
 func string_to_array(value: String):
-#	value = value.replace("[", "")
-#	value = value.replace("]", "")
-#	var value_array = value.split(",")
 	var value_array = str2var(value)
 	return value_array
 	
@@ -616,7 +589,7 @@ func set_var_type_table(dict : Dictionary):
 func string_to_dictionary(value):
 	if typeof(value) != TYPE_DICTIONARY:
 		value = str2var(value)
-#		print(typeof(value))
+
 
 	return value
 
@@ -625,8 +598,6 @@ func add_input_field(par: Node, nodeName):
 	var new_node : Node= nodeName.instantiate()
 	par.add_child(new_node)
 	new_node.set_owner(par)
-
-#	print(nodeName, " Added")
 	return new_node
 
 func get_input_type_node(input_type :String): #FIGURE OUT A BETTER WAY TO GET THE INPUT NODE FROM INPUT TYPE
@@ -743,20 +714,17 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 		for key in currentData_dict[data_type]:
 			if currentData_dict[data_type][key]["FieldName"] == key_name:
 				currentData_dict[data_type][key]["DataType"] = node_type
-#				print(key_name, " ", node_type)
 
 	match node_type: #Match variant type and then determine which input field to use (check box, long text, short text, number count etc)
 
 		"4": #TYPE_BOOL
 			new_field = await add_input_field(parent_container, input_checkBox)
-#			await new_field.input_load_complete
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			node_value = custom_to_bool(node_value)
-#			print(node_value)
 			new_field.inputNode.set_pressed(node_value)
 			new_field.Input_toggled(node_value)
-			#REPLACE WITH new_field.set_input_data()
+
 
 		"2": #INT
 			new_field = await add_input_field(parent_container, input_intNumberCounter)
@@ -790,14 +758,11 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 				new_field.selection_table_name = tableName
 			new_field.labelNode.set_text(key_name)
 			new_field.populate_list()
-#			print(node_value)
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			var type_id = new_field.get_id(str(node_value))
-#			print(type_id)
 			new_field.inputNode.select(type_id)
 			var itemSelected = new_field._on_Input_item_selected(type_id)
-#			print(itemSelected)
 		"6":
 			new_field = await add_input_field(parent_container, input_iconDisplay)
 			if str(node_value) == "Default":
@@ -811,29 +776,21 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			new_field = await add_input_field(parent_container, input_keySelection)
 			if str(node_value) == "Default":
 				node_value = new_field.default
-			var key = OS.get_keycode_string(node_value.to_int())
+			var key = OS.get_keycode_string(str(node_value).to_int())
 			new_field.inputNode.set_text(key)
 			new_field.inputNode.get_node("Keycode").set_text(str(node_value))
 
 		"8":
 			new_field = await add_input_field(parent_container, input_spriteDisplay)
-#			var node_value :Array = []
 			var texture_path :String
 			var frame_vector :Vector2
-#			print(node_value, " ", typeof(node_value))
 			if str(node_value) == "Default":
 				node_value = convert_string_to_type(new_field.default, new_field.type)
-#				print(node_value, " ", typeof(node_value))
-#				node_value = default_value[0]
-#				sprite_data = default_value[1]
-#			var texture_path = node_value
-#			var frameVector : Vector2
 
-#			if sprite_data == []:
 			if typeof(node_value) == 4:
 				node_value = str2var(node_value)
-#				sprite_data = texture_path
-#			print(node_value, " ", typeof(node_value))
+
+
 			frame_vector = convert_string_to_type(node_value[1], "TYPE_VECTOR2")
 			var sprite_path = table_save_path + icon_folder + node_value[0]
 			new_field.get_node("HBox1/VBox1/VBox1/VInput").set_text(str(frame_vector.x))
@@ -843,11 +800,8 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 
 		"9": 
 			new_field = await add_input_field(parent_container, input_vector)
-#			new_field.inputNode = new_field.get_node("HBox3/Input")
-#			new_field.labelNode = new_field.get_node("Label/HBox1/Label_Button")
 			if str(node_value) == "Default":
 				node_value = str(new_field.default)
-#			print(new_field.inputNode.name)
 			new_field.inputNode.set_text(node_value)
 			new_field.set_user_input_value()
 
@@ -872,6 +826,7 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			new_field.inputNode.set_text(node_value)
+			new_field._on_input_text_changed(node_value)
 		
 		"13":
 			new_field  = await add_input_field(parent_container, input_sfx)
@@ -974,20 +929,16 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 				
 		"5":
 			returnValue = current_node.selectedItemName
-#			print(returnValue)
 			
 		"2":
 			returnValue = input.text
 		
 		"3":
 			returnValue = input.text
-			
-#		"Multiline Text":
-#			returnValue = input.text
+
 			
 		"4":
 				returnValue = input.get_text()
-#				print("return Value ", returnValue)
 			
 		"6":
 			var filename = input.get_normal_texture().get_path().get_file()
@@ -1021,17 +972,13 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 
 		"11":
 			returnValue = input.get_node("Keycode").text
-#			var key = OS.get_scancode_string(int(node_value))
-#			new_field.inputNode.set_text(key)
+
 
 		"14":
 			returnValue = var2str(current_node.main_dictionary)
 
 	if field_name != "" and field_name != "Key":
-
 		current_dict[key_name][field_name] = returnValue
-
-		
 	return returnValue
 
 func update_item_name(old_name : String, new_name : String = ""):
@@ -1039,8 +986,8 @@ func update_item_name(old_name : String, new_name : String = ""):
 	if old_name != new_name: #if changes are made to item name
 		#If is dropdown table
 		var table_data_dict :Dictionary = import_data(table_save_path + "Table Data" + file_format)
-		var is_dropdown_table = table_data_dict[current_table_name]["Is Dropdown Table"]
-		if is_dropdown_table:
+		var is_dropdown_table = convert_string_to_type(table_data_dict[current_table_name]["Is Dropdown Table"])
+		if is_dropdown_table == true:
 			print("Cannot update keys in a table used as a dropdown list")
 		
 		elif !does_key_exist(new_name):
@@ -1048,7 +995,6 @@ func update_item_name(old_name : String, new_name : String = ""):
 			for i in item_name_dict: #loop through item_row table until it finds the key number for the item
 				if item_name_dict[i]["FieldName"] == old_name:
 					currentData_dict["Row"][i]["FieldName"] = new_name #Replace old value with new value
-					
 					break
 			
 			var old_key_entry : Dictionary = current_dict[Item_Name].duplicate(true) #Create copy of item values
@@ -1056,8 +1002,7 @@ func update_item_name(old_name : String, new_name : String = ""):
 			current_dict[new_name] = old_key_entry #add new item entry
 			Item_Name = new_name #Update script variable with correct item name
 			return_key = new_name
-#			reload_buttons()
-#			refresh_data(new_name)
+
 		else:
 			print("Duplicate key exists in table DATA WAS NOT UPDATED")
 
@@ -1075,49 +1020,15 @@ func does_key_exist(key):
 
 
 func create_sprite_animation():
-#	var sprite_texture_info = udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name]
-#	var character_sprite_array : Array
 	var character_animated_sprite : AnimatedSprite2D = AnimatedSprite2D.new()
-#	var spriteFrame = SpriteFrames.new()
-#	character_animated_sprite.name = sprite_field_name
-#	if character_sprite_array != sprite_texture_info:
-##		print(characterSprite, " ", sprite_field_name)
-#		character_sprite_array = udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name] #udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Walk Sprite']
-#		var frameVector : Vector2 = udsmain.convert_string_to_Vector(character_sprite_array[1])
-#		var spriteMap = load(character_sprite_array[0])
-#
-#			#SET COLLISION SHAPE = TO SPRITE SIZE
-#		var sprite_size = Vector2(spriteMap.get_size().x/frameVector.y,spriteMap.get_size().y/frameVector.x)
-#
-#
-#		#CREATE ANIMATION BASED ON THE NUMBER OF FRAMES
-#		var total_frames = frameVector.x * frameVector.y
-#		if spriteFrame.has_animation(sprite_field_name):
-#			spriteFrame.clear(sprite_field_name)
-#		spriteFrame.add_animation(sprite_field_name)
-#
-#		for i in range(0, total_frames):
-#			character_animated_sprite.set_sprite_frames(spriteFrame)
-#			var region_offset = sprite_size * i
-#			var region := Rect2( region_offset.x ,  0, sprite_size.x , sprite_size.y)
-#			var cropped_texture = get_cropped_texture(spriteMap, region)
-#			spriteFrame.add_frame(sprite_field_name, cropped_texture , i)
-
 	return character_animated_sprite
 
 
-func add_animation_to_animatedSprite(sprite_field_name := "Idle Sprite", sprite_texture_data : Array = [], create_collision :bool = true, animated_sprite : AnimatedSprite2D = AnimatedSprite2D.new(), sprite_frames :SpriteFrames = SpriteFrames.new()):
-#	var sprite_texture_info = udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name]
+func add_animation_to_animatedSprite(sprite_field_name := "Idle Sprite", sprite_texture_data := [], create_collision :bool = true, animated_sprite : AnimatedSprite2D = AnimatedSprite2D.new(), sprite_frames :SpriteFrames = SpriteFrames.new()):
 	var collision
-	var sprite_array : Array
 
 	if sprite_frames == null:
 		sprite_frames = SpriteFrames.new()
-#	var spriteFrame = SpriteFrames.new()
-
-#	if character_sprite_array != sprite_texture_data:
-#		print(characterSprite, " ", sprite_field_name)
-#	character_sprite_array = udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name] #udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Walk Sprite']
 	var frameVector : Vector2 = convert_string_to_Vector(sprite_texture_data[1])
 	var spriteMap = load(table_save_path + icon_folder + sprite_texture_data[0])
 
@@ -1137,15 +1048,10 @@ func add_animation_to_animatedSprite(sprite_field_name := "Idle Sprite", sprite_
 	var frame_count = 1
 	for i in range(0, total_frames):
 		animated_sprite.set_sprite_frames(sprite_frames)
-		
 		var region_offset = Vector2(sprite_size.x * h_count, (sprite_size.y * v_count))
-#		print(i, " ", sprite_size, " ", region_offset)
 		var region := Rect2( region_offset ,  Vector2(sprite_size.x , sprite_size.y))
 		var cropped_texture = get_cropped_texture(spriteMap, region)
 		sprite_frames.add_frame(sprite_field_name, cropped_texture , i)
-#		print(frame_count, ' ', v_count, " ", h_count)
-
-#		print(frame_count, " ", h_count, " " , v_count, " ", region_offset)
 		frame_count += 1
 		h_count += 1
 
@@ -1159,22 +1065,15 @@ func add_animation_to_animatedSprite(sprite_field_name := "Idle Sprite", sprite_
 
 
 func get_collision_shape(sprite_field_name :String, sprite_texture_data: Array):
-#func get_character_sprite_animation(sprite_field_name := "Idle Sprite", character_name :String = get_lead_character()):
-#	var sprite_texture_info = udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Sprite Groups'][character_name][sprite_field_name])
-#	var character_sprite_array : Array
 	var collision_position := Vector2.ZERO
 	var collision_shape = CollisionShape2D.new()
 	var new_shape_2d : = ConvexPolygonShape2D.new()
 
-#	if character_sprite_array != sprite_texture_info:
-#		print(characterSprite, " ", sprite_field_name)
-#		character_sprite_array = udsmain.convert_string_to_type(udsmain.Static_Game_Dict['Characters'][character_name][sprite_field_name]) #udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Walk Sprite']
 	var frameVector : Vector2 = convert_string_to_Vector(sprite_texture_data[1])
 	var spriteMap = load(table_save_path + icon_folder + sprite_texture_data[0])
 	#SET COLLISION SHAPE = TO SPRITE SIZE
 	var sprite_size = Vector2(spriteMap.get_size().x/frameVector.y,spriteMap.get_size().y/frameVector.x)
 	collision_shape.set_shape(new_shape_2d)
-
 
 	var collision_vector_array : = []
 	var height = sprite_size.y / 8
@@ -1189,17 +1088,10 @@ func get_collision_shape(sprite_field_name :String, sprite_texture_data: Array):
 	collision_vector_array.append(Vector2(-2 * width,1 * height))
 	collision_shape.shape.set_points(collision_vector_array)
 
-
-
 	collision_position.y = sprite_size.y / 4
 	collision_shape.position = collision_position
-	
-#		collision_shape.shape.set_extents(Vector2(sprite_size.x / 2, sprite_size.y / 2))
 	collision_shape.name = sprite_field_name + " Collision"
 	collision_shape.disabled = true
-		
-#		if is_instance_valid(collision_parent_node):
-#			collision_parent_node.add_child(collision_shape)
 
 	return collision_shape
 
@@ -1293,7 +1185,6 @@ func event_has_function(script_name : String, function_name: String): #DOES NOT 
 	var script_file = File.new()
 	script_file.open(save_path + script_name + script_format, File.READ_WRITE)
 	var script_text : String = script_file.get_as_text()
-#	print(script_text)
 	if script_text.find(function_name +  "(") != -1:
 		has_function = true
 	script_file.close()
@@ -1333,6 +1224,9 @@ func get_list_of_all_tables():
 func wait_timer(wait_time : float = 1.0):
 	await get_tree().create_timer(wait_time).timeout
 	emit_signal("Timer_Complete")
+
+
+
 #Convert string to dictionary testing
 
 #	var dict = {}
@@ -1354,12 +1248,11 @@ func wait_timer(wait_time : float = 1.0):
 #				dict2 = dict[i].split(":")
 #				dict3[convert_string_to_type(dict2[0])] = convert_string_to_type(dict2[1])
 #			dict_value = {key : dict3}
-##			print(dict_value)
 #		else:
 #			dict2 = value.split(":")
 #			dict3 = convert_string_to_type(dict2[1])
 #			dict_value = {key:dict3}
-##			print(dict_value)
+
 #
 #	else:
 #		var split = value.split("{")
@@ -1369,4 +1262,4 @@ func wait_timer(wait_time : float = 1.0):
 #		value2 = split[1].trim_suffix("}")
 #		value2 = convert_string_to_type(value2, "10")
 #		dict_value[key] = value2[value2.keys()[0]]
-#	print(dict_value)
+

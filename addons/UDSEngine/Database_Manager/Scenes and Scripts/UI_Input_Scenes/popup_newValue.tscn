@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://blxyner5c5f73"]
 
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewField_Input.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://cspx1mmr185c5" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewField_Input.tscn" id="1"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/Database_Browser/popup_newValue.gd" id="2"]
 
 [node name="popup_newValue" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( "2" )
+script = ExtResource("2")
 
 [node name="PanelContainer" type="Panel" parent="."]
 self_modulate = Color(0, 0, 0, 1)
@@ -28,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
-[node name="HBox1" parent="PanelContainer/VBox1" instance=ExtResource( "1" )]
+[node name="HBox1" parent="PanelContainer/VBox1" instance=ExtResource("1")]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 655.0
@@ -42,6 +42,7 @@ offset_bottom = 89.0
 [node name="Input_Text" parent="PanelContainer/VBox1/HBox1/VBox1" index="0"]
 offset_right = 325.0
 offset_bottom = 89.0
+size_flags_vertical = 3
 
 [node name="Label" parent="PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="0"]
 offset_right = 325.0
@@ -51,7 +52,9 @@ offset_right = 325.0
 offset_bottom = 89.0
 
 [node name="input_templateBuffer" parent="PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="2"]
-visible = false
+offset_top = 108.0
+offset_right = 325.0
+offset_bottom = 108.0
 
 [node name="VBox2" parent="PanelContainer/VBox1/HBox1" index="1"]
 offset_left = 329.0
@@ -68,6 +71,47 @@ offset_right = 326.0
 [node name="Input" parent="PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
 offset_right = 326.0
 offset_bottom = 89.0
+alignment = 1
+
+[node name="Table_Selection" parent="PanelContainer/VBox1/HBox1" index="2"]
+offset_left = 439.0
+offset_right = 655.0
+offset_bottom = 89.0
+
+[node name="Label" parent="PanelContainer/VBox1/HBox1/Table_Selection" index="0"]
+offset_right = 216.0
+offset_bottom = 25.0
+
+[node name="Input" parent="PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
+offset_top = 29.0
+offset_right = 216.0
+offset_bottom = 89.0
+alignment = 1
+
+[node name="VBox3" parent="PanelContainer/VBox1/HBox1" index="3"]
+offset_left = 567.0
+offset_right = 655.0
+offset_bottom = 104.0
+
+[node name="Label3" parent="PanelContainer/VBox1/HBox1/VBox3" index="0"]
+offset_bottom = 50.0
+
+[node name="LineEdit3" parent="PanelContainer/VBox1/HBox1/VBox3" index="1"]
+offset_top = 54.0
+offset_bottom = 104.0
+button_pressed = true
+
+[node name="VBox4" parent="PanelContainer/VBox1/HBox1" index="4"]
+offset_left = 539.0
+offset_right = 655.0
+offset_bottom = 104.0
+
+[node name="Label3" parent="PanelContainer/VBox1/HBox1/VBox4" index="0"]
+offset_bottom = 50.0
+
+[node name="LineEdit3" parent="PanelContainer/VBox1/HBox1/VBox4" index="1"]
+offset_top = 54.0
+offset_bottom = 104.0
 
 [node name="HBox2" type="HBoxContainer" parent="PanelContainer/VBox1"]
 offset_top = 93.0

@@ -12,15 +12,17 @@ var characterMaxSpeed #character max speed - DBAA
 var characterMass # character mass (maximum down speed)- DBAA
 var characterJumpSpeed # character jump speed (jump velocity) - DBAA
 var activeCharacterName #Use function get_lead_character() to set value -DBAA
-
-func _ready() -> void:
+	
+func startup() -> void:
 	activeCharacterName = udsmain.get_lead_character()
 	characterMass = udsmain.Static_Game_Dict['Characters'][activeCharacterName]['CharacterMass']
 	characterMaxSpeed = udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Max Speed']
 	characterJumpSpeed = udsmain.Static_Game_Dict['Characters'][activeCharacterName]['Jump Speed']
+	
 
-func _physics_process(delta):
-	var direction = get_direction()
+
+func char_physics_process(delta):
+	var direction :Vector2 = get_direction()
 	set_vel(direction, delta)
 #	get_gravity()
 
@@ -43,6 +45,7 @@ func set_vel(direction, delta):
 		velocity.x += direction.x * characterMaxSpeed
 	if abs(velocity.y) < characterMaxSpeed:
 		velocity.y += direction.y * characterMaxSpeed
+
 
 
 func get_gravity(): #CURRENTLY NOT BEING USED

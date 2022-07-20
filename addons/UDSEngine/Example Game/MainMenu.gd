@@ -2,7 +2,7 @@ extends Control
 
 
 func _ready() -> void:
-	$VBox1/VBox1/GameTitle.set_text(udsmain.get_game_title())
+	$VBox1/VBox1/GameTitle.set_text(await udsmain.get_game_title())
 	udsmain.set_root_node()
 
 
@@ -13,11 +13,8 @@ func _on_NewGame_button_up() -> void:
 
 
 func _on_LoadGame_button_up() -> void:
-#	print("load game")
-	var LoadGameMenu : Node = load("res://addons/Example Game/LoadGameMenu.tscn").instantiate()
+	var LoadGameMenu : Node = load("res://addons/UDSEngine/Example Game/LoadGameMenu.tscn").instantiate()
 	udsmain.root.get_node("UI").add_child(LoadGameMenu)
-
-
 
 
 func _on_LoadGame2_button_up() -> void: #EXIT BUTTON
