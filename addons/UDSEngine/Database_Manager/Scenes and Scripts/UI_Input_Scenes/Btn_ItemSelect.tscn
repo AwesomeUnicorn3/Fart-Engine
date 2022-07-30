@@ -9,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 theme = ExtResource("2")
+action_mode = 0
 script = ExtResource("1")
 
 [node name="Label" type="Label" parent="."]
@@ -23,3 +24,5 @@ text_overrun_behavior = 3
 metadata/_edit_layout_mode = 1
 
 [connection signal="button_up" from="." to="." method="_on_TextureButton_button_up"]
+[connection signal="mouse_entered" from="." to="." method="_on_texture_button_mouse_entered"]
+[connection signal="pressed" from="." to="." method="_on_texture_button_pressed"]

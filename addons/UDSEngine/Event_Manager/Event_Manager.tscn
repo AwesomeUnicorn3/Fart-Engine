@@ -196,19 +196,19 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
+[node name="Button_Float" type="Node" parent="."]
+
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="button_up" from="VBox1/HBox1/RefreshData" to="." method="_on_RefreshData_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/AddNewItem" to="." method="_on_AddNewItem_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/DeleteSelectedItem" to="." method="_on_DeleteSelectedItem_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_TextureButton_button_up"]
+[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_texture_button_mouse_entered"]
+[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_texture_button_pressed"]
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 4" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 4" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 5" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 5" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 6" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 6" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Main Quest pt1" to="VBox1/HBox2/Scroll1/Table_Buttons/Main Quest pt1" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 8" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 8" method="_on_TextureButton_button_up"]
+[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_texture_button_mouse_entered"]
+[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_texture_button_pressed"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_deletePopup_Accept_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on__deletePopup_Cancel_button_up"]
 [connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_NewField_Accept_button_up"]

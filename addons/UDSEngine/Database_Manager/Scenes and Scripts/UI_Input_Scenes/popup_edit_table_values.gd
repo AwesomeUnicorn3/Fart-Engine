@@ -27,7 +27,7 @@ func add_field_data_to_container():
 	var current_table_dict :Dictionary = all_table_data_dict[tableName]
 	var current_table_data_dict :Dictionary = main_node.import_data(main_node.table_save_path + "Table Data" + main_node.table_info_file_format)["Column"]
 #	var data_type_dict = main_node.import_data(main_node.table_save_path + "DataTypes" + main_node.file_format)
-
+	print("add field datat to container beigin")
 	reset_values()
 
 	for i in current_table_dict:
@@ -64,7 +64,7 @@ func add_field_data_to_container():
 #				new_field.visible = false
 #				$PanelContainer/VBox1/Label.set_text(data_dict[i])
 		new_field.is_label_button = false
-
+	print("add field datat to container end")
 
 #func on_text_changed(new_text = "Blank"):
 #	if datatype_input.selectedItemName == "5":
@@ -86,7 +86,7 @@ func _on_Accept_button_up() -> void:
 #	if datatype_input.selectedItemName != initial_data_type:
 #		is_datatype_changed = true
 #		initial_data_type = datatype_input.selectedItemName
-		
+	print("accepted")
 
 	_on_Cancel_button_up()
 	

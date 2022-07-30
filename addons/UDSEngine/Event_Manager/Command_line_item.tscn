@@ -1,0 +1,116 @@
+[gd_scene load_steps=9 format=3 uid="uid://dappxvdwm5vxp"]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_line_item.gd" id="1_e07xx"]
+[ext_resource type="Texture2D" uid="uid://dn3ux1tww516x" path="res://Data/png/UpArrow.png" id="2_c0tqh"]
+[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="2_n3ina"]
+[ext_resource type="Texture2D" uid="uid://bibakghdwgusq" path="res://Data/png/DownArrow.png" id="3_3oiyx"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.gd" id="3_ttj7m"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4_3gskb"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="5_qewnm"]
+[ext_resource type="PackedScene" uid="uid://cm1g0oabiuvug" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text_Multiline.tscn" id="8_w54ti"]
+
+[node name="Command_line_item" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+script = ExtResource("1_e07xx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 61.0
+offset_bottom = 600.0
+size_flags_vertical = 3
+
+[node name="CommandUp" type="Button" parent="VBoxContainer"]
+offset_right = 61.0
+offset_bottom = 298.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+icon = ExtResource("2_c0tqh")
+
+[node name="CommandDown" type="Button" parent="VBoxContainer"]
+offset_top = 302.0
+offset_right = 61.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+icon = ExtResource("3_3oiyx")
+
+[node name="DeleteButton" type="Button" parent="."]
+offset_left = 65.0
+offset_right = 124.0
+offset_bottom = 600.0
+size_flags_horizontal = 9
+text = "Delete"
+
+[node name="Key" type="VBoxContainer" parent="."]
+offset_left = 128.0
+offset_right = 191.0
+offset_bottom = 600.0
+theme = ExtResource("2_n3ina")
+script = ExtResource("3_ttj7m")
+label_text = "Key"
+is_label_button = false
+
+[node name="Label" parent="Key" instance=ExtResource("4_3gskb")]
+anchor_right = 0.0
+offset_right = 63.0
+
+[node name="Label_Button" parent="Key/Label/HBox1" index="0"]
+offset_right = 63.0
+offset_bottom = 30.0
+text = "Key"
+
+[node name="Input" type="LineEdit" parent="Key"]
+offset_top = 29.0
+offset_right = 63.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "0"
+placeholder_text = "Enter Value As Text"
+alignment = 1
+max_length = 100
+editable = false
+selecting_enabled = false
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="input_templateBuffer" parent="Key" instance=ExtResource("5_qewnm")]
+visible = false
+anchor_right = 0.0
+offset_top = 316.0
+offset_right = 63.0
+offset_bottom = 600.0
+size_flags_vertical = 3
+
+[node name="ScriptInput" parent="." instance=ExtResource("8_w54ti")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 195.0
+offset_right = 858.0
+offset_bottom = 600.0
+
+[node name="Label" parent="ScriptInput" index="0"]
+offset_right = 663.0
+
+[node name="Input" parent="ScriptInput" index="1"]
+offset_right = 663.0
+
+[node name="input_templateBuffer" parent="ScriptInput" index="2"]
+offset_right = 663.0
+
+[node name="EditCommand" type="Button" parent="."]
+offset_left = 862.0
+offset_right = 900.0
+offset_bottom = 600.0
+size_flags_horizontal = 9
+disabled = true
+text = "Edit"
+
+[connection signal="button_up" from="VBoxContainer/CommandUp" to="." method="_on_command_up_button_up"]
+[connection signal="button_up" from="VBoxContainer/CommandDown" to="." method="_on_command_down_button_up"]
+[connection signal="button_up" from="DeleteButton" to="." method="_on_DeleteButton_button_up"]
+[connection signal="button_up" from="EditCommand" to="." method="_on_edit_command_button_up"]
+
+[editable path="Key/Label"]
+[editable path="ScriptInput"]

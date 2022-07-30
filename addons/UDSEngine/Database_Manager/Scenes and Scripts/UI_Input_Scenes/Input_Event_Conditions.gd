@@ -26,6 +26,7 @@ func _on_Add_New_Item_button_up() -> void:
 	inputForm.par_node = main_node_for_dict_form
 	inputForm.source_node = self
 	inputForm.get_node("VBox1/HBox1/Label").set_text(labelNode.get_text())
+	inputForm.local_variable_dictionary = parent_node.get_local_variables()
 	inputForm.create_input_fields()
 	await inputForm.save_complete
 	parent_node.popup_main.visible = false

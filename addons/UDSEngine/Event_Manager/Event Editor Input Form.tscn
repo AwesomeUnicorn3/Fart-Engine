@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dr8icbq0q1jo3"]
 
 [ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Event Editor Input Form.gd" id="1"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Event_Manager/popup_Event_Selection.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://b8jg3k4iwmx7d" path="res://addons/UDSEngine/Event_Manager/popup_Event_Selection.tscn" id="2"]
 [ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="3"]
 [ext_resource type="PackedScene" uid="uid://blxyner5c5f73" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newValue.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="5"]
@@ -198,18 +198,44 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.894118)
 
-[node name="popup_delete_confirm" type="Popup" parent="Popups"]
+[node name="ListInput" type="Control" parent="Popups"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="FileSelect" type="Control" parent="Popups"]
+
+[node name="popup_delete_confirm" type="Control" parent="Popups"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.5
+offset_top = -91.0
+offset_right = 185.5
+offset_bottom = 91.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
 
 [node name="PanelContainer" type="ColorRect" parent="Popups/popup_delete_confirm"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
+metadata/_edit_layout_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popups/popup_delete_confirm/PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Label" type="Label" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
+offset_right = 371.0
+offset_bottom = 156.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Are you sure you want to delete %?"
@@ -221,21 +247,30 @@ size_flags_vertical = 3
 text = "Are you sure you want to delete %?"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
+offset_top = 160.0
+offset_right = 371.0
+offset_bottom = 182.0
 
 [node name="Accept" type="Button" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer"]
+offset_right = 183.0
+offset_bottom = 22.0
 size_flags_horizontal = 3
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer"]
+offset_left = 187.0
+offset_right = 371.0
+offset_bottom = 22.0
 size_flags_horizontal = 3
 text = "Cancel"
 
 [node name="popup_newValue" parent="Popups" instance=ExtResource("4")]
+visible = false
 
-[node name="Timer2" type="Timer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="1"]
+[node name="Timer2" type="Timer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="0"]
 wait_time = 0.5
 
-[node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="2"]
+[node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="1"]
 item_count = 9
 item_0/text = "Cut"
 item_0/id = 0
@@ -258,10 +293,10 @@ item_7/id = 5
 item_8/text = "Redo"
 item_8/id = 6
 
-[node name="Timer3" type="Timer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="3"]
+[node name="Timer3" type="Timer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="2"]
 wait_time = 0.5
 
-[node name="PopupMenu3" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="4"]
+[node name="PopupMenu3" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="3"]
 item_count = 9
 item_0/text = "Cut"
 item_0/id = 0
@@ -283,6 +318,40 @@ item_7/text = "Undo"
 item_7/id = 5
 item_8/text = "Redo"
 item_8/id = 6
+
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
+item_count = 15
+selected = 0
+popup/item_0/text = "Text"
+popup/item_0/id = 0
+popup/item_1/text = "List"
+popup/item_1/id = 1
+popup/item_2/text = "Input Control"
+popup/item_2/id = 2
+popup/item_3/text = "Number Range"
+popup/item_3/id = 3
+popup/item_4/text = "Sound Effect"
+popup/item_4/id = 4
+popup/item_5/text = "Conditions"
+popup/item_5/id = 5
+popup/item_6/text = "Commands"
+popup/item_6/id = 6
+popup/item_7/text = "Whole Number"
+popup/item_7/id = 7
+popup/item_8/text = "Decimal Number"
+popup/item_8/id = 8
+popup/item_9/text = "True or False"
+popup/item_9/id = 9
+popup/item_10/text = "Dropdown List"
+popup/item_10/id = 10
+popup/item_11/text = "Icon Display"
+popup/item_11/id = 11
+popup/item_12/text = "Scene Path"
+popup/item_12/id = 12
+popup/item_13/text = "Sprite"
+popup/item_13/id = 13
+popup/item_14/text = "Vector 2 or 3"
+popup/item_14/id = 14
 
 [node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Input" index="1"]
 item_count = 13
@@ -370,6 +439,38 @@ item_12/text = "Vector 2 or 3"
 item_12/checkable = 2
 item_12/id = 12
 
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
+item_count = 14
+selected = 0
+popup/item_0/text = "Character Classes"
+popup/item_0/id = 0
+popup/item_1/text = "Characters"
+popup/item_1/id = 1
+popup/item_2/text = "Control Categories"
+popup/item_2/id = 2
+popup/item_3/text = "DataTypes"
+popup/item_3/id = 3
+popup/item_4/text = "Event Triggers"
+popup/item_4/id = 4
+popup/item_5/text = "FieldPref"
+popup/item_5/id = 5
+popup/item_6/text = "Global Data"
+popup/item_6/id = 6
+popup/item_7/text = "Global Variables"
+popup/item_7/id = 7
+popup/item_8/text = "Inequalities"
+popup/item_8/id = 8
+popup/item_9/text = "ItemType"
+popup/item_9/id = 9
+popup/item_10/text = "Items"
+popup/item_10/id = 10
+popup/item_11/text = "Maps"
+popup/item_11/id = 11
+popup/item_12/text = "Sprite Groups"
+popup/item_12/id = 12
+popup/item_13/text = "Table Data"
+popup/item_13/id = 13
+
 [node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="1"]
 item_count = 7
 item_0/text = "Character Classes"
@@ -423,24 +524,72 @@ item_6/id = 6
 [node name="popup_Event_Selection" parent="Popups" instance=ExtResource("2")]
 visible = false
 
+[node name="Input_Label_Template" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="0"]
+offset_bottom = 172.0
+
+[node name="Label_Button" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/Input_Label_Template/HBox1" index="0"]
+offset_bottom = 177.0
+
+[node name="input_templateBuffer" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="1"]
+offset_top = 176.0
+offset_bottom = 176.0
+
+[node name="HBox1" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="2"]
+offset_top = 180.0
+offset_bottom = 259.0
+
 [node name="Existing_Events_Dropdown" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1" index="0"]
 visible = true
+offset_right = 310.0
+offset_bottom = 79.0
 selection_table_name = "Events"
 
+[node name="Label" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown" index="0"]
+offset_right = 310.0
+
+[node name="Input" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown" index="1"]
+offset_right = 310.0
+offset_bottom = 79.0
+
+[node name="Create_New_Event_Button" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1" index="2"]
+offset_left = 314.0
+offset_bottom = 79.0
+
+[node name="input_templateBuffer2" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="3"]
+offset_top = 263.0
+offset_bottom = 263.0
+
+[node name="HBox2" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="4"]
+offset_top = 267.0
+
+[node name="Accept" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox2" index="0"]
+offset_bottom = 172.0
+
+[node name="Cancel" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox2" index="1"]
+offset_bottom = 172.0
+
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource("5")]
+visible = false
+
+[node name="Label" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="0"]
+offset_bottom = 25.0
+
+[node name="Itemlist" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="1"]
+offset_top = 29.0
+offset_bottom = 175.0
 
 [node name="VScrollBar2" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="1"]
 
 [node name="VScrollBar3" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="2"]
 
-[node name="ListInput" type="Control" parent="Popups"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="HBoxContainer" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="2"]
+offset_top = 179.0
 
-[node name="FileSelect" type="Control" parent="Popups"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="Accept" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
+offset_bottom = 22.0
+
+[node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
+offset_bottom = 22.0
 
 [connection signal="button_up" from="Scroll1/VBox1/HBox3/HBox1/Add_Page_Button" to="." method="add_new_event_page"]
 [connection signal="button_up" from="Scroll1/VBox1/HBox3/HBox1/Copy_Page_Button" to="." method="_on_Copy_Page_Button_button_up"]

@@ -11,13 +11,13 @@ signal event_editor_input_form_closed
 @onready var event_selection_popup := $Popups/popup_Event_Selection
 @onready var event_selection_dropdown_input := $Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown
 @onready var event_page_button_list := $Scroll1/VBox1/Hbox4
-
+@onready var commands_node := $Scroll1/VBox1/VBox1
 var parent_node
 var event_dict :Dictionary 
 var event_name :String = ""
 var event_node :EventHandler
 var tab_number :String = "1"
-var initial_event_display_name := ""
+var initial_event_display_name :String = ""
 var input_node_array :Array = []
 
 
@@ -88,9 +88,24 @@ func load_event_animation_input(event_tab):
 	input_node_array.append(event_animation_container)
 
 func display_condition_list():
-	var list_display = preload("res://addons/UDSEngine/Event_Manager/Condition_input_form.tscn").instantiate()
+	var list_display = load("res://addons/UDSEngine/Event_Manager/Condition_input_form.tscn").instantiate()
+	list_display.local_variable_dictionary = get_local_variables()
 	add_child(list_display)
 	list_display._ready() 
+	
+func load_event_commands_input(event_tab):
+	var input_value = event_dict[event_tab]["Commands"]
+	var commands_container  = await add_input_node(1, 1, "Commands", event_dict[event_tab], commands_node, null, input_value, "15", "")
+	commands_container.parent_node = self
+	commands_container.local_variable_dictionary = get_local_variables()
+	input_node_array.append(commands_container)
+
+func get_local_variables() -> Dictionary:
+	var local_variable_dictionary:Dictionary
+	var var_list : Dictionary= convert_string_to_type(event_dict["1"]["Local Variables"])
+	for key in var_list:
+		local_variable_dictionary[var_list[key]["Value 1"]] = var_list[key]["Value 2"]
+	return local_variable_dictionary
 
 
 func _on_event_selection_Accept_button_up() -> void:
@@ -112,6 +127,7 @@ func on_page_button_pressed(event_page_number :String):
 	load_event_trigger_input(event_page_number)
 	load_event_animation_input(event_page_number)
 	load_event_conditions_input(event_page_number)
+	load_event_commands_input(event_page_number)
 	
 	
 func get_table_data_key(table_name := "", return_display_name := false):
@@ -134,6 +150,7 @@ func get_table_data_key(table_name := "", return_display_name := false):
 
 func set_table_data_display_name(event_key :String , displayName :String):
 	var display_name :String
+	print("Begin set tabel data")
 	var table_list :Dictionary = import_data(table_save_path + "Table Data" + file_format)
 	for tableName in table_list:
 		if tableName == event_key:
@@ -294,10 +311,11 @@ func _on_Save_Close_Button_button_up() -> void:
 func save_event_data(is_dbmanager :bool = false):
 	for child in input_node_array:
 		update_match(child, child.labelNode.get_text(), tab_number)
-	var displayName = event_name_label.inputNode.get_text()
-	var display = displayName
+	var displayName :String = event_name_label.inputNode.get_text()
+	var display :String = displayName
 	if displayName != initial_event_display_name:
-		if is_dbmanager:
+
+		if is_dbmanager == true:
 			display = set_table_data_display_name_from_dbmanager(event_name , displayName)
 		else:
 			set_table_data_display_name(event_name , displayName)

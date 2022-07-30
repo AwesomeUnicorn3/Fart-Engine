@@ -6,7 +6,7 @@ signal save_complete
 @onready var conditionLineItem = preload("res://addons/UDSEngine/Event_Manager/Condition_line_item.tscn")
 @onready var inputContainer = $VBox1/Scroll1/VBox1
 var mainDictionary : Dictionary = {}
-var local_variable_dictionary : Dictionary = {"A" : false, "B": false, "C": false, "D" : false, "E": false, "F": false} #SET TO EMPTY AFTER EVENT IS ABLE TO LOAD DATA
+var local_variable_dictionary : Dictionary #= {"A" : false, "B": false, "C": false, "D" : false, "E": false, "F": false} #SET TO EMPTY AFTER EVENT IS ABLE TO LOAD DATA
 #var true_or_false_dictionary : Dictionary = {"True" : true, "False" : false}
 #var condition_number_inequality_dict : Dictionary = {"Greater Than": ">", "Less Than": "<", "Equal To": "=", "Not Equal To" : "/=", "Greater Than OR Equal To": ">=", "Less Than OR Equal To": "<="}
 var condition_types_dict : Dictionary = {"Inventory Item": "", "Event Variable": "", "Global Variable": ""}
@@ -15,7 +15,8 @@ var source_node
 
 
 func _ready() -> void:
-	
+#	print("Get local var")
+#	get_local_variables()
 #	$VBox1/Scroll1/VBox1/Condition_line_item.parent_node = self
 #	$VBox1/Scroll1/VBox1/Condition_line_item.If.selection_table = condition_types_dict
 #	$VBox1/Scroll1/VBox1/Condition_line_item.If.selection_table_name = "condition_types_dict"
@@ -51,6 +52,14 @@ func updateMainDict():
 
 	source_node.inputNode.set_text(var2str(mainDictionary))
 	source_node.main_dictionary = mainDictionary
+#	print(mainDictionary)
+
+#func get_local_variables():
+##	var event_name = par_node.event_name
+#	print(source_node.name, " ", source_node.tab_number)
+#	var page_number = par_node.tab_number
+#	local_variable_dictionary = mainDictionary[page_number]["Local Variables"]
+#	print(local_variable_dictionary)
 
 
 func clear_input_fields():
@@ -67,6 +76,7 @@ func _delete_selected_list_item(itemKey := ""):
 	
 	
 func create_input_fields():
+
 	for condition_line in mainDictionary:
 		var condition_line_node = conditionLineItem.instantiate()
 		inputContainer.add_child(condition_line_node)

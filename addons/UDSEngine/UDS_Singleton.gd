@@ -2,6 +2,7 @@ extends DatabaseEngine
 #SHOULD ONLY INCLUDE SCRIPT THAT I WANT ACCESSIBLE TO THE USER
 signal save_complete
 signal DbManager_loaded
+signal map_loaded
 #signal refresh_UI
 
 
@@ -22,6 +23,9 @@ var array_load_files = []
 
 var dict_loaded = false
 
+var current_map_path := ""
+var current_map_name := ""
+var current_map_node
 
 func _ready():
 	op_sys = OS.get_name()
@@ -85,13 +89,16 @@ func get_map_name(map_path : String):
 	for i in map_dict:
 		if map_dict[i]["Path"] == map_path:
 			map_name = map_dict[i]["Display Name"]
+			current_map_name = map_name
 			return map_name
 		else:
 			print("Error " + map_path + " not found")
 
+
 func load_map(map_path := ""):
 	root.get_node("map").add_child(load(map_path).instantiate())
 	Dynamic_Game_Dict["Global Data"][global_settings]["Current Map"] = map_path
+	current_map_path = map_path
 
 func save_global_options_data():
 	save_file("user://OptionsData.json", Global_Game_Dict)
@@ -160,6 +167,7 @@ func load_game(file_name : String):
 	add_all_items_to_player_inventory()
 	Dynamic_Game_Dict["Global Data"][global_settings]["Is Game Active"] = true
 	dict_loaded = true
+	emit_signal("DbManager_loaded")
 
 func get_player_node():
 	return root.get_node("YSort/Player")
@@ -198,17 +206,18 @@ func new_game():
 	
 	#Set intital player inventory
 	set_var_type_dict(Dynamic_Game_Dict)
-
+		#Add new map to root/map
+	load_map(get_starting_map_path())
 	
 	Dynamic_Game_Dict["Global Data"][global_settings]["NewGame"] = false
 	Dynamic_Game_Dict["Global Data"][global_settings].erase("Project Root Scene")
 #	Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Project Root Scene")
-	#Add new map to root/map
-	load_map(get_starting_map_path())
-
+#	#Add new map to root/map
+#	load_map(get_starting_map_path())
+	
 #	add_all_items_to_player_inventory()
 	Dynamic_Game_Dict["Global Data"][global_settings]["Is Game Active"] = true
-
+	emit_signal("DbManager_loaded")
 
 func get_game_title():
 	var initial_save_data : Dictionary = await import_data(table_save_path + "Global Data" + file_format)
@@ -354,8 +363,8 @@ func is_item_in_inventory(itm_name : String):
 
 
 ##############################EVENT SCRIPTS#####################################3
-
-func get_event(event_name : String, function_name : String):
+signal event_function_complete
+func get_event_from_script(event_name : String, function_name : String):
 	var event_script = load(Static_Game_Dict['events']['DefaultGDScript']['Script Path'])
 	var events_node : Node = root.get_node("events")
 	events_node.set_script(event_script)
@@ -365,3 +374,21 @@ func get_event(event_name : String, function_name : String):
 	else:
 		print("Function ", function_name, " not found in ", event_name)
 	return events_node
+
+func set_function_complete():
+	print("Emittting: event_function_complete")
+
+
+
+func change_local_variable(which_var:String, to_what:bool, event_name :String, event_node_name :String, event_node):
+	var local_variable_dict  = convert_string_to_type(Dynamic_Game_Dict["Event Save Data"][current_map_name][event_node_name]["Local Variables"])
+	for Variable in local_variable_dict:
+		if local_variable_dict[Variable]["Value 1"] == which_var:
+			local_variable_dict[Variable]["Value 2"] = to_what
+			Dynamic_Game_Dict["Event Save Data"][current_map_name][event_node_name]["Local Variables"] = local_variable_dict
+			break
+	set_function_complete()
+
+func remove_event(event_name :String, event_node_name:String, event_node):
+	event_node.is_queued_for_delete = true
+	set_function_complete()

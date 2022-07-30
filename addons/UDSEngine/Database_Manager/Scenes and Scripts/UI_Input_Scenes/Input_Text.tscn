@@ -25,7 +25,6 @@ size_flags_vertical = 3
 theme_override_font_sizes/font_size = 18
 placeholder_text = "Enter Value As Text"
 alignment = 1
-max_length = 100
 caret_blink = true
 caret_blink_speed = 0.5
 

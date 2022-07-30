@@ -30,6 +30,7 @@ var current_event_editor_input
 var event_display_name :String = ""
 var selected_button
 
+
 func _ready():
 	reload_buttons()
 	table_list.get_child(0)._on_TextureButton_button_up()
@@ -163,6 +164,7 @@ func create_table_buttons():
 		table_list.add_child(newbtn) #Add new item button to table_list
 		var label :String = Event_Name #Use the row_dict key (item_number) to set the button label as the item name
 		newbtn.set_name(label) #Set the name of the new button as the item name
+		newbtn.main_page = self
 		var labelNode :Label = newbtn.get_node("Label")
 		labelNode.text = label
 

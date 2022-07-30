@@ -19,6 +19,8 @@ signal Timer_Complete
 @onready var input_minmax = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_MinMax.tscn")
 @onready var input_sfx = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_sfx.tscn")
 @onready var input_conditions = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Conditions.tscn")
+@onready var input_commands = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Commands.tscn")
+
 
 var op_sys : String = ""
 var save_format = ".sav"
@@ -41,6 +43,10 @@ var root : Node
 var json_object : JSON = JSON.new()
 var global_settings :String = "Global Data 1"
 
+#used to rearrange keys
+var button_focus_index :String = "" 
+var button_movement_active := false
+var button_selected :String = ""
 
 func get_main_node():
 	var main_node = null
@@ -464,7 +470,9 @@ func convert_string_to_type(variant, datatype = ""):
 		variant = custom_to_bool(variant)
 		if !found_match:
 			if typeof(variant) != 1:
-				variant = str2var(variant)
+				var new_type_value = str2var(str(variant))
+				if new_type_value != null:
+					variant = new_type_value
 		match typeof(variant):
 			TYPE_INT:
 				found_match = true
@@ -472,13 +480,13 @@ func convert_string_to_type(variant, datatype = ""):
 				found_match = true
 			TYPE_BOOL:
 				found_match = true
-			TYPE_STRING:
-				found_match = true
 			TYPE_VECTOR2:
 				found_match = true
 			TYPE_DICTIONARY:
 				found_match = true
 			TYPE_ARRAY:
+				found_match = true
+			TYPE_STRING:
 				found_match = true
 
 		if !found_match:
@@ -506,6 +514,8 @@ func convert_string_to_type(variant, datatype = ""):
 				variant = string_to_dictionary(variant)
 			"TYPE_ARRAY":
 				variant = string_to_array(str(variant))
+			"15":
+				variant = string_to_dictionary(variant)
 
 	return variant
 
@@ -631,6 +641,8 @@ func get_input_type_node(input_type :String): #FIGURE OUT A BETTER WAY TO GET TH
 			return_node = input_sfx
 		"14":
 			return_node = input_conditions
+		"15":
+			return_node = input_commands
 
 	return return_node
 
@@ -653,6 +665,8 @@ func load_input_forms():
 		input_minmax = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_MinMax.tscn")
 		input_sfx = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_sfx.tscn")
 		input_conditions = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Conditions.tscn")
+		input_commands = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Commands.tscn")
+
 
 func add_input_node(index, index_half, key_name, table_dict := current_dict, container1 = null, container2 = null, node_value = "", node_type = "", tableName = ""):
 	await load_input_forms()
@@ -858,6 +872,17 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			new_field.inputNode.set_text(str(node_value))
 
 
+		"15":
+			new_field = await add_input_field(parent_container, input_commands)
+			if str(node_value) == "Default":
+				node_value = convert_string_to_type(new_field.default)
+			if typeof(node_value) == TYPE_STRING:
+				node_value = str2var(node_value)
+
+			new_field.main_dictionary = node_value
+			new_field.inputNode.set_text(str(node_value))
+
+
 	new_field.set_name(key_name)
 	new_field.labelNode.set_text(key_name)
 	new_field.table_name = current_table_name
@@ -975,6 +1000,9 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 
 
 		"14":
+			returnValue = var2str(current_node.main_dictionary)
+		
+		"15":
 			returnValue = var2str(current_node.main_dictionary)
 
 	if field_name != "" and field_name != "Key":
@@ -1094,6 +1122,27 @@ func get_collision_shape(sprite_field_name :String, sprite_texture_data: Array):
 	collision_shape.disabled = true
 
 	return collision_shape
+
+func create_player_interaction_area(sprite_field_name :String, sprite_texture_data: Array):
+	var collision_position := Vector2.ZERO
+	var area := Area2D.new()
+	var collision_shape = CollisionShape2D.new()
+	var new_shape_2d : = CircleShape2D.new()
+
+	var frameVector : Vector2 = convert_string_to_Vector(sprite_texture_data[1])
+	var spriteMap = load(table_save_path + icon_folder + sprite_texture_data[0])
+	#SET COLLISION SHAPE = TO SPRITE SIZE
+	var sprite_size = Vector2(spriteMap.get_size().x/frameVector.y,spriteMap.get_size().y/frameVector.x)
+	collision_shape.set_shape(new_shape_2d)
+	new_shape_2d.radius = sprite_size.x/1.5
+	area.name = sprite_field_name + " Area2D"
+	area.set_collision_layer(2)
+	area.set_collision_mask(2)
+
+
+#	collision_shape.disabled = true
+	area.add_child(collision_shape)
+	return area
 
 func get_cropped_texture(texture : Texture, region : Rect2) -> AtlasTexture:
 	var atlas_texture = AtlasTexture.new()
@@ -1262,4 +1311,44 @@ func wait_timer(wait_time : float = 1.0):
 #		value2 = split[1].trim_suffix("}")
 #		value2 = convert_string_to_type(value2, "10")
 #		dict_value[key] = value2[value2.keys()[0]]
+
+func rearrange_table_keys():
+	var new_index: String = get_data_index(button_focus_index, "Row")
+	var old_index: String = get_data_index(button_selected, "Row")
+	var key_data = currentData_dict["Row"][old_index]
+	var test_dict = currentData_dict.duplicate(true)
+	#remove the old index
+	test_dict["Row"].erase(old_index)
+
+	for key in test_dict["Row"].size():
+		key += 1
+		var key_string :String = str(key)
+#		print(key)
+		if !test_dict["Row"].has(key_string):
+			var next_key = str(key + 1)
+			var next_key_data = test_dict["Row"][next_key]
+			test_dict["Row"][key_string] = next_key_data
+			test_dict["Row"].erase(next_key)
+
+	#insert the old key data in the new key index and shift all the remaining keys down
+	for key in range(test_dict["Row"].size() + 1,0,-1):
+		var key_string :String = str(key)
+		var previous_key = str(key - 1)
+
+		if key_string == new_index:
+			test_dict["Row"].erase(key_string)
+			test_dict["Row"][key_string] = key_data
+			break
+		else:
+			var prev_key_data = test_dict["Row"][previous_key]
+			test_dict["Row"].erase(previous_key)
+			test_dict["Row"][key_string] = prev_key_data
+
+	currentData_dict["Row"] = test_dict["Row"]
+	#_on_Save_button_up()
+
+	for child in $Button_Float.get_children():
+		child._on_TextureButton_button_up()
+		child.queue_free()
+
 

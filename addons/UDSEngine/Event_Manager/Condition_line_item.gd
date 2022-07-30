@@ -165,4 +165,3 @@ func _on_if_Value_Name_DropDown_selected_item_changed() -> void:
 			Is_Text_Node.visible = true
 			Is_Text_Node.inputNode.set_text("Equal To")
 			Is_Value_Bool.visible = true
-

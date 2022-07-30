@@ -1,0 +1,83 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4ibcli7hefg3"]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_input_form.gd" id="1_136m3"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="2_srs0f"]
+
+[node name="Command_input_form" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_136m3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.188235, 0.188235, 0.188235, 1)
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HBox1" type="HBoxContainer" parent="VBox1"]
+offset_right = 900.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Button" parent="VBox1/HBox1"]
+offset_right = 646.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+text = "Commands"
+
+[node name="AddItem" type="Button" parent="VBox1/HBox1"]
+offset_left = 650.0
+offset_right = 773.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Add Command"
+
+[node name="SaveChanges" type="Button" parent="VBox1/HBox1"]
+visible = false
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="DeleteItem" type="Button" parent="VBox1/HBox1"]
+visible = false
+size_flags_horizontal = 3
+text = "Delete Item"
+
+[node name="Close" type="Button" parent="VBox1/HBox1"]
+offset_left = 777.0
+offset_right = 900.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Save and Close"
+
+[node name="Input" type="LineEdit" parent="VBox1/HBox1"]
+visible = false
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="input_templateBuffer" parent="VBox1" instance=ExtResource("2_srs0f")]
+anchor_right = 0.0
+offset_top = 35.0
+offset_right = 900.0
+offset_bottom = 35.0
+
+[node name="Scroll1" type="ScrollContainer" parent="VBox1"]
+offset_top = 39.0
+offset_right = 900.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBox1" type="VBoxContainer" parent="VBox1/Scroll1"]
+offset_right = 900.0
+offset_bottom = 561.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="button_up" from="VBox1/HBox1/AddItem" to="." method="_on_AddItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_SaveChanges_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/Close" to="." method="_on_Close_button_up"]

@@ -68,10 +68,13 @@ func display_edit_table_menu():
 	edit_table_values.get_node("PanelContainer/VBox1/Label/HBox1/Label_Button").set_text(edit_table_values.tableName + " Options")
 	parent_node.get_node("Popups").visible = true
 	parent_node.get_node("Popups").add_child(edit_table_values)
+	print("Wait for edit table values closed")
 	await edit_table_values.edit_table_values_closed
 	#UPDATE DATA FOR INPUT
+	print("Signal recieved - edit table values closed")
 	if edit_table_values.update_data:
 		for i in edit_table_values.DATA_CONTAINER.get_children():
+			print(i)
 			var curr_input = parent_node.update_match(i)
 			var field_name = i.name
 			all_table_data_dict[edit_table_values.tableName][field_name] = curr_input
@@ -79,6 +82,7 @@ func display_edit_table_menu():
 		parent_node.refresh_data()
 		parent_node.get_node("../..").create_tabs()
 	parent_node.get_node("Popups").visible = false
+	
 	edit_table_values.queue_free()
 
 func display_edit_field_menu():
@@ -94,27 +98,28 @@ func display_edit_field_menu():
 	parent_node.get_node("Popups").visible = true
 	parent_node.get_node("Popups").add_child(edit_field_values)
 	edit_field_values.label.set_text(fieldName + " Options")
+
+
+
 	await edit_field_values.edit_field_values_closed
-	
+	var datatype_id = 0
 	#UPDATE DATA FOR INPUT
 	if edit_field_values.update_data:
 		for i in edit_field_values.DATA_CONTAINER.get_children():
 			
 			var curr_input = parent_node.update_match(i)
-
 			var field_name = i.name
 			if field_name == "DataType":
 				if edit_field_values.is_datatype_changed:
-					
 					curr_input = i.get_dataType_ID(curr_input)
-					parent_node.currentData_dict["Column"][edit_field_values.field_index][field_name] = edit_field_values.initial_data_type
+					datatype_id = curr_input
+					parent_node.currentData_dict["Column"][edit_field_values.field_index][field_name] = datatype_id
 					#loop through all keys in currdict and set fieldName value to default for the datatype
 			else:
 				parent_node.currentData_dict["Column"][edit_field_values.field_index][field_name] = curr_input
 
 	if edit_field_values.is_datatype_changed:
-		var default_value = parent_node.get_default_value(edit_field_values.initial_data_type)
-		
+		var default_value = parent_node.get_default_value(datatype_id)#edit_field_values.initial_data_type)
 		for n in parent_node.current_dict: #loop through all keys and set value for this file to "empty"
 			parent_node.current_dict[n][fieldName] = default_value
 	parent_node._on_Save_button_up(false)

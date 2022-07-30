@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/Database_Browser/Database Manager.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://bwdqvn04476n4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/Database_Browser/TableViewer.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="3"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewField_Input.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://cspx1mmr185c5" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewField_Input.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bormmevkvb1kv" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://blxyner5c5f73" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newValue.tscn" id="6"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.gd" id="7"]
 [ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="8"]
@@ -61,6 +61,9 @@ text = "Close Table"
 
 [node name="Save" type="Button" parent="VBoxContainer/HBoxContainer2"]
 visible = false
+offset_left = 794.0
+offset_right = 900.0
+offset_bottom = 23.0
 text = "Save Changes"
 
 [node name="Change_Row_Order" type="Button" parent="VBoxContainer/HBoxContainer2"]
@@ -363,7 +366,6 @@ offset_bottom = 17.0
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 5" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 5" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 6" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 6" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 7" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 7" method="_on_TextureButton_button_up"]
-[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 8" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 8" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event Table Template" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event Table Template" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event Triggers" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event Triggers" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Field_Pref_Values" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Field_Pref_Values" method="_on_TextureButton_button_up"]
@@ -378,6 +380,7 @@ offset_bottom = 17.0
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Options" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Options" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/QuestInformation" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/QuestInformation" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Sprite Groups" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Sprite Groups" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Test Table 2" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Test Table 2" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Tutorial Table" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Tutorial Table" method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="Popups/popup_error/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_popup_error_confirmed"]
 [connection signal="button_up" from="Popups/popup_error/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_popupError_Cancel_button_up"]

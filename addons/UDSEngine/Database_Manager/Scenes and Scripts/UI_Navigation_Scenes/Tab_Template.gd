@@ -35,6 +35,7 @@ var first_load = true
 var input_changed = false
 var error
 
+
 func _ready():
 	if first_load:
 		current_table_name = tableName
@@ -204,7 +205,8 @@ func refresh_data(item_name : String = Item_Name):
 	
 		index += 1
 	if item_name != "Default":
-		table_list.get_node(item_name).disabled = true #Sets current item button to disabled
+		#NEED TO CHANGE THE THEME SO THAT THE USER KNOWS WHICH BUTTON IS PRESSED WITHOUT DISABLING THE BUTTON
+		#table_list.get_node(item_name).disabled = true #Sets current item button to disabled
 		table_list.get_node(item_name).grab_focus() #sets focus to current item
 
 
@@ -216,8 +218,9 @@ func create_table_buttons():
 		var do_not_edit_array :Array = ["Table Data"]
 		if !do_not_edit_array.has(currentData_dict["Row"][item_number]["FieldName"]):
 			var newbtn :Button = btn_itemselect.instantiate() #Create new instance of item button
+			
 			table_list.add_child(newbtn) #Add new item button to table_list
-
+			newbtn.main_page = self
 			newbtn.set_name(label) #Set the name of the new button as the item name
 			newbtn.get_node("Label").set_text(label) #Sets the button label (name that the user sees)
 
@@ -568,3 +571,5 @@ func add_table():
 func delete_table(del_tbl_name = key_node.inputNode.get_text()):
 	Delete_Table(del_tbl_name)
 	get_udsmain().create_tabs()
+
+

@@ -375,6 +375,8 @@ offset_bottom = 28.0
 [node name="popup_newTable" parent="Popups" instance=ExtResource("10_e3qqy")]
 visible = false
 
+[node name="Button_Float" type="Node" parent="."]
+
 [connection signal="button_up" from="VBox1/HBox1/RefreshData_Button" to="." method="reload_data_without_saving"]
 [connection signal="button_up" from="VBox1/HBox1/AddNewTable_Button" to="." method="_on_add_new_table_button_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/DeleteTable_Button" to="." method="delete_table"]

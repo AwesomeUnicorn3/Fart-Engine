@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://ct36bi7vyhl6c"]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/Command_List_Button.gd" id="1_s4fje"]
+
+[node name="CommandListButton" type="Button"]
+custom_minimum_size = Vector2(0, 50)
+offset_right = 297.0
+offset_bottom = 50.0
+text = "Modify Local Variables"
+script = ExtResource("1_s4fje")
+
+[connection signal="button_up" from="." to="." method="_on_command_list_button_button_up"]

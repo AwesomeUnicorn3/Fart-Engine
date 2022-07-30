@@ -1,0 +1,136 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgc0ktjc0qmjr"]
+
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_rchgg"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/Command_List_Form.gd" id="1_yu2vf"]
+[ext_resource type="PackedScene" uid="uid://ct36bi7vyhl6c" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/Command_List_Button.tscn" id="3_siuql"]
+
+[node name="CommandListForm" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("1_rchgg")
+script = ExtResource("1_yu2vf")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0980392, 0.0980392, 0.0980392, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+offset_right = 900.0
+offset_bottom = 28.0
+
+[node name="Label" type="Button" parent="VBoxContainer/HBoxContainer2"]
+offset_right = 821.0
+offset_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.0
+text = "Command List"
+
+[node name="Close" type="Button" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(75, 0)
+offset_left = 825.0
+offset_right = 900.0
+offset_bottom = 28.0
+text = "Close"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+offset_top = 32.0
+offset_right = 900.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+offset_right = 297.0
+offset_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+offset_right = 297.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Dialog"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+offset_top = 35.0
+offset_right = 297.0
+offset_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer"]
+offset_right = 297.0
+offset_bottom = 533.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+offset_left = 301.0
+offset_right = 598.0
+offset_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+offset_right = 297.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Event Progression"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
+offset_top = 35.0
+offset_right = 297.0
+offset_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer"]
+offset_right = 297.0
+offset_bottom = 533.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ModifyLocalVariables" parent="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
+
+[node name="RemoveEvent" parent="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
+offset_top = 54.0
+offset_bottom = 104.0
+text = "Remove Event"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+offset_left = 602.0
+offset_right = 900.0
+offset_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
+offset_right = 298.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Dialog"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
+offset_top = 35.0
+offset_right = 298.0
+offset_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/ScrollContainer"]
+offset_right = 298.0
+offset_bottom = 533.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Close" to="." method="_on_close_button_up"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/ModifyLocalVariables" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/RemoveEvent" to="." method="_open_selected_form"]

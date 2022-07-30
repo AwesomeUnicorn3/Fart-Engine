@@ -24,11 +24,11 @@ func _enter_tree():
 # Hide the main panel. Very much required.
 	_make_visible(false)
 
-	var icon = get_editor_interface().get_base_control().get_theme_icon("Node", "EditorIcons")
-	add_custom_type("Event", "Area2D", preload("res://addons/UDSEngine/Example Game/Event.gd"), icon)
+	var icon = get_editor_interface().get_base_control().get_theme_icon("RigidDynamicBody2D", "EditorIcons")
+	add_custom_type("Event", "RigidDynamicBody2D", preload("res://addons/UDSEngine/Example Game/Event.gd"), icon)
 
 	
-	add_custom_type("Map", "Node", preload("res://addons/UDSEngine/Example Game/Event.gd"), icon)
+#	add_custom_type("Map", "Node", preload("res://addons/UDSEngine/Example Game/Event.gd"), icon)
 
 	add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_MENU, toolbar)
 	toolbar.visible = false
@@ -67,12 +67,12 @@ func _process(delta: float) -> void:
 		if selected_node != current_selection:
 			selected_node = current_selection
 			if current_selection.has_method("show_toolbar_in_editor"):
-				current_selection._get_property_list()
+#				current_selection._get_property_list()
+#				print(current_selection.get_property_list())
 				current_selection.show_toolbar_in_editor(current_selection.name)
+				toolbar.event_Node = current_selection
 				toolbar.visible = true
-#				toolbar.event_node_name = current_selection.name
-#				toolbar.event_Node = selected_node
-				
+
 			else:
 				toolbar.visible = false
 	else:

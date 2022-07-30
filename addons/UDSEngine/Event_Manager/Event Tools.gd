@@ -31,14 +31,18 @@ func _on_Button_button_up() -> void:
 
 	
 	editor.add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_BOTTOM, event_input_form)
+
 #	event_input_form.visible = true
 	event_input_form.parent_node = self
 	event_input_form.load_event()
 	event_input_form.get_node("Scroll1/VBox1/HBox2/Save_Page_Button").visible = true
 
 #	event_input_form.event_node_name = event_node_name
-	var window_height :int = event_input_form.get_parent().rect_size.y
-	event_input_form.rect_min_size.y = window_height
+	var vsplit := VSplitContainer.new()
+#	vsplit.get_viewport_rect()
+	var window_height  = event_input_form.get_parent().get_viewport_rect().size
+#	print("Window Height is: ", window_height)
+	event_input_form.custom_minimum_size.y = window_height.y - (window_height.y * .5)
 	$HBoxContainer/Edit_Event_Button.disabled = true
 #	yield(event_input_form, "event_editor_input_form_closed")
 	await event_input_form.event_editor_input_form_closed
