@@ -14,16 +14,11 @@ func _ready():
 	if !udsmain.Dynamic_Game_Dict["Event Save Data"].has(current_map_name):
 			udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name] = {}
 	else:
-		
-		
-		
 		#check for deleted events
 		var event_save_dict :Dictionary = udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name].duplicate(true)
 		for event in event_save_dict:
 			if !map_event_dict.has(event):
 				udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name].erase(event)
-		
-		
 
 	udsmain.emit_signal("map_loaded")
 

@@ -16,10 +16,10 @@ var toolbar = preload("res://addons/UDSEngine/Event_Manager/Event Tools.tscn").i
 func _enter_tree():
 	print("Plugin Has Entered the Chat")
 	main_panel_instance = MainPanel.instantiate()
-	main_panel_instance.set_name("MainPanel")
+	main_panel_instance.set_name("UDSENGINE")
 	# Add the main panel to the editor's main viewport.
 	get_editor_interface().get_editor_main_control().add_child(main_panel_instance)
-	var mainPanel = get_editor_interface().get_editor_main_control().get_node("MainPanel")
+	var mainPanel = get_editor_interface().get_editor_main_control().get_node("UDSENGINE")
 
 # Hide the main panel. Very much required.
 	_make_visible(false)

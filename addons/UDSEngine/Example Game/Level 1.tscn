@@ -23,6 +23,9 @@ shape = SubResource("RectangleShape2D_npjxb")
 
 [node name="Event" type="RigidDynamicBody2D" parent="."]
 position = Vector2(483, 276)
+collision_layer = 2
+collision_mask = 3
 gravity_scale = 0.0
+freeze = true
 script = ExtResource("2_qc17i")
 event_name = "Event 1"

@@ -20,14 +20,19 @@ var local_variables_dict :Dictionary = {}
 var current_map_name : String 
 var is_queued_for_delete :bool = false
 var character_is_in_interaction_area :bool = false
-
+var autorun_complete :bool = false
 
 func _ready() -> void:
 	freeze = true
+	set_collision_layer_value(1, false)
+	set_collision_layer_value(2, true)
+	set_collision_mask_value(2, true)
+
 	add_to_group("Events")
 	if get_tree().get_edited_scene_root() != null:
 		is_in_editor = true
 		root_node = get_tree().get_edited_scene_root().get_child(get_index())
+
 	else:
 		await udsmain.map_loaded
 		root_node = self
@@ -59,10 +64,14 @@ func _ready() -> void:
 	if event_name != "":
 		event_dict = get_event_dict()
 		active_page = get_active_event_page()
-		event_trigger = event_dict[active_page]["Event Trigger"]
-		autorun_commands()
-		add_sprite_and_collision()
-		interaction_area.monitoring = true
+		if active_page != "":
+			event_trigger = event_dict[active_page]["Event Trigger"]
+			autorun_commands()
+			add_sprite_and_collision()
+			interaction_area.monitoring = true
+		
+		else:
+			clear_event_children()
 
  
 
@@ -79,15 +88,25 @@ func _process(delta): #NEED TO SET THIS TO ONLY RUN AT SET INTERVALS OR ONLY WHE
 						character_is_in_interaction_area = false
 						await call_commands()#Run script
 						refresh_event_data()
+		
+		if event_trigger == "4": #loop continuosly while conditions are true
+			await call_commands()#Run script
+			refresh_event_data()
 
 func interaction_area_entered(body): #Player touch
 	character_is_in_interaction_area = true
-	match event_trigger:
-		"1": #Player Touch
-			print(body.owner.name , " Touched ", event_name)
+	if body.get_parent().get_class() == get_class(): #event touch
+		if event_trigger == "5":
+			print(body.get_parent().name , " Touched ", event_name)
 			await call_commands()#Run script
 			print("Begin Refresh event data")
 			refresh_event_data()
+
+	elif event_trigger == "1": #Player Touch
+		print(body.owner.name , " Touched ", event_name)
+		await call_commands()#Run script
+		print("Begin Refresh event data")
+		refresh_event_data()
 
 
 func call_commands():
@@ -106,7 +125,7 @@ func call_commands():
 			await udsmain.callv(function_name, variable_array)
 #				print("Waiting for event_function_complete Signal")
 #				await udsmain.event_function_complete
-			print("Function: ", command_index, " complete")
+#			print("Function: ", command_index, " complete")
 
 func interaction_area_exited(body):
 #	await get_tree().create_timer(.1).timeout
@@ -132,7 +151,7 @@ func get_event_dict():
 
 
 func get_active_event_page() -> String:
-	var active_page :String = "1"
+	var active_page :String = "" #This sets the active page to 1 even if the conditions for page 1 have not been met
 	var conditions_met :bool = true
 
 	if !is_in_editor:
@@ -145,30 +164,130 @@ func get_active_event_page() -> String:
 				for condition in conditions_dict:
 					for key in conditions_dict[condition]:
 						var condition_key_value = conditions_dict[condition][key]["value"]
+
 						var current_condition_list :Array
 						match condition_key_value:
 							"Event Variable":
 								var event_variable_value
-								var event_required_variable_value
+								var event_required_variable_value :bool
 								for line in conditions_dict[condition]:
 									current_condition_list.append(conditions_dict[condition][line]["value"])
-	#							var local_var_dict :Dictionary = DBENGINE.convert_string_to_type(event_dict["1"]["Local Variables"])
-								event_required_variable_value = current_condition_list[3]
+
+								event_required_variable_value = udsmain.convert_string_to_type(current_condition_list[3])
 								for variable in local_variables_dict:
 									if local_variables_dict[variable]["Value 1"] == current_condition_list[1]:
-										event_variable_value = str(local_variables_dict[variable]["Value 2"])
+										event_variable_value = udsmain.convert_string_to_type(local_variables_dict[variable]["Value 2"])
 										break
 								
 								if event_required_variable_value != event_variable_value:
 									conditions_met = false
 								else:
 									conditions_met = true
+									
+							"Inventory Item":
+								#Check if selected item is in player inventory
+								var player_inventory :Dictionary = udsmain.Dynamic_Game_Dict["Inventory"]
+								var inventory_item :String = conditions_dict[condition]["If_Key_Name_DropDown"]["value"]
+								if player_inventory.has(inventory_item):
+									var item_count :int = player_inventory[inventory_item]["ItemCount"]
+									if player_inventory[inventory_item]["ItemCount"] > 0:
+										conditions_met = true
+									else:
+										conditions_met = false
+
+							"Global Variable":
+								var global_variable_dict :Dictionary = udsmain.Dynamic_Game_Dict["Global Variables"]
+								#Check if global variable conditions are met
+								#{"1":{"If_DropDown":{"table_name":"", "value":"Global Variable"}, "If_Key_Name_DropDown":{"table_name":"Global Variables", "value":"Is Segment 1 Complete"}, "Is_Text":{"table_name":"", "value":"Equal To"}, "Is_Value_Bool":{"table_name":"", "value":"false"}, "if_Value_Name_DropDown":{"table_name":"Is Segment 1 Complete", "value":"True or False"}}}
+								var If_Key_Name_DropDown = conditions_dict[condition]["If_Key_Name_DropDown"]["value"]
+								var if_Value_Name_DropDown = conditions_dict[condition]["if_Value_Name_DropDown"]["value"]
+								
+								print(If_Key_Name_DropDown)
+#								var global_variable_key
+								var global_variable_conditions_met :bool = false
+								var id = get_global_variable_index_name_from_display_name(If_Key_Name_DropDown)
+								
+								match if_Value_Name_DropDown:
+									"True or False":
+										var global_variable_bool = udsmain.convert_string_to_type(conditions_dict[condition]["Is_Value_Bool"]["value"])
+										var Is_Value_Bool :bool = global_variable_dict[id]["True or False"]
+										if Is_Value_Bool == global_variable_bool:
+											global_variable_conditions_met = true
+
+									"Display Name":
+										var global_variable_text = udsmain.convert_string_to_type(conditions_dict[condition]["Is_Value_Text"]["value"])
+										var Is_Value_Text = global_variable_dict[id]["Text"]
+										if Is_Value_Text == global_variable_text:
+											global_variable_conditions_met = true
+										
+									"Number Float":
+										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
+										var global_variable_float = udsmain.convert_string_to_type(conditions_dict[condition]["Is_Value_Float"]["value"], "3")
+										var Is_Value_Float = udsmain.convert_string_to_type(global_variable_dict[id]["Number Float"], "3")
+										match Is_Text:
+											"Greater Than":
+												if Is_Value_Float > global_variable_float:
+													global_variable_conditions_met = true
+											"Less Than":
+												if Is_Value_Float < global_variable_float:
+													global_variable_conditions_met = true
+											"Equal To":
+												if Is_Value_Float == global_variable_float:
+													global_variable_conditions_met = true
+											"NOT Equal To":
+												if Is_Value_Float != global_variable_float:
+													global_variable_conditions_met = true
+											"Greater Than OR Equal To":
+												if Is_Value_Float >= global_variable_float:
+													global_variable_conditions_met = true
+											"Less Than OR Equal To":
+												if Is_Value_Float <= global_variable_float:
+													global_variable_conditions_met = true
+												
+									"Number Integer":
+										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
+										var global_variable_float = udsmain.convert_string_to_type(conditions_dict[condition]["Is_Value_Int"]["value"], "2")
+										var Is_Value_Float = udsmain.convert_string_to_type(global_variable_dict[id]["Number Integer"], "2")
+										match Is_Text:
+											"Greater Than":
+												if Is_Value_Float > global_variable_float:
+													global_variable_conditions_met = true
+											"Less Than":
+												if Is_Value_Float < global_variable_float:
+													global_variable_conditions_met = true
+											"Equal To":
+												if Is_Value_Float == global_variable_float:
+													global_variable_conditions_met = true
+											"NOT Equal To":
+												if Is_Value_Float != global_variable_float:
+													global_variable_conditions_met = true
+											"Greater Than OR Equal To":
+												if Is_Value_Float >= global_variable_float:
+													global_variable_conditions_met = true
+											"Less Than OR Equal To":
+												if Is_Value_Float <= global_variable_float:
+													global_variable_conditions_met = true
+								
+								conditions_met = global_variable_conditions_met
+								
+									
 						break
 						
+			else:
+				conditions_met = true
+
 			if conditions_met == true:
 				active_page = str(page)
 				break
 	return active_page
+
+func get_global_variable_index_name_from_display_name(If_Key_Name_DropDown):
+	var global_variable_dict :Dictionary = udsmain.Dynamic_Game_Dict["Global Variables"]
+	var index
+	for id in global_variable_dict:
+		if str(global_variable_dict[id]["Display Name"]) == If_Key_Name_DropDown:
+			index = id
+	return index
 
 
 func refresh_event_data():
@@ -176,18 +295,27 @@ func refresh_event_data():
 	if is_queued_for_delete:
 		queue_free()
 	else:
+		var current_active_page := active_page
 		event_dict = get_event_dict()
 		active_page = get_active_event_page()
-		event_trigger = event_dict[active_page]["Event Trigger"]
-		autorun_commands()
-		await clear_event_children()
-		await add_sprite_and_collision()
+		if active_page != "":
+			event_trigger = event_dict[active_page]["Event Trigger"]
+			if current_active_page != active_page:
+				await clear_event_children()
+				await add_sprite_and_collision()
+				autorun_complete = false
+			if !autorun_complete:
+				autorun_commands()
+		else:
+			clear_event_children()
+
 
 func autorun_commands():
 	if !is_in_editor:
 		match event_trigger:
 			"3": #Immediately
 				await call_commands()
+				autorun_complete = true
 				refresh_event_data()
 
 func add_sprite_and_collision():
@@ -202,12 +330,16 @@ func add_sprite_and_collision():
 	var modified_sprite_size_y = sprite_cell_size.y
 	var y_scale_value = modified_sprite_size_y / sprite_cell_size.y
 	var x_scale_value = y_scale_value * sprite_cell_ratio
+
 	sprite_animation.set_scale(Vector2(x_scale_value, y_scale_value))
 	sprite_animation.play("Default Animation")
+	
 	collision_node = DBENGINE.get_collision_shape(event_name, sprite_texture_data)
 	call_deferred("add_child",collision_node)
 	collision_node.disabled = false
-	interaction_area  = DBENGINE.create_player_interaction_area(event_name, sprite_texture_data)
+
+	
+	interaction_area  = DBENGINE.create_event_interaction_area(event_name, sprite_texture_data)
 	call_deferred("add_child",interaction_area)
 	interaction_area.monitoring = false
 	interaction_area.area_entered.connect(interaction_area_entered)

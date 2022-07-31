@@ -171,9 +171,19 @@ func create_table_buttons():
 
 func _on_Save_button_up():
 	event_display_name = current_event_editor_input.save_event_data(true)
-	reload_buttons()
+#	get_udsmain().create_tabs()
 	table_list.get_node(event_display_name).disabled = true #Sets current item button to disabled
 	table_list.get_node(event_display_name).grab_focus()
+
+func get_udsmain():
+	var main_node = null
+	var curr_selected_node = self
+	while main_node == null:
+		if curr_selected_node.get_parent().is_in_group("UDS_Root"):
+			main_node = curr_selected_node.get_parent()
+		else:
+			curr_selected_node = curr_selected_node.get_parent()
+	return main_node
 
 
 func update_dropdown_tables():

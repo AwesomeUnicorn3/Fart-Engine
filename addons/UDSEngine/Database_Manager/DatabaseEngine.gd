@@ -48,9 +48,8 @@ var button_focus_index :String = ""
 var button_movement_active := false
 var button_selected :String = ""
 
-func get_main_node():
+func get_main_node(curr_selected_node = self):
 	var main_node = null
-	var curr_selected_node = self
 	while main_node == null:
 		if curr_selected_node.get_parent().is_in_group("UDS_Root"):
 			main_node = curr_selected_node.get_parent()
@@ -1123,25 +1122,24 @@ func get_collision_shape(sprite_field_name :String, sprite_texture_data: Array):
 
 	return collision_shape
 
-func create_player_interaction_area(sprite_field_name :String, sprite_texture_data: Array):
+func create_event_interaction_area(sprite_field_name :String, sprite_texture_data: Array):
 	var collision_position := Vector2.ZERO
 	var area := Area2D.new()
 	var collision_shape = CollisionShape2D.new()
 	var new_shape_2d : = CircleShape2D.new()
-
 	var frameVector : Vector2 = convert_string_to_Vector(sprite_texture_data[1])
 	var spriteMap = load(table_save_path + icon_folder + sprite_texture_data[0])
-	#SET COLLISION SHAPE = TO SPRITE SIZE
 	var sprite_size = Vector2(spriteMap.get_size().x/frameVector.y,spriteMap.get_size().y/frameVector.x)
+	
+	#SET COLLISION SHAPE = TO SPRITE SIZE
 	collision_shape.set_shape(new_shape_2d)
 	new_shape_2d.radius = sprite_size.x/1.5
 	area.name = sprite_field_name + " Area2D"
-	area.set_collision_layer(2)
-	area.set_collision_mask(2)
-
-
-#	collision_shape.disabled = true
+	area.set_collision_layer_value(2, true)
+	area.set_collision_layer_value(1, false)
+	area.set_collision_mask_value(2, true)
 	area.add_child(collision_shape)
+	
 	return area
 
 func get_cropped_texture(texture : Texture, region : Rect2) -> AtlasTexture:
@@ -1352,3 +1350,6 @@ func rearrange_table_keys():
 		child.queue_free()
 
 
+func get_events_tab(curr_selected_node):
+	var events_tab = get_main_node().get_node("HBox_1/VBox_1/ScrollContainer/Hbox_1/Event_Manager")
+	return events_tab

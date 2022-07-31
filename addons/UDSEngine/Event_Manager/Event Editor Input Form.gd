@@ -302,7 +302,15 @@ func close_event_input_form_in_dbmanager():
 
 func _on_Save_Close_Button_button_up() -> void:
 	#Save Data to currDict
+#	var root = event_node.root_node
+#	print(root.name)
+#	var event_node = DBENGINE.get_events_tab(self)
 	save_event_data()
+	#GET UDS ENGINE EVENT TAB AND REFRESH
+	#REFRESH EVENT TAB
+	var editor := EditorPlugin.new()
+	var udsplugin = editor.get_editor_interface().get_editor_main_control().get_node("UDSENGINE")
+	udsplugin.get_node("Tabs/Event_Manager")._on_RefreshData_button_up()
 	save_all_db_files()
 	event_node._ready()
 	call_deferred("_on_Button_button_up")
@@ -320,7 +328,7 @@ func save_event_data(is_dbmanager :bool = false):
 		else:
 			set_table_data_display_name(event_name , displayName)
 	save_all_db_files()
-	
+
 	var selected_page_button = event_page_button_list.get_node(tab_number)
 	selected_page_button.on_Button_button_up()
 

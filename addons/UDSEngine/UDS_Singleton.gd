@@ -215,7 +215,7 @@ func new_game():
 #	#Add new map to root/map
 #	load_map(get_starting_map_path())
 	
-#	add_all_items_to_player_inventory()
+	add_all_items_to_player_inventory()
 	Dynamic_Game_Dict["Global Data"][global_settings]["Is Game Active"] = true
 	emit_signal("DbManager_loaded")
 
@@ -363,20 +363,6 @@ func is_item_in_inventory(itm_name : String):
 
 
 ##############################EVENT SCRIPTS#####################################3
-signal event_function_complete
-func get_event_from_script(event_name : String, function_name : String):
-	var event_script = load(Static_Game_Dict['events']['DefaultGDScript']['Script Path'])
-	var events_node : Node = root.get_node("events")
-	events_node.set_script(event_script)
-
-	if events_node.has_method(function_name):
-		events_node.call(function_name)
-	else:
-		print("Function ", function_name, " not found in ", event_name)
-	return events_node
-
-func set_function_complete():
-	print("Emittting: event_function_complete")
 
 
 
@@ -387,8 +373,38 @@ func change_local_variable(which_var:String, to_what:bool, event_name :String, e
 			local_variable_dict[Variable]["Value 2"] = to_what
 			Dynamic_Game_Dict["Event Save Data"][current_map_name][event_node_name]["Local Variables"] = local_variable_dict
 			break
-	set_function_complete()
+
 
 func remove_event(event_name :String, event_node_name:String, event_node):
 	event_node.is_queued_for_delete = true
-	set_function_complete()
+
+
+func print_to_console(input_text :String ,event_name :String, event_node_name:String, event_node):
+	print(input_text)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#####################################UNUSED BUT POSSIBLY USEFUL AT SOME POINT#########################33
+
+
+#func get_event_from_script(event_name : String, function_name : String):
+#	var event_script = load(Static_Game_Dict['events']['DefaultGDScript']['Script Path'])
+#	var events_node : Node = root.get_node("events")
+#	events_node.set_script(event_script)
+#
+#	if events_node.has_method(function_name):
+#		events_node.call(function_name)
+#	else:
+#		print("Function ", function_name, " not found in ", event_name)
+#	return events_node
