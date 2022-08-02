@@ -35,11 +35,11 @@ var first_load = true
 var input_changed = false
 var error
 
-
 func _ready():
 	if first_load:
 		current_table_name = tableName
 		first_load = false
+		root = get_udsmain()
 		set_ref_table()
 		update_dictionaries()
 		reload_buttons()
@@ -64,9 +64,11 @@ func custom_table_settings():
 			$VBox1/HBox2.visible = false
 
 		"Global Data":
-			$VBox1/Key/Input.editable = true
-	
-	
+			$VBox1/Key/Input.editable = false
+			$VBox1/Key.is_label_button = false
+			$VBox1/HBox1/AddNewKey_Button.visible = false
+			$VBox1/HBox1/DeleteSelectedKey_Button.visible = false
+			$VBox1/HBox2.visible = false
 
 func set_ref_table():
 	var tbl_ref_dict = import_data(table_save_path + "Table Data" + file_format)
@@ -202,6 +204,9 @@ func refresh_data(item_name : String = Item_Name):
 		match tableName:
 			"Table Data":
 				new_input.is_label_button = false
+			
+			"Global Data":
+				$VBox1/HBox2.visible = false
 	
 		index += 1
 	if item_name != "Default":

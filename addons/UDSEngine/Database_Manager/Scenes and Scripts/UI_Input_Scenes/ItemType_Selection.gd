@@ -5,7 +5,6 @@ extends InputEngine
 
 
 var selection_table  = {}
-var main_scene : Node
 var selected_item_index
 var selectedItemName = ""
 var relatedInputNode : Node = null
@@ -29,7 +28,10 @@ func _init() -> void:
 
 func populate_list(update_selection_table :bool = true):
 	#Add values from selected table to dropdown list
-	main_scene = get_main_tab(get_parent())
+	var main_scene =  DatabaseEngine.new()
+#	if main_scene == null:
+#		main_scene = get_main_tab(get_parent())
+
 	if update_selection_table:
 		selection_table = await main_scene.import_data(main_scene.table_save_path + selection_table_name +".json" )
 	inputNode.clear() #Clear values in dropdown list
@@ -45,8 +47,7 @@ func populate_list(update_selection_table :bool = true):
 				displayName = selection_table[n]["Display Name"]
 
 			if selection_table_name == "Table Data" and n != selection_table_name:
-				var engine = get_main_tab(self)
-				var add_to_list = engine.convert_string_to_type(selection_table[n]["Is Dropdown Table"])
+				var add_to_list = main_scene.convert_string_to_type(selection_table[n]["Is Dropdown Table"])
 				if add_to_list:
 					inputNode.add_item (displayName)
 			else:

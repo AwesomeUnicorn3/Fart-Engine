@@ -21,8 +21,8 @@ offset_bottom = 596.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Button" type="Button" parent="HBoxContainer"]
-offset_right = 179.0
+[node name="ChangeSceneButton" type="Button" parent="HBoxContainer"]
+offset_right = 148.0
 offset_bottom = 567.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
@@ -39,16 +39,18 @@ color = Color(0, 0, 0, 1)
 
 [node name="Input" type="LineEdit" parent="HBoxContainer"]
 visible = false
-offset_right = 900.0
+offset_left = 120.0
+offset_right = 456.0
 offset_bottom = 567.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 hint_tooltip = "Double Click to Select Scene from File"
+editable = false
 
 [node name="Display" type="LineEdit" parent="HBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
-offset_left = 183.0
-offset_right = 900.0
+offset_left = 152.0
+offset_right = 747.0
 offset_bottom = 567.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -62,10 +64,19 @@ visible = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="OpenScene" type="Button" parent="HBoxContainer"]
+offset_left = 751.0
+offset_right = 900.0
+offset_bottom = 567.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+text = "Open Scene"
+
 [node name="input_templateBuffer" parent="." instance=ExtResource("2")]
 anchor_right = 0.0
 offset_top = 600.0
 offset_right = 900.0
 offset_bottom = 600.0
 
-[connection signal="button_up" from="HBoxContainer/Button" to="." method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="HBoxContainer/ChangeSceneButton" to="." method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="HBoxContainer/OpenScene" to="." method="_on_open_scene_button_up"]

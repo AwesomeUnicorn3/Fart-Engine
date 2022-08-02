@@ -220,10 +220,16 @@ func get_active_event_page() -> String:
 										if Is_Value_Text == global_variable_text:
 											global_variable_conditions_met = true
 										
-									"Number Float":
+									"Text":
+										var global_variable_text = udsmain.convert_string_to_type(conditions_dict[condition]["Is_Value_Text"]["value"])
+										var Is_Value_Text = global_variable_dict[id]["Text"]
+										if Is_Value_Text == global_variable_text:
+											global_variable_conditions_met = true
+											
+									"Decimal Number":
 										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
 										var global_variable_float = udsmain.convert_string_to_type(conditions_dict[condition]["Is_Value_Float"]["value"], "3")
-										var Is_Value_Float = udsmain.convert_string_to_type(global_variable_dict[id]["Number Float"], "3")
+										var Is_Value_Float = udsmain.convert_string_to_type(global_variable_dict[id][if_Value_Name_DropDown], "3")
 										match Is_Text:
 											"Greater Than":
 												if Is_Value_Float > global_variable_float:
@@ -244,10 +250,10 @@ func get_active_event_page() -> String:
 												if Is_Value_Float <= global_variable_float:
 													global_variable_conditions_met = true
 												
-									"Number Integer":
+									"Whole Number":
 										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
 										var global_variable_float = udsmain.convert_string_to_type(conditions_dict[condition]["Is_Value_Int"]["value"], "2")
-										var Is_Value_Float = udsmain.convert_string_to_type(global_variable_dict[id]["Number Integer"], "2")
+										var Is_Value_Float = udsmain.convert_string_to_type(global_variable_dict[id][if_Value_Name_DropDown], "2")
 										match Is_Text:
 											"Greater Than":
 												if Is_Value_Float > global_variable_float:
@@ -279,6 +285,8 @@ func get_active_event_page() -> String:
 			if conditions_met == true:
 				active_page = str(page)
 				break
+	else:
+		active_page = "1"
 	return active_page
 
 func get_global_variable_index_name_from_display_name(If_Key_Name_DropDown):

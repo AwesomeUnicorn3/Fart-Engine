@@ -131,16 +131,25 @@ func display_edit_field_menu():
 func get_main_tab(par := get_parent()):
 	#Get main tab scene which should have the popup container and necessary script
 	var grps := par.get_groups()
-	while grps.has(&"Tab") == false:
+	var parent_found :bool = false
+	while parent_found == false:
 		var temp_par = par.get_parent()
-		par = temp_par
-		grps = par.get_groups()
+		
+		if temp_par == null:
+			par == null
+			parent_found = true
+		else:
+			par = temp_par
+			grps = par.get_groups()
+		if grps.has(&"Tab") == true:
+			parent_found = true
 	return par
 
 func on_mouse_entered():
 	var parent = get_main_tab(self)
-	if parent.get("selected_field_name") != null:
-		parent.selected_field_name = labelNode.text
+	if parent != null:
+		if parent.get("selected_field_name") != null:
+			parent.selected_field_name = labelNode.text
 
 func on_text_changed(new_text = "Blank"):
 	var parent = get_main_tab(self)

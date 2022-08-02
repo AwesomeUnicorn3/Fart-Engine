@@ -56,7 +56,7 @@ func create_tabs():
 			newtab.name = newbtn_name
 #
 			tabs.add_child(newtab)
-			
+			newtab.get_node("VBox1/TableName/Label/HBox1/Label_Button").set_text(i)
 			var new_node = newtab.get_node("VBox1/Key")
 			new_node.table_ref = newtab.set_ref_table()
 			newtab.visible = false

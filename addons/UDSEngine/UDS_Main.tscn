@@ -41,8 +41,14 @@ size_flags_horizontal = 3
 
 [node name="Hbox_1" type="HBoxContainer" parent="HBox_1/VBox_1/ScrollContainer"]
 custom_minimum_size = Vector2(0, 50)
-offset_right = 187.0
-offset_bottom = 50.0
+offset_right = 287.0
+offset_bottom = 54.0
+
+[node name="RefreshAllTables_Button" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
+offset_right = 96.0
+offset_bottom = 54.0
+text = "Refresh All 
+Tables"
 
 [node name="Database" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
 visible = false
@@ -54,31 +60,26 @@ text = "Database"
 script = ExtResource("2_sb3v4")
 
 [node name="DisplaySaveFile" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
-offset_right = 124.0
-offset_bottom = 50.0
+offset_left = 100.0
+offset_right = 224.0
+offset_bottom = 54.0
 text = "View Save Files"
 script = ExtResource("2_sb3v4")
 
 [node name="Event_Manager" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
-offset_left = 128.0
-offset_right = 187.0
-offset_bottom = 50.0
+offset_left = 228.0
+offset_right = 287.0
+offset_bottom = 54.0
 text = "Events"
 script = ExtResource("2_sb3v4")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBox_1/VBox_1"]
 offset_top = 54.0
 offset_right = 900.0
-offset_bottom = 108.0
-
-[node name="RefreshAllTables_Button" type="Button" parent="HBox_1/VBox_1/HBoxContainer"]
-offset_right = 96.0
 offset_bottom = 54.0
-text = "Refresh All 
-Tables"
 
 [node name="Welcome_Label" type="Label" parent="HBox_1/VBox_1"]
-offset_top = 112.0
+offset_top = 58.0
 offset_right = 900.0
 offset_bottom = 596.0
 size_flags_horizontal = 3
@@ -112,9 +113,9 @@ visible = false
 [node name="Event_Manager" parent="Tabs" instance=ExtResource("5_0ld3m")]
 visible = false
 
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/RefreshAllTables_Button" to="." method="_ready"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event_Manager" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event_Manager" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/HBoxContainer/RefreshAllTables_Button" to="." method="_ready"]
 
 [editable path="HBox_1/VBox_1/VBoxContainer/Control"]

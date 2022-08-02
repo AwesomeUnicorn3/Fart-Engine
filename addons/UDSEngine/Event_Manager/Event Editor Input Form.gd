@@ -4,6 +4,7 @@ extends DatabaseEngine
 signal event_selection_popup_closed
 signal event_editor_input_form_closed
 
+@onready var commands_node := $Scroll1/VBox1/VBox1
 @onready var conditions_node := $Scroll1/VBox1/HBox1/HBox1
 @onready var event_name_label := $Scroll1/VBox1/HBox3/Input_Text
 @onready var event_trigger_display := $Scroll1/VBox1/HBox1/VBox1
@@ -11,7 +12,7 @@ signal event_editor_input_form_closed
 @onready var event_selection_popup := $Popups/popup_Event_Selection
 @onready var event_selection_dropdown_input := $Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown
 @onready var event_page_button_list := $Scroll1/VBox1/Hbox4
-@onready var commands_node := $Scroll1/VBox1/VBox1
+
 var parent_node
 var event_dict :Dictionary 
 var event_name :String = ""
@@ -47,8 +48,6 @@ func load_event_data(event_tab := tab_number):
 	for child in event_page_button_list.get_children():
 		child.queue_free()
 	load_page_buttons()
-
-
 	initial_event_display_name = get_table_data_key(event_name, true)
 	event_name_label.inputNode.set_text(initial_event_display_name)
 
@@ -128,7 +127,8 @@ func on_page_button_pressed(event_page_number :String):
 	load_event_animation_input(event_page_number)
 	load_event_conditions_input(event_page_number)
 	load_event_commands_input(event_page_number)
-	
+	for data_node in input_node_array:
+		data_node.is_label_button = false
 	
 func get_table_data_key(table_name := "", return_display_name := false):
 	var key_name :String

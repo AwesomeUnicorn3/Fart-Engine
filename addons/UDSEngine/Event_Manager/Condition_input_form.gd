@@ -12,22 +12,7 @@ var local_variable_dictionary : Dictionary #= {"A" : false, "B": false, "C": fal
 var condition_types_dict : Dictionary = {"Inventory Item": "", "Event Variable": "", "Global Variable": ""}
 var par_node
 var source_node
-
-
-func _ready() -> void:
-#	print("Get local var")
-#	get_local_variables()
-#	$VBox1/Scroll1/VBox1/Condition_line_item.parent_node = self
-#	$VBox1/Scroll1/VBox1/Condition_line_item.If.selection_table = condition_types_dict
-#	$VBox1/Scroll1/VBox1/Condition_line_item.If.selection_table_name = "condition_types_dict"
-#	$VBox1/Scroll1/VBox1/Condition_line_item.If.populate_list(false)
-#	$VBox1/Scroll1/VBox1/Condition_line_item.If.select_index()
-#	$VBox1/Scroll1/VBox1/Condition_line_item._on_If_DropDown_selected_item_changed() 
-	pass
-	#WHEN EVENT IS ABLE TO LOAD DATA- DONT FORGET TO SET LOCAL VAR DICT TO DICT FROM THE EVENT DATA
-	#SAME AS ABOVE BUT WITH SETTING THE PARENT NODE
-
-#DELETE THIS WHEN CONDITION LINE ITEM IS LOADED AT RUNTIME
+var tab_node = null
 
 func _on_Close_button_up() -> void:
 	emit_signal("save_complete")
@@ -52,14 +37,6 @@ func updateMainDict():
 
 	source_node.inputNode.set_text(var2str(mainDictionary))
 	source_node.main_dictionary = mainDictionary
-#	print(mainDictionary)
-
-#func get_local_variables():
-##	var event_name = par_node.event_name
-#	print(source_node.name, " ", source_node.tab_number)
-#	var page_number = par_node.tab_number
-#	local_variable_dictionary = mainDictionary[page_number]["Local Variables"]
-#	print(local_variable_dictionary)
 
 
 func clear_input_fields():
@@ -67,16 +44,11 @@ func clear_input_fields():
 		i.queue_free()
 
 func _delete_selected_list_item(itemKey := ""):
-	#WHEN BUTTON IS PRESSED IT WILL GET THE KEY VALUE FROM IT'S PARENT NODE
-	#THEN IT WILL RUN THIS SCRIPT WITH THE STRING OF THE KEY VALUE
-	
-	#THIS SCRIPT WILL THEN DELETE THE SELECTED KEY FROM THE MAINDICTIONARY
 	mainDictionary.erase(itemKey)
 	refresh_form()
-	
-	
-func create_input_fields():
 
+
+func create_input_fields():
 	for condition_line in mainDictionary:
 		var condition_line_node = conditionLineItem.instantiate()
 		inputContainer.add_child(condition_line_node)
@@ -105,7 +77,6 @@ func create_input_fields():
 
 						match displayName:
 							"If_DropDown":
-
 								display_node.selection_table = condition_types_dict.duplicate(true)
 								display_node.populate_list(false)
 #								display_node.If.selectedItemName = value

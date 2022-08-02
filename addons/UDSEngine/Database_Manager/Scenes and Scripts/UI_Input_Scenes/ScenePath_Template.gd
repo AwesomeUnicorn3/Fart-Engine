@@ -56,3 +56,11 @@ func get_filename_from_path(path:String):
 	$HBoxContainer/Display.set_tooltip(path)
 	return filename
 
+
+
+func _on_open_scene_button_up():
+	var editor := EditorPlugin.new()
+	current_path = inputNode.text
+
+	print(current_path)
+	editor.get_editor_interface().open_scene_from_path(str(current_path))

@@ -41,7 +41,7 @@ var table_ref = ""
 var Item_Name = ""
 var root : Node
 var json_object : JSON = JSON.new()
-var global_settings :String = "Global Data 1"
+var global_settings :String = "Profile 1"
 
 #used to rearrange keys
 var button_focus_index :String = "" 
@@ -50,11 +50,16 @@ var button_selected :String = ""
 
 func get_main_node(curr_selected_node = self):
 	var main_node = null
+	
 	while main_node == null:
-		if curr_selected_node.get_parent().is_in_group("UDS_Root"):
-			main_node = curr_selected_node.get_parent()
+		if curr_selected_node.is_in_group("UDS_Root"):
+			main_node = curr_selected_node
 		else:
-			curr_selected_node = curr_selected_node.get_parent()
+			if curr_selected_node.get_parent() == null:
+				main_node = curr_selected_node
+			else:
+				curr_selected_node = curr_selected_node.get_parent()
+
 	return main_node
 
 
@@ -178,7 +183,6 @@ func update_project_settings(): #called when save_all_db_files is run
 func set_game_root():
 	var root_path = import_data(table_save_path + "Global Data" + file_format)[global_settings]['Project Root Scene']
 	var current_root_scene = ProjectSettings.get("application/run/main_scene")
-	#!!!!!!!!IN GODOT 4.0 THE EXAMPLE SCENE LOADING AT RUNTIME CAUSES THE ENGINE TO CRASH!!!!!!!!!!!
 	if root_path != current_root_scene:
 		ProjectSettings.set("application/run/main_scene", root_path) 
 
@@ -189,7 +193,7 @@ func set_root_node():
 	var root_scene = load(rootScenePath).instantiate()
 	var root_node_name :String = root_scene.get_node(".").name
 	root_scene.queue_free()
-	root = get_tree().root.get_node(root_node_name)
+	root = get_tree().get_root().get_node(root_node_name)
 
 
 func add_new_table(newTableName, keyName, keyDatatype, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown, RefName, createTab, canDelete, isDropdown, add_toSaveFile, is_event):
@@ -677,6 +681,7 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			parent_container = container2
 	if str(node_value) == "":
 		node_value =  convert_string_to_type(table_dict[key_name]["Value"], table_dict[key_name]["DataType"])
+		
 	if str(node_type) == "":
 		node_type = table_dict[key_name]["DataType"]
 	var new_field : Node
@@ -835,10 +840,12 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			new_field.inputNode.set_text(str(node_value))
 
 		"7":
+			print(table_dict[key_name]["Value"])
 			new_field  = await add_input_field(parent_container, input_scenePath)
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			new_field.inputNode.set_text(node_value)
+			print("Loaded As: ", node_value)
 			new_field._on_input_text_changed(node_value)
 		
 		"13":
@@ -986,6 +993,7 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 
 		"7":
 			returnValue = input.text
+			print("Saved as: " ,returnValue)
 		
 		"13":
 			var stream : String = input.get_stream().get_path().get_file()

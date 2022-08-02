@@ -89,6 +89,7 @@ anchor_bottom = 0.0
 offset_left = 195.0
 offset_right = 858.0
 offset_bottom = 600.0
+is_label_button = false
 
 [node name="Label" parent="ScriptInput" index="0"]
 offset_right = 663.0

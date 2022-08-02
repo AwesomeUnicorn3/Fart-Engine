@@ -36,7 +36,7 @@ func _on_Button_button_up() -> void:
 	event_input_form.parent_node = self
 	event_input_form.load_event()
 	event_input_form.get_node("Scroll1/VBox1/HBox2/Save_Page_Button").visible = true
-
+	event_input_form.set_name("EventInputForm")
 #	event_input_form.event_node_name = event_node_name
 	var vsplit := VSplitContainer.new()
 #	vsplit.get_viewport_rect()

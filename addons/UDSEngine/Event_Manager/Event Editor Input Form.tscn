@@ -32,8 +32,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBox1" type="VBoxContainer" parent="Scroll1"]
-offset_right = 353.0
-offset_bottom = 183.0
+offset_right = 900.0
+offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

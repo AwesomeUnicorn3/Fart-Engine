@@ -129,12 +129,38 @@ offset_right = 900.0
 offset_bottom = 56.0
 text = "Save"
 
-[node name="Key" parent="VBox1" instance=ExtResource("1")]
+[node name="TableName" parent="VBox1" instance=ExtResource("1")]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 60.0
 offset_right = 900.0
-offset_bottom = 127.0
+offset_bottom = 114.0
+label_text = "Table Name"
+is_label_button = false
+
+[node name="Label" parent="VBox1/TableName" index="0"]
+custom_minimum_size = Vector2(0, 50)
+offset_bottom = 50.0
+
+[node name="Label_Button" parent="VBox1/TableName/Label/HBox1" index="0"]
+offset_bottom = 55.0
+text = "Table Name"
+
+[node name="Input" parent="VBox1/TableName" index="1"]
+visible = false
+custom_minimum_size = Vector2(0, 25)
+offset_bottom = 63.0
+
+[node name="input_templateBuffer" parent="VBox1/TableName" index="2"]
+offset_top = 54.0
+offset_bottom = 54.0
+
+[node name="Key" parent="VBox1" instance=ExtResource("1")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 118.0
+offset_right = 900.0
+offset_bottom = 185.0
 label_text = "Key"
 
 [node name="Label_Button" parent="VBox1/Key/Label/HBox1" index="0"]
@@ -150,66 +176,68 @@ offset_top = 67.0
 offset_bottom = 67.0
 
 [node name="HBox2" type="HBoxContainer" parent="VBox1"]
-offset_top = 131.0
+offset_top = 189.0
 offset_right = 900.0
-offset_bottom = 172.0
+offset_bottom = 225.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox2"]
 offset_right = 678.0
-offset_bottom = 41.0
+offset_bottom = 36.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox2/CenterContainer"]
 offset_left = 338.0
-offset_top = 11.0
+offset_top = 9.0
 offset_right = 339.0
-offset_bottom = 29.0
+offset_bottom = 27.0
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
 
 [node name="AddNewField_Button" type="Button" parent="VBox1/HBox2"]
 offset_left = 682.0
 offset_right = 777.0
-offset_bottom = 41.0
+offset_bottom = 36.0
 text = "New Field"
 
 [node name="Button_Separator" parent="VBox1/HBox2" instance=ExtResource("4_22jb8")]
+offset_top = 4.0
+offset_bottom = 32.0
 
 [node name="DeleteField_Button" type="Button" parent="VBox1/HBox2"]
 offset_left = 786.0
 offset_right = 900.0
-offset_bottom = 41.0
+offset_bottom = 36.0
 text = "Delete Field"
 
 [node name="HBox3" type="HBoxContainer" parent="VBox1"]
-offset_top = 176.0
+offset_top = 229.0
 offset_right = 900.0
-offset_bottom = 596.0
+offset_bottom = 595.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox3"]
-offset_bottom = 420.0
+offset_bottom = 366.0
 horizontal_scroll_mode = 0
 
 [node name="Key_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll1"]
-offset_bottom = 420.0
+offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox3"]
 offset_left = 4.0
 offset_right = 448.0
-offset_bottom = 420.0
+offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll2"]
 offset_right = 444.0
-offset_bottom = 420.0
+offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -217,27 +245,27 @@ size_flags_vertical = 3
 modulate = Color(0, 0, 0, 1)
 offset_left = 452.0
 offset_right = 452.0
-offset_bottom = 420.0
+offset_bottom = 366.0
 
 [node name="Scroll3" type="ScrollContainer" parent="VBox1/HBox3"]
 offset_left = 456.0
 offset_right = 900.0
-offset_bottom = 420.0
+offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll3"]
 offset_right = 444.0
-offset_bottom = 420.0
+offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Version_Label" parent="VBox1" instance=ExtResource("8")]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 600.0
+offset_top = 599.0
 offset_right = 900.0
-offset_bottom = 600.0
+offset_bottom = 599.0
 
 [node name="Popups" type="ColorRect" parent="."]
 visible = false
@@ -395,6 +423,8 @@ visible = false
 [connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_DeleteField_Accept_button_up"]
 [connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_DeleteField_Cancel_button_up"]
 
+[editable path="VBox1/TableName"]
+[editable path="VBox1/TableName/Label"]
 [editable path="VBox1/Key"]
 [editable path="VBox1/Key/Label"]
 [editable path="Popups/Popup_Delete_Confirm"]

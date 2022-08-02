@@ -144,6 +144,22 @@ label_text = "Is"
 is_label_button = false
 selection_table_name = "Inequalities"
 
+[node name="Input" parent="Is_DropDown" index="1"]
+item_count = 6
+selected = 0
+popup/item_0/text = "Greater Than"
+popup/item_0/id = 0
+popup/item_1/text = "Less Than"
+popup/item_1/id = 1
+popup/item_2/text = "Equal To"
+popup/item_2/id = 2
+popup/item_3/text = "NOT Equal To"
+popup/item_3/id = 3
+popup/item_4/text = "Greater Than OR Equal To"
+popup/item_4/id = 4
+popup/item_5/text = "Less Than OR Equal To"
+popup/item_5/id = 5
+
 [node name="input_templateBuffer" parent="Is_DropDown" index="2"]
 visible = false
 
