@@ -21,10 +21,8 @@ frames = SubResource("19")
 current = true
 
 [node name="PlayerInteractionArea" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 0
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteractionArea"]
 shape = SubResource("CircleShape2D_u8nt8")
-
-[connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]

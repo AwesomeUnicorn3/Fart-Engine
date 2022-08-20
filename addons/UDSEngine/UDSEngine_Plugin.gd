@@ -24,10 +24,9 @@ func _enter_tree():
 # Hide the main panel. Very much required.
 	_make_visible(false)
 
-	var icon = get_editor_interface().get_base_control().get_theme_icon("RigidDynamicBody2D", "EditorIcons")
-	add_custom_type("Event", "RigidDynamicBody2D", preload("res://addons/UDSEngine/Example Game/Event.gd"), icon)
+	var icon = get_editor_interface().get_base_control().get_theme_icon("CharacterBody2D", "EditorIcons")
+	add_custom_type("Event", "CharacterBody2D", preload("res://addons/UDSEngine/Example Game/Event.gd"), icon)
 
-	
 #	add_custom_type("Map", "Node", preload("res://addons/UDSEngine/Example Game/Event.gd"), icon)
 
 	add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_MENU, toolbar)
@@ -58,6 +57,7 @@ func _refresh_data():
 
 
 var selected_node  = null
+
 func _process(delta: float) -> void:
 	var selected_nodes :Array = get_editor_interface().get_selection().get_selected_nodes()
 	if selected_nodes.size() == 1:

@@ -33,46 +33,46 @@ text = "Reset Values"
 
 [node name="Center1" type="CenterContainer" parent="VBox1/HBox1"]
 offset_left = 127.0
-offset_right = 476.0
+offset_right = 471.0
 offset_bottom = 28.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/Center1"]
 visible = false
-offset_left = -41.0
+offset_left = -43.0
 offset_top = -2.0
-offset_right = 389.0
+offset_right = 387.0
 offset_bottom = 29.0
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
 [node name="SaveChanges" type="Button" parent="VBox1/HBox1"]
-offset_left = 480.0
-offset_right = 613.0
+offset_left = 475.0
+offset_right = 608.0
 offset_bottom = 28.0
 text = "Save Changes"
 
 [node name="Label" type="Label" parent="VBox1/HBox1"]
-offset_left = 617.0
-offset_right = 618.0
+offset_left = 612.0
+offset_right = 613.0
 offset_bottom = 28.0
 
 [node name="Label2" type="Label" parent="VBox1/HBox1"]
 visible = false
 
 [node name="AddNewItem" type="Button" parent="VBox1/HBox1"]
-offset_left = 622.0
-offset_right = 769.0
+offset_left = 617.0
+offset_right = 764.0
 offset_bottom = 28.0
 text = "Add New Event"
 
 [node name="Label3" type="Label" parent="VBox1/HBox1"]
-offset_left = 773.0
-offset_right = 774.0
+offset_left = 768.0
+offset_right = 769.0
 offset_bottom = 28.0
 
 [node name="DeleteSelectedItem" type="Button" parent="VBox1/HBox1"]
-offset_left = 778.0
-offset_right = 900.0
+offset_left = 773.0
+offset_right = 895.0
 offset_bottom = 28.0
 text = "Delete Event"
 
@@ -81,7 +81,9 @@ visible = false
 text = "Cancel"
 
 [node name="Label4" type="Label" parent="VBox1/HBox1"]
-visible = false
+offset_left = 899.0
+offset_right = 900.0
+offset_bottom = 28.0
 
 [node name="HBox2" parent="VBox1" instance=ExtResource("4_t7bj3")]
 anchor_right = 0.0
@@ -95,8 +97,8 @@ offset_right = 149.0
 offset_bottom = 564.0
 
 [node name="Table_Buttons" parent="VBox1/HBox2/Scroll1" index="0"]
-offset_right = 0.0
-offset_bottom = 0.0
+offset_right = 149.0
+offset_bottom = 564.0
 
 [node name="Scroll2" parent="VBox1/HBox2" index="1"]
 offset_left = 153.0
@@ -104,8 +106,8 @@ offset_right = 900.0
 offset_bottom = 564.0
 
 [node name="Panel1" parent="VBox1/HBox2/Scroll2" index="0"]
-offset_right = 0.0
-offset_bottom = 0.0
+offset_right = 747.0
+offset_bottom = 564.0
 
 [node name="ColorRect" parent="VBox1/HBox2/Scroll2/Panel1" index="0"]
 offset_right = 747.0
@@ -183,6 +185,9 @@ text = "Cancel"
 [node name="popup_newValue" parent="Popups" instance=ExtResource("6")]
 visible = false
 
+[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label/HBox1" index="0"]
+text = "Field Data Type"
+
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource("7")]
 visible = false
 
@@ -206,9 +211,6 @@ anchor_bottom = 1.0
 [connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_TextureButton_button_up"]
 [connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_texture_button_mouse_entered"]
 [connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_texture_button_pressed"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_TextureButton_button_up"]
-[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_texture_button_mouse_entered"]
-[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_texture_button_pressed"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_deletePopup_Accept_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on__deletePopup_Cancel_button_up"]
 [connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_NewField_Accept_button_up"]
@@ -222,5 +224,7 @@ anchor_bottom = 1.0
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label"]
 [editable path="Popups/popup_deleteKey"]

@@ -21,7 +21,7 @@ func _on_Load_button_up() -> void:
 	udsmain.load_game(file_name)
 	udsmain.root.get_node("UI/TitleScreen").visible = false
 	#SET PLAYER POSITION
-	udsmain.set_player_position()
+#	udsmain.set_player_position()
 	parent_container.remove_load_menu()
 
 

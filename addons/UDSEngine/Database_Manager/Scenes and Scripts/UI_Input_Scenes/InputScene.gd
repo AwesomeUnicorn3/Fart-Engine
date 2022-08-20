@@ -2,13 +2,14 @@
 extends Control
 class_name InputEngine
 
-signal selected_item_changed #emitted when dropdown list selected item changes
+signal input_selection_changed #emitted when dropdown list selected item changes
 signal input_load_complete
 
 @export var label_text = ""
 @export var is_label_button = true
 @export var show_field := false
 
+var DBENGINE := DatabaseEngine.new()
 var labelNode
 var inputNode
 var itemName = ""
@@ -17,7 +18,7 @@ var type = ""
 var table_name = ""
 var table_ref = ""
 var parent_node :Object
-var input_data = ""
+var input_data 
 
 
 func _ready():
@@ -209,3 +210,16 @@ func connect_signals():
 	labelNode.mouse_entered.connect(on_mouse_entered)
 	
 #$VBox2/ItemType_Selection/Input.item_selected.connect(item_selected)
+
+
+func get_input_value():
+	var return_value = self._get_input_value()
+	return return_value
+	
+func set_input_value(node_value , key_name: String, current_table_name :String):
+	self._set_input_value(node_value)
+#	set_name(key_name)
+#	labelNode.set_text(key_name)
+#	table_name = current_table_name
+#	table_ref = table_ref
+#	set_initial_show_value()

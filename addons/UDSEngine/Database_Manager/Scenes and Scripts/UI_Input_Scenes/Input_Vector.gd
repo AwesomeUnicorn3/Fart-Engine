@@ -76,14 +76,16 @@ func set_inputNode_value():
 
 
 func set_user_input_value():
-
+	var DBENGINE = DatabaseEngine.new()
 	var vec = inputNode.get_text()
-	vec = get_main_tab(get_parent()).convert_string_to_Vector(vec)
+	vec = DBENGINE.convert_string_to_vector(vec)
+	
 	match typeof(vec):
 		TYPE_VECTOR2:
 			_on_Button_button_up()
 			x_input.set_text(str(vec.x))
 			y_input.set_text(str(vec.y))
+
 
 		TYPE_VECTOR3:
 			_on_Button2_button_up()
@@ -91,3 +93,4 @@ func set_user_input_value():
 			y_input.set_text(str(vec.y))
 			z_input.set_text(str(vec.z))
 	omit_changed = false
+	

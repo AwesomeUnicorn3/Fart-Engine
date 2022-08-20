@@ -1,0 +1,168 @@
+[gd_scene load_steps=8 format=3 uid="uid://bu1br7g5v4co7"]
+
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_sv5gt"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/GlobalVariables_EventInputForm.gd" id="2_yt462"]
+[ext_resource type="PackedScene" uid="uid://blyuurjsfw16s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="3_peys3"]
+[ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_g0mxl"]
+[ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="5_accm6"]
+[ext_resource type="PackedScene" uid="uid://b4i04twjpw3iu" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="6_iqe52"]
+[ext_resource type="PackedScene" uid="uid://bop4ol1uh1lbf" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn" id="7_xwv06"]
+
+[node name="GlobalVariables_EventInputForm" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("1_sv5gt")
+script = ExtResource("2_yt462")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -132.5
+offset_right = 197.5
+offset_bottom = 132.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+offset_right = 395.0
+offset_bottom = 31.0
+text = "Global Variable Changes"
+horizontal_alignment = 1
+
+[node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 35.0
+offset_right = 395.0
+offset_bottom = 80.0
+is_label_button = false
+selection_table_name = "Global Data"
+
+[node name="Label" parent="Control/VBoxContainer/KeyDropdown" index="0"]
+offset_right = 395.0
+
+[node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
+offset_right = 395.0
+offset_bottom = 30.0
+
+[node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
+offset_right = 395.0
+offset_bottom = 41.0
+alignment = 1
+
+[node name="input_templateBuffer" parent="Control/VBoxContainer/KeyDropdown" index="2"]
+offset_top = 45.0
+offset_right = 395.0
+offset_bottom = 45.0
+
+[node name="TypeDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 84.0
+offset_right = 395.0
+offset_bottom = 129.0
+
+[node name="Label" parent="Control/VBoxContainer/TypeDropdown" index="0"]
+offset_right = 395.0
+
+[node name="Label_Button" parent="Control/VBoxContainer/TypeDropdown/Label/HBox1" index="0"]
+offset_right = 395.0
+offset_bottom = 30.0
+
+[node name="Input" parent="Control/VBoxContainer/TypeDropdown" index="1"]
+offset_right = 395.0
+offset_bottom = 41.0
+alignment = 1
+
+[node name="input_templateBuffer" parent="Control/VBoxContainer/TypeDropdown" index="2"]
+offset_top = 45.0
+offset_right = 395.0
+offset_bottom = 45.0
+
+[node name="InputContainer" type="VBoxContainer" parent="Control/VBoxContainer"]
+offset_top = 133.0
+offset_right = 395.0
+offset_bottom = 216.0
+
+[node name="True or False" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("4_g0mxl")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 395.0
+offset_bottom = 83.0
+size_flags_vertical = 3
+
+[node name="Text" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("5_accm6")]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 87.0
+offset_right = 395.0
+offset_bottom = 170.0
+
+[node name="Display Name" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("5_accm6")]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 87.0
+offset_right = 395.0
+offset_bottom = 170.0
+
+[node name="Decimal Number" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("6_iqe52")]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 174.0
+offset_right = 395.0
+offset_bottom = 267.0
+
+[node name="Whole Number" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("7_xwv06")]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = -131.0
+offset_right = 395.0
+offset_bottom = -38.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+offset_top = 220.0
+offset_right = 395.0
+offset_bottom = 265.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Accept" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+offset_right = 195.0
+offset_bottom = 45.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+offset_left = 199.0
+offset_right = 395.0
+offset_bottom = 45.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Cancel"
+
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="Control/VBoxContainer/KeyDropdown"]
+[editable path="Control/VBoxContainer/KeyDropdown/Label"]
+[editable path="Control/VBoxContainer/TypeDropdown"]
+[editable path="Control/VBoxContainer/TypeDropdown/Label"]

@@ -1,6 +1,8 @@
 @tool
 extends InputEngine
 
+@export var true_text :String = "True"
+@export var false_text :String = "False"
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -19,4 +21,10 @@ func _init() -> void:
 
 
 func Input_toggled(button_pressed: bool) -> void:
-	inputNode.set_text(str(button_pressed))
+	var button_text :String
+	if button_pressed:
+		button_text = true_text
+	else:
+		button_text = false_text
+		
+	inputNode.set_text(str(button_text))

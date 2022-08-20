@@ -1,0 +1,106 @@
+[gd_scene load_steps=4 format=3 uid="uid://duokj4je23w64"]
+
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_ia2sf"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/Wait_EventInputForm.gd" id="2_gdo8s"]
+[ext_resource type="PackedScene" uid="uid://b4i04twjpw3iu" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="3_i263g"]
+
+[node name="Wait_EventInputForm" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("1_ia2sf")
+script = ExtResource("2_gdo8s")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -94.5
+offset_right = 197.5
+offset_bottom = 94.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+offset_right = 395.0
+offset_bottom = 31.0
+text = "Wait"
+horizontal_alignment = 1
+
+[node name="Number_Counter_Float" parent="Control/VBoxContainer" instance=ExtResource("3_i263g")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 35.0
+offset_right = 395.0
+offset_bottom = 128.0
+label_text = "Wait for how many seconds"
+is_label_button = false
+
+[node name="Label" parent="Control/VBoxContainer/Number_Counter_Float" index="0"]
+offset_right = 395.0
+
+[node name="HBox1" parent="Control/VBoxContainer/Number_Counter_Float" index="1"]
+offset_right = 395.0
+offset_bottom = 89.0
+
+[node name="Input" parent="Control/VBoxContainer/Number_Counter_Float/HBox1" index="0"]
+offset_right = 310.0
+offset_bottom = 60.0
+
+[node name="VBox1" parent="Control/VBoxContainer/Number_Counter_Float/HBox1" index="1"]
+offset_left = 314.0
+offset_right = 395.0
+offset_bottom = 60.0
+
+[node name="Add_Button" parent="Control/VBoxContainer/Number_Counter_Float/HBox1/VBox1" index="0"]
+offset_right = 81.0
+offset_bottom = 28.0
+
+[node name="Sub_Button" parent="Control/VBoxContainer/Number_Counter_Float/HBox1/VBox1" index="1"]
+offset_top = 32.0
+offset_right = 81.0
+offset_bottom = 60.0
+
+[node name="input_templateBuffer" parent="Control/VBoxContainer/Number_Counter_Float" index="2"]
+offset_top = 93.0
+offset_right = 395.0
+offset_bottom = 93.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+offset_top = 132.0
+offset_right = 395.0
+offset_bottom = 189.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Accept" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+offset_right = 195.0
+offset_bottom = 57.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+offset_left = 199.0
+offset_right = 395.0
+offset_bottom = 57.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Cancel"
+
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="Control/VBoxContainer/Number_Counter_Float"]

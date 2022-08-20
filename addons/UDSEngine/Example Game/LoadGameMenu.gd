@@ -13,7 +13,7 @@ func _ready() -> void:
 		var map_path : String = save_file_dict["Global Data"][udsmain.global_settings]["Current Map"]
 		loadFileSelect_new.file_name = i
 		loadFileSelect_new.parent_container = self
-		loadFileSelect_new.get_node("ColorRect/VBoxContainer/MapNameInput").set_text(udsmain.get_map_name(map_path))
+		loadFileSelect_new.get_node("ColorRect/VBoxContainer/MapNameInput").set_text(await udsmain.get_map_name(map_path))
 		
 		file_list_container.add_child(loadFileSelect_new)
 

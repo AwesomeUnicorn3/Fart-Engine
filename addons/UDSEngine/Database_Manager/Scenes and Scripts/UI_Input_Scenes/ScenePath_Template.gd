@@ -59,8 +59,14 @@ func get_filename_from_path(path:String):
 
 
 func _on_open_scene_button_up():
-	var editor := EditorPlugin.new()
+	var editor := EditorPlugin.new().get_editor_interface()
 	current_path = inputNode.text
 
-	print(current_path)
-	editor.get_editor_interface().open_scene_from_path(str(current_path))
+	var open_scenes = editor.get_open_scenes()
+	if open_scenes.has(current_path):
+		editor.reload_scene_from_path(current_path)
+	else:
+		editor.open_scene_from_path(current_path)
+
+
+

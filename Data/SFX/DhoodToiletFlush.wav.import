@@ -1,7 +1,7 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
+type="AudioStreamWAV"
 uid="uid://cqb37dbq8l6ud"
 path="res://.godot/imported/DhoodToiletFlush.wav-088221e848559beb8f8ada022ab28ebf.sample"
 

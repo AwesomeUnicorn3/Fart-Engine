@@ -140,11 +140,19 @@ visible = false
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
+offset_left = 517.0
+offset_right = 900.0
+offset_bottom = 600.0
 label_text = "Is"
 is_label_button = false
 selection_table_name = "Inequalities"
 
+[node name="Label" parent="Is_DropDown" index="0"]
+offset_right = 383.0
+
 [node name="Input" parent="Is_DropDown" index="1"]
+offset_right = 383.0
+offset_bottom = 600.0
 item_count = 6
 selected = 0
 popup/item_0/text = "Greater Than"
@@ -217,10 +225,10 @@ is_label_button = false
 visible = false
 
 [connection signal="button_up" from="DeleteButton" to="." method="_on_DeleteButton_button_up"]
-[connection signal="selected_item_changed" from="If_DropDown" to="." method="_on_If_DropDown_selected_item_changed"]
-[connection signal="selected_item_changed" from="If_Table_Name_DropDown" to="." method="_on_If_Table_Name_DropDown_selected_item_changed"]
-[connection signal="selected_item_changed" from="If_Key_Name_DropDown" to="." method="_on_If_Key_Name_DropDown_selected_item_changed"]
-[connection signal="selected_item_changed" from="if_Value_Name_DropDown" to="." method="_on_if_Value_Name_DropDown_selected_item_changed"]
+[connection signal="input_selection_changed" from="If_DropDown" to="." method="_on_If_DropDown_selected_item_changed"]
+[connection signal="input_selection_changed" from="If_Table_Name_DropDown" to="." method="_on_If_Table_Name_DropDown_selected_item_changed"]
+[connection signal="input_selection_changed" from="If_Key_Name_DropDown" to="." method="_on_If_Key_Name_DropDown_selected_item_changed"]
+[connection signal="input_selection_changed" from="if_Value_Name_DropDown" to="." method="_on_if_Value_Name_DropDown_selected_item_changed"]
 
 [editable path="Key/Label"]
 [editable path="If_DropDown"]

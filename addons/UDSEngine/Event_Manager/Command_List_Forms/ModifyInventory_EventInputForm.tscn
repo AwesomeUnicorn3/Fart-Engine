@@ -1,0 +1,138 @@
+[gd_scene load_steps=6 format=3 uid="uid://0v2i3tyyq7bx"]
+
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_x8d0h"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/ModifyInventory_EventInputForm.gd" id="2_da3qg"]
+[ext_resource type="PackedScene" uid="uid://blyuurjsfw16s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="3_l5hgx"]
+[ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_tplko"]
+[ext_resource type="PackedScene" uid="uid://bop4ol1uh1lbf" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn" id="7_i6vjt"]
+
+[node name="ModifyInventory_EventInputForm" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource("1_x8d0h")
+script = ExtResource("2_da3qg")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -132.5
+offset_right = 197.5
+offset_bottom = 132.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+offset_right = 395.0
+offset_bottom = 31.0
+text = "Modify Player Inventory"
+horizontal_alignment = 1
+
+[node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_l5hgx")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 35.0
+offset_right = 395.0
+offset_bottom = 80.0
+selection_table_name = "Items"
+label_text = "Select Item"
+is_label_button = false
+
+[node name="Label" parent="Control/VBoxContainer/KeyDropdown" index="0"]
+offset_right = 395.0
+
+[node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
+offset_right = 395.0
+offset_bottom = 30.0
+text = "Select Item"
+
+[node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
+offset_right = 395.0
+offset_bottom = 41.0
+alignment = 1
+
+[node name="input_templateBuffer" parent="Control/VBoxContainer/KeyDropdown" index="2"]
+offset_top = 45.0
+offset_right = 395.0
+offset_bottom = 45.0
+
+[node name="TrueorFalse" parent="Control/VBoxContainer" instance=ExtResource("4_tplko")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 84.0
+offset_right = 395.0
+offset_bottom = 167.0
+size_flags_vertical = 3
+true_text = "+"
+false_text = "-"
+label_text = "Operation"
+is_label_button = false
+
+[node name="Label" parent="Control/VBoxContainer/TrueorFalse" index="0"]
+offset_right = 395.0
+
+[node name="Hbox1" parent="Control/VBoxContainer/TrueorFalse" index="1"]
+offset_right = 395.0
+offset_bottom = 79.0
+
+[node name="Background" parent="Control/VBoxContainer/TrueorFalse/Hbox1" index="1"]
+offset_right = 395.0
+offset_bottom = 50.0
+
+[node name="Input" parent="Control/VBoxContainer/TrueorFalse/Hbox1/Background" index="0"]
+button_pressed = true
+text = "+"
+
+[node name="input_templateBuffer" parent="Control/VBoxContainer/TrueorFalse" index="2"]
+offset_top = 83.0
+offset_right = 395.0
+offset_bottom = 83.0
+
+[node name="WholeNumber" parent="Control/VBoxContainer" instance=ExtResource("7_i6vjt")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 171.0
+offset_right = 395.0
+offset_bottom = 264.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+offset_top = 268.0
+offset_right = 395.0
+offset_bottom = 296.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Accept" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+offset_right = 195.0
+offset_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+offset_left = 199.0
+offset_right = 395.0
+offset_bottom = 28.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Cancel"
+
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="Control/VBoxContainer/KeyDropdown"]
+[editable path="Control/VBoxContainer/KeyDropdown/Label"]
+[editable path="Control/VBoxContainer/TrueorFalse"]

@@ -1,5 +1,7 @@
 @tool
 extends InputEngine
+#
+#signal input_selection_changed
 #export var main_tab_group = "" #the main tab should be included in this group
 @export var selection_table_name = "" #Name of the table to add to dropdown list
 
@@ -9,31 +11,16 @@ var selected_item_index
 var selectedItemName = ""
 var relatedInputNode : Node = null
 var relatedTableName = ""
+var previous_selection :String = ""
 
 func _init() -> void:
 	type = "5"
 
-#func _ready():
-#	inputNode = $Input
-#	labelNode = $Label/HBox1/Label_Button
-
-
-	
-
-#func get_main_tab(par):
-#	#Get main tab scene which should have the popup container and necessary script
-#	while !par.get_groups().has("Tab"):
-#		par = par.get_parent()
-#	return par
 
 func populate_list(update_selection_table :bool = true):
 	#Add values from selected table to dropdown list
-	var main_scene =  DatabaseEngine.new()
-#	if main_scene == null:
-#		main_scene = get_main_tab(get_parent())
-
 	if update_selection_table:
-		selection_table = await main_scene.import_data(main_scene.table_save_path + selection_table_name +".json" )
+		selection_table = await DBENGINE.import_data(DBENGINE.table_save_path + selection_table_name + DBENGINE.file_format )
 	inputNode.clear() #Clear values in dropdown list
 	for n in selection_table: #Loop through the selected table and add each key to the dropdown list
 		var displayName
@@ -47,7 +34,7 @@ func populate_list(update_selection_table :bool = true):
 				displayName = selection_table[n]["Display Name"]
 
 			if selection_table_name == "Table Data" and n != selection_table_name:
-				var add_to_list = main_scene.convert_string_to_type(selection_table[n]["Is Dropdown Table"])
+				var add_to_list = DBENGINE.convert_string_to_type(selection_table[n]["Is Dropdown Table"])
 				if add_to_list:
 					inputNode.add_item (displayName)
 			else:
@@ -55,6 +42,7 @@ func populate_list(update_selection_table :bool = true):
 
 	if selectedItemName == "":
 		selectedItemName = get_selected_value(0)
+		previous_selection = selectedItemName
 
 
 func get_id(item_name : String = ""):
@@ -132,12 +120,22 @@ func get_selected_value(index : int):
 
 func _on_Input_item_selected(index :int):
 	selectedItemName = get_selected_value(index)
+	selected_item_index = index
+	emit_signal("input_selection_changed") #used in event command forms
 	if relatedInputNode != null:
 		get_parent().swap_input_node(relatedInputNode, self, str(get_dataType_ID(selectedItemName)), relatedTableName)
-	emit_signal("selected_item_changed")
+	###########################
+#	emit_signal("selected_item_changed")
+	if table_name == "Global Data" and $Label/HBox1/Label_Button.get_text() == "Starting Map":
+		await DBENGINE.delete_starting_position_from_old_map(previous_selection)
+		await DBENGINE.add_starting_position_node_to_map(selectedItemName,previous_selection, parent_node)
+	###############
+	previous_selection = selectedItemName
+	
 	return selectedItemName
 
 
 func select_index(index : int = 0):
 	inputNode.select(index)
 	_on_Input_item_selected(index)
+	

@@ -61,7 +61,7 @@ func _on_DeleteButton_button_up() -> void:
 
 func _on_If_DropDown_selected_item_changed() -> void:
 	condition_type = If.selectedItemName
-
+	print(condition_type)
 	If_Key_Node.visible = false
 	If_Value_Node.visible = false
 	If_Table_Node.visible = false

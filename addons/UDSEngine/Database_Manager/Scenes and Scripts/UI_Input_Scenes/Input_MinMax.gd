@@ -57,7 +57,7 @@ func set_inputNode_value():
 
 func set_user_input_value():
 	var vec = inputNode.get_text()
-	vec = get_main_tab(get_parent()).convert_string_to_Vector(vec)
+	vec = get_main_tab(get_parent()).convert_string_to_vector(vec)
 	x_input.set_text(str(vec.x))
 	y_input.set_text(str(vec.y))
 	z_input.set_text(str(vec.z))

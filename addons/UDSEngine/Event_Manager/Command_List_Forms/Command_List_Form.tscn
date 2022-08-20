@@ -46,40 +46,44 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-offset_right = 297.0
+offset_right = 222.0
 offset_bottom = 568.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-offset_right = 297.0
+offset_right = 222.0
 offset_bottom = 31.0
 size_flags_horizontal = 3
-text = "Dialog"
+text = "Inventory"
 horizontal_alignment = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 offset_top = 35.0
-offset_right = 297.0
+offset_right = 222.0
 offset_bottom = 568.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer"]
-offset_right = 297.0
+offset_right = 222.0
 offset_bottom = 533.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="ModifyPlayerInventory" parent="VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
+offset_right = 222.0
+text = "Modify Inventory"
+
 [node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-offset_left = 301.0
-offset_right = 598.0
+offset_left = 226.0
+offset_right = 448.0
 offset_bottom = 568.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
-offset_right = 297.0
+offset_right = 222.0
 offset_bottom = 31.0
 size_flags_horizontal = 3
 text = "Event Progression"
@@ -87,58 +91,109 @@ horizontal_alignment = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2"]
 offset_top = 35.0
-offset_right = 297.0
+offset_right = 222.0
 offset_bottom = 568.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer"]
-offset_right = 297.0
-offset_bottom = 533.0
+offset_right = 229.0
+offset_bottom = 525.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ModifyLocalVariables" parent="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
+offset_right = 229.0
+
+[node name="ModifyGlobalVariables" parent="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
+offset_top = 54.0
+offset_right = 229.0
+offset_bottom = 104.0
+text = "Modify Global Variables"
 
 [node name="RemoveEvent" parent="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
-offset_top = 54.0
-offset_bottom = 104.0
+offset_top = 108.0
+offset_right = 229.0
+offset_bottom = 158.0
 text = "Remove Event"
 
+[node name="Wait" parent="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
+offset_top = 162.0
+offset_right = 229.0
+offset_bottom = 212.0
+text = "Wait"
+
 [node name="VBoxContainer3" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-offset_left = 602.0
-offset_right = 900.0
+offset_left = 452.0
+offset_right = 674.0
 offset_bottom = 568.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
-offset_right = 298.0
+offset_right = 222.0
 offset_bottom = 31.0
 size_flags_horizontal = 3
-text = "Debug"
+text = "Player Movement"
 horizontal_alignment = 1
 
-[node name="PrintToConsole" parent="VBoxContainer/HBoxContainer/VBoxContainer3" instance=ExtResource("3_siuql")]
+[node name="PlayerTransfer" parent="VBoxContainer/HBoxContainer/VBoxContainer3" instance=ExtResource("3_siuql")]
 offset_top = 35.0
-offset_right = 298.0
+offset_right = 222.0
 offset_bottom = 85.0
-text = "Print to Consle"
+text = "Player Transfer"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3"]
 offset_top = 89.0
-offset_right = 298.0
+offset_right = 222.0
 offset_bottom = 568.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer3/ScrollContainer"]
-offset_right = 298.0
+offset_right = 222.0
+offset_bottom = 479.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+offset_left = 678.0
+offset_right = 900.0
+offset_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer4"]
+offset_right = 222.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Debug"
+horizontal_alignment = 1
+
+[node name="PrintToConsole" parent="VBoxContainer/HBoxContainer/VBoxContainer4" instance=ExtResource("3_siuql")]
+offset_top = 35.0
+offset_right = 222.0
+offset_bottom = 85.0
+text = "Print to Consle"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer4"]
+offset_top = 89.0
+offset_right = 222.0
+offset_bottom = 568.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer4/ScrollContainer"]
+offset_right = 222.0
 offset_bottom = 479.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [connection signal="button_up" from="VBoxContainer/HBoxContainer2/Close" to="." method="_on_close_button_up"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer/ScrollContainer/VBoxContainer/ModifyPlayerInventory" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/ModifyLocalVariables" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/ModifyGlobalVariables" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/RemoveEvent" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer3/PrintToConsole" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer/Wait" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer3/PlayerTransfer" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/VBoxContainer4/PrintToConsole" to="." method="_open_selected_form"]

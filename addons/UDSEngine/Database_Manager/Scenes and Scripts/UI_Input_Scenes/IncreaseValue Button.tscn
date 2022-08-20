@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://banfhxs7njj4l"]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/IncreaseValue Button.gd" id="1_qxsyl"]
+
+[node name="Edit_Value_Button" type="Button"]
+offset_right = 44.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "+"
+script = ExtResource("1_qxsyl")
+
+[connection signal="button_up" from="." to="." method="_on_add_button_v_self_pressed"]

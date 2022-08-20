@@ -58,8 +58,9 @@ func _on_key_button_up(Name):
 	input_node_changed("", false)
 
 func get_saveFile_data(get_value):
-	wait_timer(.2)
-	await Timer_Complete
+	get_tree().create_timer(.2).timeout
+#	wait_timer(.2)
+#	await Timer_Complete
 #	var tr = Timer.new()
 #	tr.set_one_shot(true)
 #	add_child(tr)

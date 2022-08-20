@@ -63,12 +63,12 @@ func custom_table_settings():
 			#Hide add and delete field buttons
 			$VBox1/HBox2.visible = false
 
-		"Global Data":
-			$VBox1/Key/Input.editable = false
-			$VBox1/Key.is_label_button = false
-			$VBox1/HBox1/AddNewKey_Button.visible = false
-			$VBox1/HBox1/DeleteSelectedKey_Button.visible = false
-			$VBox1/HBox2.visible = false
+#		"Global Data":
+#			$VBox1/Key/Input.editable = false
+#			$VBox1/Key.is_label_button = false
+#			$VBox1/HBox1/AddNewKey_Button.visible = false
+#			$VBox1/HBox1/DeleteSelectedKey_Button.visible = false
+#			$VBox1/HBox2.visible = false
 
 func set_ref_table():
 	var tbl_ref_dict = import_data(table_save_path + "Table Data" + file_format)
@@ -199,14 +199,14 @@ func refresh_data(item_name : String = Item_Name):
 	var index_half = (field_dict1.size() + 1)/2
 	for i in field_dict1:
 		var new_input = await add_input_node(index,index_half, i, field_dict1, container_list1, container_list2)
-		
+		custom_table_settings()
 		#custom settings for specific tables##
-		match tableName:
-			"Table Data":
-				new_input.is_label_button = false
-			
-			"Global Data":
-				$VBox1/HBox2.visible = false
+#		match tableName:
+#			"Table Data":
+#				new_input.is_label_button = false
+#
+#			"Global Data":
+#				$VBox1/HBox2.visible = false
 	
 		index += 1
 	if item_name != "Default":
@@ -576,5 +576,3 @@ func add_table():
 func delete_table(del_tbl_name = key_node.inputNode.get_text()):
 	Delete_Table(del_tbl_name)
 	get_udsmain().create_tabs()
-
-

@@ -309,6 +309,9 @@ offset_bottom = 104.0
 [node name="ItemType_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2" index="0"]
 offset_bottom = 104.0
 
+[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label/HBox1" index="0"]
+text = "Field Data Type"
+
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
 offset_bottom = 104.0
 item_count = 14
@@ -432,5 +435,7 @@ visible = false
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label"]
 [editable path="Popups/popup_deleteKey"]

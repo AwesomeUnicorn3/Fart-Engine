@@ -312,7 +312,7 @@ func _on_Save_Close_Button_button_up() -> void:
 	var udsplugin = editor.get_editor_interface().get_editor_main_control().get_node("UDSENGINE")
 	udsplugin.get_node("Tabs/Event_Manager")._on_RefreshData_button_up()
 	save_all_db_files()
-	event_node._ready()
+#	event_node._ready()
 	call_deferred("_on_Button_button_up")
 
 
@@ -329,7 +329,7 @@ func save_event_data(is_dbmanager :bool = false):
 			set_table_data_display_name(event_name , displayName)
 	save_all_db_files()
 
-	var selected_page_button = event_page_button_list.get_node(tab_number)
+	var selected_page_button = event_page_button_list.get_child(0)
 	selected_page_button.on_Button_button_up()
 
 	var eventNode = get_node("../../../../..")
@@ -373,13 +373,11 @@ func _on_Delete_Page_Button_button_up() -> void:
 			var next_line = event_dict[next_page_number]
 			event_dict[index] = next_line
 			event_dict.erase(next_page_number)
-			#copy the next line and save as "page"
-			#delete the next line in event dict
-	
-	
 	
 	save_all_db_files()
 	tab_number = "1"
+	var selected_page_button = event_page_button_list.get_child(0)
+	selected_page_button.on_Button_button_up()
 	set_initial_values()
 	
 

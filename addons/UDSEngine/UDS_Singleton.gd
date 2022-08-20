@@ -1,5 +1,6 @@
 extends DatabaseEngine
 #SHOULD ONLY INCLUDE SCRIPT THAT I WANT ACCESSIBLE TO THE USER
+signal save_game_data
 signal save_complete
 signal DbManager_loaded
 signal map_loaded
@@ -27,9 +28,11 @@ var current_map_path := ""
 var current_map_name := ""
 var current_map_node
 
+var player_node
+
 func _ready():
 	op_sys = OS.get_name()
-	emit_signal("DbManager_loaded")
+#	emit_signal("DbManager_loaded")
 	var tbl_data = import_data(table_save_path + "/Table Data.json")
 	tables_list = list_files_with_param(table_save_path, file_format, ["Table Data.json"])
 	var dict = {}
@@ -83,28 +86,40 @@ func delete_save_file(file_name : String):
 	dir.remove(fileName)
 
 
+func set_current_map(map_node):
+	current_map_node = map_node
+	current_map_name = map_node.name
+	current_map_path = current_map_node.get_path()
+
+
 func get_map_name(map_path : String):
-	var map_dict : Dictionary = import_data(table_save_path + "Maps" + file_format)
-	var map_name : String
-	for i in map_dict:
-		if map_dict[i]["Path"] == map_path:
-			map_name = map_dict[i]["Display Name"]
-			current_map_name = map_name
-			return map_name
-		else:
-			print("Error " + map_path + " not found")
+	var map_dict : Dictionary = await import_data(table_save_path + "Maps" + file_format)
+	var map_name : String =""
+	for map_id in map_dict:
+		if map_dict[map_id]["Path"] == map_path:
+			map_name = map_dict[map_id]["Display Name"]
+			break
+	return map_name
 
-
-func load_map(map_path := ""):
-	root.get_node("map").add_child(load(map_path).instantiate())
+func load_and_set_map(map_path := ""):
+	var map_node = load(map_path).instantiate()
+	root.get_node("map").add_child(map_node)
 	Dynamic_Game_Dict["Global Data"][global_settings]["Current Map"] = map_path
-	current_map_path = map_path
+	set_current_map(map_node)
+	add_map_to_events(await get_map_name(map_path))
+
+
+func add_map_to_events(map_name:String):
+	if !Dynamic_Game_Dict["Event Save Data"].has(map_name):
+			Dynamic_Game_Dict["Event Save Data"][map_name] = {}
 
 func save_global_options_data():
 	save_file("user://OptionsData.json", Global_Game_Dict)
 
 
 func save_game():
+	emit_signal("save_game_data")
+	current_map_node.save_event_data()
 	save_id = Dynamic_Game_Dict["Global Data"][global_settings]["ID"]
 	if int(save_id) == 0: #set save id when player loads game
 		set_save_path()
@@ -149,41 +164,70 @@ func set_save_path():
 	Dynamic_Game_Dict["Global Data"][global_settings]["ID"] = save_id
 
 func load_game(file_name : String):
-	#Can include the .sav ext but is not required, it can be just save name "1"
+	dict_loaded = false
 	if file_name.get_extension() == save_format.trim_prefix("."):
 		file_name = file_name.trim_suffix(save_format)
 
 	var fileName = save_game_path + file_name + save_format
 	var load_path = fileName
-#	var load_file = File.new()
+
 	Dynamic_Game_Dict = import_data(load_path)
-#	if not load_file.file_exists(load_path):
-#		return
-#	load_file.open(load_path, File.READ)
-#	Dynamic_Game_Dict = parse_json(load_file.get_as_text())
-#	set_var_type_dict(Dynamic_Game_Dict)
-#	load_file.close()
-	load_map(get_current_map_path())
-	add_all_items_to_player_inventory()
+
+	load_and_set_map(get_current_map_path())
+	var player_pos  = convert_string_to_vector(get_data_value("Global Data", global_settings, "Player POS"))
+	player_node.set_player_position(player_pos)
+#	add_all_items_to_player_inventory()
 	Dynamic_Game_Dict["Global Data"][global_settings]["Is Game Active"] = true
 	dict_loaded = true
 	emit_signal("DbManager_loaded")
 
+
 func get_player_node():
-	return root.get_node("YSort/Player")
+	player_node = await root.find_child("Player", true, false)
+	return player_node
 
 
-func set_player_position():
-	var player = get_player_node()
+func get_player_interaction_area():
+	get_player_node()
+	var interation_area = player_node.get_node("PlayerInteractionArea")
+	return interation_area
 
-	var player_position = convert_string_to_Vector(Dynamic_Game_Dict['Global Data'][global_settings]["Player POS"])
-	player.set_global_position(player_position)
+func move_player_to_map_node(current_map_node):
+	await root.remove_child(player_node)
+	await current_map_node.ysort_node.add_child(player_node)
 
 
+func remove_player_from_map_node(current_map_node):
+	await player_node.get_parent().remove_child(player_node)
+	await root.add_child(player_node)
 
+
+func set_player_position_in_db(new_position):
+	set_save_data_value("Global Data", global_settings, "Player POS", new_position)
+
+
+func get_player_position_from_db():
+	var player_vector_position = get_data_value("Global Data", global_settings, "Player POS")
+	return player_vector_position
+
+
+func set_save_data_value(table_name :String, key_name :String, value_name :String, new_value):
+	Dynamic_Game_Dict[table_name][key_name][value_name] = new_value
+
+
+func get_data_value(table_name :String, key_name :String, value_name :String, from_save_dict :bool = true):
+	var rtn_value
+	if from_save_dict:
+#		var value :String = str(Dynamic_Game_Dict[table_name][key_name][value_name])
+		
+		rtn_value = convert_string_to_type(str(Dynamic_Game_Dict[table_name][key_name][value_name]))
+	else:
+		rtn_value = convert_string_to_type(str(Static_Game_Dict[table_name][key_name][value_name]))
+	return rtn_value
 
 
 func new_game():
+	dict_loaded = false
 	var tbl_data = import_data( table_save_path + "Table Data.json")
 	tables_list = list_files_with_param(table_save_path, file_format)
 #	set_var_type_table(tbl_data)
@@ -203,21 +247,19 @@ func new_game():
 				dict[dictname] = import_data(table_save_path + d)
 				
 	Dynamic_Game_Dict = dict
-	
-	#Set intital player inventory
+
 	set_var_type_dict(Dynamic_Game_Dict)
-		#Add new map to root/map
-	load_map(get_starting_map_path())
-	
-	Dynamic_Game_Dict["Global Data"][global_settings]["NewGame"] = false
-	Dynamic_Game_Dict["Global Data"][global_settings].erase("Project Root Scene")
-#	Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Project Root Scene")
-#	#Add new map to root/map
-#	load_map(get_starting_map_path())
-	
 	add_all_items_to_player_inventory()
+	load_and_set_map(get_starting_map_path())
+	
+#	Dynamic_Game_Dict["Global Data"][global_settings]["NewGame"] = false
+	Dynamic_Game_Dict["Global Data"][global_settings].erase("Project Root Scene")
+	
+	
 	Dynamic_Game_Dict["Global Data"][global_settings]["Is Game Active"] = true
+	dict_loaded = true
 	emit_signal("DbManager_loaded")
+	
 
 func get_game_title():
 	var initial_save_data : Dictionary = await import_data(table_save_path + "Global Data" + file_format)
@@ -235,15 +277,8 @@ func get_starting_map_path():
 			break
 	return current_map_path
 
-func get_current_map_path():
+func get_current_map_path() -> String:
 	var current_map_path : String = Dynamic_Game_Dict['Global Data'][global_settings]['Current Map']
-#	var current_map_path := ""
-#	for i in Static_Game_Dict['Maps']:
-#		if current_map_name == Static_Game_Dict['Maps'][i]["Display Name"]:
-#			current_map_path = Static_Game_Dict['Maps'][i]["Path"]
-#			Dynamic_Game_Dict["Global Data"]["Global Data"]["Current Map"] = current_map_path
-#			Dynamic_Game_Dict["Global Data"]["Global Data"].erase("Starting Map")
-#			break
 	return current_map_path
 
 func sort_ascending(a, b):
@@ -335,11 +370,11 @@ func add_all_items_to_player_inventory():
 	var item_dict : Dictionary = Static_Game_Dict["Items"]
 	if !Dynamic_Game_Dict.has("Inventory"):
 		Dynamic_Game_Dict["Inventory"] = {}
-	for i in item_dict:
-		modify_player_inventory(i)
+	for item_name in item_dict:
+		change_player_inventory(item_name)
 
 
-func modify_player_inventory(item_name :String, count :int = 0, increase_value := true):
+func change_player_inventory(item_name :String, count :int = 0, increase_value := true):
 	var dict_static_items = udsmain.Static_Game_Dict["Items"]
 	count = int(abs(count))
 	if !increase_value:
@@ -354,10 +389,10 @@ func modify_player_inventory(item_name :String, count :int = 0, increase_value :
 	return udsmain.Dynamic_Game_Dict["Inventory"][item_name]["ItemCount"]
 
 
-func is_item_in_inventory(itm_name : String):
+func is_item_in_inventory(item_name : String):
 	var value = false
 	var dict_inventory = udsmain.Dynamic_Game_Dict["Inventory"]
-	if dict_inventory.has(itm_name):
+	if dict_inventory.has(item_name):
 		value = true
 	return value
 
@@ -375,6 +410,14 @@ func change_local_variable(which_var:String, to_what:bool, event_name :String, e
 			break
 
 
+func change_global_variable(which_var:String, what_type: String,  to_what, event_name :String, event_node_name :String, event_node):
+	var global_variable_dict  = convert_string_to_type(Dynamic_Game_Dict["Global Variables"])
+	for id in global_variable_dict:
+		if global_variable_dict[id]["Display Name"] == which_var:
+			Dynamic_Game_Dict["Global Variables"][id][what_type] = to_what
+			break
+
+
 func remove_event(event_name :String, event_node_name:String, event_node):
 	event_node.is_queued_for_delete = true
 
@@ -383,15 +426,51 @@ func print_to_console(input_text :String ,event_name :String, event_node_name:St
 	print(input_text)
 
 
+func wait(how_long: float, event_name :String, event_node_name:String, event_node):
+	await get_tree().create_timer(how_long).timeout
 
 
+func transfer_player(which_map :String, what_coordinates, event_name :String, event_node_name:String, event_node):
+	call_deferred("remove_player_from_map_node" ,current_map_node)
+	var map_path :String = get_mappath_from_displayname(which_map)
+	if current_map_name != which_map:
+		call_deferred("load_and_set_map",map_path)
+	await get_tree().create_timer(.25).timeout
+	player_node = await get_player_node()
+	player_node.set_player_position(convert_string_to_vector(what_coordinates))
+	remove_unused_maps()
 
 
+func remove_unused_maps():
+	var maps_node = root.get_node("map")
+	for child in maps_node.get_children():
+		if child != current_map_node:
+			for event in child.event_array:
+				event.is_queued_for_delete = true
+			child.queue_free()
 
 
+func modify_player_inventory(what :String, how_many , increase_value :String, event_name :String, event_node_name:String, event_node ):
+	var dict_static_items = udsmain.Static_Game_Dict["Items"]
+	var increase :bool = false
+	var modify_amount :int = int(abs(how_many))
 
+	if increase_value == "+":
+		increase = true
+		
+	if !increase:
+		modify_amount = int(-abs(modify_amount))
 
-
+	if dict_static_items.has(what):
+		if!is_item_in_inventory(what):
+			Dynamic_Game_Dict["Inventory"][what] = {"ItemCount" : 0}
+		var inv_count = int(Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
+		Dynamic_Game_Dict["Inventory"][what]["ItemCount"] =  inv_count + how_many
+	else:
+		print(what, " needs to be added to Item Table")
+	
+	print(Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
+	return Dynamic_Game_Dict["Inventory"][what]["ItemCount"]
 
 
 

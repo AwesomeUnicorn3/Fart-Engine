@@ -9,9 +9,8 @@ script = ExtResource("1")
 
 [node name="map" type="Node2D" parent="."]
 
-[node name="YSort" type="Node2D" parent="."]
-
-[node name="Player" parent="YSort" instance=ExtResource("2")]
-position = Vector2(101, 135)
-
 [node name="UI" parent="." instance=ExtResource("3")]
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(101, 135)
+y_sort_enabled = true

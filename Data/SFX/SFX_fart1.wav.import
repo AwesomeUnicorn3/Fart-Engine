@@ -1,7 +1,7 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
+type="AudioStreamWAV"
 uid="uid://bmfbavfcn0pq8"
 path="res://.godot/imported/SFX_fart1.wav-f0612694f399bfd3a6fea9b6e86ab5d2.sample"
 

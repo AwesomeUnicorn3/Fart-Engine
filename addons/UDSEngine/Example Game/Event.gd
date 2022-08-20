@@ -1,29 +1,46 @@
 @tool
-extends RigidDynamicBody2D
+extends CharacterBody2D
 class_name EventHandler
 
 @onready var DBENGINE :DatabaseEngine = DatabaseEngine.new()
 @export var event_name :String = ""
+
+enum {STATIC, IDLE, RANDOM, MOVE_TOWARD_PLAYER, CUSTOM}
 var root_node : EventHandler
 var collision_node :CollisionShape2D
+var sprite_animation :AnimatedSprite2D
+var event_animation_dictionary :Dictionary = {}
 var interaction_area :Area2D
-
 var event_list :Dictionary = {}
 var event_dict :Dictionary = {}
 var event_node_name := ""
 var event_trigger := ""
-#var tab_number := "1"
-#var selected_event_table :Dictionary = {}
 var active_page := ""
-var is_in_editor = false
+var is_in_editor := false
 var local_variables_dict :Dictionary = {}
 var current_map_name : String 
 var is_queued_for_delete :bool = false
 var character_is_in_interaction_area :bool = false
+var is_interaction_in_progress :bool = false
 var autorun_complete :bool = false
+var event_info_loaded := false
+var map_node
+var player_node
+var player_interaction_area
+
+var state :int = MOVE_TOWARD_PLAYER
+var max_speed :int = 100
+var acceleration :int = 100
+var friction :int = 50
+var sprite_group :String = "Link"
+var idle = "Idle"
+var walk_left = "Walk Left"
+var walk_right ="Walk Right"
+var walk_up = "Walk Up"
+var walk_down ="Walk Down"
+
 
 func _ready() -> void:
-	freeze = true
 	set_collision_layer_value(1, false)
 	set_collision_layer_value(2, true)
 	set_collision_mask_value(2, true)
@@ -32,20 +49,15 @@ func _ready() -> void:
 	if get_tree().get_edited_scene_root() != null:
 		is_in_editor = true
 		root_node = get_tree().get_edited_scene_root().get_child(get_index())
-
+		connect("draw",_on_event_draw)
 	else:
 		await udsmain.map_loaded
 		root_node = self
 		event_dict = get_event_dict()
 		current_map_name = udsmain.current_map_name
 		var pos :Vector2 = get_global_position()
-		if !udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name].has(name):
-			udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name] = {}
-			udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
-			udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Local Variables"] = event_dict["1"]["Local Variables"]
-			udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Attached Event"] = event_name
-		else:
-			#Check if attached event has changed
+		if !name in udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name]:
+			update_event_data()
 			var attached_event_editor :String = event_name
 			var attached_event_save_file :String = udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Attached Event"]
 			if attached_event_editor != attached_event_save_file:
@@ -54,60 +66,137 @@ func _ready() -> void:
 				udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Attached Event"] = event_name
 			else:
 				var event_position = udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"]
-				var posvect :Vector2 = udsmain.convert_string_to_Vector(event_position)
+				var posvect :Vector2 = udsmain.convert_string_to_vector(str(event_position))
 				set_global_position(posvect)
-		#Get local variables
 		local_variables_dict = udsmain.convert_string_to_type(udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Local Variables"])
-
 		clear_event_children()
-
 	if event_name != "":
 		event_dict = get_event_dict()
 		active_page = get_active_event_page()
+		add_sprite_and_collision()
 		if active_page != "":
 			event_trigger = event_dict[active_page]["Event Trigger"]
 			autorun_commands()
-			add_sprite_and_collision()
 			interaction_area.monitoring = true
-		
 		else:
 			clear_event_children()
+	event_info_loaded = true
 
- 
 
-func _process(delta): #NEED TO SET THIS TO ONLY RUN AT SET INTERVALS OR ONLY WHEN THE EVENT MOVES
+func _on_event_draw():
+	if event_name != "":
+		clear_event_children()
+		event_dict = get_event_dict()
+		active_page = get_active_event_page()
+		add_sprite_and_collision()
+
+
+func emit_refresh_event_signal():
+	map_node.emit_signal("update_events")
+
+func _physics_process(delta):
+	state_machine(delta)
+	move_and_slide()
+
+func state_machine(delta):
+	match state:
+		IDLE:
+			idle_movement(delta)
+
+		MOVE_TOWARD_PLAYER:
+			move_toward_player(delta)
+
+
+
+func idle_movement(delta):
+	sprite_animation.play(idle)
+	enable_collision(idle)
+	udsmain.set_sprite_scale(sprite_animation,idle , event_animation_dictionary)
+	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+
+
+func move_toward_player(delta):
+	if player_node != null:
+		var dir = (player_node.global_position - global_position).normalized()
+		if dir.x < 0 and abs(dir.y) < abs(dir.x):
+			sprite_animation.play(walk_left)
+			enable_collision(walk_left)
+			udsmain.set_sprite_scale(sprite_animation,walk_left , event_animation_dictionary)
+
+		elif dir.x > 0 and abs(dir.y) < abs(dir.x):
+			sprite_animation.play(walk_right)
+			udsmain.set_sprite_scale(sprite_animation,walk_right , event_animation_dictionary)
+			enable_collision(walk_right)
+
+		elif dir.y < 0:
+			sprite_animation.play(walk_up)
+			udsmain.set_sprite_scale(sprite_animation,walk_up , event_animation_dictionary)
+			enable_collision(walk_up)
+
+		elif dir.y > 0:
+			sprite_animation.play(walk_down)
+			udsmain.set_sprite_scale(sprite_animation,walk_down , event_animation_dictionary)
+			enable_collision(walk_down)
+
+		velocity = velocity.move_toward(dir * max_speed, acceleration * delta)
+#		sprite_animation.flip_h = velocity.x < 0 #useful and easy but will have to set animation based on 
+												#event direction, using sprite group
+
+func enable_collision(collision_name :String):
+	if get_node(collision_name + " Collision").disabled == true:
+		disable_all_collisions()
+		get_node(collision_name + " Collision").disabled = false
+		get_node(collision_name + " Collision").visible = true
+
+func disable_all_collisions():
+	for i in get_children():
+		if i is CollisionShape2D:
+			i.disabled = true
+			i.visible = false
+
+
+func _process(delta):
 	if is_inside_tree() and get_tree().get_edited_scene_root() == null:
-		var current_map_name : String = udsmain.get_map_name(udsmain.current_map_path)
-		var pos :Vector2 = get_global_position()
-		udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
-		
 		if character_is_in_interaction_area:
 			match event_trigger:
-				"2":
+				"2": #Touch and "action_pressed" 
 					if Input.is_action_just_pressed("action_pressed"):
-						character_is_in_interaction_area = false
 						await call_commands()#Run script
-						refresh_event_data()
-		
+						emit_refresh_event_signal()
 		if event_trigger == "4": #loop continuosly while conditions are true
 			await call_commands()#Run script
-			refresh_event_data()
+			emit_refresh_event_signal()
 
-func interaction_area_entered(body): #Player touch
-	character_is_in_interaction_area = true
-	if body.get_parent().get_class() == get_class(): #event touch
-		if event_trigger == "5":
-			print(body.get_parent().name , " Touched ", event_name)
+
+func update_event_data():
+	var current_map_name : String = udsmain.current_map_name
+	var pos :Vector2 = get_global_position()
+	if !udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name].has(name):
+		udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name] = {}
+		udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
+		udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Local Variables"] = event_dict["1"]["Local Variables"]
+		udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Attached Event"] = event_name
+	udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
+
+
+func interaction_area_entered(area): #Player touch
+	if !is_interaction_in_progress:
+		if area == player_interaction_area and !character_is_in_interaction_area:
+			character_is_in_interaction_area = true
+
+		if event_trigger == "1" and character_is_in_interaction_area: #Player Touch
+			is_interaction_in_progress = true
 			await call_commands()#Run script
-			print("Begin Refresh event data")
-			refresh_event_data()
+			emit_refresh_event_signal()
+			is_interaction_in_progress = false
 
-	elif event_trigger == "1": #Player Touch
-		print(body.owner.name , " Touched ", event_name)
-		await call_commands()#Run script
-		print("Begin Refresh event data")
-		refresh_event_data()
-
+		elif area.get_parent().get_class() == get_class():
+			if event_trigger == "5": #another event touches this event
+				is_interaction_in_progress = true
+				await call_commands()#Run script
+				emit_refresh_event_signal()
+				is_interaction_in_progress = false
+				
 
 func call_commands():
 	var command_dict = udsmain.convert_string_to_type(event_dict[active_page]["Commands"])
@@ -123,16 +212,12 @@ func call_commands():
 			temp_variable_array.append(self)
 			variable_array = temp_variable_array
 			await udsmain.callv(function_name, variable_array)
-#				print("Waiting for event_function_complete Signal")
-#				await udsmain.event_function_complete
-#			print("Function: ", command_index, " complete")
 
-func interaction_area_exited(body):
-#	await get_tree().create_timer(.1).timeout
-	interaction_area.monitoring = true
-	character_is_in_interaction_area = false
-#	if is_queued_for_delete:
-#		queue_free()
+
+func interaction_area_exited(area):
+	if character_is_in_interaction_area and area == player_interaction_area:
+#		interaction_area.monitoring = true
+		character_is_in_interaction_area = false
 
 func get_event_dict():
 	var selected_dict
@@ -143,28 +228,21 @@ func get_event_dict():
 		if is_event:
 			event_list[table_name] = table_dict[table_name]["Display Name"]
 	selected_dict = DBENGINE.import_data(DBENGINE.table_save_path + event_name + DBENGINE.file_format)
-
-	if !is_in_editor:
-		pass
-
 	return selected_dict
 
 
 func get_active_event_page() -> String:
 	var active_page :String = "" #This sets the active page to 1 even if the conditions for page 1 have not been met
 	var conditions_met :bool = true
-
 	if !is_in_editor:
 		local_variables_dict = udsmain.convert_string_to_type(udsmain.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Local Variables"])
 		for page in range(event_dict.size(),0,-1):
 			var page_string :String = str(page)
 			var conditions_dict :Dictionary = DBENGINE.convert_string_to_type(event_dict[page_string]["Conditions"])
-
 			if conditions_dict != {}:
 				for condition in conditions_dict:
 					for key in conditions_dict[condition]:
 						var condition_key_value = conditions_dict[condition][key]["value"]
-
 						var current_condition_list :Array
 						match condition_key_value:
 							"Event Variable":
@@ -172,18 +250,15 @@ func get_active_event_page() -> String:
 								var event_required_variable_value :bool
 								for line in conditions_dict[condition]:
 									current_condition_list.append(conditions_dict[condition][line]["value"])
-
 								event_required_variable_value = udsmain.convert_string_to_type(current_condition_list[3])
 								for variable in local_variables_dict:
 									if local_variables_dict[variable]["Value 1"] == current_condition_list[1]:
 										event_variable_value = udsmain.convert_string_to_type(local_variables_dict[variable]["Value 2"])
 										break
-								
 								if event_required_variable_value != event_variable_value:
 									conditions_met = false
 								else:
 									conditions_met = true
-									
 							"Inventory Item":
 								#Check if selected item is in player inventory
 								var player_inventory :Dictionary = udsmain.Dynamic_Game_Dict["Inventory"]
@@ -198,12 +273,8 @@ func get_active_event_page() -> String:
 							"Global Variable":
 								var global_variable_dict :Dictionary = udsmain.Dynamic_Game_Dict["Global Variables"]
 								#Check if global variable conditions are met
-								#{"1":{"If_DropDown":{"table_name":"", "value":"Global Variable"}, "If_Key_Name_DropDown":{"table_name":"Global Variables", "value":"Is Segment 1 Complete"}, "Is_Text":{"table_name":"", "value":"Equal To"}, "Is_Value_Bool":{"table_name":"", "value":"false"}, "if_Value_Name_DropDown":{"table_name":"Is Segment 1 Complete", "value":"True or False"}}}
 								var If_Key_Name_DropDown = conditions_dict[condition]["If_Key_Name_DropDown"]["value"]
 								var if_Value_Name_DropDown = conditions_dict[condition]["if_Value_Name_DropDown"]["value"]
-								
-								print(If_Key_Name_DropDown)
-#								var global_variable_key
 								var global_variable_conditions_met :bool = false
 								var id = get_global_variable_index_name_from_display_name(If_Key_Name_DropDown)
 								
@@ -275,19 +346,16 @@ func get_active_event_page() -> String:
 													global_variable_conditions_met = true
 								
 								conditions_met = global_variable_conditions_met
-								
-									
 						break
-						
 			else:
 				conditions_met = true
-
 			if conditions_met == true:
 				active_page = str(page)
 				break
 	else:
 		active_page = "1"
 	return active_page
+
 
 func get_global_variable_index_name_from_display_name(If_Key_Name_DropDown):
 	var global_variable_dict :Dictionary = udsmain.Dynamic_Game_Dict["Global Variables"]
@@ -299,7 +367,6 @@ func get_global_variable_index_name_from_display_name(If_Key_Name_DropDown):
 
 
 func refresh_event_data():
-	#Reload event
 	if is_queued_for_delete:
 		queue_free()
 	else:
@@ -324,34 +391,48 @@ func autorun_commands():
 			"3": #Immediately
 				await call_commands()
 				autorun_complete = true
-				refresh_event_data()
+				emit_refresh_event_signal()
 
 func add_sprite_and_collision():
-	var sprite_animation :AnimatedSprite2D = DBENGINE.create_sprite_animation()
-	var sprite_texture_data :Array = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
-	var event_animation_array :Array = DBENGINE.add_animation_to_animatedSprite("Default Animation", sprite_texture_data, false, sprite_animation)
-	root_node.add_child(sprite_animation)
-	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + sprite_texture_data[0])
-	var sprite_count = DBENGINE.convert_string_to_Vector(sprite_texture_data[1])
-	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_count.y ,sprite_texture.get_size().y / sprite_count.x)
-	var sprite_cell_ratio : float = sprite_cell_size.y / sprite_cell_size.x
-	var modified_sprite_size_y = sprite_cell_size.y
-	var y_scale_value = modified_sprite_size_y / sprite_cell_size.y
-	var x_scale_value = y_scale_value * sprite_cell_ratio
 
-	sprite_animation.set_scale(Vector2(x_scale_value, y_scale_value))
-	sprite_animation.play("Default Animation")
+	event_animation_dictionary = DBENGINE.add_sprite_group_to_animatedSprite(self, sprite_group)
+	sprite_animation = event_animation_dictionary["animated_sprite"]
+	add_child(sprite_animation)
 	
+	
+	
+#	sprite_animation  = DBENGINE.create_sprite_animation()
+	var active_page_data :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page])
+	var sprite_texture_data :Dictionary = DBENGINE.convert_string_to_type(active_page_data["Default Animation"])
+
+
+	DBENGINE.set_sprite_scale(sprite_animation, "Idle", event_animation_dictionary)
+#	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + sprite_texture_data["atlas_dict"]["texture_name"])
+#	var sprite_frame_size = sprite_texture_data["atlas_dict"]["frames"]
+#	var sprite_final_size = sprite_texture_data["advanced_dict"]["sprite_size"]
+#	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
+#	var modified_sprite_size_y = sprite_final_size.x
+#	var modified_sprite_size_x = sprite_final_size.y
+#	var y_scale_value = modified_sprite_size_y / sprite_cell_size.y
+#	var x_scale_value = modified_sprite_size_x / sprite_cell_size.x
+#	sprite_animation.set_scale(Vector2(x_scale_value, y_scale_value))
+#	DBENGINE.add_animation_to_animatedSprite("Default Animation", sprite_texture_data, false,sprite_animation)
+	
+	sprite_animation.play("Idle")
+
+
+
 	collision_node = DBENGINE.get_collision_shape(event_name, sprite_texture_data)
 	call_deferred("add_child",collision_node)
 	collision_node.disabled = false
-
-	
 	interaction_area  = DBENGINE.create_event_interaction_area(event_name, sprite_texture_data)
 	call_deferred("add_child",interaction_area)
 	interaction_area.monitoring = false
 	interaction_area.area_entered.connect(interaction_area_entered)
 	interaction_area.area_exited.connect(interaction_area_exited)
+	interaction_area.set_collision_layer_value(1, false)
+	interaction_area.set_collision_layer_value(3, true)
+	interaction_area.set_collision_mask_value(3, true)
 
 
 func clear_event_children():

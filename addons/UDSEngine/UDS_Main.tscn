@@ -81,22 +81,26 @@ offset_bottom = 54.0
 [node name="Welcome_Label" type="Label" parent="HBox_1/VBox_1"]
 offset_top = 58.0
 offset_right = 900.0
-offset_bottom = 596.0
+offset_bottom = 519.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 6.0
-text = "Welcome to the Awesome Unicorn Game Engine"
+text = "Welcome to the Awesome Unicorn 3 Database"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBox_1/VBox_1"]
-offset_top = 600.0
+offset_top = 523.0
 offset_right = 900.0
 offset_bottom = 600.0
 size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Control" parent="HBox_1/VBox_1/VBoxContainer" instance=ExtResource("3_ukiag")]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 900.0
+offset_bottom = 77.0
 size_flags_vertical = 3
 
 [node name="Tabs" type="Control" parent="."]
@@ -117,5 +121,15 @@ visible = false
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event_Manager" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event_Manager" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Table Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Table Data" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Test Table 2" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Test Table 2" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" method="_on_Navigation_Button_button_up"]
 
 [editable path="HBox_1/VBox_1/VBoxContainer/Control"]

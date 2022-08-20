@@ -319,6 +319,9 @@ item_7/id = 5
 item_8/text = "Redo"
 item_8/id = 6
 
+[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label/HBox1" index="0"]
+text = "Field Data Type"
+
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
 item_count = 15
 selected = 0
@@ -608,7 +611,9 @@ offset_bottom = 22.0
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label"]
 [editable path="Popups/popup_Event_Selection"]
 [editable path="Popups/popup_Event_Selection/PanelContainer/VBox1/Input_Label_Template"]
 [editable path="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown"]
