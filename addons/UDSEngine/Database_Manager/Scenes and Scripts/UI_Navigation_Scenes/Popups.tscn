@@ -1,0 +1,246 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4016gus0s1sj"]
+
+[ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Popup_Delete_Confirm.tscn" id="1_yh144"]
+[ext_resource type="PackedScene" uid="uid://blxyner5c5f73" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newValue.tscn" id="2_rvmmi"]
+[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="3_va0hc"]
+[ext_resource type="PackedScene" uid="uid://bormmevkvb1kv" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.tscn" id="4_wis4k"]
+
+[node name="Popups" type="ColorRect"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0862745, 0.0862745, 0.0862745, 0.866667)
+
+[node name="FileSelect" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ListInput" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Popup_Delete_Confirm" parent="." instance=ExtResource("1_yh144")]
+visible = false
+
+[node name="popup_newValue" parent="." instance=ExtResource("2_rvmmi")]
+visible = false
+
+[node name="HBox1" parent="popup_newValue/PanelContainer/VBox1" index="0"]
+offset_bottom = 104.0
+
+[node name="VBox1" parent="popup_newValue/PanelContainer/VBox1/HBox1" index="0"]
+offset_bottom = 104.0
+
+[node name="Input_Text" parent="popup_newValue/PanelContainer/VBox1/HBox1/VBox1" index="0"]
+offset_bottom = 104.0
+
+[node name="Input" parent="popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="1"]
+offset_bottom = 104.0
+
+[node name="input_templateBuffer" parent="popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="2"]
+offset_top = 89.0
+offset_bottom = 89.0
+
+[node name="VBox2" parent="popup_newValue/PanelContainer/VBox1/HBox1" index="1"]
+offset_bottom = 104.0
+
+[node name="ItemType_Selection" parent="popup_newValue/PanelContainer/VBox1/HBox1/VBox2" index="0"]
+offset_bottom = 104.0
+
+[node name="Label_Button" parent="popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label/HBox1" index="0"]
+text = "Field Data Type"
+
+[node name="Input" parent="popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
+offset_bottom = 104.0
+item_count = 14
+selected = 0
+popup/item_0/text = "Text"
+popup/item_0/id = 0
+popup/item_1/text = "List"
+popup/item_1/id = 1
+popup/item_2/text = "Input Control"
+popup/item_2/id = 2
+popup/item_3/text = "Number Range"
+popup/item_3/id = 3
+popup/item_4/text = "Sound Effect"
+popup/item_4/id = 4
+popup/item_5/text = "Conditions"
+popup/item_5/id = 5
+popup/item_6/text = "Whole Number"
+popup/item_6/id = 6
+popup/item_7/text = "Decimal Number"
+popup/item_7/id = 7
+popup/item_8/text = "True or False"
+popup/item_8/id = 8
+popup/item_9/text = "Dropdown List"
+popup/item_9/id = 9
+popup/item_10/text = "Icon Display"
+popup/item_10/id = 10
+popup/item_11/text = "Scene Path"
+popup/item_11/id = 11
+popup/item_12/text = "Sprite"
+popup/item_12/id = 12
+popup/item_13/text = "Vector 2 or 3"
+popup/item_13/id = 13
+
+[node name="32191" type="PopupMenu" parent="popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Input" index="1"]
+item_count = 14
+item_0/text = "Text"
+item_0/checkable = 2
+item_0/checked = true
+item_0/id = 0
+item_1/text = "List"
+item_1/checkable = 2
+item_1/id = 1
+item_2/text = "Input Control"
+item_2/checkable = 2
+item_2/id = 2
+item_3/text = "Number Range"
+item_3/checkable = 2
+item_3/id = 3
+item_4/text = "Sound Effect"
+item_4/checkable = 2
+item_4/id = 4
+item_5/text = "Conditions"
+item_5/checkable = 2
+item_5/id = 5
+item_6/text = "Whole Number"
+item_6/checkable = 2
+item_6/id = 6
+item_7/text = "Decimal Number"
+item_7/checkable = 2
+item_7/id = 7
+item_8/text = "True or False"
+item_8/checkable = 2
+item_8/id = 8
+item_9/text = "Dropdown List"
+item_9/checkable = 2
+item_9/id = 9
+item_10/text = "Icon Display"
+item_10/checkable = 2
+item_10/id = 10
+item_11/text = "Scene Path"
+item_11/checkable = 2
+item_11/id = 11
+item_12/text = "Sprite"
+item_12/checkable = 2
+item_12/id = 12
+item_13/text = "Vector 2 or 3"
+item_13/checkable = 2
+item_13/id = 13
+
+[node name="Input" parent="popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
+item_count = 13
+selected = 0
+popup/item_0/text = "Character Classes"
+popup/item_0/id = 0
+popup/item_1/text = "Characters"
+popup/item_1/id = 1
+popup/item_2/text = "Control Categories"
+popup/item_2/id = 2
+popup/item_3/text = "DataTypes"
+popup/item_3/id = 3
+popup/item_4/text = "Event Triggers"
+popup/item_4/id = 4
+popup/item_5/text = "FieldPref"
+popup/item_5/id = 5
+popup/item_6/text = "Global Variables"
+popup/item_6/id = 6
+popup/item_7/text = "Inequalities"
+popup/item_7/id = 7
+popup/item_8/text = "ItemType"
+popup/item_8/id = 8
+popup/item_9/text = "Items"
+popup/item_9/id = 9
+popup/item_10/text = "Maps"
+popup/item_10/id = 10
+popup/item_11/text = "Sprite Groups"
+popup/item_11/id = 11
+popup/item_12/text = "Table Data"
+popup/item_12/id = 12
+
+[node name="32197" type="PopupMenu" parent="popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="1"]
+item_count = 13
+item_0/text = "Character Classes"
+item_0/checkable = 2
+item_0/checked = true
+item_0/id = 0
+item_1/text = "Characters"
+item_1/checkable = 2
+item_1/id = 1
+item_2/text = "Control Categories"
+item_2/checkable = 2
+item_2/id = 2
+item_3/text = "DataTypes"
+item_3/checkable = 2
+item_3/id = 3
+item_4/text = "Event Triggers"
+item_4/checkable = 2
+item_4/id = 4
+item_5/text = "FieldPref"
+item_5/checkable = 2
+item_5/id = 5
+item_6/text = "Global Variables"
+item_6/checkable = 2
+item_6/id = 6
+item_7/text = "Inequalities"
+item_7/checkable = 2
+item_7/id = 7
+item_8/text = "ItemType"
+item_8/checkable = 2
+item_8/id = 8
+item_9/text = "Items"
+item_9/checkable = 2
+item_9/id = 9
+item_10/text = "Maps"
+item_10/checkable = 2
+item_10/id = 10
+item_11/text = "Sprite Groups"
+item_11/checkable = 2
+item_11/id = 11
+item_12/text = "Table Data"
+item_12/checkable = 2
+item_12/id = 12
+
+[node name="HBox2" parent="popup_newValue/PanelContainer/VBox1" index="1"]
+offset_top = 108.0
+
+[node name="Accept" parent="popup_newValue/PanelContainer/VBox1/HBox2" index="0"]
+offset_bottom = 74.0
+
+[node name="Cancel" parent="popup_newValue/PanelContainer/VBox1/HBox2" index="1"]
+offset_bottom = 74.0
+
+[node name="popup_deleteKey" parent="." instance=ExtResource("3_va0hc")]
+visible = false
+
+[node name="Label" parent="popup_deleteKey/PanelContainer/VBoxContainer" index="0"]
+offset_bottom = 31.0
+
+[node name="Itemlist" parent="popup_deleteKey/PanelContainer/VBoxContainer" index="1"]
+offset_top = 35.0
+offset_bottom = 169.0
+
+[node name="32198" type="VScrollBar" parent="popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="1"]
+
+[node name="HBoxContainer" parent="popup_deleteKey/PanelContainer/VBoxContainer" index="2"]
+offset_top = 173.0
+
+[node name="Accept" parent="popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
+offset_bottom = 28.0
+
+[node name="Cancel" parent="popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
+offset_bottom = 28.0
+
+[node name="popup_newTable" parent="." instance=ExtResource("4_wis4k")]
+visible = false
+
+[editable path="Popup_Delete_Confirm"]
+[editable path="popup_newValue"]
+[editable path="popup_newValue/PanelContainer/VBox1/HBox1"]
+[editable path="popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
+[editable path="popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
+[editable path="popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label"]
+[editable path="popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
+[editable path="popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label"]
+[editable path="popup_deleteKey"]

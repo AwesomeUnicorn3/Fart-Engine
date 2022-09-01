@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bgrgn0dq0v85i"]
+
+[ext_resource type="Shader" path="res://addons/UDSEngine/Character_Manager/ShadowTesting.gdshader" id="1_b8ru1"]
+
+[resource]
+shader = ExtResource("1_b8ru1")

@@ -1,19 +1,14 @@
 @tool
-extends Control
+extends CommandForm
 
 @onready var global_var_node = $Control/VBoxContainer/KeyDropdown
 @onready var type_node = $Control/VBoxContainer/TypeDropdown
 @onready var input_container = $Control/VBoxContainer/InputContainer
 @onready var input_container_dict :Dictionary
-#@onready var bool_input = $Control/VBoxContainer/CheckboxTemplate
-#@onready var text_input = $Control/VBoxContainer/Input_Text
-#@onready var wholeNumber_input = $Control/VBoxContainer/NumberCounterWhole
-#@onready var floatNumber_input = $Control/VBoxContainer/NumberCounterFloat
+
 
 var value_node
-var commandListForm :Control
 var global_variables_dictionary :Dictionary
-
 
 var function_name :String = "change_global_variable" #must be name of valid function
 var which_var :String
@@ -34,19 +29,33 @@ func _ready():
 		input_container_dict[child.name] = child
 
 
+func set_input_values(old_function_dict :Dictionary):
+	edit_state = true
+	global_var_node.inputNode.text = old_function_dict[function_name][0]
+	global_var_node.selectedItemName = old_function_dict[function_name][0]
+	
+	type_node.inputNode.text = old_function_dict[function_name][1]
+	type_node.selectedItemName = old_function_dict[function_name][1]
+	selection_changed()
+	input_container_dict[selected_type].inputNode.text = old_function_dict[function_name][2]
 
-func set_input_values():
-	pass
 
-
-func _on_accept_button_up():
-	#Get input values as dictionary
+func get_input_values():
 	which_var = global_var_node.inputNode.text
 	which_type = type_node.inputNode.text
 	to_what = input_container_dict[selected_type].inputNode.text
 	event_name = commandListForm.CommandInputForm.source_node.parent_node.event_name
-	var function_dict :Dictionary = {function_name : [which_var, which_type, to_what, event_name]}
-	commandListForm.CommandInputForm.function_dict = function_dict
+	var return_function_dict = {function_name : [which_var, which_type, to_what, event_name]}
+	return return_function_dict
+
+func _on_accept_button_up():
+	#Get input values as dictionary
+#	which_var = global_var_node.inputNode.text
+#	which_type = type_node.inputNode.text
+#	to_what = input_container_dict[selected_type].inputNode.text
+#	event_name = commandListForm.CommandInputForm.source_node.parent_node.event_name
+#	var function_dict :Dictionary = {function_name : [which_var, which_type, to_what, event_name]}
+	commandListForm.CommandInputForm.function_dict = get_input_values()
 	# {function Name : [which var, to_what]}
 	#Send it all the way back to the command input form node and add it to main dictionary
 	get_parent()._on_close_button_up()
@@ -56,11 +65,9 @@ func selection_changed(): #Called when any itemtype selection input is changed w
 	selected_global_variable = global_var_node.selectedItemName
 	selected_type = type_node.selectedItemName
 
-		
 	if previous_global_variable != selected_global_variable:
 		previous_global_variable = selected_global_variable
 		#populate type list in type_node
-#		print(selected_global_variable)
 		id = commandListForm.DBENGINE.get_id_from_display_name(global_variables_dictionary, selected_global_variable)
 		var type_input_dict :Dictionary = global_variables_dictionary[id]
 		type_node.selection_table = type_input_dict
@@ -77,17 +84,11 @@ func selection_changed(): #Called when any itemtype selection input is changed w
 
 func type_selection_changed():
 	hide_input_nodes()
-	#adjust input node based on value type above
 	input_container_dict[selected_type].visible = true
 	input_container_dict[selected_type].inputNode.set_text(str(global_variables_dictionary[id][selected_type]))
-
 	previous_selected_type = selected_type
-#	print("Type Changed")
+
 
 func hide_input_nodes():
 	for child in input_container.get_children():
 		child.visible = false
-
-
-func _on_cancel_button_up():
-	queue_free()

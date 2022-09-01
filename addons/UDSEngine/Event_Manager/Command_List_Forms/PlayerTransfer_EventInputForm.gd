@@ -1,10 +1,9 @@
 @tool
-extends Control
+extends CommandForm
 
 @onready var map_node = $Control/VBoxContainer/DropDown_Template
 @onready var vector_node = $Control/VBoxContainer/Input_Vector
 @onready var DBENGINE : DatabaseEngine = DatabaseEngine.new()
-var commandListForm :Control
 
 var function_name :String = "transfer_player" #must be name of valid function
 var which_map :String
@@ -13,31 +12,33 @@ var event_name :String = ""
 var transfer_node
 var scene_name 
 
+
 func _ready():
 	map_node.populate_list()
 
 
-func set_input_values():
-	pass
+func set_input_values(old_function_dict :Dictionary):
+	edit_state = true
+	map_node.inputNode.text = old_function_dict[function_name][0]
+	vector_node.inputNode.text = old_function_dict[function_name][1]
+	vector_node.set_user_input_value()
+
+
+func get_input_values():
+	which_map = map_node.inputNode.text
+	what_coordinates = vector_node.inputNode.text
+	var return_function_dict = {function_name : [which_map,what_coordinates , event_name]}
+	return return_function_dict
 
 
 func _on_accept_button_up():
-	#Get input values as dictionary
-	which_map = map_node.inputNode.text
-	what_coordinates = vector_node.inputNode.text
-	var function_dict :Dictionary = {function_name : [which_map,what_coordinates , event_name]}
-	commandListForm.CommandInputForm.function_dict = function_dict
+	commandListForm.CommandInputForm.function_dict = get_input_values()
 	delete_transfer_node()
-
 	if DBENGINE.get_main_node(self).name == "UDSENGINE":
 		#SHOULD CLOSE SCENE IF THE TRANSFER TO MAP IS NOT THE MAP THAT 
 		#CONTAINS THE EVENT CURRENTLY BEING EDITTED
 		DBENGINE.close_scene_in_editor(which_map)
 	get_parent()._on_close_button_up()
-
-
-func _on_cancel_button_up():
-	queue_free()
 
 
 func _on_open_map_button_button_up():

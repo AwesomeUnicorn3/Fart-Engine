@@ -1,0 +1,36 @@
+[gd_scene load_steps=8 format=3 uid="uid://cdg0wm5035tlt"]
+
+[ext_resource type="Material" uid="uid://bgrgn0dq0v85i" path="res://addons/UDSEngine/Character_Manager/ShadowMaterial.tres" id="1_7byrd"]
+[ext_resource type="Texture2D" uid="uid://dj2rmkqrk0uf4" path="res://Data/png/Blobby_Idle.png" id="2_52upu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bcve"]
+atlas = ExtResource("2_52upu")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8po60"]
+atlas = ExtResource("2_52upu")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ic6i0"]
+atlas = ExtResource("2_52upu")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqag4"]
+atlas = ExtResource("2_52upu")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_emglb"]
+animations = [{
+"frames": [SubResource("AtlasTexture_6bcve"), SubResource("AtlasTexture_8po60"), SubResource("AtlasTexture_ic6i0"), SubResource("AtlasTexture_qqag4")],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="Shadow" type="AnimatedSprite2D"]
+material = ExtResource("1_7byrd")
+skew = 0.872665
+frames = SubResource("SpriteFrames_emglb")
+frame = 3
+playing = true
+offset = Vector2(15, -30)

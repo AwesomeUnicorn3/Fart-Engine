@@ -2,20 +2,17 @@
 
 [ext_resource type="Script" path="res://addons/UDSEngine/Example Game/Player_Template.gd" id="2"]
 
-[sub_resource type="SpriteFrames" id="19"]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_u8nt8"]
-radius = 51.2445
+radius = 51.1566
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cyy6t"]
+radius = 5.38516
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 3
-motion_mode = 1
 script = ExtResource("2")
 
 [node name="Body" type="Node2D" parent="."]
-
-[node name="FullBody" type="AnimatedSprite2D" parent="Body"]
-frames = SubResource("19")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -26,3 +23,10 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteractionArea"]
 shape = SubResource("CircleShape2D_u8nt8")
+
+[node name="EventAttackPlayerArea" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EventAttackPlayerArea"]
+shape = SubResource("CircleShape2D_cyy6t")

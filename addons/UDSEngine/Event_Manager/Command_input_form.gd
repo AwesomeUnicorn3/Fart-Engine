@@ -2,6 +2,8 @@
 extends DatabaseEngine
 
 signal save_complete
+signal rearrange_commands
+signal edit_command
 
 @onready var CommandLineItem = preload("res://addons/UDSEngine/Event_Manager/Command_line_item.tscn")
 @onready var inputContainer = $VBox1/Scroll1/VBox1
@@ -13,6 +15,63 @@ var parent_node
 var source_node
 
 var function_dict :Dictionary = {}
+
+
+func startup(local_variables :Dictionary, main_dictionary:Dictionary, label_text:String, source_scene):
+	local_variable_dictionary = local_variables
+	mainDictionary = main_dictionary
+	source_node = source_scene
+	$VBox1/HBox1/Label.set_text(label_text)
+	rearrange_commands.connect(change_command_order)
+	edit_command.connect(edit_selected_command)
+	create_input_fields()
+
+
+func edit_selected_command(key:String):
+	var selected_command_dict :Dictionary = mainDictionary[key]
+	var function_name = selected_command_dict.keys()[0]
+	open_selected_form_for_editing(function_name, selected_command_dict,key )
+	#open LocalVariables_EventInputForm directly from here
+	#add it as a child of "List_Input"
+	#assign the local variable dict to "selection_node"
+	#populate list on selection_node
+	#call set_input_values() 
+	print(function_name)
+
+
+func open_selected_form_for_editing(function_name :String ,old_command_dict:Dictionary, key_value :String) -> void:
+	#show Command List Form
+	var CommandListForm = load("res://addons/UDSEngine/Event_Manager/Command_List_Forms/Command_List_Form.tscn").instantiate()
+	#send key value to command list form so it can append the main dictionary with the new command dict
+
+	await add_child(CommandListForm)
+	CommandListForm.CommandInputForm = self
+	CommandListForm.local_variable_dictionary = local_variable_dictionary
+	CommandListForm._open_selected_form(function_name)
+	CommandListForm.emit_signal("set_input", old_command_dict)
+
+	#wait for form closed
+	await CommandListForm.closed
+
+	if function_dict != {}:
+		mainDictionary[str(key_value)] = function_dict
+	refresh_form()
+	_on_SaveChanges_button_up()
+
+func change_command_order(current_index:String, move_amount :int):
+	var new_index :String = str(current_index.to_int() + move_amount)
+	var temp_dict = mainDictionary.duplicate(true)
+	var key_data = mainDictionary[current_index]
+	var mainDictionary_size :int = mainDictionary.size()
+
+	temp_dict.erase(current_index)
+
+	if new_index.to_int() > 0 and new_index.to_int() <= mainDictionary_size: 
+		var current_key_value = mainDictionary[current_index]
+		var new_key_value = mainDictionary[new_index]
+		mainDictionary[current_index] = new_key_value
+		mainDictionary[new_index] = current_key_value
+		refresh_form()
 
 
 func _on_Close_button_up() -> void:
@@ -37,7 +96,7 @@ func updateMainDict():
 	mainDictionary = {}
 	for node in inputContainer.get_children():
 		mainDictionary[node.Key_field.inputNode.get_text()] = node.line_item_dictionary
-	source_node.inputNode.set_text(var2str(mainDictionary))
+	source_node.inputNode.set_text(var_to_str(mainDictionary))
 	source_node.main_dictionary = mainDictionary
 
 
@@ -59,13 +118,15 @@ func _delete_selected_list_item(itemKey := ""):
 
 
 func create_input_fields():
-	for command_line in mainDictionary:
+	for command_line in mainDictionary.size():
+		command_line += 1
+		var command_line_string = str(command_line)
 		var command_line_node = CommandLineItem.instantiate()
 		inputContainer.add_child(command_line_node)
 		command_line_node.CommandInputForm = self
-		command_line_node.Key_field.inputNode.set_text(str(command_line))
+		command_line_node.Key_field.inputNode.set_text(str(command_line_string))
 		command_line_node.parent_node = self
-		command_line_node.line_item_dictionary = mainDictionary[command_line]
+		command_line_node.line_item_dictionary = mainDictionary[command_line_string]
 		command_line_node.get_node("ScriptInput/Input").set_text(str(command_line_node.line_item_dictionary))
 
 
@@ -79,8 +140,10 @@ func _on_AddItem_button_up() -> void:
 	CommandListForm.local_variable_dictionary = local_variable_dictionary
 	#wait for form closed
 	await CommandListForm.closed
+
 	if function_dict != {}:
-		mainDictionary[key_value] = function_dict
+		mainDictionary[str(key_value)] = function_dict
+	print(mainDictionary)
 	refresh_form()
 	_on_SaveChanges_button_up()
 

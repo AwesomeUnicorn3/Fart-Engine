@@ -5,7 +5,7 @@ signal save_complete
 signal DbManager_loaded
 signal map_loaded
 #signal refresh_UI
-
+@onready var EVENTS :EventEngine = EventEngine.new()
 
 var Static_Game_Dict = {}
 var Dynamic_Game_Dict := {}
@@ -69,10 +69,21 @@ func _ready():
 	update_key_bindings()
 	print("Singleton Loaded and updated")
 
-
+#func _input(event):
+#	if Input.is_action_just_pressed("action_pressed"):
+#
+#			udsmain.EVENTS.DIALOG.emit_signal("next_message_pressed")
+#		elif can_interact and !action_button_pressed:
+#			action_button_pressed = true
 
 func get_root_node():
 	return root
+
+
+func get_ui():
+	var ui = get_root_node().get_node("UI/GUI")
+	return ui
+
 
 func delete_save_file(file_name : String):
 	#Can include the .sav ext but is not required, it can be just save name "1"
@@ -311,16 +322,21 @@ func get_lead_character(): #Character the player is actively controlling
 #######BEGIN CONTROL FUNCTIONS###############################33
 
 func clear_key_bindings():
-	for h in InputMap.get_actions():
+	for action_name in InputMap.get_actions():
 	#	#for each action, loop through key binds
-		for j in InputMap.action_get_events(h):
+		for action_event in InputMap.action_get_events(action_name):
 #			#remove each key bind
-			if j.get_class() == "InputEventKey":
-				InputMap.action_erase_event(h, j)
+			if action_event.get_class() == "InputEventKey":
+				InputMap.action_erase_event(action_name, action_event)
+
 
 
 func update_key_bindings():
 	var options_stats = Static_Game_Dict["Controls"]
+	var action_array :Array
+	for action in InputMap.get_actions():
+		action_array.append(action)
+
 #	var lead_char_name
 	#set all of the action key bindings from the options#
 	# first remove all previous keys bound to each action
@@ -330,14 +346,14 @@ func update_key_bindings():
 #	lead_char_name = get_player_character()
 
 	#loop through all of the actions in the action list again
-	for h in options_stats:
-		if !InputMap.get_actions().has(h):
-			InputMap.add_action(h)
+	for control_name in options_stats:
+		if !action_array.has(control_name):
+			InputMap.add_action(control_name)
 	#for each action, if keyscancode from options table == null
 	#add each key from the options table
 		
-		if options_stats.has(h):
-			var cat :String = options_stats[h]["Category"]
+		if options_stats.has(control_name):
+			var cat :String = options_stats[control_name]["Category"]
 			match cat: 
 #				"PlaceHolder":
 #					var input_action = options_stats[h]["Input_Action"]
@@ -348,19 +364,19 @@ func update_key_bindings():
 #					InputMap.action_add_event(h, key1object)
 				
 				"Character":
-					var key1 : int = int(options_stats[h]["Key1"])
+					var key1 : int = int(options_stats[control_name]["Key1"])
 					if key1 != 0:
 #						var key2_text : String = str(options_stats[h]["Key2"])
 						var key1object = InputEventKey.new()
 						key1object.set_keycode(key1)
-						InputMap.action_add_event(h, key1object)
+						InputMap.action_add_event(control_name, key1object)
 
 
-						var key2 : int = int(options_stats[h]["Key2"])
+						var key2 : int = int(options_stats[control_name]["Key2"])
 						if key2 != 0:
 							var key2object = InputEventKey.new()
 							key2object.set_keycode(key2)
-							InputMap.action_add_event(h, key2object)
+							InputMap.action_add_event(control_name, key2object)
 
 
 
@@ -401,76 +417,77 @@ func is_item_in_inventory(item_name : String):
 
 
 
-func change_local_variable(which_var:String, to_what:bool, event_name :String, event_node_name :String, event_node):
-	var local_variable_dict  = convert_string_to_type(Dynamic_Game_Dict["Event Save Data"][current_map_name][event_node_name]["Local Variables"])
-	for Variable in local_variable_dict:
-		if local_variable_dict[Variable]["Value 1"] == which_var:
-			local_variable_dict[Variable]["Value 2"] = to_what
-			Dynamic_Game_Dict["Event Save Data"][current_map_name][event_node_name]["Local Variables"] = local_variable_dict
-			break
-
-
-func change_global_variable(which_var:String, what_type: String,  to_what, event_name :String, event_node_name :String, event_node):
-	var global_variable_dict  = convert_string_to_type(Dynamic_Game_Dict["Global Variables"])
-	for id in global_variable_dict:
-		if global_variable_dict[id]["Display Name"] == which_var:
-			Dynamic_Game_Dict["Global Variables"][id][what_type] = to_what
-			break
-
-
-func remove_event(event_name :String, event_node_name:String, event_node):
-	event_node.is_queued_for_delete = true
-
-
-func print_to_console(input_text :String ,event_name :String, event_node_name:String, event_node):
-	print(input_text)
-
-
-func wait(how_long: float, event_name :String, event_node_name:String, event_node):
-	await get_tree().create_timer(how_long).timeout
-
-
-func transfer_player(which_map :String, what_coordinates, event_name :String, event_node_name:String, event_node):
-	call_deferred("remove_player_from_map_node" ,current_map_node)
-	var map_path :String = get_mappath_from_displayname(which_map)
-	if current_map_name != which_map:
-		call_deferred("load_and_set_map",map_path)
-	await get_tree().create_timer(.25).timeout
-	player_node = await get_player_node()
-	player_node.set_player_position(convert_string_to_vector(what_coordinates))
-	remove_unused_maps()
-
-
-func remove_unused_maps():
-	var maps_node = root.get_node("map")
-	for child in maps_node.get_children():
-		if child != current_map_node:
-			for event in child.event_array:
-				event.is_queued_for_delete = true
-			child.queue_free()
-
-
-func modify_player_inventory(what :String, how_many , increase_value :String, event_name :String, event_node_name:String, event_node ):
-	var dict_static_items = udsmain.Static_Game_Dict["Items"]
-	var increase :bool = false
-	var modify_amount :int = int(abs(how_many))
-
-	if increase_value == "+":
-		increase = true
-		
-	if !increase:
-		modify_amount = int(-abs(modify_amount))
-
-	if dict_static_items.has(what):
-		if!is_item_in_inventory(what):
-			Dynamic_Game_Dict["Inventory"][what] = {"ItemCount" : 0}
-		var inv_count = int(Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
-		Dynamic_Game_Dict["Inventory"][what]["ItemCount"] =  inv_count + how_many
-	else:
-		print(what, " needs to be added to Item Table")
-	
-	print(Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
-	return Dynamic_Game_Dict["Inventory"][what]["ItemCount"]
+#func change_local_variable(which_var:String, to_what:bool, event_name :String, event_node_name :String, event_node):
+#	var local_variable_dict  = convert_string_to_type(Dynamic_Game_Dict["Event Save Data"][current_map_name][event_node_name]["Local Variables"])
+#	for Variable in local_variable_dict:
+#		if local_variable_dict[Variable]["Value 1"] == which_var:
+#			local_variable_dict[Variable]["Value 2"] = to_what
+#			Dynamic_Game_Dict["Event Save Data"][current_map_name][event_node_name]["Local Variables"] = local_variable_dict
+#			break
+#
+#
+#func change_global_variable(which_var:String, what_type: String,  to_what, event_name :String, event_node_name :String, event_node):
+#	var global_variable_dict  = convert_string_to_type(Dynamic_Game_Dict["Global Variables"])
+#	for id in global_variable_dict:
+#		if global_variable_dict[id]["Display Name"] == which_var:
+#			Dynamic_Game_Dict["Global Variables"][id][what_type] = to_what
+#			break
+#
+#
+#func remove_event(event_name :String, event_node_name:String, event_node):
+#	event_node.update_event_data()
+#	event_node.is_queued_for_delete = true
+#
+#
+#func print_to_console(input_text :String ,event_name :String, event_node_name:String, event_node):
+#	print(input_text)
+#
+#
+#func wait(how_long: float, event_name :String, event_node_name:String, event_node):
+#	await get_tree().create_timer(how_long).timeout
+#
+#
+#func transfer_player(which_map :String, what_coordinates, event_name :String, event_node_name:String, event_node):
+#	call_deferred("remove_player_from_map_node" ,current_map_node)
+#	var map_path :String = get_mappath_from_displayname(which_map)
+#	if current_map_name != which_map:
+#		call_deferred("load_and_set_map",map_path)
+#	await get_tree().create_timer(.25).timeout
+#	player_node = await get_player_node()
+#	player_node.set_player_position(convert_string_to_vector(what_coordinates))
+#	remove_unused_maps()
+#
+#
+#func remove_unused_maps():
+#	var maps_node = root.get_node("map")
+#	for child in maps_node.get_children():
+#		if child != current_map_node:
+#			for event in child.event_array:
+#				event.is_queued_for_delete = true
+#			child.queue_free()
+#
+#
+#func modify_player_inventory(what :String, how_many , increase_value :String, event_name :String, event_node_name:String, event_node ):
+#	var dict_static_items = udsmain.Static_Game_Dict["Items"]
+#	var increase :bool = false
+#	var modify_amount :int = int(abs(how_many))
+#
+#	if increase_value == "+":
+#		increase = true
+#
+#	if !increase:
+#		modify_amount = int(-abs(modify_amount))
+#
+#	if dict_static_items.has(what):
+#		if!is_item_in_inventory(what):
+#			Dynamic_Game_Dict["Inventory"][what] = {"ItemCount" : 0}
+#		var inv_count = int(Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
+#		Dynamic_Game_Dict["Inventory"][what]["ItemCount"] =  inv_count + how_many
+#	else:
+#		print(what, " needs to be added to Item Table")
+#
+#	print(Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
+#	return Dynamic_Game_Dict["Inventory"][what]["ItemCount"]
 
 
 

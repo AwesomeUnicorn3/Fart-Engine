@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://doxx454tohams"]
+
+[ext_resource type="Shader" path="res://addons/UDSEngine/Character_Manager/Shadow.gdshader" id="1_1hko3"]
+
+[resource]
+shader = ExtResource("1_1hko3")
+modulate = Vector4(0, 0, 0, 1)
+offset = Vector2(0, 0)

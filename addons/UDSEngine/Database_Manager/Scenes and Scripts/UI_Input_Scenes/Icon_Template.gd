@@ -19,6 +19,12 @@ func _on_TextureButton_button_up():
 	var FileSelectDialog = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
 	fileSelectedNode = FileSelectDialog.instantiate()
 	var par = get_main_tab(self)
+	
+#	if !par.has_node("Popups"):
+#		var new_child = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Popups.tscn").instantiate()
+#		par.add_child(new_child)
+#		new_child.set_name("Popups")
+	
 	par.get_node("Popups").visible = true
 	par.get_node("Popups/FileSelect").visible = true
 	par.get_node("Popups/FileSelect").add_child(fileSelectedNode)

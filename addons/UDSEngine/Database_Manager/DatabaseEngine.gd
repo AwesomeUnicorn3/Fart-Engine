@@ -19,6 +19,7 @@ class_name DatabaseEngine
 @onready var input_sfx = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_sfx.tscn")
 @onready var input_conditions = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Conditions.tscn")
 @onready var input_commands = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Commands.tscn")
+@onready var input_dialog = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dialog.tscn")
 
 var editor
 var op_sys : String = ""
@@ -81,11 +82,11 @@ func update_dictionaries():
 	current_dict = import_data(table_save_path + current_table_name + file_format)
 
 
-func get_data_index(value: String, dataType := data_type):
+func get_data_index(value: String, dataType := data_type, data_dict :Dictionary = currentData_dict):
 	var index = ""
 
-	for i in currentData_dict[dataType]:
-		var fieldName = currentData_dict[dataType][i]["FieldName"]
+	for i in data_dict[dataType]:
+		var fieldName = data_dict[dataType][i]["FieldName"]
 		if fieldName == value:
 			index = i
 			break
@@ -195,6 +196,11 @@ func set_game_root():
 	if root_path != current_root_scene:
 		ProjectSettings.set("application/run/main_scene", root_path) 
 
+
+func get_default_dialog_scene_path():
+	var scene_path :String = import_data(table_save_path + "Global Data" + file_format)[global_settings]['Default Dialog Box']
+	return scene_path
+	
 
 func set_root_node():
 	var globalDataDict :Dictionary = await import_data(table_save_path + "Global Data" + file_format)
@@ -482,7 +488,7 @@ func convert_string_to_type(variant, datatype = ""):
 		variant = custom_to_bool(variant)
 		if !found_match:
 			if typeof(variant) != 1:
-				var new_type_value = str2var(str(variant))
+				var new_type_value = str_to_var(str(variant))
 				if new_type_value != null:
 					variant = new_type_value
 		match typeof(variant):
@@ -511,7 +517,7 @@ func convert_string_to_type(variant, datatype = ""):
 			"1":
 				variant = str(variant)
 			"2":
-				variant = str2var(str(variant))
+				variant = str_to_var(str(variant))
 			"3":
 				variant = str(variant).to_float()
 			"6":
@@ -528,11 +534,13 @@ func convert_string_to_type(variant, datatype = ""):
 				variant = string_to_array(str(variant))
 			"15":
 				variant = string_to_dictionary(variant)
+			"16":
+				variant = string_to_dictionary(variant)
 
 	return variant
 
 func string_to_array(value: String):
-	var value_array = str2var(value)
+	var value_array = str_to_var(value)
 	return value_array
 	
 	
@@ -575,7 +583,7 @@ func set_var_type_dict(dict : Dictionary):
 		for m in dict[l]:
 			for n in dict[l][m]:
 				o = str(dict[l][m][n])
-				o = str2var(o)
+				o = str_to_var(o)
 				if typeof(o) == TYPE_STRING:
 					o = custom_to_bool(o)
 				match typeof(o):
@@ -593,7 +601,7 @@ func set_var_type_table(dict : Dictionary):
 	for l in dict:
 		for m in dict[l]:
 			o = dict[l][m]
-			o = str2var(o)
+			o = str_to_var(o)
 			if typeof(o) == TYPE_STRING:
 				o = custom_to_bool(o)
 
@@ -610,7 +618,7 @@ func set_var_type_table(dict : Dictionary):
 
 func string_to_dictionary(value):
 	if typeof(value) != TYPE_DICTIONARY:
-		value = str2var(value)
+		value = str_to_var(value)
 
 
 	return value
@@ -655,6 +663,8 @@ func get_input_type_node(input_type :String): #FIGURE OUT A BETTER WAY TO GET TH
 			return_node = input_conditions
 		"15":
 			return_node = input_commands
+		"16":
+			return_node = input_dialog
 
 	return return_node
 
@@ -750,7 +760,7 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 				node_value = new_field.default
 			node_value = custom_to_bool(node_value)
 			new_field.inputNode.set_pressed(node_value)
-			new_field.Input_toggled(node_value)
+			new_field._on_input_toggled(node_value)
 
 
 		"2": #INT
@@ -808,28 +818,10 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			new_field.inputNode.get_node("Keycode").set_text(str(node_value))
 
 		"8":
-#			print(str(node_value))
 			new_field = await add_input_field(parent_container, input_spriteDisplay)
-			
 			node_value = convert_string_to_type(node_value)
-			
 			new_field.set_input_value(node_value, key_name, current_table_name)
 
-#			var texture_path :String
-#			var frame_vector :Vector2
-#			if str(node_value) == "Default":
-#				node_value = convert_string_to_type(new_field.default, new_field.type)
-#
-#			if typeof(node_value) == 4:
-#				node_value = str2var(node_value)
-#
-#
-#			frame_vector = convert_string_to_type(node_value[1], "TYPE_VECTOR2")
-#			var sprite_path = table_save_path + icon_folder + node_value[0]
-#			new_field.atlas_v_input.set_text(str(frame_vector.x))
-#			new_field.atlas_h_input.set_text(str(frame_vector.y))
-#			new_field.inputNode.set_normal_texture(load(str(sprite_path)))
-#			new_field.input_data = new_field.set_input_values(node_value, key_name)
 
 		"9": 
 			new_field = await add_input_field(parent_container, input_vector)
@@ -850,17 +842,15 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			if str(node_value) == "Default":
 				node_value = convert_string_to_type(new_field.default)
 			if typeof(node_value) == TYPE_STRING:
-				node_value = str2var(node_value)
+				node_value = str_to_var(node_value)
 			new_field.main_dictionary = node_value
 			new_field.inputNode.set_text(str(node_value))
 
 		"7":
-#			print(table_dict[key_name]["Value"])
 			new_field  = await add_input_field(parent_container, input_scenePath)
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			new_field.inputNode.set_text(node_value)
-#			print("Loaded As: ", node_value)
 			new_field._on_input_text_changed(node_value)
 		
 		"13":
@@ -868,7 +858,7 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			if typeof(node_value) == TYPE_STRING:
-				node_value = str2var(node_value)
+				node_value = str_to_var(node_value)
 			var stream_path :String = table_save_path + sfx_folder + node_value[0]
 			var volume = node_value[1].to_float()
 			var pitch = node_value[2].to_float()
@@ -887,7 +877,7 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			if str(node_value) == "Default":
 				node_value = convert_string_to_type(new_field.default)
 			if typeof(node_value) == TYPE_STRING:
-				node_value = str2var(node_value)
+				node_value = str_to_var(node_value)
 
 			new_field.main_dictionary = node_value
 			new_field.inputNode.set_text(str(node_value))
@@ -898,11 +888,16 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			if str(node_value) == "Default":
 				node_value = convert_string_to_type(new_field.default)
 			if typeof(node_value) == TYPE_STRING:
-				node_value = str2var(node_value)
+				node_value = str_to_var(node_value)
 
 			new_field.main_dictionary = node_value
 			new_field.inputNode.set_text(str(node_value))
 
+
+		"16":
+			new_field = await add_input_field(parent_container, input_dialog)
+			node_value = convert_string_to_type(node_value)
+			new_field.set_input_value(node_value, key_name, current_table_name)
 
 	new_field.set_name(key_name)
 	new_field.labelNode.set_text(key_name)
@@ -918,6 +913,7 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 	var input = current_node.inputNode
 	var returnValue
 	var did_datatype_change = false
+
 	match input_type:
 		"TYPE_BOOL": #Bool
 			input_type = "4"
@@ -991,13 +987,13 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 			returnValue = filename
 			
 		"8":
-			returnValue = var2str(current_node.get_input_value())
+			returnValue = var_to_str(current_node.get_input_value())
 #			print(returnValue)
 #			var atlas_v_frame = current_node.atlas_v_input.get_text()
 #			var atlas_h_frame = current_node.atlas_h_input.get_text()
 #			var frames = Vector2(atlas_v_frame.to_float(),atlas_h_frame.to_float())
 #			var sprite_data : Array = [input.get_normal_texture().get_path().get_file() , str(frames)]
-#			returnValue = var2str(sprite_data)
+#			returnValue = var_to_str(sprite_data)
 			
 		"9":
 			returnValue = input.text
@@ -1006,7 +1002,7 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 			returnValue = input.text
 			
 		"10":
-			returnValue = var2str(current_node.main_dictionary)
+			returnValue = var_to_str(current_node.main_dictionary)
 
 		"7":
 			returnValue = input.text
@@ -1017,17 +1013,21 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 			var volume : String = str(input.get_volume_db())
 			var pitch : String = str(input.get_pitch_scale())
 			var sfx_array := [stream, volume, pitch]
-			returnValue = var2str(sfx_array)
+			returnValue = var_to_str(sfx_array)
 
 		"11":
 			returnValue = input.get_node("Keycode").text
 
 
 		"14":
-			returnValue = var2str(current_node.main_dictionary)
+			returnValue = var_to_str(current_node.main_dictionary)
 		
 		"15":
-			returnValue = var2str(current_node.main_dictionary)
+			returnValue = var_to_str(current_node.main_dictionary)
+			
+		"16": #Dialog
+			returnValue = var_to_str(current_node.get_input_value())
+
 
 	if field_name != "" and field_name != "Key":
 		current_dict[key_name][field_name] = returnValue
@@ -1136,31 +1136,41 @@ func add_sprite_group_to_animatedSprite(main_node , Sprite_Group_Name :String) -
 	var new_animatedsprite2d :AnimatedSprite2D = create_sprite_animation()
 	var sprite_group_dict :Dictionary = udsmain.Static_Game_Dict["Sprite Groups"]
 	var spriteFrames : SpriteFrames = SpriteFrames.new()
-	
-	for i in sprite_group_dict:
-		if sprite_group_dict[i]["Display Name"] == Sprite_Group_Name:
-			animation_dictionary = udsmain.Static_Game_Dict["Sprite Groups"][i]
-			
+	for sprite_name in sprite_group_dict:
+		if sprite_group_dict[sprite_name]["Display Name"] == Sprite_Group_Name:
+			animation_dictionary = udsmain.Static_Game_Dict["Sprite Groups"][sprite_name]
+
+
+	if main_node.has_method("call_commands") :
+		var default_dict :Dictionary = udsmain.convert_string_to_type(main_node.event_dict[main_node.active_page]["Default Animation"])
+		default_dict["Display Name"] = "Default Animation"
+		animation_dictionary["Default Animation"] = default_dict
+
 	for j in animation_dictionary:
 		if j != "Display Name":
 			var animation_name : String = j
 			var anim_array :Array = udsmain.add_animation_to_animatedSprite( animation_name, udsmain.convert_string_to_type(animation_dictionary[j]), true ,new_animatedsprite2d, spriteFrames)
 			main_node.add_child(anim_array[1])
+	
 	return_value_dictionary["animated_sprite"] = new_animatedsprite2d
 	return_value_dictionary["animation_dictionary"] = animation_dictionary
 	return return_value_dictionary
 
 
-func set_sprite_scale(sprite_animation :AnimatedSprite2D, animation_name:String, animation_dictionary :Dictionary):
-	var sprite_dict :Dictionary = udsmain.convert_string_to_type(animation_dictionary["animation_dictionary"][animation_name])
+func set_sprite_scale(sprite_animation :AnimatedSprite2D, animation_name:String, animation_dictionary :Dictionary, additional_scaling :Vector2 = Vector2(1,1)):
+	var sprite_dict :Dictionary
+	if !animation_dictionary.has("animation_dictionary"):
+		sprite_dict = animation_dictionary
+	else:
+		sprite_dict  = udsmain.convert_string_to_type(animation_dictionary["animation_dictionary"][animation_name])
 	var atlas_dict :Dictionary = sprite_dict["atlas_dict"]
 	var advanced_dict :Dictionary  = sprite_dict["advanced_dict"]
 	var sprite_texture = load(udsmain.table_save_path + udsmain.icon_folder + atlas_dict["texture_name"])
 	var sprite_frame_size = atlas_dict["frames"]
 	var sprite_final_size = advanced_dict["sprite_size"]
 	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
-	var modified_sprite_size_y = sprite_final_size.x
-	var modified_sprite_size_x = sprite_final_size.y
+	var modified_sprite_size_y = sprite_final_size.x * additional_scaling.y
+	var modified_sprite_size_x = sprite_final_size.y * additional_scaling.x
 	var y_scale_value = modified_sprite_size_y / sprite_cell_size.y
 	var x_scale_value = modified_sprite_size_x / sprite_cell_size.x
 	sprite_animation.set_scale(Vector2(x_scale_value, y_scale_value))
@@ -1180,7 +1190,7 @@ func get_collision_shape(sprite_field_name :String, sprite_texture_data: Diction
 
 	var collision_vector_array : = []
 	var height = sprite_size.y / 8
-	var width = sprite_size.x / 4
+	var width = sprite_size.x / 5
 	collision_vector_array.append(Vector2(-2 * width,-1 * height))
 	collision_vector_array.append(Vector2(-1 * width,-2 * height))
 	collision_vector_array.append(Vector2(1 * width,-2 * height))
@@ -1205,18 +1215,40 @@ func create_event_interaction_area(sprite_field_name :String, sprite_texture_dat
 	var new_shape_2d : = CircleShape2D.new()
 	var frameVector : Vector2 = sprite_texture_data["atlas_dict"]["frames"]
 	var spriteMap = load(table_save_path + icon_folder + sprite_texture_data["atlas_dict"]["texture_name"])
+	var sprite_size : Vector2 = sprite_texture_data["advanced_dict"]["sprite_size"] 
+
+	#SET COLLISION SHAPE = TO SPRITE SIZE
+	collision_shape.set_shape(new_shape_2d)
+	new_shape_2d.radius = sprite_size.x/2.25
+	area.name = sprite_field_name + " Interation Area"
+	area.set_collision_layer_value(2, true)
+	area.set_collision_layer_value(1, false)
+	area.set_collision_mask_value(2, true)
+	area.add_child(collision_shape)
+	return area
+
+
+
+func create_event_attack_area(sprite_field_name :String, sprite_texture_data: Dictionary):
+	var collision_position := Vector2.ZERO
+	var area := Area2D.new()
+	var collision_shape = CollisionShape2D.new()
+	var new_shape_2d : = CircleShape2D.new()
+	var frameVector : Vector2 = sprite_texture_data["atlas_dict"]["frames"]
+	var spriteMap = load(table_save_path + icon_folder + sprite_texture_data["atlas_dict"]["texture_name"])
 	var sprite_size = Vector2(spriteMap.get_size().x/frameVector.y,spriteMap.get_size().y/frameVector.x)
 	
 	#SET COLLISION SHAPE = TO SPRITE SIZE
 	collision_shape.set_shape(new_shape_2d)
-	new_shape_2d.radius = sprite_size.x/1.5
-	area.name = sprite_field_name + " Area2D"
+	new_shape_2d.radius = sprite_size.x * 2
+	area.name = sprite_field_name + " Attack Player Area"
 	area.set_collision_layer_value(2, true)
 	area.set_collision_layer_value(1, false)
 	area.set_collision_mask_value(2, true)
 	area.add_child(collision_shape)
 	
 	return area
+
 
 func get_cropped_texture(texture : Texture, region : Rect2) -> AtlasTexture:
 	var atlas_texture = AtlasTexture.new()
@@ -1393,9 +1425,9 @@ func wait_timer(Wait_Time : float = 1.0):
 #		value2 = convert_string_to_type(value2, "10")
 #		dict_value[key] = value2[value2.keys()[0]]
 
-func rearrange_table_keys():
-	var new_index: String = get_data_index(button_focus_index, "Row")
-	var old_index: String = get_data_index(button_selected, "Row")
+func rearrange_table_keys(new_index :String = button_focus_index, old_index:String = button_selected , selected_data_dict :Dictionary = currentData_dict):
+	new_index = get_data_index(new_index, "Row")
+	old_index = get_data_index(old_index, "Row")
 	var key_data = currentData_dict["Row"][old_index]
 	var test_dict = currentData_dict.duplicate(true)
 	#remove the old index
@@ -1543,26 +1575,26 @@ func delete_starting_position_from_old_map(previous_selection, node_name:String 
 		if maps_dict[map_id]["Display Name"] == previous_selection:
 			new_map_path = maps_dict[map_id]["Path"]
 			break
-	
-	var new_map_scene :Node = load(new_map_path).instantiate()
-	new_map_scene.set_name(previous_selection)
+	if !new_map_path == null:
+		var new_map_scene :Node = load(new_map_path).instantiate()
+		new_map_scene.set_name(previous_selection)
 
-	var start_pos_node :Sprite2D = new_map_scene.get_node(node_name)
-	if start_pos_node != null:
-		new_map_scene.remove_child(start_pos_node)
-		start_pos_node.queue_free()
+		var start_pos_node :Sprite2D = new_map_scene.get_node(node_name)
+		if start_pos_node != null:
+			new_map_scene.remove_child(start_pos_node)
+			start_pos_node.queue_free()
+			
+			var new_packed_scene = PackedScene.new()
+			new_packed_scene.pack(new_map_scene)
+			
+			var dir = Directory.new()
+			dir.open(new_map_path.get_base_dir())
+			dir.remove(previous_selection)
+			ResourceSaver.save(new_packed_scene, new_map_path)
 		
-		var new_packed_scene = PackedScene.new()
-		new_packed_scene.pack(new_map_scene)
-		
-		var dir = Directory.new()
-		dir.open(new_map_path.get_base_dir())
-		dir.remove(previous_selection)
-		ResourceSaver.save(new_packed_scene, new_map_path)
-	
-	new_map_scene.queue_free()
+		new_map_scene.queue_free()
 
-	var open_scenes = editor.get_open_scenes()
-	open_scene_in_editor(new_map_path)
-	editor.save_scene()
+		var open_scenes = editor.get_open_scenes()
+		open_scene_in_editor(new_map_path)
+		editor.save_scene()
 	

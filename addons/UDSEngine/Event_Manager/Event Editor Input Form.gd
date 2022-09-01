@@ -19,7 +19,7 @@ var event_name :String = ""
 var event_node :EventHandler
 var tab_number :String = "1"
 var initial_event_display_name :String = ""
-var input_node_array :Array = []
+var input_node_dict :Dictionary = {}
 
 
 func match_fields_to_template():
@@ -67,24 +67,105 @@ func load_page_buttons():
 func load_event_notes(event_tab):
 	var input_value = event_dict[event_tab]["Notes"]
 	var notes_container = await add_input_node(1, 1, "Notes", event_dict[event_tab], event_trigger_display, null, input_value, "1", "")
-	input_node_array.append(notes_container)
+	input_node_dict["Notes"] = notes_container
 #	return notes_container
 
 func load_event_trigger_input(event_tab):
 	var input_value = event_dict[event_tab]["Event Trigger"]
 	var trigger_selection_container  = await add_input_node(1, 1, "Event Trigger", event_dict[event_tab], event_trigger_display, null, input_value, "5", "Event Triggers")
-	input_node_array.append(trigger_selection_container)
+	input_node_dict["Event Trigger"] = trigger_selection_container
+
+
+func load_event_animation_state_input(event_tab):
+	var input_value = event_dict[event_tab]["Does Event Move?"]
+	var new_input_container = await add_input_node(1, 1, "Does Event Move?", event_dict[event_tab], event_trigger_display, null, input_value, "4")
+	input_node_dict["Does Event Move?"] = new_input_container
+	new_input_container.true_text = "Yes"
+	new_input_container.false_text = "No"
+	new_input_container.checkbox_pressed.connect(animation_state_selected)
+	
+func load_attack_player_input(event_tab):
+	var input_value = event_dict[event_tab]["Attack Player?"]
+	var new_input_container = await add_input_node(1, 1, "Attack Player?", event_dict[event_tab], conditions_node, null, input_value, "4")
+	input_node_dict["Attack Player?"] = new_input_container
+	new_input_container.true_text = "Yes"
+	new_input_container.false_text = "No"
+
+
+func load_draw_shadow_input(event_tab):
+	var input_value = event_dict[event_tab]["Draw Shadow?"]
+	var new_input_container = await add_input_node(1, 1, "Draw Shadow?", event_dict[event_tab], conditions_node, null, input_value, "4")
+	input_node_dict["Draw Shadow?"] = new_input_container
+	new_input_container.true_text = "Yes"
+	new_input_container.false_text = "No"
+
+func animation_state_selected(event_moves :bool):
+	show_animation_movement_options(event_moves)
+
+
+
+func animation_group_selected(selected_index):
+
+	var group_name :String = input_node_dict["Animation Group"].get_selected_value(selected_index)
+	var default_anim_node = input_node_dict["Default Animation"]
+	var sprite_group_dict :Dictionary = import_data(table_save_path + "Sprite Groups" + file_format)
+	var idle_anim_dict 
+	for sprite_name in sprite_group_dict:
+		if sprite_group_dict[sprite_name]["Display Name"] == group_name:
+			var current_group_dict :Dictionary = sprite_group_dict[sprite_name]
+			idle_anim_dict = current_group_dict["Idle"]
+
+	default_anim_node.set_input_value(idle_anim_dict)
+	default_anim_node.get_data_and_create_sprite()
+
+
+func show_animation_movement_options(show:bool = true):
+#	input_node_dict["Default Animation"].visible = !show
+	input_node_dict["Loop Animation"].visible = !show
+	input_node_dict["Attack Player?"].visible = show
+	input_node_dict["Animation Group"].visible = show
+	input_node_dict["Max Speed"].visible = show
+	input_node_dict["Acceleration"].visible = show
+	input_node_dict["Friction"].visible = show
+
+
+func load_event_animation_group_input(event_tab):
+	var input_value = event_dict[event_tab]["Animation Group"]
+	var new_input_container = await add_input_node(1, 1, "Animation Group", event_dict[event_tab], event_trigger_display, null, input_value, "5", "Sprite Groups")
+	input_node_dict["Animation Group"] = new_input_container
+	new_input_container.inputNode.item_selected.connect(animation_group_selected)
+
 
 func load_event_conditions_input(event_tab):
 	var input_value = event_dict[event_tab]["Conditions"]
-	var conditions_container  = await add_input_node(1, 1, "Conditions", event_dict[event_tab], conditions_node, null, input_value, "14", "")
+	var conditions_container  = await add_input_node(1, 1, "Conditions", event_dict[event_tab], commands_node, null, input_value, "14", "")
 	conditions_container.parent_node = self
-	input_node_array.append(conditions_container)
+	input_node_dict["Conditions"] = conditions_container
 
 func load_event_animation_input(event_tab):
 	var input_value = event_dict[event_tab]["Default Animation"]
 	var event_animation_container  = await add_input_node(1, 1, "Default Animation", event_dict[event_tab], event_trigger_display, null, input_value, "8")
-	input_node_array.append(event_animation_container)
+	input_node_dict["Default Animation"] = event_animation_container
+
+func load_loop_animation_input(event_tab):
+	var input_value = event_dict[event_tab]["Loop Animation"]
+	var event_animation_container  = await add_input_node(1, 1, "Loop Animation", event_dict[event_tab], conditions_node, null, input_value, "4")
+	input_node_dict["Loop Animation"] = event_animation_container
+
+func load_max_speed_input(event_tab):
+	var input_value = event_dict[event_tab]["Max Speed"]
+	var event_animation_container  = await add_input_node(1, 1, "Max Speed", event_dict[event_tab], conditions_node, null, input_value, "2")
+	input_node_dict["Max Speed"] = event_animation_container
+
+func load_acceleration_input(event_tab):
+	var input_value = event_dict[event_tab]["Acceleration"]
+	var event_animation_container  = await add_input_node(1, 1, "Acceleration", event_dict[event_tab], conditions_node, null, input_value, "2")
+	input_node_dict["Acceleration"] = event_animation_container
+
+func load_friction_input(event_tab):
+	var input_value = event_dict[event_tab]["Friction"]
+	var event_animation_container  = await add_input_node(1, 1, "Friction", event_dict[event_tab], conditions_node, null, input_value, "2")
+	input_node_dict["Friction"] = event_animation_container
 
 func display_condition_list():
 	var list_display = load("res://addons/UDSEngine/Event_Manager/Condition_input_form.tscn").instantiate()
@@ -97,7 +178,7 @@ func load_event_commands_input(event_tab):
 	var commands_container  = await add_input_node(1, 1, "Commands", event_dict[event_tab], commands_node, null, input_value, "15", "")
 	commands_container.parent_node = self
 	commands_container.local_variable_dictionary = get_local_variables()
-	input_node_array.append(commands_container)
+	input_node_dict["Commands"] = commands_container
 
 func get_local_variables() -> Dictionary:
 	var local_variable_dictionary:Dictionary
@@ -121,14 +202,29 @@ func on_page_button_pressed(event_page_number :String):
 		$Scroll1/VBox1/HBox3/HBox1/Delete_Page_Button.disabled = false
 	clear_all_input_forms()
 	tab_number = event_page_number
-	input_node_array = []
+	input_node_dict = {}
 	load_event_notes(event_page_number)
 	load_event_trigger_input(event_page_number)
+	load_event_animation_state_input(event_page_number)
+	load_event_animation_group_input(event_page_number)
+	load_draw_shadow_input(event_page_number)
+	load_loop_animation_input(event_page_number)
+	load_attack_player_input(event_page_number)
+	load_friction_input(event_page_number)
+	load_max_speed_input(event_page_number)
+	load_acceleration_input(event_page_number)
 	load_event_animation_input(event_page_number)
+#	var anim_state_node = input_node_dict["Animation State"]
+#	var selected_state :int= anim_state_node.get_id(anim_state_node.selectedItemName)
+#	print(selected_state)
+#	anim_state_node.inputNode.emit_signal("item_selected", selected_state)
+	var does_event_move_node = input_node_dict["Does Event Move?"]
+	does_event_move_node._on_input_toggled(does_event_move_node.inputNode.button_pressed)
 	load_event_conditions_input(event_page_number)
 	load_event_commands_input(event_page_number)
-	for data_node in input_node_array:
-		data_node.is_label_button = false
+
+	for node_name in input_node_dict:
+		input_node_dict[node_name].is_label_button = false
 	
 func get_table_data_key(table_name := "", return_display_name := false):
 	var key_name :String
@@ -317,8 +413,9 @@ func _on_Save_Close_Button_button_up() -> void:
 
 
 func save_event_data(is_dbmanager :bool = false):
-	for child in input_node_array:
-		update_match(child, child.labelNode.get_text(), tab_number)
+	for child in input_node_dict:
+		var node = input_node_dict[child]
+		update_match(node, node.labelNode.get_text(), tab_number)
 	var displayName :String = event_name_label.inputNode.get_text()
 	var display :String = displayName
 	if displayName != initial_event_display_name:
@@ -339,8 +436,9 @@ func save_event_data(is_dbmanager :bool = false):
 
 
 func clear_all_input_forms():
-	for child in input_node_array:
-		child.queue_free()
+	for child in input_node_dict:
+		var node = input_node_dict[child]
+		node.queue_free()
 
 func add_new_event_page():
 	var event_page_template = import_data(table_save_path + "Event Table Template" + file_format)

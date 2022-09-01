@@ -1,0 +1,143 @@
+[gd_scene load_steps=11 format=3 uid="uid://8aboym3b6boy"]
+
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dialog.gd" id="1_ggkpl"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_p2fuw"]
+[ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="3_e1vdb"]
+[ext_resource type="PackedScene" uid="uid://ccbd0dxfbgbkm" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="3_mwq4e"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="5_fgbfj"]
+[ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="5_xab2l"]
+[ext_resource type="PackedScene" uid="uid://dlqd3cprcqrn2" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.tscn" id="7_lfbfv"]
+[ext_resource type="PackedScene" uid="uid://yngqagf24tfm" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.tscn" id="8_4eupo"]
+[ext_resource type="PackedScene" uid="uid://b03sp4jqo6vik" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ScenePath_Template.tscn" id="8_q84tl"]
+[ext_resource type="PackedScene" uid="uid://cm1g0oabiuvug" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text_Multiline.tscn" id="9_kv66x"]
+
+[node name="input_dialog" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+script = ExtResource("1_ggkpl")
+
+[node name="Input" type="Control" parent="."]
+offset_right = 900.0
+
+[node name="Label" parent="." instance=ExtResource("2_p2fuw")]
+anchor_right = 0.0
+offset_top = 4.0
+offset_right = 900.0
+offset_bottom = 29.0
+
+[node name="CharacterName_HBox" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 100)
+offset_top = 33.0
+offset_right = 900.0
+offset_bottom = 133.0
+size_flags_horizontal = 3
+
+[node name="CharacterName_Checkbox" parent="CharacterName_HBox" instance=ExtResource("3_e1vdb")]
+custom_minimum_size = Vector2(150, 0)
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 150.0
+offset_bottom = 100.0
+size_flags_horizontal = 1
+true_text = "List"
+false_text = "Text"
+label_text = "Name Input"
+is_label_button = false
+
+[node name="CharacterName_Dropdown" parent="CharacterName_HBox" instance=ExtResource("3_mwq4e")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 154.0
+offset_right = 525.0
+offset_bottom = 100.0
+selection_table_name = "Characters"
+label_text = "Character Name"
+is_label_button = false
+
+[node name="CharacterName_Text" parent="CharacterName_HBox" instance=ExtResource("5_xab2l")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 529.0
+offset_right = 900.0
+offset_bottom = 100.0
+label_text = "Custom Name"
+is_label_button = false
+
+[node name="Dialog_Text" parent="." instance=ExtResource("9_kv66x")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 137.0
+offset_right = 900.0
+offset_bottom = 397.0
+size_flags_vertical = 3
+label_text = "Dialog Text"
+is_label_button = false
+
+[node name="IconSelection_HBox" type="HBoxContainer" parent="."]
+offset_top = 401.0
+offset_right = 900.0
+offset_bottom = 509.0
+
+[node name="IconSelection_Checkbox" parent="IconSelection_HBox" instance=ExtResource("3_e1vdb")]
+custom_minimum_size = Vector2(150, 0)
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 150.0
+offset_bottom = 108.0
+size_flags_horizontal = 1
+true_text = "Animation"
+false_text = "Icon"
+label_text = "Animation or Icon"
+is_label_button = false
+
+[node name="IconSelection_Sprite" parent="IconSelection_HBox" instance=ExtResource("8_4eupo")]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 87.0
+offset_right = 900.0
+offset_bottom = 516.0
+label_text = "Speaker Sprite"
+is_label_button = false
+
+[node name="IconSelection_Icon" parent="IconSelection_HBox" instance=ExtResource("7_lfbfv")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 154.0
+offset_right = 900.0
+offset_bottom = 108.0
+size_flags_vertical = 3
+label_text = "Speaker Icon"
+is_label_button = false
+
+[node name="SceneSelection_HBox" type="HBoxContainer" parent="."]
+offset_top = 513.0
+offset_right = 900.0
+offset_bottom = 596.0
+
+[node name="SceneSelection_Checkbox" parent="SceneSelection_HBox" instance=ExtResource("3_e1vdb")]
+custom_minimum_size = Vector2(150, 0)
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 448.0
+offset_bottom = 83.0
+true_text = "Default"
+false_text = "Custom"
+label_text = "Dialog Scene"
+is_label_button = false
+
+[node name="Scene_Selection_ScenePath" parent="SceneSelection_HBox" instance=ExtResource("8_q84tl")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 452.0
+offset_right = 900.0
+offset_bottom = 83.0
+label_text = "Custom Scene"
+is_label_button = false
+
+[node name="input_templateBuffer" parent="." instance=ExtResource("5_fgbfj")]
+anchor_right = 0.0
+offset_top = 600.0
+offset_right = 900.0
+offset_bottom = 600.0

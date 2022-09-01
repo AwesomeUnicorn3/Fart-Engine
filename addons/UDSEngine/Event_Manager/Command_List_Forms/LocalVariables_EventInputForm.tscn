@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://g0yxnebtnj11"]
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_6kj6f"]
-[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="1_qinty"]
+[ext_resource type="PackedScene" uid="uid://blyuurjsfw16s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="1_qinty"]
 [ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="2_jq8k8"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/LocalVariables_EventInputForm.gd" id="2_wpsky"]
 
@@ -49,10 +49,12 @@ offset_bottom = 104.0
 
 [node name="Label" parent="Control/VBoxContainer/ItemType_Selection" index="0"]
 offset_right = 395.0
-offset_bottom = 25.0
+
+[node name="Label_Button" parent="Control/VBoxContainer/ItemType_Selection/Label/HBox1" index="0"]
+offset_right = 395.0
+offset_bottom = 30.0
 
 [node name="Input" parent="Control/VBoxContainer/ItemType_Selection" index="1"]
-offset_top = 29.0
 offset_right = 395.0
 offset_bottom = 65.0
 alignment = 1
@@ -96,3 +98,4 @@ text = "Cancel"
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
 
 [editable path="Control/VBoxContainer/ItemType_Selection"]
+[editable path="Control/VBoxContainer/ItemType_Selection/Label"]

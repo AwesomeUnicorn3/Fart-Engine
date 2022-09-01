@@ -35,7 +35,7 @@ func updateMainDict():
 		node.set_line_item_dictionary()
 		mainDictionary[node.Key_field.inputNode.get_text()] = node.line_item_dictionary
 
-	source_node.inputNode.set_text(var2str(mainDictionary))
+	source_node.inputNode.set_text(var_to_str(mainDictionary))
 	source_node.main_dictionary = mainDictionary
 
 

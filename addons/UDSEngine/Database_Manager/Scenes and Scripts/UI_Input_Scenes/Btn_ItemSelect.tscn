@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://bo3gu4nrkb880" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_25.tres" id="2"]
 
 [node name="TextureButton" type="Button"]
-custom_minimum_size = Vector2(175, 50)
+custom_minimum_size = Vector2(125, 25)
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3

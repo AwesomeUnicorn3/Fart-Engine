@@ -46,7 +46,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 35.0
 offset_right = 395.0
-offset_bottom = 80.0
+offset_bottom = 96.0
 selection_table_name = "Items"
 label_text = "Select Item"
 is_label_button = false
@@ -61,20 +61,72 @@ text = "Select Item"
 
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
 offset_right = 395.0
-offset_bottom = 41.0
+offset_bottom = 57.0
 alignment = 1
+item_count = 25
+selected = 0
+popup/item_0/text = " Wedding Ring"
+popup/item_0/id = 0
+popup/item_1/text = "Book"
+popup/item_1/id = 1
+popup/item_2/text = "Crappy Sword"
+popup/item_2/id = 2
+popup/item_3/text = "Currency"
+popup/item_3/id = 3
+popup/item_4/text = "FireBall"
+popup/item_4/id = 4
+popup/item_5/text = "Fist"
+popup/item_5/id = 5
+popup/item_6/text = "Flat Bottom Flask"
+popup/item_6/id = 6
+popup/item_7/text = "Frank's Special Sauce"
+popup/item_7/id = 7
+popup/item_8/text = "Glass Shards"
+popup/item_8/id = 8
+popup/item_9/text = "GlassBeaker"
+popup/item_9/id = 9
+popup/item_10/text = "GlassCup"
+popup/item_10/id = 10
+popup/item_11/text = "Gumball"
+popup/item_11/id = 11
+popup/item_12/text = "Light Bulb"
+popup/item_12/id = 12
+popup/item_13/text = "Medium_Box"
+popup/item_13/id = 13
+popup/item_14/text = "Mike's Cell Phone"
+popup/item_14/id = 14
+popup/item_15/text = "Moonbeam Brownie"
+popup/item_15/id = 15
+popup/item_16/text = "Rock"
+popup/item_16/id = 16
+popup/item_17/text = "RoundBottomFlask"
+popup/item_17/id = 17
+popup/item_18/text = "Sauce_Container"
+popup/item_18/id = 18
+popup/item_19/text = "Shizzo_Can"
+popup/item_19/id = 19
+popup/item_20/text = "StickyAluminum"
+popup/item_20/id = 20
+popup/item_21/text = "T-Shirt"
+popup/item_21/id = 21
+popup/item_22/text = "Trash_Can"
+popup/item_22/id = 22
+popup/item_23/text = "Treasure_Chest"
+popup/item_23/id = 23
+popup/item_24/text = "WildShroom2"
+popup/item_24/id = 24
 
 [node name="input_templateBuffer" parent="Control/VBoxContainer/KeyDropdown" index="2"]
-offset_top = 45.0
+offset_top = 61.0
 offset_right = 395.0
-offset_bottom = 45.0
+offset_bottom = 61.0
 
 [node name="TrueorFalse" parent="Control/VBoxContainer" instance=ExtResource("4_tplko")]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 84.0
+offset_top = 100.0
 offset_right = 395.0
-offset_bottom = 167.0
+offset_bottom = 183.0
 size_flags_vertical = 3
 true_text = "+"
 false_text = "-"
@@ -104,14 +156,14 @@ offset_bottom = 83.0
 [node name="WholeNumber" parent="Control/VBoxContainer" instance=ExtResource("7_i6vjt")]
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 171.0
+offset_top = 187.0
 offset_right = 395.0
-offset_bottom = 264.0
+offset_bottom = 280.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
-offset_top = 268.0
+offset_top = 284.0
 offset_right = 395.0
-offset_bottom = 296.0
+offset_bottom = 312.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

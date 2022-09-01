@@ -61,4 +61,4 @@ offset_top = 600.0
 offset_right = 900.0
 offset_bottom = 600.0
 
-[connection signal="toggled" from="Hbox1/Background/Input" to="." method="Input_toggled"]
+[connection signal="toggled" from="Hbox1/Background/Input" to="." method="_on_input_toggled"]

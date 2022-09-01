@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dhu8oxxxhd6bq"]
+
+[ext_resource type="Shader" path="res://addons/UDSEngine/Event_Manager/2dOutline.gdshader" id="1_igyno"]
+
+[resource]
+shader = ExtResource("1_igyno")
+line_color = null
+line_thickness = 2.5

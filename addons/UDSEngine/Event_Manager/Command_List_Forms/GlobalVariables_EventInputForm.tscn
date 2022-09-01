@@ -49,8 +49,8 @@ anchor_bottom = 0.0
 offset_top = 35.0
 offset_right = 395.0
 offset_bottom = 80.0
-is_label_button = false
 selection_table_name = "Global Data"
+is_label_button = false
 
 [node name="Label" parent="Control/VBoxContainer/KeyDropdown" index="0"]
 offset_right = 395.0

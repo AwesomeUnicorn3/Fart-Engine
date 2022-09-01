@@ -16,7 +16,7 @@ func _on_Close_button_up() -> void:
 
 func close_form():
 	updateMainDict()
-	source_node.inputNode.set_text(var2str(mainDictionary))
+	source_node.inputNode.set_text(var_to_str(mainDictionary))
 	source_node.main_dictionary = mainDictionary
 	get_parent().remove_child(self)
 	call_deferred("delete_me")
@@ -37,7 +37,7 @@ func updateMainDict():
 					mainDictionary[key][j.name] = update_match(j)
 				else:
 					key = update_match(j)
-	source_node.inputNode.set_text(var2str(mainDictionary))
+	source_node.inputNode.set_text(var_to_str(mainDictionary))
 	source_node.main_dictionary = mainDictionary
 
 

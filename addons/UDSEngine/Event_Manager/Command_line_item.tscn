@@ -87,26 +87,24 @@ size_flags_vertical = 3
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 195.0
-offset_right = 900.0
+offset_right = 858.0
 offset_bottom = 600.0
 is_label_button = false
 
 [node name="Label" parent="ScriptInput" index="0"]
-offset_right = 705.0
+offset_right = 663.0
 
 [node name="Input" parent="ScriptInput" index="1"]
-offset_right = 705.0
+offset_right = 663.0
 
 [node name="input_templateBuffer" parent="ScriptInput" index="2"]
-offset_right = 705.0
+offset_right = 663.0
 
 [node name="EditCommand" type="Button" parent="."]
-visible = false
 offset_left = 862.0
 offset_right = 900.0
 offset_bottom = 600.0
 size_flags_horizontal = 9
-disabled = true
 text = "Edit"
 
 [connection signal="button_up" from="VBoxContainer/CommandUp" to="." method="_on_command_up_button_up"]

@@ -38,8 +38,11 @@ rotation = 1.5708
 shape = SubResource("RectangleShape2D_npjxb")
 
 [node name="Event" type="CharacterBody2D" parent="."]
-position = Vector2(146, 61)
+position = Vector2(138.076, 27.1283)
 collision_layer = 2
 collision_mask = 3
+motion_mode = 1
+velocity = Vector2(0, 50.9192)
+moving_platform_apply_velocity_on_leave = 2
 script = ExtResource("5_yacgx")
 event_name = "Event 2"

@@ -53,7 +53,9 @@ func _on_input_text_changed(new_text):
 func get_filename_from_path(path:String):
 	var filename :String
 	filename = path.get_file().trim_suffix("." + path.get_extension())
-	$HBoxContainer/Display.set_tooltip(path)
+	$HBoxContainer/Display.set_tooltip_text(path) 
+
+	
 	return filename
 
 

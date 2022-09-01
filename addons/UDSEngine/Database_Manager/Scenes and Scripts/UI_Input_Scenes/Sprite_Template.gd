@@ -52,6 +52,7 @@ func set_preview_position() -> void:
 		control_position.x += (preview_window.size.x - (sprite_cell_size.x * sprite_scale.x)) / 2
 		control_position.y = $StandardControlsHBox/PreviewVBox/Label3.size.y + $Label.size.y + 5
 		sprite_animation.set_position(control_position)
+		print(control_position)
 	else:
 		if sprite_animation.visible:
 			sprite_animation.visible = false
@@ -60,6 +61,12 @@ func set_preview_position() -> void:
 
 func _on_TextureButton_button_up():
 	on_text_changed(true)
+
+#	if !parent_node.has_node("Popups"):
+#		var new_child = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Popups.tscn").instantiate()
+#		parent_node.add_child(new_child)
+#		new_child.set_name("Popups")
+
 	var FileSelectDialog = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
 	fileSelectedNode = FileSelectDialog.instantiate()
 	parent_node.get_node("Popups").visible = true
@@ -82,7 +89,7 @@ func create_sprite_animation():
 
 
 func set_preview_animation_size():
-	var sprite_texture = load(parent_node.table_save_path + parent_node.icon_folder + atlas_dict["texture_name"])
+	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"])
 	var sprite_count = frame_vector
 	sprite_cell_size = Vector2(sprite_texture.get_size().x / sprite_count.y ,sprite_texture.get_size().y / sprite_count.x)
 	var sprite_cell_ratio : float = sprite_cell_size.y / sprite_cell_size.x
@@ -97,10 +104,9 @@ func set_preview_animation_size():
 
 func set_sprite_default_size():
 	
-	var sprite_texture = load(parent_node.table_save_path + parent_node.icon_folder + atlas_dict["texture_name"])
+	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"])
 	var sprite_height = sprite_texture.get_size().y / frame_vector.x
 	var sprite_width = sprite_texture.get_size().x / frame_vector.y
-	print(sprite_height, " ", sprite_width)
 	sprite_cell_size = Vector2(sprite_height ,sprite_width)
 	height_sprite_size.set_text(str(sprite_height))
 	width_sprite_size.set_text(str(sprite_width))
@@ -110,7 +116,7 @@ func _on_FileDialog_sprite_file_selected(path: String) -> void:
 	remove_dialog()
 	var dir = Directory.new() #
 	var new_file_name = path.get_file() #
-	var new_file_path = parent_node.table_save_path + parent_node.icon_folder + new_file_name #
+	var new_file_path = DBENGINE.table_save_path + DBENGINE.icon_folder + new_file_name #
 	var curr_icon_path : Node = inputNode #
 	if parent_node.is_file_in_folder(parent_node.table_save_path + parent_node.icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
 		set_sprite_atlas(new_file_path)
@@ -166,10 +172,7 @@ func modify_value(value:String, increase:bool = true) -> String:
 	return str(num_value)
 
 
-func input_value_clamp(value:String, min_value = 1) -> String:
-	var num_value = value.to_float()
-	num_value = clamp(num_value, min_value, 500)
-	return str(num_value)
+
 
 
 func _get_input_value():
@@ -189,7 +192,7 @@ func _get_input_value():
 
 func _set_input_value(node_value):
 	if typeof(node_value) == 4:
-		node_value = str2var(node_value)
+		node_value = str_to_var(node_value)
 	input_data = node_value
 	set_atlas_data()
 	set_advanced_data()

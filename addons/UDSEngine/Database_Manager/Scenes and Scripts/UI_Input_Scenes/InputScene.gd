@@ -4,6 +4,7 @@ class_name InputEngine
 
 signal input_selection_changed #emitted when dropdown list selected item changes
 signal input_load_complete
+signal checkbox_pressed
 
 @export var label_text = ""
 @export var is_label_button = true
@@ -93,7 +94,7 @@ func display_edit_field_menu():
 	var fieldName :String = labelNode.text
 	
 	edit_field_values.parent_node = self
-	edit_field_values.main_node = parent_node
+	edit_field_values.data_dict = parent_node.currentData_dict
 	edit_field_values.keyName = keyName
 	edit_field_values.fieldName = fieldName
 	parent_node.get_node("Popups").visible = true
@@ -211,12 +212,18 @@ func connect_signals():
 	
 #$VBox2/ItemType_Selection/Input.item_selected.connect(item_selected)
 
+func input_value_clamp(value:String, min_value = 1, max_value = 500) -> String:
+	var num_value = value.to_float()
+	num_value = clamp(num_value, min_value, max_value)
+	return str(num_value)
+
+
 
 func get_input_value():
 	var return_value = self._get_input_value()
 	return return_value
 	
-func set_input_value(node_value , key_name: String, current_table_name :String):
+func set_input_value(node_value , key_name: String = "", current_table_name :String = ""):
 	self._set_input_value(node_value)
 #	set_name(key_name)
 #	labelNode.set_text(key_name)

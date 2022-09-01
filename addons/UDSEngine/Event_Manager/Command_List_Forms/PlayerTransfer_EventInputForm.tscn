@@ -46,10 +46,10 @@ anchor_bottom = 0.0
 offset_top = 35.0
 offset_right = 395.0
 offset_bottom = 118.0
+selection_table_name = "Maps"
 label_text = "Map"
 is_label_button = false
 show_field = true
-selection_table_name = "Maps"
 
 [node name="OpenMap_Button" type="Button" parent="Control/VBoxContainer"]
 offset_top = 122.0

@@ -49,4 +49,5 @@ func _ready():
 
 func save_event_data():
 	for event_node in event_array:
-		event_node.update_event_data()
+		if !event_node == null:
+			event_node.update_event_data()

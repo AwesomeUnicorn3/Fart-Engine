@@ -6,8 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://bi0muej7rpxe" path="res://Data/png/StartingPosition.png" id="4_y8qrl"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/StartingPositionNode.gd" id="5_4dccp"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_npjxb"]
-size = Vector2(903, 10)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h4mwb"]
+size = Vector2(1485, 10.625)
 
 [node name="Level 1" type="Node2D" groups=["Map"]]
 script = ExtResource("1_yn33e")
@@ -16,21 +16,84 @@ script = ExtResource("1_yn33e")
 position = Vector2(531, 300)
 texture = ExtResource("1_es47h")
 
-[node name="BottomBoundry" type="StaticBody2D" parent="."]
-position = Vector2(481, 586)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomBoundry"]
-position = Vector2(-37.5, 18)
-shape = SubResource("RectangleShape2D_npjxb")
-
 [node name="Event" type="CharacterBody2D" parent="."]
 position = Vector2(712, 100)
 collision_layer = 2
 collision_mask = 3
+motion_mode = 1
+moving_platform_apply_velocity_on_leave = 2
 script = ExtResource("2_qc17i")
 event_name = "Event 1"
 
+[node name="Event2" type="CharacterBody2D" parent="."]
+position = Vector2(171, 97)
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+moving_platform_apply_velocity_on_leave = 2
+script = ExtResource("2_qc17i")
+event_name = "Event 2"
+
+[node name="Event3" type="CharacterBody2D" parent="."]
+position = Vector2(713, 307)
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+moving_platform_apply_velocity_on_leave = 2
+script = ExtResource("2_qc17i")
+event_name = "Event 1"
+
+[node name="Event4" type="CharacterBody2D" parent="."]
+position = Vector2(821, 100)
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+moving_platform_apply_velocity_on_leave = 2
+script = ExtResource("2_qc17i")
+event_name = "Event 1"
+
+[node name="Event5" type="CharacterBody2D" parent="."]
+position = Vector2(574, 101)
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+moving_platform_apply_velocity_on_leave = 2
+script = ExtResource("2_qc17i")
+event_name = "Event 1"
+
+[node name="Event6" type="CharacterBody2D" parent="."]
+position = Vector2(571, 308)
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
+moving_platform_apply_velocity_on_leave = 2
+script = ExtResource("2_qc17i")
+event_name = "Event 3"
+
 [node name="StartingPositionNode" type="Sprite2D" parent="."]
-position = Vector2(385, 111)
 texture = ExtResource("4_y8qrl")
 script = ExtResource("5_4dccp")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(454, 597)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(54.5, 37.6875)
+shape = SubResource("RectangleShape2D_h4mwb")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(76, -648.625)
+shape = SubResource("RectangleShape2D_h4mwb")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(449, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(-636.75, 266)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_h4mwb")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(802, 267)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_h4mwb")
