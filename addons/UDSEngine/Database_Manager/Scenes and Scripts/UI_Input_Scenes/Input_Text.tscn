@@ -5,31 +5,28 @@
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4"]
 
 [node name="Input_Text" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -517.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("2")
 
 [node name="Label" parent="." instance=ExtResource("4")]
-anchor_right = 0.0
-offset_right = 900.0
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
 
 [node name="Input" type="LineEdit" parent="."]
 custom_minimum_size = Vector2(0, 50)
-offset_top = 29.0
-offset_right = 900.0
-offset_bottom = 79.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 18
 placeholder_text = "Enter Value As Text"
 alignment = 1
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("1")]
-anchor_right = 0.0
-offset_top = 83.0
-offset_right = 900.0
-offset_bottom = 83.0
+layout_mode = 2

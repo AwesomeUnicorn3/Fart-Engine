@@ -4,17 +4,21 @@
 [ext_resource type="Script" path="res://addons/UDSEngine/Example Game/LoadGameMenu.gd" id="2"]
 
 [node name="LoadGameMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource("1_43kt7")
 script = ExtResource("2")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 1)
 
 [node name="VBox1" type="VBoxContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 

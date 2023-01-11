@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://hs28786utbeg"]
+[gd_scene load_steps=9 format=3 uid="uid://hs28786utbeg"]
 
 [ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_ivdqc"]
@@ -7,16 +7,25 @@
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Tab_Template.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://c4016gus0s1sj" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Popups.tscn" id="7_dgruc"]
 [ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://sobivcwbjq2t" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.tscn" id="8_dq72o"]
 
 [node name="Tab_Template" type="Control" groups=["Tab"]]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_ivdqc")
 script = ExtResource("6")
 
 [node name="Background" parent="." instance=ExtResource("2")]
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="VBox1" type="VBoxContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -31,21 +40,21 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="RefreshData_Button" type="Button" parent="VBox1/HBox1"]
-offset_right = 80.0
+offset_right = 75.0
 offset_bottom = 56.0
 text = "Refresh 
 Table"
 
 [node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox1"]
-offset_left = 84.0
+offset_left = 79.0
 offset_right = 557.0
 offset_bottom = 56.0
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/CenterContainer"]
-offset_left = 96.0
+offset_left = 99.0
 offset_top = 17.0
-offset_right = 376.0
+offset_right = 379.0
 offset_bottom = 38.0
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
@@ -53,38 +62,21 @@ text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
 [node name="AddNewTable_Button" type="Button" parent="VBox1/HBox1"]
 visible = false
-offset_left = 505.0
-offset_right = 607.0
-offset_bottom = 56.0
 text = "New Table"
 
 [node name="DeleteTable_Button" type="Button" parent="VBox1/HBox1"]
 visible = false
-offset_left = 520.0
-offset_right = 641.0
-offset_bottom = 56.0
 text = "Delete Table"
 
 [node name="Button_Separator" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
 visible = false
-offset_left = 541.0
-offset_top = 14.0
-offset_right = 542.0
-offset_bottom = 42.0
 
 [node name="SaveNewKey_Button" type="Button" parent="VBox1/HBox1"]
 visible = false
-offset_left = 551.0
-offset_right = 685.0
-offset_bottom = 51.0
 text = "Save New Key"
 
 [node name="Button_Separator2" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
 visible = false
-offset_left = 546.0
-offset_top = 14.0
-offset_right = 547.0
-offset_bottom = 42.0
 
 [node name="AddNewKey_Button" type="Button" parent="VBox1/HBox1"]
 offset_left = 561.0
@@ -94,10 +86,6 @@ text = "Add New Key"
 
 [node name="Button_Separator3" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
 visible = false
-offset_left = 683.0
-offset_top = 14.0
-offset_right = 684.0
-offset_bottom = 42.0
 
 [node name="DeleteSelectedKey_Button" type="Button" parent="VBox1/HBox1"]
 offset_left = 693.0
@@ -107,16 +95,9 @@ text = "Delete Key"
 
 [node name="Button_Separator4" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
 visible = false
-offset_left = 795.0
-offset_top = 14.0
-offset_right = 796.0
-offset_bottom = 42.0
 
 [node name="CancelChanges_Button" type="Button" parent="VBox1/HBox1"]
 visible = false
-offset_left = 810.0
-offset_right = 962.0
-offset_bottom = 39.0
 text = "Cancel Changes"
 
 [node name="SaveChanges_Button" type="Button" parent="VBox1/HBox1"]
@@ -127,11 +108,14 @@ offset_bottom = 56.0
 text = "Save"
 
 [node name="TableName" parent="VBox1" instance=ExtResource("1")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 60.0
 offset_right = 900.0
 offset_bottom = 114.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "Table Name"
 is_label_button = false
 
@@ -139,26 +123,34 @@ is_label_button = false
 custom_minimum_size = Vector2(0, 50)
 offset_bottom = 50.0
 
+[node name="HBox1" parent="VBox1/TableName/Label" index="0"]
+custom_minimum_size = Vector2(0, 30)
+
 [node name="Label_Button" parent="VBox1/TableName/Label/HBox1" index="0"]
-offset_bottom = 55.0
+offset_bottom = 50.0
 text = "Table Name"
 
 [node name="Input" parent="VBox1/TableName" index="1"]
 visible = false
 custom_minimum_size = Vector2(0, 25)
-offset_bottom = 63.0
 
 [node name="input_templateBuffer" parent="VBox1/TableName" index="2"]
 offset_top = 54.0
 offset_bottom = 54.0
 
 [node name="Key" parent="VBox1" instance=ExtResource("1")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 118.0
 offset_right = 900.0
 offset_bottom = 185.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "Key"
+
+[node name="HBox1" parent="VBox1/Key/Label" index="0"]
+custom_minimum_size = Vector2(0, 30)
 
 [node name="Label_Button" parent="VBox1/Key/Label/HBox1" index="0"]
 offset_bottom = 30.0
@@ -217,54 +209,74 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox3"]
+offset_right = 200.0
 offset_bottom = 366.0
 horizontal_scroll_mode = 0
 
 [node name="Key_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll1"]
+custom_minimum_size = Vector2(200, 0)
+offset_right = 200.0
 offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox3"]
-offset_left = 4.0
-offset_right = 448.0
+offset_left = 204.0
+offset_right = 548.0
 offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll2"]
-offset_right = 444.0
+custom_minimum_size = Vector2(150, 200)
+offset_right = 344.0
 offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Vetical_Separator" type="PanelContainer" parent="VBox1/HBox3"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 452.0
-offset_right = 452.0
+offset_left = 552.0
+offset_right = 552.0
 offset_bottom = 366.0
 
 [node name="Scroll3" type="ScrollContainer" parent="VBox1/HBox3"]
-offset_left = 456.0
+offset_left = 556.0
 offset_right = 900.0
 offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll3"]
-offset_right = 444.0
+offset_right = 344.0
 offset_bottom = 366.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Version_Label" parent="VBox1" instance=ExtResource("8")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 599.0
 offset_right = 900.0
 offset_bottom = 599.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Popups" parent="." instance=ExtResource("7_dgruc")]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FileSelect" parent="Popups" index="0"]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ListInput" parent="Popups" index="1"]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="popup_newKey" parent="Popups" instance=ExtResource("8_dq72o")]
+visible = false
 
 [node name="Button_Float" type="Node" parent="."]
 
@@ -278,6 +290,11 @@ offset_bottom = 599.0
 [connection signal="button_up" from="VBox1/HBox1/SaveChanges_Button" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/AddNewField_Button" to="." method="_on_AddField_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/DeleteField_Button" to="." method="display_options"]
+[connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept_Button" to="." method="_on_deletePopup_Accept_button_up"]
+[connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel_Button" to="." method="_on__deletePopup_Cancel_button_up"]
+[connection signal="item_selected" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" to="." method="_on_Itemlist_item_selected"]
+[connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_DeleteField_Accept_button_up"]
+[connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_DeleteField_Cancel_button_up"]
 
 [editable path="VBox1/TableName"]
 [editable path="VBox1/TableName/Label"]
@@ -285,11 +302,4 @@ offset_bottom = 599.0
 [editable path="VBox1/Key/Label"]
 [editable path="Popups"]
 [editable path="Popups/Popup_Delete_Confirm"]
-[editable path="Popups/popup_newValue"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label"]
 [editable path="Popups/popup_deleteKey"]

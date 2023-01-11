@@ -7,18 +7,24 @@
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="5"]
 
 [node name="Icon_Template" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 theme = ExtResource("4")
 script = ExtResource("2")
 
 [node name="Label" parent="." instance=ExtResource("5")]
+custom_minimum_size = Vector2i(0, 25)
+layout_mode = 3
+anchors_preset = 0
 anchor_right = 0.0
 offset_right = 900.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(0, 75)
+custom_minimum_size = Vector2i(0, 75)
 offset_top = 29.0
 offset_right = 900.0
 offset_bottom = 596.0
@@ -40,6 +46,7 @@ size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
 [node name="Input" type="TextureButton" parent="HBoxContainer/ColorRect"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2

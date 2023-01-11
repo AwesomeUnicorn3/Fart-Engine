@@ -1,1 +1,1 @@
-{"1":{"Display Name":"Consumable","ID":"Consumable"},"2":{"Display Name":"Quest Item","ID":"Quest Item"},"3":{"Display Name":"Currency","ID":"Currency"}}
+{"1":{"Checkbox_Template":"True","Display Name":"{\n\"text\": \"Consumable\"\n}"},"2":{"Display Name":"{\n\"text\": \"Quest Item\"\n}"},"3":{"Display Name":"{\n\"text\": \"Currency\"\n}"}}

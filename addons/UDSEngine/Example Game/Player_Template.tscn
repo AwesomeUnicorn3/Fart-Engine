@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/UDSEngine/Example Game/Player_Template.gd" id="2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_u8nt8"]
-radius = 51.1566
+radius = 32.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cyy6t"]
 radius = 5.38516
@@ -16,6 +16,7 @@ script = ExtResource("2")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+zoom = Vector2(4, 4)
 
 [node name="PlayerInteractionArea" type="Area2D" parent="."]
 collision_layer = 4

@@ -9,11 +9,18 @@ func _init() -> void:
 #	labelNode = $Label/HBox1/Label_Button
 	
 
-#TEMPLATE FOR IF I DECIDE TO MOVE THE SET/GET FUNCTIONS FROM DATABASEENGINE TO INDIVIDUAL INPUT SCENES
-func set_input_data(value):
-	inputNode.set_text(value)
-	input_data = value
 
-func get_input_data():
-	return input_data
+func _set_input_value(node_value):
+	if typeof(node_value) == 4:
+		node_value = str_to_var(node_value)
+	input_data = node_value
+	var text :String = input_data["text"]
+	$Input.set_text(text)
+
+
+func _get_input_value():
+	var text_dict :Dictionary
+	var text_input :String = $Input.text
+	text_dict["text"] = text_input
+	return text_dict
 

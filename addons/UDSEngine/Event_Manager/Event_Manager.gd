@@ -9,7 +9,7 @@ extends DatabaseEngine
 @onready var btn_cancel = $VBox1/HBox1/Cancel
 @onready var btn_delete = $VBox1/HBox1/DeleteSelectedItem
 @onready var table_list = $VBox1/HBox2/Scroll1/Table_Buttons
-@onready var popup_main = $Popups
+@onready var popup_main := $Popups
 @onready var popup_deleteConfirm = $Popups/popup_delete_confirm
 @onready var popup_deleteKey = $Popups/popup_deleteKey
 @onready var popup_newField = $Popups/popup_newValue
@@ -44,6 +44,7 @@ func set_ref_table():
 
 func _on_visibility_changed():
 	if visible:
+		popup_main = $Popups
 		if popup_main.visible:
 			hide_all_popups()
 	else:
@@ -137,32 +138,50 @@ func refresh_data(display_name : String):
 	enable_all_buttons()
 	
 	event_display_name = display_name
+
 	for child_node in event_editor_panel.get_children():
 		if child_node.has_method("close_event_input_form_in_dbmanager"):
 			child_node.close_event_input_form_in_dbmanager()
+			
+			
 	#translate display_name to event_name using the table data dictionary
-	
+	var tableData_dict = import_data(table_save_path + "Table Data" + file_format)
+	var currentTable_name :String
+	for table_name in tableData_dict:
+#		print(table_name)
+		var tempDisplayName :Dictionary= str_to_var(tableData_dict[table_name]["Display Name"])
+		if tempDisplayName["text"] == display_name:
+			currentTable_name = table_name
+
+			#break
 	#load event editor input form for event selected
 	current_event_editor_input = event_editor_input_form.instantiate()
-	current_event_editor_input.event_name = current_event_editor_input.get_table_data_key(display_name)
+	current_event_editor_input.event_name = current_event_editor_input.get_table_data_key(currentTable_name)
+#	
 	event_editor_panel.add_child(current_event_editor_input)
 	current_event_editor_input.get_node("Scroll1/VBox1/HBox2").visible = false
 	current_event_editor_input.load_event_from_dbmanager()
-#
+	
 	table_list.get_node(event_display_name).disabled = true #Sets current item button to disabled
 	table_list.get_node(event_display_name).grab_focus()
 
 
 func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
-	#REPLACE CURRENTDATAT_DICT WITH LIST OF EVENTS 
+	clear_buttons()
+		
 	var event_list_dict :Dictionary = get_list_of_events(true)
 	var table_dict :Dictionary = get_list_of_all_tables()
-
 	for Event_Name in event_list_dict: 
+		var label :String 
+		if typeof(str_to_var(Event_Name)) == TYPE_DICTIONARY:
+			var eventName_dict :Dictionary = str_to_var(Event_Name)
+			label = eventName_dict["text"]
+		else:
+			label = Event_Name
 		var newbtn = btn_itemselect.instantiate() #Create new instance of item button
 		table_list.add_child(newbtn) #Add new item button to table_list
-		var label :String = Event_Name #Use the row_dict key (item_number) to set the button label as the item name
+		#Use the row_dict key (item_number) to set the button label as the item name
 		newbtn.set_name(label) #Set the name of the new button as the item name
 		newbtn.main_page = self
 		var labelNode :Label = newbtn.get_node("Label")
@@ -171,11 +190,12 @@ func create_table_buttons():
 
 func _on_Save_button_up():
 	event_display_name = current_event_editor_input.save_event_data(true)
-#	get_udsmain().create_tabs()
+	create_table_buttons()
+#	get_AU3().create_tabs()
 	table_list.get_node(event_display_name).disabled = true #Sets current item button to disabled
 	table_list.get_node(event_display_name).grab_focus()
 
-func get_udsmain():
+func get_AU3():
 	var main_node = null
 	var curr_selected_node = self
 	while main_node == null:
@@ -240,13 +260,15 @@ func has_empty_fields():
 func _on_AddNewItem_button_up():
 	#input default item values to form
 	event_display_name = current_event_editor_input._on_Create_New_Event_Button_button_up(false)
-	reload_buttons()
+	#reload_buttons()
+	get_main_node()._ready()
 	table_list.get_node(event_display_name)._on_TextureButton_button_up()
 
 
 func delete_selected_item():
 	Delete_Table(current_event_editor_input.event_name)
-	reload_buttons()
+	get_main_node()._ready()
+	#reload_buttons()
 	table_list.get_child(0)._on_TextureButton_button_up()
 
 func _on_DeleteSelectedItem_button_up():

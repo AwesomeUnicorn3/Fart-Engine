@@ -1,13 +1,49 @@
 @tool
 extends Button
+
 var btn_moved := false
 var btn_pressed := false
 var parent
 var grandparent
 var main_page = null
+var bufferSize :int = 10
 
-func set_label_text(labelText :String):
-	$Label.set_text(labelText)
+
+func set_label_text(keyName :String, displayName :String = "", displayNameVisible :bool = true):
+	$Label.set_text(keyName) #must be set no matter what is displayed
+	#print(displayName, " Visible : ", displayNameVisible)
+	if displayNameVisible and displayName != "":
+		$DisplayLabel.set_text(displayName)
+#		visibleNode = $DisplayLabel
+		$DisplayLabel.visible = true
+		$Label.visible = false
+		
+	else:
+#		visibleNode = $Label
+		$DisplayLabel.visible = false
+		$Label.visible = true
+		#print("Key Name: ", keyName, " ", displayName, " Visible : ", displayNameVisible)
+	change_button_size()
+
+
+func change_button_size():
+
+	var visibleNode :Label = get_visible_label()
+	var labelSize :Vector2 = visibleNode.size
+	var buttonSize :Vector2 = self.size
+	if labelSize.y + bufferSize != buttonSize.y:
+		custom_minimum_size = Vector2(labelSize.x,labelSize.y + bufferSize)
+		set_size(Vector2(labelSize.x,labelSize.y + bufferSize))
+		labelSize = visibleNode.size
+		buttonSize = self.size
+
+func get_visible_label() -> Label:
+	var labelNode :Label
+	for child in get_children():
+		if child.visible:
+			labelNode = child
+			break
+	return labelNode
 
 func _on_TextureButton_button_up():
 	if !btn_moved:
@@ -22,12 +58,18 @@ func _on_TextureButton_button_up():
 	
 
 func _process(delta):
+	var visibleNode :Label = get_visible_label()
+	var labelSize :Vector2 = visibleNode.size
+	var buttonSize :Vector2 = self.size
+	if labelSize.y + bufferSize != buttonSize.y:
+		change_button_size()
+
 	if btn_moved:
 		var mouse_postion :Vector2 = get_viewport().get_mouse_position()
 		set_position(Vector2(mouse_postion.x + 25, mouse_postion.y - 20))
 
 
-func _on_texture_button_pressed():
+func _on_pressed():
 
 	if main_page.button_movement_active:
 		main_page.rearrange_table_keys()
@@ -35,11 +77,8 @@ func _on_texture_button_pressed():
 
 	elif main_page.name != "Event_Manager":
 		btn_pressed = true
-#		print("Button Down")
-		
 		await get_tree().create_timer(.25).timeout
 		if btn_pressed:
-#			print("Pressed")
 			modulate = Color(1,1,1,.25)
 			btn_moved = true
 			parent = get_parent()
@@ -49,10 +88,7 @@ func _on_texture_button_pressed():
 			grandparent.add_child(self)
 			main_page.button_movement_active = true
 			main_page.button_selected = name
-#			print(current_index ," removed from " , parent.name)
-#			print("Child added to " , grandparent.name, " at index ", get_index())
 
 
-
-func _on_texture_button_mouse_entered():
+func _on_mouse_entered():
 	main_page.button_focus_index = name

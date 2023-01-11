@@ -6,8 +6,9 @@ signal input_selection_changed #emitted when dropdown list selected item changes
 signal input_load_complete
 signal checkbox_pressed
 
-@export var label_text = ""
-@export var is_label_button = true
+@export var label_text := ""
+@export var is_label_button := true
+@export var showLabel := true
 @export var show_field := false
 
 var DBENGINE := DatabaseEngine.new()
@@ -20,6 +21,7 @@ var table_name = ""
 var table_ref = ""
 var parent_node :Object
 var input_data 
+var index :String
 
 
 func _ready():
@@ -34,13 +36,18 @@ func _ready():
 		labelNode.set_text(itemName)
 	else:
 		labelNode.set_text(label_text)
-
+	show_label(showLabel)
 	connect_signals()
 	parent_node = await get_main_tab(self)
 	set_default_value()
 	emit_signal("input_load_complete")
 	if me.has_method("startup"):
 		await me.startup()
+
+
+func show_label(show :bool = true):
+	labelNode.visible = show
+
 
 func set_default_value():
 	var dbengine = DatabaseEngine.new()
@@ -76,7 +83,6 @@ func display_edit_table_menu():
 	print("Signal recieved - edit table values closed")
 	if edit_table_values.update_data:
 		for i in edit_table_values.DATA_CONTAINER.get_children():
-			print(i)
 			var curr_input = parent_node.update_match(i)
 			var field_name = i.name
 			all_table_data_dict[edit_table_values.tableName][field_name] = curr_input
@@ -100,7 +106,7 @@ func display_edit_field_menu():
 	parent_node.get_node("Popups").visible = true
 	parent_node.get_node("Popups").add_child(edit_field_values)
 	edit_field_values.label.set_text(fieldName + " Options")
-
+	edit_field_values.reference_table_input = self
 
 
 	await edit_field_values.edit_field_values_closed
@@ -108,27 +114,31 @@ func display_edit_field_menu():
 	#UPDATE DATA FOR INPUT
 	if edit_field_values.update_data:
 		for i in edit_field_values.DATA_CONTAINER.get_children():
-			
 			var curr_input = parent_node.update_match(i)
 			var field_name = i.name
 			if field_name == "DataType":
 				if edit_field_values.is_datatype_changed:
 					curr_input = i.get_dataType_ID(curr_input)
 					datatype_id = curr_input
-					parent_node.currentData_dict["Column"][edit_field_values.field_index][field_name] = datatype_id
-					#loop through all keys in currdict and set fieldName value to default for the datatype
-			else:
-				parent_node.currentData_dict["Column"][edit_field_values.field_index][field_name] = curr_input
+			elif field_name == "FieldName":
+				curr_input = str_to_var(curr_input)["text"]
 
+			parent_node.currentData_dict["Column"][edit_field_values.field_index][field_name] = curr_input
+			
 	if edit_field_values.is_datatype_changed:
 		var default_value = parent_node.get_default_value(datatype_id)#edit_field_values.initial_data_type)
-		for n in parent_node.current_dict: #loop through all keys and set value for this file to "empty"
-			parent_node.current_dict[n][fieldName] = default_value
-	parent_node._on_Save_button_up(false)
-	parent_node.refresh_data()
+		for key in parent_node.current_dict: #loop through all keys and set value for this file to "empty"
+			parent_node.current_dict[key][fieldName] = default_value
 
+
+
+	
+	parent_node.refresh_data()
+	parent_node._on_Save_button_up()
+#	parent_node.refresh_data()
 	parent_node.get_node("Popups").visible = false
 	edit_field_values.queue_free()
+	
 
 func get_main_tab(par := get_parent()):
 	#Get main tab scene which should have the popup container and necessary script

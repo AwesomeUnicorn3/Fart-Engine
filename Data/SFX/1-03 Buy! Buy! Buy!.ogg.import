@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b4d5vrjrlx5ls"
+path="res://.godot/imported/1-03 Buy! Buy! Buy!.ogg-182d25bfb538064cef0f03772c2262a6.oggvorbisstr"
+
+[deps]
+
+source_file="res://Data/SFX/1-03 Buy! Buy! Buy!.ogg"
+dest_files=["res://.godot/imported/1-03 Buy! Buy! Buy!.ogg-182d25bfb538064cef0f03772c2262a6.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

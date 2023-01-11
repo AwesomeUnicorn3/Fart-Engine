@@ -5,16 +5,24 @@
 [ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="5"]
 
 [node name="popup_newTable" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("3")
 
 [node name="PanelContainer" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.00784314, 0, 0.0352941, 0.678431)
 
 [node name="VBox1" type="VBoxContainer" parent="PanelContainer"]
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -29,46 +37,69 @@ size_flags_horizontal = 3
 metadata/_edit_layout_mode = 1
 
 [node name="Input_Text" parent="PanelContainer/VBox1" instance=ExtResource("5")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 826.0
 offset_bottom = 79.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "Table Name"
 is_label_button = false
 
 [node name="Label" parent="PanelContainer/VBox1/Input_Text" index="0"]
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 0.0
 offset_right = 826.0
+offset_bottom = 25.0
+grow_horizontal = 2
 
 [node name="Input" parent="PanelContainer/VBox1/Input_Text" index="1"]
+layout_mode = 3
+offset_top = 29.0
 offset_right = 826.0
 offset_bottom = 79.0
 
 [node name="input_templateBuffer" parent="PanelContainer/VBox1/Input_Text" index="2"]
 visible = false
+layout_mode = 3
+anchors_preset = 10
 offset_top = 83.0
 offset_right = 826.0
 offset_bottom = 83.0
+grow_horizontal = 2
 
 [node name="Table_RefName" parent="PanelContainer/VBox1" instance=ExtResource("5")]
 visible = false
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
+offset_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "Enter Nickname for table "
 is_label_button = false
 
 [node name="List_Checkbox" parent="PanelContainer/VBox1" instance=ExtResource("4")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 83.0
 offset_right = 826.0
 offset_bottom = 166.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "Is Table a List?"
 is_label_button = null
 
 [node name="Label" parent="PanelContainer/VBox1/List_Checkbox" index="0"]
+custom_minimum_size = Vector2(0, 25)
 offset_right = 826.0
+offset_bottom = 25.0
 
 [node name="Hbox1" parent="PanelContainer/VBox1/List_Checkbox" index="1"]
+custom_minimum_size = Vector2(0, 50)
 offset_right = 826.0
 offset_bottom = 79.0
 
@@ -82,38 +113,50 @@ offset_right = 826.0
 offset_bottom = 83.0
 
 [node name="Incl_inSavefile" parent="PanelContainer/VBox1" instance=ExtResource("4")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 170.0
 offset_right = 826.0
 offset_bottom = 253.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "Include in Save Files?"
 is_label_button = null
 
 [node name="DB_Tab" parent="PanelContainer/VBox1" instance=ExtResource("4")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 257.0
 offset_right = 826.0
 offset_bottom = 340.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "Create Database Tab?"
 is_label_button = null
 
 [node name="Key_Input" parent="PanelContainer/VBox1" instance=ExtResource("5")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 344.0
 offset_right = 826.0
 offset_bottom = 427.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "First Key Name"
 is_label_button = false
 
 [node name="Field_Input" parent="PanelContainer/VBox1" instance=ExtResource("5")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 431.0
 offset_right = 826.0
 offset_bottom = 514.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "First Field Name"
 is_label_button = false
 

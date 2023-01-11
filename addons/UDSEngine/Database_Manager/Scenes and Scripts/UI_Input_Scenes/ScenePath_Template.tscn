@@ -14,6 +14,7 @@ size_flags_horizontal = 3
 script = ExtResource("5")
 
 [node name="Label" parent="." instance=ExtResource("3")]
+custom_minimum_size = Vector2i(0, 25)
 layout_mode = 3
 anchors_preset = 0
 anchor_right = 0.0
@@ -22,13 +23,13 @@ offset_right = 900.0
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 offset_top = 29.0
 offset_right = 900.0
-offset_bottom = 644.0
+offset_bottom = 596.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ChangeSceneButton" type="Button" parent="HBoxContainer"]
 offset_right = 148.0
-offset_bottom = 615.0
+offset_bottom = 567.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 text = "Change Scene"
@@ -52,10 +53,10 @@ size_flags_vertical = 3
 editable = false
 
 [node name="Display" type="LineEdit" parent="HBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2i(0, 50)
 offset_left = 152.0
 offset_right = 747.0
-offset_bottom = 615.0
+offset_bottom = 567.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -71,16 +72,16 @@ size_flags_vertical = 3
 [node name="OpenScene" type="Button" parent="HBoxContainer"]
 offset_left = 751.0
 offset_right = 900.0
-offset_bottom = 615.0
+offset_bottom = 567.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 text = "Open Scene"
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("2")]
 anchor_right = 0.0
-offset_top = 648.0
+offset_top = 600.0
 offset_right = 900.0
-offset_bottom = 648.0
+offset_bottom = 600.0
 
 [connection signal="button_up" from="HBoxContainer/ChangeSceneButton" to="." method="_on_TextureButton_button_up"]
 [connection signal="button_up" from="HBoxContainer/OpenScene" to="." method="_on_open_scene_button_up"]

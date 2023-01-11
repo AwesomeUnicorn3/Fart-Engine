@@ -43,19 +43,19 @@ func _ready() -> void:
 		
 #		sprite_animation.set_position(root_node.position)
 #		sprite_animation.play("Default Animation")
-#		var sprite_group_dict :Dictionary = udsmain.Static_Game_Dict["Sprite Groups"]
-#		var sprite_group_name :String = udsmain.Static_Game_Dict["Characters"][udsmain.get_lead_character()]["Sprite Group"]
+#		var sprite_group_dict :Dictionary = AU3ENGINE.Static_Game_Dict["Sprite Groups"]
+#		var sprite_group_name :String = AU3ENGINE.Static_Game_Dict["Characters"][AU3ENGINE.get_lead_character()]["Sprite Group"]
 #		var player_sprite_group_dict :Dictionary = {}
-#		sprite_animation = udsmain.create_sprite_animation()
+#		sprite_animation = AU3ENGINE.create_sprite_animation()
 #		var spriteFrames : SpriteFrames = SpriteFrames.new()
 #		for i in sprite_group_dict:
 #			if sprite_group_dict[i]["Display Name"] == sprite_group_name:
-#				player_sprite_group_dict = udsmain.Static_Game_Dict["Sprite Groups"][i]
+#				player_sprite_group_dict = AU3ENGINE.Static_Game_Dict["Sprite Groups"][i]
 #		for j in player_sprite_group_dict:
 #			if j != "Display Name":
 #
 #				var animation_name : String = j
-#				var anim_array :Array = udsmain.add_animation_to_animatedSprite( animation_name, udsmain.convert_string_to_type(player_sprite_group_dict[j]), true ,sprite_animation, spriteFrames)
+#				var anim_array :Array = AU3ENGINE.add_animation_to_animatedSprite( animation_name, AU3ENGINE.convert_string_to_type(player_sprite_group_dict[j]), true ,sprite_animation, spriteFrames)
 #				collisions_node.add_child(anim_array[1])
 
 #		$Body.add_child(sprite_animation)

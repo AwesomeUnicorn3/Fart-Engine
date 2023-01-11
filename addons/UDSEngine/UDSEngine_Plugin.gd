@@ -6,8 +6,8 @@ var main_panel_instance
 var toolbar = preload("res://addons/UDSEngine/Event_Manager/Event Tools.tscn").instantiate()
 
 	
-#func _init():
-#	add_autoload_singleton('udsmain', "res://addons/UDS_Singleton.gd")
+func _init():
+	add_autoload_singleton('AU3ENGINE', "res://addons/UDSEngine/au3engine_singleton.gd")
 #	add_autoload_singleton('Quest', "res://addons/Quest_Manager/Quest_Scripts.gd")
 
 	
@@ -16,10 +16,10 @@ var toolbar = preload("res://addons/UDSEngine/Event_Manager/Event Tools.tscn").i
 func _enter_tree():
 	print("Plugin Has Entered the Chat")
 	main_panel_instance = MainPanel.instantiate()
-	main_panel_instance.set_name("UDSENGINE")
+	main_panel_instance.set_name("AU3ENGINE")
 	# Add the main panel to the editor's main viewport.
-	get_editor_interface().get_editor_main_control().add_child(main_panel_instance)
-	var mainPanel = get_editor_interface().get_editor_main_control().get_node("UDSENGINE")
+	get_editor_interface().get_editor_main_screen().add_child(main_panel_instance)
+	var mainPanel = get_editor_interface().get_editor_main_screen().get_node("AU3ENGINE")
 
 # Hide the main panel. Very much required.
 	_make_visible(false)
@@ -43,7 +43,7 @@ func _has_main_screen():
 	return true
 
 func _get_plugin_name():
-	return "UDS Engine"
+	return "AU3 Engine"
 
 func _get_plugin_icon():
 	return get_editor_interface().get_base_control().get_theme_icon("Node", "EditorIcons")

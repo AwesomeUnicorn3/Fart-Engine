@@ -20,7 +20,7 @@ var event_node :EventHandler
 var tab_number :String = "1"
 var initial_event_display_name :String = ""
 var input_node_dict :Dictionary = {}
-
+var selectedPageNode : Node
 
 func match_fields_to_template():
 	var event_template_dict :Dictionary = import_data(table_save_path + "Event Table Template" + file_format)
@@ -51,6 +51,7 @@ func load_event_data(event_tab := tab_number):
 	initial_event_display_name = get_table_data_key(event_name, true)
 	event_name_label.inputNode.set_text(initial_event_display_name)
 
+	
 func load_page_buttons():
 	var page_button = load("res://addons/UDSEngine/Event_Manager/Event_Page_Button.tscn")
 	var event_size : int = event_dict.size()
@@ -98,6 +99,7 @@ func load_draw_shadow_input(event_tab):
 	input_node_dict["Draw Shadow?"] = new_input_container
 	new_input_container.true_text = "Yes"
 	new_input_container.false_text = "No"
+
 
 func animation_state_selected(event_moves :bool):
 	show_animation_movement_options(event_moves)
@@ -152,6 +154,11 @@ func load_loop_animation_input(event_tab):
 	var event_animation_container  = await add_input_node(1, 1, "Loop Animation", event_dict[event_tab], conditions_node, null, input_value, "4")
 	input_node_dict["Loop Animation"] = event_animation_container
 
+func load_collide_with_player_input(event_tab):
+	var input_value = event_dict[event_tab]["Collide with Player?"]
+	var event_animation_container  = await add_input_node(1, 1, "Collide with Player?", event_dict[event_tab], conditions_node, null, input_value, "4")
+	input_node_dict["Collide with Player?"] = event_animation_container
+
 func load_max_speed_input(event_tab):
 	var input_value = event_dict[event_tab]["Max Speed"]
 	var event_animation_container  = await add_input_node(1, 1, "Max Speed", event_dict[event_tab], conditions_node, null, input_value, "2")
@@ -196,6 +203,7 @@ func _on_event_selection_Accept_button_up() -> void:
 	emit_signal("event_selection_popup_closed")
 
 func on_page_button_pressed(event_page_number :String):
+	selectedPageNode = event_page_button_list.get_child(int(event_page_number) - 1)
 	if event_page_number == "1":
 		$Scroll1/VBox1/HBox3/HBox1/Delete_Page_Button.disabled = true
 	else:
@@ -207,6 +215,7 @@ func on_page_button_pressed(event_page_number :String):
 	load_event_trigger_input(event_page_number)
 	load_event_animation_state_input(event_page_number)
 	load_event_animation_group_input(event_page_number)
+	load_collide_with_player_input(event_page_number)
 	load_draw_shadow_input(event_page_number)
 	load_loop_animation_input(event_page_number)
 	load_attack_player_input(event_page_number)
@@ -233,12 +242,13 @@ func get_table_data_key(table_name := "", return_display_name := false):
 	for tableName in table_list:
 		if tableName == table_name:
 			key_name = tableName
-			display_name = table_list[tableName]["Display Name"]
+			display_name = str_to_var(table_list[tableName]["Display Name"])["text"]
 			break
 		elif table_list[tableName]["Display Name"] == table_name:
 			key_name = tableName
 			display_name = table_list[tableName]["Display Name"]
 			break
+
 	if return_display_name:
 		return display_name
 	else:
@@ -262,17 +272,20 @@ func set_table_data_display_name(event_key :String , displayName :String):
 	update_editor()
 
 func set_table_data_display_name_from_dbmanager(event_key :String , displayName :String):
-	var display_name :String
-	var table_list :Dictionary = import_data(table_save_path + "Table Data" + file_format)
-	for tableName in table_list:
+#	var display_name :String
+	var tableData_dict :Dictionary = import_data(table_save_path + "Table Data" + file_format)
+	for tableName in tableData_dict:
+		var tableName_dict :Dictionary = str_to_var(tableData_dict[tableName]["Display Name"])
+		var tblDisplayName :String = tableName_dict["text"]
 		if tableName == event_key:
-			table_list[tableName]["Display Name"] = displayName
-			break
-		elif table_list[tableName]["Display Name"] == event_key:
-			table_list[tableName]["Display Name"] = displayName
-			break
+			tableData_dict[tableName]["Display Name"] = var_to_str({"text" : displayName})
 
-	save_file(table_save_path + "Table Data" + file_format, table_list)
+#		elif tblDisplayName == event_key:
+#			table_list[tableName]["Display Name"]["text"] = displayName
+
+	save_file(table_save_path + "Table Data" + file_format, tableData_dict)
+	tableData_dict  = import_data(table_save_path + "Table Data" + file_format)
+
 	return displayName
 
 func update_editor():
@@ -320,6 +333,7 @@ func get_next_event_key():
 
 func _on_Create_New_Event_Button_button_up(change_event_name_in_node := true):
 	event_name = "Event " + get_next_event_key()
+
 	#copy event table template and save as current event
 	current_table_name = "Event Table Template"
 	update_dictionaries()
@@ -331,15 +345,21 @@ func _on_Create_New_Event_Button_button_up(change_event_name_in_node := true):
 	update_dictionaries()
 	add_key(event_name, "1", true, true, "")
 
+
 	#Input data for table list
-	current_dict[event_name]["Display Name"] = event_name
+	#current_dict[event_name]["Display Name"]["text"] = event_name
+	
+	var tempDict :Dictionary = {"text" : event_name}
+	current_dict[event_name]["Display Name"] = var_to_str(tempDict.duplicate(true))
+
 	current_dict[event_name]["Create Tab"] = false
 	current_dict[event_name]["Is Dropdown Table"] = false
 	current_dict[event_name]["Include in Save File"] = false
 	current_dict[event_name]["Can Delete"] = true
 	current_dict[event_name]["Is Event"] = true
+	#print("EVENT NAME :", event_name, "/n" , current_dict[event_name])
 	save_all_db_files(current_table_name)
-	
+	update_editor()
 	
 	event_selection_popup.visible = false
 	popup_main.visible = false
@@ -405,7 +425,7 @@ func _on_Save_Close_Button_button_up() -> void:
 	#GET UDS ENGINE EVENT TAB AND REFRESH
 	#REFRESH EVENT TAB
 	var editor := EditorPlugin.new()
-	var udsplugin = editor.get_editor_interface().get_editor_main_control().get_node("UDSENGINE")
+	var udsplugin = editor.get_editor_interface().get_editor_main_screen().get_node("AU3ENGINE")
 	udsplugin.get_node("Tabs/Event_Manager")._on_RefreshData_button_up()
 	save_all_db_files()
 #	event_node._ready()
@@ -416,18 +436,19 @@ func save_event_data(is_dbmanager :bool = false):
 	for child in input_node_dict:
 		var node = input_node_dict[child]
 		update_match(node, node.labelNode.get_text(), tab_number)
+	
 	var displayName :String = event_name_label.inputNode.get_text()
 	var display :String = displayName
 	if displayName != initial_event_display_name:
-
 		if is_dbmanager == true:
 			display = set_table_data_display_name_from_dbmanager(event_name , displayName)
 		else:
 			set_table_data_display_name(event_name , displayName)
+
 	save_all_db_files()
 
-	var selected_page_button = event_page_button_list.get_child(0)
-	selected_page_button.on_Button_button_up()
+	#selectedPageNode = event_page_button_list.get_child(0)
+	selectedPageNode.on_Button_button_up()
 
 	var eventNode = get_node("../../../../..")
 	if eventNode.has_method("clear_datachange_warning"): eventNode.clear_datachange_warning()

@@ -23,6 +23,8 @@ func startup():
 	IconSelection_Checkbox.inputNode.toggled.connect(icon_selection_toggled)
 	SceneSelection_Checkbox.inputNode.toggled.connect(scene_selection_toggled)
 
+
+
 func character_name_changed():
 	print(CharacterName_Dropdown.selectedItemName)
 
@@ -47,39 +49,45 @@ func scene_selection_toggled(button_pressed:bool):
 func _get_input_value():
 	var return_value :Dictionary
 
-	return_value["character_name_checkbox"] = CharacterName_Checkbox.inputNode.button_pressed
-	return_value["character_name_text"] = CharacterName_Text.inputNode.get_text()
+	return_value["character_name_checkbox"] = CharacterName_Checkbox._get_input_value()
+	return_value["character_name_text"] = CharacterName_Text._get_input_value()
 	return_value["character_name_dropdown"] = CharacterName_Dropdown.inputNode.get_text()
-	return_value["dialog_text"] = Dialog_Text.inputNode.get_text()
-	return_value["icon_selection_checkbox"] = IconSelection_Checkbox.inputNode.button_pressed
-	return_value["icon_selection_icon"] = IconSelection_Icon.inputNode.get_normal_texture()
-	return_value["icon_selection_sprite"] = var_to_str(IconSelection_Sprite._get_input_value())
-	return_value["scene_selection_checkbox"] = SceneSelection_Checkbox.inputNode.button_pressed
+	return_value["dialog_text"] = Dialog_Text._get_input_value()
+	return_value["icon_selection_checkbox"] = IconSelection_Checkbox._get_input_value()
+	return_value["icon_selection_sprite"] = IconSelection_Sprite._get_input_value()
+	return_value["scene_selection_checkbox"] = SceneSelection_Checkbox._get_input_value()
 	return_value["scene_selection_scenepath"] = Scene_Selection_ScenePath.inputNode.get_text()
+	#GET PATH NOT TEXTURE OBJECT!!!!
+	return_value["icon_selection_icon"] = IconSelection_Icon.inputNode.texture_normal.get_path()
+	#print(var_to_str(return_value))
 	return return_value
+	
 
 
 func _set_input_value(node_value):
-	if typeof(node_value) == 4:
-		node_value = str_to_var(node_value)
+	var temp_var = node_value
+	if typeof(node_value) == TYPE_STRING:
+		node_value = var_to_str(node_value)
+		
+	if node_value == null:
+		node_value = temp_var
 	input_data = node_value
-
-	var use_character_dropdown :bool = input_data["character_name_checkbox"]
+	
+	var use_character_dropdown :bool = str_to_var(input_data["character_name_checkbox"])
 	CharacterName_Checkbox.inputNode.button_pressed = use_character_dropdown
 	CharacterName_Checkbox.inputNode.emit_signal("toggled",use_character_dropdown )
 	CharacterName_Dropdown.inputNode.set_text(input_data["character_name_dropdown"])
-	CharacterName_Text.inputNode.set_text(input_data["character_name_text"])
-	
-	Dialog_Text.inputNode.set_text(input_data["dialog_text"])
+	CharacterName_Text.inputNode.set_text(input_data["character_name_text"]["text"])
+	Dialog_Text.inputNode.set_text(input_data["dialog_text"]["text"])
 
-	var use_animation :bool = input_data["icon_selection_checkbox"]
+	var use_animation :bool = str_to_var(input_data["icon_selection_checkbox"])
 	IconSelection_Checkbox.inputNode.button_pressed = use_animation
 	IconSelection_Checkbox.inputNode.emit_signal("toggled",use_animation)
-	var animation_data :Dictionary = str_to_var(input_data["icon_selection_sprite"])
+	var animation_data :Dictionary = input_data["icon_selection_sprite"]
 	IconSelection_Sprite._set_input_value(animation_data)
-	IconSelection_Icon.inputNode.set_normal_texture(input_data["icon_selection_icon"])
-	
-	var use_default_scene :bool = input_data["scene_selection_checkbox"]
+	IconSelection_Icon.inputNode.set_texture_normal(load(input_data["icon_selection_icon"]))
+
+	var use_default_scene :bool = str_to_var(input_data["scene_selection_checkbox"])
 	SceneSelection_Checkbox.inputNode.button_pressed = use_default_scene
 	SceneSelection_Checkbox.inputNode.emit_signal("toggled",use_default_scene )
 	Scene_Selection_ScenePath.inputNode.set_text(input_data["scene_selection_scenepath"])

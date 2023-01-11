@@ -1,6 +1,5 @@
 extends Node2D
 
 #func _ready():
-#
-#	print("ExampleGameLoaded")
-
+#	var x :bool = AU3ENGINE.is_table_dropdown_list("Global Data")
+#	pass

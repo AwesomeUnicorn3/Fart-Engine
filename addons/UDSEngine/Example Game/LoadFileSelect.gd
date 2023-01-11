@@ -18,14 +18,14 @@ func _ready() -> void:
 
 
 func _on_Load_button_up() -> void:
-	udsmain.load_game(file_name)
-	udsmain.root.get_node("UI/TitleScreen").visible = false
+	AU3ENGINE.load_game(file_name)
+	AU3ENGINE.root.get_node("UI/TitleScreen").visible = false
 	#SET PLAYER POSITION
-#	udsmain.set_player_position()
+#	AU3ENGINE.set_player_position()
 	parent_container.remove_load_menu()
 
 
 func _on_Delete_button_up() -> void:
-	udsmain.delete_save_file(file_name)
+	AU3ENGINE.delete_save_file(file_name)
 	parent_container.clear_save_file_list()
 	parent_container._ready()

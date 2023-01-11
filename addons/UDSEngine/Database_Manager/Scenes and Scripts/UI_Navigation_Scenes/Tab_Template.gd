@@ -1,5 +1,6 @@
 @tool
 extends DatabaseEngine
+signal popup_closed
 
 @onready var btn_itemselect = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Btn_ItemSelect.tscn")
 
@@ -22,7 +23,7 @@ extends DatabaseEngine
 @onready var popup_main = $Popups
 @onready var popup_deleteConfirm = $Popups/Popup_Delete_Confirm
 @onready var popup_deleteKey = $Popups/popup_deleteKey
-@onready var popup_newField = $Popups/popup_newValue
+#@onready var popup_newField = $Popups/popup_newValue
 @onready var popup_listInput = $Popups/ListInput
 @onready var popup_fileSelect = $Popups/FileSelect
 
@@ -34,15 +35,18 @@ var selected_field_name = ""
 var first_load = true
 var input_changed = false
 var error
+var useDisplayName :bool = false
 
 func _ready():
 	if first_load:
 		current_table_name = tableName
 		first_load = false
-		root = get_udsmain()
+		root = get_AU3()
 		set_ref_table()
+		use_display_name()
 		update_dictionaries()
 		reload_buttons()
+		await get_tree().process_frame
 		table_list.get_child(0)._on_TextureButton_button_up()
 		custom_table_settings()
 
@@ -62,7 +66,7 @@ func custom_table_settings():
 			$VBox1/HBox1/DeleteSelectedKey_Button.visible = false
 			#Hide add and delete field buttons
 			$VBox1/HBox2.visible = false
-
+			
 #		"Global Data":
 #			$VBox1/Key/Input.editable = false
 #			$VBox1/Key.is_label_button = false
@@ -70,11 +74,22 @@ func custom_table_settings():
 #			$VBox1/HBox1/DeleteSelectedKey_Button.visible = false
 #			$VBox1/HBox2.visible = false
 
+	if is_table_dropdown_list(current_table_name):
+		$VBox1/Key/Input.editable = false
+
+
 func set_ref_table():
 	var tbl_ref_dict = import_data(table_save_path + "Table Data" + file_format)
 	table_ref = tbl_ref_dict[tableName]["Display Name"]
 	current_table_ref = table_ref
-	return table_ref
+	return str_to_var(table_ref)["text"]
+
+func use_display_name() -> bool:
+	var tbl_ref_dict = import_data(table_save_path + "Table Data" + file_format)
+	useDisplayName = convert_string_to_type(tbl_ref_dict[tableName]["Use Display Name in Editor"])
+	
+	return useDisplayName
+
 
 func _on_visibility_changed():
 	if visible:
@@ -127,17 +142,17 @@ func get_values_dict(req = false):
 		var tableRef = currentData_dict["Column"][i]["TableRef"]
 		var required  = convert_string_to_type(currentData_dict["Column"][i]["RequiredValue"])
 		var showValue  = convert_string_to_type(currentData_dict["Column"][i]["ShowValue"])
-		
-		
-			#THIS IS WHERE ALL VALUES SHO8LD BE SET TO DATATYPE DEFAULTS
-			#DOING THIS WILL ALLOW ME TO DELETE ALL OF THE "DEFAULT" TABLES
+
 		var item_value
 		if Item_Name == "Default":
 			item_value = get_default_value(itemType)
 		else:
-			item_value = current_dict[Item_Name][value_name]
-
-		#if required == req:# and showValue:
+			if str_to_var(value_name) == null:
+				#print(Item_Name)
+				item_value = current_dict[Item_Name][value_name]
+			else:
+				var value_name_text :String  = str_to_var(value_name)["text"]
+				item_value = current_dict[Item_Name][value_name_text]
 		custom_dict[value_name] = {"Value" : item_value, "DataType" : itemType, "TableRef" : tableRef, "Order" : i}
 
 	return custom_dict
@@ -147,7 +162,7 @@ func get_values_dict(req = false):
 func hide_all_popups():
 	popup_main.visible = false
 	popup_deleteConfirm.visible = false
-	popup_newField.visible = false
+#	popup_newField.visible = false
 	popup_deleteKey.visible = false
 	
 	var child_count := popup_listInput.get_child_count()
@@ -219,17 +234,26 @@ func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
 	for i in currentData_dict["Row"].size():
 		var item_number = str(i + 1) #row_dict key
-		var label = currentData_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
+		var displayName :String = ""
+		var label :String = currentData_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
+		var key_dict :Dictionary = current_dict[label]
+		if key_dict.has("Display Name"):
+			
+			if typeof(current_dict[label]["Display Name"]) == TYPE_STRING:
+				displayName = str_to_var(current_dict[label]["Display Name"])["text"]
+			else:
+				displayName = current_dict[label]["Display Name"]["text"]
+			#print(displayName)
+
 		var do_not_edit_array :Array = ["Table Data"]
 		if !do_not_edit_array.has(currentData_dict["Row"][item_number]["FieldName"]):
 			var newbtn :Button = btn_itemselect.instantiate() #Create new instance of item button
-			
+			newbtn.set_name(label) #Set the name of the new button as the item name
+			newbtn.set_label_text(label, displayName, useDisplayName)
 			table_list.add_child(newbtn) #Add new item button to table_list
 			newbtn.main_page = self
-			newbtn.set_name(label) #Set the name of the new button as the item name
-			newbtn.get_node("Label").set_text(label) #Sets the button label (name that the user sees)
 
-
+			
 func _on_Save_button_up(update_Values : bool = true):
 	#Check if values are blank return error if true
 	if !has_empty_fields():
@@ -245,7 +269,7 @@ func _on_Save_button_up(update_Values : bool = true):
 		$VBox1/HBox1/CenterContainer/Label.visible = false
 		match current_table_name:
 			"Table Data":
-				get_udsmain().create_tabs()
+				get_AU3().create_tabs()
 				
 		print("Save Successful")
 	else:
@@ -259,6 +283,7 @@ func update_dropdown_tables():
 
 func reload_data_without_saving():
 	reload_buttons()
+	await get_tree().process_frame
 	table_list.get_child(0)._on_TextureButton_button_up()
 
 func update_values():
@@ -296,8 +321,6 @@ func add_table_key(key):
 	current_dict[key] = new_entry
 	
 
-
-
 func does_key_contain_invalid_characters(key):
 	var value = false
 	#loop through invalid characters and compare to item name, if any match, return error
@@ -324,21 +347,56 @@ func has_empty_fields():
 	#return array of empty fields
 	return value
 
+func _on_new_key_Accept_button_up():
+	var newKeyValue :String = $Popups/popup_newKey.get_new_key_value()
+	_on_SaveNewItem_button_up(newKeyValue)
+	_on_new_key_Cancel_button_up()
+
+func _on_new_key_Cancel_button_up():
+	emit_signal("popup_closed")
+
 func _on_AddNewItem_button_up():
 	#input default item values to form
 
+	var is_dropdown :bool = is_table_dropdown_list(current_table_name)
+	var next_key :String = get_next_key_number(current_table_name)
+	
+	popup_main.visible = true
+	$Popups/popup_newKey.visible = true
+	await popup_closed
+	$Popups/popup_newKey.reset_values()
+	$Popups/popup_newKey.visible = false
+	popup_main.visible = false
 
-	refresh_data("Default")
+func _on_SaveNewItem_button_up(newKeyName :String):
+	#NEED TO SET ITEM NAME VARIABLE HERE!!!
+	#Item_Name = item_name_input.text
+	#var keyName :String
+	var displayName :String = newKeyName
+	
+	if is_table_dropdown_list(tableName):
+		newKeyName = get_next_key_number(tableName)
+		#get next number in list
+	#THIS IS WHERE ERROR CHECKING NEEDS TO CONVERGE AND NOT RUN IF THERE IS AN ERROR
+	if !does_key_exist(newKeyName) and !does_key_contain_invalid_characters(str(newKeyName)) and !has_empty_fields():
 
+		#save new item to current_dict
+		add_key(newKeyName, "1", true, false, false)
+		if current_dict[newKeyName].has("Display Name"):
+			current_dict[newKeyName]["Display Name"] = {"text" : displayName}
+		#update new dict entry with input values from item form
+		update_values()
+		#Global Data to .json files
+		save_all_db_files(current_table_name)
+		reload_buttons()
+		refresh_data(newKeyName)
+		#Set V scroll to maxvalue so user can see new entry
 
-	#Disable all item buttons
-	enable_all_buttons(false)
-	#adjust button layaout
-	btn_delete.visible = false
-	btn_saveNewItem.visible = true
-	btn_saveChanges.visible = false
-	btn_addNewItem.visible = false
-	btn_cancel.visible = true
+		await get_tree().create_timer(.25).timeout
+		var max_v_scroll = scroll_table_list.get_v_scroll_bar().max_value
+		scroll_table_list.set_v_scroll(max_v_scroll)
+	else:
+		print("ERROR! No changes were made")
 
 
 func _on_Cancel_button_up():
@@ -353,35 +411,15 @@ func _on_Cancel_button_up():
 	btn_cancel.visible = false
 
 
-func _on_SaveNewItem_button_up():
-	#NEED TO SET ITEM NAME VARIABLE HERE!!!
-	Item_Name = item_name_input.text
-	#THIS IS WHERE ERROR CHECKING NEEDS TO CONVERGE AND NOT RUN IF THERE IS AN ERROR
-	if !does_key_exist(Item_Name) and !does_key_contain_invalid_characters(str(Item_Name)) and !has_empty_fields():
+func get_next_key_number(table_Name :String):
+	#get table, loop through keys, find last key
+	var next_key_number :String
+	for key in current_dict:
+		next_key_number = str(int(key) + 1)
+	#print(next_key_number)
+	return next_key_number
+	
 
-		#save new item to current_dict
-		add_key(Item_Name, "1", true, false, false)
-
-		#update new dict entry with input values from item form
-		update_values()
-		#Global Data to .json files
-		save_all_db_files(current_table_name)
-		reload_buttons()
-		refresh_data(Item_Name)
-
-		#adjust button layaout
-		btn_delete.visible = true
-		btn_saveNewItem.visible = false
-		btn_saveChanges.visible = true
-		btn_addNewItem.visible = true
-		btn_cancel.visible = false
-		#Set V scroll to maxvalue so user can see new entry
-
-		await get_tree().create_timer(.25).timeout
-		var max_v_scroll = scroll_table_list.get_v_scroll_bar().max_value
-		scroll_table_list.set_v_scroll(max_v_scroll)
-	else:
-		print("ERROR! No changes were made")
 
 
 func delete_selected_item():
@@ -428,33 +466,48 @@ func remove_special_char(text : String):
 
 func _on_AddField_button_up():
 	popup_main.visible = true
-	popup_newField.visible = true
-
-
-func _on_NewField_Accept_button_up():
-	add_newField()
-	_on_NewField_Cancel_button_up()
-
-
-func _on_NewField_Cancel_button_up():
-	popup_main.visible = false
-	popup_newField.visible = false
-	popup_newField.reset_values()
-
-
-func add_newField(): 
-	var datafield = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection
-	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input.get_text()
-	var selected_item_name = datafield.selectedItemName
-	var datatype = datafield.get_dataType_ID(selected_item_name)
-	var showField = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox3/LineEdit3.is_pressed()
-	var required = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox4/LineEdit3.is_pressed()
-	var tableName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection.selectedItemName
-	#Get input values and send them to the editor functions add new value script
-	#NEED TO ADD ERROR CHECKING
+	var new_field :Control = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewFieldPopup.tscn").instantiate()
+	#add new_field to popup_main
+	popup_main.add_child(new_field)
+	#wait for new_field input to close
+	await new_field.newfieldinput_closed
+	#new_field queue free
+	var new_field_dict :Dictionary = new_field.main_dict
 	
-	await add_field(fieldName, datatype, showField, false, tableName)
-	refresh_data(Item_Name)
+	if !new_field_dict.is_empty():
+		var field_name :String = new_field_dict["fieldName"]
+		await add_field(field_name, new_field_dict["datatype"], new_field_dict["showField"], new_field_dict["required"], new_field_dict["tableName"])
+		
+		await refresh_data(Item_Name)
+		await _on_Save_button_up()
+	new_field.queue_free()
+	popup_main.visible = false
+
+
+#func _on_NewField_Accept_button_up():
+#	add_newField()
+#	_on_NewField_Cancel_button_up()
+#
+#
+#func _on_NewField_Cancel_button_up():
+#	popup_main.visible = false
+#	popup_newField.visible = false
+#	popup_newField.reset_values()
+#
+#
+#func add_newField(): 
+#	var datafield = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection
+#	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input.get_text()
+#	var selected_item_name = datafield.selectedItemName
+#	var datatype = datafield.get_dataType_ID(selected_item_name)
+#	var showField = true
+#	var required = false
+#	var tableName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection.selectedItemName
+#	#Get input values and send them to the editor functions add new value script
+#	#NEED TO ADD ERROR CHECKING
+#
+#	await add_field(fieldName, datatype, showField, false, tableName)
+#	refresh_data(Item_Name)
 	
 
 
@@ -477,10 +530,8 @@ func display_options():
 
 
 var delete_field_name = ""
-#var delete_field_index = 0
 func _on_Itemlist_item_selected(index):
 	delete_field_name = currentData_dict[data_type][str(index + 1)]["FieldName"]
-#	delete_field_index = str(index + 1)
 
 
 func _on_DeleteField_Accept_button_up():
@@ -491,7 +542,6 @@ func _on_DeleteField_Accept_button_up():
 
 
 func _on_DeleteField_Cancel_button_up():
-
 	popup_main.visible = false
 	popup_deleteKey.visible = false
 
@@ -499,14 +549,8 @@ func input_node_changed(value):
 	label_changeNotification.visible = true
 	input_changed = true
 
-#
-#func _on_RefreshData_button_up() -> void:
-#	reload_data_without_saving()
 
-
-
-
-func get_udsmain():
+func get_AU3():
 	var main_node = null
 	var curr_selected_node = self
 	while main_node == null:
@@ -523,13 +567,14 @@ func _on_add_new_table_button_button_up():
 
 func _on_new_table_Accept_button_up():
 	await add_table()
-	get_udsmain().create_tabs()
+	get_AU3().create_tabs()
 	_on_newtable_Cancel_button_up()
 
 func _on_newtable_Cancel_button_up():
 	$Popups/popup_newTable.reset_values()
 	$Popups/popup_newTable.visible = false
 	popup_main.visible = false
+
 
 
 func add_table():
@@ -575,4 +620,4 @@ func add_table():
 
 func delete_table(del_tbl_name = key_node.inputNode.get_text()):
 	Delete_Table(del_tbl_name)
-	get_udsmain().create_tabs()
+	get_AU3().create_tabs()

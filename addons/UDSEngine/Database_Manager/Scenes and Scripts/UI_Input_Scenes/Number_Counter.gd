@@ -24,3 +24,13 @@ func _on_Sub_Button_button_up():
 	num_value -= increment
 	inputNode.set_text(str(num_value))
 	inputNode.emit_signal("text_changed", inputNode.text)
+
+
+func _get_input_value():
+	var return_value :int
+	return_value = inputNode.get_text().to_int()
+	return return_value
+	
+func _set_input_value(node_value):
+	inputNode.set_text(str(node_value))
+

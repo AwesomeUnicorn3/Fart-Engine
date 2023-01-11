@@ -1,16 +1,24 @@
-
 shader_type canvas_item;
-render_mode blend_mix;
+uniform float light_source = 50.0;
+uniform vec2 sprite_size = vec2(130,120);
+varying vec2 new_uv;
+varying vec2 vert;
 
-//uniform float radius = 5.0;
-uniform vec2 offset = vec2(8.0, 8.0);
-uniform vec4 modulate = vec4(0.0,0.0,0.0,1.0);
+void vertex(){
+	
+//	COLOR.a += -abs(sin(VERTEX.x * TIME));
+//	VERTEX.x += light_source;
+	new_uv = vec2(VERTEX.x/sprite_size.y, VERTEX.y/sprite_size.x);
+	VERTEX.x += -( new_uv.y - .5) * light_source;
+	VERTEX.y += 1.0- (new_uv.y - .5) * light_source ;
+
+}
 
 void fragment() {
-	vec2 ps = TEXTURE_PIXEL_SIZE;
-
-	vec4 shadow = vec4(modulate.rgb, texture(TEXTURE, UV - offset * ps).a * modulate.a);
-	vec4 col = texture(TEXTURE, UV);
-
-	COLOR = mix(shadow, col, col.a);
+	
+	vec4 shadow = texture(TEXTURE, UV);
+	vec4 return_color = vec4(0.0,0.0,0.0,shadow.a * 0.5);
+	COLOR = return_color;
 }
+
+

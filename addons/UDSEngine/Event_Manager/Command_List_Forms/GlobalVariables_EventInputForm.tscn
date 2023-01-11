@@ -9,17 +9,27 @@
 [ext_resource type="PackedScene" uid="uid://bop4ol1uh1lbf" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn" id="7_xwv06"]
 
 [node name="GlobalVariables_EventInputForm" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_sv5gt")
 script = ExtResource("2_yt462")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -33,128 +43,106 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Label" type="Label" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(0, 25)
-offset_right = 395.0
-offset_bottom = 31.0
+layout_mode = 2
 text = "Global Variable Changes"
 horizontal_alignment = 1
 
 [node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 35.0
-offset_right = 395.0
-offset_bottom = 80.0
-selection_table_name = "Global Data"
+layout_mode = 2
+selection_table_name = "Global Variables"
+label_text = "Global Variable"
 is_label_button = false
 
 [node name="Label" parent="Control/VBoxContainer/KeyDropdown" index="0"]
-offset_right = 395.0
+layout_mode = 2
+
+[node name="HBox1" parent="Control/VBoxContainer/KeyDropdown/Label" index="0"]
+layout_mode = 2
 
 [node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
-offset_right = 395.0
-offset_bottom = 30.0
+layout_mode = 2
+text = "Global Variable"
+
+[node name="Hide_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="1"]
+layout_mode = 2
 
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
-offset_right = 395.0
-offset_bottom = 41.0
-alignment = 1
+layout_mode = 2
 
 [node name="input_templateBuffer" parent="Control/VBoxContainer/KeyDropdown" index="2"]
-offset_top = 45.0
-offset_right = 395.0
-offset_bottom = 45.0
+layout_mode = 2
 
 [node name="TypeDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 84.0
-offset_right = 395.0
-offset_bottom = 129.0
+layout_mode = 2
+label_text = "Variable Key"
+is_label_button = false
 
 [node name="Label" parent="Control/VBoxContainer/TypeDropdown" index="0"]
-offset_right = 395.0
+layout_mode = 2
+
+[node name="HBox1" parent="Control/VBoxContainer/TypeDropdown/Label" index="0"]
+layout_mode = 2
 
 [node name="Label_Button" parent="Control/VBoxContainer/TypeDropdown/Label/HBox1" index="0"]
-offset_right = 395.0
-offset_bottom = 30.0
+layout_mode = 2
+text = "Variable Key"
+
+[node name="Hide_Button" parent="Control/VBoxContainer/TypeDropdown/Label/HBox1" index="1"]
+layout_mode = 2
 
 [node name="Input" parent="Control/VBoxContainer/TypeDropdown" index="1"]
-offset_right = 395.0
-offset_bottom = 41.0
-alignment = 1
+layout_mode = 2
 
 [node name="input_templateBuffer" parent="Control/VBoxContainer/TypeDropdown" index="2"]
-offset_top = 45.0
-offset_right = 395.0
-offset_bottom = 45.0
+layout_mode = 2
 
 [node name="InputContainer" type="VBoxContainer" parent="Control/VBoxContainer"]
-offset_top = 133.0
-offset_right = 395.0
-offset_bottom = 216.0
+layout_mode = 2
 
 [node name="True or False" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("4_g0mxl")]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 395.0
-offset_bottom = 83.0
+layout_mode = 2
 size_flags_vertical = 3
+is_label_button = false
 
 [node name="Text" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("5_accm6")]
 visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 87.0
-offset_right = 395.0
-offset_bottom = 170.0
+layout_mode = 2
+is_label_button = false
 
 [node name="Display Name" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("5_accm6")]
 visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 87.0
-offset_right = 395.0
-offset_bottom = 170.0
+layout_mode = 2
 
 [node name="Decimal Number" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("6_iqe52")]
 visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 174.0
-offset_right = 395.0
-offset_bottom = 267.0
+layout_mode = 2
 
 [node name="Whole Number" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("7_xwv06")]
 visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = -131.0
-offset_right = 395.0
-offset_bottom = -38.0
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
-offset_top = 220.0
-offset_right = 395.0
-offset_bottom = 265.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Accept" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
-offset_right = 195.0
-offset_bottom = 45.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
-offset_left = 199.0
-offset_right = 395.0
-offset_bottom = 45.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Cancel"

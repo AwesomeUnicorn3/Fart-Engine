@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5nia1prtgpd"]
+[gd_scene load_steps=4 format=3 uid="uid://c5nia1prtgpd"]
 
 [ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Map_Engine.gd" id="1_yn33e"]
 [ext_resource type="Texture2D" uid="uid://h7cy6ybik7pw" path="res://Data/png/MenuBackground.png" id="2_4wqvc"]
-[ext_resource type="Script" path="res://addons/UDSEngine/Example Game/Event.gd" id="5_yacgx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_npjxb"]
 size = Vector2(903, 10)
@@ -36,13 +35,3 @@ shape = SubResource("RectangleShape2D_npjxb")
 position = Vector2(451, 267)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_npjxb")
-
-[node name="Event" type="CharacterBody2D" parent="."]
-position = Vector2(138.076, 27.1283)
-collision_layer = 2
-collision_mask = 3
-motion_mode = 1
-velocity = Vector2(0, 50.9192)
-moving_platform_apply_velocity_on_leave = 2
-script = ExtResource("5_yacgx")
-event_name = "Event 2"

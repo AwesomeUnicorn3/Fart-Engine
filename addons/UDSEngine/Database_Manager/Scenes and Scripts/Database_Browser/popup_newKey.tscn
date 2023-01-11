@@ -1,56 +1,86 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=3 uid="uid://sobivcwbjq2t"]
 
-[node name="popup_newKey" type="Popup"]
+[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.gd" id="1_0lrqy"]
+[ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="2_5i1la"]
+
+[node name="popup_newKey" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-popup_exclusive = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0lrqy")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.631373)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 1273.0
-margin_bottom = 713.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -74.0
+offset_right = 250.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
-margin_right = 1266.0
-margin_bottom = 654.0
-size_flags_vertical = 3
-text = "Please enter a name for the new Key"
-valign = 3
-autowrap = true
+[node name="Input_Text" parent="PanelContainer/VBoxContainer" instance=ExtResource("2_5i1la")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 500.0
+offset_bottom = 83.0
+grow_horizontal = 1
+grow_vertical = 1
+label_text = "New Key Display Name"
+is_label_button = false
 
-[node name="LineEdit" type="LineEdit" parent="PanelContainer/VBoxContainer"]
-margin_top = 658.0
-margin_right = 1266.0
-margin_bottom = 682.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Label" parent="PanelContainer/VBoxContainer/Input_Text" index="0"]
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 0.0
+offset_right = 500.0
+offset_bottom = 25.0
+grow_horizontal = 2
+
+[node name="Input" parent="PanelContainer/VBoxContainer/Input_Text" index="1"]
+layout_mode = 3
+offset_top = 29.0
+offset_right = 500.0
+offset_bottom = 79.0
+
+[node name="input_templateBuffer" parent="PanelContainer/VBoxContainer/Input_Text" index="2"]
+layout_mode = 3
+anchor_right = 0.0
+offset_top = 83.0
+offset_right = 500.0
+offset_bottom = 83.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-margin_top = 686.0
-margin_right = 1266.0
-margin_bottom = 706.0
+offset_top = 87.0
+offset_right = 500.0
+offset_bottom = 118.0
 
 [node name="Accept" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
-margin_right = 631.0
-margin_bottom = 20.0
+offset_right = 248.0
+offset_bottom = 31.0
 size_flags_horizontal = 3
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
-margin_left = 635.0
-margin_right = 1266.0
-margin_bottom = 20.0
+offset_left = 252.0
+offset_right = 500.0
+offset_bottom = 31.0
 size_flags_horizontal = 3
 text = "Cancel"
+
+[editable path="PanelContainer/VBoxContainer/Input_Text"]

@@ -27,63 +27,71 @@ func _ready() -> void:
 func add_field_data_to_container():
 	DBENGINE.currentData_dict = data_dict
 	field_index = DBENGINE.get_data_index(fieldName, "Column")
+
 	var this_data_dict = data_dict["Column"][field_index]
 	var field_type_dict = DBENGINE.import_data(DBENGINE.table_save_path + "Field_Pref_Values" + DBENGINE.file_format)
 	var data_type_dict = DBENGINE.import_data(DBENGINE.table_save_path + "DataTypes" + DBENGINE.file_format)
 
-	reset_values()
+	var field_data_type :String = this_data_dict["DataType"]
+	var field_data_dict :Dictionary = str_to_var(data_type_dict[field_data_type]["Display Name"])
+	var input_node_type_name :String = field_data_dict["text"]
+	
+	
 
-	for i in this_data_dict:
-		print(i)
-		var field_data_type :String
-		for j in field_type_dict:
-			if str(field_type_dict[j]["ItemID"]) == i:
-				field_data_type = str(field_type_dict[j]["DataType"])
-				break
-		var node_value = DBENGINE.convert_string_to_type(this_data_dict[i], field_data_type)
+	
+
+	for child in $PanelContainer/VBox1/Scroll1/VBox1.get_children():
+		var node_value = DBENGINE.convert_string_to_type(this_data_dict[child.name])
 		var ref_table_name :String = ""
-		match i:
+		var child_name :String = child.name
+		match child_name:
+			"FieldName":
+				$PanelContainer/VBox1/Scroll1/VBox1/FieldName._set_input_value({"text" : this_data_dict[child_name] })
+				$PanelContainer/VBox1/Scroll1/VBox1/FieldName.visible = false
+				$PanelContainer/VBox1/Label/HBox1/Label_Button.set_text(this_data_dict[child_name])
+				
 			"DataType":
 				ref_table_name = "DataTypes"
-				for data_key in data_type_dict:
-					if node_value == data_key:
-						if data_type_dict[data_key].has("Display Name"):
-							node_value = data_type_dict[data_key]["Display Name"]
-						else:
-							node_value = data_key
-						break
-			"TableRef":
-				ref_table_name = "Table Data"
-
-		var new_field :Object = await DBENGINE.add_input_node(1, 1, i, data_dict, DATA_CONTAINER, null, node_value, field_data_type, ref_table_name)
-		match i:
-			"TableRef":
-				if this_data_dict[i] != "5":
-					new_field.visible = false
-				reference_table_input = new_field
-			"DataType":
-				datatype_input = new_field
-				initial_data_type = datatype_input.selectedItemName
+				datatype_input = child
+				child.populate_list()
 				datatype_input.input_selection_changed.connect(on_text_changed)
-			
-			"FieldName":
-				new_field.visible = false
-				$PanelContainer/VBox1/Label/HBox1/Label_Button.set_text(this_data_dict[i])
-		new_field.is_label_button = false
+				var dropdown_index :int = child.get_id(input_node_type_name)
+				child.select_index(dropdown_index)
+
+			"RequiredValue":
+				var reqired_value = DBENGINE.custom_to_bool(node_value)
+				child.inputNode.set_pressed(reqired_value)
+				child._on_input_toggled(reqired_value)
+				
+			"ShowValue":
+				var reqired_value = DBENGINE.custom_to_bool(node_value)
+				child.inputNode.set_pressed(reqired_value)
+				child._on_input_toggled(reqired_value)
+
+			"TableRef":
+				child.populate_list()
+				var field_table_ref :String = this_data_dict["TableRef"]
+				if field_table_ref != "empty":
+					var field_table_dict :Dictionary = str_to_var(child.selection_table[field_table_ref]["Display Name"])
+					var table_ref_name :String = field_table_dict["text"]
+					datatype_input = child
+					var dropdown_index :int = child.get_id(table_ref_name)
+					child.select_index(dropdown_index)
+		child.is_label_button = false
 
 
 func on_text_changed(new_text = "Blank"):
-	if datatype_input.selectedItemName == "5":
-		reference_table_input.visible = true
+	if $PanelContainer/VBox1/Scroll1/VBox1/DataType.selectedItemName == "List":
+		$PanelContainer/VBox1/Scroll1/VBox1/TableRef.visible = true
 	else:
-		reference_table_input.visible = false
+		$PanelContainer/VBox1/Scroll1/VBox1/TableRef.visible = false
 
 func _on_Input_toggled(button_pressed: bool) -> void:
 	$PanelContainer/VBox1/Field_Input.visible = !button_pressed
 
-func reset_values():
-	for i in DATA_CONTAINER.get_children():
-		i.queue_free()
+#func reset_values():
+#	for i in DATA_CONTAINER.get_children():
+#		i.queue_free()
 
 
 func _on_Accept_button_up() -> void:

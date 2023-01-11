@@ -8,6 +8,8 @@ var DBENGINE = DatabaseEngine.new()
 
 func _open_selected_form(btn_name):
 	match btn_name:
+		"change_game_state":
+			_on_change_game_state_button_up()
 		"change_local_variable":
 			_on_local_variables_button_up()
 		"change_global_variable":
@@ -24,6 +26,8 @@ func _open_selected_form(btn_name):
 			_on_modify_player_inventory_button_up()
 		"start_dialog":
 			_on_dialog_button_up()
+		"sfx":
+			_on_sfx_button_up()
 
 
 
@@ -95,6 +99,18 @@ func _on_modify_player_inventory_button_up():
 
 func _on_dialog_button_up():
 	var new_form = load("res://addons/UDSEngine/Event_Manager/Command_List_Forms/Dialog_EventInputForm.tscn").instantiate()
+	add_child(new_form)
+	new_form.commandListForm = self
+	connect_signals(new_form)
+
+func _on_sfx_button_up():
+	var new_form = load("res://addons/UDSEngine/Event_Manager/Command_List_Forms/sfx_EventInputForm.tscn").instantiate()
+	add_child(new_form)
+	new_form.commandListForm = self
+	connect_signals(new_form)
+
+func _on_change_game_state_button_up():
+	var new_form = load("res://addons/UDSEngine/Event_Manager/Command_List_Forms/GameState_EventInputForm.tscn").instantiate()
 	add_child(new_form)
 	new_form.commandListForm = self
 	connect_signals(new_form)

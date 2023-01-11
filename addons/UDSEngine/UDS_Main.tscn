@@ -4,22 +4,32 @@
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.gd" id="2_sb3v4"]
 [ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="3_ukiag"]
 [ext_resource type="PackedScene" uid="uid://d8q6e6cx2fyl" path="res://addons/UDSEngine/SaveFile_Manager/DisplaySaveFile.tscn" id="4_h11b6"]
-[ext_resource type="PackedScene" uid="uid://vhhpmmg21pan" path="res://addons/UDSEngine/Event_Manager/Event_Manager.tscn" id="5_0ld3m"]
+[ext_resource type="PackedScene" uid="uid://b47kv0gtaulhx" path="res://addons/UDSEngine/Event_Manager/Event_Manager.tscn" id="5_0ld3m"]
 
 [node name="UDS_Main" type="Control" groups=["UDS_Root"]]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("2_if1nk")
 metadata/_edit_vertical_guides_ = []
 
 [node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.14902, 0.145098, 0.152941, 1)
 
 [node name="HBox_1" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -29,59 +39,45 @@ size_flags_vertical = 3
 metadata/_edit_layout_mode = 1
 
 [node name="VBox_1" type="VBoxContainer" parent="HBox_1"]
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBox_1/VBox_1"]
 custom_minimum_size = Vector2(0, 50)
-offset_right = 900.0
-offset_bottom = 50.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Hbox_1" type="HBoxContainer" parent="HBox_1/VBox_1/ScrollContainer"]
 custom_minimum_size = Vector2(0, 50)
-offset_right = 287.0
-offset_bottom = 54.0
+layout_mode = 2
 
 [node name="RefreshAllTables_Button" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
-offset_right = 96.0
-offset_bottom = 54.0
+layout_mode = 2
 text = "Refresh All 
 Tables"
 
 [node name="Database" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
 visible = false
-offset_right = 81.0
-offset_bottom = 50.0
-hint_tooltip = "View Raw Database Data"
+layout_mode = 2
 action_mode = 0
 text = "Database"
 script = ExtResource("2_sb3v4")
 
 [node name="DisplaySaveFile" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
-offset_left = 100.0
-offset_right = 224.0
-offset_bottom = 54.0
+layout_mode = 2
 text = "View Save Files"
 script = ExtResource("2_sb3v4")
 
 [node name="Event_Manager" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
-offset_left = 228.0
-offset_right = 287.0
-offset_bottom = 54.0
+layout_mode = 2
 text = "Events"
 script = ExtResource("2_sb3v4")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBox_1/VBox_1"]
-offset_top = 54.0
-offset_right = 900.0
-offset_bottom = 54.0
+layout_mode = 2
 
 [node name="Welcome_Label" type="Label" parent="HBox_1/VBox_1"]
-offset_top = 58.0
-offset_right = 900.0
-offset_bottom = 519.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 6.0
@@ -90,20 +86,21 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBox_1/VBox_1"]
-offset_top = 523.0
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Control" parent="HBox_1/VBox_1/VBoxContainer" instance=ExtResource("3_ukiag")]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 900.0
-offset_bottom = 77.0
+layout_mode = 2
 size_flags_vertical = 3
 
+[node name="Label" parent="HBox_1/VBox_1/VBoxContainer/Control" index="0"]
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Tabs" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 109.0
@@ -113,23 +110,44 @@ metadata/_edit_layout_mode = 1
 
 [node name="DisplaySaveFile" parent="Tabs" instance=ExtResource("4_h11b6")]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Event_Manager" parent="Tabs" instance=ExtResource("5_0ld3m")]
 visible = false
+layout_mode = 1
 
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/RefreshAllTables_Button" to="." method="_ready"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" method="_on_Navigation_Button_button_up"]
 [connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event_Manager" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event_Manager" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Table Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Table Data" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Test Table 2" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Test Table 2" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Table Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Table Data" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/DataTypes" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/DataTypes" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Options" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Options" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Formation" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Formation" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Settings" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Settings" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Item_Type" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Item_Type" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Field_Pref_Values" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Field_Pref_Values" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Control Categories" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Control Categories" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Classes" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Classes" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Triggers" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Triggers" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Table Template" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Table Template" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Inequalities" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Inequalities" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Save Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Save Data" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Animation States" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Animation States" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Dialog Groups" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Dialog Groups" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/SFX Groups" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/SFX Groups" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Input Actions" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Input Actions" method="_on_Navigation_Button_button_up" flags=18]
+[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Game State" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Game State" method="_on_Navigation_Button_button_up" flags=18]
 
 [editable path="HBox_1/VBox_1/VBoxContainer/Control"]

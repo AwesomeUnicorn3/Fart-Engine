@@ -61,7 +61,9 @@ func create_input_fields():
 		input_dict.Input_field.inputNode.set_text(str(i))
 		for j in mainDictionary[i].size() / 3:
 			j += 1
-			var dataType_Field = await add_input_field(input_dict, input_dropDownMenu)
+			
+			var drop_down_node = get_input_type_node("5") 
+			var dataType_Field = await add_input_field(input_dict, drop_down_node)
 			dataType_Field.set_name("Datatype " + str(j))
 			var tableName = "DataTypes"
 			dataType_Field.selection_table_name = tableName

@@ -10,17 +10,25 @@
 [ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="8_1mjeo"]
 
 [node name="Dialog_EventInputForm" type="Control" groups=["Tab"]]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_ivx4h")
 script = ExtResource("2_c5mqh")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Control" type="ScrollContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -1.0
@@ -41,11 +49,14 @@ text = "Dialog"
 horizontal_alignment = 1
 
 [node name="TrueorFalse" parent="Control/VBoxContainer" instance=ExtResource("4_i1cdv")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 35.0
 offset_right = 892.0
 offset_bottom = 118.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 true_text = "Single"
 false_text = "Group"
@@ -64,6 +75,8 @@ offset_right = 892.0
 offset_bottom = 50.0
 
 [node name="Input" parent="Control/VBoxContainer/TrueorFalse/Hbox1/Background" index="0"]
+offset_top = -12.0
+offset_bottom = 12.0
 button_pressed = true
 text = "Single"
 
@@ -74,30 +87,48 @@ offset_bottom = 83.0
 
 [node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_h33vw")]
 visible = false
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 122.0
-offset_right = 900.0
-offset_bottom = 183.0
+offset_right = 892.0
+offset_bottom = 197.0
+grow_horizontal = 1
+grow_vertical = 1
 selection_table_name = "Dialog Groups"
 label_text = "Select Group"
 is_label_button = false
 
+[node name="Label" parent="Control/VBoxContainer/KeyDropdown" index="0"]
+layout_mode = 3
+offset_right = 892.0
+
+[node name="HBox1" parent="Control/VBoxContainer/KeyDropdown/Label" index="0"]
+layout_mode = 3
+
 [node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
+layout_mode = 3
+offset_right = 892.0
 offset_bottom = 30.0
 text = "Select Group"
 
+[node name="Hide_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="1"]
+layout_mode = 3
+
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
-offset_bottom = 57.0
-alignment = 1
+layout_mode = 3
+offset_right = 892.0
+offset_bottom = 71.0
 item_count = 1
 selected = 0
 popup/item_0/text = "First Interaction"
 popup/item_0/id = 0
 
 [node name="input_templateBuffer" parent="Control/VBoxContainer/KeyDropdown" index="2"]
-offset_top = 61.0
-offset_bottom = 61.0
+layout_mode = 3
+offset_top = 75.0
+offset_right = 892.0
+offset_bottom = 75.0
 
 [node name="input_dialog" parent="Control/VBoxContainer" instance=ExtResource("5_ol278")]
 anchor_right = 0.0
@@ -107,13 +138,22 @@ offset_right = 892.0
 offset_bottom = 570.0
 
 [node name="Input" parent="Control/VBoxContainer/input_dialog" index="0"]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 892.0
 
 [node name="Label" parent="Control/VBoxContainer/input_dialog" index="1"]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 892.0
 
 [node name="CharacterName_HBox" parent="Control/VBoxContainer/input_dialog" index="2"]
 offset_right = 892.0
+
+[node name="CharacterName_Checkbox" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox" index="0"]
+anchors_preset = 0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Label" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Checkbox" index="0"]
 offset_right = 150.0
@@ -127,6 +167,8 @@ offset_right = 150.0
 offset_bottom = 67.0
 
 [node name="Input" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Checkbox/Hbox1/Background" index="0"]
+offset_top = -12.0
+offset_bottom = 12.0
 button_pressed = true
 text = "List"
 
@@ -152,6 +194,11 @@ offset_top = 249.0
 offset_right = 892.0
 offset_bottom = 357.0
 
+[node name="IconSelection_Checkbox" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox" index="0"]
+anchors_preset = 0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Label" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox" index="0"]
 offset_right = 150.0
 
@@ -164,6 +211,8 @@ offset_right = 150.0
 offset_bottom = 75.0
 
 [node name="Input" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox/Hbox1/Background" index="0"]
+offset_top = -12.0
+offset_bottom = 12.0
 text = "Icon"
 
 [node name="input_templateBuffer" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox" index="2"]
@@ -172,13 +221,19 @@ offset_right = 150.0
 offset_bottom = 108.0
 
 [node name="IconSelection_Sprite" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox" index="1"]
+anchors_preset = 0
 offset_left = 154.0
 offset_top = 0.0
 offset_right = 892.0
 offset_bottom = 427.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="IconSelection_Icon" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox" index="2"]
+anchors_preset = 0
 offset_right = 892.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="SceneSelection_HBox" parent="Control/VBoxContainer/input_dialog" index="5"]
 offset_top = 361.0
@@ -186,7 +241,10 @@ offset_right = 892.0
 offset_bottom = 444.0
 
 [node name="SceneSelection_Checkbox" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox" index="0"]
+anchors_preset = 0
 offset_right = 892.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Label" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox" index="0"]
 offset_right = 892.0
@@ -200,6 +258,8 @@ offset_right = 892.0
 offset_bottom = 50.0
 
 [node name="Input" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox/Hbox1/Background" index="0"]
+offset_top = -12.0
+offset_bottom = 12.0
 button_pressed = true
 text = "Default"
 
@@ -210,8 +270,11 @@ offset_bottom = 83.0
 
 [node name="Scene_Selection_ScenePath" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox" index="1"]
 visible = false
+anchors_preset = 0
 offset_left = 448.0
 offset_right = 892.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="input_templateBuffer" parent="Control/VBoxContainer/input_dialog" index="6"]
 offset_top = 448.0
@@ -242,17 +305,28 @@ text = "Cancel"
 
 [node name="Popups" type="ColorRect" parent="."]
 visible = false
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.0862745, 0.0862745, 0.0862745, 0.866667)
 
 [node name="FileSelect" type="Control" parent="Popups"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ListInput" type="Control" parent="Popups"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Popup_Delete_Confirm" parent="Popups" instance=ExtResource("6_hfxxd")]
 visible = false
@@ -280,12 +354,22 @@ offset_bottom = 89.0
 offset_bottom = 104.0
 
 [node name="ItemType_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2" index="0"]
+anchors_preset = 0
 offset_bottom = 104.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="HBox1" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label" index="0"]
+layout_mode = 3
 
 [node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label/HBox1" index="0"]
-text = "Field Data Type"
+layout_mode = 3
+
+[node name="Hide_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label/HBox1" index="1"]
+layout_mode = 3
 
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
+layout_mode = 3
 offset_bottom = 104.0
 item_count = 14
 selected = 0
@@ -364,7 +448,27 @@ item_13/text = "Vector 2 or 3"
 item_13/checkable = 2
 item_13/id = 13
 
+[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="2"]
+layout_mode = 3
+
+[node name="Table_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="2"]
+anchors_preset = 0
+offset_left = 0.0
+offset_right = 216.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="HBox1" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label" index="0"]
+layout_mode = 3
+
+[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label/HBox1" index="0"]
+layout_mode = 3
+
+[node name="Hide_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label/HBox1" index="1"]
+layout_mode = 3
+
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
+layout_mode = 3
 item_count = 13
 selected = 0
 popup/item_0/text = "Character Classes"
@@ -436,6 +540,9 @@ item_11/id = 11
 item_12/text = "Table Data"
 item_12/checkable = 2
 item_12/id = 12
+
+[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="2"]
+layout_mode = 3
 
 [node name="HBox2" parent="Popups/popup_newValue/PanelContainer/VBox1" index="1"]
 offset_top = 108.0

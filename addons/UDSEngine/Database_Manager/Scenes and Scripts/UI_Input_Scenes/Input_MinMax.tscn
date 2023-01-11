@@ -5,18 +5,21 @@
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_MinMax.gd" id="4"]
 
 [node name="MinMax" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("4")
 
 [node name="Label" parent="." instance=ExtResource("3")]
+anchors_preset = 0
 anchor_right = 0.0
 offset_right = 900.0
 offset_bottom = 25.0
 
 [node name="Hbox1" type="HBoxContainer" parent="."]
-visible = false
 offset_top = 29.0
 offset_right = 900.0
 offset_bottom = 29.0
@@ -37,10 +40,10 @@ size_flags_horizontal = 3
 text = "Vector3"
 
 [node name="HBox2" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(0, 25)
-offset_top = 29.0
+custom_minimum_size = Vector2i(0, 25)
+offset_top = 33.0
 offset_right = 900.0
-offset_bottom = 55.0
+offset_bottom = 59.0
 
 [node name="X" type="Label" parent="HBox2"]
 offset_right = 297.0
@@ -72,8 +75,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HBox3" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(0, 50)
-offset_top = 59.0
+custom_minimum_size = Vector2i(0, 50)
+offset_top = 63.0
 offset_right = 900.0
 offset_bottom = 596.0
 size_flags_horizontal = 3
@@ -82,48 +85,44 @@ size_flags_vertical = 3
 [node name="Input" type="LineEdit" parent="HBox3"]
 visible = false
 offset_right = 222.0
-offset_bottom = 528.0
+offset_bottom = 537.0
 size_flags_horizontal = 3
 text = "(0,0,0)"
 placeholder_text = "Enter Value As Text"
 max_length = 45
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="InputX" type="LineEdit" parent="HBox3"]
 offset_right = 297.0
-offset_bottom = 537.0
+offset_bottom = 533.0
 size_flags_horizontal = 3
 text = "0"
 placeholder_text = "Enter Value As Text"
 alignment = 1
 max_length = 45
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="InputY" type="LineEdit" parent="HBox3"]
 offset_left = 301.0
 offset_right = 598.0
-offset_bottom = 537.0
+offset_bottom = 533.0
 size_flags_horizontal = 3
 text = "0"
 placeholder_text = "Enter Value As Text"
 alignment = 1
 max_length = 45
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="InputZ" type="LineEdit" parent="HBox3"]
 offset_left = 602.0
 offset_right = 900.0
-offset_bottom = 537.0
+offset_bottom = 533.0
 size_flags_horizontal = 3
 text = "0"
 placeholder_text = "Enter Value As Text"
 alignment = 1
 max_length = 45
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("2")]
 anchor_right = 0.0

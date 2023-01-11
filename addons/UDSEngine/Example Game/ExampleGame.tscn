@@ -11,20 +11,25 @@ script = ExtResource("1")
 [node name="map" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2")]
-position = Vector2(101, 135)
 y_sort_enabled = true
+position = Vector2(101, 135)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="GUI" parent="UI" instance=ExtResource("3")]
-layout_mode = 3
-anchors_preset = 15
-grow_horizontal = 2
-grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="TitleScreen" parent="UI" instance=ExtResource("4_8hm32")]
-layout_mode = 3
-anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="LoadingScreen" type="Control" parent="UI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EventAudio" type="Node" parent="UI"]

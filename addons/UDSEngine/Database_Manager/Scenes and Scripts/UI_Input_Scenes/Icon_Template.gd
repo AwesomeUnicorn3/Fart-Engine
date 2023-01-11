@@ -19,12 +19,6 @@ func _on_TextureButton_button_up():
 	var FileSelectDialog = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
 	fileSelectedNode = FileSelectDialog.instantiate()
 	var par = get_main_tab(self)
-	
-#	if !par.has_node("Popups"):
-#		var new_child = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Popups.tscn").instantiate()
-#		par.add_child(new_child)
-#		new_child.set_name("Popups")
-	
 	par.get_node("Popups").visible = true
 	par.get_node("Popups/FileSelect").visible = true
 	par.get_node("Popups/FileSelect").add_child(fileSelectedNode)
@@ -34,8 +28,6 @@ func _on_TextureButton_button_up():
 	popupDialog.set_access(2)
 	popupDialog.set_filters(Array(["*.png"]))
 	popupDialog.file_selected.connect(_on_FileDialog_file_selected)
-#	popupDialog.connect("file_selected", self, "_on_FileDialog_file_selected")
-#	popupDialog.connect("hide", self, "remove_dialog")
 	popupDialog.cancelled.connect(remove_dialog)
 
 
@@ -57,10 +49,10 @@ func _on_FileDialog_file_selected(path):
 	var curr_icon_path : Node = inputNode #
 	var does_selected_file_exist = par.is_file_in_folder(par.table_save_path + par.icon_folder, new_file_name)
 	if does_selected_file_exist: # #Check if selected folder is Icon folder and has selected file
-		curr_icon_path.set_normal_texture(load(str(new_file_path)))
+		curr_icon_path.set_texture_normal(load(str(new_file_path)))
 	else:
-		var dir = Directory.new()
-		dir.open(par.table_save_path + par.icon_folder)
+		var dir :DirAccess = DirAccess.open(par.table_save_path + par.icon_folder)
+		#dir.open(par.table_save_path + par.icon_folder)
 		await dir.copy(path, new_file_path)
 		
 		if par.is_file_in_folder(par.icon_folder, new_file_name):
@@ -69,4 +61,4 @@ func _on_FileDialog_file_selected(path):
 			print("File Added")
 			await par.refresh_editor()
 			print("Scan Complete")
-			curr_icon_path.set_normal_texture(load(str(new_file_path)))
+			curr_icon_path.set_texture_normal(load(str(new_file_path)))

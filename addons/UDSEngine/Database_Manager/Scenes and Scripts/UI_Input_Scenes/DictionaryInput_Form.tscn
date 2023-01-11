@@ -4,16 +4,20 @@
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DictionaryInput_Form.gd" id="2"]
 
 [node name="DictionaryInput" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("2")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.188235, 0.188235, 0.188235, 1)
 
 [node name="VBox1" type="VBoxContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -57,7 +61,6 @@ text = "Save and Close"
 [node name="Input" type="LineEdit" parent="VBox1/HBox1"]
 visible = false
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="input_templateBuffer" parent="VBox1" instance=ExtResource("1")]
 anchor_right = 0.0

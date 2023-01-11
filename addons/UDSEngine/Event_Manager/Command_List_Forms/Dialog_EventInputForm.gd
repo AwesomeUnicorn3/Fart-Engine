@@ -3,7 +3,7 @@ extends CommandForm
 
 @onready var key_node := $Control/VBoxContainer/KeyDropdown
 @onready var input_dialog_node := $Control/VBoxContainer/input_dialog
-var value_node
+#var value_node
 var function_name :String = "start_dialog" #must be name of valid function
 var dialog_data :Dictionary
 var event_name :String = ""

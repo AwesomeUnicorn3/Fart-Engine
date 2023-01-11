@@ -5,27 +5,35 @@
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="2_srs0f"]
 
 [node name="Command_input_form" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource("1_ykv7a")
 script = ExtResource("1_136m3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.188235, 0.188235, 0.188235, 1)
 
 [node name="VBox1" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
+layout_mode = 2
 offset_right = 900.0
 offset_bottom = 53.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Button" parent="VBox1/HBox1"]
+layout_mode = 2
 offset_right = 604.0
 offset_bottom = 53.0
 size_flags_horizontal = 3
@@ -34,6 +42,7 @@ size_flags_stretch_ratio = 10.0
 text = "Commands"
 
 [node name="AddItem" type="Button" parent="VBox1/HBox1"]
+layout_mode = 2
 offset_left = 608.0
 offset_right = 752.0
 offset_bottom = 53.0
@@ -42,15 +51,18 @@ text = "Add Command"
 
 [node name="SaveChanges" type="Button" parent="VBox1/HBox1"]
 visible = false
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Save"
 
 [node name="DeleteItem" type="Button" parent="VBox1/HBox1"]
 visible = false
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Delete Item"
 
 [node name="Close" type="Button" parent="VBox1/HBox1"]
+layout_mode = 2
 offset_left = 756.0
 offset_right = 900.0
 offset_bottom = 53.0
@@ -59,16 +71,18 @@ text = "Save and Close"
 
 [node name="Input" type="LineEdit" parent="VBox1/HBox1"]
 visible = false
+layout_mode = 2
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="input_templateBuffer" parent="VBox1" instance=ExtResource("2_srs0f")]
+layout_mode = 2
 anchor_right = 0.0
 offset_top = 57.0
 offset_right = 900.0
 offset_bottom = 57.0
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1"]
+layout_mode = 2
 offset_top = 61.0
 offset_right = 900.0
 offset_bottom = 600.0
@@ -77,6 +91,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 10.0
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/Scroll1"]
+layout_mode = 2
 offset_right = 900.0
 offset_bottom = 539.0
 size_flags_horizontal = 3

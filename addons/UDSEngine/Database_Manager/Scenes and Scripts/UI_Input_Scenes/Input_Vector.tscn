@@ -5,14 +5,19 @@
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4"]
 
 [node name="Input_Vector" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 script = ExtResource("3")
 
 [node name="Label" parent="." instance=ExtResource("4")]
+custom_minimum_size = Vector2(0, 25)
+anchors_preset = 0
 anchor_right = 0.0
 offset_right = 900.0
+offset_bottom = 25.0
+grow_horizontal = 2
 
 [node name="Hbox1" type="HBoxContainer" parent="."]
 offset_top = 29.0
@@ -80,7 +85,6 @@ text = "(0,0,0)"
 placeholder_text = "Enter Value As Text"
 max_length = 45
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="InputX" type="LineEdit" parent="HBox3"]
 offset_right = 448.0
@@ -91,7 +95,6 @@ placeholder_text = "Enter Value As Text"
 alignment = 1
 max_length = 45
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="InputY" type="LineEdit" parent="HBox3"]
 offset_left = 452.0
@@ -103,7 +106,6 @@ placeholder_text = "Enter Value As Text"
 alignment = 1
 max_length = 45
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="InputZ" type="LineEdit" parent="HBox3"]
 visible = false
@@ -113,7 +115,6 @@ placeholder_text = "Enter Value As Text"
 alignment = 1
 max_length = 45
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("1")]
 anchor_right = 0.0

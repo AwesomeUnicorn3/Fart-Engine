@@ -52,7 +52,6 @@ func set_preview_position() -> void:
 		control_position.x += (preview_window.size.x - (sprite_cell_size.x * sprite_scale.x)) / 2
 		control_position.y = $StandardControlsHBox/PreviewVBox/Label3.size.y + $Label.size.y + 5
 		sprite_animation.set_position(control_position)
-		print(control_position)
 	else:
 		if sprite_animation.visible:
 			sprite_animation.visible = false
@@ -103,7 +102,6 @@ func set_preview_animation_size():
 		set_sprite_default_size()
 
 func set_sprite_default_size():
-	
 	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"])
 	var sprite_height = sprite_texture.get_size().y / frame_vector.x
 	var sprite_width = sprite_texture.get_size().x / frame_vector.y
@@ -112,16 +110,18 @@ func set_sprite_default_size():
 	width_sprite_size.set_text(str(sprite_width))
 	_set_input_value(_get_input_value())
 
+
 func _on_FileDialog_sprite_file_selected(path: String) -> void:
 	remove_dialog()
-	var dir = Directory.new() #
+	
 	var new_file_name = path.get_file() #
 	var new_file_path = DBENGINE.table_save_path + DBENGINE.icon_folder + new_file_name #
 	var curr_icon_path : Node = inputNode #
 	if parent_node.is_file_in_folder(parent_node.table_save_path + parent_node.icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
 		set_sprite_atlas(new_file_path)
 	else:
-		dir.open(path.get_base_dir())
+		var dir :DirAccess = DirAccess.open(path.get_base_dir()) #
+		#dir.open(path.get_base_dir())
 		dir.copy(path, new_file_path)
 		if !parent_node.is_file_in_folder(parent_node.table_save_path + parent_node.icon_folder, new_file_name):
 			print("File Not Added")
@@ -129,21 +129,20 @@ func _on_FileDialog_sprite_file_selected(path: String) -> void:
 			print("File Added")
 			#trigger the import process for it to load to texture rect
 			parent_node.refresh_editor()
-			await get_tree().create_timer(.25).timeout
+			await parent_node.Editor_Refresh_Complete
 			set_sprite_atlas(new_file_path)
 	get_data_and_create_sprite()
 
 
 func set_sprite_atlas(atlas_path :String):
-	inputNode.set_normal_texture(load(atlas_path))
+	inputNode.set_texture_normal(load(atlas_path))
 
 func get_data_and_create_sprite():
 	input_data = _get_input_value()
-
 	await create_sprite_animation()
 	set_preview_animation_size()
 	set_preview_position()
-	
+
 
 func remove_dialog():
 	var par = get_main_tab(self)
@@ -170,9 +169,6 @@ func modify_value(value:String, increase:bool = true) -> String:
 	else:
 		num_value -= increment
 	return str(num_value)
-
-
-
 
 
 func _get_input_value():
@@ -205,7 +201,7 @@ func set_atlas_data():
 	atlas_v_input.set_text(str(frame_vector.x))
 	atlas_h_input.set_text(str(frame_vector.y))
 	var sprite_path = DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"]
-	inputNode.set_normal_texture(load(str(sprite_path)))
+	inputNode.set_texture_normal(load(str(sprite_path))) 
 
 
 func set_advanced_data():
@@ -236,6 +232,7 @@ func set_hide_advanced():
 	hide_advanced_options = !hide_advanced_options
 	advanced_dict["show_advanced"] = hide_advanced_options
 #	_on_hide_advanced_button_up()
+
 
 func _on_preview_window_resized():
 	if show_field:
@@ -294,7 +291,6 @@ func _on_atlasVFrame_button_up(increase) -> void:
 	get_data_and_create_sprite()
 
 
-
 func _on_atlasHFrame_button_up(increase) -> void:
 	var input_value :String = modify_value(atlas_h_input.get_text(), increase)
 	input_value = input_value_clamp(input_value)
@@ -304,8 +300,6 @@ func _on_atlasHFrame_button_up(increase) -> void:
 	on_text_changed(true)
 	set_sprite_default_size()
 	get_data_and_create_sprite()
-
-	
 
 
 func _on_VInput_text_changed(new_text: String) -> void:
@@ -325,8 +319,8 @@ func _on_HInput_text_changed(new_text: String) -> void:
 	atlas_h_input.set_caret_column(input_value.length())
 	set_sprite_default_size()
 	get_data_and_create_sprite()
-
 	on_text_changed(true)
+
 
 func _on_h_frame_text_changed(new_text):
 	var input_value :String = is_below_min(new_text)

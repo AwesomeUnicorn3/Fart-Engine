@@ -1,23 +1,28 @@
-[gd_scene load_steps=9 format=3 uid="uid://dr8icbq0q1jo3"]
+[gd_scene load_steps=9 format=3 uid="uid://dina6mwk0evrj"]
 
 [ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Event Editor Input Form.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://b8jg3k4iwmx7d" path="res://addons/UDSEngine/Event_Manager/popup_Event_Selection.tscn" id="2"]
 [ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="3"]
-[ext_resource type="PackedScene" uid="uid://blxyner5c5f73" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newValue.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://dkn4xiey8mti3" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewFieldPopup.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="8"]
 
 [node name="EventEditorInputForm" type="Control" groups=["Tab"]]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("3")
 script = ExtResource("1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -26,8 +31,11 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_layout_mode = 1
 
 [node name="Scroll1" type="ScrollContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -38,9 +46,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Input_Label_Template2" parent="Scroll1/VBox1" instance=ExtResource("6")]
+custom_minimum_size = Vector2(0, 25)
+anchors_preset = 0
 anchor_right = 0.0
 offset_right = 900.0
+offset_bottom = 25.0
+grow_horizontal = 2
 size_flags_stretch_ratio = 1.0
+
+[node name="HBox1" parent="Scroll1/VBox1/Input_Label_Template2" index="0"]
+custom_minimum_size = Vector2(0, 30)
 
 [node name="Label_Button" parent="Scroll1/VBox1/Input_Label_Template2/HBox1" index="0"]
 offset_bottom = 30.0
@@ -48,11 +63,17 @@ mouse_filter = 2
 text = "Event Editor"
 
 [node name="Input_Label_Template3" parent="Scroll1/VBox1" instance=ExtResource("6")]
+custom_minimum_size = Vector2(0, 25)
+anchors_preset = 0
 anchor_right = 0.0
 offset_top = 29.0
 offset_right = 900.0
 offset_bottom = 54.0
+grow_horizontal = 2
 size_flags_stretch_ratio = 1.0
+
+[node name="HBox1" parent="Scroll1/VBox1/Input_Label_Template3" index="0"]
+custom_minimum_size = Vector2(0, 30)
 
 [node name="Label_Button" parent="Scroll1/VBox1/Input_Label_Template3/HBox1" index="0"]
 offset_bottom = 30.0
@@ -71,21 +92,36 @@ offset_right = 900.0
 offset_bottom = 145.0
 
 [node name="Input_Text" parent="Scroll1/VBox1/HBox3" instance=ExtResource("7")]
+anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 405.0
 offset_bottom = 83.0
+grow_horizontal = 1
+grow_vertical = 1
 label_text = "Event Name"
 is_label_button = false
 
 [node name="Label" parent="Scroll1/VBox1/HBox3/Input_Text" index="0"]
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 0.0
 offset_right = 405.0
+offset_bottom = 25.0
+grow_horizontal = 2
 
 [node name="Input" parent="Scroll1/VBox1/HBox3/Input_Text" index="1"]
+layout_mode = 3
+offset_top = 29.0
 offset_right = 405.0
+offset_bottom = 79.0
 
 [node name="input_templateBuffer" parent="Scroll1/VBox1/HBox3/Input_Text" index="2"]
+layout_mode = 3
+anchor_right = 0.0
+offset_top = 83.0
 offset_right = 405.0
+offset_bottom = 83.0
 
 [node name="Buffer" type="Label" parent="Scroll1/VBox1/HBox3"]
 offset_left = 409.0
@@ -114,7 +150,6 @@ offset_left = 136.0
 offset_right = 269.0
 offset_bottom = 83.0
 size_flags_horizontal = 3
-hint_tooltip = "Makes a copy of the selected page and adds it after the last page"
 text = "Duplicate Page"
 
 [node name="Delete_Page_Button" type="Button" parent="Scroll1/VBox1/HBox3/HBox1"]
@@ -194,11 +229,16 @@ text = "Cancel"
 
 [node name="Popups" type="ColorRect" parent="."]
 visible = false
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 0.894118)
 
 [node name="ListInput" type="Control" parent="Popups"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -206,9 +246,13 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="FileSelect" type="Control" parent="Popups"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="popup_delete_confirm" type="Control" parent="Popups"]
 visible = false
+layout_mode = 3
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -222,6 +266,7 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="PanelContainer" type="ColorRect" parent="Popups/popup_delete_confirm"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -230,12 +275,13 @@ color = Color(0, 0, 0, 1)
 metadata/_edit_layout_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popups/popup_delete_confirm/PanelContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Label" type="Label" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
-offset_right = 371.0
-offset_bottom = 156.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Are you sure you want to delete %?"
@@ -247,232 +293,78 @@ size_flags_vertical = 3
 text = "Are you sure you want to delete %?"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
-offset_top = 160.0
-offset_right = 371.0
-offset_bottom = 182.0
 
 [node name="Accept" type="Button" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer"]
-offset_right = 183.0
-offset_bottom = 22.0
 size_flags_horizontal = 3
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer"]
-offset_left = 187.0
-offset_right = 371.0
-offset_bottom = 22.0
 size_flags_horizontal = 3
 text = "Cancel"
 
 [node name="popup_newValue" parent="Popups" instance=ExtResource("4")]
 visible = false
 
-[node name="Timer2" type="Timer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="0"]
-wait_time = 0.5
+[node name="PanelContainer" parent="Popups/popup_newValue" index="0"]
+layout_mode = 3
 
-[node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="1"]
-item_count = 9
-item_0/text = "Cut"
-item_0/id = 0
-item_1/text = "Copy"
-item_1/id = 1
-item_2/text = "Paste"
-item_2/id = 2
-item_3/text = ""
-item_3/id = -1
-item_3/separator = true
-item_4/text = "Select All"
-item_4/id = 4
-item_5/text = "Clear"
-item_5/id = 3
-item_6/text = ""
-item_6/id = -1
-item_6/separator = true
-item_7/text = "Undo"
-item_7/id = 5
-item_8/text = "Redo"
-item_8/id = 6
+[node name="VBox1" parent="Popups/popup_newValue/PanelContainer" index="0"]
+layout_mode = 3
 
-[node name="Timer3" type="Timer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="2"]
-wait_time = 0.5
+[node name="HBox1" parent="Popups/popup_newValue/PanelContainer/VBox1" index="0"]
+layout_mode = 3
 
-[node name="PopupMenu3" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input" index="3"]
-item_count = 9
-item_0/text = "Cut"
-item_0/id = 0
-item_1/text = "Copy"
-item_1/id = 1
-item_2/text = "Paste"
-item_2/id = 2
-item_3/text = ""
-item_3/id = -1
-item_3/separator = true
-item_4/text = "Select All"
-item_4/id = 4
-item_5/text = "Clear"
-item_5/id = 3
-item_6/text = ""
-item_6/id = -1
-item_6/separator = true
-item_7/text = "Undo"
-item_7/id = 5
-item_8/text = "Redo"
-item_8/id = 6
+[node name="Input_Text" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="0"]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 3
 
-[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label/HBox1" index="0"]
-text = "Field Data Type"
+[node name="Label" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text" index="0"]
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 0.0
+grow_horizontal = 2
 
-[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
-item_count = 15
-selected = 0
-popup/item_0/text = "Text"
-popup/item_0/id = 0
-popup/item_1/text = "List"
-popup/item_1/id = 1
-popup/item_2/text = "Input Control"
-popup/item_2/id = 2
-popup/item_3/text = "Number Range"
-popup/item_3/id = 3
-popup/item_4/text = "Sound Effect"
-popup/item_4/id = 4
-popup/item_5/text = "Conditions"
-popup/item_5/id = 5
-popup/item_6/text = "Commands"
-popup/item_6/id = 6
-popup/item_7/text = "Whole Number"
-popup/item_7/id = 7
-popup/item_8/text = "Decimal Number"
-popup/item_8/id = 8
-popup/item_9/text = "True or False"
-popup/item_9/id = 9
-popup/item_10/text = "Dropdown List"
-popup/item_10/id = 10
-popup/item_11/text = "Icon Display"
-popup/item_11/id = 11
-popup/item_12/text = "Scene Path"
-popup/item_12/id = 12
-popup/item_13/text = "Sprite"
-popup/item_13/id = 13
-popup/item_14/text = "Vector 2 or 3"
-popup/item_14/id = 14
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text" index="1"]
+layout_mode = 3
+offset_top = 29.0
+offset_bottom = 79.0
 
-[node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Input" index="1"]
-item_count = 13
-item_0/text = "Text"
-item_0/checkable = 2
-item_0/checked = true
-item_0/id = 0
-item_1/text = "List"
-item_1/checkable = 2
-item_1/id = 1
-item_2/text = "Input Control"
-item_2/checkable = 2
-item_2/id = 2
-item_3/text = "Number Range"
-item_3/checkable = 2
-item_3/id = 3
-item_4/text = "Sound Effect"
-item_4/checkable = 2
-item_4/id = 4
-item_5/text = "Whole Number"
-item_5/checkable = 2
-item_5/id = 5
-item_6/text = "Decimal Number"
-item_6/checkable = 2
-item_6/id = 6
-item_7/text = "True or False"
-item_7/checkable = 2
-item_7/id = 7
-item_8/text = "Dropdown List"
-item_8/checkable = 2
-item_8/id = 8
-item_9/text = "Icon Display"
-item_9/checkable = 2
-item_9/id = 9
-item_10/text = "Scene Path"
-item_10/checkable = 2
-item_10/id = 10
-item_11/text = "Sprite"
-item_11/checkable = 2
-item_11/id = 11
-item_12/text = "Vector 2 or 3"
-item_12/checkable = 2
-item_12/id = 12
+[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text" index="2"]
+layout_mode = 3
+anchors_preset = 10
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
 
-[node name="PopupMenu3" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Input" index="2"]
-item_count = 13
-item_0/text = "Text"
-item_0/checkable = 2
-item_0/checked = true
-item_0/id = 0
-item_1/text = "List"
-item_1/checkable = 2
-item_1/id = 1
-item_2/text = "Input Control"
-item_2/checkable = 2
-item_2/id = 2
-item_3/text = "Number Range"
-item_3/checkable = 2
-item_3/id = 3
-item_4/text = "Sound Effect"
-item_4/checkable = 2
-item_4/id = 4
-item_5/text = "Whole Number"
-item_5/checkable = 2
-item_5/id = 5
-item_6/text = "Decimal Number"
-item_6/checkable = 2
-item_6/id = 6
-item_7/text = "True or False"
-item_7/checkable = 2
-item_7/id = 7
-item_8/text = "Dropdown List"
-item_8/checkable = 2
-item_8/id = 8
-item_9/text = "Icon Display"
-item_9/checkable = 2
-item_9/id = 9
-item_10/text = "Scene Path"
-item_10/checkable = 2
-item_10/id = 10
-item_11/text = "Sprite"
-item_11/checkable = 2
-item_11/id = 11
-item_12/text = "Vector 2 or 3"
-item_12/checkable = 2
-item_12/id = 12
+[node name="ItemType_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="1"]
+layout_mode = 3
+
+[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection/Label/HBox1" index="0"]
+offset_bottom = 30.0
+
+[node name="Table_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="2"]
+layout_mode = 3
 
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
-item_count = 14
-selected = 0
-popup/item_0/text = "Character Classes"
-popup/item_0/id = 0
-popup/item_1/text = "Characters"
-popup/item_1/id = 1
-popup/item_2/text = "Control Categories"
-popup/item_2/id = 2
-popup/item_3/text = "DataTypes"
-popup/item_3/id = 3
-popup/item_4/text = "Event Triggers"
-popup/item_4/id = 4
-popup/item_5/text = "FieldPref"
-popup/item_5/id = 5
-popup/item_6/text = "Global Data"
-popup/item_6/id = 6
-popup/item_7/text = "Global Variables"
-popup/item_7/id = 7
-popup/item_8/text = "Inequalities"
-popup/item_8/id = 8
-popup/item_9/text = "ItemType"
-popup/item_9/id = 9
-popup/item_10/text = "Items"
-popup/item_10/id = 10
-popup/item_11/text = "Maps"
-popup/item_11/id = 11
-popup/item_12/text = "Sprite Groups"
-popup/item_12/id = 12
-popup/item_13/text = "Table Data"
-popup/item_13/id = 13
+item_count = 19
+popup/item_3/text = "Controls"
+popup/item_4/text = "DataTypes"
+popup/item_5/text = "Dialog Groups"
+popup/item_6/text = "Event Animation States"
+popup/item_7/text = "Event Triggers"
+popup/item_8/text = "FieldPref"
+popup/item_9/text = "Game State"
+popup/item_10/text = "Global Variables"
+popup/item_11/text = "Inequalities"
+popup/item_12/text = "Input Actions"
+popup/item_13/text = "ItemType"
+popup/item_14/text = "Items"
+popup/item_15/text = "Maps"
+popup/item_16/text = "SFX Groups"
+popup/item_17/text = "Sprite Groups"
+popup/item_17/id = 17
+popup/item_18/text = "Table Data"
+popup/item_18/id = 18
 
 [node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="1"]
 item_count = 7
@@ -524,75 +416,28 @@ item_6/text = "Maps"
 item_6/checkable = 2
 item_6/id = 6
 
+[node name="HBox2" parent="Popups/popup_newValue/PanelContainer/VBox1" index="1"]
+layout_mode = 3
+
+[node name="Accept" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox2" index="0"]
+layout_mode = 3
+
+[node name="Cancel" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox2" index="1"]
+layout_mode = 3
+
 [node name="popup_Event_Selection" parent="Popups" instance=ExtResource("2")]
 visible = false
 
-[node name="Input_Label_Template" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="0"]
-offset_bottom = 172.0
-
-[node name="Label_Button" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/Input_Label_Template/HBox1" index="0"]
-offset_bottom = 177.0
-
-[node name="input_templateBuffer" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="1"]
-offset_top = 176.0
-offset_bottom = 176.0
-
-[node name="HBox1" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="2"]
-offset_top = 180.0
-offset_bottom = 259.0
-
 [node name="Existing_Events_Dropdown" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1" index="0"]
-visible = true
-offset_right = 310.0
-offset_bottom = 79.0
-selection_table_name = "Events"
-
-[node name="Label" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown" index="0"]
-offset_right = 310.0
-
-[node name="Input" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown" index="1"]
-offset_right = 310.0
-offset_bottom = 79.0
-
-[node name="Create_New_Event_Button" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1" index="2"]
-offset_left = 314.0
-offset_bottom = 79.0
-
-[node name="input_templateBuffer2" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="3"]
-offset_top = 263.0
-offset_bottom = 263.0
-
-[node name="HBox2" parent="Popups/popup_Event_Selection/PanelContainer/VBox1" index="4"]
-offset_top = 267.0
-
-[node name="Accept" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox2" index="0"]
-offset_bottom = 172.0
-
-[node name="Cancel" parent="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox2" index="1"]
-offset_bottom = 172.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource("5")]
 visible = false
 
-[node name="Label" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="0"]
-offset_bottom = 25.0
-
-[node name="Itemlist" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="1"]
-offset_top = 29.0
-offset_bottom = 175.0
-
 [node name="VScrollBar2" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="1"]
 
 [node name="VScrollBar3" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="2"]
-
-[node name="HBoxContainer" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="2"]
-offset_top = 179.0
-
-[node name="Accept" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
-offset_bottom = 22.0
-
-[node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
-offset_bottom = 22.0
 
 [connection signal="button_up" from="Scroll1/VBox1/HBox3/HBox1/Add_Page_Button" to="." method="add_new_event_page"]
 [connection signal="button_up" from="Scroll1/VBox1/HBox3/HBox1/Copy_Page_Button" to="." method="_on_Copy_Page_Button_button_up"]
@@ -608,10 +453,9 @@ offset_bottom = 22.0
 [editable path="Scroll1/VBox1/Input_Label_Template3"]
 [editable path="Scroll1/VBox1/HBox3/Input_Text"]
 [editable path="Popups/popup_newValue"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection/Label"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label"]
 [editable path="Popups/popup_Event_Selection"]

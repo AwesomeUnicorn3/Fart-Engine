@@ -4,16 +4,25 @@
 [ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="7"]
 
 [node name="KeySelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
 script = ExtResource("3")
 
 [node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="DropPanelContainer" type="HBoxContainer" parent="."]
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -67,30 +76,41 @@ offset_top = 85.0
 offset_right = 542.0
 offset_bottom = 110.0
 theme = ExtResource("7")
-text = "Press Key"
+text = "Press Desired Mouse, Keyboard, or Joystick Button"
 horizontal_alignment = 1
 
 [node name="Buttons" type="HBoxContainer" parent="DropPanelContainer/MainNodes"]
+offset_left = 221.0
 offset_top = 114.0
-offset_right = 542.0
+offset_right = 321.0
 offset_bottom = 164.0
+size_flags_horizontal = 4
 theme = ExtResource("7")
 
 [node name="Accept" type="Button" parent="DropPanelContainer/MainNodes/Buttons"]
-custom_minimum_size = Vector2(50, 50)
-offset_right = 269.0
+visible = false
+custom_minimum_size = Vector2i(100, 50)
+offset_right = 100.0
 offset_bottom = 50.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 4
 theme_override_font_sizes/font_size = 15
 text = "Accept"
 
-[node name="Cancel" type="Button" parent="DropPanelContainer/MainNodes/Buttons"]
-offset_left = 273.0
-offset_right = 542.0
+[node name="Reset" type="Button" parent="DropPanelContainer/MainNodes/Buttons"]
+visible = false
+custom_minimum_size = Vector2i(100, 50)
+offset_left = 104.0
+offset_right = 204.0
 offset_bottom = 50.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 15
+text = "Reset"
+
+[node name="Cancel" type="Button" parent="DropPanelContainer/MainNodes/Buttons"]
+custom_minimum_size = Vector2i(100, 50)
+offset_right = 100.0
+offset_bottom = 50.0
+size_flags_vertical = 4
 text = "Cancel"
 
 [node name="BottomMargin" type="Label" parent="DropPanelContainer/MainNodes"]
@@ -106,4 +126,6 @@ offset_bottom = 191.0
 size_flags_vertical = 3
 
 [connection signal="button_up" from="DropPanelContainer/MainNodes/Buttons/Accept" to="." method="_on_Accept_button_up"]
+[connection signal="button_up" from="DropPanelContainer/MainNodes/Buttons/Reset" to="." method="_on_reset_button_up"]
+[connection signal="button_down" from="DropPanelContainer/MainNodes/Buttons/Cancel" to="." method="_on_cancel_button_down"]
 [connection signal="button_up" from="DropPanelContainer/MainNodes/Buttons/Cancel" to="." method="_on_Cancel_button_up"]

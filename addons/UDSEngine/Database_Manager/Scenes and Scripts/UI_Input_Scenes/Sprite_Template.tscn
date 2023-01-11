@@ -9,17 +9,23 @@
 [sub_resource type="SpriteFrames" id="3"]
 
 [node name="Sprite_Template" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("2")
 
 [node name="Label" parent="." instance=ExtResource("5")]
+custom_minimum_size = Vector2i(0, 25)
+layout_mode = 3
+anchors_preset = 0
 anchor_right = 0.0
 offset_right = 900.0
 
 [node name="StandardControlsHBox" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2i(0, 100)
 offset_top = 29.0
 offset_right = 900.0
 offset_bottom = 414.0
@@ -37,16 +43,19 @@ offset_bottom = 385.0
 size_flags_horizontal = 3
 
 [node name="Label2" type="ColorRect" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox"]
-custom_minimum_size = Vector2(0, 35)
+custom_minimum_size = Vector2i(0, 35)
 offset_right = 448.0
 offset_bottom = 35.0
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/Label2" groups=["Label"]]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2i(0, 25)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 text = "Sprite Atlas"
@@ -142,7 +151,7 @@ increase_value = false
 
 [node name="Input" type="TextureButton" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox"]
 show_behind_parent = true
-custom_minimum_size = Vector2(0, 75)
+custom_minimum_size = Vector2i(0, 75)
 offset_top = 139.0
 offset_right = 448.0
 offset_bottom = 385.0
@@ -168,16 +177,19 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label3" type="ColorRect" parent="StandardControlsHBox/PreviewVBox"]
-custom_minimum_size = Vector2(0, 35)
+custom_minimum_size = Vector2i(0, 35)
 offset_right = 448.0
 offset_bottom = 35.0
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="StandardControlsHBox/PreviewVBox/Label3" groups=["Label"]]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2i(0, 25)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 text = "Preview"
@@ -185,14 +197,19 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Control" type="Control" parent="StandardControlsHBox/PreviewVBox"]
+layout_mode = 3
+anchors_preset = 0
 offset_top = 39.0
 offset_right = 448.0
 offset_bottom = 385.0
 size_flags_vertical = 3
 
 [node name="PreviewWindow" type="VBoxContainer" parent="StandardControlsHBox/PreviewVBox/Control"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="AdvancedControlsVBox" type="VBoxContainer" parent="."]
 offset_top = 418.0
@@ -206,16 +223,19 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label4" type="ColorRect" parent="AdvancedControlsVBox/Control"]
-custom_minimum_size = Vector2(0, 35)
+custom_minimum_size = Vector2i(0, 35)
 offset_right = 779.0
 offset_bottom = 35.0
 size_flags_horizontal = 3
 color = Color(0.313726, 0.145098, 0, 1)
 
 [node name="Label2" type="Label" parent="AdvancedControlsVBox/Control/Label4" groups=["Label"]]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2i(0, 25)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 text = "Advanced Animation Controls"
@@ -244,16 +264,19 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox"]
-custom_minimum_size = Vector2(0, 35)
+custom_minimum_size = Vector2i(0, 35)
 offset_right = 401.0
 offset_bottom = 35.0
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/Label3" groups=["Label"]]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2i(0, 25)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 text = "Frame Range"
@@ -358,16 +381,19 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox"]
-custom_minimum_size = Vector2(0, 35)
+custom_minimum_size = Vector2i(0, 35)
 offset_right = 89.0
 offset_bottom = 35.0
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/Label3" groups=["Label"]]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2i(0, 25)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 text = "Speed (FPS)"
@@ -436,19 +462,21 @@ offset_bottom = 139.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
-hint_tooltip = "This value will not change the \"Preview\" size"
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox"]
-custom_minimum_size = Vector2(0, 35)
+custom_minimum_size = Vector2i(0, 35)
 offset_right = 402.0
 offset_bottom = 35.0
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/Label3" groups=["Label"]]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2i(0, 25)
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 text = "Sprite Size (Pixels)"

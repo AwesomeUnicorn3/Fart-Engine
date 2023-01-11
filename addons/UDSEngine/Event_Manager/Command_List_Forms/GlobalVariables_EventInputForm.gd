@@ -20,7 +20,7 @@ var selected_global_variable :String
 var selected_type :String
 var previous_global_variable :String
 var previous_selected_type :String
-var id
+var id :String
 
 func _ready():
 	global_var_node.input_selection_changed.connect(selection_changed)
@@ -68,8 +68,12 @@ func selection_changed(): #Called when any itemtype selection input is changed w
 	if previous_global_variable != selected_global_variable:
 		previous_global_variable = selected_global_variable
 		#populate type list in type_node
+		#print(global_variables_dictionary)
 		id = commandListForm.DBENGINE.get_id_from_display_name(global_variables_dictionary, selected_global_variable)
 		var type_input_dict :Dictionary = global_variables_dictionary[id]
+		type_input_dict = remove_key_from_dict(type_input_dict, "Display Name")
+		
+		#print(type_input_dict)
 		type_node.selection_table = type_input_dict
 		type_node.selection_table_name = ""
 		#populate list on seelction_node 
@@ -81,11 +85,22 @@ func selection_changed(): #Called when any itemtype selection input is changed w
 	elif previous_selected_type != selected_type:
 		type_selection_changed()
 
+func remove_key_from_dict(baseDict :Dictionary, keyName: String ):
+	var temp_baseDic :Dictionary = baseDict.duplicate(true)
+	for key in temp_baseDic:
+		if key == keyName:
+			baseDict.erase(key)
+	return baseDict
 
 func type_selection_changed():
 	hide_input_nodes()
 	input_container_dict[selected_type].visible = true
-	input_container_dict[selected_type].inputNode.set_text(str(global_variables_dictionary[id][selected_type]))
+	var inputText = str(global_variables_dictionary[id][selected_type])
+	if selected_type == "Text":
+		inputText = str_to_var(inputText)["text"]
+	print(inputText, " ", selected_type)
+	input_container_dict[selected_type].inputNode.set_text(inputText)
+
 	previous_selected_type = selected_type
 
 

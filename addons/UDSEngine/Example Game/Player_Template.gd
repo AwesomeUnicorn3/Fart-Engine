@@ -28,7 +28,7 @@ extends CharacterEngine
 #func play_sprite_animation(animation_name :String):
 #	sprite_animation.play(animation_name)
 #	enable_collision(animation_name)
-#	udsmain.set_sprite_scale(sprite_animation,animation_name , player_animation_dictionary)
+#	AU3ENGINE.set_sprite_scale(sprite_animation,animation_name , player_animation_dictionary)
 #	if draw_shadow:
 #		play_shadow_animation(animation_name)
 #

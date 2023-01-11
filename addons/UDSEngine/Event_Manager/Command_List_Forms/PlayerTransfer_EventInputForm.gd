@@ -14,7 +14,8 @@ var scene_name
 
 
 func _ready():
-	map_node.populate_list()
+	print("Form added")
+	$Control/VBoxContainer/DropDown_Template.populate_list()
 
 
 func set_input_values(old_function_dict :Dictionary):
@@ -34,11 +35,15 @@ func get_input_values():
 func _on_accept_button_up():
 	commandListForm.CommandInputForm.function_dict = get_input_values()
 	delete_transfer_node()
-	if DBENGINE.get_main_node(self).name == "UDSENGINE":
+
+	if DBENGINE.get_main_node(self).name == "AU3ENGINE":
 		#SHOULD CLOSE SCENE IF THE TRANSFER TO MAP IS NOT THE MAP THAT 
 		#CONTAINS THE EVENT CURRENTLY BEING EDITTED
 		DBENGINE.close_scene_in_editor(which_map)
-	get_parent()._on_close_button_up()
+		await get_tree().create_timer(.25).timeout
+		DBENGINE.return_to_AU3Engine()
+
+	get_parent()._on_close_button_up() 
 
 
 func _on_open_map_button_button_up():
@@ -50,11 +55,10 @@ func _on_open_map_button_button_up():
 		if map_dict[map_index]["Display Name"] == which_map:
 			map_path = map_dict[map_index]["Path"]
 			break
-	add_starting_position_node_to_map(which_map)
+	Add_Starting_position_node_to_map(which_map)
 	
 
-
-func add_starting_position_node_to_map(selectedItemName):
+func Add_Starting_position_node_to_map(selectedItemName):
 	var editor = EditorPlugin.new().get_editor_interface()
 	var maps_dict = DBENGINE.import_data(DBENGINE.table_save_path + "Maps" + DBENGINE.file_format)
 	var new_map_path :String = DBENGINE.get_mappath_from_displayname(selectedItemName)
@@ -70,8 +74,8 @@ func add_starting_position_node_to_map(selectedItemName):
 
 	var new_packed_scene = PackedScene.new()
 	new_packed_scene.pack(new_map_scene)
-	var dir = Directory.new()
-	dir.open(new_map_path.get_base_dir())
+	var dir :DirAccess = DirAccess.open(new_map_path.get_base_dir())
+	#dir.open(new_map_path.get_base_dir())
 	dir.remove(selectedItemName)
 	ResourceSaver.save(new_packed_scene, new_map_path)
 	new_map_scene.queue_free()

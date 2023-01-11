@@ -5,7 +5,7 @@ var current_position :Vector2 = Vector2.ZERO
 var previous_position:Vector2 = Vector2.ZERO
 var position_updated :bool = true
 var DBENGINE = DatabaseEngine.new()
-var editor 
+var editor :EditorPlugin
 var save_table_wait_index :int = 0
 var set_position_button
 
@@ -15,7 +15,7 @@ func _ready():
 	#Set current position based on Global Data info
 		editor = EditorPlugin.new()
 		var global_data_dict = DBENGINE.import_data(DBENGINE.table_save_path + "Global Data" + DBENGINE.file_format)
-		current_position = DBENGINE.convert_string_to_vector(global_data_dict[DBENGINE.global_settings]["Player Starting Position"])
+		current_position = DBENGINE.convert_string_to_vector(global_data_dict[DBENGINE.global_settings_profile]["Player Starting Position"])
 		set_position(current_position)
 		previous_position = current_position
 
@@ -26,10 +26,9 @@ func _ready():
 func update_starting_position(CurrentPosition):
 	position_updated = true
 	var global_data_dict = DBENGINE.import_data(DBENGINE.table_save_path + "Global Data" + DBENGINE.file_format)
-	global_data_dict[DBENGINE.global_settings]["Player Starting Position"] = CurrentPosition
+	global_data_dict[DBENGINE.global_settings_profile]["Player Starting Position"] = CurrentPosition
 	await DBENGINE.save_file(DBENGINE.table_save_path + "Global Data" + DBENGINE.file_format, global_data_dict)
-	
-	var main_node = editor.get_editor_interface().get_editor_main_control().get_node("UDSENGINE")
+	var main_node = editor.get_editor_interface().get_editor_main_screen().get_node("AU3ENGINE")
 	main_node.get_node("Tabs").get_node("Global Data").update_dictionaries()
 	main_node.get_node("Tabs").get_node("Global Data").reload_buttons()
 	main_node.get_node("Tabs").get_node("Global Data").table_list.get_child(0)._on_TextureButton_button_up()

@@ -1,27 +1,9 @@
 @tool
 extends Control
 class_name DatabaseEngine
+signal Editor_Refresh_Complete
 
-
-@onready var input_singleLine = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn")
-@onready var input_multiLine = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text_Multiline.tscn")
-@onready var input_checkBox = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn")
-@onready var input_intNumberCounter = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn")
-@onready var input_floatNumberCounter = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn")
-@onready var input_dropDownMenu = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn")
-@onready var input_iconDisplay = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.tscn")
-@onready var input_keySelection = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect_Template.tscn")
-@onready var input_spriteDisplay = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.tscn")
-@onready var input_vector = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Vector.tscn")
-@onready var input_dictionary = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dictionary.tscn")
-@onready var input_scenePath = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ScenePath_Template.tscn")
-@onready var input_minmax = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_MinMax.tscn")
-@onready var input_sfx = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_sfx.tscn")
-@onready var input_conditions = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Conditions.tscn")
-@onready var input_commands = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Commands.tscn")
-@onready var input_dialog = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dialog.tscn")
-
-var editor
+var editor :EditorInterface
 var op_sys : String = ""
 var save_format = ".sav"
 var script_format = ".gd"
@@ -33,6 +15,7 @@ var sfx_folder =  "sfx/"
 var event_folder = "events/"
 var currentData_dict := {}
 var current_dict := {} #Currently selected table values Dictionary
+var datatype_dict := {}
 var save_game_path = "user://"
 var data_type : String = "Column"
 var current_table_name = ""
@@ -41,7 +24,7 @@ var table_ref = ""
 var Item_Name = ""
 var root : Node
 var json_object : JSON = JSON.new()
-var global_settings :String = "Profile 1"
+var global_settings_profile :String = "Profile 1"
 
 #used to rearrange keys
 var button_focus_index :String = "" 
@@ -69,6 +52,9 @@ func refresh_editor():
 	while editorNew.get_editor_interface().get_resource_filesystem().is_scanning():
 		print("Scanning...")
 		await get_tree().create_timer(.1).timeout
+	await get_tree().create_timer(.1).timeout
+	emit_signal("Editor_Refresh_Complete")
+	print("Scanning Complete")
 
 
 func update_file_in_editor(file_path: String):
@@ -98,12 +84,16 @@ func get_table_keys():
 
 
 func get_id_from_display_name(table_dictionary :Dictionary, display_name :String):
-	var index
+	#print(display_name)
+	var index :String
+	var id_display_name :String 
 	for id in table_dictionary:
 		if table_dictionary[id].has("Display Name"):
-			if table_dictionary[id]["Display Name"] == display_name:
+			id_display_name = str_to_var(table_dictionary[id]["Display Name"])["text"]
+			if id_display_name == display_name:
 				index = id
 				break
+	#print(index)
 	return index
 
 
@@ -120,8 +110,8 @@ func get_table_values():
 func list_files_with_param(dirPath, file_type, ignore_table_array : Array = [], array_exclude_begins_with : Array = ["."]):
 	var array_load_files = []
 	var files = []
-	var dir = Directory.new()
-	dir.open(dirPath)
+	var dir :DirAccess = DirAccess.open(dirPath)
+	#dir.open(dirPath)
 	dir.list_dir_begin()
 	
 	while true:
@@ -147,33 +137,36 @@ func remove_special_char(text : String):
 	return result
 
 
-func import_data(table_loc):
+func import_data(table_loc : String):
 	#Opens .json file located at table_loc, reads it, returns the data as a dictionary
 	var curr_tbl_data : Dictionary = {}
-	var currdata_file = File.new()
-	if currdata_file.open(table_loc, File.READ) != OK:
+	#print("Currdata dir Load begin")
+	var currdata_dir :FileAccess = FileAccess.open(table_loc,FileAccess.READ_WRITE)
+	#print("Currdata dir Loaded")
+#	var dir :bool = currdata_dir.file_exists(table_loc)
+	if currdata_dir == null :
 		print("Error Could not open file at: " + table_loc)
 	else:
-		currdata_file.open(table_loc, File.READ)
-		var currdata_json = json_object.parse(currdata_file.get_as_text())
+	#currdata_dir = currdata_dir.open(table_loc, FileAccess.READ)
+		var currdata_json = json_object.parse(currdata_dir.get_as_text())
 		curr_tbl_data = json_object.get_data()
-		currdata_file.close()
-		
-		return curr_tbl_data
+	#currdata_dir.close()
+	#print(curr_tbl_data)
+	return curr_tbl_data
 
 
 func save_file(sv_path, tbl_data):
 #Save dictionary to .json upon user confirmation
-	var save_file = File.new()
-	if save_file.open(sv_path, File.WRITE) != OK:
+	var save_file :FileAccess = FileAccess.open(sv_path,FileAccess.WRITE_READ)
+	if save_file == null:
 		print("Error Could not update file")
 	else:
 		var save_d = tbl_data
 		var jsonObject = JSON.new()
-		save_file.open(sv_path, File.WRITE)
+		#save_file.open(sv_path, File.WRITE)
 		var json_string = jsonObject.stringify(save_d)
-		save_file.store_line(json_string)
-		save_file.close()
+		save_file.store_string(json_string)
+		#save_file.close()
 
 
 func save_all_db_files(table_name :String = current_table_name):
@@ -184,27 +177,23 @@ func save_all_db_files(table_name :String = current_table_name):
 
 func update_project_settings(): #called when save_all_db_files is run
 	set_game_root()
-#	create_new_event_script()
-#	add_line_to_function("DefaultGDScript","test", "print('Success 2!!')")
-#	add_func_to_event("test2", "\nfunc test2(): \n	print('Success 2!!')", "DefaultGDScript" )
-#	add_line_to_function(event_path, function_name, script_line)
 
 
 func set_game_root():
-	var root_path = import_data(table_save_path + "Global Data" + file_format)[global_settings]['Project Root Scene']
+	var root_path = import_data(table_save_path + "Global Data" + file_format)[global_settings_profile]['Project Root Scene']
 	var current_root_scene = ProjectSettings.get("application/run/main_scene")
 	if root_path != current_root_scene:
 		ProjectSettings.set("application/run/main_scene", root_path) 
 
 
 func get_default_dialog_scene_path():
-	var scene_path :String = import_data(table_save_path + "Global Data" + file_format)[global_settings]['Default Dialog Box']
+	var scene_path :String = import_data(table_save_path + "Global Data" + file_format)[global_settings_profile]['Default Dialog Box']
 	return scene_path
-	
+
 
 func set_root_node():
 	var globalDataDict :Dictionary = await import_data(table_save_path + "Global Data" + file_format)
-	var rootScenePath :String = globalDataDict[global_settings]["Project Root Scene"]
+	var rootScenePath :String = globalDataDict[global_settings_profile]["Project Root Scene"]
 	var root_scene = load(rootScenePath).instantiate()
 	var root_node_name :String = root_scene.get_node(".").name
 	root_scene.queue_free()
@@ -220,7 +209,7 @@ func add_new_table(newTableName, keyName, keyDatatype, keyVisible, fieldName, fi
 		#THIS IS WHERE I WILL USE THE DROPDOWN TEMPLATE TO CREATE A NEW LIST STYLE TABLE (KEY IS NUMBER, ID, DISPLAY NAME)
 		add_key("1", "1", keyVisible, true, dropdown, true)
 		add_field("Display Name", "1", fieldVisible, true,  dropdown, true)
-		current_dict["1"]["Display Name"] = keyName
+		current_dict["1"]["Display Name"] = var_to_str({"text" : keyName})
 
 	else:
 		add_key(keyName, keyDatatype, keyVisible, true, dropdown, true)
@@ -236,10 +225,10 @@ func add_new_table(newTableName, keyName, keyDatatype, keyVisible, fieldName, fi
 	#Input data for table list
 	if RefName == "":
 		RefName = newTableName
-	else:
-		current_dict[newTableName]["Display Name"] = RefName
+#	else:
+#		current_dict[newTableName]["Display Name"] = RefName
 
-	current_dict[newTableName]["Display Name"] = RefName
+	current_dict[newTableName]["Display Name"] = var_to_str({"text" : RefName})
 	current_dict[newTableName]["Create Tab"] = createTab
 	current_dict[newTableName]["Is Dropdown Table"] = isDropdown
 	current_dict[newTableName]["Include in Save File"] = add_toSaveFile
@@ -259,9 +248,9 @@ func Delete_Table(delete_tbl_name):
 	save_all_db_files(current_table_name)
 
 	#Then delete all of the files associated with the delted table
-	var dir = Directory.new()
+	var dir :DirAccess = DirAccess.open(table_save_path)
 	var file_delete = table_save_path + delete_tbl_name + file_format
-	dir.open(table_save_path)
+	#dir.open(table_save_path)
 	dir.remove(file_delete)
 	file_delete = table_save_path + delete_tbl_name + table_info_file_format
 
@@ -272,6 +261,7 @@ func Delete_Table(delete_tbl_name):
 
 
 func Delete_Key(key_name):
+	print(key_name)
 	var tmp_dict = {}
 	var main_tbl = {}
 	match data_type:
@@ -312,7 +302,8 @@ func add_key(keyName, datatype, showKey, requiredValue, dropdown,  newTable : bo
 
 	#Get custom key fields and add them to tableData dict
 	for i in CustomData_dict:
-		var currentKey = CustomData_dict[i]["ItemID"]
+		var currentKey_dict :Dictionary = str_to_var(CustomData_dict[i]["ItemID"])
+		var currentKey :String = currentKey_dict["text"]
 		match currentKey:
 			"DataType":
 				newValue = datatype
@@ -339,13 +330,20 @@ func add_key(keyName, datatype, showKey, requiredValue, dropdown,  newTable : bo
 		current_dict[keyName] = new_key_data  #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE #Set new key values based on the default (first line of table)
 
 
-func get_default_value(itemType):
-	var data_default_dict :Dictionary = import_data(table_save_path + "DataTypes" + file_format)
+func get_default_value(itemType :String):
+	datatype_dict = import_data(table_save_path + "DataTypes" + file_format)
 	var item_value
-	for key in data_default_dict:
+	for key in datatype_dict:
 		if key == itemType:
-			var default_value =  data_default_dict[key]["Default Values"]
-			item_value = convert_string_to_type(default_value, itemType)   #default value
+			var default_dict :Dictionary =  str_to_var(datatype_dict[key]["Default Values"])
+			var default_value = default_dict["text"]
+			
+			item_value = convert_string_to_type(default_value)  #default value
+			
+#			print(itemType, " : ", default_value, " : ", item_value)
+			if item_value == null:
+				item_value = default_value
+				
 			break
 	return item_value
 
@@ -371,7 +369,8 @@ func add_field(fieldName, datatype, showField, required_value, tblName = "empty"
 	var newValue
 
 	for i in fieldCustomData_dict:
-		var currentKey = fieldCustomData_dict[i]["ItemID"]
+		var currentKey_dict :Dictionary = str_to_var(fieldCustomData_dict[i]["ItemID"])
+		var currentKey :String = currentKey_dict["text"]
 		match currentKey:
 			"DataType":
 				newValue = datatype
@@ -386,7 +385,6 @@ func add_field(fieldName, datatype, showField, required_value, tblName = "empty"
 			
 
 		newFeild_dict[currentKey] = newValue
-
 	currentData_dict["Column"][index] = newFeild_dict #Add new field to the column_dict
 
 	if newTable:
@@ -396,6 +394,7 @@ func add_field(fieldName, datatype, showField, required_value, tblName = "empty"
 	else:
 		for n in current_dict: #loop through all keys and set value for this file to "empty"
 			var default_value = get_default_value(datatype)
+
 			current_dict[n][fieldName] = default_value #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE
 		save_all_db_files(current_table_name)
 		update_dictionaries()
@@ -403,9 +402,10 @@ func add_field(fieldName, datatype, showField, required_value, tblName = "empty"
 
 func is_file_in_folder(path : String, file_name : String):
 	var value = false
-	var dir = Directory.new()
-	dir.open(path)
-	if dir.file_exists(file_name):
+	print(path + file_name)
+	var dir :bool = FileAccess.file_exists(path + file_name) #ClEAR WHEN DONE TESTING
+	#dir.open(path)
+	if dir:
 		value = true
 	else:
 		print(file_name, " Does NOT Exist :(")
@@ -483,7 +483,6 @@ func custom_to_bool(value):
 
 func convert_string_to_type(variant, datatype = ""):
 	var found_match = false
-	
 	if datatype == "":
 		variant = custom_to_bool(variant)
 		if !found_match:
@@ -515,7 +514,7 @@ func convert_string_to_type(variant, datatype = ""):
 			"4":
 				variant = custom_to_bool(variant)
 			"1":
-				variant = str(variant)
+				variant = string_to_dictionary(variant)
 			"2":
 				variant = str_to_var(str(variant))
 			"3":
@@ -535,6 +534,11 @@ func convert_string_to_type(variant, datatype = ""):
 			"15":
 				variant = string_to_dictionary(variant)
 			"16":
+				pass
+
+#				variant = string_to_dictionary(variant)
+
+			"17":
 				variant = string_to_dictionary(variant)
 
 	return variant
@@ -617,10 +621,8 @@ func set_var_type_table(dict : Dictionary):
 
 
 func string_to_dictionary(value):
-	if typeof(value) != TYPE_DICTIONARY:
+	if typeof(value) == TYPE_STRING:
 		value = str_to_var(value)
-
-
 	return value
 
 
@@ -630,68 +632,38 @@ func add_input_field(par: Node, nodeName):
 	new_node.set_owner(par)
 	return new_node
 
-func get_input_type_node(input_type :String): #FIGURE OUT A BETTER WAY TO GET THE INPUT NODE FROM INPUT TYPE
-	var return_node : Object
-	match input_type:
-		"4": #Bool
-			return_node = input_checkBox
-		"2": #INT
-			return_node = input_intNumberCounter
-		"3": #Float
-			return_node = input_floatNumberCounter
-		"1": #String
-			return_node = input_singleLine
-		"5":
-			return_node = input_dropDownMenu
-		"6":
-			return_node = input_iconDisplay
-		"11":
-			return_node = input_keySelection
-		"8":
-			return_node = input_spriteDisplay
-		"9": 
-			return_node = input_vector
-		"12": 
-			return_node = input_minmax
-		"10":
-			return_node = input_dictionary
-		"7":
-			return_node = input_scenePath
-		"13":
-			return_node = input_sfx
-		"14":
-			return_node = input_conditions
-		"15":
-			return_node = input_commands
-		"16":
-			return_node = input_dialog
+func is_table_dropdown_list(tableName :String):
+	var tables_dict = import_data(table_save_path + "Table Data.json")
+	var table_data = import_data(table_save_path + "Table Data_data.json")
+	var isTableDropdownList :bool = false
+	for i in range(0, tables_dict.size()):
+		var index :String = str(i + 1)
+		var currTableName :String = table_data["Row"][index]["FieldName"]
+		if currTableName == tableName:
+			isTableDropdownList = convert_string_to_type(tables_dict[currTableName]["Is Dropdown Table"])
+			#print(isTableDropdownList)
+			break
+	return isTableDropdownList
 
+
+func get_input_type_node(input_type :String):
+	var return_node : Object
+	datatype_dict = import_data(table_save_path + "DataTypes" + file_format)
+	return_node =  load(datatype_dict[input_type]["Default Scene"])
 	return return_node
 
 
-
-func load_input_forms():
-	if input_singleLine == null:
-		input_singleLine = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn")
-		input_multiLine = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text_Multiline.tscn")
-		input_checkBox = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn")
-		input_intNumberCounter = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn")
-		input_floatNumberCounter = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn")
-		input_dropDownMenu = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn")
-		input_iconDisplay = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.tscn")
-		input_keySelection = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect_Template.tscn")
-		input_spriteDisplay = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.tscn")
-		input_vector = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Vector.tscn")
-		input_dictionary = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dictionary.tscn")
-		input_scenePath = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ScenePath_Template.tscn")
-		input_minmax = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_MinMax.tscn")
-		input_sfx = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_sfx.tscn")
-		input_conditions = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Conditions.tscn")
-		input_commands = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Commands.tscn")
+func get_input_type_id_from_name(input_type_name :String):
+	datatype_dict = import_data(table_save_path + "DataTypes" + file_format)
+	for key in datatype_dict:
+		var displayname_dict :Dictionary = str_to_var(datatype_dict[key]["Display Name"])
+		var key_name :String = displayname_dict["text"]
+#
+		if key_name == input_type_name:
+			return key
 
 
 func add_input_node(index, index_half, key_name, table_dict := current_dict, container1 = null, container2 = null, node_value = "", node_type = "", tableName = ""):
-	await load_input_forms()
 
 	var parent_container = container1
 	var did_datatype_change = false
@@ -700,12 +672,11 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			parent_container = container2
 	if str(node_value) == "":
 		node_value =  convert_string_to_type(table_dict[key_name]["Value"], table_dict[key_name]["DataType"])
-		
 	if str(node_type) == "":
 		node_type = table_dict[key_name]["DataType"]
 	var new_field : Node
-
-
+	datatype_dict = import_data(table_save_path + "DataTypes" + file_format)
+	
 	match node_type:
 		"TYPE_BOOL": #Bool
 			node_type = "4"
@@ -751,94 +722,100 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 		for key in currentData_dict[data_type]:
 			if currentData_dict[data_type][key]["FieldName"] == key_name:
 				currentData_dict[data_type][key]["DataType"] = node_type
-
+	
+	var input_node = load(datatype_dict[node_type]["Default Scene"])
 	match node_type: #Match variant type and then determine which input field to use (check box, long text, short text, number count etc)
 
 		"4": #TYPE_BOOL
-			new_field = await add_input_field(parent_container, input_checkBox)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = new_field.default
+			
 			node_value = custom_to_bool(node_value)
 			new_field.inputNode.set_pressed(node_value)
 			new_field._on_input_toggled(node_value)
 
 
 		"2": #INT
-			new_field = await add_input_field(parent_container, input_intNumberCounter)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			new_field.inputNode.set_text(str(node_value))
 
 		"3": #Float
-			new_field = await add_input_field(parent_container, input_floatNumberCounter)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			new_field.inputNode.set_text(str(node_value))
 
 		"1": #String
-			if node_value.length() <= 45:
-				new_field  = await add_input_field(parent_container, input_singleLine)
-				if str(node_value) == "Default":
-					node_value = new_field.default
-				new_field.inputNode.set_text(node_value)
-			else:
-				new_field  = await add_input_field(parent_container, input_multiLine)
-				if str(node_value) == "Default":
-					node_value = new_field.default
-				new_field.inputNode.set_text(node_value)
+			new_field = await add_input_field(parent_container, input_node)
+			if str(node_value) == "Default":
+				node_value = str_to_var(new_field.default)
+			new_field.set_input_value(node_value, key_name, current_table_name)
 
 		"5":
-			new_field = await add_input_field(parent_container, input_dropDownMenu)
+			new_field = await add_input_field(parent_container, input_node)
 			if tableName == "":
 				new_field.selection_table_name = table_dict[key_name]["TableRef"]
 			else:
 				new_field.selection_table_name = tableName
-			new_field.labelNode.set_text(key_name)
-			new_field.populate_list()
-			if str(node_value) == "Default":
-				node_value = new_field.default
-			var type_id = new_field.get_id(str(node_value))
-			new_field.inputNode.select(type_id)
-			var itemSelected = new_field._on_Input_item_selected(type_id)
+			new_field.set_input_value(node_value, key_name, current_table_name)
+#			new_field.labelNode.set_text(key_name)
+#			new_field.populate_list()
+#			if str(node_value) == "Default":
+#				node_value = new_field.default
+#			var type_id = new_field.get_id(str(node_value))
+#			new_field.inputNode.select(type_id)
+#			var itemSelected = new_field._on_Input_item_selected(type_id)
 		"6":
-			new_field = await add_input_field(parent_container, input_iconDisplay)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			var texture_path = node_value
 			if texture_path == "empty":
 				texture_path = new_field.default
-			new_field.inputNode.set_normal_texture(load(str(table_save_path + icon_folder + texture_path)))
+			var tempBtn :TextureButton = new_field.inputNode
+			tempBtn.set_texture_normal(load(str(table_save_path + icon_folder + texture_path)))
 
 		"11":
-			new_field = await add_input_field(parent_container, input_keySelection)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = new_field.default
-			var key = OS.get_keycode_string(str(node_value).to_int())
-			new_field.inputNode.set_text(key)
-			new_field.inputNode.get_node("Keycode").set_text(str(node_value))
+			new_field.set_input_value(node_value, key_name, current_table_name)
+#			var key = OS.get_keycode_string(str(node_value).to_int())
+#			new_field.inputNode.set_text(key)
+#			new_field.inputNode.get_node("Keycode").set_text(str(node_value))
+
+		"17":
+			new_field = await add_input_field(parent_container, input_node)
+			if str(node_value) == "Default":
+				node_value = new_field.default
+			new_field.set_input_value(node_value, key_name, current_table_name)
 
 		"8":
-			new_field = await add_input_field(parent_container, input_spriteDisplay)
+			new_field = await add_input_field(parent_container, input_node)
 			node_value = convert_string_to_type(node_value)
 			new_field.set_input_value(node_value, key_name, current_table_name)
 
 
 		"9": 
-			new_field = await add_input_field(parent_container, input_vector)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = str(new_field.default)
 			new_field.inputNode.set_text(node_value)
 			new_field.set_user_input_value()
+			new_field.set_inputNode_value()
 
 		"12": 
-			new_field = await add_input_field(parent_container, input_minmax)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = str(new_field.default)
 			new_field.inputNode.set_text(node_value)
 			new_field.set_user_input_value()
 
 		"10":
-			new_field = await add_input_field(parent_container, input_dictionary)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = convert_string_to_type(new_field.default)
 			if typeof(node_value) == TYPE_STRING:
@@ -847,33 +824,22 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 			new_field.inputNode.set_text(str(node_value))
 
 		"7":
-			new_field  = await add_input_field(parent_container, input_scenePath)
+			new_field  = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = new_field.default
 			new_field.inputNode.set_text(node_value)
 			new_field._on_input_text_changed(node_value)
 		
 		"13":
-			new_field  = await add_input_field(parent_container, input_sfx)
+			
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = new_field.default
-			if typeof(node_value) == TYPE_STRING:
-				node_value = str_to_var(node_value)
-			var stream_path :String = table_save_path + sfx_folder + node_value[0]
-			var volume = node_value[1].to_float()
-			var pitch = node_value[2].to_float()
-			
-			new_field.inputNode.set_stream(load(stream_path))
-			new_field.inputNode.set_volume_db(volume)
-			new_field.inputNode.set_pitch_scale(pitch)
-			
-			new_field.get_node("HBoxContainer/VBoxContainer2/sfx_name").set_text(stream_path.get_file())
-			new_field.get_node("HBoxContainer/VBoxContainer/HBoxContainer/HSlider").set_value(volume)
-			new_field.get_node("HBoxContainer/VBoxContainer/HBoxContainer2/HSlider").set_value(pitch)
+			new_field.set_input_value(node_value, key_name, current_table_name)
 
 
 		"14":
-			new_field = await add_input_field(parent_container, input_conditions)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = convert_string_to_type(new_field.default)
 			if typeof(node_value) == TYPE_STRING:
@@ -884,7 +850,7 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 
 
 		"15":
-			new_field = await add_input_field(parent_container, input_commands)
+			new_field = await add_input_field(parent_container, input_node)
 			if str(node_value) == "Default":
 				node_value = convert_string_to_type(new_field.default)
 			if typeof(node_value) == TYPE_STRING:
@@ -895,7 +861,9 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 
 
 		"16":
-			new_field = await add_input_field(parent_container, input_dialog)
+			new_field = await add_input_field(parent_container, input_node)
+#			if str(node_value) == "Default":
+#				node_value = convert_string_to_type(new_field.default)
 			node_value = convert_string_to_type(node_value)
 			new_field.set_input_value(node_value, key_name, current_table_name)
 
@@ -909,6 +877,7 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 
 
 func update_match(current_node, field_name = "", key_name = Item_Name):
+	
 	var input_type = current_node.type
 	var input = current_node.inputNode
 	var returnValue
@@ -963,14 +932,10 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 
 	match input_type:
 		"1":
-			if field_name == "Key":
-				returnValue = update_item_name(key_name, input.text)
-				input.text = returnValue
-			else:
-				returnValue = input.text
+			returnValue = var_to_str(current_node.get_input_value())
 				
 		"5":
-			returnValue = current_node.selectedItemName
+			returnValue = var_to_str(current_node.get_input_value())
 			
 		"2":
 			returnValue = input.text
@@ -980,21 +945,15 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 
 			
 		"4":
-				returnValue = input.get_text()
+			returnValue = input.get_text()
 			
 		"6":
-			var filename = input.get_normal_texture().get_path().get_file()
+			var filename = input.get_texture_normal().get_path().get_file()
 			returnValue = filename
 			
 		"8":
 			returnValue = var_to_str(current_node.get_input_value())
-#			print(returnValue)
-#			var atlas_v_frame = current_node.atlas_v_input.get_text()
-#			var atlas_h_frame = current_node.atlas_h_input.get_text()
-#			var frames = Vector2(atlas_v_frame.to_float(),atlas_h_frame.to_float())
-#			var sprite_data : Array = [input.get_normal_texture().get_path().get_file() , str(frames)]
-#			returnValue = var_to_str(sprite_data)
-			
+
 		"9":
 			returnValue = input.text
 
@@ -1006,18 +965,15 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 
 		"7":
 			returnValue = input.text
-#			print("Saved as: " ,returnValue)
 		
 		"13":
-			var stream : String = input.get_stream().get_path().get_file()
-			var volume : String = str(input.get_volume_db())
-			var pitch : String = str(input.get_pitch_scale())
-			var sfx_array := [stream, volume, pitch]
-			returnValue = var_to_str(sfx_array)
+			returnValue = var_to_str(current_node.get_input_value())
 
 		"11":
-			returnValue = input.get_node("Keycode").text
+			returnValue = var_to_str(current_node.get_input_value())
 
+		"17":
+			returnValue = var_to_str(current_node.get_input_value())
 
 		"14":
 			returnValue = var_to_str(current_node.main_dictionary)
@@ -1031,9 +987,12 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 
 	if field_name != "" and field_name != "Key":
 		current_dict[key_name][field_name] = returnValue
+	elif field_name == "Key":
+		update_key_name(key_name, str_to_var(returnValue)["text"])
 	return returnValue
 
-func update_item_name(old_name : String, new_name : String = ""):
+
+func update_key_name(old_name : String, new_name : String):
 	var return_key = old_name
 	if old_name != new_name: #if changes are made to item name
 		#If is dropdown table
@@ -1042,7 +1001,7 @@ func update_item_name(old_name : String, new_name : String = ""):
 		if is_dropdown_table == true:
 			print("Cannot update keys in a table used as a dropdown list")
 		
-		elif !does_key_exist(new_name):
+		if !does_key_exist(new_name):
 			var item_name_dict = currentData_dict["Row"]
 			for i in item_name_dict: #loop through item_row table until it finds the key number for the item
 				if item_name_dict[i]["FieldName"] == old_name:
@@ -1130,26 +1089,29 @@ func add_animation_to_animatedSprite(sprite_field_name :String, sprite_texture_d
 	return [sprite_field_name, collision]
 
 
-func add_sprite_group_to_animatedSprite(main_node , Sprite_Group_Name :String) -> Dictionary:
+func add_sprite_group_to_animatedSprite(main_node , Sprite_Group_Id :String) -> Dictionary:
 	var return_value_dictionary :Dictionary= {}
 	var animation_dictionary :Dictionary = {}
 	var new_animatedsprite2d :AnimatedSprite2D = create_sprite_animation()
-	var sprite_group_dict :Dictionary = udsmain.Static_Game_Dict["Sprite Groups"]
+	var sprite_group_dict :Dictionary = AU3ENGINE.Static_Game_Dict["Sprite Groups"]
 	var spriteFrames : SpriteFrames = SpriteFrames.new()
-	for sprite_name in sprite_group_dict:
-		if sprite_group_dict[sprite_name]["Display Name"] == Sprite_Group_Name:
-			animation_dictionary = udsmain.Static_Game_Dict["Sprite Groups"][sprite_name]
+	animation_dictionary = sprite_group_dict[Sprite_Group_Id]
+#	for sprite_name in sprite_group_dict:
+#		#print(sprite_group_dict[sprite_name]["Display Name"])
+#		if str_to_var(sprite_group_dict[sprite_name]["Display Name"])["text"] == Sprite_Group_Id:
+#			animation_dictionary = AU3ENGINE.Static_Game_Dict["Sprite Groups"][sprite_name]
 
 
 	if main_node.has_method("call_commands") :
-		var default_dict :Dictionary = udsmain.convert_string_to_type(main_node.event_dict[main_node.active_page]["Default Animation"])
+		var default_dict :Dictionary = AU3ENGINE.convert_string_to_type(main_node.event_dict[main_node.active_page]["Default Animation"])
 		default_dict["Display Name"] = "Default Animation"
 		animation_dictionary["Default Animation"] = default_dict
 
 	for j in animation_dictionary:
+		
 		if j != "Display Name":
 			var animation_name : String = j
-			var anim_array :Array = udsmain.add_animation_to_animatedSprite( animation_name, udsmain.convert_string_to_type(animation_dictionary[j]), true ,new_animatedsprite2d, spriteFrames)
+			var anim_array :Array = AU3ENGINE.add_animation_to_animatedSprite( animation_name, AU3ENGINE.convert_string_to_type(animation_dictionary[j]), true ,new_animatedsprite2d, spriteFrames)
 			main_node.add_child(anim_array[1])
 	
 	return_value_dictionary["animated_sprite"] = new_animatedsprite2d
@@ -1162,10 +1124,10 @@ func set_sprite_scale(sprite_animation :AnimatedSprite2D, animation_name:String,
 	if !animation_dictionary.has("animation_dictionary"):
 		sprite_dict = animation_dictionary
 	else:
-		sprite_dict  = udsmain.convert_string_to_type(animation_dictionary["animation_dictionary"][animation_name])
+		sprite_dict  = AU3ENGINE.convert_string_to_type(animation_dictionary["animation_dictionary"][animation_name])
 	var atlas_dict :Dictionary = sprite_dict["atlas_dict"]
 	var advanced_dict :Dictionary  = sprite_dict["advanced_dict"]
-	var sprite_texture = load(udsmain.table_save_path + udsmain.icon_folder + atlas_dict["texture_name"])
+	var sprite_texture = load(AU3ENGINE.table_save_path + AU3ENGINE.icon_folder + atlas_dict["texture_name"])
 	var sprite_frame_size = atlas_dict["frames"]
 	var sprite_final_size = advanced_dict["sprite_size"]
 	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
@@ -1258,94 +1220,94 @@ func get_cropped_texture(texture : Texture, region : Rect2) -> AtlasTexture:
 
 #############################EVENT FUNCTIONS#####################################
 
-func  create_new_event_script(script_name : = "DefaultGDScript" ):
-	var event_dict : Dictionary = import_data(table_save_path + "events" + file_format)
-	var script_data := "extends Node \nfunc test(): \n	print('Success!!')"
-	var save_file = File.new()
-	var save_path : String = table_save_path + event_folder
-	
-	if save_file.file_exists(save_path + script_name + script_format):
-		print("Error ", script_name, " already exists")
+#func  create_new_event_script(script_name : = "DefaultGDScript" ):
+#	var event_dict : Dictionary = import_data(table_save_path + "events" + file_format)
+#	var script_data := "extends Node \nfunc test(): \n	print('Success!!')"
+#	var save_file = File.new()
+#	var save_path : String = table_save_path + event_folder
+#
+#	if save_file.file_exists(save_path + script_name + script_format):
+#		print("Error ", script_name, " already exists")
+#
+#	elif save_file.open(save_path + script_name + script_format, File.WRITE) != OK:
+#		print("Error Could not update file")
+#
+#	else:
+#		save_file.open(save_path + script_name + script_format, File.WRITE)
+#		save_file.close()
+#		event_dict[script_name] = save_path + script_name + script_format
+#		print(script_name , " created at " + save_path)
+#		refresh_editor()
+#		add_func_to_event_script(script_name, "test", script_data)
+#
+#
+#func add_func_to_event_script(script_name : String, function_name : String, script_line : String ):
+#	var save_path : String = table_save_path + event_folder
+#	var event_dict : Dictionary = import_data(table_save_path + "events" + file_format) #REPLACE THIS WITH THE TABLE REFERENCE
+#	var save_file = File.new()
+#	if save_file.open(save_path + script_name + script_format, File.READ_WRITE) != OK:
+#		print("Error Could not update file")
+#
+#	elif event_has_function(script_name, function_name):
+#		print("Error ", script_name, " already has a function with name ", function_name)
+#	else:
+#		save_file.open(save_path + script_name + script_format, File.READ_WRITE)
+#		var existing_data : String = save_file.get_as_text()
+#		script_line = existing_data + "\n" + script_line
+#		save_file.store_string(script_line)
+#
+#		print(function_name + " added to " + script_name)
+#		save_file.close()
+#		refresh_editor()
+#
+#func add_line_to_function(script_name : String, function_name: String, script_line : String):
+#	var save_path : String = table_save_path + event_folder
+#	if event_has_function(script_name, function_name):
+#		var function_script = get_function_script(script_name, function_name)
+#		var script_file = File.new()
+#		script_file.open(save_path + script_name + script_format, File.READ_WRITE)
+#		var script_text : String = script_file.get_as_text()
+#		var updated_function = function_script + "\n" + "\t" + script_line
+#
+#		script_text = script_text.replace(function_script, updated_function)
+#
+#		script_file.store_string(script_text)
+#		script_file.close()
+#
+#
+#func get_function_script(script_name : String, function_name: String):
+#	var save_path : String = table_save_path + event_folder
+#	var script_file = File.new()
+#	var function_script :String = ""
+#
+#	if event_has_function(script_name, function_name):
+#		script_file.open(save_path + script_name + script_format, File.READ)
+#		var script_text :String = script_file.get_as_text()
+#
+#		if script_text.find(function_name +  "(") != -1:
+#			var start_line := script_text.find(function_name +  "(")
+#			var end_line := script_text.find("func", start_line)
+#
+#			if end_line == -1:
+#				end_line = script_text.length()
+#			function_script = script_text.substr(start_line - 5, end_line)
+#
+#		script_file.close()
+#	return function_script
 
-	elif save_file.open(save_path + script_name + script_format, File.WRITE) != OK:
-		print("Error Could not update file")
 
-	else:
-		save_file.open(save_path + script_name + script_format, File.WRITE)
-		save_file.close()
-		event_dict[script_name] = save_path + script_name + script_format
-		print(script_name , " created at " + save_path)
-		refresh_editor()
-		add_func_to_event_script(script_name, "test", script_data)
-
-
-func add_func_to_event_script(script_name : String, function_name : String, script_line : String ):
-	var save_path : String = table_save_path + event_folder
-	var event_dict : Dictionary = import_data(table_save_path + "events" + file_format) #REPLACE THIS WITH THE TABLE REFERENCE
-	var save_file = File.new()
-	if save_file.open(save_path + script_name + script_format, File.READ_WRITE) != OK:
-		print("Error Could not update file")
-	
-	elif event_has_function(script_name, function_name):
-		print("Error ", script_name, " already has a function with name ", function_name)
-	else:
-		save_file.open(save_path + script_name + script_format, File.READ_WRITE)
-		var existing_data : String = save_file.get_as_text()
-		script_line = existing_data + "\n" + script_line
-		save_file.store_string(script_line)
-		
-		print(function_name + " added to " + script_name)
-		save_file.close()
-		refresh_editor()
-
-func add_line_to_function(script_name : String, function_name: String, script_line : String):
-	var save_path : String = table_save_path + event_folder
-	if event_has_function(script_name, function_name):
-		var function_script = get_function_script(script_name, function_name)
-		var script_file = File.new()
-		script_file.open(save_path + script_name + script_format, File.READ_WRITE)
-		var script_text : String = script_file.get_as_text()
-		var updated_function = function_script + "\n" + "\t" + script_line
-
-		script_text = script_text.replace(function_script, updated_function)
-
-		script_file.store_string(script_text)
-		script_file.close()
-
-
-func get_function_script(script_name : String, function_name: String):
-	var save_path : String = table_save_path + event_folder
-	var script_file = File.new()
-	var function_script :String = ""
-
-	if event_has_function(script_name, function_name):
-		script_file.open(save_path + script_name + script_format, File.READ)
-		var script_text :String = script_file.get_as_text()
-		
-		if script_text.find(function_name +  "(") != -1:
-			var start_line := script_text.find(function_name +  "(")
-			var end_line := script_text.find("func", start_line)
-
-			if end_line == -1:
-				end_line = script_text.length()
-			function_script = script_text.substr(start_line - 5, end_line)
-
-		script_file.close()
-	return function_script
-
-
-func event_has_function(script_name : String, function_name: String): #DOES NOT WORK IF FILE WAS JUST CREATED BUT DOES WORK IF FILE ALREADY EXISTS
-	var save_path : String = table_save_path + event_folder
-	var has_function = false
-	var script_file = File.new()
-	script_file.open(save_path + script_name + script_format, File.READ_WRITE)
-	var script_text : String = script_file.get_as_text()
-	if script_text.find(function_name +  "(") != -1:
-		has_function = true
-	script_file.close()
-	if !has_function:
-		print(function_name, " does not exists in script ", script_name)
-	return has_function
+#func event_has_function(script_name : String, function_name: String): #DOES NOT WORK IF FILE WAS JUST CREATED BUT DOES WORK IF FILE ALREADY EXISTS
+#	var save_path : String = table_save_path + event_folder
+#	var has_function = false
+#	var script_file = File.new()
+#	script_file.open(save_path + script_name + script_format, File.READ_WRITE)
+#	var script_text : String = script_file.get_as_text()
+#	if script_text.find(function_name +  "(") != -1:
+#		has_function = true
+#	script_file.close()
+#	if !has_function:
+#		print(function_name, " does not exists in script ", script_name)
+#	return has_function
 
 
 
@@ -1354,9 +1316,12 @@ func get_list_of_events(return_dict := false):
 	var table_dict :Dictionary = get_list_of_all_tables()
 	var event_dict = {}
 	for table_name in table_dict:
+
 		var is_event = convert_string_to_type(table_dict[table_name]["Is Event"])
 		if is_event:
-			event_dict[table_dict[table_name]["Display Name"]] = table_name
+			var name_ = table_dict[table_name]["Display Name"]
+#			print(name_)
+			event_dict[name_] = table_name
 
 	var event_list :String = ""
 
@@ -1436,7 +1401,7 @@ func rearrange_table_keys(new_index :String = button_focus_index, old_index:Stri
 	for key in test_dict["Row"].size():
 		key += 1
 		var key_string :String = str(key)
-#		print(key)
+
 		if !test_dict["Row"].has(key_string):
 			var next_key = str(key + 1)
 			var next_key_data = test_dict["Row"][next_key]
@@ -1479,12 +1444,15 @@ func open_scene_in_editor(scene_path :String):
 		editor.open_scene_from_path(scene_path)
 
 func get_mappath_from_displayname(map_name :String):
+	#print(map_name)
 	var maps_dict = import_data(table_save_path + "Maps" + file_format)
+	#print(maps_dict)
 	var new_map_path :String = ""
 	for map_id in maps_dict:
-		if maps_dict[map_id]["Display Name"] == map_name:
+		if str_to_var(maps_dict[map_id]["Display Name"])["text"] == map_name:
 			new_map_path = maps_dict[map_id]["Path"]
 			break
+	#print(new_map_path)
 	return new_map_path
 
 
@@ -1508,8 +1476,8 @@ func add_starting_position_node_to_map(selectedItemName,previous_selection, pare
 
 	var new_packed_scene = PackedScene.new()
 	new_packed_scene.pack(new_map_scene)
-	var dir = Directory.new()
-	dir.open(new_map_path.get_base_dir())
+	var dir :DirAccess = DirAccess.open(new_map_path.get_base_dir())
+	#dir.open(new_map_path.get_base_dir())
 	dir.remove(selectedItemName)
 	ResourceSaver.save(new_packed_scene, new_map_path,)
 	new_map_scene.queue_free()
@@ -1551,12 +1519,29 @@ func select_node_in_editor(node_name : String):
 
 func get_editor_tabbar() -> TabBar:
 	var tabbar :TabBar
-	for child in editor.get_editor_main_control().get_parent().get_parent().get_children():
-		if child.get_class() == "HBoxContainer":
-			for child2 in child.get_children():
-				if child2.get_class() == "TabBar":
-					tabbar = child2
+	tabbar = editor.get_editor_main_screen().get_parent().get_parent().get_node("@@717/@@718/@@719")
+#	print(tabbar.name)
+	
+#	for child in editor.get_editor_main_screen().get_parent().get_parent().get_children():
+#		print(child.name, " ", child.get_class())
+#		print(child.get_children())
+#		if child.name == "@@717":
+#			print("Found")
+#			print(child.get_node("@@718").get_children())
+			
+
+			
+#	for child in editor.get_editor_main_screen().get_parent().get_parent().get_children():
+#
+#		if child.get_class() == "HBoxContainer":
+#			for child2 in child.get_children():
+#				if child2.get_class() == "TabBar":
+#					tabbar = child2
 	return tabbar
+
+func return_to_AU3Engine():
+	var editor := EditorPlugin.new()
+	editor.get_editor_interface().set_main_screen_editor("AU3 Engine")
 
 
 func get_open_scenes_in_editor() -> Dictionary:
@@ -1572,7 +1557,7 @@ func delete_starting_position_from_old_map(previous_selection, node_name:String 
 	var maps_dict = import_data(table_save_path + "Maps" + file_format)
 	var new_map_path
 	for map_id in maps_dict:
-		if maps_dict[map_id]["Display Name"] == previous_selection:
+		if str_to_var(maps_dict[map_id]["Display Name"])["text"] == previous_selection:
 			new_map_path = maps_dict[map_id]["Path"]
 			break
 	if !new_map_path == null:
@@ -1587,8 +1572,8 @@ func delete_starting_position_from_old_map(previous_selection, node_name:String 
 			var new_packed_scene = PackedScene.new()
 			new_packed_scene.pack(new_map_scene)
 			
-			var dir = Directory.new()
-			dir.open(new_map_path.get_base_dir())
+			var dir :DirAccess = DirAccess.open(new_map_path.get_base_dir())
+			#dir.open(new_map_path.get_base_dir())
 			dir.remove(previous_selection)
 			ResourceSaver.save(new_packed_scene, new_map_path)
 		
@@ -1597,4 +1582,5 @@ func delete_starting_position_from_old_map(previous_selection, node_name:String 
 		var open_scenes = editor.get_open_scenes()
 		open_scene_in_editor(new_map_path)
 		editor.save_scene()
-	
+
+

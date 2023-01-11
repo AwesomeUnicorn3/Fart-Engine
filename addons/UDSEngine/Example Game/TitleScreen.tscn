@@ -4,17 +4,21 @@
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_0ty4t"]
 
 [node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource("1_0ty4t")
 script = ExtResource("1")
 
 [node name="BackgroundColor" type="ColorRect" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 1)
 
 [node name="VBox1" type="VBoxContainer" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 

@@ -1,6 +1,8 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bgrgn0dq0v85i"]
 
-[ext_resource type="Shader" path="res://addons/UDSEngine/Character_Manager/ShadowTesting.gdshader" id="1_b8ru1"]
+[ext_resource type="Shader" path="res://addons/UDSEngine/Character_Manager/Shadow.gdshader" id="1_vbrdv"]
 
 [resource]
-shader = ExtResource("1_b8ru1")
+shader = ExtResource("1_vbrdv")
+shader_parameter/light_source = 50.0
+shader_parameter/sprite_size = Vector2(130, 120)

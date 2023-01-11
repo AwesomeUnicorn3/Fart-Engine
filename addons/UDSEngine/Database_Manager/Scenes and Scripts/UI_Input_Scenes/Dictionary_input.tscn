@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.gd" id="5"]
 
 [node name="Dictionary_input" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -29,8 +30,15 @@ label_text = "Key"
 is_label_button = false
 
 [node name="Label" parent="Input_Text" instance=ExtResource("4")]
+custom_minimum_size = Vector2i(0, 25)
+layout_mode = 3
+anchors_preset = 0
 anchor_right = 0.0
 offset_right = 63.0
+
+[node name="HBox1" parent="Input_Text/Label" index="0"]
+custom_minimum_size = Vector2i(0, 30)
+anchors_preset = 15
 
 [node name="Label_Button" parent="Input_Text/Label/HBox1" index="0"]
 offset_right = 63.0
@@ -48,7 +56,6 @@ max_length = 100
 editable = false
 selecting_enabled = false
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="input_templateBuffer" parent="Input_Text" instance=ExtResource("2")]
 anchor_right = 0.0
