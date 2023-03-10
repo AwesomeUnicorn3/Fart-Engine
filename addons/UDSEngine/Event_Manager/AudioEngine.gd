@@ -19,19 +19,16 @@ var repeat_amount :int
 var stream:String
 var volume:float
 var pitch :float
+var max_distance :float
 
 func _ready():
 	start_audio.connect(audio_begin)
 
 
-#func next_message():
-#	if waiting_for_user_input:
-#		emit_signal("next_message_pressed")
-
-
 func load_audio_player():
-	var scene = AudioStreamPlayer.new()
+	var scene = AudioStreamPlayer2D.new()
 	AudioParent.add_child(scene)
+	
 	scene.finished.connect(audio_player_cleanup)
 	scene.set_name("audio")
 	return scene
@@ -39,21 +36,23 @@ func load_audio_player():
 
 func set_audio_player_variables(function_dict:Dictionary):
 	current_audio_dictionary = function_dict["audio_data"]
-	pass
+
 
 func set_variable_data(index):
 	var index_dict :Dictionary = AU3ENGINE.convert_string_to_type(selected_group_dictionary[index])
 	stream = index_dict["stream"]
 	volume = index_dict["volume"].to_float()
 	pitch = index_dict["pitch"].to_float()
-	
+	max_distance = index_dict["max_distance"]
+	#MAX DISTANCE VARIABLE SHOULD BE SET HERE
 	audio_player.set_stream(load(AU3ENGINE.table_save_path + AU3ENGINE.sfx_folder + stream ))
 	audio_player.set_volume_db(volume)
 	audio_player.set_pitch_scale(pitch)
+	audio_player.set_max_distance(max_distance) #THIS SHOULD BE SET WITH VARIABLE IN AUDIO INPUT NODE
 
 
-func audio_begin(audio_dict):
-	AudioParent = AU3ENGINE.get_gui().get_parent().get_node("EventAudio")
+func audio_begin(audio_dict, event_node :EventHandler):
+	AudioParent = event_node#AU3ENGINE.get_gui().get_parent().get_node("EventAudio")
 	audio_dictionary = audio_dict
 	is_group = audio_dictionary["is_group"]
 	repeat_amount = audio_dictionary["repeat_amount"]
@@ -93,7 +92,7 @@ func set_selected_group_dict_data(audio_dict):
 	selected_group_dictionary = {}
 	var group_name :String = ""
 	var static_audio_group_dictionary :Dictionary = AU3ENGINE.Static_Game_Dict["SFX Groups"]
-	var static_audio_group_data_dictionary :Dictionary = AU3ENGINE.import_data(AU3ENGINE.table_save_path + "SFX Groups" + AU3ENGINE.table_info_file_format)
+	var static_audio_group_data_dictionary :Dictionary = AU3ENGINE.import_data("SFX Groups", true)
 	if is_group: #GET IS GROUP VALUE
 		group_name = audio_dict["audio_data"]["Group Name"]
 		#Get Group dict
@@ -114,6 +113,7 @@ func audio_end():
 
 func audio_player_cleanup():
 	for child in AudioParent.get_children():
-		if child.is_playing():
-			await child.finished
-		child.queue_free()
+		if child.get_class() == "AudioStreamPlayer2D":
+			if child.is_playing():
+				await child.finished
+			child.queue_free()

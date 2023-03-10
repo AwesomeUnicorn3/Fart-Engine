@@ -27,127 +27,119 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.14902, 0.145098, 0.152941, 1)
 
-[node name="HBox_1" type="HBoxContainer" parent="."]
+[node name="ProjectWelcomeLabel" type="HBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
+offset_top = -13.0
+offset_bottom = 13.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-metadata/_edit_layout_mode = 1
 
-[node name="VBox_1" type="VBoxContainer" parent="HBox_1"]
+[node name="Welcome_Label" type="Label" parent="ProjectWelcomeLabel"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="ScrollContainer" type="ScrollContainer" parent="HBox_1/VBox_1"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Hbox_1" type="HBoxContainer" parent="HBox_1/VBox_1/ScrollContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-
-[node name="RefreshAllTables_Button" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
-layout_mode = 2
-text = "Refresh All 
-Tables"
-
-[node name="Database" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
-visible = false
-layout_mode = 2
-action_mode = 0
-text = "Database"
-script = ExtResource("2_sb3v4")
-
-[node name="DisplaySaveFile" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
-layout_mode = 2
-text = "View Save Files"
-script = ExtResource("2_sb3v4")
-
-[node name="Event_Manager" type="Button" parent="HBox_1/VBox_1/ScrollContainer/Hbox_1" groups=["Database"]]
-layout_mode = 2
-text = "Events"
-script = ExtResource("2_sb3v4")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBox_1/VBox_1"]
-layout_mode = 2
-
-[node name="Welcome_Label" type="Label" parent="HBox_1/VBox_1"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 6.0
+size_flags_vertical = 1
 text = "Welcome to the Awesome Unicorn 3 Database"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBox_1/VBox_1"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Control" parent="HBox_1/VBox_1/VBoxContainer" instance=ExtResource("3_ukiag")]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Label" parent="HBox_1/VBox_1/VBoxContainer/Control" index="0"]
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Tabs" type="Control" parent="."]
+[node name="MainDisplay_Level1" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 109.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 metadata/_edit_layout_mode = 1
 
-[node name="DisplaySaveFile" parent="Tabs" instance=ExtResource("4_h11b6")]
+[node name="MainDisplay_Level2" type="VBoxContainer" parent="MainDisplay_Level1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MainProjectHeaderScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="MainProjectHeader" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Project Settings" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "Settings"
+script = ExtResource("2_sb3v4")
+
+[node name="RefreshAllTables_Button" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "Refresh All 
+Tables"
+
+[node name="DisplaySaveFile" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "View Save Files"
+script = ExtResource("2_sb3v4")
+
+[node name="Event_Manager" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "Events"
+script = ExtResource("2_sb3v4")
+
+[node name="Table Data" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "Table Options"
+script = ExtResource("2_sb3v4")
+
+[node name="TableCategoryScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="TableCategory" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/TableCategoryScroll"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="TableButtonsScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="TableButtons" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/TableButtonsScroll"]
+layout_mode = 2
+
+[node name="TableDisplay" type="Control" parent="MainDisplay_Level1/MainDisplay_Level2"]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_layout_mode = 1
+
+[node name="DisplaySaveFile" parent="MainDisplay_Level1/MainDisplay_Level2/TableDisplay" instance=ExtResource("4_h11b6")]
 visible = false
 layout_mode = 1
-anchors_preset = 15
-grow_horizontal = 2
-grow_vertical = 2
 
-[node name="Event_Manager" parent="Tabs" instance=ExtResource("5_0ld3m")]
+[node name="Event_Manager" parent="MainDisplay_Level1/MainDisplay_Level2/TableDisplay" instance=ExtResource("5_0ld3m")]
 visible = false
 layout_mode = 1
 
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/RefreshAllTables_Button" to="." method="_ready"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Database" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/DisplaySaveFile" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event_Manager" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event_Manager" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Table Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Table Data" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Data" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/DataTypes" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/DataTypes" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Maps" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Items" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Controls" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Characters" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Options" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Options" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Formation" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Formation" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Settings" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Settings" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Item_Type" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Item_Type" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Field_Pref_Values" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Field_Pref_Values" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Control Categories" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Control Categories" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Classes" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Character Classes" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Sprite Groups" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Triggers" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Triggers" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Table Template" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Table Template" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Global Variables" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Inequalities" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Inequalities" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Save Data" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Save Data" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Tutorial Table" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Animation States" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Event Animation States" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Dialog Groups" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Dialog Groups" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/SFX Groups" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/SFX Groups" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Input Actions" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Input Actions" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="HBox_1/VBox_1/ScrollContainer/Hbox_1/Game State" to="HBox_1/VBox_1/ScrollContainer/Hbox_1/Game State" method="_on_Navigation_Button_button_up" flags=18]
+[node name="VersionLabel" type="VBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+layout_mode = 2
 
-[editable path="HBox_1/VBox_1/VBoxContainer/Control"]
+[node name="Control" parent="MainDisplay_Level1/MainDisplay_Level2/VersionLabel" instance=ExtResource("3_ukiag")]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Project Settings" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Project Settings" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/RefreshAllTables_Button" to="." method="_ready"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/DisplaySaveFile" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/DisplaySaveFile" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Event_Manager" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Event_Manager" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Table Data" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Table Data" method="_on_Navigation_Button_button_up"]

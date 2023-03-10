@@ -17,36 +17,27 @@ theme = ExtResource("4")
 script = ExtResource("2")
 
 [node name="Label" parent="." instance=ExtResource("5")]
-custom_minimum_size = Vector2i(0, 25)
-layout_mode = 3
-anchors_preset = 0
-anchor_right = 0.0
-offset_right = 900.0
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2i(0, 75)
-offset_top = 29.0
-offset_right = 900.0
-offset_bottom = 596.0
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Space2" type="Label" parent="HBoxContainer"]
-offset_right = 297.0
-offset_bottom = 567.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
-offset_left = 301.0
-offset_right = 598.0
-offset_bottom = 567.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
 [node name="Input" type="TextureButton" parent="HBoxContainer/ColorRect"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -59,16 +50,11 @@ stretch_mode = 0
 metadata/_edit_layout_mode = 1
 
 [node name="Space" type="Label" parent="HBoxContainer"]
-offset_left = 602.0
-offset_right = 900.0
-offset_bottom = 567.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("3")]
-anchor_right = 0.0
-offset_top = 600.0
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 
 [connection signal="button_up" from="HBoxContainer/ColorRect/Input" to="." method="_on_TextureButton_button_up"]

@@ -34,13 +34,13 @@ func _ready() -> void:
 
 
 func _on_file_button_up(saveName):
-	var fileLocation = save_game_path + saveName + save_format
+	var fileLocation = saveName + save_format
 	clear_single_container(tableContainer)
 	clear_single_container(keyContainer)
 	clear_single_container(valueContainer)
 	FileSelected = saveName
 	$VBox1/Hbox2/DeleteFile.disabled = false
-	saveFile = import_data(fileLocation)
+	saveFile = load_save_file(fileLocation)
 	get_saveFile_data("table")
 	input_node_changed("", false)
 

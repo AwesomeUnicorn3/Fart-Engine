@@ -13,7 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_0lrqy")
 
 [node name="PanelContainer" type="ColorRect" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -21,7 +21,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.631373)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-anchors_preset = 8
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -34,52 +34,20 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Input_Text" parent="PanelContainer/VBoxContainer" instance=ExtResource("2_5i1la")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 500.0
-offset_bottom = 83.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 2
 label_text = "New Key Display Name"
 is_label_button = false
 
-[node name="Label" parent="PanelContainer/VBoxContainer/Input_Text" index="0"]
-layout_mode = 3
-anchors_preset = 0
-anchor_right = 0.0
-offset_right = 500.0
-offset_bottom = 25.0
-grow_horizontal = 2
-
-[node name="Input" parent="PanelContainer/VBoxContainer/Input_Text" index="1"]
-layout_mode = 3
-offset_top = 29.0
-offset_right = 500.0
-offset_bottom = 79.0
-
-[node name="input_templateBuffer" parent="PanelContainer/VBoxContainer/Input_Text" index="2"]
-layout_mode = 3
-anchor_right = 0.0
-offset_top = 83.0
-offset_right = 500.0
-offset_bottom = 83.0
-
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-offset_top = 87.0
-offset_right = 500.0
-offset_bottom = 118.0
+layout_mode = 2
 
 [node name="Accept" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
-offset_right = 248.0
-offset_bottom = 31.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
-offset_left = 252.0
-offset_right = 500.0
-offset_bottom = 31.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 

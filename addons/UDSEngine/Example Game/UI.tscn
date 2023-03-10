@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://jvg6p186ujhe"]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://addons/UDSEngine/Example Game/UI.gd" id="1_urxdq"]
-[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_v8355"]
-[ext_resource type="Script" path="res://addons/UDSEngine/Example Game/HUD.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://cik6fhthyto55" path="res://Data/png/Mike's Cell Phone.png" id="2_4jqi7"]
+[ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://Data/png/AU3Button.png" id="3_iduti"]
+[ext_resource type="Script" path="res://addons/UDSEngine/UI_Manager/au3_ui_button.gd" id="4_gtkwn"]
 
 [node name="GUI" type="Control"]
 layout_mode = 3
@@ -13,30 +14,34 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_urxdq")
 
-[node name="HUD" type="Control" parent="."]
-layout_mode = 3
+[node name="Button" type="TextureButton" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+texture_normal = ExtResource("2_4jqi7")
+
+[node name="Label" type="Label" parent="Button"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_v8355")
-script = ExtResource("2")
+text = "Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="SaveButton" type="Button" parent="HUD"]
-offset_right = 139.0
-offset_bottom = 34.0
-text = "Save"
+[node name="AU3 UI Button" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 0
+offset_right = 150.0
+offset_bottom = 50.0
+texture_normal = ExtResource("3_iduti")
+texture_pressed = ExtResource("3_iduti")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_gtkwn")
+selected_method_key = "3"
 
-[node name="Label" type="Label" parent="HUD"]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "FILE SAVED"
-
-[connection signal="button_up" from="HUD/SaveButton" to="HUD" method="_on_SaveButton_button_up"]
+[connection signal="button_down" from="Button" to="." method="_on_Menu_button_down"]

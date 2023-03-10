@@ -1,13 +1,13 @@
 @tool
-extends CharacterBody2D
+extends MovementEngine
 class_name EventHandler
 
 signal player_entered_interaction_area
 signal player_exited_interaction_area
-
+#@onready var MOVEMENTENGINE :MovementEngine = MovementEngine.new()
 @onready var DBENGINE :DatabaseEngine = DatabaseEngine.new()
 @export var event_name :String = ""
-
+#var velocity :Vector2
 var root_node : EventHandler
 var collision_node :CollisionShape2D
 var sprite_animation :AnimatedSprite2D
@@ -41,8 +41,8 @@ var can_interact :bool = true
 var action_button_pressed:bool = false
 var collide_with_player :bool = true
 
-var state :String = "Idle"
-var previous_state :String
+#var state :String = "Idle"
+#var previous_state :String
 var does_event_move :bool
 var attack_player :bool
 var max_speed :int 
@@ -59,8 +59,6 @@ var walk_down ="Walk Down"
 
 
 func _ready() -> void:
-
-
 	if get_tree().get_edited_scene_root() != null:
 		is_in_editor = true
 		root_node = get_tree().get_edited_scene_root().get_child(get_index())
@@ -70,15 +68,15 @@ func _ready() -> void:
 		await AU3ENGINE.map_loaded
 		set_initial_in_game_values()
 
-	if event_name != "":
-		set_initial_values()
-		await add_sprite_and_collision()
-		
-		if active_page != "":
-			autorun_commands()
-			interaction_area.monitoring = true
-		else:
-			clear_event_children()
+		if event_name != "":
+			set_initial_values()
+			await add_sprite_and_collision()
+			
+			if active_page != "":
+				autorun_commands()
+				interaction_area.monitoring = true
+			else:
+				clear_event_children()
 
 	set_event_node_default_settings()
 	is_updating_animations = false
@@ -113,16 +111,21 @@ func set_event_node_default_settings():
 	set_collision_layer_value(1, false)
 	set_collision_layer_value(2, true)
 	set_collision_mask_value(2, true)
-	set_motion_mode(CharacterBody2D.MOTION_MODE_FLOATING)
-#	set_moving_platform_apply_velocity_on_leave(CharacterBody2D.PLATFORM_VEL_ON_LEAVE_NEVER)
 	add_to_group("Events")
+	set_slide_on_ceiling_enabled(true)
+	set_floor_stop_on_slope_enabled(true)
+	set_motion_mode(0)
+	set_floor_snap_length(0.0)
+	set_platform_floor_layers(0)
+	set_floor_max_angle(deg_to_rad(180))
 	connect_signals()
 
 
 func set_initial_in_game_values():
 	root_node = self
 	current_map_key = AU3ENGINE.current_map_key
-	event_dict = get_event_dict()
+#	print(current_map_key)
+	event_dict = get_event_dict(event_name)
 	var pos :Vector2 = get_global_position()
 	if !AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key].has(name):
 		update_event_data()
@@ -130,7 +133,7 @@ func set_initial_in_game_values():
 		var attached_event_save_file :String = AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Attached Event"]
 		if attached_event_editor != attached_event_save_file:
 			AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Position"] =  pos
-			AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"] = event_dict["1"]["Local Variables"]
+			AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"] = await AU3ENGINE.import_data("Local Variables")
 			AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Attached Event"] = event_name
 
 	var event_position = AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Position"]
@@ -141,8 +144,7 @@ func set_initial_in_game_values():
 
 
 func set_initial_values():
-#	if event_name != "":
-	event_dict = get_event_dict()
+	event_dict = get_event_dict(event_name)
 	active_page = get_active_event_page()
 	animation_group = event_dict[active_page]["Animation Group"]
 	var DBENGINE :DatabaseEngine = DatabaseEngine.new()
@@ -151,26 +153,15 @@ func set_initial_values():
 	attack_player = DBENGINE.convert_string_to_type(event_dict[active_page]["Attack Player?"])
 	does_event_move = DBENGINE.convert_string_to_type(event_dict[active_page]["Does Event Move?"])
 	draw_shadow = DBENGINE.convert_string_to_type(event_dict[active_page]["Draw Shadow?"])
-#	var trigger_dict :Dictionary = AU3ENGINE.Static_Game_Dict["Event Triggers"]
 	event_trigger = get_trigger_index(event_dict[active_page]["Event Trigger"])
-	
-#	for trigger in trigger_dict:
-#		var triggerDisplayName :String = str_to_var(trigger_dict[trigger]["Display Name"])["text"]
-#		if triggerDisplayName == event_trigger:
-#			event_trigger = trigger
 	max_speed = DBENGINE.convert_string_to_type(event_dict[active_page]["Max Speed"])
 	acceleration = DBENGINE.convert_string_to_type(event_dict[active_page]["Acceleration"])
 	friction = DBENGINE.convert_string_to_type(event_dict[active_page]["Friction"])
 	DBENGINE.queue_free()
 
+
 func get_trigger_index(triggerKey:String):
 	var triggerIndex :String = "0"
-	#var trigger_dict :Dictionary = AU3ENGINE.Static_Game_Dict["Event Triggers"]
-#	for trigger in trigger_dict:
-#		var current_triggerDisplayName :String = str_to_var(trigger_dict[trigger]["Display Name"])["text"]
-#		if current_triggerDisplayName == triggerDisplayName:
-#			triggerIndex = trigger
-#			break
 	triggerIndex = triggerKey
 	return triggerIndex
 
@@ -178,7 +169,7 @@ func get_trigger_index(triggerKey:String):
 func _on_event_draw():
 	if event_name != "":
 		clear_event_children()
-		event_dict = get_event_dict()
+		event_dict = get_event_dict(event_name)
 		active_page = get_active_event_page()
 		var DBENGINE :DatabaseEngine = DatabaseEngine.new()
 		loop_animation = DBENGINE.convert_string_to_type(event_dict[active_page]["Loop Animation"])
@@ -237,8 +228,8 @@ func static_movement(delta):
 				
 		call_deferred("enable_collision","Default Animation")
 		AU3ENGINE.set_sprite_scale(sprite_animation,"Default Animation" , sprite_texture_data)
-		
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+
 
 func random_movement(delta):
 	if !timer_running:
@@ -259,7 +250,7 @@ func get_next_direction() -> Vector2:
 
 func idle_movement(delta):
 	if !is_updating_animations:
-		play_sprite_animation(idle)
+		play_event_sprite_animation(idle)
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
 
@@ -270,21 +261,18 @@ func move_toward_player(delta):
 
 
 func move_event(delta):
-
-#		direction = (player_node.global_position - global_position).normalized()
 	if direction.x < 0 and abs(direction.y) < abs(direction.x):
-		play_sprite_animation(walk_left)
+		play_event_sprite_animation(walk_left)
 	elif direction.x > 0 and abs(direction.y) < abs(direction.x):
-		play_sprite_animation(walk_right)
+		play_event_sprite_animation(walk_right)
 	elif direction.y < 0:
-		play_sprite_animation(walk_up)
+		play_event_sprite_animation(walk_up)
 	elif direction.y > 0:
-		play_sprite_animation(walk_down)
-	velocity = velocity.move_toward(direction * max_speed, acceleration * delta)
-#		sprite_animation.flip_h = velocity.x < 0 #useful and easy but will have to set animation based on 
-												#event direction, using sprite group
+		play_event_sprite_animation(walk_down)
+	velocity = set_character_velocity(velocity,direction,max_speed,friction,acceleration,false,delta)
 
-func play_sprite_animation(animation_name: String):
+
+func play_event_sprite_animation(animation_name: String):
 	if !is_updating_animations and !is_queued_for_delete:
 		sprite_animation.play(animation_name)
 		enable_collision(animation_name)
@@ -311,27 +299,25 @@ func set_shadow(animation_name :String, texture_data :Dictionary = event_animati
 	AU3ENGINE.set_sprite_scale(shadow_sprite_animation,animation_name , texture_data)
 	var scale_size = shadow_sprite_animation.get_scale()
 	shadow_sprite_animation.set_scale(Vector2(shadow_sprite_animation.scale.x,shadow_sprite_animation.scale.y))
-	shadow_sprite_frames = shadow_sprite_animation.frames
-	
+	shadow_sprite_frames = shadow_sprite_animation.sprite_frames
 	if texture_data.has("animation_dictionary"):
 		texture_data  = AU3ENGINE.convert_string_to_type(texture_data["animation_dictionary"][animation_name])
 	var atlas_dict :Dictionary = texture_data["atlas_dict"]
 	var advanced_dict :Dictionary  = texture_data["advanced_dict"]
 	var sprite_texture = load(AU3ENGINE.table_save_path + AU3ENGINE.icon_folder + atlas_dict["texture_name"])
-	var sprite_frame_size = atlas_dict["frames"]
+	var sprite_frame_size:Vector2 = AU3ENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
 	var sprite_final_size = advanced_dict["sprite_size"]
 	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
 	shadow_sprite_animation.set_material(preload("res://addons/UDSEngine/Character_Manager/ShadowMaterial.tres"))
 	shadow_sprite_animation.material.set_shader_parameter("sprite_size", sprite_cell_size)
-#	var frame_size = shadow_sprite_frames.get_frame(animation_name, 0).get_size()
-#	var skew_adjustment :Vector2 = Vector2(frame_size.x/3, frame_size.y/11)
-#	shadow_sprite_animation.set_offset(skew_adjustment)
+
 
 func add_shadow_animation():
 	shadow_sprite_animation.set_name("ShadowSprite")
-	shadow_sprite_frames = shadow_sprite_animation.frames
+	shadow_sprite_frames = shadow_sprite_animation.sprite_frames
 	shadow_sprite_animation.show_behind_parent = true
 	add_child(shadow_sprite_animation)
+
 
 func set_editor_or_static_shadow():
 	shadow_sprite_animation = AnimatedSprite2D.new()
@@ -343,7 +329,6 @@ func remove_collisions():
 	for child in get_children():
 		if child is CollisionShape2D:
 			child.queue_free()
-#	await get_tree().create_timer(0.02).timeout
 
 
 func enable_collision(collision_name :String):
@@ -384,37 +369,26 @@ func _process(delta):
 func update_event_data():
 	var current_map_name : String = AU3ENGINE.current_map_key
 	var pos :Vector2 = get_global_position()
-	print(name)
 	if !AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name].has(name):
 		AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name] = {}
 		AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
-		AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Local Variables"] = event_dict["1"]["Local Variables"]
+		AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Local Variables"] = AU3ENGINE.import_data("Local Variables")["1"]
 		AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Attached Event"] = event_name
 	AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
 
 
 func interaction_area_entered(area): #Player touch
 	if !is_interaction_in_progress:
-#		if area == player_interaction_area and !character_is_in_interaction_area:
-#			character_is_in_interaction_area = true
-
 		if event_trigger == "1" and character_is_in_interaction_area and can_interact: #Player Touch
 			await run_commands()
-#			is_interaction_in_progress = true
-#			await call_commands()#Run script
-#			emit_refresh_event_signal()
-#			is_interaction_in_progress = false
-
 		elif area.get_parent().get_class() == get_class() and can_interact:
 			if event_trigger == "5": #another event touches this event
 				await run_commands()
 
 
-
 func run_commands():
 	can_interact = false
 	is_interaction_in_progress = true
-	#await get_tree().process_frame
 	await call_commands()#Run script
 	emit_refresh_event_signal()
 	action_button_pressed = false
@@ -422,23 +396,14 @@ func run_commands():
 	can_interact = true
 
 
-#func interaction_area_exited(area):
-#	if character_is_in_interaction_area and area == player_interaction_area:
-#		interaction_area.monitoring = true
-#		character_is_in_interaction_area = false
-
-
 func attack_player_area_exited(area):
-	print(area.name)
 	state = previous_state
 
 
 func attack_player_area_entered(area): #Player touch
-	print(area.name)
 	if !is_interaction_in_progress and state != "Move Towards Player":
 		previous_state = state
 		state = "Move Towards Player"
-
 
 
 func call_commands():
@@ -455,19 +420,52 @@ func call_commands():
 			temp_variable_array.append(self)
 			variable_array = temp_variable_array
 			await AU3ENGINE.EVENTS.callv(function_name, variable_array)
-			print(function_name, " Complete")
 
 
-func get_event_dict():
-	var selected_dict
-	var table_dict :Dictionary = DBENGINE.import_data(DBENGINE.table_save_path + "Table Data" + DBENGINE.file_format)
-	event_list = {}
-	for table_name in table_dict:
-		var is_event = DBENGINE.convert_string_to_type(table_dict[table_name]["Is Event"])
-		if is_event:
-			event_list[table_name] = table_dict[table_name]["Display Name"]
-	selected_dict = DBENGINE.import_data(DBENGINE.table_save_path + event_name + DBENGINE.file_format)
-	return selected_dict
+#func get_event_dict():
+#	var selected_dict
+#	var table_dict :Dictionary = DBENGINE.import_data("Table Data")
+#	event_list = {}
+#	for table_name in table_dict:
+#		var is_event = DBENGINE.convert_string_to_type(table_dict[table_name]["Is Event"])
+#		if is_event:
+#			event_list[table_name] = table_dict[table_name]["Display Name"]
+#	selected_dict = DBENGINE.import_data(event_name)
+#	return selected_dict
+
+func get_event_dict(event_name:String):
+#	var table_list_dict = import_data("Table Data")
+	
+	var event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
+	var all_events_dict := {}
+	var this_event_dict:= {}
+
+	for eventName in event_list:
+
+#		if tableName == "Options Player Data.json":
+#			var save_path_global = "user://OptionsData.json"
+#			var save_dir = list_files_with_param(save_game_path, table_file_format)
+#			if save_dir.has("OptionsData.json"):
+#				Global_Options_Dict = import_data(save_path_global)
+#			else:
+#				Global_Options_Dict = import_data("Options")
+#				save_global_options_data()
+#		else:
+		var array = []
+#		var eventName = eventName
+		array = eventName.rsplit(".")
+		eventName = array[0]
+
+#
+#			if str_to_var(table_list_dict[tblname]["Display Name"]) != null:
+#				dictname = str_to_var(table_list_dict[tblname]["Display Name"])["text"]
+#			else:
+#				dictname = table_list_dict[tblname]["Display Name"]
+		all_events_dict[eventName] = DBENGINE.import_event_data(eventName)
+
+	this_event_dict = all_events_dict[event_name]
+
+	return this_event_dict
 
 
 func get_active_event_page() -> String:
@@ -475,120 +473,54 @@ func get_active_event_page() -> String:
 	var conditions_met :bool = true
 	if !is_in_editor:
 		current_map_key  = AU3ENGINE.current_map_key
-		local_variables_dict = AU3ENGINE.convert_string_to_type(AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"])
-		for page in range(event_dict.size(),0,-1): #Loop through event pages starting with LAST page
+		#LOCAL VARIABLES MIGHT BE DIFFERENT NOW, IM NOT SURE BUT ONCE I GET THE FRAMEWORK FOR THIS COMPLETE, I NEED TO DIVE IN TO THE LOCAL VARIABLE STUFF
+		#local_variables_dict = AU3ENGINE.convert_string_to_type(AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"])
+		
+		
+		for page in range(event_dict.size() - 1,0,-1): #Loop through event pages starting with LAST page but dont include index 0
 			var page_string :String = str(page)
 			var conditions_dict :Dictionary = DBENGINE.convert_string_to_type(event_dict[page_string]["Conditions"])
+			
 			if conditions_dict != {}:
 				for condition in conditions_dict:
-					for key in conditions_dict[condition]:
-						var condition_key_value = conditions_dict[condition][key]["value"]
-						var current_condition_list :Array
-						match condition_key_value:
-							"Event Variable":
-								var event_variable_value
-								var event_required_variable_value :bool
-								for line in conditions_dict[condition]:
-									current_condition_list.append(conditions_dict[condition][line]["value"])
-								event_required_variable_value = AU3ENGINE.convert_string_to_type(current_condition_list[3])
-								for variable in local_variables_dict:
-									if local_variables_dict[variable]["Value 1"] == current_condition_list[1]:
-										event_variable_value = AU3ENGINE.convert_string_to_type(local_variables_dict[variable]["Value 2"])
-										break
-								if event_required_variable_value != event_variable_value:
-									conditions_met = false
-								else:
-									conditions_met = true
-							"Inventory Item":
-								#Check if selected item is in player inventory
-								var player_inventory :Dictionary = AU3ENGINE.Dynamic_Game_Dict["Inventory"]
-								var inventory_item :String = conditions_dict[condition]["If_Key_Name_DropDown"]["value"]
-								if player_inventory.has(inventory_item):
-									var item_count :int = player_inventory[inventory_item]["ItemCount"]
-									if player_inventory[inventory_item]["ItemCount"] > 0:
-										conditions_met = true
-									else:
-										conditions_met = false
+#					print("Condition: ", condition)
+					var datatype:String = conditions_dict[condition]["Datatype"]
+					var compare_right_value
+					var compare_left_value = AU3ENGINE.convert_string_to_type(get_condition_value(conditions_dict, condition, "Compare Left"),datatype)
+					var is_static:bool = conditions_dict[condition]["Is Static"]
+					#only need this if is_static is false
+					if is_static:
+						compare_right_value = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Static Value 1"],datatype)
+					else:
+						compare_right_value = AU3ENGINE.convert_string_to_type(get_condition_value(conditions_dict, condition, "Variable Value"),datatype)
 
-							"Global Variable":
-								var global_variable_dict :Dictionary = AU3ENGINE.Dynamic_Game_Dict["Global Variables"]
-								#Check if global variable conditions are met
-								var If_Key_Name_DropDown = conditions_dict[condition]["If_Key_Name_DropDown"]["value"]
-								var if_Value_Name_DropDown = conditions_dict[condition]["if_Value_Name_DropDown"]["value"]
-								var global_variable_conditions_met :bool = false
-								var id = get_global_variable_index_name_from_display_name(If_Key_Name_DropDown)
-								
-								match if_Value_Name_DropDown:
-									"True or False":
-										var global_variable_bool = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Bool"]["value"])
-										var Is_Value_Bool :bool = global_variable_dict[id]["True or False"]
-										if Is_Value_Bool == global_variable_bool:
-											global_variable_conditions_met = true
+					
+					var is_datatype_numeric:bool = AU3ENGINE.get_field_value("DataTypes", datatype, "Is Number", false)
+					
+					if is_datatype_numeric:
+						var static_value_2 = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Static Value 2"],datatype)
+						var optional_operations = conditions_dict[condition]["Optional Operations"]
+						compare_right_value = apply_operator(compare_right_value, static_value_2, optional_operations)
 
-									"Display Name":
-										var global_variable_text = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Text"]["value"])
-										var Is_Value_Text = global_variable_dict[id]["Text"]
-										if Is_Value_Text == global_variable_text:
-											global_variable_conditions_met = true
-										
-									"Text":
-										var global_variable_text = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Text"]["value"])
-										var Is_Value_Text = global_variable_dict[id]["Text"]
-										if Is_Value_Text == global_variable_text:
-											global_variable_conditions_met = true
-											
-									"Decimal Number":
-										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
-										var global_variable_float = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Float"]["value"], "3")
-										var Is_Value_Float = AU3ENGINE.convert_string_to_type(global_variable_dict[id][if_Value_Name_DropDown], "3")
-										match Is_Text:
-											"Greater Than":
-												if Is_Value_Float > global_variable_float:
-													global_variable_conditions_met = true
-											"Less Than":
-												if Is_Value_Float < global_variable_float:
-													global_variable_conditions_met = true
-											"Equal To":
-												if Is_Value_Float == global_variable_float:
-													global_variable_conditions_met = true
-											"NOT Equal To":
-												if Is_Value_Float != global_variable_float:
-													global_variable_conditions_met = true
-											"Greater Than OR Equal To":
-												if Is_Value_Float >= global_variable_float:
-													global_variable_conditions_met = true
-											"Less Than OR Equal To":
-												if Is_Value_Float <= global_variable_float:
-													global_variable_conditions_met = true
-												
-									"Whole Number":
-										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
-										var global_variable_float = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Int"]["value"], "2")
-										var Is_Value_Float = AU3ENGINE.convert_string_to_type(global_variable_dict[id][if_Value_Name_DropDown], "2")
-										match Is_Text:
-											"Greater Than":
-												if Is_Value_Float > global_variable_float:
-													global_variable_conditions_met = true
-											"Less Than":
-												if Is_Value_Float < global_variable_float:
-													global_variable_conditions_met = true
-											"Equal To":
-												if Is_Value_Float == global_variable_float:
-													global_variable_conditions_met = true
-											"NOT Equal To":
-												if Is_Value_Float != global_variable_float:
-													global_variable_conditions_met = true
-											"Greater Than OR Equal To":
-												if Is_Value_Float >= global_variable_float:
-													global_variable_conditions_met = true
-											"Less Than OR Equal To":
-												if Is_Value_Float <= global_variable_float:
-													global_variable_conditions_met = true
-								
-								conditions_met = global_variable_conditions_met
-						break
-			else:
+					var inequality = conditions_dict[condition]["Inequalities"]
+					conditions_met = compare_condition_values(compare_left_value, compare_right_value, inequality)
+					
+					
+					
+					
+					var is_and:bool = conditions_dict[condition]["Is And"]
+					if is_and:#if AND:  All AND's must be true if any are false, break and return false
+						if !conditions_met:
+							conditions_met = false
+							break
+					else: #IF ANY OR's are true, return true
+						if conditions_met == true:
+							break
+					
+
+			else: #if there are no conditions
 				conditions_met = true
+			
 			if conditions_met == true:
 				active_page = str(page)
 				break
@@ -597,11 +529,68 @@ func get_active_event_page() -> String:
 	return active_page
 
 
+
+func apply_operator(value1, value2, operator):
+	var return_value
+#	print(typeof(value1))
+#	print(typeof(value2))
+	match operator:
+		"1":#+
+			return_value = value1 + value2
+		"2":#-
+			return_value = value1 - value2
+		"3":#*
+			return_value = value1 * value2
+		"4":#/
+			return_value = value1 / value2
+		"5":#%
+			return_value = roundi(value1) % roundi(value2)
+	return return_value
+
+
+func compare_condition_values(value1, value2, inequality):
+	var return_value:bool
+	var value1_type = typeof(value1)
+
+	if value1_type == TYPE_VECTOR2 or value1_type == TYPE_VECTOR3:
+		value1 = value1.normalized()
+		value2 = value2.normalized()
+	match inequality:
+		"1":#>
+			return_value = value1 > value2
+		"2":#<
+			return_value = value1 < value2
+		"3":#==
+			return_value = value1 == value2
+		"4":#!=
+			return_value = value1 != value2
+		"5":#>=
+			return_value = value1 >= value2
+		"6":#<=
+			return_value = value1 <= value2
+	return return_value
+
+
+func get_condition_value(conditions_dict:Dictionary, condition:String, fieldID:String):
+	var compare_dict :Dictionary = conditions_dict[condition][fieldID]
+	var table_ID:String = compare_dict["TableID"]
+	var key_ID: String =  compare_dict["KeyID"]
+	var field_ID = compare_dict["FieldID"]
+	var condition_value = AU3ENGINE.get_field_value(table_ID, key_ID, field_ID, true)
+
+	if table_ID == "Local Variables":
+		local_variables_dict = AU3ENGINE.convert_string_to_type(AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"])
+		condition_value = local_variables_dict[field_ID]
+	
+
+	return condition_value
+
+
 func get_global_variable_index_name_from_display_name(If_Key_Name_DropDown):
 	var global_variable_dict :Dictionary = AU3ENGINE.Dynamic_Game_Dict["Global Variables"]
 	var index
 	for id in global_variable_dict:
-		if str(global_variable_dict[id]["Display Name"]) == If_Key_Name_DropDown:
+		if AU3ENGINE.convert_string_to_type(global_variable_dict[id]["Display Name"])["text"] == If_Key_Name_DropDown:
 			index = id
 	return index
 
@@ -611,7 +600,7 @@ func refresh_event_data():
 		call_deferred("queue_free")
 	else:
 		var current_active_page := active_page
-		event_dict = get_event_dict()
+		event_dict = get_event_dict(event_name)
 		active_page = get_active_event_page()
 		if active_page != "":
 			event_trigger = get_trigger_index(event_dict[active_page]["Event Trigger"])
@@ -643,7 +632,6 @@ func autorun_commands():
 			"3": #Immediately
 				await get_tree().process_frame
 				await run_commands()
-				#await call_commands()
 				autorun_complete = true
 				emit_refresh_event_signal()
 
@@ -663,22 +651,20 @@ func add_sprite_and_collision():
 			sprite_animation.play("Default Animation")
 			if draw_shadow:
 				shadow_sprite_animation.play("Default Animation")
-
 		else:
 			play_sprite_animation_static_or_editor(sprite_texture_data)
-
 	else :
 		add_and_play_animation_group()
 		if draw_shadow:
 			add_shadow_animation()
-	
+
 	if collide_with_player:
 		set_collision_area(sprite_texture_data)
 
 	set_interaction_area(sprite_texture_data)
-
 	if attack_player and does_event_move:
 		set_attack_player_area(sprite_texture_data)
+
 
 func add_and_play_animation_group():
 	event_animation_dictionary = DBENGINE.add_sprite_group_to_animatedSprite(self, animation_group)
@@ -691,12 +677,13 @@ func add_and_play_animation_group():
 
 func set_editor_or_static_animation(sprite_texture_data:Dictionary):
 	sprite_animation = AnimatedSprite2D.new()
+	sprite_animation.set_name("event_sprite")
 	sprite_texture_data  = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
 	set_default_animation(sprite_texture_data, sprite_animation)
 	var sprite_atlas_dict :Dictionary = sprite_texture_data["atlas_dict"]
 	var sprite_advanced_dict :Dictionary = sprite_texture_data["advanced_dict"]
 	add_child(sprite_animation)
-
+	sprite_animation.set_owner(self)
 
 
 func set_collision_area(sprite_texture_data:Dictionary):
@@ -708,15 +695,14 @@ func set_collision_area(sprite_texture_data:Dictionary):
 func set_interaction_area(sprite_texture_data:Dictionary):
 	interaction_area  = DBENGINE.create_event_interaction_area("Default Animation", sprite_texture_data)
 	call_deferred("add_child", interaction_area)
-
 	interaction_area.set_collision_layer_value(1, false)
 	interaction_area.set_collision_layer_value(2, false)
 	interaction_area.set_collision_layer_value(3, true)
 	interaction_area.set_collision_mask_value(1, false)
 	interaction_area.set_collision_mask_value(2, false)
 	interaction_area.set_collision_mask_value(3, true)
-#	interaction_area.set_position(Vector2(0,-10))
 	interaction_area.monitoring = true
+
 
 func set_attack_player_area(sprite_texture_data:Dictionary):
 	attack_area = DBENGINE.create_event_attack_area("Default Animation", sprite_texture_data)
@@ -730,12 +716,13 @@ func set_attack_player_area(sprite_texture_data:Dictionary):
 	attack_area.set_collision_mask_value(4, true)
 	attack_area.monitoring = true
 
+
 func set_default_animation(sprite_texture_data, animation_player):
 	var sprite_atlas_dict :Dictionary = sprite_texture_data["atlas_dict"]
 	var sprite_advanced_dict :Dictionary = sprite_texture_data["advanced_dict"]
 	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + sprite_atlas_dict["texture_name"])
-	var sprite_frame_size = sprite_atlas_dict["frames"]
-	var sprite_final_size = sprite_advanced_dict["sprite_size"]
+	var sprite_frame_size:Vector2 = DBENGINE.convert_string_to_vector(str(sprite_atlas_dict["frames"]))
+	var sprite_final_size :Vector2 = DBENGINE.convert_string_to_vector(str(sprite_advanced_dict["sprite_size"]))
 	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
 	var modified_sprite_size_y = sprite_final_size.x
 	var modified_sprite_size_x = sprite_final_size.y
@@ -743,8 +730,6 @@ func set_default_animation(sprite_texture_data, animation_player):
 	var x_scale_value = modified_sprite_size_x / sprite_cell_size.x
 	sprite_animation.set_scale(Vector2(x_scale_value, y_scale_value))
 	DBENGINE.add_animation_to_animatedSprite("Default Animation", sprite_texture_data, true,animation_player)
-
-
 
 
 func clear_event_children():
@@ -755,9 +740,142 @@ func clear_event_children():
 			child.queue_free()
 
 
-func show_toolbar_in_editor(selected_node_name):
+func show_event_toolbar_in_editor(selected_node_name):
 	event_node_name = selected_node_name
 
 
 func is_new_event_object() -> void:
-	print("Event Added")
+	pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#						match condition_key_value:
+#							"Event Variable":
+#								var event_variable_value
+#								var event_required_variable_value :bool
+#								for line in conditions_dict[condition]:
+#									current_condition_list.append(conditions_dict[condition][line]["value"])
+#								event_required_variable_value = AU3ENGINE.convert_string_to_type(current_condition_list[3])
+#								for variable in local_variables_dict:
+#									if local_variables_dict[variable]["Value 1"] == current_condition_list[1]:
+#										event_variable_value = AU3ENGINE.convert_string_to_type(local_variables_dict[variable]["Value 2"])
+#										break
+#								if event_required_variable_value != event_variable_value:
+#									conditions_met = false
+#								else:
+#									conditions_met = true
+#							"Inventory Item":
+#								#Check if selected item is in player inventory
+#								var player_inventory :Dictionary = AU3ENGINE.Dynamic_Game_Dict["Inventory"]
+#								var inventory_item :String = conditions_dict[condition]["If_Key_Name_DropDown"]["value"]
+#								if player_inventory.has(inventory_item):
+#									var item_count :int = player_inventory[inventory_item]["ItemCount"]
+#									if player_inventory[inventory_item]["ItemCount"] > 0:
+#										conditions_met = true
+#									else:
+#										conditions_met = false
+#
+#							"Global Variable":
+#								var global_variable_dict :Dictionary = AU3ENGINE.Dynamic_Game_Dict["Global Variables"]
+#								#Check if global variable conditions are met
+#								var If_Key_Name_DropDown = conditions_dict[condition]["If_Key_Name_DropDown"]["value"]
+#								var if_Value_Name_DropDown = conditions_dict[condition]["if_Value_Name_DropDown"]["value"]
+#								var global_variable_conditions_met :bool = false
+#								var id = get_global_variable_index_name_from_display_name(If_Key_Name_DropDown)
+#								match if_Value_Name_DropDown:
+#									"True or False":
+#										var global_variable_bool = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Bool"]["value"])
+#										var Is_Value_Bool :bool = AU3ENGINE.convert_string_to_type(global_variable_dict[id]["True or False"])
+#										if Is_Value_Bool == global_variable_bool:
+#											global_variable_conditions_met = true
+#
+#									"Display Name":
+#										var global_variable_text = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Text"]["value"])
+#										var Is_Value_Text = global_variable_dict[id]["Text"]
+#										if Is_Value_Text == global_variable_text:
+#											global_variable_conditions_met = true
+#
+#									"Text":
+#										var global_variable_text = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Text"]["value"])
+#										var Is_Value_Text = global_variable_dict[id]["Text"]
+#										if Is_Value_Text == global_variable_text:
+#											global_variable_conditions_met = true
+#
+#									"Decimal Number":
+#										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
+#										var global_variable_float = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Float"]["value"], "3")
+#										var Is_Value_Float = AU3ENGINE.convert_string_to_type(global_variable_dict[id][if_Value_Name_DropDown], "3")
+#										match Is_Text:
+#											"Greater Than":
+#												if Is_Value_Float > global_variable_float:
+#													global_variable_conditions_met = true
+#											"Less Than":
+#												if Is_Value_Float < global_variable_float:
+#													global_variable_conditions_met = true
+#											"Equal To":
+#												if Is_Value_Float == global_variable_float:
+#													global_variable_conditions_met = true
+#											"NOT Equal To":
+#												if Is_Value_Float != global_variable_float:
+#													global_variable_conditions_met = true
+#											"Greater Than OR Equal To":
+#												if Is_Value_Float >= global_variable_float:
+#													global_variable_conditions_met = true
+#											"Less Than OR Equal To":
+#												if Is_Value_Float <= global_variable_float:
+#													global_variable_conditions_met = true
+#
+#									"Whole Number":
+#										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
+#										var global_variable_float = AU3ENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Int"]["value"], "2")
+#										var Is_Value_Float = AU3ENGINE.convert_string_to_type(global_variable_dict[id][if_Value_Name_DropDown], "2")
+#										match Is_Text:
+#											"Greater Than":
+#												if Is_Value_Float > global_variable_float:
+#													global_variable_conditions_met = true
+#											"Less Than":
+#												if Is_Value_Float < global_variable_float:
+#													global_variable_conditions_met = true
+#											"Equal To":
+#												if Is_Value_Float == global_variable_float:
+#													global_variable_conditions_met = true
+#											"NOT Equal To":
+#												if Is_Value_Float != global_variable_float:
+#													global_variable_conditions_met = true
+#											"Greater Than OR Equal To":
+#												if Is_Value_Float >= global_variable_float:
+#													global_variable_conditions_met = true
+#											"Less Than OR Equal To":
+#												if Is_Value_Float <= global_variable_float:
+#													global_variable_conditions_met = true
+#
+#								conditions_met = global_variable_conditions_met
+#						break

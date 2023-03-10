@@ -37,7 +37,7 @@ func _ready():
 	selected_button = table_list.get_child(0)
 	
 func set_ref_table():
-	var tbl_ref_dict = import_data(table_save_path + "Table Data" + file_format)
+	var tbl_ref_dict = import_data("Table Data")
 	table_ref = tbl_ref_dict[tableName]["Display Name"]
 	current_table_ref = table_ref
 	return table_ref
@@ -133,67 +133,70 @@ func enable_all_buttons(value : bool = true):
 
 
 
-func refresh_data(display_name : String):
+func refresh_data(SelectedEventName : String):
 	#clear existing event input forms
 	enable_all_buttons()
-	
-	event_display_name = display_name
+#	print("Item Name: ", Item_Name)
+	#close previous event editor input form
+#	for child_node in event_editor_panel.get_children():
+#		if child_node.has_method("close_event_input_form_in_dbmanager"):
+#			child_node.close_event_input_form_in_dbmanager()
 
-	for child_node in event_editor_panel.get_children():
-		if child_node.has_method("close_event_input_form_in_dbmanager"):
-			child_node.close_event_input_form_in_dbmanager()
-			
-			
-	#translate display_name to event_name using the table data dictionary
-	var tableData_dict = import_data(table_save_path + "Table Data" + file_format)
-	var currentTable_name :String
-	for table_name in tableData_dict:
-#		print(table_name)
-		var tempDisplayName :Dictionary= str_to_var(tableData_dict[table_name]["Display Name"])
-		if tempDisplayName["text"] == display_name:
-			currentTable_name = table_name
-
-			#break
-	#load event editor input form for event selected
+	#translate display_name to event_name using the table , data dictionary
+#	var tableData_dict = import_data("Table Data")
+#	var currentTable_name :String
+#	for table_name in tableData_dict:
+#		var tempDisplayName :Dictionary= convert_string_to_type(str(tableData_dict[table_name]["Display Name"]))
+#		if tempDisplayName["text"] == display_name:
+#			currentTable_name = table_name
+#
+#	#load event editor input form for event selected
+#	print("refreshdata Selected event name: ", SelectedEventName)
 	current_event_editor_input = event_editor_input_form.instantiate()
-	current_event_editor_input.event_name = current_event_editor_input.get_table_data_key(currentTable_name)
-#	
+#
+	current_event_editor_input.event_name = SelectedEventName
 	event_editor_panel.add_child(current_event_editor_input)
-	current_event_editor_input.get_node("Scroll1/VBox1/HBox2").visible = false
-	current_event_editor_input.load_event_from_dbmanager()
-	
-	table_list.get_node(event_display_name).disabled = true #Sets current item button to disabled
-	table_list.get_node(event_display_name).grab_focus()
+#	current_event_editor_input.get_node("Scroll1/VBox1/HBox2").visible = false
+#	current_event_editor_input.load_event_from_dbmanager()
+	table_list.get_node(SelectedEventName).disabled = true #Sets current item button to disabled
+	table_list.get_node(SelectedEventName).grab_focus()
+	event_display_name = SelectedEventName
 
 
 func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
 	clear_buttons()
-		
-	var event_list_dict :Dictionary = get_list_of_events(true)
-	var table_dict :Dictionary = get_list_of_all_tables()
-	for Event_Name in event_list_dict: 
+	var event_list_array :Array = get_list_of_events()
+#	print("Event List Array: ", event_list_array)
+#	var table_dict :Dictionary = get_list_of_all_tables()
+	for Event_Name in event_list_array:
+
+#		print("create table button Event Name: ", Event_Name)
 		var label :String 
-		if typeof(str_to_var(Event_Name)) == TYPE_DICTIONARY:
-			var eventName_dict :Dictionary = str_to_var(Event_Name)
-			label = eventName_dict["text"]
-		else:
-			label = Event_Name
+		var event_dict:Dictionary = import_event_data(Event_Name)
+		var event_display_name:String = event_dict["0"]["Display Name"]["text"]
+#		if typeof(str_to_var(Event_Name)) == TYPE_DICTIONARY:
+#			var eventName_dict :Dictionary = str_to_var(Event_Name)
+#			label = eventName_dict["text"]
+#		else:
+#		print("Event Name: ", Event_Name)
+		label = event_display_name
 		var newbtn = btn_itemselect.instantiate() #Create new instance of item button
 		table_list.add_child(newbtn) #Add new item button to table_list
 		#Use the row_dict key (item_number) to set the button label as the item name
-		newbtn.set_name(label) #Set the name of the new button as the item name
+		newbtn.set_name(Event_Name) #Set the name of the new button as the item name
 		newbtn.main_page = self
 		var labelNode :Label = newbtn.get_node("Label")
+		labelNode.visible = true
 		labelNode.text = label
 
 
 func _on_Save_button_up():
 	event_display_name = current_event_editor_input.save_event_data(true)
 	create_table_buttons()
-#	get_AU3().create_tabs()
 	table_list.get_node(event_display_name).disabled = true #Sets current item button to disabled
 	table_list.get_node(event_display_name).grab_focus()
+
 
 func get_AU3():
 	var main_node = null
@@ -212,6 +215,7 @@ func update_dropdown_tables():
 			i.reload_buttons()
 			i.table_list.get_child(0)._on_TextureButton_button_up()
 
+
 func reload_data_without_saving():
 	reload_buttons()
 	table_list.get_child(0)._on_TextureButton_button_up()
@@ -222,13 +226,12 @@ func add_entry_row(entry_value):
 	var item_name_dict_size = item_name_dict.size()
 	currentData_dict["Row"][str(item_name_dict_size)] = entry_value
 
+
 func add_table_key(key):
 	#duplicate "Default" value
 	var new_entry = current_dict["Default"].duplicate(true)
 	#Add value to item dict
 	current_dict[key] = new_entry
-	
-
 
 
 func does_key_contain_invalid_characters(key):
@@ -241,6 +244,7 @@ func does_key_contain_invalid_characters(key):
 			print("'",i,"' is an invalid character. Please remove and try again")
 			break
 	return value
+
 
 func has_empty_fields():
 	#loop through input fields (need a better way to identify them and pull automatically instead of hard code)
@@ -259,9 +263,11 @@ func has_empty_fields():
 
 func _on_AddNewItem_button_up():
 	#input default item values to form
-	event_display_name = current_event_editor_input._on_Create_New_Event_Button_button_up(false)
+	event_display_name = await current_event_editor_input._on_Create_New_Event_Button_button_up(false)
 	#reload_buttons()
+
 	get_main_node()._ready()
+	await get_tree().process_frame
 	table_list.get_node(event_display_name)._on_TextureButton_button_up()
 
 
@@ -293,6 +299,7 @@ func _on__deletePopup_Cancel_button_up():
 
 func _on_FileDialog_hide() -> void:
 	hide_all_popups()
+
 
 func _on_FileDialog_sprite_hide() -> void:
 	hide_all_popups()
@@ -331,10 +338,8 @@ func add_newField():
 	var tableName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection.selectedItemName
 	#Get input values and send them to the editor functions add new value script
 	#NEED TO ADD ERROR CHECKING
-	
 	add_field(fieldName, datatype, showField, false, tableName)
 	refresh_data(Item_Name)
-	
 
 
 func display_options():
@@ -354,12 +359,9 @@ func display_options():
 	popup_deleteKey.visible = true
 
 
-
 var delete_field_name = ""
-#var delete_field_index = 0
 func _on_Itemlist_item_selected(index):
 	delete_field_name = currentData_dict[data_type][str(index + 1)]["FieldName"]
-#	delete_field_index = str(index + 1)
 
 
 func _on_DeleteField_Accept_button_up():
@@ -370,17 +372,19 @@ func _on_DeleteField_Accept_button_up():
 
 
 func _on_DeleteField_Cancel_button_up():
-
 	popup_main.visible = false
 	popup_deleteKey.visible = false
+
 
 func input_node_changed(value):
 	$VBox1/HBox1/Center1/Label.visible = true
 	input_changed = true
 
+
 func clear_datachange_warning():
 	$VBox1/HBox1/Center1/Label.visible = false
 	input_changed = false
+
 
 func _on_RefreshData_button_up() -> void:
 	reload_data_without_saving()

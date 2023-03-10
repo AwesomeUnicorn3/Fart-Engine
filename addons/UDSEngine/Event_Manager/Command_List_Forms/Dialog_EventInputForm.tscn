@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://db05say4c0a8o"]
+[gd_scene load_steps=8 format=3 uid="uid://db05say4c0a8o"]
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_ivx4h"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/Dialog_EventInputForm.gd" id="2_c5mqh"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_i1cdv"]
 [ext_resource type="PackedScene" uid="uid://8aboym3b6boy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dialog.tscn" id="5_ol278"]
 [ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Popup_Delete_Confirm.tscn" id="6_hfxxd"]
-[ext_resource type="PackedScene" uid="uid://blxyner5c5f73" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newValue.tscn" id="7_ph8w3"]
 [ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="8_1mjeo"]
 
 [node name="Dialog_EventInputForm" type="Control" groups=["Tab"]]
@@ -20,7 +19,7 @@ theme = ExtResource("1_ivx4h")
 script = ExtResource("2_c5mqh")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -28,7 +27,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Control" type="ScrollContainer" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -1.0
@@ -37,42 +36,22 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-offset_right = 892.0
-offset_bottom = 602.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(0, 25)
-offset_right = 892.0
-offset_bottom = 31.0
+layout_mode = 2
 text = "Dialog"
 horizontal_alignment = 1
 
 [node name="TrueorFalse" parent="Control/VBoxContainer" instance=ExtResource("4_i1cdv")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 35.0
-offset_right = 892.0
-offset_bottom = 118.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 size_flags_vertical = 3
 true_text = "Single"
 false_text = "Group"
 label_text = "Single or Group Dialog Input"
 is_label_button = false
-
-[node name="Label" parent="Control/VBoxContainer/TrueorFalse" index="0"]
-offset_right = 892.0
-
-[node name="Hbox1" parent="Control/VBoxContainer/TrueorFalse" index="1"]
-offset_right = 892.0
-offset_bottom = 79.0
-
-[node name="Background" parent="Control/VBoxContainer/TrueorFalse/Hbox1" index="1"]
-offset_right = 892.0
-offset_bottom = 50.0
 
 [node name="Input" parent="Control/VBoxContainer/TrueorFalse/Hbox1/Background" index="0"]
 offset_top = -12.0
@@ -80,91 +59,33 @@ offset_bottom = 12.0
 button_pressed = true
 text = "Single"
 
-[node name="input_templateBuffer" parent="Control/VBoxContainer/TrueorFalse" index="2"]
-offset_top = 83.0
-offset_right = 892.0
-offset_bottom = 83.0
-
 [node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_h33vw")]
 visible = false
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 122.0
-offset_right = 892.0
-offset_bottom = 197.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 2
 selection_table_name = "Dialog Groups"
 label_text = "Select Group"
 is_label_button = false
 
-[node name="Label" parent="Control/VBoxContainer/KeyDropdown" index="0"]
-layout_mode = 3
-offset_right = 892.0
-
-[node name="HBox1" parent="Control/VBoxContainer/KeyDropdown/Label" index="0"]
-layout_mode = 3
-
 [node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
-layout_mode = 3
-offset_right = 892.0
-offset_bottom = 30.0
 text = "Select Group"
 
-[node name="Hide_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="1"]
-layout_mode = 3
-
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
-layout_mode = 3
-offset_right = 892.0
-offset_bottom = 71.0
 item_count = 1
 selected = 0
 popup/item_0/text = "First Interaction"
 popup/item_0/id = 0
 
-[node name="input_templateBuffer" parent="Control/VBoxContainer/KeyDropdown" index="2"]
-layout_mode = 3
-offset_top = 75.0
-offset_right = 892.0
-offset_bottom = 75.0
-
 [node name="input_dialog" parent="Control/VBoxContainer" instance=ExtResource("5_ol278")]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 122.0
-offset_right = 892.0
-offset_bottom = 570.0
-
-[node name="Input" parent="Control/VBoxContainer/input_dialog" index="0"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 892.0
+layout_mode = 2
 
 [node name="Label" parent="Control/VBoxContainer/input_dialog" index="1"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 892.0
+custom_minimum_size = Vector2(0, 25)
 
 [node name="CharacterName_HBox" parent="Control/VBoxContainer/input_dialog" index="2"]
-offset_right = 892.0
+custom_minimum_size = Vector2(0, 100)
 
 [node name="CharacterName_Checkbox" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox" index="0"]
-anchors_preset = 0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Checkbox" index="0"]
-offset_right = 150.0
-
-[node name="Hbox1" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Checkbox" index="1"]
-offset_right = 150.0
-offset_bottom = 96.0
-
-[node name="Background" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Checkbox/Hbox1" index="1"]
-offset_right = 150.0
-offset_bottom = 67.0
+custom_minimum_size = Vector2(150, 0)
 
 [node name="Input" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Checkbox/Hbox1/Background" index="0"]
 offset_top = -12.0
@@ -172,90 +93,19 @@ offset_bottom = 12.0
 button_pressed = true
 text = "List"
 
-[node name="input_templateBuffer" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Checkbox" index="2"]
-offset_top = 100.0
-offset_right = 150.0
-offset_bottom = 100.0
-
-[node name="CharacterName_Dropdown" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox" index="1"]
-offset_right = 892.0
-
 [node name="CharacterName_Text" parent="Control/VBoxContainer/input_dialog/CharacterName_HBox" index="2"]
 visible = false
-offset_left = 525.0
-offset_right = 892.0
-
-[node name="Dialog_Text" parent="Control/VBoxContainer/input_dialog" index="3"]
-offset_right = 892.0
-offset_bottom = 245.0
-
-[node name="IconSelection_HBox" parent="Control/VBoxContainer/input_dialog" index="4"]
-offset_top = 249.0
-offset_right = 892.0
-offset_bottom = 357.0
 
 [node name="IconSelection_Checkbox" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox" index="0"]
-anchors_preset = 0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox" index="0"]
-offset_right = 150.0
-
-[node name="Hbox1" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox" index="1"]
-offset_right = 150.0
-offset_bottom = 104.0
-
-[node name="Background" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox/Hbox1" index="1"]
-offset_right = 150.0
-offset_bottom = 75.0
+custom_minimum_size = Vector2(150, 0)
 
 [node name="Input" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox/Hbox1/Background" index="0"]
 offset_top = -12.0
 offset_bottom = 12.0
 text = "Icon"
 
-[node name="input_templateBuffer" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox" index="2"]
-offset_top = 108.0
-offset_right = 150.0
-offset_bottom = 108.0
-
-[node name="IconSelection_Sprite" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox" index="1"]
-anchors_preset = 0
-offset_left = 154.0
-offset_top = 0.0
-offset_right = 892.0
-offset_bottom = 427.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="IconSelection_Icon" parent="Control/VBoxContainer/input_dialog/IconSelection_HBox" index="2"]
-anchors_preset = 0
-offset_right = 892.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="SceneSelection_HBox" parent="Control/VBoxContainer/input_dialog" index="5"]
-offset_top = 361.0
-offset_right = 892.0
-offset_bottom = 444.0
-
 [node name="SceneSelection_Checkbox" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox" index="0"]
-anchors_preset = 0
-offset_right = 892.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox" index="0"]
-offset_right = 892.0
-
-[node name="Hbox1" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox" index="1"]
-offset_right = 892.0
-offset_bottom = 79.0
-
-[node name="Background" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox/Hbox1" index="1"]
-offset_right = 892.0
-offset_bottom = 50.0
+custom_minimum_size = Vector2(150, 0)
 
 [node name="Input" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox/Hbox1/Background" index="0"]
 offset_top = -12.0
@@ -263,49 +113,29 @@ offset_bottom = 12.0
 button_pressed = true
 text = "Default"
 
-[node name="input_templateBuffer" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox" index="2"]
-offset_top = 83.0
-offset_right = 892.0
-offset_bottom = 83.0
-
 [node name="Scene_Selection_ScenePath" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox" index="1"]
 visible = false
-anchors_preset = 0
-offset_left = 448.0
-offset_right = 892.0
-grow_horizontal = 1
-grow_vertical = 1
-
-[node name="input_templateBuffer" parent="Control/VBoxContainer/input_dialog" index="6"]
-offset_top = 448.0
-offset_right = 892.0
-offset_bottom = 448.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
-offset_top = 574.0
-offset_right = 892.0
-offset_bottom = 602.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Accept" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
-offset_right = 444.0
-offset_bottom = 28.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
-offset_left = 448.0
-offset_right = 892.0
-offset_bottom = 28.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Cancel"
 
 [node name="Popups" type="ColorRect" parent="."]
 visible = false
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -313,7 +143,7 @@ grow_vertical = 2
 color = Color(0.0862745, 0.0862745, 0.0862745, 0.866667)
 
 [node name="FileSelect" type="Control" parent="Popups"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -321,7 +151,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ListInput" type="Control" parent="Popups"]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -330,249 +160,58 @@ grow_vertical = 2
 
 [node name="Popup_Delete_Confirm" parent="Popups" instance=ExtResource("6_hfxxd")]
 visible = false
+layout_mode = 1
 
-[node name="popup_newValue" parent="Popups" instance=ExtResource("7_ph8w3")]
-visible = false
-
-[node name="HBox1" parent="Popups/popup_newValue/PanelContainer/VBox1" index="0"]
-offset_bottom = 104.0
-
-[node name="VBox1" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="0"]
-offset_bottom = 104.0
-
-[node name="Input_Text" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1" index="0"]
-offset_bottom = 104.0
-
-[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="1"]
-offset_bottom = 104.0
-
-[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="2"]
-offset_top = 89.0
-offset_bottom = 89.0
-
-[node name="VBox2" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="1"]
-offset_bottom = 104.0
-
-[node name="ItemType_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2" index="0"]
+[node name="PanelContainer" parent="Popups/Popup_Delete_Confirm" index="0"]
+layout_mode = 0
 anchors_preset = 0
-offset_bottom = 104.0
-grow_horizontal = 1
-grow_vertical = 1
 
-[node name="HBox1" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label" index="0"]
-layout_mode = 3
+[node name="VBoxContainer" parent="Popups/Popup_Delete_Confirm/PanelContainer" index="0"]
+layout_mode = 2
 
-[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label/HBox1" index="0"]
-layout_mode = 3
+[node name="Label" parent="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer" index="0"]
+layout_mode = 2
 
-[node name="Hide_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label/HBox1" index="1"]
-layout_mode = 3
+[node name="Label2" parent="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer" index="1"]
+layout_mode = 2
 
-[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
-layout_mode = 3
-offset_bottom = 104.0
-item_count = 14
-selected = 0
-popup/item_0/text = "Text"
-popup/item_0/id = 0
-popup/item_1/text = "List"
-popup/item_1/id = 1
-popup/item_2/text = "Input Control"
-popup/item_2/id = 2
-popup/item_3/text = "Number Range"
-popup/item_3/id = 3
-popup/item_4/text = "Sound Effect"
-popup/item_4/id = 4
-popup/item_5/text = "Conditions"
-popup/item_5/id = 5
-popup/item_6/text = "Whole Number"
-popup/item_6/id = 6
-popup/item_7/text = "Decimal Number"
-popup/item_7/id = 7
-popup/item_8/text = "True or False"
-popup/item_8/id = 8
-popup/item_9/text = "Dropdown List"
-popup/item_9/id = 9
-popup/item_10/text = "Icon Display"
-popup/item_10/id = 10
-popup/item_11/text = "Scene Path"
-popup/item_11/id = 11
-popup/item_12/text = "Sprite"
-popup/item_12/id = 12
-popup/item_13/text = "Vector 2 or 3"
-popup/item_13/id = 13
+[node name="HBoxContainer" parent="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer" index="2"]
+layout_mode = 2
 
-[node name="32191" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Input" index="1"]
-item_count = 14
-item_0/text = "Text"
-item_0/checkable = 2
-item_0/checked = true
-item_0/id = 0
-item_1/text = "List"
-item_1/checkable = 2
-item_1/id = 1
-item_2/text = "Input Control"
-item_2/checkable = 2
-item_2/id = 2
-item_3/text = "Number Range"
-item_3/checkable = 2
-item_3/id = 3
-item_4/text = "Sound Effect"
-item_4/checkable = 2
-item_4/id = 4
-item_5/text = "Conditions"
-item_5/checkable = 2
-item_5/id = 5
-item_6/text = "Whole Number"
-item_6/checkable = 2
-item_6/id = 6
-item_7/text = "Decimal Number"
-item_7/checkable = 2
-item_7/id = 7
-item_8/text = "True or False"
-item_8/checkable = 2
-item_8/id = 8
-item_9/text = "Dropdown List"
-item_9/checkable = 2
-item_9/id = 9
-item_10/text = "Icon Display"
-item_10/checkable = 2
-item_10/id = 10
-item_11/text = "Scene Path"
-item_11/checkable = 2
-item_11/id = 11
-item_12/text = "Sprite"
-item_12/checkable = 2
-item_12/id = 12
-item_13/text = "Vector 2 or 3"
-item_13/checkable = 2
-item_13/id = 13
+[node name="Accept_Button" parent="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
+layout_mode = 2
 
-[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="2"]
-layout_mode = 3
-
-[node name="Table_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="2"]
-anchors_preset = 0
-offset_left = 0.0
-offset_right = 216.0
-grow_horizontal = 1
-grow_vertical = 1
-
-[node name="HBox1" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label" index="0"]
-layout_mode = 3
-
-[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label/HBox1" index="0"]
-layout_mode = 3
-
-[node name="Hide_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label/HBox1" index="1"]
-layout_mode = 3
-
-[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
-layout_mode = 3
-item_count = 13
-selected = 0
-popup/item_0/text = "Character Classes"
-popup/item_0/id = 0
-popup/item_1/text = "Characters"
-popup/item_1/id = 1
-popup/item_2/text = "Control Categories"
-popup/item_2/id = 2
-popup/item_3/text = "DataTypes"
-popup/item_3/id = 3
-popup/item_4/text = "Event Triggers"
-popup/item_4/id = 4
-popup/item_5/text = "FieldPref"
-popup/item_5/id = 5
-popup/item_6/text = "Global Variables"
-popup/item_6/id = 6
-popup/item_7/text = "Inequalities"
-popup/item_7/id = 7
-popup/item_8/text = "ItemType"
-popup/item_8/id = 8
-popup/item_9/text = "Items"
-popup/item_9/id = 9
-popup/item_10/text = "Maps"
-popup/item_10/id = 10
-popup/item_11/text = "Sprite Groups"
-popup/item_11/id = 11
-popup/item_12/text = "Table Data"
-popup/item_12/id = 12
-
-[node name="32197" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="1"]
-item_count = 13
-item_0/text = "Character Classes"
-item_0/checkable = 2
-item_0/checked = true
-item_0/id = 0
-item_1/text = "Characters"
-item_1/checkable = 2
-item_1/id = 1
-item_2/text = "Control Categories"
-item_2/checkable = 2
-item_2/id = 2
-item_3/text = "DataTypes"
-item_3/checkable = 2
-item_3/id = 3
-item_4/text = "Event Triggers"
-item_4/checkable = 2
-item_4/id = 4
-item_5/text = "FieldPref"
-item_5/checkable = 2
-item_5/id = 5
-item_6/text = "Global Variables"
-item_6/checkable = 2
-item_6/id = 6
-item_7/text = "Inequalities"
-item_7/checkable = 2
-item_7/id = 7
-item_8/text = "ItemType"
-item_8/checkable = 2
-item_8/id = 8
-item_9/text = "Items"
-item_9/checkable = 2
-item_9/id = 9
-item_10/text = "Maps"
-item_10/checkable = 2
-item_10/id = 10
-item_11/text = "Sprite Groups"
-item_11/checkable = 2
-item_11/id = 11
-item_12/text = "Table Data"
-item_12/checkable = 2
-item_12/id = 12
-
-[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="2"]
-layout_mode = 3
-
-[node name="HBox2" parent="Popups/popup_newValue/PanelContainer/VBox1" index="1"]
-offset_top = 108.0
-
-[node name="Accept" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox2" index="0"]
-offset_bottom = 74.0
-
-[node name="Cancel" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox2" index="1"]
-offset_bottom = 74.0
+[node name="Cancel_Button" parent="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
+layout_mode = 2
 
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource("8_1mjeo")]
 visible = false
+layout_mode = 1
+
+[node name="PanelContainer" parent="Popups/popup_deleteKey" index="0"]
+layout_mode = 0
+anchors_preset = 0
+
+[node name="VBoxContainer" parent="Popups/popup_deleteKey/PanelContainer" index="0"]
+layout_mode = 2
 
 [node name="Label" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="0"]
-offset_bottom = 31.0
+layout_mode = 2
 
 [node name="Itemlist" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="1"]
-offset_top = 35.0
-offset_bottom = 169.0
+layout_mode = 2
 
 [node name="32198" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="1"]
+layout_mode = 0
 
 [node name="HBoxContainer" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="2"]
-offset_top = 173.0
+layout_mode = 2
 
 [node name="Accept" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
-offset_bottom = 28.0
+layout_mode = 2
 
 [node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
-offset_bottom = 28.0
+layout_mode = 2
 
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
@@ -585,11 +224,4 @@ offset_bottom = 28.0
 [editable path="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox"]
 [editable path="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox"]
 [editable path="Popups/Popup_Delete_Confirm"]
-[editable path="Popups/popup_newValue"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection/Label"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label"]
 [editable path="Popups/popup_deleteKey"]

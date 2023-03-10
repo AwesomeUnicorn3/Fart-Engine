@@ -61,20 +61,28 @@ layout_mode = 2
 selection_table_name = "DataTypes"
 label_text = "Data Type"
 is_label_button = false
+show_field = true
 
 [node name="FieldName" parent="PanelContainer/VBox1/Scroll1/VBox1" instance=ExtResource("5_hiofx")]
 layout_mode = 2
+is_label_button = false
+show_field = true
 
 [node name="RequiredValue" parent="PanelContainer/VBox1/Scroll1/VBox1" instance=ExtResource("6_stt74")]
 layout_mode = 2
+is_label_button = false
+show_field = true
 
 [node name="ShowValue" parent="PanelContainer/VBox1/Scroll1/VBox1" instance=ExtResource("6_stt74")]
 layout_mode = 2
+is_label_button = false
+show_field = true
 
 [node name="TableRef" parent="PanelContainer/VBox1/Scroll1/VBox1" instance=ExtResource("4_qomak")]
 layout_mode = 2
 label_text = "Tables"
 is_label_button = false
+show_field = true
 
 [node name="HBox2" type="HBoxContainer" parent="PanelContainer/VBox1"]
 layout_mode = 2

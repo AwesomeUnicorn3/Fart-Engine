@@ -10,7 +10,7 @@ var BGM_Player :AudioStreamPlayer = AudioStreamPlayer.new()
 var bgm_stream :String
 var bgm_volume :float
 var bgm_pitch :float
-var bgm_loop :bool
+#var bgm_loop :bool
 
 func _ready():
 	add_child(BGM_Player)
@@ -33,12 +33,9 @@ func _ready():
 		ysort_node.add_child(event_node)
 	await AU3ENGINE.map_data_updated
 	map_dict = await AU3ENGINE.get_map_dict()
-	#print(AU3ENGINE.current_map_key)
 	map_dict = map_dict[AU3ENGINE.current_map_key]
-	#set BGM
 	get_bgm_values()
 	set_bgm()
-	
 	#Create map dictionary in event save files if none exist
 	var current_map_name : String = AU3ENGINE.current_map_key
 	if !AU3ENGINE.Dynamic_Game_Dict["Event Save Data"].has(current_map_name):
@@ -49,13 +46,11 @@ func _ready():
 		for event in event_save_dict:
 			if !map_event_dict.has(event):
 				AU3ENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name].erase(event)
-
-#	player_node = await AU3ENGINE.get_player_node()
-	var newgame :bool = AU3ENGINE.convert_string_to_type(AU3ENGINE.Dynamic_Game_Dict["Global Data"][AU3ENGINE.global_settings_profile]["NewGame"])
+	var newgame  = AU3ENGINE.get_field_value("Global Data",await AU3ENGINE.get_global_settings_profile(), "NewGame")
 	if newgame == true:
-		var starting_position = AU3ENGINE.convert_string_to_vector(AU3ENGINE.Static_Game_Dict["Global Data"][AU3ENGINE.global_settings_profile]["Player Starting Position"])
+		var starting_position = AU3ENGINE.convert_string_to_vector(AU3ENGINE.Static_Game_Dict["Global Data"][await AU3ENGINE.get_global_settings_profile()]["Player Starting Position"])
 		player_node.set_position(starting_position)
-	
+		AU3ENGINE.set_save_data_value("Global Data", await AU3ENGINE.get_global_settings_profile(), "NewGame", false)
 	await AU3ENGINE.move_to_map_Ysort(self)
 	if self.has_node("TileMap"):
 		await AU3ENGINE.move_to_map_Ysort(self, $TileMap, self)
@@ -73,9 +68,9 @@ func get_bgm_values():
 	bgm_stream = bgm_dict["stream"]
 	bgm_volume = AU3ENGINE.convert_string_to_type(bgm_dict["volume"])
 	bgm_pitch = AU3ENGINE.convert_string_to_type(bgm_dict["pitch"])
-	bgm_loop = AU3ENGINE.convert_string_to_type(bgm_dict["loop_audio"])
 
-func set_bgm(BGM_path : String = bgm_stream, volume :float = bgm_volume, pitch :float = bgm_pitch, loop :bool = bgm_loop):
+
+func set_bgm(BGM_path : String = bgm_stream, volume :float = bgm_volume, pitch :float = bgm_pitch):
 	BGM_Player.set_stream(load(AU3ENGINE.table_save_path + AU3ENGINE.sfx_folder + bgm_stream))
 	BGM_Player.set_volume_db(volume)
 	BGM_Player.set_pitch_scale(pitch)

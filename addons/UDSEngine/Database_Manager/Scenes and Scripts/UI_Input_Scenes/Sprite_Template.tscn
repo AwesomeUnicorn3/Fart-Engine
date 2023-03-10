@@ -18,40 +18,31 @@ size_flags_horizontal = 3
 script = ExtResource("2")
 
 [node name="Label" parent="." instance=ExtResource("5")]
-custom_minimum_size = Vector2i(0, 25)
-layout_mode = 3
-anchors_preset = 0
-anchor_right = 0.0
-offset_right = 900.0
+layout_mode = 2
 
 [node name="StandardControlsHBox" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2i(0, 100)
-offset_top = 29.0
-offset_right = 900.0
-offset_bottom = 414.0
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SpriteAtlasHBox" type="HBoxContainer" parent="StandardControlsHBox"]
-offset_right = 448.0
-offset_bottom = 385.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="SpriteAtlasVBox" type="VBoxContainer" parent="StandardControlsHBox/SpriteAtlasHBox"]
-offset_right = 448.0
-offset_bottom = 385.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label2" type="ColorRect" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox"]
-custom_minimum_size = Vector2i(0, 35)
-offset_right = 448.0
-offset_bottom = 35.0
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/Label2" groups=["Label"]]
-custom_minimum_size = Vector2i(0, 25)
-anchors_preset = 15
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -63,17 +54,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBox1" type="VBoxContainer" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox"]
-offset_top = 39.0
-offset_right = 448.0
-offset_bottom = 135.0
+layout_mode = 2
 
 [node name="VBox2" type="HBoxContainer" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1"]
-offset_right = 448.0
-offset_bottom = 26.0
+layout_mode = 2
 
 [node name="vlabel" type="Label" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox2"]
-offset_right = 222.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "V Frames"
@@ -81,9 +68,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="hlabel" type="Label" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox2"]
-offset_left = 226.0
-offset_right = 448.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "H Frames"
@@ -91,15 +76,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBox1" type="HBoxContainer" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1"]
-offset_top = 30.0
-offset_right = 448.0
-offset_bottom = 96.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VInput" type="LineEdit" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1"]
-offset_right = 173.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 placeholder_text = "1"
@@ -107,25 +89,21 @@ alignment = 1
 caret_blink = true
 
 [node name="VBox1" type="VBoxContainer" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1"]
-offset_left = 177.0
-offset_right = 221.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="Add_ButtonV" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1" instance=ExtResource("3_alox6")]
+layout_mode = 2
 
 [node name="Sub_ButtonV" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1" instance=ExtResource("3_alox6")]
-offset_top = 35.0
-offset_bottom = 66.0
+layout_mode = 2
 text = "-"
 increase_value = false
 
 [node name="HInput" type="LineEdit" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1"]
-offset_left = 225.0
-offset_right = 399.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 placeholder_text = "1"
@@ -133,28 +111,22 @@ alignment = 1
 caret_blink = true
 
 [node name="VBox2" type="VBoxContainer" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1"]
-offset_left = 403.0
-offset_right = 448.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="Add_ButtonH" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2" instance=ExtResource("3_alox6")]
-offset_right = 45.0
+layout_mode = 2
 
 [node name="Sub_ButtonH" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2" instance=ExtResource("3_alox6")]
-offset_top = 35.0
-offset_right = 45.0
-offset_bottom = 66.0
+layout_mode = 2
 text = "-"
 increase_value = false
 
 [node name="Input" type="TextureButton" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox"]
 show_behind_parent = true
-custom_minimum_size = Vector2i(0, 75)
-offset_top = 139.0
-offset_right = 448.0
-offset_bottom = 385.0
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource("3_4jusd")
@@ -163,29 +135,24 @@ stretch_mode = 5
 
 [node name="Space3" type="Label" parent="StandardControlsHBox"]
 visible = false
-offset_left = 240.0
-offset_right = 477.0
-offset_bottom = 557.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PreviewVBox" type="VBoxContainer" parent="StandardControlsHBox"]
-offset_left = 452.0
-offset_right = 900.0
-offset_bottom = 385.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label3" type="ColorRect" parent="StandardControlsHBox/PreviewVBox"]
-custom_minimum_size = Vector2i(0, 35)
-offset_right = 448.0
-offset_bottom = 35.0
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="StandardControlsHBox/PreviewVBox/Label3" groups=["Label"]]
-custom_minimum_size = Vector2i(0, 25)
-anchors_preset = 15
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -197,41 +164,33 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Control" type="Control" parent="StandardControlsHBox/PreviewVBox"]
-layout_mode = 3
-anchors_preset = 0
-offset_top = 39.0
-offset_right = 448.0
-offset_bottom = 385.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="PreviewWindow" type="VBoxContainer" parent="StandardControlsHBox/PreviewVBox/Control"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="AdvancedControlsVBox" type="VBoxContainer" parent="."]
-offset_top = 418.0
-offset_right = 900.0
-offset_bottom = 596.0
+layout_mode = 2
 
 [node name="Control" type="HBoxContainer" parent="AdvancedControlsVBox"]
-offset_right = 900.0
-offset_bottom = 35.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label4" type="ColorRect" parent="AdvancedControlsVBox/Control"]
-custom_minimum_size = Vector2i(0, 35)
-offset_right = 779.0
-offset_bottom = 35.0
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.313726, 0.145098, 0, 1)
 
 [node name="Label2" type="Label" parent="AdvancedControlsVBox/Control/Label4" groups=["Label"]]
-custom_minimum_size = Vector2i(0, 25)
-anchors_preset = 15
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -243,36 +202,30 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Button" type="Button" parent="AdvancedControlsVBox/Control"]
-offset_left = 783.0
-offset_right = 900.0
-offset_bottom = 35.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.15
 text = "Hide"
 
 [node name="AdvancedControlsHBox" type="HBoxContainer" parent="AdvancedControlsVBox"]
-offset_top = 39.0
-offset_right = 900.0
-offset_bottom = 178.0
+layout_mode = 2
 
 [node name="FrameRangeVBox" type="VBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox"]
-offset_right = 401.0
-offset_bottom = 139.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox"]
-custom_minimum_size = Vector2i(0, 35)
-offset_right = 401.0
-offset_bottom = 35.0
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/Label3" groups=["Label"]]
-custom_minimum_size = Vector2i(0, 25)
-anchors_preset = 15
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -284,13 +237,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBoxContainer" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox"]
-offset_top = 39.0
-offset_right = 401.0
-offset_bottom = 65.0
+layout_mode = 2
 
 [node name="vlabel" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBoxContainer"]
-offset_right = 198.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Begin"
@@ -298,9 +248,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="hlabel" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBoxContainer"]
-offset_left = 202.0
-offset_right = 401.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "End"
@@ -308,15 +256,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBox1" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox"]
-offset_top = 69.0
-offset_right = 401.0
-offset_bottom = 135.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VFrame" type="LineEdit" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1"]
-offset_right = 154.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 placeholder_text = "1"
@@ -324,27 +269,21 @@ alignment = 1
 caret_blink = true
 
 [node name="VBox1" type="VBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1"]
-offset_left = 158.0
-offset_right = 198.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="VFrameUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
-offset_right = 40.0
+layout_mode = 2
 
 [node name="VFrameDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
-offset_top = 35.0
-offset_right = 40.0
-offset_bottom = 66.0
+layout_mode = 2
 text = "-"
 increase_value = false
 
 [node name="HFrame" type="LineEdit" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1"]
-offset_left = 202.0
-offset_right = 356.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 placeholder_text = "1"
@@ -352,44 +291,35 @@ alignment = 1
 caret_blink = true
 
 [node name="VBox2" type="VBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1"]
-offset_left = 360.0
-offset_right = 401.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="HFrameUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
-offset_right = 41.0
+layout_mode = 2
 
 [node name="HFrameDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
-offset_top = 35.0
-offset_right = 41.0
-offset_bottom = 66.0
+layout_mode = 2
 text = "-"
 increase_value = false
 
 [node name="HBox2" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox"]
-offset_top = 139.0
-offset_right = 401.0
-offset_bottom = 139.0
+layout_mode = 2
 
 [node name="SpeedVBox" type="VBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox"]
-offset_left = 405.0
-offset_right = 494.0
-offset_bottom = 139.0
+layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox"]
-custom_minimum_size = Vector2i(0, 35)
-offset_right = 89.0
-offset_bottom = 35.0
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/Label3" groups=["Label"]]
-custom_minimum_size = Vector2i(0, 25)
-anchors_preset = 15
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -402,29 +332,23 @@ vertical_alignment = 1
 text_overrun_behavior = 3
 
 [node name="VBoxContainer" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox"]
-offset_top = 39.0
-offset_right = 89.0
-offset_bottom = 39.0
+layout_mode = 2
 
 [node name="SpeedLabel" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBoxContainer"]
 visible = false
-offset_right = 89.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Speed"
 horizontal_alignment = 1
 
 [node name="VBox1" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox"]
-offset_top = 43.0
-offset_right = 89.0
-offset_bottom = 135.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SpeedInput" type="LineEdit" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1"]
-offset_right = 67.0
-offset_bottom = 92.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 placeholder_text = "1"
@@ -432,47 +356,37 @@ alignment = 1
 caret_blink = true
 
 [node name="VBox1" type="VBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1"]
-offset_left = 71.0
-offset_right = 89.0
-offset_bottom = 92.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="SpeedUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
-offset_right = 18.0
-offset_bottom = 44.0
+layout_mode = 2
 
 [node name="SpeedDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
-offset_top = 48.0
-offset_right = 18.0
-offset_bottom = 92.0
+layout_mode = 2
 text = "-"
 increase_value = false
 
 [node name="HBox2" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox"]
-offset_top = 139.0
-offset_right = 89.0
-offset_bottom = 139.0
+layout_mode = 2
 
 [node name="SpriteSizeVBox" type="VBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox"]
-offset_left = 498.0
-offset_right = 900.0
-offset_bottom = 139.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.75
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox"]
-custom_minimum_size = Vector2i(0, 35)
-offset_right = 402.0
-offset_bottom = 35.0
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0, 0.266667, 0.321569, 1)
 
 [node name="Label2" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/Label3" groups=["Label"]]
-custom_minimum_size = Vector2i(0, 25)
-anchors_preset = 15
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -484,13 +398,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBoxContainer" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox"]
-offset_top = 39.0
-offset_right = 402.0
-offset_bottom = 65.0
+layout_mode = 2
 
 [node name="vlabel" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBoxContainer"]
-offset_right = 199.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Height"
@@ -498,9 +409,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="hlabel" type="Label" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBoxContainer"]
-offset_left = 203.0
-offset_right = 402.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Width"
@@ -508,15 +417,12 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="VBox1" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox"]
-offset_top = 69.0
-offset_right = 402.0
-offset_bottom = 135.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HeightSpriteSize" type="LineEdit" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1"]
-offset_right = 154.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 placeholder_text = "1"
@@ -524,27 +430,21 @@ alignment = 1
 caret_blink = true
 
 [node name="VBox1" type="VBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1"]
-offset_left = 158.0
-offset_right = 198.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="HeightSpriteSizeUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
-offset_right = 40.0
+layout_mode = 2
 
 [node name="HeightSpriteSizeDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
-offset_top = 35.0
-offset_right = 40.0
-offset_bottom = 66.0
+layout_mode = 2
 text = "-"
 increase_value = false
 
 [node name="WidthSpriteSize" type="LineEdit" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1"]
-offset_left = 202.0
-offset_right = 357.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "1"
 placeholder_text = "1"
@@ -552,37 +452,28 @@ alignment = 1
 caret_blink = true
 
 [node name="VBox2" type="VBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1"]
-offset_left = 361.0
-offset_right = 402.0
-offset_bottom = 66.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="WidthSpriteSizeUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
-offset_right = 41.0
+layout_mode = 2
 
 [node name="WidthSpriteSizeDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
-offset_top = 35.0
-offset_right = 41.0
-offset_bottom = 66.0
+layout_mode = 2
 text = "-"
 increase_value = false
 
 [node name="HBox2" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox"]
-offset_top = 139.0
-offset_right = 402.0
-offset_bottom = 139.0
+layout_mode = 2
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("3")]
-anchor_right = 0.0
-offset_top = 600.0
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 visible = false
 position = Vector2(4, 29)
-frames = SubResource("3")
+sprite_frames = SubResource("3")
 centered = false
 
 [connection signal="text_changed" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VInput" to="." method="_on_VInput_text_changed"]

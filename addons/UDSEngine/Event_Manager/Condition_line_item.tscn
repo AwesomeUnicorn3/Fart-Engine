@@ -1,244 +1,192 @@
-[gd_scene load_steps=11 format=3 uid="uid://c5yjwmdunpjla"]
+[gd_scene load_steps=6 format=3 uid="uid://bjehcijgb8ev4"]
 
-[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_15.tres" id="1"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Condition_line_item.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4"]
-[ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.gd" id="5"]
+[ext_resource type="PackedScene" uid="uid://c8yv8ehs4sqcp" path="res://addons/UDSEngine/Event_Manager/TableKeyField_Dropdown_Template.tscn" id="3_wrdmd"]
+[ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_f1jwx"]
 [ext_resource type="PackedScene" uid="uid://ccbd0dxfbgbkm" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="7"]
-[ext_resource type="PackedScene" uid="uid://b4i04twjpw3iu" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="8"]
-[ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="9"]
-[ext_resource type="PackedScene" uid="uid://bop4ol1uh1lbf" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn" id="10"]
 
 [node name="Condition_line_item" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -481.0
+offset_right = 481.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("2")
 
 [node name="DeleteButton" type="Button" parent="."]
-offset_right = 59.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 9
 text = "Delete"
 
-[node name="Key" type="VBoxContainer" parent="."]
-offset_left = 63.0
-offset_right = 126.0
-offset_bottom = 600.0
-theme = ExtResource("1")
-script = ExtResource("5")
+[node name="Key_Display" parent="." instance=ExtResource("7")]
+layout_mode = 2
+size_flags_horizontal = 0
 label_text = "Key"
 is_label_button = false
 
-[node name="Label" parent="Key" instance=ExtResource("3")]
-anchor_right = 0.0
-offset_right = 63.0
+[node name="Label" parent="Key_Display" index="0"]
+custom_minimum_size = Vector2(0, 10)
 
-[node name="Label_Button" parent="Key/Label/HBox1" index="0"]
-offset_right = 63.0
-offset_bottom = 30.0
-text = "Key"
+[node name="Input" parent="Key_Display" index="1"]
+custom_minimum_size = Vector2(0, 10)
+size_flags_horizontal = 0
+placeholder_text = "1"
 
-[node name="Input" type="LineEdit" parent="Key"]
-offset_top = 29.0
-offset_right = 63.0
-offset_bottom = 600.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "0"
-placeholder_text = "Enter Value As Text"
-max_length = 100
-editable = false
-selecting_enabled = false
-caret_blink = true
-caret_blink_speed = 0.5
+[node name="LeftOperator" parent="." instance=ExtResource("3_wrdmd")]
+layout_mode = 2
 
-[node name="input_templateBuffer" parent="Key" instance=ExtResource("4")]
-visible = false
-anchor_right = 0.0
-offset_top = 316.0
-offset_right = 63.0
-offset_bottom = 600.0
-size_flags_vertical = 3
+[node name="Label_Button" parent="LeftOperator/TopLabel/HBox1" index="0"]
+text = "IF"
 
-[node name="If_DropDown" parent="." instance=ExtResource("6")]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 130.0
-offset_right = 900.0
-offset_bottom = 600.0
-label_text = "If"
-is_label_button = false
+[node name="Input" parent="LeftOperator/TableKeyField_Combo/Table_DropDown" index="1"]
+item_count = 8
+popup/item_0/text = "Global Data"
+popup/item_1/text = "Items"
+popup/item_2/text = "GlobalOptions"
+popup/item_3/text = "Global Settings"
+popup/item_4/text = "Character Classes"
+popup/item_5/text = "Global Variables"
+popup/item_6/text = "Testing Table"
+popup/item_7/text = "Local Variables"
 
-[node name="Label" parent="If_DropDown" index="0"]
-offset_right = 770.0
+[node name="Key_DropDown" parent="LeftOperator/TableKeyField_Combo" index="1"]
+selection_table_name = "Global Data"
 
-[node name="Input" parent="If_DropDown" index="1"]
-offset_right = 770.0
-offset_bottom = 600.0
+[node name="Input" parent="LeftOperator/TableKeyField_Combo/Key_DropDown" index="1"]
+item_count = 1
+popup/item_0/text = "2"
 
-[node name="input_templateBuffer" parent="If_DropDown" index="2"]
-visible = false
+[node name="Input" parent="LeftOperator/TableKeyField_Combo/Field_DropDown" index="1"]
+item_count = 24
+popup/item_0/text = "Active Character"
+popup/item_1/text = "Current Map"
+popup/item_2/text = "Default Controls"
+popup/item_3/text = "Default Dialog Box"
+popup/item_4/text = "Default GUI"
+popup/item_5/text = "Default In-Game Menu"
+popup/item_6/text = "Default Menu Controls"
+popup/item_7/text = "Default Player Scene"
+popup/item_8/text = "Display Name"
+popup/item_9/text = "Game State"
+popup/item_10/text = "Game Title"
+popup/item_11/text = "Gravity Force"
+popup/item_12/text = "Is Game Active"
+popup/item_13/text = "Is Gravity Active"
+popup/item_13/id = 13
+popup/item_14/text = "Loading Screen"
+popup/item_14/id = 14
+popup/item_15/text = "NewGame"
+popup/item_15/id = 15
+popup/item_16/text = "Player POS"
+popup/item_16/id = 16
+popup/item_17/text = "Player Starting Position"
+popup/item_17/id = 17
+popup/item_18/text = "Project Root Scene"
+popup/item_18/id = 18
+popup/item_19/text = "Save ID"
+popup/item_19/id = 19
+popup/item_20/text = "Starting Character"
+popup/item_20/id = 20
+popup/item_21/text = "Starting Map"
+popup/item_21/id = 21
+popup/item_22/text = "Time"
+popup/item_22/id = 22
+popup/item_23/text = "Title Screen"
+popup/item_23/id = 23
 
-[node name="If_Table_Name_DropDown" parent="." instance=ExtResource("6")]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 517.0
-offset_right = 900.0
-offset_bottom = 600.0
-label_text = "Table Name"
-is_label_button = false
-selection_table_name = "Table Data"
-
-[node name="Label" parent="If_Table_Name_DropDown" index="0"]
-offset_right = 383.0
-
-[node name="Input" parent="If_Table_Name_DropDown" index="1"]
-offset_right = 383.0
-offset_bottom = 600.0
-
-[node name="input_templateBuffer" parent="If_Table_Name_DropDown" index="2"]
-visible = false
-
-[node name="If_Key_Name_DropDown" parent="." instance=ExtResource("6")]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-label_text = "Key Name"
-is_label_button = false
-selection_table_name = "Table Data"
-
-[node name="input_templateBuffer" parent="If_Key_Name_DropDown" index="2"]
-visible = false
-
-[node name="if_Value_Name_DropDown" parent="." instance=ExtResource("6")]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-label_text = "Value Name"
-is_label_button = false
-selection_table_name = "Table Data"
-
-[node name="input_templateBuffer" parent="if_Value_Name_DropDown" index="2"]
-visible = false
-
-[node name="Is_Event_Variable" parent="." instance=ExtResource("6")]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-label_text = "Event Variable"
-is_label_button = false
-selection_table_name = "Table Data"
-
-[node name="input_templateBuffer" parent="Is_Event_Variable" index="2"]
-visible = false
-
-[node name="Is_DropDown" parent="." instance=ExtResource("6")]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 517.0
-offset_right = 900.0
-offset_bottom = 600.0
-label_text = "Is"
-is_label_button = false
+[node name="Inequality_Dropdown" parent="." instance=ExtResource("6")]
+layout_mode = 2
+size_flags_horizontal = 1
 selection_table_name = "Inequalities"
-
-[node name="Label" parent="Is_DropDown" index="0"]
-offset_right = 383.0
-
-[node name="Input" parent="Is_DropDown" index="1"]
-offset_right = 383.0
-offset_bottom = 600.0
-item_count = 6
-selected = 0
-popup/item_0/text = "Greater Than"
-popup/item_0/id = 0
-popup/item_1/text = "Less Than"
-popup/item_1/id = 1
-popup/item_2/text = "Equal To"
-popup/item_2/id = 2
-popup/item_3/text = "NOT Equal To"
-popup/item_3/id = 3
-popup/item_4/text = "Greater Than OR Equal To"
-popup/item_4/id = 4
-popup/item_5/text = "Less Than OR Equal To"
-popup/item_5/id = 5
-
-[node name="input_templateBuffer" parent="Is_DropDown" index="2"]
-visible = false
-
-[node name="Is_Text" parent="." instance=ExtResource("7")]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-label_text = " Is"
+label_text = "IS"
 is_label_button = false
 
-[node name="Input" parent="Is_Text" index="1"]
-editable = false
-
-[node name="input_templateBuffer" parent="Is_Text" index="2"]
-visible = false
-
-[node name="Is_Value_Text" parent="." instance=ExtResource("7")]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-label_text = "Text Value"
+[node name="Static_Option" parent="." instance=ExtResource("5_f1jwx")]
+custom_minimum_size = Vector2(100, 25)
+layout_mode = 2
+size_flags_horizontal = 1
+true_text = "Static"
+false_text = "Select"
+label_text = "Var Type"
 is_label_button = false
 
-[node name="input_templateBuffer" parent="Is_Value_Text" index="2"]
+[node name="RightOperator" parent="." instance=ExtResource("3_wrdmd")]
 visible = false
+layout_mode = 2
+is_left = false
 
-[node name="Is_Value_Float" parent="." instance=ExtResource("8")]
+[node name="Label_Button" parent="RightOperator/TopLabel/HBox1" index="0"]
+text = "VALUE"
+
+[node name="Input" parent="RightOperator/TableKeyField_Combo/Table_DropDown" index="1"]
+item_count = 3
+popup/item_0/text = "Global Data"
+popup/item_1/text = "Items"
+popup/item_2/text = "Testing Table"
+
+[node name="Key_DropDown" parent="RightOperator/TableKeyField_Combo" index="1"]
+selection_table_name = "Global Data"
+
+[node name="Input" parent="RightOperator/TableKeyField_Combo/Key_DropDown" index="1"]
+item_count = 1
+popup/item_0/text = "2"
+
+[node name="Input" parent="RightOperator/TableKeyField_Combo/Field_DropDown" index="1"]
+popup/item_0/text = "Active Character"
+popup/item_1/text = "Default Controls"
+popup/item_2/text = "Default Dialog Box"
+popup/item_3/text = "Default GUI"
+popup/item_4/text = "Default In-Game Menu"
+popup/item_5/text = "Default Menu Controls"
+popup/item_6/text = "Default Player Scene"
+popup/item_7/text = "Game State"
+popup/item_8/text = "Loading Screen"
+popup/item_9/text = "Project Root Scene"
+popup/item_10/text = "Starting Character"
+popup/item_11/text = "Starting Map"
+popup/item_12/text = "Title Screen"
+
+[node name="StaticValue1" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+
+[node name="Operations_Dropdown" parent="." instance=ExtResource("6")]
 visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-label_text = "Number Value"
+layout_mode = 2
+size_flags_horizontal = 1
+selection_table_name = "Operations"
+label_text = "Op"
 is_label_button = false
 
-[node name="input_templateBuffer" parent="Is_Value_Float" index="2"]
+[node name="StaticValue2" type="HBoxContainer" parent="."]
 visible = false
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
 
-[node name="Is_Value_Int" parent="." instance=ExtResource("10")]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-label_text = "Number Value"
+[node name="Compare_Option" parent="." instance=ExtResource("5_f1jwx")]
+custom_minimum_size = Vector2(100, 25)
+layout_mode = 2
+size_flags_horizontal = 1
+true_text = "AND"
+false_text = "OR"
+label_text = "Compare Type"
 is_label_button = false
 
-[node name="input_templateBuffer" parent="Is_Value_Int" index="2"]
-visible = false
+[connection signal="button_up" from="DeleteButton" to="." method="_on_delete_button_button_up"]
+[connection signal="checkbox_pressed" from="Static_Option" to="." method="_on_static_option_checkbox_pressed"]
 
-[node name="Is_Value_Bool" parent="." instance=ExtResource("9")]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-label_text = "True or False Value"
-is_label_button = false
-
-[node name="input_templateBuffer" parent="Is_Value_Bool" index="2"]
-visible = false
-
-[connection signal="button_up" from="DeleteButton" to="." method="_on_DeleteButton_button_up"]
-[connection signal="input_selection_changed" from="If_DropDown" to="." method="_on_If_DropDown_selected_item_changed"]
-[connection signal="input_selection_changed" from="If_Table_Name_DropDown" to="." method="_on_If_Table_Name_DropDown_selected_item_changed"]
-[connection signal="input_selection_changed" from="If_Key_Name_DropDown" to="." method="_on_If_Key_Name_DropDown_selected_item_changed"]
-[connection signal="input_selection_changed" from="if_Value_Name_DropDown" to="." method="_on_if_Value_Name_DropDown_selected_item_changed"]
-
-[editable path="Key/Label"]
-[editable path="If_DropDown"]
-[editable path="If_Table_Name_DropDown"]
-[editable path="If_Key_Name_DropDown"]
-[editable path="if_Value_Name_DropDown"]
-[editable path="Is_Event_Variable"]
-[editable path="Is_DropDown"]
-[editable path="Is_Text"]
-[editable path="Is_Value_Text"]
-[editable path="Is_Value_Float"]
-[editable path="Is_Value_Int"]
-[editable path="Is_Value_Bool"]
+[editable path="Key_Display"]
+[editable path="LeftOperator"]
+[editable path="LeftOperator/TopLabel"]
+[editable path="LeftOperator/TableKeyField_Combo/Table_DropDown"]
+[editable path="LeftOperator/TableKeyField_Combo/Key_DropDown"]
+[editable path="LeftOperator/TableKeyField_Combo/Field_DropDown"]
+[editable path="RightOperator"]
+[editable path="RightOperator/TopLabel"]
+[editable path="RightOperator/TableKeyField_Combo/Table_DropDown"]
+[editable path="RightOperator/TableKeyField_Combo/Key_DropDown"]
+[editable path="RightOperator/TableKeyField_Combo/Field_DropDown"]

@@ -2,53 +2,56 @@
 extends Control
 
 @onready var event_input_form_preload := preload("res://addons/UDSEngine/Event_Manager/Event Editor Input Form.tscn")
-#var event_name :String
+@onready var UIMethod_Selection_form:= preload("res://addons/UDSEngine/UI_Manager/popup_UIMethod_Selection.tscn")
+@onready var event_selection_form_preload:= preload("res://addons/UDSEngine/Event_Manager/popup_Event_Selection.tscn")
+
+
 var event_Node : EventHandler
-#var event_node_name : String
 var event_input_form
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
 
 
-# Called when the node enters the scene tree for the first time.
-#func _ready() -> void:
-#	event_input_form = event_input_form_preload.instantiate()
-#	var editor := EditorPlugin.new()
-#	editor.add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_BOTTOM, event_input_form)
-#	event_input_form.visible = false
+func _on_Button_button_up() -> void: #Edit EVent Button
+	var editorPlugin: EditorPlugin = EditorPlugin.new()
+	var editor := EditorScript.new()
+	var selection_array = editor.get_editor_interface().get_selection().get_selected_nodes()
+	if selection_array.size() != 0:
+		if selection_array.size() == 1:
+			var event_node = editor.get_editor_interface().get_selection().get_selected_nodes()[0]
+			var event_name = event_node.event_name
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
+			event_input_form = event_input_form_preload.instantiate()
+			editorPlugin.add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_SIDE_RIGHT, event_input_form)
+#			event_input_form.parent_node = self
+			if event_name == "":
+				event_input_form.show_event_selection_popup()
+				event_input_form.event_node = event_node
+				await event_input_form.event_selection_popup_closed
+				event_name = event_input_form.event_name
+			
+			if event_name != "":
+
+				
+				
+				event_input_form.load_event(event_name)
+		#	event_input_form.get_node("Scroll1/VBox1/HBox2/Save_Page_Button").visible = true
+		#	event_input_form.set_name("EventInputForm")
+
+			$HBoxContainer/Edit_Event_Button.disabled = true
+			await event_input_form.event_editor_input_form_closed
+			$HBoxContainer/Edit_Event_Button.disabled = false
+			
+			editorPlugin.remove_control_from_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_SIDE_RIGHT, event_input_form)
+			event_input_form.queue_free()
 
 
-func _on_Button_button_up() -> void:
-	var editor := EditorPlugin.new()
-	event_input_form = event_input_form_preload.instantiate()
-#	event_input_form.parent_node = self
-
+func _on_assign_function_button_up():
+	var editorPlugin: EditorPlugin = EditorPlugin.new()
+	var uimethod_selection_form = UIMethod_Selection_form.instantiate()
+	editorPlugin.add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_SIDE_RIGHT, uimethod_selection_form)
+	uimethod_selection_form.set_name("UI_Navigation_Selection")
+	$HBoxContainer/Assign_Function.disabled = true
 	
-	editor.add_control_to_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_BOTTOM, event_input_form)
-
-#	event_input_form.visible = true
-	event_input_form.parent_node = self
-	event_input_form.load_event()
-	event_input_form.get_node("Scroll1/VBox1/HBox2/Save_Page_Button").visible = true
-	event_input_form.set_name("EventInputForm")
-#	event_input_form.event_node_name = event_node_name
-	var vsplit := VSplitContainer.new()
-#	vsplit.get_viewport_rect()
-	var window_height  = event_input_form.get_parent().get_viewport_rect().size
-#	print("Window Height is: ", window_height)
-	event_input_form.custom_minimum_size.y = window_height.y - (window_height.y * .5)
-	$HBoxContainer/Edit_Event_Button.disabled = true
-#	yield(event_input_form, "event_editor_input_form_closed")
-	await event_input_form.event_editor_input_form_closed
-	$HBoxContainer/Edit_Event_Button.disabled = false
-#func _on_Event_Tools_visibility_changed() -> void:
-#	if visible:
-#		event_input_form.parent_node = self
-#		event_input_form.event_node_name = event_node_name
-
+	await uimethod_selection_form.input_closed
+	
+	$HBoxContainer/Assign_Function.disabled = false

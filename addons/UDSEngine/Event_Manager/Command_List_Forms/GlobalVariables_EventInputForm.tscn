@@ -1,12 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bu1br7g5v4co7"]
+[gd_scene load_steps=4 format=3 uid="uid://dndsgbbmbncun"]
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_sv5gt"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/GlobalVariables_EventInputForm.gd" id="2_yt462"]
 [ext_resource type="PackedScene" uid="uid://blyuurjsfw16s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="3_peys3"]
-[ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_g0mxl"]
-[ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="5_accm6"]
-[ext_resource type="PackedScene" uid="uid://b4i04twjpw3iu" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="6_iqe52"]
-[ext_resource type="PackedScene" uid="uid://bop4ol1uh1lbf" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn" id="7_xwv06"]
 
 [node name="GlobalVariables_EventInputForm" type="Control"]
 layout_mode = 3
@@ -56,78 +52,135 @@ layout_mode = 2
 text = "Global Variable Changes"
 horizontal_alignment = 1
 
+[node name="TableDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
+visible = false
+layout_mode = 2
+label_text = "Table"
+is_label_button = false
+
+[node name="Label_Button" parent="Control/VBoxContainer/TableDropdown/Label/HBox1" index="0"]
+text = "Table"
+
+[node name="Input" parent="Control/VBoxContainer/TableDropdown" index="1"]
+item_count = 37
+selected = 17
+popup/item_0/text = "Table Data"
+popup/item_0/id = 0
+popup/item_1/text = "Global Data"
+popup/item_1/id = 1
+popup/item_2/text = "DataTypes"
+popup/item_2/id = 2
+popup/item_3/text = "Maps"
+popup/item_3/id = 3
+popup/item_4/text = "Items"
+popup/item_4/id = 4
+popup/item_5/text = "Controls"
+popup/item_5/id = 5
+popup/item_6/text = "Characters"
+popup/item_6/id = 6
+popup/item_7/text = "GlobalOptions"
+popup/item_7/id = 7
+popup/item_8/text = "Character Formation"
+popup/item_8/id = 8
+popup/item_9/text = "Global Settings"
+popup/item_9/id = 9
+popup/item_10/text = "ItemType"
+popup/item_10/id = 10
+popup/item_11/text = "FieldPref"
+popup/item_11/id = 11
+popup/item_12/text = "Control Categories"
+popup/item_12/id = 12
+popup/item_13/text = "Character Classes"
+popup/item_13/id = 13
+popup/item_14/text = "Sprite Groups"
+popup/item_14/id = 14
+popup/item_15/text = "Event Triggers"
+popup/item_15/id = 15
+popup/item_16/text = "Event Table Template"
+popup/item_16/id = 16
+popup/item_17/text = "Global Variables"
+popup/item_17/id = 17
+popup/item_18/text = "Inequalities"
+popup/item_18/id = 18
+popup/item_19/text = "Event Save Data"
+popup/item_19/id = 19
+popup/item_20/text = "Event Movement States"
+popup/item_20/id = 20
+popup/item_21/text = "Dialog Groups"
+popup/item_21/id = 21
+popup/item_22/text = "SFX Groups"
+popup/item_22/id = 22
+popup/item_23/text = "Input Actions"
+popup/item_23/id = 23
+popup/item_24/text = "Game State"
+popup/item_24/id = 24
+popup/item_25/text = "Action Types"
+popup/item_25/id = 25
+popup/item_26/text = "Movement Directions"
+popup/item_26/id = 26
+popup/item_27/text = "Animation States"
+popup/item_27/id = 27
+popup/item_28/text = "Animation Groups"
+popup/item_28/id = 28
+popup/item_29/text = "UI Scenes"
+popup/item_29/id = 29
+popup/item_30/text = "None"
+popup/item_30/id = 30
+popup/item_31/text = "UI Navigation"
+popup/item_31/id = 31
+popup/item_32/text = "Table Category"
+popup/item_32/id = 32
+popup/item_33/text = "Project Settings"
+popup/item_33/id = 33
+popup/item_34/text = "Testing Table"
+popup/item_34/id = 34
+popup/item_35/text = "Local Variables"
+popup/item_35/id = 35
+popup/item_36/text = "Operations"
+popup/item_36/id = 36
+
 [node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
 layout_mode = 2
 selection_table_name = "Global Variables"
 label_text = "Global Variable"
 is_label_button = false
 
-[node name="Label" parent="Control/VBoxContainer/KeyDropdown" index="0"]
-layout_mode = 2
-
-[node name="HBox1" parent="Control/VBoxContainer/KeyDropdown/Label" index="0"]
-layout_mode = 2
-
 [node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
-layout_mode = 2
 text = "Global Variable"
 
-[node name="Hide_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="1"]
-layout_mode = 2
-
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
-layout_mode = 2
+item_count = 4
+selected = 0
+popup/item_0/text = "Is Segment 1 Complete"
+popup/item_0/id = 0
+popup/item_1/text = "Is Segment 2 Complete"
+popup/item_1/id = 1
+popup/item_2/text = "3"
+popup/item_2/id = 2
+popup/item_3/text = "Default Text"
+popup/item_3/id = 3
 
-[node name="input_templateBuffer" parent="Control/VBoxContainer/KeyDropdown" index="2"]
-layout_mode = 2
-
-[node name="TypeDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
+[node name="FieldDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
 layout_mode = 2
 label_text = "Variable Key"
 is_label_button = false
 
-[node name="Label" parent="Control/VBoxContainer/TypeDropdown" index="0"]
-layout_mode = 2
-
-[node name="HBox1" parent="Control/VBoxContainer/TypeDropdown/Label" index="0"]
-layout_mode = 2
-
-[node name="Label_Button" parent="Control/VBoxContainer/TypeDropdown/Label/HBox1" index="0"]
-layout_mode = 2
+[node name="Label_Button" parent="Control/VBoxContainer/FieldDropdown/Label/HBox1" index="0"]
 text = "Variable Key"
 
-[node name="Hide_Button" parent="Control/VBoxContainer/TypeDropdown/Label/HBox1" index="1"]
-layout_mode = 2
-
-[node name="Input" parent="Control/VBoxContainer/TypeDropdown" index="1"]
-layout_mode = 2
-
-[node name="input_templateBuffer" parent="Control/VBoxContainer/TypeDropdown" index="2"]
-layout_mode = 2
+[node name="Input" parent="Control/VBoxContainer/FieldDropdown" index="1"]
+item_count = 4
+selected = 0
+popup/item_0/text = "Display Name"
+popup/item_0/id = 0
+popup/item_1/text = "Number"
+popup/item_1/id = 1
+popup/item_2/text = "Text"
+popup/item_2/id = 2
+popup/item_3/text = "True or False"
+popup/item_3/id = 3
 
 [node name="InputContainer" type="VBoxContainer" parent="Control/VBoxContainer"]
-layout_mode = 2
-
-[node name="True or False" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("4_g0mxl")]
-layout_mode = 2
-size_flags_vertical = 3
-is_label_button = false
-
-[node name="Text" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("5_accm6")]
-visible = false
-layout_mode = 2
-is_label_button = false
-
-[node name="Display Name" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("5_accm6")]
-visible = false
-layout_mode = 2
-
-[node name="Decimal Number" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("6_iqe52")]
-visible = false
-layout_mode = 2
-
-[node name="Whole Number" parent="Control/VBoxContainer/InputContainer" instance=ExtResource("7_xwv06")]
-visible = false
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
@@ -147,10 +200,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Cancel"
 
+[connection signal="input_selection_changed" from="Control/VBoxContainer/TableDropdown" to="." method="_on_table_dropdown_input_selection_changed"]
+[connection signal="input_selection_changed" from="Control/VBoxContainer/FieldDropdown" to="." method="_on_field_dropdown_input_selection_changed"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
 
+[editable path="Control/VBoxContainer/TableDropdown"]
+[editable path="Control/VBoxContainer/TableDropdown/Label"]
 [editable path="Control/VBoxContainer/KeyDropdown"]
 [editable path="Control/VBoxContainer/KeyDropdown/Label"]
-[editable path="Control/VBoxContainer/TypeDropdown"]
-[editable path="Control/VBoxContainer/TypeDropdown/Label"]
+[editable path="Control/VBoxContainer/FieldDropdown"]
+[editable path="Control/VBoxContainer/FieldDropdown/Label"]

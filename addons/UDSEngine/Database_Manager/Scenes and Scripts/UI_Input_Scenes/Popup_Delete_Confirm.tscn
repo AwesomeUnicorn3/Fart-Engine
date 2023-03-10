@@ -9,6 +9,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -23,12 +24,10 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-offset_right = 557.0
-offset_bottom = 151.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
-offset_right = 557.0
-offset_bottom = 73.0
+layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 30
 text = "Are you sure you want to delete %?"
@@ -38,9 +37,7 @@ autowrap_mode = 3
 
 [node name="Label2" type="Label" parent="PanelContainer/VBoxContainer"]
 visible = false
-offset_top = 51.0
-offset_right = 557.0
-offset_bottom = 99.0
+layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 30
 text = "Are you sure you want to delete %?"
@@ -49,23 +46,18 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
-offset_top = 77.0
-offset_right = 557.0
-offset_bottom = 151.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Accept_Button" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
-offset_right = 276.0
-offset_bottom = 74.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Accept"
 
 [node name="Cancel_Button" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
-offset_left = 280.0
-offset_right = 557.0
-offset_bottom = 74.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Cancel"

@@ -13,30 +13,23 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("2")
 selection_table_name = "Table Data"
-label_text = "Table Selection"
 
 [node name="Label" parent="." instance=ExtResource("3")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 900.0
-offset_bottom = 53.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 2
+
+[node name="Label_Button" parent="Label/HBox1" index="0"]
+text = "ItemType_Selection"
 
 [node name="Input" type="OptionButton" parent="."]
 custom_minimum_size = Vector2(0, 50)
-offset_top = 57.0
-offset_right = 900.0
-offset_bottom = 596.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("1")]
-anchor_right = 0.0
-offset_top = 600.0
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 
 [connection signal="item_selected" from="Input" to="." method="_on_Input_item_selected"]
+
+[editable path="Label"]

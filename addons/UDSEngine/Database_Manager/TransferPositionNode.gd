@@ -13,7 +13,7 @@ var CurrentPosition
 func _ready():
 	
 	if get_tree().get_edited_scene_root() != null:
-		var global_data_dict = DBENGINE.import_data(DBENGINE.table_save_path + "Global Data" + DBENGINE.file_format)
+		var global_data_dict = DBENGINE.import_data("Global Data")
 		set_position(current_position)
 		previous_position.x = current_position.x - 5
 	else:

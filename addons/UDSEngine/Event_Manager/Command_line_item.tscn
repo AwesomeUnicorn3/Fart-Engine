@@ -10,60 +10,48 @@
 [ext_resource type="PackedScene" uid="uid://cm1g0oabiuvug" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text_Multiline.tscn" id="8_w54ti"]
 
 [node name="Command_line_item" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 script = ExtResource("1_e07xx")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_right = 61.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="CommandUp" type="Button" parent="VBoxContainer"]
-offset_right = 61.0
-offset_bottom = 298.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 icon = ExtResource("2_c0tqh")
 
 [node name="CommandDown" type="Button" parent="VBoxContainer"]
-offset_top = 302.0
-offset_right = 61.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 icon = ExtResource("3_3oiyx")
 
 [node name="DeleteButton" type="Button" parent="."]
-offset_left = 65.0
-offset_right = 124.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 9
 text = "Delete"
 
 [node name="Key" type="VBoxContainer" parent="."]
-offset_left = 128.0
-offset_right = 191.0
-offset_bottom = 600.0
+layout_mode = 2
 theme = ExtResource("2_n3ina")
 script = ExtResource("3_ttj7m")
 label_text = "Key"
 is_label_button = false
 
 [node name="Label" parent="Key" instance=ExtResource("4_3gskb")]
-anchor_right = 0.0
-offset_right = 63.0
+layout_mode = 2
 
 [node name="Label_Button" parent="Key/Label/HBox1" index="0"]
-offset_right = 63.0
-offset_bottom = 30.0
 text = "Key"
 
 [node name="Input" type="LineEdit" parent="Key"]
-offset_top = 29.0
-offset_right = 63.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "0"
@@ -73,37 +61,27 @@ max_length = 100
 editable = false
 selecting_enabled = false
 caret_blink = true
-caret_blink_speed = 0.5
 
 [node name="input_templateBuffer" parent="Key" instance=ExtResource("5_qewnm")]
 visible = false
-anchor_right = 0.0
-offset_top = 316.0
-offset_right = 63.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="ScriptInput" parent="." instance=ExtResource("8_w54ti")]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 195.0
-offset_right = 858.0
-offset_bottom = 600.0
+layout_mode = 2
 is_label_button = false
 
 [node name="Label" parent="ScriptInput" index="0"]
-offset_right = 663.0
+layout_mode = 2
 
 [node name="Input" parent="ScriptInput" index="1"]
-offset_right = 663.0
+layout_mode = 2
 
 [node name="input_templateBuffer" parent="ScriptInput" index="2"]
-offset_right = 663.0
+layout_mode = 2
 
 [node name="EditCommand" type="Button" parent="."]
-offset_left = 862.0
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 9
 text = "Edit"
 

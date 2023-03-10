@@ -13,88 +13,77 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_3w4a2")
-ignore_texture_size = true
+expand_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="EmptySpaceContainer" type="VBoxContainer" parent="VBoxContainer"]
-offset_right = 900.0
-offset_bottom = 362.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.75
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-offset_top = 366.0
-offset_right = 900.0
-offset_bottom = 573.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="LeftBuffer" type="Label" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
-offset_right = 20.0
-offset_bottom = 207.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="SpeakerIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
-offset_left = 24.0
-offset_right = 193.0
-offset_bottom = 207.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 texture = ExtResource("1_ckgmd")
-ignore_texture_size = true
+expand_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="VBoxContainer/HBoxContainer/SpeakerIcon"]
 show_behind_parent = true
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 18.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-offset_left = 197.0
-offset_right = 876.0
-offset_bottom = 207.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-offset_right = 679.0
-offset_bottom = 26.0
+layout_mode = 2
 
 [node name="AnimationBuffer" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(100, 0)
-offset_top = 1.0
-offset_right = 100.0
-offset_bottom = 24.0
+layout_mode = 2
 
 [node name="SpeakerName" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-offset_right = 114.0
-offset_bottom = 26.0
+layout_mode = 2
 text = "Speaker Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SpeakerNode" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/SpeakerName"]
 show_behind_parent = true
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -102,26 +91,21 @@ grow_vertical = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 texture = ExtResource("3_ilxgr")
-ignore_texture_size = true
+expand_mode = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-offset_left = 118.0
-offset_top = 1.0
-offset_right = 679.0
-offset_bottom = 24.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="DialogTextBackground" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
-offset_top = 30.0
-offset_right = 679.0
-offset_bottom = 207.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("3_ilxgr")
-ignore_texture_size = true
+expand_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/DialogTextBackground"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
@@ -133,15 +117,13 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer/DialogTextBackground/VBoxContainer"]
-offset_right = 633.0
-offset_bottom = 127.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
 [node name="DialogText" type="Label" parent="VBoxContainer/HBoxContainer/VBoxContainer/DialogTextBackground/VBoxContainer/ScrollContainer"]
-offset_right = 625.0
-offset_bottom = 234.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Default Dialog....
@@ -157,16 +139,14 @@ vertical_alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
-offset_left = 880.0
-offset_right = 900.0
-offset_bottom = 207.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Label3" type="Label" parent="VBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
-offset_top = 577.0
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_vertical = 1
 
 [node name="SpriteAnimationIcon" type="AnimatedSprite2D" parent="."]
+top_level = true
+position = Vector2(-750, -488)

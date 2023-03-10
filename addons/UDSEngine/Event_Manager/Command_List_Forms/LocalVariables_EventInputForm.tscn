@@ -16,7 +16,7 @@ theme = ExtResource("1_6kj6f")
 script = ExtResource("2_wpsky")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -24,7 +24,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Control" type="Control" parent="."]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -39,7 +39,7 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -6.0
@@ -50,33 +50,26 @@ grow_vertical = 2
 
 [node name="Label" type="Label" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(0, 25)
-offset_right = 384.0
-offset_bottom = 31.0
-text = "Change Local Variable State"
+layout_mode = 2
+text = "Change Local Variable Value"
 horizontal_alignment = 1
 uppercase = true
 
-[node name="ItemType_Selection" parent="Control/VBoxContainer" instance=ExtResource("1_qinty")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 35.0
-offset_right = 384.0
-offset_bottom = 123.0
-grow_horizontal = 1
-grow_vertical = 1
+[node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("1_qinty")]
+visible = false
+layout_mode = 2
+selection_table_name = "Local Variables"
+label_text = "Which Event"
+is_label_button = false
+
+[node name="FieldDropdown" parent="Control/VBoxContainer" instance=ExtResource("1_qinty")]
+layout_mode = 2
+selection_table_name = "Local Variables"
 label_text = "Which Local Variable"
 is_label_button = false
 
 [node name="Checkbox_Template" parent="Control/VBoxContainer" instance=ExtResource("2_jq8k8")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 127.0
-offset_right = 384.0
-offset_bottom = 197.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 2
 size_flags_vertical = 3
 is_label_button = false
 showLabel = false
@@ -85,42 +78,24 @@ show_field = true
 [node name="Label" parent="Control/VBoxContainer/Checkbox_Template" index="0"]
 visible = false
 
-[node name="Hbox1" parent="Control/VBoxContainer/Checkbox_Template" index="1"]
-offset_top = 0.0
-offset_right = 384.0
-offset_bottom = 66.0
-
-[node name="Background" parent="Control/VBoxContainer/Checkbox_Template/Hbox1" index="1"]
-offset_right = 384.0
-offset_bottom = 66.0
-
-[node name="input_templateBuffer" parent="Control/VBoxContainer/Checkbox_Template" index="2"]
-offset_top = 70.0
-offset_right = 384.0
-offset_bottom = 70.0
-
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
-offset_top = 201.0
-offset_right = 384.0
-offset_bottom = 272.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Accept" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
-offset_right = 190.0
-offset_bottom = 71.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
-offset_left = 194.0
-offset_right = 384.0
-offset_bottom = 71.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Cancel"
 
+[connection signal="input_selection_changed" from="Control/VBoxContainer/KeyDropdown" to="." method="_on_key_dropdown_input_selection_changed"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
 

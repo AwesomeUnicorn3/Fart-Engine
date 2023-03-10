@@ -9,11 +9,6 @@ func _init() -> void:
 	type = "6"
 
 
-#func _ready():
-#	inputNode = $HBoxContainer/ColorRect/Input
-#	labelNode = $Label/HBox1/Label_Button
-
-
 func _on_TextureButton_button_up():
 	on_text_changed(true)
 	var FileSelectDialog = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
@@ -28,7 +23,7 @@ func _on_TextureButton_button_up():
 	popupDialog.set_access(2)
 	popupDialog.set_filters(Array(["*.png"]))
 	popupDialog.file_selected.connect(_on_FileDialog_file_selected)
-	popupDialog.cancelled.connect(remove_dialog)
+	popupDialog.canceled.connect(remove_dialog)
 
 
 func remove_dialog():
@@ -38,7 +33,6 @@ func remove_dialog():
 		par.get_node("Popups").visible = false
 	par.get_node("Popups/FileSelect").visible = false
 	fileSelectedNode.queue_free()
-	
 
 
 func _on_FileDialog_file_selected(path):
@@ -52,13 +46,26 @@ func _on_FileDialog_file_selected(path):
 		curr_icon_path.set_texture_normal(load(str(new_file_path)))
 	else:
 		var dir :DirAccess = DirAccess.open(par.table_save_path + par.icon_folder)
-		#dir.open(par.table_save_path + par.icon_folder)
 		await dir.copy(path, new_file_path)
-		
 		if par.is_file_in_folder(par.icon_folder, new_file_name):
 			print("File Not Added")
 		else:
 			print("File Added")
-			await par.refresh_editor()
-			print("Scan Complete")
+			var editor  = load("res://addons/UDSEngine/EditorEngine.gd").new()
+			editor.refresh_editor(self)
+			await editor.Editor_Refresh_Complete
 			curr_icon_path.set_texture_normal(load(str(new_file_path)))
+
+
+func _get_input_value() -> String:
+	var return_value :String
+	return_value = inputNode.get_texture_normal().get_path().get_file()
+	return return_value
+
+
+func _set_input_value(node_value):
+	var texture_path:String = node_value
+	if texture_path == "empty":
+		texture_path = default
+	var tempBtn :TextureButton = inputNode
+	tempBtn.set_texture_normal(load(DBENGINE.table_save_path + DBENGINE.icon_folder + texture_path))

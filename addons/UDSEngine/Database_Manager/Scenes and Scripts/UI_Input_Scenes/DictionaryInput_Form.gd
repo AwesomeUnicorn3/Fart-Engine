@@ -33,10 +33,10 @@ func updateMainDict():
 	for i in inputContainer.get_children():
 		for j in i.get_children():
 			if j.name != "DeleteButton":
-				if str(j.name) != str(update_match(j)):
-					mainDictionary[key][j.name] = update_match(j)
+				if str(j.name) != str(get_value_from_input_node(j)):
+					mainDictionary[key][j.name] = get_value_from_input_node(j)
 				else:
-					key = update_match(j)
+					key = get_value_from_input_node(j)
 	source_node.inputNode.set_text(var_to_str(mainDictionary))
 	source_node.main_dictionary = mainDictionary
 
@@ -71,7 +71,7 @@ func create_input_fields():
 			dataType_Field.populate_list()
 			dataType_Field.inputNode.item_selected.connect(input_dict.item_selected)
 			var display_name = mainDictionary[i]["Datatype " + str(j)]
-			var get_select_item = dataType_Field.get_id(display_name)
+			var get_select_item = dataType_Field.get_dropdown_index_from_key(display_name)
 
 			if dataType_Field.has_method("_on_Input_item_selected"):
 				var itemSelected = dataType_Field._on_Input_item_selected(get_select_item)
@@ -80,7 +80,7 @@ func create_input_fields():
 			dataType_Field.labelNode.set_text("Datatype " + str(j))
 
 			var datatype :String = mainDictionary[i]["Datatype " + str(j)]
-			var datatype_dict :Dictionary = import_data(table_save_path + "DataTypes" + file_format)
+			var datatype_dict :Dictionary = import_data("DataTypes")
 			for key in datatype_dict:
 				if datatype_dict[key]["Display Name"] == datatype:
 					datatype = key

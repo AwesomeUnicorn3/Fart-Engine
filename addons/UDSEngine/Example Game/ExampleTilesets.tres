@@ -1,7 +1,7 @@
-[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://dqncxnu3orw4q"]
+[gd_resource type="TileSet" load_steps=6 format=3]
 
 [ext_resource type="Texture2D" uid="uid://bdp03jh53715c" path="res://addons/UDSEngine/Example Game/Kenney Assets/roguelike-pack/Spritesheet/roguelikeSheet_transparent.png" id="1_t3lou"]
-[ext_resource type="Texture2D" uid="uid://c5vxcn5cjuspx" path="res://addons/UDSEngine/Example Game/gfx/Overworld.png" id="2_6cgcs"]
+[ext_resource type="Texture2D" uid="uid://c5vxcn5cjuspx" path="res://addons/UDSEngine/Example Game/gfx Assets/Overworld.png" id="2_6cgcs"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_dgje3"]
 tile_data = PackedInt32Array(0, 327681, 16, 65536, 327681, 17, 1, 393217, 16, 65537, 393217, 17)

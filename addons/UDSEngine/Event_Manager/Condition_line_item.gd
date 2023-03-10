@@ -1,164 +1,160 @@
 @tool
 extends DatabaseEngine
 
+
+
+@onready var right_operator := $RightOperator
+@onready var left_operator = $LeftOperator
+
+@onready var key_display := $Key_Display
+@onready var inequality_dropdown := $Inequality_Dropdown
+@onready var static_option = $Static_Option
+@onready var static_value_1 = $StaticValue1
+@onready var operations_dropdown = $Operations_Dropdown
+@onready var static_value_2 = $StaticValue2
+@onready var compare_option = $Compare_Option
+
+
+
+
 var table = "DataTypes"
 var relatedNodeName
 var parent_node : Object
+var inequalities_table:Dictionary ={}
 var line_item_dictionary :Dictionary = {}
+var text_inequality_dict: Dictionary = {}
+var text_inequality_raw_dict:Dictionary = {}
+var filtered_right_table:Dictionary = {}: 
+	set = set_right_operators
 
-
-@onready var Key_field = $Key
-@onready var If := $If_DropDown
-@onready var If_Table_Node := $If_Table_Name_DropDown
-@onready var If_Key_Node := $If_Key_Name_DropDown
-@onready var If_Value_Node := $if_Value_Name_DropDown
-@onready var Is := $Is_DropDown
-@onready var Is_Text_Node := $Is_Text
-@onready var Is_Value_Text := $Is_Value_Text
-@onready var Is_Value_Float := $Is_Value_Float
-@onready var Is_Value_Bool := $Is_Value_Bool
-@onready var If_Event_Variable := $Is_Event_Variable
-@onready var Is_Value_Int := $Is_Value_Int
-
-var condition_type : String
 
 func _ready() -> void:
-#	Key_field = $Key
-#	If = $If_DropDown
-#	If_Table_Node = $If_Table_Name_DropDown
-#	If_Key_Node = $If_Key_Name_DropDown
-#	If_Value_Node = $if_Value_Name_DropDown
-#	Is = $Is_DropDown
-#	Is_Text_Node = $Is_Text
-#	Is_Value_Text = $Is_Value_Text
-#	Is_Value_Float = $Is_Value_Float
-#	Is_Value_Bool = $Is_Value_Bool
-#	If_Event_Variable = $Is_Event_Variable
-#	Is_Value_Int = $Is_Value_Int
-	Is.populate_list()
+	right_operator.is_left = false
+	get_inequality_dicts()
+	static_option._set_input_value(true)
+	compare_option._set_input_value(true)
+	operations_dropdown.populate_list()
 
 
-func item_selected(value):
-	pass
+func set_right_operators(value:Dictionary):
+	if right_operator != null:
+		filtered_right_table = value
+		right_operator.filter_by_datatype()
+		filter_inequalities()
+
+		var table_ID:String = left_operator.table_drop_down.selectedItemKey
+		var key_ID:String = left_operator.key_drop_down.selectedItemKey
+		var field_ID:String = left_operator.field_drop_down.selectedItemKey
+		add_input_node_for_event_condition(table_ID, key_ID, field_ID, $StaticValue2)
+		add_input_node_for_event_condition(table_ID, key_ID, field_ID)
 
 
-func set_line_item_dictionary():
-	line_item_dictionary = {}
-	for item_node in get_children():
-		if item_node.visible:
-			if item_node.name != "DeleteButton" and item_node.name != "Key":
-				var tableName = ""
-				if item_node.type == "5":
-					tableName = item_node.selection_table_name
-				line_item_dictionary[item_node.name] = {"value" :item_node.inputNode.get_text(), "table_name" : tableName}
+func filter_inequalities():
+	var datatype = left_operator.selected_datatype
+	var datatype_dict: Dictionary = import_data("Datatypes")
+	var is_datatype_number:bool = convert_string_to_type(datatype_dict[datatype]["Is Number"])
+	if !is_datatype_number:
+		inequality_dropdown.populate_list_with_sorted_table(text_inequality_dict)
+		$Operations_Dropdown.visible = false
+		$StaticValue2.visible = false
+	else:
+		inequality_dropdown.populate_list()
+		$Operations_Dropdown.visible = true
+		$StaticValue2.visible = true
 
 
-func _on_DeleteButton_button_up() -> void:
-	var keyValue = Key_field.inputNode.text
-	parent_node._delete_selected_list_item(keyValue)
+func get_inequality_dicts():
+	inequalities_table = import_data(inequality_dropdown.selection_table_name)
+	var datatype_table:Dictionary = import_data("DataTypes")
 
-
-
-func _on_If_DropDown_selected_item_changed() -> void:
-	condition_type = If.selectedItemName
-	print(condition_type)
-	If_Key_Node.visible = false
-	If_Value_Node.visible = false
-	If_Table_Node.visible = false
-	Is.visible = false
-	Is_Text_Node.visible = false
-	Is.inputNode.disabled = false
-	Is.inputNode.flat = false
-	Is_Value_Bool.visible = false
-	Is_Value_Text.visible = false
-	Is_Value_Float.visible = false
-	If_Event_Variable.visible = false
-	Is_Value_Int.visible = false
-
-	match condition_type:
-		"Global Variable":
-			If_Table_Node.populate_list()
-			If_Table_Node.selectedItemName = "Global Variables"
-			_on_If_Table_Name_DropDown_selected_item_changed()
-			If_Key_Node.visible = true
-
-
-		"Inventory Item":
-			If_Table_Node.selectedItemName = "Items"
-			_on_If_Table_Name_DropDown_selected_item_changed()
-			Is_Text_Node.inputNode.set_text("In Player Inventory")
-			Is_Text_Node.visible = true
-			If_Key_Node.visible = true
-
-
-		"Event Variable":
-#			Is_Node.select_index()
-			If_Event_Variable.selection_table = parent_node.local_variable_dictionary
-			If_Event_Variable.selection_table_name = "" #REPLACE THIS WITH DICTIONARY INPUT IN EVENT TABLE???
-			If_Event_Variable.populate_list(false)
-			If_Event_Variable.visible = true
-			
-			Is_Text_Node.inputNode.set_text("Equal To")
-			Is_Text_Node.visible = true
-			Is_Value_Bool.visible = true
+	var index:int = 1
+	for key in inequalities_table:
+		var is_text_operator:bool = convert_string_to_type(inequalities_table[key]["Is Text Operator"])
+		if is_text_operator:
+			text_inequality_raw_dict[key] = inequalities_table[key]
+			var displayName:String = convert_string_to_type(inequalities_table[key]["Display Name"])["text"]
+			text_inequality_dict[str(index)] = [displayName, key, "0"] 
+			index += 1
 
 
 
-func _on_If_Table_Name_DropDown_selected_item_changed() -> void:
-	var table_name :String = If_Table_Node.selectedItemName
-	If_Key_Node.selection_table_name = table_name
-	If_Key_Node.populate_list()
-	If_Key_Node.select_index()
-	_on_If_Key_Name_DropDown_selected_item_changed()
+func add_input_node_for_event_condition(table_name:String, key_ID:String, field_ID: String, newParent :Node= static_value_1 ):
+	var datatype = left_operator.selected_datatype
+	for child in newParent.get_children():
+		child.queue_free()
+	var new_input_node = create_independant_input_node(table_name, key_ID, field_ID )
+	new_input_node.label_text = "VALUE"
+	new_input_node.is_label_button = false
+	new_input_node.show_field= true
+	new_input_node.set_custom_minimum_size(Vector2(150,50))
+	new_input_node.set_h_size_flags(SIZE_EXPAND)
+	newParent.add_child(new_input_node)
+	if datatype == "5":
+		var left_field_ref_table: String = get_reference_table(table_name, key_ID, field_ID)
+		new_input_node.selection_table_name = left_field_ref_table
+		new_input_node.populate_list()
+
+
+
+func show_right_side_selection(show:bool):
+	right_operator.visible = show
+
+
+func show_right_side_input_node(show:bool):
+	static_value_1.visible = show
+
+
+func _on_static_option_checkbox_pressed(button_pressed):
+	show_right_side_selection(!button_pressed)
+	show_right_side_input_node(button_pressed)
+
+
+func get_key_ID():
+	var return_val:String
+	return_val = key_display.get_input_value()["text"]
+	return return_val
+
+
+func get_input_value():
+	var return_dict:Dictionary = {}
+	return_dict["Inequalities"] = inequality_dropdown.get_input_value()
+	return_dict["Datatype"] =  left_operator.selected_datatype
+	return_dict["Is Static"] = static_option.get_input_value()
+	return_dict["Optional Operations"] = operations_dropdown.get_input_value()
+	return_dict["Is And"] = compare_option.get_input_value()
 	
-
-func _on_If_Key_Name_DropDown_selected_item_changed() -> void:
-	var key_name :String = If_Key_Node.selectedItemName
-	If_Value_Node.selection_table_name = key_name
-	if !If_Key_Node.selection_table.has(key_name) and If_Key_Node.selection_table[If_Key_Node.selection_table.keys()[0]].has("Display Name") :
-		for i in If_Key_Node.selection_table:
-			if If_Key_Node.selection_table[i]["Display Name"] == key_name:
-				If_Value_Node.selection_table = If_Key_Node.selection_table[i]
-				break
-	elif If_Key_Node.selection_table.has(key_name) :
-		If_Value_Node.selection_table =  If_Key_Node.selection_table[key_name]
+	if static_value_1.get_children().size() != 0:
+		return_dict["Static Value 1"] = static_value_1.get_child(0).get_input_value()
+	if static_value_2.get_children().size() != 0:
+		return_dict["Static Value 2"] = static_value_2.get_child(0).get_input_value()
+		
+	return_dict["Compare Left"] = left_operator.get_input_value()
+	return_dict["Variable Value"] = right_operator.get_input_value()
 	
-	match condition_type:
-		"Global Variable":
-			If_Value_Node.populate_list(false)
-			If_Value_Node.select_index()
-			If_Value_Node.visible = true
-			_on_if_Value_Name_DropDown_selected_item_changed()
-			
-		"Inventory Item":
-			pass
-			
-		"Event Variable":
-			pass
+	return return_dict
 
 
-func _on_if_Value_Name_DropDown_selected_item_changed() -> void:
-	var value_type :String = If_Value_Node.selectedItemName
-	var data_type :String = get_value_type(value_type, import_data(table_save_path + If_Table_Node.selectedItemName + table_info_file_format ))
-	Is_Value_Text.visible = false
-	Is_Value_Float.visible = false
-	Is_Value_Int.visible = false
-	Is_Value_Bool.visible = false
-	Is_Text_Node.visible = false
-	Is.visible = false
+func set_input_values(value:Dictionary):
+	if value != {}:
+		left_operator.set_input_values(value["Compare Left"])
+		await get_tree().create_timer(0.5).timeout
+		right_operator.set_input_values(value["Variable Value"])
+#		print("SET INPUT VALUES")
+		filter_inequalities()
+		
+		inequality_dropdown.set_value_do_not_populate(value["Inequalities"])
+		
+		static_option.set_input_value(convert_string_to_type(value["Is Static"]))
+		operations_dropdown.set_value_do_not_populate(value["Optional Operations"])
+		compare_option.set_input_value(convert_string_to_type(value["Is And"]))
 
-	match data_type:
-		"1":
-			Is_Text_Node.inputNode.set_text("Equal To")
-			Is_Text_Node.visible = true
-			Is_Value_Text.visible = true
-		"3":
-			Is.visible = true
-			Is_Value_Float.visible = true
-		"2":
-			Is_Value_Int.visible = true
-			Is.visible = true
-		"4":
-			Is_Text_Node.visible = true
-			Is_Text_Node.inputNode.set_text("Equal To")
-			Is_Value_Bool.visible = true
+		#must be set last
+		static_value_1.get_child(0).set_input_value(value["Static Value 1"])
+		static_value_2.get_child(0).set_input_value(value["Static Value 2"])
+		
+
+
+func _on_delete_button_button_up():
+	var keyID:String = get_key_ID()
+	get_node("../../../..")._delete_selected_list_item(keyID)
+

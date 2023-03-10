@@ -7,17 +7,26 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Edit_Event_Button" type="Button" parent="HBoxContainer"]
-offset_right = 85.0
-offset_bottom = 600.0
+visible = false
+layout_mode = 2
 size_flags_vertical = 3
 text = "Edit Event"
 
+[node name="Assign_Function" type="Button" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+text = "Assign Function"
+
 [connection signal="button_up" from="HBoxContainer/Edit_Event_Button" to="." method="_on_Button_button_up"]
+[connection signal="button_up" from="HBoxContainer/Assign_Function" to="." method="_on_assign_function_button_up"]

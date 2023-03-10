@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://hs28786utbeg"]
+[gd_scene load_steps=10 format=3 uid="uid://hs28786utbeg"]
 
 [ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_ivdqc"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c4016gus0s1sj" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Popups.tscn" id="7_dgruc"]
 [ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://sobivcwbjq2t" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.tscn" id="8_dq72o"]
+[ext_resource type="PackedScene" uid="uid://bormmevkvb1kv" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.tscn" id="9_f50lx"]
 
 [node name="Tab_Template" type="Control" groups=["Tab"]]
 layout_mode = 3
@@ -18,14 +19,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ivdqc")
 script = ExtResource("6")
+metadata/_edit_horizontal_guides_ = [636.0]
 
 [node name="Background" parent="." instance=ExtResource("2")]
+layout_mode = 1
 anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBox1" type="VBoxContainer" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -33,263 +36,312 @@ grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
-offset_right = 900.0
-offset_bottom = 56.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="RefreshData_Button" type="Button" parent="VBox1/HBox1"]
-offset_right = 75.0
-offset_bottom = 56.0
+layout_mode = 2
 text = "Refresh 
 Table"
 
 [node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox1"]
-offset_left = 79.0
-offset_right = 557.0
-offset_bottom = 56.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/CenterContainer"]
-offset_left = 99.0
-offset_top = 17.0
-offset_right = 379.0
-offset_bottom = 38.0
+layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
 [node name="AddNewTable_Button" type="Button" parent="VBox1/HBox1"]
-visible = false
+layout_mode = 2
 text = "New Table"
 
 [node name="DeleteTable_Button" type="Button" parent="VBox1/HBox1"]
-visible = false
+layout_mode = 2
 text = "Delete Table"
-
-[node name="Button_Separator" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
-visible = false
-
-[node name="SaveNewKey_Button" type="Button" parent="VBox1/HBox1"]
-visible = false
-text = "Save New Key"
 
 [node name="Button_Separator2" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
 visible = false
+layout_mode = 2
 
 [node name="AddNewKey_Button" type="Button" parent="VBox1/HBox1"]
-offset_left = 561.0
-offset_right = 689.0
-offset_bottom = 56.0
+visible = false
+layout_mode = 2
 text = "Add New Key"
 
 [node name="Button_Separator3" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
 visible = false
+layout_mode = 2
+
+[node name="DuplicateKey_Button" type="Button" parent="VBox1/HBox1"]
+visible = false
+layout_mode = 2
+text = "Duplicate Key"
+
+[node name="Button_Separator5" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
+visible = false
+layout_mode = 2
 
 [node name="DeleteSelectedKey_Button" type="Button" parent="VBox1/HBox1"]
-offset_left = 693.0
-offset_right = 796.0
-offset_bottom = 56.0
+visible = false
+layout_mode = 2
 text = "Delete Key"
 
 [node name="Button_Separator4" parent="VBox1/HBox1" instance=ExtResource("4_22jb8")]
 visible = false
-
-[node name="CancelChanges_Button" type="Button" parent="VBox1/HBox1"]
-visible = false
-text = "Cancel Changes"
+layout_mode = 2
 
 [node name="SaveChanges_Button" type="Button" parent="VBox1/HBox1"]
 custom_minimum_size = Vector2(100, 0)
-offset_left = 800.0
-offset_right = 900.0
-offset_bottom = 56.0
+layout_mode = 2
 text = "Save"
 
 [node name="TableName" parent="VBox1" instance=ExtResource("1")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 60.0
-offset_right = 900.0
-offset_bottom = 114.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 2
 label_text = "Table Name"
 is_label_button = false
 
 [node name="Label" parent="VBox1/TableName" index="0"]
 custom_minimum_size = Vector2(0, 50)
-offset_bottom = 50.0
 
 [node name="HBox1" parent="VBox1/TableName/Label" index="0"]
 custom_minimum_size = Vector2(0, 30)
 
 [node name="Label_Button" parent="VBox1/TableName/Label/HBox1" index="0"]
-offset_bottom = 50.0
 text = "Table Name"
 
 [node name="Input" parent="VBox1/TableName" index="1"]
 visible = false
 custom_minimum_size = Vector2(0, 25)
 
-[node name="input_templateBuffer" parent="VBox1/TableName" index="2"]
-offset_top = 54.0
-offset_bottom = 54.0
-
 [node name="Key" parent="VBox1" instance=ExtResource("1")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 118.0
-offset_right = 900.0
-offset_bottom = 185.0
-grow_horizontal = 1
-grow_vertical = 1
+layout_mode = 2
 label_text = "Key"
+is_label_button = false
 
 [node name="HBox1" parent="VBox1/Key/Label" index="0"]
 custom_minimum_size = Vector2(0, 30)
 
 [node name="Label_Button" parent="VBox1/Key/Label/HBox1" index="0"]
-offset_bottom = 30.0
 text = "Key"
 
 [node name="Input" parent="VBox1/Key" index="1"]
 custom_minimum_size = Vector2(0, 25)
-offset_bottom = 63.0
-
-[node name="input_templateBuffer" parent="VBox1/Key" index="2"]
-offset_top = 67.0
-offset_bottom = 67.0
+editable = false
 
 [node name="HBox2" type="HBoxContainer" parent="VBox1"]
-offset_top = 189.0
-offset_right = 900.0
-offset_bottom = 225.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox2"]
-offset_right = 678.0
-offset_bottom = 36.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox2/CenterContainer"]
-offset_left = 338.0
-offset_top = 9.0
-offset_right = 339.0
-offset_bottom = 27.0
+layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
 
 [node name="AddNewField_Button" type="Button" parent="VBox1/HBox2"]
-offset_left = 682.0
-offset_right = 777.0
-offset_bottom = 36.0
+layout_mode = 2
 text = "New Field"
 
 [node name="Button_Separator" parent="VBox1/HBox2" instance=ExtResource("4_22jb8")]
-offset_top = 4.0
-offset_bottom = 32.0
+layout_mode = 2
 
 [node name="DeleteField_Button" type="Button" parent="VBox1/HBox2"]
-offset_left = 786.0
-offset_right = 900.0
-offset_bottom = 36.0
+layout_mode = 2
 text = "Delete Field"
 
 [node name="HBox3" type="HBoxContainer" parent="VBox1"]
-offset_top = 229.0
-offset_right = 900.0
-offset_bottom = 595.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox3"]
-offset_right = 200.0
-offset_bottom = 366.0
+layout_mode = 2
+follow_focus = true
 horizontal_scroll_mode = 0
 
 [node name="Key_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll1"]
 custom_minimum_size = Vector2(200, 0)
-offset_right = 200.0
-offset_bottom = 366.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox3"]
-offset_left = 204.0
-offset_right = 548.0
-offset_bottom = 366.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll2"]
 custom_minimum_size = Vector2(150, 200)
-offset_right = 344.0
-offset_bottom = 366.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Vetical_Separator" type="PanelContainer" parent="VBox1/HBox3"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 552.0
-offset_right = 552.0
-offset_bottom = 366.0
+layout_mode = 2
 
 [node name="Scroll3" type="ScrollContainer" parent="VBox1/HBox3"]
-offset_left = 556.0
-offset_right = 900.0
-offset_bottom = 366.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll3"]
-offset_right = 344.0
-offset_bottom = 366.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Version_Label" parent="VBox1" instance=ExtResource("8")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 599.0
-offset_right = 900.0
-offset_bottom = 599.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="Popups" parent="." instance=ExtResource("7_dgruc")]
+layout_mode = 1
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FileSelect" parent="Popups" index="0"]
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ListInput" parent="Popups" index="1"]
-grow_horizontal = 2
-grow_vertical = 2
+[node name="32198" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="1"]
+offset_right = 8.0
+offset_bottom = 8.0
 
 [node name="popup_newKey" parent="Popups" instance=ExtResource("8_dq72o")]
 visible = false
+layout_mode = 1
+
+[node name="popup_newTable" parent="Popups" instance=ExtResource("9_f50lx")]
+visible = false
+layout_mode = 1
 
 [node name="Button_Float" type="Node" parent="."]
 
 [connection signal="button_up" from="VBox1/HBox1/RefreshData_Button" to="." method="reload_data_without_saving"]
 [connection signal="button_up" from="VBox1/HBox1/AddNewTable_Button" to="." method="_on_add_new_table_button_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/DeleteTable_Button" to="." method="delete_table"]
-[connection signal="button_up" from="VBox1/HBox1/SaveNewKey_Button" to="." method="_on_SaveNewItem_button_up"]
-[connection signal="button_up" from="VBox1/HBox1/AddNewKey_Button" to="." method="_on_AddNewItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/AddNewKey_Button" to="." method="show_new_key_input_form"]
+[connection signal="button_up" from="VBox1/HBox1/DuplicateKey_Button" to="." method="_on_duplicate_key_button_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/DeleteSelectedKey_Button" to="." method="_on_DeleteSelectedItem_button_up"]
-[connection signal="button_up" from="VBox1/HBox1/CancelChanges_Button" to="." method="_on_Cancel_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/SaveChanges_Button" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/AddNewField_Button" to="." method="_on_AddField_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/DeleteField_Button" to="." method="display_options"]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Data" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Data" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Data" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Data" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Data" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Data" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/DataTypes" to="VBox1/HBox3/Scroll1/Key_List_Vbox/DataTypes" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/DataTypes" to="VBox1/HBox3/Scroll1/Key_List_Vbox/DataTypes" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/DataTypes" to="VBox1/HBox3/Scroll1/Key_List_Vbox/DataTypes" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Maps" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Maps" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Maps" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Maps" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Maps" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Maps" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Items" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Items" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Items" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Items" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Items" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Items" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Controls" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Controls" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Controls" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Controls" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Controls" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Controls" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Characters" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Characters" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Characters" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Characters" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Characters" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Characters" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Options" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Options" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Options" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Options" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Options" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Options" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Formation" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Formation" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Formation" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Formation" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Formation" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Formation" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Settings" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Settings" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Settings" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Settings" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Settings" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Settings" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Item_Type" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Item_Type" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Item_Type" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Item_Type" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Item_Type" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Item_Type" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Field_Pref_Values" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Field_Pref_Values" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Field_Pref_Values" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Field_Pref_Values" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Field_Pref_Values" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Field_Pref_Values" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Control Categories" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Control Categories" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Control Categories" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Control Categories" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Control Categories" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Control Categories" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Classes" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Classes" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Classes" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Classes" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Classes" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Character Classes" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Sprite Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Sprite Groups" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Sprite Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Sprite Groups" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Sprite Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Sprite Groups" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Triggers" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Triggers" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Triggers" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Triggers" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Triggers" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Triggers" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Table Template" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Table Template" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Table Template" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Table Template" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Table Template" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Table Template" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Variables" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Variables" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Variables" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Variables" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Variables" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Global Variables" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Inequalities" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Inequalities" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Inequalities" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Inequalities" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Inequalities" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Inequalities" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Save Data" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Save Data" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Save Data" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Save Data" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Save Data" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Save Data" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Animation States" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Animation States" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Animation States" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Animation States" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Animation States" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event Animation States" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Dialog Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Dialog Groups" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Dialog Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Dialog Groups" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Dialog Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Dialog Groups" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/SFX Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/SFX Groups" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/SFX Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/SFX Groups" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/SFX Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/SFX Groups" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Input Actions" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Input Actions" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Input Actions" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Input Actions" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Input Actions" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Input Actions" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Game State" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Game State" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Game State" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Game State" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Game State" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Game State" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 2" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 2" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 2" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 2" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 2" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 2" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Action Types" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Action Types" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Action Types" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Action Types" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Action Types" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Action Types" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Movement Directions" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Movement Directions" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Movement Directions" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Movement Directions" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Movement Directions" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Movement Directions" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation States" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation States" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation States" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation States" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation States" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation States" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation Groups" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation Groups" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation Groups" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Animation Groups" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 1" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 1" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 1" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 1" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 1" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Event 1" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Scenes" to="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Scenes" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Scenes" to="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Scenes" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Scenes" to="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Scenes" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Blank" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Blank" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Blank" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Blank" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Blank" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Blank" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Navigation" to="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Navigation" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Navigation" to="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Navigation" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Navigation" to="VBox1/HBox3/Scroll1/Key_List_Vbox/UI Navigation" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Table Category" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Table Category" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Table Category" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Table Category" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Table Category" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Table Category" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Project Settings" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Project Settings" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Project Settings" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Project Settings" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Project Settings" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Project Settings" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Testing Table" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Testing Table" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Testing Table" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Testing Table" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Testing Table" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Testing Table" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Local Variables" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Local Variables" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Local Variables" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Local Variables" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox3/Scroll1/Key_List_Vbox/Local Variables" to="VBox1/HBox3/Scroll1/Key_List_Vbox/Local Variables" method="_on_pressed" flags=18]
 [connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept_Button" to="." method="_on_deletePopup_Accept_button_up"]
 [connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel_Button" to="." method="_on__deletePopup_Cancel_button_up"]
 [connection signal="item_selected" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" to="." method="_on_Itemlist_item_selected"]

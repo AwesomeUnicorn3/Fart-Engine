@@ -36,7 +36,7 @@ func update_all_active_quests():
 									if str(obj_total_count) != "empty":
 										if obj_curr_count >= obj_total_count:
 											dict_PlayerQuestData[i]["Objective_" + obj_num + "_Complete"] = true
-									
+
 
 func issue_reward(quest_number, objective_number):
 	dict_quest = AU3ENGINE.Static_Game_Dict["Quest"]
@@ -52,7 +52,6 @@ func issue_reward(quest_number, objective_number):
 			dict_inventory[reward_item] = {"ItemCount" : 0}
 		var inv_count = int(dict_inventory[reward_item]["ItemCount"])
 		dict_inventory[reward_item]["ItemCount"] =  inv_count + reward_value
-#		Global.display_item_gained(reward_item, reward_value)
 		for i in dict_PlayerQuestData:
 			if int(i) != 0:
 				var temp_quest = str(dict_PlayerQuestData[i]["Quest_Number"])

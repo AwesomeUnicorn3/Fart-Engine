@@ -76,7 +76,7 @@ func _on_TextureButton_button_up():
 	popupDialog.set_access(2)
 	popupDialog.set_filters(Array(["*.png"]))
 	popupDialog.file_selected.connect(_on_FileDialog_sprite_file_selected)
-	popupDialog.cancelled.connect(remove_dialog)
+	popupDialog.canceled.connect(remove_dialog)
 
 
 func create_sprite_animation():
@@ -100,6 +100,7 @@ func set_preview_animation_size():
 	
 	if sprite_size.x and sprite_size.y == 1:
 		set_sprite_default_size()
+
 
 func set_sprite_default_size():
 	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"])
@@ -128,8 +129,10 @@ func _on_FileDialog_sprite_file_selected(path: String) -> void:
 		else:
 			print("File Added")
 			#trigger the import process for it to load to texture rect
-			parent_node.refresh_editor()
-			await parent_node.Editor_Refresh_Complete
+			var editor  = load("res://addons/UDSEngine/EditorEngine.gd").new()
+			editor.refresh_editor(self)
+			await editor.Editor_Refresh_Complete
+
 			set_sprite_atlas(new_file_path)
 	get_data_and_create_sprite()
 
@@ -196,8 +199,11 @@ func _set_input_value(node_value):
 
 func set_atlas_data():
 	atlas_dict = {}
+	atlas_h_input = $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/HInput
+	atlas_v_input = $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VInput
+	get_input_node()
 	atlas_dict = input_data["atlas_dict"]
-	frame_vector = atlas_dict["frames"]
+	frame_vector = DBENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
 	atlas_v_input.set_text(str(frame_vector.x))
 	atlas_h_input.set_text(str(frame_vector.y))
 	var sprite_path = DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"]
@@ -205,11 +211,16 @@ func set_atlas_data():
 
 
 func set_advanced_data():
+	vframe = $AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VFrame
+	hframe =$AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/HFrame
+	speed_input =$AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/SpeedInput
+	height_sprite_size =$AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/HeightSpriteSize
+	width_sprite_size =$AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/WidthSpriteSize
 	advanced_dict = {}
 	advanced_dict = input_data["advanced_dict"]
-	frame_range = advanced_dict["frame_range"]
+	frame_range = DBENGINE.convert_string_to_vector(str(advanced_dict["frame_range"]))
 	speed = advanced_dict["speed"]
-	sprite_size = advanced_dict["sprite_size"]
+	sprite_size = DBENGINE.convert_string_to_vector(str(advanced_dict["sprite_size"]))
 	vframe.set_text(str(frame_range.x))
 	hframe.set_text(str(frame_range.y))
 	speed_input.set_text(str(speed))

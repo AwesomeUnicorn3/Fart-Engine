@@ -27,18 +27,12 @@ func _ready() -> void:
 func add_field_data_to_container():
 	DBENGINE.currentData_dict = data_dict
 	field_index = DBENGINE.get_data_index(fieldName, "Column")
-
 	var this_data_dict = data_dict["Column"][field_index]
-	var field_type_dict = DBENGINE.import_data(DBENGINE.table_save_path + "Field_Pref_Values" + DBENGINE.file_format)
-	var data_type_dict = DBENGINE.import_data(DBENGINE.table_save_path + "DataTypes" + DBENGINE.file_format)
-
+	var field_type_dict = DBENGINE.import_data("Field_Pref_Values")
+	var data_type_dict = DBENGINE.import_data("DataTypes")
 	var field_data_type :String = this_data_dict["DataType"]
 	var field_data_dict :Dictionary = str_to_var(data_type_dict[field_data_type]["Display Name"])
 	var input_node_type_name :String = field_data_dict["text"]
-	
-	
-
-	
 
 	for child in $PanelContainer/VBox1/Scroll1/VBox1.get_children():
 		var node_value = DBENGINE.convert_string_to_type(this_data_dict[child.name])
@@ -55,7 +49,7 @@ func add_field_data_to_container():
 				datatype_input = child
 				child.populate_list()
 				datatype_input.input_selection_changed.connect(on_text_changed)
-				var dropdown_index :int = child.get_id(input_node_type_name)
+				var dropdown_index :int = child.get_dropdown_index_from_displayName(input_node_type_name)
 				child.select_index(dropdown_index)
 
 			"RequiredValue":
@@ -71,34 +65,32 @@ func add_field_data_to_container():
 			"TableRef":
 				child.populate_list()
 				var field_table_ref :String = this_data_dict["TableRef"]
-				if field_table_ref != "empty":
-					var field_table_dict :Dictionary = str_to_var(child.selection_table[field_table_ref]["Display Name"])
-					var table_ref_name :String = field_table_dict["text"]
-					datatype_input = child
-					var dropdown_index :int = child.get_id(table_ref_name)
-					child.select_index(dropdown_index)
+				var field_table_dict :Dictionary = str_to_var(child.selection_table[field_table_ref]["Display Name"])
+				var table_ref_name :String = field_table_dict["text"]
+				
+				datatype_input = child
+				var dropdown_index :int = child.get_dropdown_index_from_key(table_ref_name)
+				child.select_index(dropdown_index)
 		child.is_label_button = false
 
 
 func on_text_changed(new_text = "Blank"):
-	if $PanelContainer/VBox1/Scroll1/VBox1/DataType.selectedItemName == "List":
+	var selectedName :String = $PanelContainer/VBox1/Scroll1/VBox1/DataType.get_display_name_from_key($PanelContainer/VBox1/Scroll1/VBox1/DataType.selectedItemKey)
+	if selectedName == "Dropdown List":
 		$PanelContainer/VBox1/Scroll1/VBox1/TableRef.visible = true
 	else:
 		$PanelContainer/VBox1/Scroll1/VBox1/TableRef.visible = false
 
+
 func _on_Input_toggled(button_pressed: bool) -> void:
 	$PanelContainer/VBox1/Field_Input.visible = !button_pressed
-
-#func reset_values():
-#	for i in DATA_CONTAINER.get_children():
-#		i.queue_free()
 
 
 func _on_Accept_button_up() -> void:
 	update_data = true
-	if datatype_input.selectedItemName != initial_data_type:
+	if datatype_input.get_display_name_from_key(datatype_input.selectedItemKey) != initial_data_type:
 		is_datatype_changed = true
-		initial_data_type = datatype_input.selectedItemName
+		initial_data_type = datatype_input.get_display_name_from_key(datatype_input.selectedItemKey)
 	_on_Cancel_button_up()
 
 

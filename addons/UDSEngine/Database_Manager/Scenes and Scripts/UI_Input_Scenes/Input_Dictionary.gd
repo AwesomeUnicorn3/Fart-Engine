@@ -33,3 +33,16 @@ func _on_Add_New_Item_button_up() -> void:
 
 func _on_text_changed():
 	pass
+
+
+func _get_input_value():
+	return var_to_str(main_dictionary)
+
+func _set_input_value(node_value):
+
+	if str(node_value) == "Default":
+		node_value = DBENGINE.convert_string_to_type(default)
+	if typeof(node_value) == TYPE_STRING:
+		node_value = str_to_var(node_value)
+	main_dictionary = node_value
+	inputNode.set_text(str(node_value))

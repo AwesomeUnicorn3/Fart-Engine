@@ -36,9 +36,7 @@ func _on_button_up(index :String, _is_new_key :bool):
 	parent_node.add_child(keyselect_scene)
 	keyselect_scene.is_new_key = is_new_key
 	keyselect_scene.Input_UserInput_scene = self
-#	keyselect_scene.grab
 	on_text_changed(true)
-	
 	await keyselect_scene.closed
 	parent_node.popup_main.visible = false
 	if keyselect_scene.input_key_dict != {}:
@@ -48,18 +46,14 @@ func _on_button_up(index :String, _is_new_key :bool):
 
 	_set_input_value(input_data)
 	keyselect_scene.queue_free()
-#	parent_node.refresh_data(parent_node.Item_Name)
 
 
-	
-	
 func _get_input_value():
 	var return_value :Dictionary = {}
 	input_data = {}
-	options_dict["action"] = $ActionSelection.selectedItemName
+	options_dict["action"] = $ActionSelection._get_input_value()
 	input_data["options_dict"] = options_dict
 	input_data["input_dict"] = input_dict
-	
 	return_value = input_data
 	return return_value
 
@@ -67,11 +61,10 @@ func _get_input_value():
 func _set_input_value(node_value):
 	if typeof(node_value) == 4:
 		node_value = str_to_var(node_value)
-	#print(node_value)
 	input_data = node_value
 	options_dict = input_data["options_dict"]
 	$ActionSelection.populate_list()
-	var action_name_id = $ActionSelection.get_id(options_dict["action"])
+	var action_name_id = $ActionSelection.get_dropdown_index_from_key(options_dict["action"])
 	$ActionSelection.select_index(action_name_id)
 	set_input_data()
 
@@ -88,8 +81,6 @@ func delete_selected_key(index:String):
 				input_dict.erase(str(key + 2))
 	_set_input_value(input_data)
 
-			
-
 
 func add_new_key():
 	var next_index :String = str(input_dict.size() + 1)
@@ -98,34 +89,27 @@ func add_new_key():
 		default_dict  = str_to_var(DBENGINE.get_default_value(type))
 	else:
 		default_dict = DBENGINE.get_default_value(type)
-	#print(default_dict)
 	input_dict[next_index] = default_dict["input_dict"]["1"]
-#	print(input_dict)
 	_set_input_value(input_data)
-#	print(input_dict)
 	var new_input  = $Scroll1/Input.get_node(next_index)
 	new_input.index = next_index
 
 
 func set_input_data():
 	input_dict = input_data["input_dict"]
-
 	for child in $Scroll1/Input.get_children():
 		child.queue_free()
-
 	for index in input_dict:
 		var current_dict :Dictionary
 		if typeof(input_dict) != TYPE_DICTIONARY:
 			current_dict = str_to_var(input_dict[index])
 		else:
 			current_dict = input_dict[index]
-			
 
 		var keyname :String = current_dict["keyname"]
 		var keycode :String = OS.get_keycode_string(str(current_dict["keycode"]).to_int())
 		var edit_button = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_UserInput_Button.tscn").instantiate()
 		$Scroll1/Input.add_child(edit_button)
-
 		edit_button.set_name(index)
 		edit_button.get_node("KeySelectButton/KeyName").set_text(keyname)
 		edit_button.get_node("KeyCode").set_text(str(keycode))

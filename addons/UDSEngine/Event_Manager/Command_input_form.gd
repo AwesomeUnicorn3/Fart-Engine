@@ -8,7 +8,7 @@ signal edit_command
 @onready var CommandLineItem = preload("res://addons/UDSEngine/Event_Manager/Command_line_item.tscn")
 @onready var inputContainer = $VBox1/Scroll1/VBox1
 var mainDictionary : Dictionary = {}
-var local_variable_dictionary : Dictionary 
+#var local_variable_dictionary : Dictionary 
 
 var condition_types_dict : Dictionary = {"Inventory Item": "", "Event Variable": "", "Global Variable": ""}
 var parent_node
@@ -17,8 +17,8 @@ var source_node
 var function_dict :Dictionary = {}
 
 
-func startup(local_variables :Dictionary, main_dictionary:Dictionary, label_text:String, source_scene):
-	local_variable_dictionary = local_variables
+func startup(main_dictionary:Dictionary, label_text:String, source_scene):
+#	local_variable_dictionary = local_variables
 	mainDictionary = main_dictionary
 	source_node = source_scene
 	$VBox1/HBox1/Label.set_text(label_text)
@@ -28,44 +28,34 @@ func startup(local_variables :Dictionary, main_dictionary:Dictionary, label_text
 
 
 func edit_selected_command(key:String):
+#	print("edit selected command")
 	var selected_command_dict :Dictionary = mainDictionary[key]
 	var function_name = selected_command_dict.keys()[0]
 	open_selected_form_for_editing(function_name, selected_command_dict,key )
-	#open LocalVariables_EventInputForm directly from here
-	#add it as a child of "List_Input"
-	#assign the local variable dict to "selection_node"
-	#populate list on selection_node
-	#call set_input_values() 
-	print(function_name)
 
 
 func open_selected_form_for_editing(function_name :String ,old_command_dict:Dictionary, key_value :String) -> void:
 	#show Command List Form
 	var CommandListForm = load("res://addons/UDSEngine/Event_Manager/Command_List_Forms/Command_List_Form.tscn").instantiate()
 	#send key value to command list form so it can append the main dictionary with the new command dict
-
 	await add_child(CommandListForm)
 	CommandListForm.CommandInputForm = self
-	CommandListForm.local_variable_dictionary = local_variable_dictionary
+#	CommandListForm.local_variable_dictionary = local_variable_dictionary
 	CommandListForm._open_selected_form(function_name)
 	CommandListForm.emit_signal("set_input", old_command_dict)
-
-	#wait for form closed
 	await CommandListForm.closed
-
 	if function_dict != {}:
 		mainDictionary[str(key_value)] = function_dict
 	refresh_form()
 	_on_SaveChanges_button_up()
+
 
 func change_command_order(current_index:String, move_amount :int):
 	var new_index :String = str(current_index.to_int() + move_amount)
 	var temp_dict = mainDictionary.duplicate(true)
 	var key_data = mainDictionary[current_index]
 	var mainDictionary_size :int = mainDictionary.size()
-
 	temp_dict.erase(current_index)
-
 	if new_index.to_int() > 0 and new_index.to_int() <= mainDictionary_size: 
 		var current_key_value = mainDictionary[current_index]
 		var new_key_value = mainDictionary[new_index]
@@ -137,13 +127,10 @@ func _on_AddItem_button_up() -> void:
 	var key_value = get_next_key()
 	await add_child(CommandListForm)
 	CommandListForm.CommandInputForm = self
-	CommandListForm.local_variable_dictionary = local_variable_dictionary
-	#wait for form closed
+#	CommandListForm.local_variable_dictionary = local_variable_dictionary
 	await CommandListForm.closed
-
 	if function_dict != {}:
 		mainDictionary[str(key_value)] = function_dict
-	print(mainDictionary)
 	refresh_form()
 	_on_SaveChanges_button_up()
 

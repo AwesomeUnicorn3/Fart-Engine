@@ -1,11 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://b4cb5244jyha6"]
+[gd_scene load_steps=9 format=3 uid="uid://dq4plu0mj7757"]
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/UDSEngine/Database_Manager/Theme and Style/main_30.tres" id="1_tq3m0"]
 [ext_resource type="Script" path="res://addons/UDSEngine/Event_Manager/Command_List_Forms/SFX_EventInputForm.gd" id="2_ih0ic"]
 [ext_resource type="PackedScene" uid="uid://d3jrhhx7te6ex" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_audio.tscn" id="3_ragve"]
 [ext_resource type="PackedScene" uid="uid://cjrcdqw6fj18s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_827w4"]
 [ext_resource type="PackedScene" uid="uid://blyuurjsfw16s" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="4_jlqec"]
-[ext_resource type="PackedScene" uid="uid://bop4ol1uh1lbf" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter.tscn" id="6_lbn4u"]
+[ext_resource type="PackedScene" uid="uid://b4i04twjpw3iu" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="6_k2qp6"]
 [ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Popup_Delete_Confirm.tscn" id="7_8h4ip"]
 [ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="9_m025f"]
 
@@ -63,7 +63,6 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 
 [node name="Hbox1" parent="Control/VBoxContainer/SFXGroupCheckbox" index="1"]
-custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
 [node name="Label2" parent="Control/VBoxContainer/SFXGroupCheckbox/Hbox1" index="0"]
@@ -110,33 +109,7 @@ false_text = "No"
 label_text = "Repeat Sound?"
 is_label_button = false
 
-[node name="RepeatSoundAmount" parent="Control/VBoxContainer/HBoxContainer2" instance=ExtResource("6_lbn4u")]
-visible = false
-layout_mode = 2
-label_text = "How Many Times?"
-is_label_button = false
-
-[node name="Label" parent="Control/VBoxContainer/HBoxContainer2/RepeatSoundAmount" index="0"]
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 2
-
-[node name="HBox1" parent="Control/VBoxContainer/HBoxContainer2/RepeatSoundAmount" index="1"]
-layout_mode = 2
-
-[node name="Input" parent="Control/VBoxContainer/HBoxContainer2/RepeatSoundAmount/HBox1" index="0"]
-layout_mode = 2
-text = "1"
-
-[node name="VBox1" parent="Control/VBoxContainer/HBoxContainer2/RepeatSoundAmount/HBox1" index="1"]
-layout_mode = 2
-
-[node name="Add_Button" parent="Control/VBoxContainer/HBoxContainer2/RepeatSoundAmount/HBox1/VBox1" index="0"]
-layout_mode = 2
-
-[node name="Sub_Button" parent="Control/VBoxContainer/HBoxContainer2/RepeatSoundAmount/HBox1/VBox1" index="1"]
-layout_mode = 2
-
-[node name="input_templateBuffer" parent="Control/VBoxContainer/HBoxContainer2/RepeatSoundAmount" index="2"]
+[node name="RepeatSoundAmount" parent="Control/VBoxContainer/HBoxContainer2" instance=ExtResource("6_k2qp6")]
 layout_mode = 2
 
 [node name="WaitCheckbox" parent="Control/VBoxContainer" instance=ExtResource("4_827w4")]
@@ -252,6 +225,5 @@ layout_mode = 2
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
 
 [editable path="Control/VBoxContainer/SFXGroupCheckbox"]
-[editable path="Control/VBoxContainer/HBoxContainer2/RepeatSoundAmount"]
 [editable path="Popups/Popup_Delete_Confirm"]
 [editable path="Popups/popup_deleteKey"]

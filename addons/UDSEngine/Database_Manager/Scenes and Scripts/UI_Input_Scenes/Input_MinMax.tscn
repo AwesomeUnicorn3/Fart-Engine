@@ -14,40 +14,29 @@ size_flags_horizontal = 3
 script = ExtResource("4")
 
 [node name="Label" parent="." instance=ExtResource("3")]
-anchors_preset = 0
-anchor_right = 0.0
-offset_right = 900.0
-offset_bottom = 25.0
+layout_mode = 2
 
 [node name="Hbox1" type="HBoxContainer" parent="."]
-offset_top = 29.0
-offset_right = 900.0
-offset_bottom = 29.0
+layout_mode = 2
 
 [node name="Button" type="Button" parent="Hbox1"]
 visible = false
-offset_right = 900.0
-offset_bottom = 31.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Vector 2"
 
 [node name="Button2" type="Button" parent="Hbox1"]
 visible = false
-offset_left = 452.0
-offset_right = 900.0
-offset_bottom = 31.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Vector3"
 
 [node name="HBox2" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2i(0, 25)
-offset_top = 33.0
-offset_right = 900.0
-offset_bottom = 59.0
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
 
 [node name="X" type="Label" parent="HBox2"]
-offset_right = 297.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Min"
@@ -55,9 +44,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Y" type="Label" parent="HBox2"]
-offset_left = 301.0
-offset_right = 598.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Current"
@@ -65,9 +52,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Z" type="Label" parent="HBox2"]
-offset_left = 602.0
-offset_right = 900.0
-offset_bottom = 26.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Max"
@@ -75,17 +60,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HBox3" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2i(0, 50)
-offset_top = 63.0
-offset_right = 900.0
-offset_bottom = 596.0
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Input" type="LineEdit" parent="HBox3"]
 visible = false
-offset_right = 222.0
-offset_bottom = 537.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "(0,0,0)"
 placeholder_text = "Enter Value As Text"
@@ -93,8 +75,7 @@ max_length = 45
 caret_blink = true
 
 [node name="InputX" type="LineEdit" parent="HBox3"]
-offset_right = 297.0
-offset_bottom = 533.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
 placeholder_text = "Enter Value As Text"
@@ -103,9 +84,7 @@ max_length = 45
 caret_blink = true
 
 [node name="InputY" type="LineEdit" parent="HBox3"]
-offset_left = 301.0
-offset_right = 598.0
-offset_bottom = 533.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
 placeholder_text = "Enter Value As Text"
@@ -114,9 +93,7 @@ max_length = 45
 caret_blink = true
 
 [node name="InputZ" type="LineEdit" parent="HBox3"]
-offset_left = 602.0
-offset_right = 900.0
-offset_bottom = 533.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
 placeholder_text = "Enter Value As Text"
@@ -125,10 +102,7 @@ max_length = 45
 caret_blink = true
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("2")]
-anchor_right = 0.0
-offset_top = 600.0
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 
 [connection signal="text_changed" from="HBox3/InputX" to="." method="_on_InputX_text_changed"]
 [connection signal="text_changed" from="HBox3/InputY" to="." method="_on_InputY_text_changed"]

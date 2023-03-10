@@ -1,39 +1,67 @@
 @tool
-extends Control
-class_name DatabaseEngine
-signal Editor_Refresh_Complete
+class_name DatabaseEngine extends Control
 
-var editor :EditorInterface
-var op_sys : String = ""
+signal Editor_Refresh_Complete
+signal get_datatype_complete
+signal import_complete
+
 var save_format = ".sav"
-var script_format = ".gd"
 var table_save_path = "res://Data/"
-var file_format = ".json"
+var table_file_format = ".json"
 var table_info_file_format = "_data.json"
+var save_game_path = "user://"
+
+#ADD THE BELOW TO THE PROJECT SETTINGS TABLE################
+#####NEED TO SET ALL OF THESE VARIABLES IN THE UDS_MAIN SCRIPT AND CHANGE ALL REFERENCES AS WELL
+######WHEN SETTINGS TABLE IS MODIFIED, VARAIBLE REFERENCES NEED TO BE UPDATED AS WELL
 var icon_folder = "png/"
 var sfx_folder =  "sfx/"
 var event_folder = "events/"
+
+################################################################
+
+var op_sys : String = ""
+var is_in_editor:bool = false
 var currentData_dict := {}
 var current_dict := {} #Currently selected table values Dictionary
 var datatype_dict := {}
-var save_game_path = "user://"
+
 var data_type : String = "Column"
 var current_table_name = ""
 var current_table_ref = ""
 var table_ref = ""
-var Item_Name = ""
+var Item_Name :String = ""
 var root : Node
 var json_object : JSON = JSON.new()
-var global_settings_profile :String = "Profile 1"
 
 #used to rearrange keys
 var button_focus_index :String = "" 
 var button_movement_active := false
 var button_selected :String = ""
 
+
+func get_global_settings_profile() -> String:
+	is_in_editor = Engine.is_editor_hint()
+	if !is_in_editor:
+		var project_root = AU3ENGINE
+		if project_root.global_settings_profile == "":
+			if project_root.settings_dict == {}:
+				project_root.settings_dict = import_data("Project Settings")
+			if project_root.global_data_dict == {}:
+				project_root.global_data_dict = import_data("Global Data")
+			var profile_index :String = project_root.settings_dict["1"]["Game Profile"]
+			project_root.global_settings_profile = profile_index
+			await get_tree().create_timer(0.1)
+		return project_root.global_settings_profile
+	else:
+		var settings_dict = import_data("Project Settings")
+		var profile_index :String = settings_dict["1"]["Game Profile"]
+		return profile_index
+
+
 func get_main_node(curr_selected_node = self):
 	var main_node = null
-	
+
 	while main_node == null:
 		if curr_selected_node.is_in_group("UDS_Root"):
 			main_node = curr_selected_node
@@ -46,31 +74,14 @@ func get_main_node(curr_selected_node = self):
 	return main_node
 
 
-func refresh_editor():
-	var editorNew = EditorPlugin.new()
-	editorNew.get_editor_interface().get_resource_filesystem().scan()
-	while editorNew.get_editor_interface().get_resource_filesystem().is_scanning():
-		print("Scanning...")
-		await get_tree().create_timer(.1).timeout
-	await get_tree().create_timer(.1).timeout
-	emit_signal("Editor_Refresh_Complete")
-	print("Scanning Complete")
-
-
-func update_file_in_editor(file_path: String):
-	var editorNew = EditorPlugin.new()
-	editorNew.get_editor_interface().get_resource_filesystem().update_file(file_path)
-
-
 func update_dictionaries():
 	#replaces dictionary data with data from saved files
-	currentData_dict = import_data(table_save_path + current_table_name + table_info_file_format) 
-	current_dict = import_data(table_save_path + current_table_name + file_format)
+	currentData_dict = import_data(current_table_name, true) 
+	current_dict = import_data(current_table_name)
 
 
 func get_data_index(value: String, dataType := data_type, data_dict :Dictionary = currentData_dict):
 	var index = ""
-
 	for i in data_dict[dataType]:
 		var fieldName = data_dict[dataType][i]["FieldName"]
 		if fieldName == value:
@@ -83,17 +94,17 @@ func get_table_keys():
 	return current_dict.keys()
 
 
+
+
 func get_id_from_display_name(table_dictionary :Dictionary, display_name :String):
-	#print(display_name)
 	var index :String
 	var id_display_name :String 
 	for id in table_dictionary:
 		if table_dictionary[id].has("Display Name"):
-			id_display_name = str_to_var(table_dictionary[id]["Display Name"])["text"]
+			id_display_name = str_to_var(str(table_dictionary[id]["Display Name"]))["text"]
 			if id_display_name == display_name:
 				index = id
 				break
-	#print(index)
 	return index
 
 
@@ -111,9 +122,8 @@ func list_files_with_param(dirPath, file_type, ignore_table_array : Array = [], 
 	var array_load_files = []
 	var files = []
 	var dir :DirAccess = DirAccess.open(dirPath)
-	#dir.open(dirPath)
 	dir.list_dir_begin()
-	
+
 	while true:
 		var file = dir.get_next()
 		var file_begings_with = file.left(0)
@@ -137,25 +147,90 @@ func remove_special_char(text : String):
 	return result
 
 
-func import_data(table_loc : String):
-	#Opens .json file located at table_loc, reads it, returns the data as a dictionary
+func load_save_file(table_name :String):
 	var curr_tbl_data : Dictionary = {}
-	#print("Currdata dir Load begin")
-	var currdata_dir :FileAccess = FileAccess.open(table_loc,FileAccess.READ_WRITE)
-	#print("Currdata dir Loaded")
-#	var dir :bool = currdata_dir.file_exists(table_loc)
+	var file_extension: String = table_file_format
+	var table_path :String = save_game_path + table_name
+	var currdata_dir :FileAccess = FileAccess.open(table_path,FileAccess.READ_WRITE)
 	if currdata_dir == null :
-		print("Error Could not open file at: " + table_loc)
+		print("Error Could not open file at: " + table_path)
 	else:
-	#currdata_dir = currdata_dir.open(table_loc, FileAccess.READ)
 		var currdata_json = json_object.parse(currdata_dir.get_as_text())
 		curr_tbl_data = json_object.get_data()
-	#currdata_dir.close()
-	#print(curr_tbl_data)
 	return curr_tbl_data
 
 
-func save_file(sv_path, tbl_data):
+
+func get_list_of_events(for_dropdown:bool = false):
+	#EVENT DICT NEEDS TO BE THE TABLE DATA BUT ONLY THE TABLES THAT ARE DESIGNATED AS EVENTS
+#	var table_dict :Dictionary = get_list_of_all_tables()
+#	var event_dict = {}
+#	for table_name in table_dict:
+#		var is_event = convert_string_to_type(table_dict[table_name]["Is Event"])
+#		if is_event:
+#			var name_ = table_dict[table_name]["Display Name"]
+#			event_dict[name_] = table_name
+	var return_array:Array = []
+	var return_dict:Dictionary = {}
+	var event_array :Array = list_files_with_param(table_save_path + event_folder,table_file_format)
+	var index:= 1
+	var return_value
+#	print("Event Array: ", event_array)
+	for eventPath in event_array:
+#		print("Event ID: ", eventPath)
+		var name_array:Array = eventPath.rsplit(".")
+		var eventID: String = name_array[0]
+		if for_dropdown:
+			
+			var curr_event_dict:Dictionary = import_event_data(eventID)
+			var eventName:String = curr_event_dict["0"]["Display Name"]["text"]
+			#Convert eventName(Event ID) to Event Display name
+			#return dict with list of events  *sorted* and with format: sorted_table[index] = [key, key, ["Datatype"]] 
+			return_dict[str(index)] = [eventName, eventID, "0"]
+			index += 1
+			return_value = return_dict
+#			return return_dict
+		else:
+			return_array.append(eventID)
+			return_value = return_array
+	return return_value
+
+
+
+
+func import_event_data(event_name:String, get_event_data:bool = false):
+	var curr_event_data : Dictionary = {}
+	var file_extension: String = table_file_format
+	if get_event_data:
+		file_extension =  table_info_file_format
+	var table_path :String = table_save_path + event_folder + event_name + file_extension
+	var currdata_dir :FileAccess = FileAccess.open(table_path,FileAccess.READ_WRITE)
+	if currdata_dir == null :
+		print("Error Could not open file at: " + table_path)
+	else:
+		var currdata_json = json_object.parse(currdata_dir.get_as_text())
+		curr_event_data = json_object.get_data()
+	emit_signal("import_complete")
+	return curr_event_data
+
+
+func import_data(table_name : String, get_table_data :bool = false):
+	var curr_tbl_data : Dictionary = {}
+	var file_extension: String = table_file_format
+	if get_table_data:
+		file_extension = table_info_file_format
+	var table_path :String = table_save_path + table_name + file_extension
+	var currdata_dir :FileAccess = FileAccess.open(table_path,FileAccess.READ_WRITE)
+	if currdata_dir == null :
+		print("Error Could not open file at: " + table_path)
+	else:
+		var currdata_json = json_object.parse(currdata_dir.get_as_text())
+		curr_tbl_data = json_object.get_data()
+	emit_signal("import_complete")
+	return curr_tbl_data
+
+
+func save_file(sv_path, tbl_data:Dictionary):
 #Save dictionary to .json upon user confirmation
 	var save_file :FileAccess = FileAccess.open(sv_path,FileAccess.WRITE_READ)
 	if save_file == null:
@@ -169,8 +244,69 @@ func save_file(sv_path, tbl_data):
 		#save_file.close()
 
 
+func list_keys_in_display_order(table_name:String):
+	var table_dict:Dictionary = import_data(table_name)
+	var data_dict:Dictionary = import_data(table_name, true)
+	var sorted_dict: Dictionary = {}
+
+	for keyID in data_dict["Row"].size():
+		var item_number = str(keyID + 1) #row_dict key
+		var displayName :String = ""
+		var datatype :String = data_dict["Row"][item_number]["DataType"]
+		var key_name :String = data_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
+		var key_dict :Dictionary = table_dict[key_name]
+		if key_dict.has("Display Name"):
+			if typeof(table_dict[key_name]["Display Name"]) == TYPE_STRING:
+				displayName = str_to_var(table_dict[key_name]["Display Name"])["text"]
+			else:
+				displayName = table_dict[key_name]["Display Name"]["text"]
+		sorted_dict[item_number] = [displayName, key_name, datatype]
+	return sorted_dict
+
+
+func list_custom_dict_keys_in_display_order(table_dict:Dictionary, table_name:String):
+	var data_dict:Dictionary = import_data(table_name, true)
+	var sorted_dict: Dictionary = {}
+	var index := 1
+	for keyID in data_dict["Row"].size():
+		
+		var item_number = str(keyID + 1) #row_dict key
+		var displayName :String = ""
+		var datatype :String = data_dict["Row"][item_number]["DataType"]
+		var key_name :String = data_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
+		
+		if table_dict.has(key_name):
+			var key_dict :Dictionary = table_dict[key_name]
+			if key_dict.has("Display Name"):
+				if typeof(table_dict[key_name]["Display Name"]) == TYPE_STRING:
+					if typeof(str_to_var(table_dict[key_name]["Display Name"])) == TYPE_INT:
+						displayName = key_name
+					else:
+						displayName = str_to_var(table_dict[key_name]["Display Name"])["text"]
+				else:
+					displayName = table_dict[key_name]["Display Name"]["text"]
+			else:
+				displayName = key_name
+			sorted_dict[str(index)] = [displayName, key_name, datatype]
+			index += 1
+	return sorted_dict
+
+
+func list_values_in_display_order(table_name:String):
+	var table_dict:Dictionary = import_data(table_name)
+	var data_dict:Dictionary = import_data(table_name, true)
+	var sorted_dict: Dictionary = {}
+
+	for keyID in data_dict["Column"].size():
+		var item_number = str(keyID + 1)
+		var label :String = data_dict["Column"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
+		sorted_dict[item_number] = label
+		#print(sorted_dict)
+	return sorted_dict
+
+
 func save_all_db_files(table_name :String = current_table_name):
-	save_file(table_save_path + table_name + file_format, current_dict)
+	save_file(table_save_path + table_name + table_file_format, current_dict)
 	save_file(table_save_path + table_name + table_info_file_format, currentData_dict)
 	update_project_settings()
 
@@ -180,24 +316,32 @@ func update_project_settings(): #called when save_all_db_files is run
 
 
 func set_game_root():
-	var root_path = import_data(table_save_path + "Global Data" + file_format)[global_settings_profile]['Project Root Scene']
+	var settings_profile :String = await get_global_settings_profile()
+	var root_ID : String = import_data("Global Data")[await get_global_settings_profile()]["Project Root Scene"]
+	var root_path = import_data("UI Scenes")[root_ID]["Path"]
 	var current_root_scene = ProjectSettings.get("application/run/main_scene")
 	if root_path != current_root_scene:
 		ProjectSettings.set("application/run/main_scene", root_path) 
 
 
-func get_default_dialog_scene_path():
-	var scene_path :String = import_data(table_save_path + "Global Data" + file_format)[global_settings_profile]['Default Dialog Box']
+func get_default_dialog_scene_path() ->String:
+	var root_ID : String = import_data("Global Data")[await get_global_settings_profile()]['Default Dialog Box']
+	var scene_path :String = import_data("UI Scenes")[root_ID]["Path"]
+
 	return scene_path
 
 
 func set_root_node():
-	var globalDataDict :Dictionary = await import_data(table_save_path + "Global Data" + file_format)
-	var rootScenePath :String = globalDataDict[global_settings_profile]["Project Root Scene"]
-	var root_scene = load(rootScenePath).instantiate()
+	var root_ID : String = import_data("Global Data")[await get_global_settings_profile()]["Project Root Scene"]
+	var root_path = import_data("UI Scenes")[root_ID]["Path"]
+	var root_scene = load(root_path).instantiate()
 	var root_node_name :String = root_scene.get_node(".").name
 	root_scene.queue_free()
 	root = get_tree().get_root().get_node(root_node_name)
+
+
+func get_root_node():
+	return root
 
 
 func add_new_table(newTableName, keyName, keyDatatype, keyVisible, fieldName, fieldDatatype, fieldVisible, dropdown, RefName, createTab, canDelete, isDropdown, add_toSaveFile, is_event):
@@ -230,76 +374,85 @@ func add_new_table(newTableName, keyName, keyDatatype, keyVisible, fieldName, fi
 
 	current_dict[newTableName]["Display Name"] = var_to_str({"text" : RefName})
 	current_dict[newTableName]["Create Tab"] = createTab
-	current_dict[newTableName]["Is Dropdown Table"] = isDropdown
+	current_dict[newTableName]["Show in Dropdown Lists"] = isDropdown
 	current_dict[newTableName]["Include in Save File"] = add_toSaveFile
 	current_dict[newTableName]["Can Delete"] = true
 	current_dict[newTableName]["Is Event"] = is_event
 	save_all_db_files(current_table_name)
 
 
-
-func Delete_Table(delete_tbl_name):
-	
-	#First delete table reference from "Table Data" file and delete the entry in the table_data main table
+func create_new_table(newTableName:String, newTable_dict: Dictionary):
+	current_dict = {}
+	currentData_dict["Row"] = {}
+	currentData_dict["Column"] = {}
+	current_table_name = newTableName
+		#THIS IS WHERE I WILL USE THE DROPDOWN TEMPLATE TO CREATE A NEW LIST STYLE TABLE (KEY IS NUMBER, ID, DISPLAY NAME)
+	add_key("1", "1", true, true, true, true)
+	add_field("Display Name", "1", true, true,  true, true)
+	save_all_db_files(newTableName)
+	#save information about new table in the Table Data file
 	current_table_name = "Table Data"
 	data_type = "Row"
 	update_dictionaries()
-	Delete_Key(delete_tbl_name)
+	add_key(newTableName, "1", true, true, true)
+	current_dict[newTableName] = newTable_dict
 	save_all_db_files(current_table_name)
+
+
+func Delete_Table(delete_tbl_name):
+	#First delete table reference from "Table Data" file and delete the entry in the table_data main table
+#	current_table_name = "Table Data"
+#	data_type = "Row"
+#	update_dictionaries()
+#	Delete_Key(delete_tbl_name)
+#	save_all_db_files(current_table_name)
 
 	#Then delete all of the files associated with the delted table
 	var dir :DirAccess = DirAccess.open(table_save_path)
-	var file_delete = table_save_path + delete_tbl_name + file_format
-	#dir.open(table_save_path)
+	var file_delete = table_save_path + event_folder + delete_tbl_name + table_file_format
 	dir.remove(file_delete)
-	file_delete = table_save_path + delete_tbl_name + table_info_file_format
-
+	file_delete = table_save_path + event_folder + delete_tbl_name + table_info_file_format
 	dir.remove(file_delete)
-
-	current_table_name = ""
-
+	#current_table_name = ""
 
 
-func Delete_Key(key_name):
-	print(key_name)
+func Delete_Key(key_name, selectedDict:Dictionary = current_dict, selectedDataDict:Dictionary = currentData_dict):
+	print("DELETE KEY NAME: ", key_name)
 	var tmp_dict = {}
 	var main_tbl = {}
+	data_type = "Row"
 	match data_type:
 		"Row": #Deletes keys
-			
-			current_dict.erase(key_name) #Remove entry from item dict
-		
+			selectedDict.erase(key_name) #Remove entry from current dict
 		"Column": #Deletes fields
-			for i in current_dict: #loop trhough main dictionary
-				current_dict[i].erase(key_name)
-	
-	tmp_dict = currentData_dict[data_type].duplicate(true)
+			for i in selectedDict: #loop trhough main dictionary
+				selectedDict[i].erase(key_name)
+	tmp_dict = selectedDataDict[data_type].duplicate(true)
 	#loop through row_dict to find item
 	for i in tmp_dict:
-		if currentData_dict[data_type][i]["FieldName"] == key_name:
-			currentData_dict[data_type].erase(i) #Erase entry
+		if selectedDataDict[data_type][i]["FieldName"] == key_name:
+			selectedDataDict[data_type].erase(i) #Erase entry
 			break
 	#Loop through number 0 to row_dict size
 	for j in tmp_dict.size() - 1:
 		j += 1
-		if !currentData_dict[data_type].has(str(j)): #If the row_dict does not have j key
-			var next_entry_value = currentData_dict[data_type][str(j + 1)] #Get value of next entry #If ever more values are added to row table, .duplicate(true) needs to be added to this line
-			currentData_dict[data_type][str(j)] = next_entry_value #create new entry with current index and next entry
+		if !selectedDataDict[data_type].has(str(j)): #If the row_dict does not have j key
+			var next_entry_value = selectedDataDict[data_type][str(j + 1)] #Get value of next entry #If ever more values are added to row table, .duplicate(true) needs to be added to this line
+			selectedDataDict[data_type][str(j)] = next_entry_value #create new entry with current index and next entry
 			var next_entry = str(j + 1)
-			if currentData_dict[data_type].has(next_entry):
-				currentData_dict[data_type].erase(next_entry) #Delete next entry
+			if selectedDataDict[data_type].has(next_entry):
+				selectedDataDict[data_type].erase(next_entry) #Delete next entry
 			else:
 				break
+	return [selectedDict, selectedDataDict]
 
 
-func add_key(keyName, datatype, showKey, requiredValue, dropdown,  newTable : bool = false, new_line := {}):
+func add_key(keyName, datatype, showKey, requiredValue, dropdown,  newTable : bool = false, new_data := {}):
 	var index = currentData_dict["Row"].size() + 1
-	var CustomData_dict = import_data(table_save_path + "Field_Pref_Values.json") 
+	var CustomData_dict = import_data("Field_Pref_Values") 
 	var newOptions_dict = {}
 	var newValue
-
 	#create and save new table with values from input form
-
 	#Get custom key fields and add them to tableData dict
 	for i in CustomData_dict:
 		var currentKey_dict :Dictionary = str_to_var(CustomData_dict[i]["ItemID"])
@@ -325,46 +478,67 @@ func add_key(keyName, datatype, showKey, requiredValue, dropdown,  newTable : bo
 
 	else:
 		var new_key_data = current_dict[current_dict.keys()[0]].duplicate(true)
-		if new_line != {}:
-			new_key_data = new_line
+		if new_data != {}:
+			new_key_data = new_data
+		current_dict[keyName] = new_key_data  #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE #Set new key values based on the default (first line of table)
+
+
+func add_event_key(keyName, datatype, showKey, requiredValue, dropdown,  newTable : bool = false, new_data := {}):
+	var index = currentData_dict["Row"].size() + 1
+	var CustomData_dict = import_data("Field_Pref_Values") 
+	var newOptions_dict = {}
+	var newValue
+	#create and save new table with values from input form
+	#Get custom key fields and add them to tableData dict
+	for i in CustomData_dict:
+		var currentKey_dict :Dictionary = str_to_var(CustomData_dict[i]["ItemID"])
+		var currentKey :String = currentKey_dict["text"]
+		match currentKey:
+			"DataType":
+				newValue = datatype
+			"FieldName":
+				newValue = keyName
+			"RequiredValue":
+				newValue = requiredValue
+			"ShowValue":
+				newValue = showKey
+			"TableRef":
+				newValue = dropdown
+
+		newOptions_dict[currentKey] = newValue
+
+	currentData_dict["Row"][str(index)] =  newOptions_dict
+
+	if newTable:
+		current_dict[keyName] = "empty"
+
+	else:
+		var new_key_data = current_dict[current_dict.keys()[0]].duplicate(true)
+		if new_data != {}:
+			new_key_data = new_data
 		current_dict[keyName] = new_key_data  #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE #Set new key values based on the default (first line of table)
 
 
 func get_default_value(itemType :String):
-	datatype_dict = import_data(table_save_path + "DataTypes" + file_format)
+	datatype_dict = import_data("DataTypes")
 	var item_value
 	for key in datatype_dict:
 		if key == itemType:
 			var default_dict :Dictionary =  str_to_var(datatype_dict[key]["Default Values"])
 			var default_value = default_dict["text"]
-			
 			item_value = convert_string_to_type(default_value)  #default value
-			
-#			print(itemType, " : ", default_value, " : ", item_value)
 			if item_value == null:
 				item_value = default_value
-				
 			break
 	return item_value
 
 
-func get_value_type(value:String, data_dict :Dictionary):
-	var value_type :String = ""
-	data_dict = data_dict["Column"]
-	for i in data_dict:
-		if data_dict[i].has("FieldName"):
-			if data_dict[i]["FieldName"] == value:
-				value_type = data_dict[i]["DataType"]
-				break
-	return value_type
-
 func add_field(fieldName, datatype, showField, required_value, tblName = "empty", newTable : bool = false ):
-
 	#THIS IS WHERE I SHOULD LOOP THROUGH THE USER_PREF TABLE AND ADD THE VALUES TO THE COLUMN TABLE
 	var index = currentData_dict["Column"].size() + 1 #Set index as next number in the order
-	
+
 		#Get custom value fields and add them to column_dict
-	var fieldCustomData_dict = await import_data(table_save_path + "Field_Pref_Values.json") 
+	var fieldCustomData_dict = await import_data("Field_Pref_Values") 
 	var newFeild_dict = {}
 	var newValue
 
@@ -382,7 +556,7 @@ func add_field(fieldName, datatype, showField, required_value, tblName = "empty"
 				newValue = showField
 			"TableRef":
 				newValue = tblName
-			
+
 
 		newFeild_dict[currentKey] = newValue
 	currentData_dict["Column"][index] = newFeild_dict #Add new field to the column_dict
@@ -402,14 +576,12 @@ func add_field(fieldName, datatype, showField, required_value, tblName = "empty"
 
 func is_file_in_folder(path : String, file_name : String):
 	var value = false
-	print(path + file_name)
 	var dir :bool = FileAccess.file_exists(path + file_name) #ClEAR WHEN DONE TESTING
-	#dir.open(path)
 	if dir:
 		value = true
 	else:
 		print(file_name, " Does NOT Exist :(")
-	
+
 	return value
 
 
@@ -418,19 +590,18 @@ func is_file_in_folder(path : String, file_name : String):
 func convert_keyFile_to_new_format():
 	var tablenm = "Controls"
 	var keyOptions_dict = {"DataType":"4","FieldName":"Dynamic","RequiredValue":false,"ShowValue":true}
-
 	var oldRow_dict = import_data(table_save_path + tablenm + "_Row")
 	var oldColumn_dict = import_data(table_save_path + tablenm + "_Column")
 	var svpath = table_save_path + tablenm + "_data.json"
 	var newRow_dict = {}
 	var newColumn_dict = {}
 	var final_dict = {"Column" : "empty", "Row" : "empty"}
-	
+
 	for i in oldColumn_dict:
 		var keyoptions = keyOptions_dict.duplicate(true)
 		keyoptions["FieldName"] = oldColumn_dict[i]
 		newColumn_dict[i] =  keyoptions
-	
+
 	for i in oldRow_dict:
 		var keyoptions = keyOptions_dict.duplicate(true)
 		keyoptions["FieldName"] = oldRow_dict[i]
@@ -440,10 +611,10 @@ func convert_keyFile_to_new_format():
 	final_dict["Column"] = newColumn_dict
 
 	save_file(svpath, final_dict)
-	
+
 
 func add_line_to_currDataDict():
-	var this_dict = import_data(table_save_path + current_table_name + "_data.json")
+	var this_dict = import_data(current_table_name, true)
 	for i in this_dict["Column"]:
 		var dict = currentData_dict["Column"][i]
 		if !dict.has("TableRef"):
@@ -511,6 +682,8 @@ func convert_string_to_type(variant, datatype = ""):
 
 	else:
 		match datatype:
+			"5":
+				variant = str(variant)
 			"4":
 				variant = custom_to_bool(variant)
 			"1":
@@ -521,6 +694,9 @@ func convert_string_to_type(variant, datatype = ""):
 				variant = str(variant).to_float()
 			"6":
 				variant = str(variant)
+				
+			"9":
+				variant = convert_string_to_vector(str(variant))
 			"TYPE_VECTOR2":
 				variant = convert_string_to_vector(str(variant))
 			"TYPE_VECTOR3":
@@ -546,18 +722,18 @@ func convert_string_to_type(variant, datatype = ""):
 func string_to_array(value: String):
 	var value_array = str_to_var(value)
 	return value_array
-	
-	
-	
+
+
+
 func convert_string_to_vector(value : String):
 	var vector
 	value = value.lstrip("(")
 	value = value.rstrip(")")
 	var array = value.split(",")
 	var count = 1
-	var x : float
-	var y : float
-	var z : float
+	var x : float = 0.0
+	var y : float = 0.0
+	var z : float = 0.0
 	for i in array:
 		match count:
 			1:
@@ -581,6 +757,7 @@ func get_file_name(name : String, filetype : String):
 	name = name.trim_suffix(filetype)
 	return name
 
+
 func set_var_type_dict(dict : Dictionary):
 	var o
 	for l in dict:
@@ -599,6 +776,7 @@ func set_var_type_dict(dict : Dictionary):
 						pass
 					TYPE_NIL:
 						pass
+
 
 func set_var_type_table(dict : Dictionary):
 	var o
@@ -633,28 +811,27 @@ func add_input_field(par: Node, nodeName):
 	return new_node
 
 func is_table_dropdown_list(tableName :String):
-	var tables_dict = import_data(table_save_path + "Table Data.json")
-	var table_data = import_data(table_save_path + "Table Data_data.json")
+	var tables_dict = import_data("Table Data")
+	var table_data = import_data("Table Data", true)
 	var isTableDropdownList :bool = false
 	for i in range(0, tables_dict.size()):
 		var index :String = str(i + 1)
 		var currTableName :String = table_data["Row"][index]["FieldName"]
 		if currTableName == tableName:
-			isTableDropdownList = convert_string_to_type(tables_dict[currTableName]["Is Dropdown Table"])
-			#print(isTableDropdownList)
+			isTableDropdownList = convert_string_to_type(tables_dict[currTableName]["Show in Dropdown Lists"])
 			break
 	return isTableDropdownList
 
 
 func get_input_type_node(input_type :String):
 	var return_node : Object
-	datatype_dict = import_data(table_save_path + "DataTypes" + file_format)
+	datatype_dict = import_data("DataTypes")
 	return_node =  load(datatype_dict[input_type]["Default Scene"])
 	return return_node
 
 
 func get_input_type_id_from_name(input_type_name :String):
-	datatype_dict = import_data(table_save_path + "DataTypes" + file_format)
+	datatype_dict = import_data("DataTypes")
 	for key in datatype_dict:
 		var displayname_dict :Dictionary = str_to_var(datatype_dict[key]["Display Name"])
 		var key_name :String = displayname_dict["text"]
@@ -663,19 +840,41 @@ func get_input_type_id_from_name(input_type_name :String):
 			return key
 
 
-func add_input_node(index, index_half, key_name, table_dict := current_dict, container1 = null, container2 = null, node_value = "", node_type = "", tableName = ""):
+func create_independant_input_node(table_name:String, key_ID:String, field_ID :String):
+	var table_dict: Dictionary = import_data(table_name)
+	var table_data_dict: Dictionary = import_data(table_name, true)
+	var datatype:String = get_datatype(field_ID,table_data_dict )
+	datatype_dict = import_data("DataTypes")
 
+	var input_node = load(datatype_dict[datatype]["Default Scene"]).instantiate()
+#	input_node.set_input_value(input_node.default, key_ID, table_name)
+
+	if datatype == "5":#dropdown selection (itemtype selection)
+		input_node.selection_table_name = table_name
+
+	input_node.set_name(key_ID)
+	
+	input_node.table_name = table_name
+#	input_node.table_ref = table_ref
+#	input_node.set_initial_show_value()
+
+	return input_node
+
+func add_input_node(index, index_half, key_name, table_dict := current_dict, container1 = null, container2 = null, node_value = "", node_type = "", tableName = ""):
+	#Set_Input_Node
 	var parent_container = container1
 	var did_datatype_change = false
 	if container2 != null:
 		if index_half < index:
 			parent_container = container2
+	
 	if str(node_value) == "":
 		node_value =  convert_string_to_type(table_dict[key_name]["Value"], table_dict[key_name]["DataType"])
+
 	if str(node_type) == "":
 		node_type = table_dict[key_name]["DataType"]
 	var new_field : Node
-	datatype_dict = import_data(table_save_path + "DataTypes" + file_format)
+	datatype_dict = import_data("DataTypes")
 	
 	match node_type:
 		"TYPE_BOOL": #Bool
@@ -722,151 +921,18 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 		for key in currentData_dict[data_type]:
 			if currentData_dict[data_type][key]["FieldName"] == key_name:
 				currentData_dict[data_type][key]["DataType"] = node_type
-	
+
 	var input_node = load(datatype_dict[node_type]["Default Scene"])
-	match node_type: #Match variant type and then determine which input field to use (check box, long text, short text, number count etc)
+	new_field = await add_input_field(parent_container, input_node)
+	if str(node_value) == "Default":
+		node_value = new_field.default
 
-		"4": #TYPE_BOOL
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = new_field.default
-			
-			node_value = custom_to_bool(node_value)
-			new_field.inputNode.set_pressed(node_value)
-			new_field._on_input_toggled(node_value)
-
-
-		"2": #INT
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = new_field.default
-			new_field.inputNode.set_text(str(node_value))
-
-		"3": #Float
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = new_field.default
-			new_field.inputNode.set_text(str(node_value))
-
-		"1": #String
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = str_to_var(new_field.default)
-			new_field.set_input_value(node_value, key_name, current_table_name)
-
-		"5":
-			new_field = await add_input_field(parent_container, input_node)
-			if tableName == "":
-				new_field.selection_table_name = table_dict[key_name]["TableRef"]
-			else:
-				new_field.selection_table_name = tableName
-			new_field.set_input_value(node_value, key_name, current_table_name)
-#			new_field.labelNode.set_text(key_name)
-#			new_field.populate_list()
-#			if str(node_value) == "Default":
-#				node_value = new_field.default
-#			var type_id = new_field.get_id(str(node_value))
-#			new_field.inputNode.select(type_id)
-#			var itemSelected = new_field._on_Input_item_selected(type_id)
-		"6":
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = new_field.default
-			var texture_path = node_value
-			if texture_path == "empty":
-				texture_path = new_field.default
-			var tempBtn :TextureButton = new_field.inputNode
-			tempBtn.set_texture_normal(load(str(table_save_path + icon_folder + texture_path)))
-
-		"11":
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = new_field.default
-			new_field.set_input_value(node_value, key_name, current_table_name)
-#			var key = OS.get_keycode_string(str(node_value).to_int())
-#			new_field.inputNode.set_text(key)
-#			new_field.inputNode.get_node("Keycode").set_text(str(node_value))
-
-		"17":
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = new_field.default
-			new_field.set_input_value(node_value, key_name, current_table_name)
-
-		"8":
-			new_field = await add_input_field(parent_container, input_node)
-			node_value = convert_string_to_type(node_value)
-			new_field.set_input_value(node_value, key_name, current_table_name)
-
-
-		"9": 
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = str(new_field.default)
-			new_field.inputNode.set_text(node_value)
-			new_field.set_user_input_value()
-			new_field.set_inputNode_value()
-
-		"12": 
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = str(new_field.default)
-			new_field.inputNode.set_text(node_value)
-			new_field.set_user_input_value()
-
-		"10":
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = convert_string_to_type(new_field.default)
-			if typeof(node_value) == TYPE_STRING:
-				node_value = str_to_var(node_value)
-			new_field.main_dictionary = node_value
-			new_field.inputNode.set_text(str(node_value))
-
-		"7":
-			new_field  = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = new_field.default
-			new_field.inputNode.set_text(node_value)
-			new_field._on_input_text_changed(node_value)
-		
-		"13":
-			
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = new_field.default
-			new_field.set_input_value(node_value, key_name, current_table_name)
-
-
-		"14":
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = convert_string_to_type(new_field.default)
-			if typeof(node_value) == TYPE_STRING:
-				node_value = str_to_var(node_value)
-
-			new_field.main_dictionary = node_value
-			new_field.inputNode.set_text(str(node_value))
-
-
-		"15":
-			new_field = await add_input_field(parent_container, input_node)
-			if str(node_value) == "Default":
-				node_value = convert_string_to_type(new_field.default)
-			if typeof(node_value) == TYPE_STRING:
-				node_value = str_to_var(node_value)
-
-			new_field.main_dictionary = node_value
-			new_field.inputNode.set_text(str(node_value))
-
-
-		"16":
-			new_field = await add_input_field(parent_container, input_node)
-#			if str(node_value) == "Default":
-#				node_value = convert_string_to_type(new_field.default)
-			node_value = convert_string_to_type(node_value)
-			new_field.set_input_value(node_value, key_name, current_table_name)
-
+	if node_type == "5":#dropdown selection (itemtype selection)
+		if tableName == "":
+			new_field.selection_table_name = table_dict[key_name]["TableRef"]
+		else:
+			new_field.selection_table_name = tableName
+	new_field.set_input_value(node_value, key_name, current_table_name)
 	new_field.set_name(key_name)
 	new_field.labelNode.set_text(key_name)
 	new_field.table_name = current_table_name
@@ -876,13 +942,73 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 	return new_field
 
 
-func update_match(current_node, field_name = "", key_name = Item_Name):
+func create_input_node(key_name:String, table_name:String, table_dict:Dictionary = {}, table_data_dict: Dictionary = {}):
+	var data_type:String
+	var node_input_value: Variant
+
+	if table_dict == {}:
+		table_dict = import_data(table_name)
+	if table_data_dict == {}:
+		table_data_dict = import_data(table_name, true)
+		
+	data_type = get_datatype(key_name, table_data_dict)
+	var new_node = create_datatype_node(data_type)
+#	datatype_dict = import_data("DataTypes")
+#	data_type = get_datatype(key_name, table_data_dict)
+#	var input_node = load(datatype_dict[data_type]["Default Scene"]).instantiate()
+#	if str(node_input_value) == "Default":
+#		node_input_value = input_node.default
+#
+#	if data_type == "5":#dropdown selection (itemtype selection)
+#		if table_name == "":
+#			input_node.selection_table_name = table_dict[key_name]["TableRef"]
+#		else:
+#			input_node.selection_table_name = table_name
 	
-	var input_type = current_node.type
+	new_node.set_name(key_name)
+
+	return new_node
+
+func create_datatype_node(datatype:String):
+	datatype_dict = import_data("DataTypes")
+	var input_node = load(datatype_dict[datatype]["Default Scene"]).instantiate()
+	var input_default_value = convert_string_to_type(datatype_dict[datatype]["Default Values"])["text"]
+#	print("DEFAULT VALUE: ", input_default_value, " INPUT.DEFAULT: ", input_node.default)
+	input_node._set_input_value(input_default_value)
+	
+	return input_node
+
+
+
+func get_datatype(field_ID:String, table_data_dict :Dictionary):
+	var data_type: String = ""
+#	print("TABLE DATA DICT: ", table_data_dict)
+	var data_dict_column :Dictionary = table_data_dict["Column"]
+	for datakey in data_dict_column:
+		var currFieldName:String = data_dict_column[datakey]["FieldName"]
+		if currFieldName == field_ID:
+			data_type = data_dict_column[datakey]["DataType"]
+			break
+	return data_type
+	
+
+func get_reference_table(tableID:String, keyID:String, fieldID:String):
+	var data_type: String = ""
+	var data_dict_column :Dictionary = import_data(tableID, true)["Column"]
+	for datakey in data_dict_column:
+		var currFieldName:String = data_dict_column[datakey]["FieldName"]
+		if currFieldName == fieldID:
+			data_type = data_dict_column[datakey]["TableRef"]
+			break
+	return data_type
+
+
+func get_value_from_input_node(current_node, field_name := "", key_name := Item_Name):
+	var input_type :String = current_node.type
 	var input = current_node.inputNode
 	var returnValue
 	var did_datatype_change = false
-
+	
 	match input_type:
 		"TYPE_BOOL": #Bool
 			input_type = "4"
@@ -930,59 +1056,11 @@ func update_match(current_node, field_name = "", key_name = Item_Name):
 				currentData_dict[data_type][key]["DataType"] = input_type
 				break
 
-	match input_type:
-		"1":
-			returnValue = var_to_str(current_node.get_input_value())
-				
-		"5":
-			returnValue = var_to_str(current_node.get_input_value())
-			
-		"2":
-			returnValue = input.text
-		
-		"3":
-			returnValue = input.text
+	if typeof(current_node.get_input_value()) == TYPE_STRING:
+		returnValue = current_node.get_input_value()
+	else:
+		returnValue = var_to_str(current_node.get_input_value())
 
-			
-		"4":
-			returnValue = input.get_text()
-			
-		"6":
-			var filename = input.get_texture_normal().get_path().get_file()
-			returnValue = filename
-			
-		"8":
-			returnValue = var_to_str(current_node.get_input_value())
-
-		"9":
-			returnValue = input.text
-
-		"12":
-			returnValue = input.text
-			
-		"10":
-			returnValue = var_to_str(current_node.main_dictionary)
-
-		"7":
-			returnValue = input.text
-		
-		"13":
-			returnValue = var_to_str(current_node.get_input_value())
-
-		"11":
-			returnValue = var_to_str(current_node.get_input_value())
-
-		"17":
-			returnValue = var_to_str(current_node.get_input_value())
-
-		"14":
-			returnValue = var_to_str(current_node.main_dictionary)
-		
-		"15":
-			returnValue = var_to_str(current_node.main_dictionary)
-			
-		"16": #Dialog
-			returnValue = var_to_str(current_node.get_input_value())
 
 
 	if field_name != "" and field_name != "Key":
@@ -996,18 +1074,19 @@ func update_key_name(old_name : String, new_name : String):
 	var return_key = old_name
 	if old_name != new_name: #if changes are made to item name
 		#If is dropdown table
-		var table_data_dict :Dictionary = import_data(table_save_path + "Table Data" + file_format)
-		var is_dropdown_table = convert_string_to_type(table_data_dict[current_table_name]["Is Dropdown Table"])
+		var table_data_dict :Dictionary = import_data("Table Data")
+		var is_dropdown_table = convert_string_to_type(table_data_dict[current_table_name]["Show in Dropdown Lists"])
 		if is_dropdown_table == true:
 			print("Cannot update keys in a table used as a dropdown list")
-		
+
 		if !does_key_exist(new_name):
+			
 			var item_name_dict = currentData_dict["Row"]
 			for i in item_name_dict: #loop through item_row table until it finds the key number for the item
 				if item_name_dict[i]["FieldName"] == old_name:
 					currentData_dict["Row"][i]["FieldName"] = new_name #Replace old value with new value
 					break
-			
+
 			var old_key_entry : Dictionary = current_dict[Item_Name].duplicate(true) #Create copy of item values
 			current_dict.erase(Item_Name) #Erase old item entry
 			current_dict[new_name] = old_key_entry #add new item entry
@@ -1018,15 +1097,12 @@ func update_key_name(old_name : String, new_name : String):
 			print("Duplicate key exists in table DATA WAS NOT UPDATED")
 
 	return return_key
-	
+
+
 func does_key_exist(key):
 	var value = false
-	#Iterate through table values and compare to key if values are the same, return error
-	for i in current_dict:
-		if i == key:
-			value = true
-			print("Item already exists!")
-			break
+	if current_dict.has(key):
+		value = true
 	return value
 
 
@@ -1041,10 +1117,10 @@ func add_animation_to_animatedSprite(sprite_field_name :String, sprite_texture_d
 	if sprite_frames == null:
 		sprite_frames = SpriteFrames.new()
 
-	var frame_vector :Vector2 = sprite_texture_data["atlas_dict"]["frames"]
-	var frame_range :Vector2 = sprite_texture_data["advanced_dict"]["frame_range"]
+	var frame_vector :Vector2 = convert_string_to_vector(str(sprite_texture_data["atlas_dict"]["frames"]))
+	var frame_range :Vector2 = convert_string_to_vector(str(sprite_texture_data["advanced_dict"]["frame_range"]))
 	var speed :int = sprite_texture_data["advanced_dict"]["speed"]
-	var frame_size :Vector2 = sprite_texture_data["advanced_dict"]["sprite_size"]
+	var frame_size :Vector2 = convert_string_to_vector(str(sprite_texture_data["advanced_dict"]["sprite_size"]))
 
 	var atlas_texture :Texture = load(table_save_path + icon_folder + sprite_texture_data["atlas_dict"]["texture_name"])
 
@@ -1053,20 +1129,20 @@ func add_animation_to_animatedSprite(sprite_field_name :String, sprite_texture_d
 	#PERHAPS SEPERATE OUT SETTING THE SIZE AS A NEW METHOD
 
 	frame_size = Vector2(atlas_texture.get_size().x/frame_vector.y,atlas_texture.get_size().y/frame_vector.x)
-	
-	
+
+
 	var total_frames = frame_vector.x * frame_vector.y
 
 	if sprite_frames.has_animation(sprite_field_name):
 		sprite_frames.clear(sprite_field_name)
 	sprite_frames.add_animation(sprite_field_name)
-	
+
 	var v_count = 0
 	var h_count = 0
 	var frame_count = 1
 
 	animated_sprite.set_sprite_frames(sprite_frames)
-
+#
 	for i in range(1, total_frames + 1):
 		var region_offset = Vector2(frame_size.x * h_count, (frame_size.y * v_count))
 		var region := Rect2( region_offset ,  Vector2(frame_size.x , frame_size.y))
@@ -1076,14 +1152,14 @@ func add_animation_to_animatedSprite(sprite_field_name :String, sprite_texture_d
 			sprite_frames.add_frame(sprite_field_name, cropped_texture , frame_count)
 			frame_count += 1
 		h_count += 1
-	
+
 		if h_count == frame_vector.y:
 			h_count = 0
 			v_count += 1
 
 	if create_collision:
 		collision = get_collision_shape(sprite_field_name, sprite_texture_data)
-		
+
 	sprite_frames.set_animation_speed(sprite_field_name, speed)
 
 	return [sprite_field_name, collision]
@@ -1096,11 +1172,6 @@ func add_sprite_group_to_animatedSprite(main_node , Sprite_Group_Id :String) -> 
 	var sprite_group_dict :Dictionary = AU3ENGINE.Static_Game_Dict["Sprite Groups"]
 	var spriteFrames : SpriteFrames = SpriteFrames.new()
 	animation_dictionary = sprite_group_dict[Sprite_Group_Id]
-#	for sprite_name in sprite_group_dict:
-#		#print(sprite_group_dict[sprite_name]["Display Name"])
-#		if str_to_var(sprite_group_dict[sprite_name]["Display Name"])["text"] == Sprite_Group_Id:
-#			animation_dictionary = AU3ENGINE.Static_Game_Dict["Sprite Groups"][sprite_name]
-
 
 	if main_node.has_method("call_commands") :
 		var default_dict :Dictionary = AU3ENGINE.convert_string_to_type(main_node.event_dict[main_node.active_page]["Default Animation"])
@@ -1108,12 +1179,12 @@ func add_sprite_group_to_animatedSprite(main_node , Sprite_Group_Id :String) -> 
 		animation_dictionary["Default Animation"] = default_dict
 
 	for j in animation_dictionary:
-		
+
 		if j != "Display Name":
 			var animation_name : String = j
 			var anim_array :Array = AU3ENGINE.add_animation_to_animatedSprite( animation_name, AU3ENGINE.convert_string_to_type(animation_dictionary[j]), true ,new_animatedsprite2d, spriteFrames)
 			main_node.add_child(anim_array[1])
-	
+
 	return_value_dictionary["animated_sprite"] = new_animatedsprite2d
 	return_value_dictionary["animation_dictionary"] = animation_dictionary
 	return return_value_dictionary
@@ -1128,14 +1199,15 @@ func set_sprite_scale(sprite_animation :AnimatedSprite2D, animation_name:String,
 	var atlas_dict :Dictionary = sprite_dict["atlas_dict"]
 	var advanced_dict :Dictionary  = sprite_dict["advanced_dict"]
 	var sprite_texture = load(AU3ENGINE.table_save_path + AU3ENGINE.icon_folder + atlas_dict["texture_name"])
-	var sprite_frame_size = atlas_dict["frames"]
-	var sprite_final_size = advanced_dict["sprite_size"]
+	var sprite_frame_size:Vector2 = AU3ENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
+	var sprite_final_size:Vector2 = AU3ENGINE.convert_string_to_vector(str(advanced_dict["sprite_size"]))
 	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
 	var modified_sprite_size_y = sprite_final_size.x * additional_scaling.y
 	var modified_sprite_size_x = sprite_final_size.y * additional_scaling.x
 	var y_scale_value = modified_sprite_size_y / sprite_cell_size.y
 	var x_scale_value = modified_sprite_size_x / sprite_cell_size.x
 	sprite_animation.set_scale(Vector2(x_scale_value, y_scale_value))
+
 
 
 func get_collision_shape(sprite_field_name :String, sprite_texture_data: Dictionary):
@@ -1147,7 +1219,7 @@ func get_collision_shape(sprite_field_name :String, sprite_texture_data: Diction
 #	var frameVector : Vector2 = sprite_texture_data["atlas_dict"]["frames"]
 	var spriteMap = load(table_save_path + icon_folder + sprite_texture_data["atlas_dict"]["texture_name"])
 	#SET COLLISION SHAPE = TO SPRITE SIZE
-	var sprite_size :Vector2 = sprite_advanced_dict["sprite_size"]
+	var sprite_size :Vector2 = convert_string_to_vector(str(sprite_advanced_dict["sprite_size"]))
 	collision_shape.set_shape(new_shape_2d)
 
 	var collision_vector_array : = []
@@ -1175,9 +1247,9 @@ func create_event_interaction_area(sprite_field_name :String, sprite_texture_dat
 	var area := Area2D.new()
 	var collision_shape = CollisionShape2D.new()
 	var new_shape_2d : = CircleShape2D.new()
-	var frameVector : Vector2 = sprite_texture_data["atlas_dict"]["frames"]
+	var frameVector : Vector2 = convert_string_to_vector(str(sprite_texture_data["atlas_dict"]["frames"]))
 	var spriteMap = load(table_save_path + icon_folder + sprite_texture_data["atlas_dict"]["texture_name"])
-	var sprite_size : Vector2 = sprite_texture_data["advanced_dict"]["sprite_size"] 
+	var sprite_size : Vector2 = convert_string_to_vector(str(sprite_texture_data["advanced_dict"]["sprite_size"]))
 
 	#SET COLLISION SHAPE = TO SPRITE SIZE
 	collision_shape.set_shape(new_shape_2d)
@@ -1199,7 +1271,7 @@ func create_event_attack_area(sprite_field_name :String, sprite_texture_data: Di
 	var frameVector : Vector2 = sprite_texture_data["atlas_dict"]["frames"]
 	var spriteMap = load(table_save_path + icon_folder + sprite_texture_data["atlas_dict"]["texture_name"])
 	var sprite_size = Vector2(spriteMap.get_size().x/frameVector.y,spriteMap.get_size().y/frameVector.x)
-	
+
 	#SET COLLISION SHAPE = TO SPRITE SIZE
 	collision_shape.set_shape(new_shape_2d)
 	new_shape_2d.radius = sprite_size.x * 2
@@ -1208,7 +1280,7 @@ func create_event_attack_area(sprite_field_name :String, sprite_texture_data: Di
 	area.set_collision_layer_value(1, false)
 	area.set_collision_mask_value(2, true)
 	area.add_child(collision_shape)
-	
+
 	return area
 
 
@@ -1218,177 +1290,14 @@ func get_cropped_texture(texture : Texture, region : Rect2) -> AtlasTexture:
 	atlas_texture.set_region(region)
 	return atlas_texture
 
-#############################EVENT FUNCTIONS#####################################
-
-#func  create_new_event_script(script_name : = "DefaultGDScript" ):
-#	var event_dict : Dictionary = import_data(table_save_path + "events" + file_format)
-#	var script_data := "extends Node \nfunc test(): \n	print('Success!!')"
-#	var save_file = File.new()
-#	var save_path : String = table_save_path + event_folder
-#
-#	if save_file.file_exists(save_path + script_name + script_format):
-#		print("Error ", script_name, " already exists")
-#
-#	elif save_file.open(save_path + script_name + script_format, File.WRITE) != OK:
-#		print("Error Could not update file")
-#
-#	else:
-#		save_file.open(save_path + script_name + script_format, File.WRITE)
-#		save_file.close()
-#		event_dict[script_name] = save_path + script_name + script_format
-#		print(script_name , " created at " + save_path)
-#		refresh_editor()
-#		add_func_to_event_script(script_name, "test", script_data)
-#
-#
-#func add_func_to_event_script(script_name : String, function_name : String, script_line : String ):
-#	var save_path : String = table_save_path + event_folder
-#	var event_dict : Dictionary = import_data(table_save_path + "events" + file_format) #REPLACE THIS WITH THE TABLE REFERENCE
-#	var save_file = File.new()
-#	if save_file.open(save_path + script_name + script_format, File.READ_WRITE) != OK:
-#		print("Error Could not update file")
-#
-#	elif event_has_function(script_name, function_name):
-#		print("Error ", script_name, " already has a function with name ", function_name)
-#	else:
-#		save_file.open(save_path + script_name + script_format, File.READ_WRITE)
-#		var existing_data : String = save_file.get_as_text()
-#		script_line = existing_data + "\n" + script_line
-#		save_file.store_string(script_line)
-#
-#		print(function_name + " added to " + script_name)
-#		save_file.close()
-#		refresh_editor()
-#
-#func add_line_to_function(script_name : String, function_name: String, script_line : String):
-#	var save_path : String = table_save_path + event_folder
-#	if event_has_function(script_name, function_name):
-#		var function_script = get_function_script(script_name, function_name)
-#		var script_file = File.new()
-#		script_file.open(save_path + script_name + script_format, File.READ_WRITE)
-#		var script_text : String = script_file.get_as_text()
-#		var updated_function = function_script + "\n" + "\t" + script_line
-#
-#		script_text = script_text.replace(function_script, updated_function)
-#
-#		script_file.store_string(script_text)
-#		script_file.close()
-#
-#
-#func get_function_script(script_name : String, function_name: String):
-#	var save_path : String = table_save_path + event_folder
-#	var script_file = File.new()
-#	var function_script :String = ""
-#
-#	if event_has_function(script_name, function_name):
-#		script_file.open(save_path + script_name + script_format, File.READ)
-#		var script_text :String = script_file.get_as_text()
-#
-#		if script_text.find(function_name +  "(") != -1:
-#			var start_line := script_text.find(function_name +  "(")
-#			var end_line := script_text.find("func", start_line)
-#
-#			if end_line == -1:
-#				end_line = script_text.length()
-#			function_script = script_text.substr(start_line - 5, end_line)
-#
-#		script_file.close()
-#	return function_script
-
-
-#func event_has_function(script_name : String, function_name: String): #DOES NOT WORK IF FILE WAS JUST CREATED BUT DOES WORK IF FILE ALREADY EXISTS
-#	var save_path : String = table_save_path + event_folder
-#	var has_function = false
-#	var script_file = File.new()
-#	script_file.open(save_path + script_name + script_format, File.READ_WRITE)
-#	var script_text : String = script_file.get_as_text()
-#	if script_text.find(function_name +  "(") != -1:
-#		has_function = true
-#	script_file.close()
-#	if !has_function:
-#		print(function_name, " does not exists in script ", script_name)
-#	return has_function
 
 
 
-func get_list_of_events(return_dict := false):
-	#EVENT DICT NEEDS TO BE THE TABLE DATA BUT ONLY THE TABLES THAT ARE DESIGNATED AS EVENTS
-	var table_dict :Dictionary = get_list_of_all_tables()
-	var event_dict = {}
-	for table_name in table_dict:
-
-		var is_event = convert_string_to_type(table_dict[table_name]["Is Event"])
-		if is_event:
-			var name_ = table_dict[table_name]["Display Name"]
-#			print(name_)
-			event_dict[name_] = table_name
-
-	var event_list :String = ""
-
-
-	for displayName in event_dict:
-		if event_list == "":
-			event_list = displayName
-		else:
-			event_list = event_list + "," + displayName
-
-	if return_dict:
-		return event_dict
-	else:
-		return event_list
 
 func get_list_of_all_tables():
-	var table_dict : Dictionary = import_data(table_save_path + "Table Data" + file_format)
+	var table_dict : Dictionary = import_data("Table Data")
 	return table_dict
 
-func wait_timer(Wait_Time : float = 1.0):
-	var t = Timer.new()
-	get_main_node().add_child(t)
-	t.set_wait_time(Wait_Time)
-#	t.autostart = true
-	t.start()
-	await t.timeout
-	t.queue_free()
-
-
-
-
-
-#Convert string to dictionary testing
-
-#	var dict = {}
-#	var dict2 = {}
-#	var dict3 = {}
-#	var key
-#
-#
-#	value = value.trim_prefix("{")
-#	value = value.trim_suffix("}")
-#	key = convert_string_to_type(value.left(value.find(":")))
-#
-#
-#	if value.find("{") == -1:
-#		dict = value.split(",")
-#		if dict.size() > 1:
-#			for i in dict.size():
-#				dict2 = {}
-#				dict2 = dict[i].split(":")
-#				dict3[convert_string_to_type(dict2[0])] = convert_string_to_type(dict2[1])
-#			dict_value = {key : dict3}
-#		else:
-#			dict2 = value.split(":")
-#			dict3 = convert_string_to_type(dict2[1])
-#			dict_value = {key:dict3}
-
-#
-#	else:
-#		var split = value.split("{")
-#		var value2 = split[1]
-#		value2 = split[1].trim_prefix("{")
-#		value2 = split[1].trim_prefix(" ")
-#		value2 = split[1].trim_suffix("}")
-#		value2 = convert_string_to_type(value2, "10")
-#		dict_value[key] = value2[value2.keys()[0]]
 
 func rearrange_table_keys(new_index :String = button_focus_index, old_index:String = button_selected , selected_data_dict :Dictionary = currentData_dict):
 	new_index = get_data_index(new_index, "Row")
@@ -1397,22 +1306,18 @@ func rearrange_table_keys(new_index :String = button_focus_index, old_index:Stri
 	var test_dict = currentData_dict.duplicate(true)
 	#remove the old index
 	test_dict["Row"].erase(old_index)
-
 	for key in test_dict["Row"].size():
 		key += 1
 		var key_string :String = str(key)
-
 		if !test_dict["Row"].has(key_string):
 			var next_key = str(key + 1)
 			var next_key_data = test_dict["Row"][next_key]
 			test_dict["Row"][key_string] = next_key_data
 			test_dict["Row"].erase(next_key)
-
 	#insert the old key data in the new key index and shift all the remaining keys down
 	for key in range(test_dict["Row"].size() + 1,0,-1):
 		var key_string :String = str(key)
 		var previous_key = str(key - 1)
-
 		if key_string == new_index:
 			test_dict["Row"].erase(key_string)
 			test_dict["Row"][key_string] = key_data
@@ -1423,8 +1328,6 @@ func rearrange_table_keys(new_index :String = button_focus_index, old_index:Stri
 			test_dict["Row"][key_string] = prev_key_data
 
 	currentData_dict["Row"] = test_dict["Row"]
-	#_on_Save_button_up()
-
 	for child in $Button_Float.get_children():
 		child._on_TextureButton_button_up()
 		child.queue_free()
@@ -1435,63 +1338,42 @@ func get_events_tab(curr_selected_node):
 	return events_tab
 
 
-func open_scene_in_editor(scene_path :String):
-	editor = EditorPlugin.new().get_editor_interface()
-	var open_scenes = editor.get_open_scenes()
-	if open_scenes.has(scene_path):
-		editor.reload_scene_from_path(scene_path)
-	else:
-		editor.open_scene_from_path(scene_path)
-
 func get_mappath_from_displayname(map_name :String):
-	#print(map_name)
-	var maps_dict = import_data(table_save_path + "Maps" + file_format)
-	#print(maps_dict)
+	var maps_dict = import_data("Maps")
 	var new_map_path :String = ""
 	for map_id in maps_dict:
 		if str_to_var(maps_dict[map_id]["Display Name"])["text"] == map_name:
 			new_map_path = maps_dict[map_id]["Path"]
 			break
-	#print(new_map_path)
 	return new_map_path
 
 
 func add_starting_position_node_to_map(selectedItemName,previous_selection, parent_node):
-	editor = EditorPlugin.new().get_editor_interface()
 	var new_map_path :String
 	var previous_map_path :String
-
 	new_map_path = get_mappath_from_displayname(selectedItemName)
 	previous_map_path = get_mappath_from_displayname(previous_selection)
-
 	var starting_position_node = Sprite2D.new()
 	var new_map_scene  = load(new_map_path).instantiate()
-
 	new_map_scene.add_child(starting_position_node)
 	starting_position_node.set_owner(new_map_scene)
 	starting_position_node.set_name("StartingPositionNode")
 	starting_position_node.set_script(load("res://addons/UDSEngine/Database_Manager/StartingPositionNode.gd"))
 	var starting_position_icon :Texture = load("res://Data/png/StartingPosition.png")
 	starting_position_node.set_texture(starting_position_icon)
-
 	var new_packed_scene = PackedScene.new()
 	new_packed_scene.pack(new_map_scene)
 	var dir :DirAccess = DirAccess.open(new_map_path.get_base_dir())
-	#dir.open(new_map_path.get_base_dir())
 	dir.remove(selectedItemName)
 	ResourceSaver.save(new_packed_scene, new_map_path,)
 	new_map_scene.queue_free()
-
 	parent_node._on_Save_button_up()
-
 	open_scene_in_editor(new_map_path)
-
 	var tabbar :TabBar = get_editor_tabbar()
 	var tabbar_dict :Dictionary = get_open_scenes_in_editor()
 	var previous_scene_name :String = previous_map_path.get_file().get_basename()
 	var scene_name :String = new_map_path.get_file().get_basename()
 	var scene_index :int = 0
-
 	for index in tabbar_dict:
 		if tabbar_dict[index] == scene_name:
 			scene_index = index
@@ -1500,6 +1382,7 @@ func add_starting_position_node_to_map(selectedItemName,previous_selection, pare
 	tabbar.set_current_tab(scene_index)
 	close_scene_in_editor(previous_scene_name)
 	select_node_in_editor("StartingPositionNode")
+
 
 func close_scene_in_editor(scene_name :String):
 	var scene_index :int = 0
@@ -1513,35 +1396,41 @@ func close_scene_in_editor(scene_name :String):
 
 
 func select_node_in_editor(node_name : String):
-	editor.get_selection().clear()
-	editor.edit_node(editor.get_edited_scene_root().get_node(node_name))
+	var editor  = load("res://addons/UDSEngine/EditorEngine.gd").new()
+	editor.get_editor_interface().get_selection().clear()
+	editor.get_editor_interface().edit_node(editor.get_editor_interface().get_edited_scene_root().get_node(node_name))
 
 
 func get_editor_tabbar() -> TabBar:
-	var tabbar :TabBar
-	tabbar = editor.get_editor_main_screen().get_parent().get_parent().get_node("@@717/@@718/@@719")
-#	print(tabbar.name)
+	var tabbar #:TabBar
+	var editor  = load("res://addons/UDSEngine/EditorEngine.gd").new()
+	#editor.get_editor_interface()
+	tabbar = editor.get_editor_interface().get_editor_main_screen().get_parent().get_parent().get_node("@@716/@@717/@@718")
+#	for child in tabbar.get_children():
+#		(child.name, " ", child.get_class())
 	
-#	for child in editor.get_editor_main_screen().get_parent().get_parent().get_children():
-#		print(child.name, " ", child.get_class())
-#		print(child.get_children())
-#		if child.name == "@@717":
-#			print("Found")
-#			print(child.get_node("@@718").get_children())
-			
-
-			
-#	for child in editor.get_editor_main_screen().get_parent().get_parent().get_children():
-#
-#		if child.get_class() == "HBoxContainer":
-#			for child2 in child.get_children():
-#				if child2.get_class() == "TabBar":
-#					tabbar = child2
 	return tabbar
 
+
 func return_to_AU3Engine():
-	var editor := EditorPlugin.new()
+	var editor = load("res://addons/UDSEngine/EditorEngine.gd").new()
 	editor.get_editor_interface().set_main_screen_editor("AU3 Engine")
+	var editor_main_scene = await editor.get_editor_interface().get_editor_main_screen().get_node("AU3ENGINE")
+	return editor_main_scene
+
+func get_AU3ENGINE_main_scene():
+	var editor = load("res://addons/UDSEngine/EditorEngine.gd").new()
+	var editor_main_scene = await editor.get_editor_interface().get_editor_main_screen().get_node("AU3ENGINE")
+	return editor_main_scene
+
+
+func open_scene_in_editor(scene_path :String):
+	var editor  = load("res://addons/UDSEngine/EditorEngine.gd").new()
+	var open_scenes = editor.get_editor_interface().get_open_scenes()
+	if open_scenes.has(scene_path):
+		editor.get_editor_interface().reload_scene_from_path(scene_path)
+	else:
+		editor.get_editor_interface().open_scene_from_path(scene_path)
 
 
 func get_open_scenes_in_editor() -> Dictionary:
@@ -1550,11 +1439,10 @@ func get_open_scenes_in_editor() -> Dictionary:
 	for tab in tabbar.get_tab_count():
 		tabbar_dict[tab] = tabbar.get_tab_title(tab)
 	return tabbar_dict
-	
+
 
 func delete_starting_position_from_old_map(previous_selection, node_name:String = "StartingPositionNode" ):
-	editor = EditorPlugin.new().get_editor_interface()
-	var maps_dict = import_data(table_save_path + "Maps" + file_format)
+	var maps_dict = import_data("Maps")
 	var new_map_path
 	for map_id in maps_dict:
 		if str_to_var(maps_dict[map_id]["Display Name"])["text"] == previous_selection:
@@ -1568,19 +1456,127 @@ func delete_starting_position_from_old_map(previous_selection, node_name:String 
 		if start_pos_node != null:
 			new_map_scene.remove_child(start_pos_node)
 			start_pos_node.queue_free()
-			
+
 			var new_packed_scene = PackedScene.new()
 			new_packed_scene.pack(new_map_scene)
-			
+
 			var dir :DirAccess = DirAccess.open(new_map_path.get_base_dir())
-			#dir.open(new_map_path.get_base_dir())
 			dir.remove(previous_selection)
 			ResourceSaver.save(new_packed_scene, new_map_path)
-		
+
 		new_map_scene.queue_free()
-
-		var open_scenes = editor.get_open_scenes()
+		var editor  = load("res://addons/UDSEngine/EditorEngine.gd").new()
+		var open_scenes = editor.get_editor_interface().get_open_scenes()
 		open_scene_in_editor(new_map_path)
-		editor.save_scene()
+		editor.get_editor_interface().save_scene()
 
 
+func update_UI_method_table():
+	var AU3_UI_method_dict:Dictionary = import_data("UI Script Methods")
+	var AU3_UI_method_data_dict: Dictionary = import_data("UI Script Methods", true)
+	var AU3_UI_method_display_name_dict:Dictionary = get_field_value_dict(AU3_UI_method_dict)
+	var method_dict:Dictionary = get_UI_methods()
+#	print(AU3_UI_method_display_name_dict)
+
+	for method_name in method_dict:
+		if !AU3_UI_method_display_name_dict.has(method_name):
+			var NewKeyName :String = str(get_next_key_ID(AU3_UI_method_dict))
+			var displayName: Dictionary = {"text": method_name}
+			var tempArray :Array = add_key_to_table(NewKeyName, method_name.replace("_", " "), "",AU3_UI_method_dict, AU3_UI_method_data_dict )
+			AU3_UI_method_dict[NewKeyName]["Function Name"] = displayName
+	for id in AU3_UI_method_dict:
+		var functionName:String = convert_string_to_type(AU3_UI_method_dict[id]["Function Name"])["text"]
+		if !method_dict.has(functionName):
+			var newDictArray :Array = Delete_Key(id, AU3_UI_method_dict,AU3_UI_method_data_dict )
+			AU3_UI_method_dict = newDictArray[0].duplicate(true)
+			AU3_UI_method_data_dict = newDictArray[1].duplicate(true)
+
+	save_file( table_save_path + "UI Script Methods" + table_file_format, AU3_UI_method_dict )
+	save_file( table_save_path + "UI Script Methods" + "_data" + table_file_format, AU3_UI_method_data_dict )
+
+
+func get_UI_methods():
+	var UIENGINE:UIEngine = UIEngine.new()
+	var UIMethodList  = UIENGINE.get_method_list()
+	var method_dict:Dictionary = {}
+	for id in UIMethodList:
+		if id["return"]["usage"] == 6 and id["flags"] == 1 and id["id"] == 0 and id.name != "free":
+			method_dict[id.name] = id.name
+	return method_dict
+
+
+func update_input_actions_table():
+	print("UPDATE INPUT ACTIONS TABLE BEGIN")
+	var AU3_input_map_dict:Dictionary = import_data("AU3 InputMap")
+	var AU3_input_map_data_dict: Dictionary = import_data("AU3 InputMap", true)
+	var input_actions_display_name_dict:Dictionary = get_display_name(AU3_input_map_dict)
+	InputMap.load_from_project_settings()
+	var inputMap = InputMap.get_actions()
+	for action_name in inputMap:
+		if !input_actions_display_name_dict.has(action_name):
+			var NewKeyName :String = str(get_next_key_ID(AU3_input_map_dict))
+			var tempArray :Array = add_key_to_table(NewKeyName, action_name, "",AU3_input_map_dict, AU3_input_map_data_dict )
+
+	for id in AU3_input_map_dict:
+		var displayName:String = convert_string_to_type(AU3_input_map_dict[id]["Display Name"])["text"]
+		if !inputMap.has(displayName):
+			var newDictArray :Array = Delete_Key(id, AU3_input_map_dict,AU3_input_map_data_dict )
+			AU3_input_map_dict = newDictArray[0].duplicate(true)
+			AU3_input_map_data_dict = newDictArray[1].duplicate(true)
+
+	save_file( table_save_path + "AU3 InputMap" + table_file_format, AU3_input_map_dict )
+	save_file( table_save_path + "AU3 InputMap" + "_data" + table_file_format, AU3_input_map_data_dict )
+	print("UPDATE INPUT ACTIONS TABLE END")
+
+
+func get_display_name(inputDict: Dictionary):
+	var display_name_dict :Dictionary = {}
+	for key in inputDict:
+		var display_name :String = convert_string_to_type(inputDict[key]["Display Name"])["text"]
+		display_name_dict[display_name] = key
+	return display_name_dict
+
+
+func get_field_value_dict(inputDict: Dictionary, fieldName:String ="Function Name"):
+	var display_name_dict :Dictionary = {}
+	for key in inputDict:
+		var display_name :String = convert_string_to_type(inputDict[key][fieldName])["text"]
+		display_name_dict[display_name] = key
+	return display_name_dict
+
+
+func add_key_to_table(NewKeyName :String, NewDisplayName: String, TableName:String, target_dict:Dictionary = {}, target_data_dict:Dictionary = {}):
+	if target_dict == {}:
+		target_dict = import_data(TableName)
+	if target_data_dict == {}:
+		target_data_dict = import_data(TableName, true)
+	var index = target_data_dict["Row"].size() + 1
+	var CustomData_dict = import_data("Field_Pref_Values") 
+	var newOptions_dict = {}
+	var newValue
+
+	for ID in CustomData_dict:
+		var currentKey_dict :Dictionary = str_to_var(CustomData_dict[ID]["ItemID"])
+		var currentKey :String = currentKey_dict["text"]
+		newValue = target_data_dict["Row"][target_data_dict["Row"].keys()[0]][currentKey]
+		newOptions_dict[currentKey] = newValue
+
+	newOptions_dict["FieldName"] = NewKeyName
+	target_data_dict["Row"][str(index)] =  newOptions_dict
+
+
+	var new_key_data = target_dict[target_dict.keys()[0]].duplicate(true)
+	new_key_data["Display Name"] = {"text": NewDisplayName}
+	target_dict[NewKeyName] = new_key_data  #CHANGE THIS TO DEFAULT VALUE FOR DATATYPE #Set new key values based on the default (first line of table)
+	
+	return [target_dict, target_data_dict]
+	#Save target_data_dict and target_dict
+
+
+
+func get_next_key_ID(target_dict:Dictionary):
+	var next_key_number: int
+	next_key_number = target_dict.size()
+	while target_dict.has(str(next_key_number)):
+		next_key_number += 1
+	return next_key_number

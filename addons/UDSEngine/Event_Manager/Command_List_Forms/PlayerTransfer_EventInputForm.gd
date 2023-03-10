@@ -14,7 +14,6 @@ var scene_name
 
 
 func _ready():
-	print("Form added")
 	$Control/VBoxContainer/DropDown_Template.populate_list()
 
 
@@ -35,10 +34,7 @@ func get_input_values():
 func _on_accept_button_up():
 	commandListForm.CommandInputForm.function_dict = get_input_values()
 	delete_transfer_node()
-
 	if DBENGINE.get_main_node(self).name == "AU3ENGINE":
-		#SHOULD CLOSE SCENE IF THE TRANSFER TO MAP IS NOT THE MAP THAT 
-		#CONTAINS THE EVENT CURRENTLY BEING EDITTED
 		DBENGINE.close_scene_in_editor(which_map)
 		await get_tree().create_timer(.25).timeout
 		DBENGINE.return_to_AU3Engine()
@@ -47,8 +43,8 @@ func _on_accept_button_up():
 
 
 func _on_open_map_button_button_up():
-	var editor := EditorPlugin.new().get_editor_interface()
-	var map_dict = DBENGINE.import_data(DBENGINE.table_save_path + "Maps" + DBENGINE.file_format)
+	var editor := EditorScript.new().get_editor_interface()
+	var map_dict = DBENGINE.import_data("Maps")
 	var map_path
 	which_map = map_node.inputNode.text
 	for map_index in map_dict:
@@ -56,13 +52,12 @@ func _on_open_map_button_button_up():
 			map_path = map_dict[map_index]["Path"]
 			break
 	Add_Starting_position_node_to_map(which_map)
-	
+
 
 func Add_Starting_position_node_to_map(selectedItemName):
-	var editor = EditorPlugin.new().get_editor_interface()
-	var maps_dict = DBENGINE.import_data(DBENGINE.table_save_path + "Maps" + DBENGINE.file_format)
+	var editor = EditorScript.new().get_editor_interface()
+	var maps_dict = DBENGINE.import_data("Maps")
 	var new_map_path :String = DBENGINE.get_mappath_from_displayname(selectedItemName)
-
 	var transfer_position_node = Sprite2D.new()
 	var new_map_scene = load(new_map_path).instantiate()
 	new_map_scene.add_child(transfer_position_node)
@@ -71,7 +66,6 @@ func Add_Starting_position_node_to_map(selectedItemName):
 	transfer_position_node.set_script(load("res://addons/UDSEngine/Database_Manager/TransferPositionNode.gd"))
 	var transfer_position_icon :Texture = load("res://Data/png/StartingPosition.png")
 	transfer_position_node.set_texture(transfer_position_icon)
-
 	var new_packed_scene = PackedScene.new()
 	new_packed_scene.pack(new_map_scene)
 	var dir :DirAccess = DirAccess.open(new_map_path.get_base_dir())
@@ -79,7 +73,6 @@ func Add_Starting_position_node_to_map(selectedItemName):
 	dir.remove(selectedItemName)
 	ResourceSaver.save(new_packed_scene, new_map_path)
 	new_map_scene.queue_free()
-
 	DBENGINE.open_scene_in_editor(new_map_path)
 	var tabbar :TabBar = DBENGINE.get_editor_tabbar()
 	var tabbar_dict :Dictionary = DBENGINE.get_open_scenes_in_editor()
@@ -94,12 +87,13 @@ func Add_Starting_position_node_to_map(selectedItemName):
 	editor.get_edited_scene_root().get_node("TransferPositionNode").position_changed.connect(update_position)
 	DBENGINE.select_node_in_editor("TransferPositionNode")
 
+
 func delete_transfer_node():
 	DBENGINE.delete_starting_position_from_old_map(scene_name, "TransferPositionNode")
 
 
 func update_position(current_position):
-	var editor = EditorPlugin.new().get_editor_interface()
+	var editor = EditorScript.new().get_editor_interface()
 	vector_node.inputNode.set_text(str(current_position))
 	vector_node.x_input.set_text(str(current_position.x))
 	vector_node.y_input.set_text(str(current_position.y))

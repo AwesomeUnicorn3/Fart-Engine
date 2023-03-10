@@ -21,36 +21,18 @@ script = ExtResource("1_ggkpl")
 
 [node name="Input" type="Control" parent="."]
 layout_mode = 2
-anchors_preset = 0
-offset_right = 900.0
 
 [node name="Label" parent="." instance=ExtResource("2_p2fuw")]
-custom_minimum_size = Vector2i(0, 25)
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-offset_top = 4.0
-offset_right = 900.0
-offset_bottom = 29.0
 
 [node name="CharacterName_HBox" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2i(0, 100)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-offset_top = 33.0
-offset_right = 900.0
-offset_bottom = 133.0
 size_flags_horizontal = 3
 
 [node name="CharacterName_Checkbox" parent="CharacterName_HBox" instance=ExtResource("3_e1vdb")]
-custom_minimum_size = Vector2i(150, 0)
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 150.0
-offset_bottom = 100.0
-grow_horizontal = 1
-grow_vertical = 1
 size_flags_horizontal = 1
 true_text = "List"
 false_text = "Text"
@@ -59,55 +41,24 @@ is_label_button = false
 
 [node name="CharacterName_Dropdown" parent="CharacterName_HBox" instance=ExtResource("3_mwq4e")]
 layout_mode = 2
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 154.0
-offset_right = 525.0
-offset_bottom = 100.0
 selection_table_name = "Characters"
 label_text = "Character Name"
 is_label_button = false
 
 [node name="CharacterName_Text" parent="CharacterName_HBox" instance=ExtResource("5_xab2l")]
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 529.0
-offset_right = 900.0
-offset_bottom = 100.0
-grow_horizontal = 1
-grow_vertical = 1
 label_text = "Custom Name"
 is_label_button = false
 
 [node name="Dialog_Text" parent="." instance=ExtResource("5_xab2l")]
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 137.0
-offset_right = 900.0
-offset_bottom = 220.0
-grow_horizontal = 1
-grow_vertical = 1
 
 [node name="IconSelection_HBox" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_top = 224.0
-offset_right = 900.0
-offset_bottom = 332.0
 
 [node name="IconSelection_Checkbox" parent="IconSelection_HBox" instance=ExtResource("3_e1vdb")]
-custom_minimum_size = Vector2i(150, 0)
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 150.0
-offset_bottom = 108.0
-grow_horizontal = 1
-grow_vertical = 1
 size_flags_horizontal = 1
 true_text = "Animation"
 false_text = "Icon"
@@ -117,47 +68,21 @@ is_label_button = false
 [node name="IconSelection_Sprite" parent="IconSelection_HBox" instance=ExtResource("8_4eupo")]
 visible = false
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_top = 87.0
-offset_right = 900.0
-offset_bottom = 516.0
-grow_horizontal = 1
-grow_vertical = 1
 label_text = "Speaker Sprite"
 is_label_button = false
 
 [node name="IconSelection_Icon" parent="IconSelection_HBox" instance=ExtResource("7_lfbfv")]
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 154.0
-offset_right = 900.0
-offset_bottom = 108.0
-grow_horizontal = 1
-grow_vertical = 1
 size_flags_vertical = 3
 label_text = "Speaker Icon"
 is_label_button = false
 
 [node name="SceneSelection_HBox" type="HBoxContainer" parent="."]
 layout_mode = 2
-offset_top = 336.0
-offset_right = 900.0
-offset_bottom = 419.0
 
 [node name="SceneSelection_Checkbox" parent="SceneSelection_HBox" instance=ExtResource("3_e1vdb")]
-custom_minimum_size = Vector2i(150, 0)
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 448.0
-offset_bottom = 83.0
-grow_horizontal = 1
-grow_vertical = 1
 true_text = "Default"
 false_text = "Custom"
 label_text = "Dialog Scene"
@@ -165,20 +90,8 @@ is_label_button = false
 
 [node name="Scene_Selection_ScenePath" parent="SceneSelection_HBox" instance=ExtResource("8_q84tl")]
 layout_mode = 2
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 452.0
-offset_right = 900.0
-offset_bottom = 83.0
-grow_horizontal = 1
-grow_vertical = 1
 label_text = "Custom Scene"
 is_label_button = false
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("5_fgbfj")]
 layout_mode = 2
-anchor_right = 0.0
-offset_top = 423.0
-offset_right = 900.0
-offset_bottom = 423.0

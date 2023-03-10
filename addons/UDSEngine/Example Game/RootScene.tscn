@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://cug68ueq7pj0o"]
+
+[node name="Project Root Scene" type="Node2D" groups=["UDS_Root"]]

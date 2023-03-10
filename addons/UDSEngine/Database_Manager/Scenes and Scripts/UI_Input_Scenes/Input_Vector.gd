@@ -16,6 +16,10 @@ var omit_changed = true
 func _init() -> void:
 	type = "9"
 	await input_load_complete
+	set_input_nodes()
+
+
+func set_input_nodes():
 	x_label = $HBox2/X
 	x_input = $HBox3/InputX
 	y_label = $HBox2/Y
@@ -25,6 +29,7 @@ func _init() -> void:
 
 
 func _on_Button2_button_up() -> void:
+	set_input_nodes()
 	$Hbox1/Button.disabled = false
 	$Hbox1/Button2.disabled = true
 	$HBox3/InputZ.visible = true
@@ -35,6 +40,7 @@ func _on_Button2_button_up() -> void:
 
 
 func _on_Button_button_up() -> void:
+	set_input_nodes()
 	$Hbox1/Button.disabled = true
 	$Hbox1/Button2.disabled = false
 	$HBox3/InputZ.visible = false
@@ -47,14 +53,17 @@ func _on_Button_button_up() -> void:
 func _on_InputZ_text_changed(new_text: String) -> void:
 	set_inputNode_value()
 
+
 func _on_InputY_text_changed(new_text: String) -> void:
 	set_inputNode_value()
+
 
 func _on_InputX_text_changed(new_text: String) -> void:
 	set_inputNode_value()
 
+
 func set_inputNode_value():
-#	var returnVector
+	set_input_nodes()
 	var xvalue = x_input.text
 	var yvalue = y_input.text
 	var zvalue = z_input.text
@@ -86,11 +95,22 @@ func set_user_input_value():
 			x_input.set_text(str(vec.x))
 			y_input.set_text(str(vec.y))
 
-
 		TYPE_VECTOR3:
 			_on_Button2_button_up()
 			x_input.set_text(str(vec.x))
 			y_input.set_text(str(vec.y))
 			z_input.set_text(str(vec.z))
 	omit_changed = false
-	
+
+
+func _get_input_value() -> String:
+	var return_value :String
+	return_value = inputNode.get_text()
+	return return_value
+
+
+func _set_input_value(node_value):
+	get_input_node()
+	inputNode.set_text(str(node_value))
+	set_user_input_value()
+	set_inputNode_value()

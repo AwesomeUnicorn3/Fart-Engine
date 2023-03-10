@@ -1,8 +1,12 @@
 @tool
 extends CommandForm
 
-@onready var selection_node = $Control/VBoxContainer/ItemType_Selection
-@onready var value_node = $Control/VBoxContainer/Checkbox_Template
+@onready var key_dropdown := $Control/VBoxContainer/KeyDropdown
+@onready var field_dropdown = $Control/VBoxContainer/FieldDropdown
+
+@onready var value_node := $Control/VBoxContainer/Checkbox_Template
+
+var DBENGINE: DatabaseEngine = DatabaseEngine.new()
 
 var function_name :String = "change_local_variable" #must be name of valid function
 var which_var :String
@@ -10,15 +14,20 @@ var to_what :String
 var event_name :String = ""
 
 
+func _ready():
+	key_dropdown.populate_list()
+#	field_dropdown.selection_table_name = key_dropdown._get_input_value()
+#	field_dropdown.populate_list()
+
 func set_input_values(old_function_dict :Dictionary):
 	edit_state = true
-	selection_node.inputNode.text = old_function_dict[function_name][0]
+	field_dropdown.set_value_do_not_populate(old_function_dict[function_name][0])
 	var toggled_value :bool = convert_string_to_type(old_function_dict[function_name][1])
-	value_node.inputNode.button_pressed = toggled_value
+	value_node.set_input_value(toggled_value)
 
 
 func get_input_values():
-	which_var = selection_node.inputNode.text
+	which_var = field_dropdown.get_input_value()
 	to_what = value_node.inputNode.text
 	event_name = commandListForm.CommandInputForm.source_node.parent_node.event_name
 	var return_function_dict = {function_name : [which_var, to_what, event_name]}
@@ -28,3 +37,13 @@ func get_input_values():
 func _on_accept_button_up():
 	commandListForm.CommandInputForm.function_dict = get_input_values()
 	get_parent()._on_close_button_up()
+
+
+func _on_key_dropdown_input_selection_changed():
+	var field_list: Dictionary = {}
+	var selected_table_data_dict: Dictionary = DBENGINE.import_data(key_dropdown.selection_table_name, true)
+	for key in key_dropdown.selection_table[key_dropdown.selection_table.keys()[0]]:
+		if key != "Display Name":
+			field_list[key] = {"Datatype": DBENGINE.get_datatype(key, selected_table_data_dict)}
+	field_dropdown.selection_table = field_list
+	field_dropdown.populate_list(false, true)

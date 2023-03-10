@@ -11,23 +11,17 @@ var bufferSize :int = 10
 
 func set_label_text(keyName :String, displayName :String = "", displayNameVisible :bool = true):
 	$Label.set_text(keyName) #must be set no matter what is displayed
-	#print(displayName, " Visible : ", displayNameVisible)
 	if displayNameVisible and displayName != "":
 		$DisplayLabel.set_text(displayName)
-#		visibleNode = $DisplayLabel
 		$DisplayLabel.visible = true
 		$Label.visible = false
-		
 	else:
-#		visibleNode = $Label
 		$DisplayLabel.visible = false
 		$Label.visible = true
-		#print("Key Name: ", keyName, " ", displayName, " Visible : ", displayNameVisible)
 	change_button_size()
 
 
 func change_button_size():
-
 	var visibleNode :Label = get_visible_label()
 	var labelSize :Vector2 = visibleNode.size
 	var buttonSize :Vector2 = self.size
@@ -37,6 +31,7 @@ func change_button_size():
 		labelSize = visibleNode.size
 		buttonSize = self.size
 
+
 func get_visible_label() -> Label:
 	var labelNode :Label
 	for child in get_children():
@@ -45,17 +40,16 @@ func get_visible_label() -> Label:
 			break
 	return labelNode
 
+
 func _on_TextureButton_button_up():
 	if !btn_moved:
-		var name = $Label.get_text()
-		main_page.refresh_data(name)
-
+		var Name = name
+		main_page.refresh_data(Name)
 	modulate = Color(1,1,1,1)
-
 	btn_moved = false
 	btn_pressed = false
 	main_page.button_movement_active = false
-	
+
 
 func _process(delta):
 	var visibleNode :Label = get_visible_label()
@@ -63,14 +57,12 @@ func _process(delta):
 	var buttonSize :Vector2 = self.size
 	if labelSize.y + bufferSize != buttonSize.y:
 		change_button_size()
-
 	if btn_moved:
 		var mouse_postion :Vector2 = get_viewport().get_mouse_position()
 		set_position(Vector2(mouse_postion.x + 25, mouse_postion.y - 20))
 
 
 func _on_pressed():
-
 	if main_page.button_movement_active:
 		main_page.rearrange_table_keys()
 		main_page._on_Save_button_up()

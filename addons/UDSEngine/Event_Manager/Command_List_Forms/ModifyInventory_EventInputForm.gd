@@ -28,7 +28,7 @@ func set_input_values(old_function_dict :Dictionary):
 
 
 func get_input_values():
-	what = key_node.inputNode.text
+	what = key_node.get_input_value()
 	how_many = how_many_node.inputNode.text
 	increase = increase_node.inputNode.button_pressed
 	event_name = commandListForm.CommandInputForm.source_node.parent_node.event_name

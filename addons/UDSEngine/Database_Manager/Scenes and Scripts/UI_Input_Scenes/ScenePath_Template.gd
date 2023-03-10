@@ -17,6 +17,7 @@ func _on_TextureButton_button_up():
 	par.get_node("Popups").visible = true
 	par.get_node("Popups/FileSelect").visible = true
 	par.get_node("Popups/FileSelect").add_child(fileSelectedNode)
+	
 	popupDialog = fileSelectedNode.get_node("FileSelectDialog")
 	popupDialog.show_hidden_files = true
 	popupDialog.set_access(0)
@@ -24,10 +25,9 @@ func _on_TextureButton_button_up():
 	current_path = inputNode.get_text()
 	current_path = current_path.get_base_dir()
 	popupDialog.set_current_dir(current_path)
-#	popupDialog.connect("file_selected", self, "_on_FileDialog_file_selected")
 	popupDialog.file_selected.connect(_on_FileDialog_file_selected)
-#	popupDialog.connect("hide", self, "remove_dialog")
-	popupDialog.cancelled.connect(remove_dialog)
+	popupDialog.canceled.connect(remove_dialog)
+	popupDialog.dir_selected.connect(_on_FileDialog_file_selected)
 
 
 func remove_dialog():
@@ -43,6 +43,7 @@ func _on_FileDialog_file_selected(path):
 	current_path = path.get_base_dir() #necessary to navigate filedialog to correct directory
 	inputNode.set_text(path)
 	$HBoxContainer/Display.set_text(get_filename_from_path(path))
+	is_scenepath(path)
 	remove_dialog()
 
 
@@ -54,16 +55,13 @@ func get_filename_from_path(path:String):
 	var filename :String
 	filename = path.get_file().trim_suffix("." + path.get_extension())
 	$HBoxContainer/Display.set_tooltip_text(path) 
-
-	
 	return filename
 
 
-
 func _on_open_scene_button_up():
-	var editor := EditorPlugin.new().get_editor_interface()
+	#IF PATH IS A SCENE, OPEN THIS WAY
+	var editor := EditorScript.new().get_editor_interface()
 	current_path = inputNode.text
-
 	var open_scenes = editor.get_open_scenes()
 	if open_scenes.has(current_path):
 		editor.reload_scene_from_path(current_path)
@@ -71,4 +69,23 @@ func _on_open_scene_button_up():
 		editor.open_scene_from_path(current_path)
 
 
+func _get_input_value() -> String:
+	var return_value :String
+	return_value = inputNode.get_text()
+	return return_value
 
+
+func _set_input_value(node_value):
+	inputNode.set_text(node_value)
+	is_scenepath(node_value)
+	_on_input_text_changed(node_value)
+
+
+func is_scenepath(path:String) -> bool:
+	var is_tscn :bool = false
+	if path.get_extension() == "tscn":
+		is_tscn = true
+		$HBoxContainer/OpenScene.visible = true
+	else:
+		$HBoxContainer/OpenScene.visible = false
+	return is_tscn

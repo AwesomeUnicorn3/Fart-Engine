@@ -83,21 +83,6 @@ layout_mode = 2
 [node name="HBox2" parent="VBox1" instance=ExtResource("4_t7bj3")]
 layout_mode = 2
 
-[node name="Scroll1" parent="VBox1/HBox2" index="0"]
-layout_mode = 2
-
-[node name="Table_Buttons" parent="VBox1/HBox2/Scroll1" index="0"]
-layout_mode = 2
-
-[node name="Scroll2" parent="VBox1/HBox2" index="1"]
-layout_mode = 2
-
-[node name="Panel1" parent="VBox1/HBox2/Scroll2" index="0"]
-layout_mode = 2
-
-[node name="ColorRect" parent="VBox1/HBox2/Scroll2/Panel1" index="0"]
-layout_mode = 2
-
 [node name="Hbox3" type="HBoxContainer" parent="VBox1"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -178,88 +163,24 @@ text = "Cancel"
 visible = false
 layout_mode = 1
 
-[node name="Input_Text" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="0"]
-custom_minimum_size = Vector2(0, 75)
-
-[node name="Label" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection" index="0"]
-layout_mode = 2
-
-[node name="HBox1" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection/Label" index="0"]
-layout_mode = 1
-
-[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection/Label/HBox1" index="0"]
-layout_mode = 2
-
-[node name="Hide_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection/Label/HBox1" index="1"]
-layout_mode = 2
-
-[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection" index="1"]
-layout_mode = 2
-
-[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection" index="2"]
-layout_mode = 2
-
-[node name="Label" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="0"]
-layout_mode = 2
-
-[node name="HBox1" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label" index="0"]
-layout_mode = 1
-
-[node name="Label_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label/HBox1" index="0"]
-layout_mode = 2
-
-[node name="Hide_Button" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label/HBox1" index="1"]
-layout_mode = 2
-
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
-layout_mode = 2
-item_count = 19
-popup/item_3/text = "Controls"
-popup/item_4/text = "DataTypes"
-popup/item_5/text = "Dialog Groups"
-popup/item_6/text = "Event Animation States"
-popup/item_7/text = "Event Triggers"
-popup/item_8/text = "FieldPref"
-popup/item_9/text = "Game State"
-popup/item_10/text = "Global Variables"
-popup/item_11/text = "Inequalities"
-popup/item_12/text = "Input Actions"
-popup/item_13/text = "ItemType"
-popup/item_14/text = "Items"
-popup/item_15/text = "Maps"
-popup/item_16/text = "SFX Groups"
-popup/item_17/text = "Sprite Groups"
-popup/item_17/id = 17
-popup/item_18/text = "Table Data"
-popup/item_18/id = 18
-
-[node name="input_templateBuffer" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="2"]
-layout_mode = 2
+item_count = 37
+popup/item_25/text = "Action Types"
+popup/item_26/text = "Movement Directions"
+popup/item_27/text = "Animation States"
+popup/item_28/text = "Animation Groups"
+popup/item_29/text = "UI Scenes"
+popup/item_30/text = "None"
+popup/item_31/text = "UI Navigation"
+popup/item_32/text = "Table Category"
+popup/item_33/text = "Project Settings"
+popup/item_34/text = "Testing Table"
+popup/item_35/text = "Local Variables"
+popup/item_36/text = "Operations"
 
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource("7")]
 visible = false
 layout_mode = 1
-
-[node name="PanelContainer" parent="Popups/popup_deleteKey" index="0"]
-layout_mode = 1
-
-[node name="VBoxContainer" parent="Popups/popup_deleteKey/PanelContainer" index="0"]
-layout_mode = 2
-
-[node name="Label" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="0"]
-layout_mode = 2
-
-[node name="Itemlist" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="1"]
-layout_mode = 2
-
-[node name="HBoxContainer" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="2"]
-layout_mode = 2
-
-[node name="Accept" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
-layout_mode = 2
-
-[node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
-layout_mode = 2
 
 [node name="ListInput" type="Control" parent="Popups"]
 visible = false
@@ -286,9 +207,15 @@ grow_vertical = 2
 [connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/AddNewItem" to="." method="_on_AddNewItem_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/DeleteSelectedItem" to="." method="_on_DeleteSelectedItem_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/EV100" to="VBox1/HBox2/Scroll1/Table_Buttons/EV100" method="_on_TextureButton_button_up" flags=18]
-[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/EV100" to="VBox1/HBox2/Scroll1/Table_Buttons/EV100" method="_on_mouse_entered" flags=18]
-[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/EV100" to="VBox1/HBox2/Scroll1/Table_Buttons/EV100" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_pressed" flags=18]
+[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" method="_on_TextureButton_button_up" flags=18]
+[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" method="_on_mouse_entered" flags=18]
+[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" method="_on_pressed" flags=18]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_deletePopup_Accept_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on__deletePopup_Cancel_button_up"]
 [connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_NewField_Accept_button_up"]

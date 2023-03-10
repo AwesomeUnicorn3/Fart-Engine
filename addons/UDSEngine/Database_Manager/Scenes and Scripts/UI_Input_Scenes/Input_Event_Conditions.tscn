@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Conditions.gd" id="4"]
 
 [node name="Input_Event_Conditions" type="VBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -13,20 +14,16 @@ theme = ExtResource("1")
 script = ExtResource("4")
 
 [node name="Label" parent="." instance=ExtResource("3")]
-anchor_right = 0.0
-offset_right = 900.0
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_top = 29.0
-offset_right = 900.0
-offset_bottom = 596.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Input" type="TextEdit" parent="HBoxContainer"]
 custom_minimum_size = Vector2(0, 75)
-offset_right = 718.0
-offset_bottom = 567.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.05
 text = "{
@@ -41,16 +38,11 @@ text = "{
 }"
 
 [node name="Add_New_Item" type="Button" parent="HBoxContainer"]
-offset_left = 722.0
-offset_right = 900.0
-offset_bottom = 567.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Edit List"
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("2")]
-anchor_right = 0.0
-offset_top = 600.0
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 
 [connection signal="button_up" from="HBoxContainer/Add_New_Item" to="." method="_on_Add_New_Item_button_up"]
