@@ -11,6 +11,3 @@ Mastadon: https://fosstodon.org/@AU3Engine
 
 
 
-
-https://user-images.githubusercontent.com/63011553/224578125-1760d6cb-63ac-420b-b156-1c316cdb0194.mp4
-
