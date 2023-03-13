@@ -1,4 +1,5 @@
-![AwesomeUnicorn (copy)](https://user-images.githubusercontent.com/63011553/224578304-ec46fe37-3b76-402e-a68f-1e21a20015cb.png)
+![AwesomeUnicorn Logo](https://user-images.githubusercontent.com/63011553/224595998-e79f058d-5f2a-4bf1-ad30-f2ec0f5fc458.png)
+
 # AU3 Engine 
 A quick way to prototype 2D games
 plug-in for Godot
