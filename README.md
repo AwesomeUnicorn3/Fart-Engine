@@ -3,7 +3,7 @@
 ## Fart Engine 
 #plug-in for Godot 4.0
 
-A quick way to prototype 2D games
+A quick way to create 2D games
 
 
 
