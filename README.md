@@ -44,7 +44,9 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 
 
 ## How do I use this thing?
-    Link to tutorial .md file in repository?
+* In **Godot** press **F5** or click on the **Run Project** button to play the example game
+* See link below for documentation and tutorials for the **Fart Engine** addon
+    * Link to tutorial .md file in repository?
 
 ## Known issues
     insert list of all known issues and bugs
