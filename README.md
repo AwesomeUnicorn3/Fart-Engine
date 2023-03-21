@@ -43,26 +43,26 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 ![Install 3](https://user-images.githubusercontent.com/63011553/226676623-f4e079ae-5145-4627-89c4-9815a2139bac.png)
 
 
+
 ## How do I use this thing?
 * In **Godot** press **F5** or click on the **Run Project** button to play the example game
 * See link below for documentation and tutorials for the **Fart Engine** addon
-    * Link to tutorial .md file in repository?
+    * [Fart Engine Documentation](https://github.com/AwesomeUnicorn3/Fart-Engine/blob/master/Documention.md)
+
 
 ## Known issues
     insert list of all known issues and bugs
 
+
 ## Credits
     insert list of github contributors as well as all 
     of those involved in all aspects of the project
+
 
 ## Why is it called "Fart Engine"?
   I mean...why not? Farts are funny
 
 
 
-
+## Contact Me
 Mastadon: https://fosstodon.org/@AU3Engine
-
-
-
-
