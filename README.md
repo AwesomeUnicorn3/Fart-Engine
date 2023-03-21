@@ -44,7 +44,7 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 
 
 ## How do I use this thing?
-    insert screenshots and written instructions here
+    Link to tutorial .md file in repository?
 
 ## Known issues
     insert list of all known issues and bugs
