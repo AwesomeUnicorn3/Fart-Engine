@@ -4,12 +4,13 @@
     insert badges here
 
   Detailed description of the Fart Engine
-  
-## How do I use this thing?
-    insert screenshots and written instructions here
 
 ## Download and Install Instructions
     insert instructions from GitHub to Godot
+
+
+## How do I use this thing?
+    insert screenshots and written instructions here
 
 ## Known issues
     insert list of all known issues and bugs
