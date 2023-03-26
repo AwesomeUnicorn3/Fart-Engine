@@ -16,7 +16,7 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 
 ###    Windows installation:
 * Once installed, open **Godot** to see the **Project Manager**
-* Click on **New Project** to create a new project (if you don't already have one)
+* Double Click on the project you want to use (or create new project)
 * **Return** to **Github**
 * Click on **Code** button at the top right of the repository
 * Select **Dowload Zip** option
