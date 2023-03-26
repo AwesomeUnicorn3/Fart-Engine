@@ -21,8 +21,9 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 * In the FileSystem dock, right click on the **res://** folder and select **Open in file manager**
 
 ![20230326_170959_0000](https://user-images.githubusercontent.com/63011553/227804992-aadd86b8-2712-4167-8a3d-6eebda3167db.png)
-* You should see the **res://** folder for the selected project
-### **Return** to **Github**
+* The **res://** folder for the selected project should open <img width="544" alt="Screenshot 2023-03-26 173125" src="https://user-images.githubusercontent.com/63011553/227805849-1ebb4577-da77-4daa-85b0-2deacce0dd74.png">
+
+### Return to Github 
 * Click on **Code** button at the top right of the repository
 * Select **Dowload Zip** option
 ![Install 2](https://user-images.githubusercontent.com/63011553/226672341-bca3c5ca-f341-4899-857b-ab072931d143.png)
@@ -35,6 +36,8 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 ### **If** your project's **res://** folder has an **addons** folder **then**:
 *   Open the addons folder in the **Fart-Engine-master** folder
 *   Copy the **Fart Engine** folder
+<img width="658" alt="Screenshot 2023-03-26 173416" src="https://user-images.githubusercontent.com/63011553/227805954-259ee3f7-aea7-41b6-9c2a-17e17f458cb3.png">
+
 *   Paste the **Fart Engine** folder in the **res://addons** folder
 
 ### Otherwise do this:
@@ -43,6 +46,8 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 
 ### **Return** to the **Fart Engine** folder
 * **Copy** the **Data** folder
+<img width="660" alt="Screenshot 2023-03-26 173805" src="https://user-images.githubusercontent.com/63011553/227806252-040dfd98-74fc-4fa7-9eb7-93ea8fb0676c.png">
+
 * **Paste** the **Data** folder in the **res://** folder
 
 ### **Return** to **Godot**
