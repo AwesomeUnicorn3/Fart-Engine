@@ -25,8 +25,8 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 * The **res://** folder for the selected project should open <img width="544" alt="Screenshot 2023-03-26 173125" src="https://user-images.githubusercontent.com/63011553/227805849-1ebb4577-da77-4daa-85b0-2deacce0dd74.png">
 
 ### Return to Github 
-* Click on **Code** button at the top right of the repository
-* Select **Dowload Zip** option
+* Click on the green **Code** button at the top right of the repository
+* Select **Download Zip** option
 ![Install 2](https://user-images.githubusercontent.com/63011553/226672341-bca3c5ca-f341-4899-857b-ab072931d143.png)
 
 ### **Open** the folder where the **Zip file** was saved
@@ -43,11 +43,11 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 <img width="543" alt="Screenshot 2023-03-26 174328" src="https://user-images.githubusercontent.com/63011553/227806436-c28a9fbc-e5a6-4dba-b2fc-6e71602dbbd4.png">
 
 ### Otherwise do this:
-*   Select **addons** folder
+*   Copy the addons folder in the **Fart-Engine-master** folder
 *   Paste the **addons** folder in the **res://** folder
 
 ### **Return** to the **Fart Engine** folder
-* **Copy** the **Data** folder
+* Copy the **Data** folder
 <img width="660" alt="Screenshot 2023-03-26 173805" src="https://user-images.githubusercontent.com/63011553/227806252-040dfd98-74fc-4fa7-9eb7-93ea8fb0676c.png">
 
 * Paste the **Data** folder in the **res://** folder
@@ -56,14 +56,19 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 <img width="544" alt="Screenshot 2023-03-26 174502" src="https://user-images.githubusercontent.com/63011553/227806503-79b0c1d7-7686-45d2-9798-c064c0fbb9a9.png">
 
 ### **Return** to **Godot**
-* You should see Godot updating, and several error messages in the **Output Window**
+* You should see **Godot** updating as well as several error messages in the **Output Window**
 * Click on **Project** then **Project Settings**
-* At the top of the **Project settings** window, select **Plugins** tab
+<img width="959" alt="ProjectSettings" src="https://user-images.githubusercontent.com/63011553/227807357-2597e5fe-1de0-402c-aa7a-c72796d68736.png">
+
+* At the top of the **Project settings** window select **Plugins** tab
 * Find **Fart Engine** in the list and make sure the status is set to **Enabled**
+<img width="452" alt="Fart engne enable screenshot" src="https://user-images.githubusercontent.com/63011553/227807550-7006ff50-6d47-4b86-a7e4-b56ca59a7a28.png">
+
+
 * Close the window and click on **Project** again
 * This time select **Quit to Project List**
-* You may be prompted to save the project, this is not necessary but you can if you want to
-* Once you are back at the Project Manager, double click on your project to re-open it
+* You may be prompted to save the project if so select **Don't Save**
+* Once you are back at the **Project Manager** double click on your project to re-open it
 * If the project opens with no error messages in the **Output** window, congratulations, you are now officialy a Farter
 ![Install 3](https://user-images.githubusercontent.com/63011553/226676623-f4e079ae-5145-4627-89c4-9815a2139bac.png)
 
