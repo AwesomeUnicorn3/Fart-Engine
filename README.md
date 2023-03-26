@@ -13,7 +13,8 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 * A basic understanding of how to use the **Godot Game Engine**
   * [Godot Tutorials](https://docs.godotengine.org/en/stable/community/tutorials.html)
 
-###    Windows installation:
+###   How to Install the Fart Engine :
+####        Screenshots are for Windows but the same basic steps are used in any OS supported by **Godot**
 * Once installed, open **Godot** to see the **Project Manager** ![editor_ui_intro_project_manager_01](https://user-images.githubusercontent.com/63011553/227803024-039b7824-69da-4bb4-a2f0-6e969f3389d5.png)
 
 * Double Click on the project you want to use or [create new project](https://docs.godotengine.org/en/stable/tutorials/editor/project_manager.html)
@@ -38,7 +39,8 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 *   Copy the **Fart Engine** folder
 <img width="658" alt="Screenshot 2023-03-26 173416" src="https://user-images.githubusercontent.com/63011553/227805954-259ee3f7-aea7-41b6-9c2a-17e17f458cb3.png">
 
-*   Paste the **Fart Engine** folder in the **res://addons** folder
+*  Paste the **Fart Engine** folder in the **res://addons** folder
+<img width="543" alt="Screenshot 2023-03-26 174328" src="https://user-images.githubusercontent.com/63011553/227806436-c28a9fbc-e5a6-4dba-b2fc-6e71602dbbd4.png">
 
 ### Otherwise do this:
 *   Select **addons** folder
@@ -48,7 +50,10 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 * **Copy** the **Data** folder
 <img width="660" alt="Screenshot 2023-03-26 173805" src="https://user-images.githubusercontent.com/63011553/227806252-040dfd98-74fc-4fa7-9eb7-93ea8fb0676c.png">
 
-* **Paste** the **Data** folder in the **res://** folder
+* Paste the **Data** folder in the **res://** folder
+
+### Your **res://** folder should now contain the **addons** and **Data** folders
+<img width="544" alt="Screenshot 2023-03-26 174502" src="https://user-images.githubusercontent.com/63011553/227806503-79b0c1d7-7686-45d2-9798-c064c0fbb9a9.png">
 
 ### **Return** to **Godot**
 * You should see Godot updating, and several error messages in the **Output Window**
