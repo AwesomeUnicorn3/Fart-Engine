@@ -77,7 +77,7 @@ This is an **ADD-ON** for the **Godot Game Engine Version 4.0 or higher** and wi
 ## How do I use this thing?
 * In **Godot** press **F5** or click on the **Run Project** button to play the example game
 * See link below for documentation and tutorials for the **Fart Engine** addon
-    * [Fart Engine Documentation](https://github.com/AwesomeUnicorn3/Fart-Engine/blob/master/Fart-Engine-Documention.pdf)
+    * [Fart Engine Documentation](https://github.com/AwesomeUnicorn3/Fart-Engine/blob/master/Fart%20Engine%20Documentation.pdf)
 
 
 ## Known issues
