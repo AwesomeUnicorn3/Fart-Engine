@@ -1,0 +1,97 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dialog.gd" id="1_ggkpl"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_p2fuw"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="3_e1vdb"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="3_mwq4e"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="5_fgbfj"]
+[ext_resource type="PackedScene" uid="uid://b2dogu4xneier" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="5_xab2l"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.tscn" id="7_lfbfv"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.tscn" id="8_4eupo"]
+[ext_resource type="PackedScene" uid="uid://b03sp4jqo6vik" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ScenePath_Template.tscn" id="8_q84tl"]
+
+[node name="input_dialog" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_ggkpl")
+
+[node name="Input" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Label" parent="." instance=ExtResource("2_p2fuw")]
+layout_mode = 2
+
+[node name="CharacterName_HBox" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CharacterName_Checkbox" parent="CharacterName_HBox" instance=ExtResource("3_e1vdb")]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+true_text = "List"
+false_text = "Text"
+label_text = "Name Input"
+is_label_button = false
+
+[node name="CharacterName_Dropdown" parent="CharacterName_HBox" instance=ExtResource("3_mwq4e")]
+layout_mode = 2
+selection_table_name = "Characters"
+label_text = "Character Name"
+is_label_button = false
+
+[node name="CharacterName_Text" parent="CharacterName_HBox" instance=ExtResource("5_xab2l")]
+layout_mode = 2
+label_text = "Custom Name"
+is_label_button = false
+
+[node name="Dialog_Text" parent="." instance=ExtResource("5_xab2l")]
+layout_mode = 2
+
+[node name="IconSelection_HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="IconSelection_Checkbox" parent="IconSelection_HBox" instance=ExtResource("3_e1vdb")]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+true_text = "Animation"
+false_text = "Icon"
+label_text = "Animation or Icon"
+is_label_button = false
+
+[node name="IconSelection_Sprite" parent="IconSelection_HBox" instance=ExtResource("8_4eupo")]
+visible = false
+layout_mode = 2
+label_text = "Speaker Sprite"
+is_label_button = false
+
+[node name="IconSelection_Icon" parent="IconSelection_HBox" instance=ExtResource("7_lfbfv")]
+layout_mode = 2
+size_flags_vertical = 3
+label_text = "Speaker Icon"
+is_label_button = false
+
+[node name="SceneSelection_HBox" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SceneSelection_Checkbox" parent="SceneSelection_HBox" instance=ExtResource("3_e1vdb")]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+true_text = "Default"
+false_text = "Custom"
+label_text = "Dialog Scene"
+is_label_button = false
+
+[node name="Scene_Selection_ScenePath" parent="SceneSelection_HBox" instance=ExtResource("8_q84tl")]
+layout_mode = 2
+label_text = "Custom Scene"
+is_label_button = false
+
+[node name="input_templateBuffer" parent="." instance=ExtResource("5_fgbfj")]
+layout_mode = 2

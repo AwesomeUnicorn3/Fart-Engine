@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.gd" id="3"]
+
+[node name="popup_newTable" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3")
+
+[node name="PanelContainer" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.00784314, 0, 0.0352941, 0.678431)
+
+[node name="MainVBox" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UserInputScroll" type="ScrollContainer" parent="PanelContainer/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UserInputVBox" type="VBoxContainer" parent="PanelContainer/MainVBox/UserInputScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Buttons" type="HBoxContainer" parent="PanelContainer/MainVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="Accept" type="Button" parent="PanelContainer/MainVBox/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="PanelContainer/MainVBox/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[connection signal="visibility_changed" from="." to="." method="_on_popup_newTable_visibility_changed"]

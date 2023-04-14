@@ -1,0 +1,145 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Theme" uid="uid://bo3gu4nrkb880" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_25.tres" id="1_vhr7c"]
+[ext_resource type="Script" path="res://addons/fart_engine/fart_main.gd" id="2_if1nk"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.gd" id="2_sb3v4"]
+[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="3_dbe45"]
+[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="3_ukiag"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/SaveFile_Manager/DisplaySaveFile.tscn" id="4_h11b6"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Event_Manager/Event_Manager.tscn" id="5_0ld3m"]
+
+[node name="UDS_Main" type="Control" groups=["UDS_Root"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_vhr7c")
+script = ExtResource("2_if1nk")
+metadata/_edit_vertical_guides_ = []
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.14902, 0.145098, 0.152941, 1)
+
+[node name="ProjectWelcomeLabel" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -13.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Welcome_Label" type="Label" parent="ProjectWelcomeLabel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Welcome to the Awesome Unicorn 3 Database"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainDisplay_Level1" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_layout_mode = 1
+
+[node name="MainDisplay_Level2" type="VBoxContainer" parent="MainDisplay_Level1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MainProjectHeaderScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+layout_mode = 2
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="MainProjectHeader" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll"]
+layout_mode = 2
+theme = ExtResource("3_dbe45")
+
+[node name="Project Settings" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "Settings"
+script = ExtResource("2_sb3v4")
+
+[node name="RefreshAllTables_Button" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "Refresh All 
+Tables"
+
+[node name="DisplaySaveFile" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "View Save Files"
+script = ExtResource("2_sb3v4")
+
+[node name="Event_Manager" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "Events"
+script = ExtResource("2_sb3v4")
+
+[node name="Table Data" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+layout_mode = 2
+text = "Table Options"
+script = ExtResource("2_sb3v4")
+
+[node name="TableCategoryScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="TableCategory" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/TableCategoryScroll"]
+layout_mode = 2
+
+[node name="TableButtonsScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="TableButtons" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/TableButtonsScroll"]
+layout_mode = 2
+
+[node name="TableDisplay" type="Control" parent="MainDisplay_Level1/MainDisplay_Level2"]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_layout_mode = 1
+
+[node name="DisplaySaveFile" parent="MainDisplay_Level1/MainDisplay_Level2/TableDisplay" instance=ExtResource("4_h11b6")]
+visible = false
+layout_mode = 1
+
+[node name="Event_Manager" parent="MainDisplay_Level1/MainDisplay_Level2/TableDisplay" instance=ExtResource("5_0ld3m")]
+visible = false
+layout_mode = 1
+
+[node name="VersionLabel" type="VBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+layout_mode = 2
+
+[node name="Control" parent="MainDisplay_Level1/MainDisplay_Level2/VersionLabel" instance=ExtResource("3_ukiag")]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Project Settings" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Project Settings" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/RefreshAllTables_Button" to="." method="_ready"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/DisplaySaveFile" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/DisplaySaveFile" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Event_Manager" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Event_Manager" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Table Data" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Table Data" method="_on_Navigation_Button_button_up"]

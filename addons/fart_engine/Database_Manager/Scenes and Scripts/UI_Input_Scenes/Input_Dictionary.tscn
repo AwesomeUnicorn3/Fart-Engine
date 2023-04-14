@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="1"]
+[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="2"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dictionary.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4"]
+
+[node name="Input_Dictionary" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+theme = ExtResource("2")
+script = ExtResource("3")
+
+[node name="Label" parent="." instance=ExtResource("4")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Input" type="TextEdit" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.05
+text = "{
+\"1\": {
+\"Datatype 1\": \"TYPE_STRING\",
+\"Datatype 2\": \"TYPE_INT\",
+\"TableName 1\": \"DataTypes\",
+\"TableName 2\": \"DataTypes\",
+\"Value 1\": \"Default Value1\",
+\"Value 2\": \"1\"
+}
+}"
+
+[node name="Add_New_Item" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Edit List"
+
+[node name="input_templateBuffer" parent="." instance=ExtResource("1")]
+layout_mode = 2
+
+[connection signal="button_up" from="HBoxContainer/Add_New_Item" to="." method="_on_Add_New_Item_button_up"]

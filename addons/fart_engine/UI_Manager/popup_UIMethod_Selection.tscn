@@ -1,0 +1,135 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="1_posdu"]
+[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/popup_UIMethod_Selection.gd" id="2_6egdv"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_wb0bb"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4_soebf"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="5_3f8h7"]
+
+[node name="popup_UIMethod_Selection" type="Control"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_posdu")
+script = ExtResource("2_6egdv")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.105882, 0.105882, 0.105882, 1)
+
+[node name="PanelContainer" type="Control" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox1" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -262.0
+offset_top = -73.5
+offset_right = 262.0
+offset_bottom = 73.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Input_Label_Template" parent="PanelContainer/VBox1" instance=ExtResource("3_wb0bb")]
+layout_mode = 2
+size_flags_stretch_ratio = 0.25
+
+[node name="HBox1" parent="PanelContainer/VBox1/Input_Label_Template" index="0"]
+custom_minimum_size = Vector2(0, 30)
+
+[node name="Label_Button" parent="PanelContainer/VBox1/Input_Label_Template/HBox1" index="0"]
+text = "Select Method to run when button is pressed"
+
+[node name="input_templateBuffer" parent="PanelContainer/VBox1" instance=ExtResource("4_soebf")]
+layout_mode = 2
+
+[node name="HBox1" type="HBoxContainer" parent="PanelContainer/VBox1"]
+layout_mode = 2
+
+[node name="Existing_Events_Dropdown" parent="PanelContainer/VBox1/HBox1" instance=ExtResource("5_3f8h7")]
+layout_mode = 2
+selection_table_name = "UI Script Methods"
+label_text = "Select Method"
+is_label_button = false
+showLabel = false
+
+[node name="Label" parent="PanelContainer/VBox1/HBox1/Existing_Events_Dropdown" index="0"]
+visible = false
+
+[node name="Input" parent="PanelContainer/VBox1/HBox1/Existing_Events_Dropdown" index="1"]
+item_count = 6
+selected = 0
+popup/item_0/text = "Exit Current Menu"
+popup/item_0/id = 0
+popup/item_1/text = "Save Game"
+popup/item_1/id = 1
+popup/item_2/text = "Close Main Menu"
+popup/item_2/id = 2
+popup/item_3/text = "Quit Game"
+popup/item_3/id = 3
+popup/item_4/text = "Return to Title Screen"
+popup/item_4/id = 4
+popup/item_5/text = "Open Main Menu"
+popup/item_5/id = 5
+
+[node name="input_templateBuffer" parent="PanelContainer/VBox1/HBox1/Existing_Events_Dropdown" index="2"]
+visible = false
+
+[node name="Label" type="Label" parent="PanelContainer/VBox1/HBox1"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="Create_New_Event_Button" type="Button" parent="PanelContainer/VBox1/HBox1"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create New Event"
+
+[node name="input_templateBuffer2" parent="PanelContainer/VBox1" instance=ExtResource("4_soebf")]
+layout_mode = 2
+
+[node name="HBox2" type="HBoxContainer" parent="PanelContainer/VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="Accept" type="Button" parent="PanelContainer/VBox1/HBox2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="PanelContainer/VBox1/HBox2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[connection signal="button_up" from="PanelContainer/VBox1/HBox2/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="PanelContainer/VBox1/HBox2/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="PanelContainer/VBox1/Input_Label_Template"]
+[editable path="PanelContainer/VBox1/HBox1/Existing_Events_Dropdown"]

@@ -1,0 +1,162 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Condition_line_item.gd" id="1_s8dd1"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="2_tsdt1"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="3_ooows"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="4_vyl5l"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_4cwj0"]
+
+[node name="Condition_line_item" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+script = ExtResource("1_s8dd1")
+
+[node name="DeleteButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 9
+text = "Delete"
+
+[node name="Key_Display" parent="." instance=ExtResource("2_tsdt1")]
+layout_mode = 2
+label_text = "Key"
+is_label_button = false
+
+[node name="If_DropDown" parent="." instance=ExtResource("3_ooows")]
+layout_mode = 2
+label_text = "If"
+is_label_button = false
+
+[node name="input_templateBuffer" parent="If_DropDown" index="2"]
+visible = false
+
+[node name="If_Table_Name_DropDown" parent="." instance=ExtResource("3_ooows")]
+visible = false
+layout_mode = 2
+selection_table_name = "Table Data"
+label_text = "Table Name"
+is_label_button = false
+
+[node name="input_templateBuffer" parent="If_Table_Name_DropDown" index="2"]
+visible = false
+
+[node name="If_Key_Name_DropDown" parent="." instance=ExtResource("3_ooows")]
+layout_mode = 2
+label_text = "Key Name"
+is_label_button = false
+
+[node name="input_templateBuffer" parent="If_Key_Name_DropDown" index="2"]
+visible = false
+
+[node name="if_Value_Name_DropDown" parent="." instance=ExtResource("3_ooows")]
+layout_mode = 2
+selection_table_name = "Table Data"
+label_text = "Value Name"
+is_label_button = false
+
+[node name="input_templateBuffer" parent="if_Value_Name_DropDown" index="2"]
+visible = false
+
+[node name="Is_Event_Variable" parent="." instance=ExtResource("3_ooows")]
+visible = false
+layout_mode = 2
+selection_table_name = "Table Data"
+label_text = "Event Variable"
+is_label_button = false
+
+[node name="input_templateBuffer" parent="Is_Event_Variable" index="2"]
+visible = false
+
+[node name="Is_DropDown" parent="." instance=ExtResource("3_ooows")]
+visible = false
+layout_mode = 2
+selection_table_name = "Inequalities"
+label_text = "Is"
+is_label_button = false
+
+[node name="Input" parent="Is_DropDown" index="1"]
+item_count = 6
+selected = 0
+popup/item_0/text = "Greater Than"
+popup/item_0/id = 0
+popup/item_1/text = "Less Than"
+popup/item_1/id = 1
+popup/item_2/text = "Equal To"
+popup/item_2/id = 2
+popup/item_3/text = "NOT Equal To"
+popup/item_3/id = 3
+popup/item_4/text = "Greater Than OR Equal To"
+popup/item_4/id = 4
+popup/item_5/text = "Less Than OR Equal To"
+popup/item_5/id = 5
+
+[node name="input_templateBuffer" parent="Is_DropDown" index="2"]
+visible = false
+
+[node name="Is_Text" parent="." instance=ExtResource("2_tsdt1")]
+visible = false
+layout_mode = 2
+label_text = " Is"
+is_label_button = false
+
+[node name="Input" parent="Is_Text" index="1"]
+editable = false
+
+[node name="input_templateBuffer" parent="Is_Text" index="2"]
+visible = false
+
+[node name="Is_Value_Text" parent="." instance=ExtResource("2_tsdt1")]
+visible = false
+layout_mode = 2
+label_text = "Text Value"
+is_label_button = false
+
+[node name="Is_Value_Float" parent="." instance=ExtResource("4_vyl5l")]
+visible = false
+layout_mode = 2
+label_text = "Number Value"
+is_label_button = false
+show_field = true
+
+[node name="input_templateBuffer" parent="Is_Value_Float" index="2"]
+visible = false
+
+[node name="Is_Value_Bool" parent="." instance=ExtResource("5_4cwj0")]
+visible = false
+layout_mode = 2
+label_text = "True or False Value"
+is_label_button = false
+
+[node name="Input" parent="Is_Value_Bool/Hbox1/Background" index="0"]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 73.0
+offset_bottom = 24.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="input_templateBuffer" parent="Is_Value_Bool" index="2"]
+visible = false
+
+[connection signal="button_up" from="DeleteButton" to="." method="_on_DeleteButton_button_up"]
+[connection signal="input_selection_changed" from="If_DropDown" to="." method="_on_If_DropDown_selected_item_changed"]
+[connection signal="input_selection_changed" from="If_Table_Name_DropDown" to="." method="_on_If_Table_Name_DropDown_selected_item_changed"]
+[connection signal="input_selection_changed" from="If_Key_Name_DropDown" to="." method="_on_If_Key_Name_DropDown_selected_item_changed"]
+[connection signal="input_selection_changed" from="if_Value_Name_DropDown" to="." method="_on_if_Value_Name_DropDown_selected_item_changed"]
+
+[editable path="Key_Display"]
+[editable path="If_DropDown"]
+[editable path="If_Table_Name_DropDown"]
+[editable path="If_Key_Name_DropDown"]
+[editable path="if_Value_Name_DropDown"]
+[editable path="Is_Event_Variable"]
+[editable path="Is_DropDown"]
+[editable path="Is_Text"]
+[editable path="Is_Value_Text"]
+[editable path="Is_Value_Float"]
+[editable path="Is_Value_Bool"]

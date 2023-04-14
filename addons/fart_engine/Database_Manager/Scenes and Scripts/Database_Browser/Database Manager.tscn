@@ -1,0 +1,413 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/Database_Browser/Database Manager.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bwdqvn04476n4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/Database_Browser/TableViewer.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://cspx1mmr185c5" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewField_Input.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bormmevkvb1kv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newValue.tscn" id="6"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.gd" id="7"]
+[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="8"]
+[ext_resource type="Theme" uid="uid://bo3gu4nrkb880" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_25.tres" id="9"]
+[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="10"]
+
+[node name="Database_Manager" type="Control" groups=["Database", "Tab"]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("9")
+script = ExtResource("1")
+
+[node name="Background" parent="." instance=ExtResource("3")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+offset_right = 900.0
+offset_bottom = 23.0
+
+[node name="CenterContainer2" type="CenterContainer" parent="VBoxContainer/HBoxContainer2"]
+offset_right = 687.0
+offset_bottom = 23.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2/CenterContainer2"]
+offset_left = 343.0
+offset_right = 344.0
+offset_bottom = 23.0
+
+[node name="Refresh_Data" type="Button" parent="VBoxContainer/HBoxContainer2"]
+offset_left = 691.0
+offset_right = 815.0
+offset_bottom = 23.0
+text = "Refresh All Data"
+
+[node name="New_Table" type="Button" parent="VBoxContainer/HBoxContainer2"]
+offset_left = 819.0
+offset_right = 900.0
+offset_bottom = 23.0
+text = "New Table"
+
+[node name="Convert File Data" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+text = "Convert Table to New Format"
+
+[node name="Close_Table" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+text = "Close Table"
+
+[node name="Save" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+offset_left = 794.0
+offset_right = 900.0
+offset_bottom = 23.0
+text = "Save Changes"
+
+[node name="Change_Row_Order" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+text = "Edit Keys"
+
+[node name="New_Key" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+text = "Add Key"
+
+[node name="Delete_Key" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+text = "Delete Key"
+
+[node name="Change_Column_Order" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+text = "Edit Fields"
+
+[node name="New_Value" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+text = "Add Field"
+
+[node name="Delete_Value" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+text = "Delete Field"
+
+[node name="Delete_Table" type="Button" parent="VBoxContainer/HBoxContainer2"]
+visible = false
+text = "Delete Table"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+offset_top = 27.0
+offset_right = 900.0
+offset_bottom = 570.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
+offset_right = 149.0
+offset_bottom = 543.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Table_Buttons" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/ScrollContainer"]
+offset_right = 149.0
+offset_bottom = 543.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ScrollContainer2" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+offset_left = 153.0
+offset_right = 900.0
+offset_bottom = 543.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TableViewer" parent="VBoxContainer/HBoxContainer/ScrollContainer2" instance=ExtResource("2")]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 850.0
+offset_bottom = 555.0
+
+[node name="GridConainer" parent="VBoxContainer/HBoxContainer/ScrollContainer2/TableViewer/ScrollContainer" index="0"]
+offset_right = 850.0
+offset_bottom = 555.0
+
+[node name="Blank" parent="VBoxContainer/HBoxContainer/ScrollContainer2/TableViewer/ScrollContainer/GridConainer" index="0"]
+offset_right = 17.0
+offset_bottom = 20.0
+
+[node name="CenterContainer" type="HBoxContainer" parent="VBoxContainer"]
+offset_top = 574.0
+offset_right = 900.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="VBoxContainer/CenterContainer"]
+offset_right = 109.0
+offset_bottom = 26.0
+text = "Files saved to:"
+
+[node name="Label3" type="Label" parent="VBoxContainer/CenterContainer"]
+offset_left = 113.0
+offset_right = 197.0
+offset_bottom = 26.0
+text = "res://Data/"
+
+[node name="Label4" type="Label" parent="VBoxContainer/CenterContainer"]
+offset_left = 201.0
+offset_right = 268.0
+offset_bottom = 26.0
+size_flags_vertical = 1
+text = "                "
+
+[node name="VersionLabel" parent="VBoxContainer/CenterContainer" instance=ExtResource("10")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 272.0
+offset_right = 900.0
+offset_bottom = 26.0
+
+[node name="Popups" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(1, 1, 1, 0.411765)
+
+[node name="popup_newTable" parent="Popups" instance=ExtResource("5")]
+visible = false
+
+[node name="popup_error" type="Control" parent="Popups"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PanelContainer" type="ColorRect" parent="Popups/popup_error"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.266667, 0.0470588, 0.0470588, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popups/popup_error/PanelContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.5
+offset_top = -20.5
+offset_right = 95.5
+offset_bottom = 20.5
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Popups/popup_error/PanelContainer/VBoxContainer"]
+offset_right = 191.0
+offset_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Please enter a name for the new table"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popups/popup_error/PanelContainer/VBoxContainer"]
+offset_top = 24.0
+offset_right = 191.0
+offset_bottom = 41.0
+
+[node name="Accept" type="Button" parent="Popups/popup_error/PanelContainer/VBoxContainer/HBoxContainer"]
+offset_right = 93.0
+offset_bottom = 17.0
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="Popups/popup_error/PanelContainer/VBoxContainer/HBoxContainer"]
+offset_left = 97.0
+offset_right = 191.0
+offset_bottom = 17.0
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="popup_newKey1" type="Control" parent="Popups"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("7")
+
+[node name="PanelContainer" type="Panel" parent="Popups/popup_newKey1"]
+self_modulate = Color(0, 0, 0, 1)
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox1" type="VBoxContainer" parent="Popups/popup_newKey1/PanelContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -352.5
+offset_top = -106.0
+offset_right = 352.5
+offset_bottom = 106.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="HBox1" parent="Popups/popup_newKey1/PanelContainer/VBox1" instance=ExtResource("4")]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 705.0
+offset_bottom = 58.0
+
+[node name="VBox1" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1" index="0"]
+offset_right = 350.0
+offset_bottom = 58.0
+
+[node name="Input_Text" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox1" index="0"]
+offset_right = 350.0
+offset_bottom = 58.0
+
+[node name="Label" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="0"]
+offset_right = 350.0
+
+[node name="Input" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="1"]
+offset_right = 350.0
+offset_bottom = 54.0
+
+[node name="input_templateBuffer" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox1/Input_Text" index="2"]
+offset_top = 58.0
+offset_right = 350.0
+offset_bottom = 58.0
+
+[node name="VBox2" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1" index="1"]
+offset_left = 354.0
+offset_right = 705.0
+offset_bottom = 58.0
+
+[node name="ItemType_Selection" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox2" index="0"]
+offset_right = 351.0
+offset_bottom = 58.0
+label_text = "Key Data Type"
+
+[node name="Label" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="0"]
+offset_right = 351.0
+
+[node name="Input" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection" index="1"]
+offset_right = 351.0
+offset_bottom = 58.0
+
+[node name="Label3" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox3" index="0"]
+text = "Show Key?"
+
+[node name="HBox2" type="HBoxContainer" parent="Popups/popup_newKey1/PanelContainer/VBox1"]
+offset_top = 62.0
+offset_right = 705.0
+offset_bottom = 212.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Accept" type="Button" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox2"]
+offset_right = 350.0
+offset_bottom = 150.0
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="Popups/popup_newKey1/PanelContainer/VBox1/HBox2"]
+offset_left = 354.0
+offset_right = 705.0
+offset_bottom = 150.0
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="popup_newKey" parent="Popups" instance=ExtResource("6")]
+visible = false
+
+[node name="popup_newValue" parent="Popups" instance=ExtResource("6")]
+visible = false
+
+[node name="popup_deleteKey" parent="Popups" instance=ExtResource("8")]
+visible = false
+
+[node name="Label" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="0"]
+offset_bottom = 20.0
+
+[node name="Itemlist" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="1"]
+offset_top = 24.0
+offset_bottom = 180.0
+
+[node name="HBoxContainer" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer" index="2"]
+offset_top = 184.0
+
+[node name="Accept" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
+offset_bottom = 17.0
+
+[node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
+offset_bottom = 17.0
+
+[connection signal="visibility_changed" from="." to="." method="_on_Database_Manager_visibility_changed"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Refresh_Data" to="." method="_on_Refresh_Data_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/New_Table" to="." method="_on_New_Table_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Convert File Data" to="." method="_on_Conver_File_Data_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Close_Table" to="." method="_on_Close_Table_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Save" to="." method="_on_save_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Change_Row_Order" to="." method="_on_Row_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/New_Key" to="." method="_on_New_Key_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Delete_Key" to="." method="_on_Delete_Key_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Change_Column_Order" to="." method="_on_Change_Column_Order_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/New_Value" to="." method="_on_New_Value_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Delete_Value" to="." method="_on_Delete_Value_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer2/Delete_Table" to="." method="_on_Delete_Table_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Table Data" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Table Data" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Character Classes" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Character Classes" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Character Formation" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Character Formation" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Characters" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Characters" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Control Categories" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Control Categories" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Controls" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Controls" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/DataTypes" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/DataTypes" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Dynamic Quest Data" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Dynamic Quest Data" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 1" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 1" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 2" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 2" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 3" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 3" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 4" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 4" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 5" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 5" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 6" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 6" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 7" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event 7" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event Table Template" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event Table Template" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event Triggers" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Event Triggers" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Field_Pref_Values" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Field_Pref_Values" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Global Data" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Global Data" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Global Settings" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Global Settings" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Global Variables" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Global Variables" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Inequalities" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Inequalities" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Items" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Items" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Item_Type" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Item_Type" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Maps" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Maps" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Options Player Data" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Options Player Data" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Options" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Options" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/QuestInformation" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/QuestInformation" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Sprite Groups" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Sprite Groups" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Test Table 2" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Test Table 2" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Tutorial Table" to="VBoxContainer/HBoxContainer/ScrollContainer/Table_Buttons/Tutorial Table" method="_on_TextureButton_button_up"]
+[connection signal="button_up" from="Popups/popup_error/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_popup_error_confirmed"]
+[connection signal="button_up" from="Popups/popup_error/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_popupError_Cancel_button_up"]
+[connection signal="visibility_changed" from="Popups/popup_newKey1" to="Popups/popup_newKey1" method="_on_popup_newKey_visibility_changed"]
+[connection signal="button_up" from="Popups/popup_newKey1/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_new_key_Accept_button_up"]
+[connection signal="button_up" from="Popups/popup_newKey1/PanelContainer/VBox1/HBox2/Cancel" to="." method="_on_Newkey_Cancel_button_up"]
+[connection signal="button_up" from="Popups/popup_newKey/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_new_key_Accept_button_up"]
+[connection signal="button_up" from="Popups/popup_newKey/PanelContainer/VBox1/HBox2/Cancel" to="." method="_on_Newkey_Cancel_button_up"]
+[connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_newValue_Accept_button_up"]
+[connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Cancel" to="." method="_on_newValue_Cancel_button_up"]
+[connection signal="item_selected" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" to="." method="_on_DeleteKey_Itemlist_item_selected"]
+[connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_DeleteKey_Accept_button_up"]
+[connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_DeleteKey_Cancel_button_up"]
+
+[editable path="VBoxContainer/HBoxContainer/ScrollContainer2/TableViewer"]
+[editable path="Popups/popup_newKey1/PanelContainer/VBox1/HBox1"]
+[editable path="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
+[editable path="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
+[editable path="Popups/popup_newKey1/PanelContainer/VBox1/HBox1/Table_Selection"]
+[editable path="Popups/popup_newKey"]
+[editable path="Popups/popup_newKey/PanelContainer/VBox1/HBox1"]
+[editable path="Popups/popup_newKey/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
+[editable path="Popups/popup_newKey/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
+[editable path="Popups/popup_newKey/PanelContainer/VBox1/HBox1/Table_Selection"]
+[editable path="Popups/popup_newValue"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
+[editable path="Popups/popup_deleteKey"]

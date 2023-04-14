@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Event_Page_Button.gd" id="1"]
+
+[node name="Button" type="Button"]
+text = "Page 1"
+script = ExtResource("1")
+
+[connection signal="button_up" from="." to="." method="on_Button_button_up"]

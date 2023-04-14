@@ -1,0 +1,86 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DictionaryInput_Form.gd" id="2"]
+
+[node name="DictionaryInput" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("2")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.188235, 0.188235, 0.188235, 1)
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HBox1" type="HBoxContainer" parent="VBox1"]
+offset_right = 900.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Button" parent="VBox1/HBox1"]
+offset_right = 690.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+text = "DictionaryInput"
+
+[node name="AddItem" type="Button" parent="VBox1/HBox1"]
+offset_left = 694.0
+offset_right = 773.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Add Item"
+
+[node name="SaveChanges" type="Button" parent="VBox1/HBox1"]
+visible = false
+size_flags_horizontal = 3
+text = "Save"
+
+[node name="DeleteItem" type="Button" parent="VBox1/HBox1"]
+visible = false
+size_flags_horizontal = 3
+text = "Delete Item"
+
+[node name="Close" type="Button" parent="VBox1/HBox1"]
+offset_left = 777.0
+offset_right = 900.0
+offset_bottom = 31.0
+size_flags_horizontal = 3
+text = "Save and Close"
+
+[node name="Input" type="LineEdit" parent="VBox1/HBox1"]
+visible = false
+caret_blink = true
+
+[node name="input_templateBuffer" parent="VBox1" instance=ExtResource("1")]
+anchor_right = 0.0
+offset_top = 35.0
+offset_right = 900.0
+offset_bottom = 35.0
+
+[node name="Scroll1" type="ScrollContainer" parent="VBox1"]
+offset_top = 39.0
+offset_right = 900.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBox1" type="VBoxContainer" parent="VBox1/Scroll1"]
+offset_right = 900.0
+offset_bottom = 561.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="button_up" from="VBox1/HBox1/AddItem" to="." method="_on_AddItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_SaveChanges_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/Close" to="." method="_on_Close_button_up"]

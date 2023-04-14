@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://njbdbw0imh1a"
+path="res://.godot/imported/2-03 Peaceful Moment.ogg-4b28557552065d2586aa71788f04572b.oggvorbisstr"
+
+[deps]
+
+source_file="res://fart_data/sfx/2-03 Peaceful Moment.ogg"
+dest_files=["res://.godot/imported/2-03 Peaceful Moment.ogg-4b28557552065d2586aa71788f04572b.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Example Game/save_game_button.gd" id="1_ekbxy"]
+
+[node name="SaveButton" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Save"
+script = ExtResource("1_ekbxy")
+
+[connection signal="button_up" from="." to="." method="_on_SaveButton_button_up"]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/Database_Browser/Btn_TableSelect.gd" id="2"]
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="2_xyvli"]
+
+[node name="Button" type="Button"]
+minimum_size = Vector2(100, 50)
+offset_right = 115.0
+offset_bottom = 26.0
+script = ExtResource( "2" )
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( "2_xyvli" )
+theme_override_font_sizes/font_size = 15
+text = "Options Table"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="button_up" from="." to="." method="_on_TextureButton_button_up"]
