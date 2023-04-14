@@ -59,6 +59,8 @@ func show_label(show :bool = true):
 
 
 func set_label_text():
+	if !is_instance_valid(labelNode):
+		get_label_node()
 	if label_text == "":
 		labelNode.set_text(itemName)
 		label_text = itemName

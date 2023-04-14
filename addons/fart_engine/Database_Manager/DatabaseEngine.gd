@@ -403,14 +403,14 @@ func create_new_table(newTableName:String, newTable_dict: Dictionary):
 	save_all_db_files(current_table_name)
 
 
-func Delete_Table(delete_tbl_name):
+func delete_event(delete_tbl_name):
 	#First delete table reference from "Table Data" file and delete the entry in the table_data main table
-#	current_table_name = "Table Data"
-#	data_type = "Row"
-#	update_dictionaries()
-#	Delete_Key(delete_tbl_name)
-#	save_all_db_files(current_table_name)
-
+	current_table_name = "Table Data"
+	data_type = "Row"
+	update_dictionaries()
+	Delete_Key(delete_tbl_name)
+	save_all_db_files(current_table_name)
+	print("Table Path: ", table_save_path + event_folder + delete_tbl_name + table_file_format)
 	#Then delete all of the files associated with the delted table
 	var dir :DirAccess = DirAccess.open(table_save_path)
 	var file_delete = table_save_path + event_folder + delete_tbl_name + table_file_format
@@ -418,6 +418,55 @@ func Delete_Table(delete_tbl_name):
 	file_delete = table_save_path + event_folder + delete_tbl_name + table_info_file_format
 	dir.remove(file_delete)
 	#current_table_name = ""
+
+func delete_table(delete_tbl_name):
+	###NEED TO CHECK IF TABLE CAN BE DELETED####
+	
+	#First delete table reference from "Table Data" file and delete the entry in the table_data main table
+	current_table_name = "Table Data"
+	data_type = "Row"
+	update_dictionaries()
+	Delete_Key(delete_tbl_name)
+	save_all_db_files(current_table_name)
+	print("Table Path: ", table_save_path  + delete_tbl_name + table_file_format)
+	#Then delete all of the files associated with the delted table
+	var dir :DirAccess = DirAccess.open(table_save_path)
+	var file_delete = table_save_path + delete_tbl_name + table_file_format
+	dir.remove(file_delete)
+	file_delete = table_save_path + delete_tbl_name + table_info_file_format
+	dir.remove(file_delete)
+	#current_table_name = ""
+
+
+func delete_field(field_name, selectedDict:Dictionary = current_dict, selectedDataDict:Dictionary = currentData_dict):
+	print("DELETE field NAME: ", field_name)
+	var tmp_dict = {}
+	var main_tbl = {}
+	data_type = "Column"
+	for i in selectedDict: #loop trhough main dictionary
+		selectedDict[i].erase(field_name)
+
+	tmp_dict = selectedDataDict[data_type].duplicate(true)
+	#loop through row_dict to find item
+	for i in tmp_dict:
+		if selectedDataDict[data_type][i]["FieldName"] == field_name:
+			selectedDataDict[data_type].erase(i) #Erase entry
+			print("BREAK1")
+			break
+	#Loop through number 0 to row_dict size
+	for j in tmp_dict.size() - 1:
+		j += 1
+		if !selectedDataDict[data_type].has(str(j)): #If the row_dict does not have j key
+			var next_entry_value = selectedDataDict[data_type][str(j + 1)] #Get value of next entry #If ever more values are added to row table, .duplicate(true) needs to be added to this line
+			selectedDataDict[data_type][str(j)] = next_entry_value #create new entry with current index and next entry
+			var next_entry = str(j + 1)
+			if selectedDataDict[data_type].has(next_entry):
+				selectedDataDict[data_type].erase(next_entry) #Delete next entry
+			else:
+				print("BREAK2")
+				break
+	print("delete key complete")
+	return [selectedDict, selectedDataDict]
 
 
 func Delete_Key(key_name, selectedDict:Dictionary = current_dict, selectedDataDict:Dictionary = currentData_dict):
@@ -832,6 +881,7 @@ func is_table_dropdown_list(tableName :String):
 
 
 func get_input_type_node(input_type :String):
+	print("INPUT TYPE: ", input_type)
 	var return_node : Object
 	datatype_dict = import_data("DataTypes")
 	return_node =  load(datatype_dict[input_type]["Default Scene"])

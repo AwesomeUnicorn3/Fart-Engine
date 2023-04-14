@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://bhhe1y6ucvenk"]
 
 [ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="1_mcaxt"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Array.gd" id="2_3vmfu"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_77ecb"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4_tpyhl"]
-[ext_resource type="PackedScene" uid="uid://blyuurjsfw16s" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="5_hf5fs"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="5_hf5fs"]
 
 [node name="Input_Array" type="VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
@@ -17,6 +17,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_mcaxt")
 script = ExtResource("2_3vmfu")
+label_text = "Input_Array"
 
 [node name="Label" parent="." instance=ExtResource("3_77ecb")]
 layout_mode = 2

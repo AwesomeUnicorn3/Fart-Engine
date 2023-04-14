@@ -272,7 +272,7 @@ func _on_AddNewItem_button_up():
 
 
 func delete_selected_item():
-	Delete_Table(current_event_editor_input.event_name)
+	delete_event(current_event_editor_input.event_name)
 	get_main_node()._ready()
 	#reload_buttons()
 	table_list.get_child(0)._on_TextureButton_button_up()

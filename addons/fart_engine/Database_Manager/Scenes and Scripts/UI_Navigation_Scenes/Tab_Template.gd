@@ -324,9 +324,9 @@ func has_empty_fields():
 		#Remove blank spaces (so that you can't have an item name that is just spaces
 		i = remove_special_char(i)
 		if i == "":
-			value = true
+#			value = true
 			print("ERROR! One or more fields are blank")
-			break
+			field_dict1[i] = "1"
 	return value
 
 
@@ -419,7 +419,7 @@ func _on_Itemlist_item_selected(index):
 
 
 func _on_DeleteField_Accept_button_up():
-#	Delete_Key(delete_field_name)
+	delete_field(delete_field_name)
 	save_all_db_files(current_table_name)
 	refresh_data(Item_Name)
 	_on_DeleteField_Cancel_button_up()
@@ -485,8 +485,10 @@ func does_table_name_exist(tableName:String)->bool:
 	return table_dict.has(tableName)
 
 
-func delete_table(del_tbl_name = key_node.inputNode.get_text()):
-	Delete_Table(del_tbl_name)
+func delete_selected_table():
+	var del_tbl_name = key_node.inputNode.get_text()
+	print("Table ID ", del_tbl_name)
+	delete_table(del_tbl_name)
 	get_main_node()._ready()
 	await get_tree().process_frame
 

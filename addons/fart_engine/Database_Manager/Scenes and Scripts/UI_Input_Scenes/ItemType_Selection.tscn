@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://civbxt4nfyill"]
 
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="1"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.gd" id="2"]
@@ -13,6 +13,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("2")
 selection_table_name = "Table Data"
+label_text = "ItemType_Selection"
 
 [node name="Label" parent="." instance=ExtResource("3")]
 layout_mode = 2
