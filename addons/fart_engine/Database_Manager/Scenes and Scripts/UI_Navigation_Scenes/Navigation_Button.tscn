@@ -1,14 +1,31 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://cw2c256dbf611"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/AU3Button.png" id="1_6tvte"]
 
-[node name="Navigation Button" type="Button"]
+[node name="Navigation Button" type="TextureButton"]
+custom_minimum_size = Vector2(100, 25)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Database Editor"
+texture_normal = ExtResource("1_6tvte")
+texture_pressed = ExtResource("1_6tvte")
+ignore_texture_size = true
+stretch_mode = 0
 script = ExtResource("1")
 
-[connection signal="button_up" from="." to="." method="_on_Navigation_Button_button_up"]
+[node name="Label" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = " Button"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+uppercase = true

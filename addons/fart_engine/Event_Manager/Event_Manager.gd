@@ -181,7 +181,7 @@ func create_table_buttons():
 #		else:
 #		print("Event Name: ", Event_Name)
 		label = event_display_name
-		var newbtn = btn_itemselect.instantiate() #Create new instance of item button
+		var newbtn: Button = btn_itemselect.instantiate() #Create new instance of item button
 		table_list.add_child(newbtn) #Add new item button to table_list
 		#Use the row_dict key (item_number) to set the button label as the item name
 		newbtn.set_name(Event_Name) #Set the name of the new button as the item name

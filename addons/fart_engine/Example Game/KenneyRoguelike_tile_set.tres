@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=8 format=3]
+[gd_resource type="TileSet" load_steps=8 format=3 uid="uid://w8ltbymfnl68"]
 
 [ext_resource type="Texture2D" uid="uid://bdp03jh53715c" path="res://addons/fart_engine/Example Game/Kenney Assets/roguelike-pack/Spritesheet/roguelikeSheet_transparent.png" id="1_6sh7t"]
 [ext_resource type="Texture2D" uid="uid://c5vxcn5cjuspx" path="res://addons/fart_engine/Example Game/gfx Assets/Overworld.png" id="2_y2f6g"]

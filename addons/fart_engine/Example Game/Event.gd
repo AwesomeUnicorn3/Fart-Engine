@@ -688,7 +688,7 @@ func set_editor_or_static_animation(sprite_texture_data:Dictionary):
 
 func set_collision_area(sprite_texture_data:Dictionary):
 	collision_node = DBENGINE.get_collision_shape("Default Animation", sprite_texture_data)
-	call_deferred("add_child", collision_node)
+	add_child(collision_node)
 	collision_node.disabled = false
 
 

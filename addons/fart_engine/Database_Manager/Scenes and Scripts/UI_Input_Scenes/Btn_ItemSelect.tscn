@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://ctseyns1gq4vj"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Btn_ItemSelect.gd" id="1"]
 [ext_resource type="Theme" uid="uid://bo3gu4nrkb880" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_25.tres" id="2"]
 
-[node name="TextureButton" type="Button"]
+[node name="Button" type="Button"]
 custom_minimum_size = Vector2(212, 39)
 offset_right = 212.0
 offset_bottom = 39.0

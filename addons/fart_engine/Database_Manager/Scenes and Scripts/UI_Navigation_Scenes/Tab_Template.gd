@@ -330,12 +330,15 @@ func has_empty_fields():
 	return value
 
 
-func get_next_key_number(table_Name :String):
+func get_next_key_number(table_Name :String) -> String:
 	#get table, loop through keys, find last key
-	var next_key_number :String
+	var next_key_number :int = 0
 	for key in current_dict:
-		next_key_number = str(int(key) + 1)
-	return next_key_number
+		print("Key number: ", key)
+		var key_int: int = int(key)
+		if next_key_number < key_int:
+			next_key_number = key_int + 1
+	return str(next_key_number)
 
 
 func delete_selected_key():
@@ -525,17 +528,23 @@ func _on_SaveNewItem_button_up(newKeyName :String, new_key_dict :Dictionary = {}
 		if does_key_display_name_exist(displayName):
 			print("ERROR: Duplicate Display Name Exists, to Allow this, change 'Allow Duplicate Display Name' in Table Options")
 			return
-	if !does_key_exist(newKeyName) and !does_key_contain_invalid_characters(str(newKeyName)) and !has_empty_fields():
-		add_key(newKeyName, "1", true, false, false,false, new_key_dict)
-		if current_dict[newKeyName].has("Display Name"):
-			current_dict[newKeyName]["Display Name"] = {"text" : displayName}
-		#update new dict entry with input values from item form
-		update_values()
-		save_all_db_files(current_table_name)
-		reload_buttons()
-		refresh_data(newKeyName)
-		await get_tree().create_timer(.25).timeout
-		var max_v_scroll = scroll_table_list.get_v_scroll_bar().max_value
-		scroll_table_list.set_v_scroll(max_v_scroll)
+	print("New Key Name0: ", newKeyName)
+	if !does_key_exist(newKeyName):
+		print("New Key Name: ", newKeyName)
+		if !does_key_contain_invalid_characters(str(newKeyName)):
+			print("New Key Name2: ", newKeyName)
+			if !has_empty_fields():
+				print("New Key Name3: ", newKeyName)
+				add_key(newKeyName, "1", true, false, false,false, new_key_dict)
+				if current_dict[newKeyName].has("Display Name"):
+					current_dict[newKeyName]["Display Name"] = {"text" : displayName}
+			#update new dict entry with input values from item form
+				update_values()
+				save_all_db_files(current_table_name)
+				reload_buttons()
+				refresh_data(newKeyName)
+				await get_tree().create_timer(.25).timeout
+				var max_v_scroll = scroll_table_list.get_v_scroll_bar().max_value
+				scroll_table_list.set_v_scroll(max_v_scroll)
 	else:
 		print("ERROR! No changes were made")

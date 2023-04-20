@@ -12,7 +12,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("2")
-label_text = "Input_Text"
 
 [node name="Label" parent="." instance=ExtResource("4")]
 layout_mode = 2

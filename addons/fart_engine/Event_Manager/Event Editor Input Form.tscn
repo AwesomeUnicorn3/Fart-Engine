@@ -247,24 +247,24 @@ popup/item_10/text = "To Be Deleted"
 label_text = "Table_Selection"
 
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
-item_count = 40
-popup/item_25/text = "Action Types"
-popup/item_26/text = "Movement Directions"
-popup/item_27/text = "Animation States"
-popup/item_28/text = "Animation Groups"
-popup/item_29/text = "UI Scenes"
-popup/item_30/text = "None"
-popup/item_31/text = "UI Navigation"
-popup/item_32/text = "Table Category"
-popup/item_33/text = "Project Settings"
-popup/item_34/text = "Testing Table"
-popup/item_35/text = "Local Variables"
-popup/item_36/text = "Operations"
-popup/item_37/text = "AU3 InputMap"
-popup/item_38/text = "UI Script Methods"
+item_count = 39
+popup/item_23/text = "Game State"
+popup/item_24/text = "Action Types"
+popup/item_25/text = "Movement Directions"
+popup/item_26/text = "Animation States"
+popup/item_27/text = "Animation Groups"
+popup/item_28/text = "UI Scenes"
+popup/item_29/text = "None"
+popup/item_30/text = "UI Navigation"
+popup/item_31/text = "Table Category"
+popup/item_32/text = "Project Settings"
+popup/item_33/text = "Testing Table"
+popup/item_34/text = "Local Variables"
+popup/item_35/text = "Operations"
+popup/item_36/text = "AU3 InputMap"
+popup/item_37/text = "UI Script Methods"
+popup/item_38/text = "UI Methods"
 popup/item_38/id = 38
-popup/item_39/text = "UI Methods"
-popup/item_39/id = 39
 
 [node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="1"]
 item_count = 7

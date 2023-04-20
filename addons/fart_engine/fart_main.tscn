@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://bs50ag77dy28v"]
 
 [ext_resource type="Theme" uid="uid://bo3gu4nrkb880" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_25.tres" id="1_vhr7c"]
 [ext_resource type="Script" path="res://addons/fart_engine/fart_main.gd" id="2_if1nk"]
-[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.gd" id="2_sb3v4"]
-[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="3_dbe45"]
 [ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="3_ukiag"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/SaveFile_Manager/DisplaySaveFile.tscn" id="4_h11b6"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Event_Manager/Event_Manager.tscn" id="5_0ld3m"]
+[ext_resource type="PackedScene" uid="uid://c7w4mfwiuasxy" path="res://addons/fart_engine/Event_Manager/Event_Manager.tscn" id="5_0ld3m"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="5_megf8"]
 
 [node name="UDS_Main" type="Control" groups=["UDS_Root"]]
 layout_mode = 3
@@ -64,59 +63,70 @@ metadata/_edit_layout_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MainProjectHeaderScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+[node name="MainDisplay_Level3" type="VBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="MainProjectHeaderScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3"]
 layout_mode = 2
 follow_focus = true
 vertical_scroll_mode = 0
 
-[node name="MainProjectHeader" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll"]
+[node name="MainProjectHeader" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll"]
 layout_mode = 2
-theme = ExtResource("3_dbe45")
+size_flags_vertical = 3
 
-[node name="Project Settings" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+[node name="Project Settings" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
+custom_minimum_size = Vector2(175, 40)
 layout_mode = 2
-text = "Settings"
-script = ExtResource("2_sb3v4")
+button_text = "Project Settings"
 
-[node name="RefreshAllTables_Button" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+[node name="RefreshTables" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
+custom_minimum_size = Vector2(175, 40)
 layout_mode = 2
-text = "Refresh All 
-Tables"
+button_text = "Refresh Tables"
+auto_connect_signals = false
 
-[node name="DisplaySaveFile" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+[node name="DisplaySaveFile" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
+custom_minimum_size = Vector2(175, 40)
 layout_mode = 2
-text = "View Save Files"
-script = ExtResource("2_sb3v4")
+button_text = "Edit Save Files"
 
-[node name="Event_Manager" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+[node name="Event_Manager" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
+custom_minimum_size = Vector2(175, 40)
 layout_mode = 2
-text = "Events"
-script = ExtResource("2_sb3v4")
+button_text = "Events"
 
-[node name="Table Data" type="Button" parent="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"]]
+[node name="Table Data" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
+custom_minimum_size = Vector2(175, 40)
 layout_mode = 2
-text = "Table Options"
-script = ExtResource("2_sb3v4")
+button_text = "Table Data"
 
-[node name="TableCategoryScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+[node name="TableCategoryScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3"]
+layout_mode = 2
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="TableCategory" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/TableCategoryScroll"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TableButtonsScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3"]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-size_flags_horizontal = 3
 follow_focus = true
 vertical_scroll_mode = 0
 
-[node name="TableCategory" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/TableCategoryScroll"]
+[node name="TableButtons" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/TableButtonsScroll"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="TableButtonsScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
-custom_minimum_size = Vector2(0, 25)
+[node name="HideNavigation" parent="MainDisplay_Level1/MainDisplay_Level2" groups=["Database"] instance=ExtResource("5_megf8")]
 layout_mode = 2
-size_flags_horizontal = 3
-follow_focus = true
-vertical_scroll_mode = 0
-
-[node name="TableButtons" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/TableButtonsScroll"]
-layout_mode = 2
+button_text = "Show/Hide Navigation Menu"
+auto_connect_signals = false
 
 [node name="TableDisplay" type="Control" parent="MainDisplay_Level1/MainDisplay_Level2"]
 layout_mode = 2
@@ -138,8 +148,5 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 
-[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Project Settings" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Project Settings" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/RefreshAllTables_Button" to="." method="_ready"]
-[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/DisplaySaveFile" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/DisplaySaveFile" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Event_Manager" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Event_Manager" method="_on_Navigation_Button_button_up"]
-[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Table Data" to="MainDisplay_Level1/MainDisplay_Level2/MainProjectHeaderScroll/MainProjectHeader/Table Data" method="_on_Navigation_Button_button_up"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader/RefreshTables" to="." method="_ready"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/HideNavigation" to="." method="_on_hide_navigation_button_up"]

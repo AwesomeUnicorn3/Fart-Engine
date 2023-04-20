@@ -81,11 +81,11 @@ func create_dictionary_of_all_tables():
 			var tblname = array[0]
 			var dictname :String
 
-			if str_to_var(table_list_dict[tblname]["Display Name"]) != null:
-				dictname = str_to_var(table_list_dict[tblname]["Display Name"])["text"]
-			else:
-				dictname = table_list_dict[tblname]["Display Name"]
-			dict[dictname] = import_data(tblname)
+#			if str_to_var(table_list_dict[tblname]["Display Name"]) != null:
+#				dictname = str_to_var(table_list_dict[tblname]["Display Name"])["text"]
+#			else:
+#				dictname = table_list_dict[tblname]["Display Name"]
+			dict[tblname] = import_data(tblname)
 	return dict
 
 
@@ -386,7 +386,7 @@ func new_game():
 			array = name.rsplit(".")
 			var tblname = array[0]
 			var deleteme = tbl_data[tblname]
-			var dictname = str_to_var(deleteme["Display Name"])["text"]
+			var dictname = tblname #str_to_var(deleteme["Display Name"])["text"]
 			var include_in_save_file = convert_string_to_type(deleteme["Include in Save File"])
 			if include_in_save_file == true:
 				dict[dictname] = import_data(tblname)
@@ -525,6 +525,7 @@ func is_item_in_inventory(item_name : String):
 ##########################END INVENTORY FUNCTIONS################333
 func add_required_scenes_to_UI():
 	var global_dict :Dictionary
+
 	if Dynamic_Game_Dict.has("Global Data"):
 		global_dict = Dynamic_Game_Dict
 		Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Game State"] = gameState

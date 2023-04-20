@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://biv7x8dydjk6u"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Map_Engine.gd" id="1_jh4or"]
-[ext_resource type="TileSet" path="res://addons/fart_engine/Example Game/KenneyRoguelike_tile_set.tres" id="2_sqmck"]
+[ext_resource type="TileSet" uid="uid://w8ltbymfnl68" path="res://addons/fart_engine/Example Game/KenneyRoguelike_tile_set.tres" id="2_sqmck"]
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/Event.gd" id="3_ssf1o"]
 [ext_resource type="Texture2D" uid="uid://bl1yj02fc0y1s" path="res://fart_data/png/StartingPosition.png" id="4_bd63d"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/StartingPositionNode.gd" id="5_h8nqf"]
@@ -39,27 +39,17 @@ layer_3/y_sort_origin = 0
 layer_3/z_index = 1
 layer_3/tile_data = PackedInt32Array()
 
-[node name="AU3 Event" type="CharacterBody2D" parent="."]
-position = Vector2(106, -66)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("3_ssf1o")
-event_name = "Event 1"
-
-[node name="AU3 Event2" type="CharacterBody2D" parent="."]
-position = Vector2(221, -68)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("3_ssf1o")
-event_name = "Event 1"
-
 [node name="StartingPositionNode" type="Sprite2D" parent="."]
 position = Vector2(214, 14)
 texture = ExtResource("4_bd63d")
 script = ExtResource("5_h8nqf")
+
+[node name="Fart Event" type="CharacterBody2D" parent="."]
+position = Vector2(200, -44)
+collision_layer = 2
+collision_mask = 3
+floor_max_angle = 3.14159
+floor_snap_length = 0.0
+platform_floor_layers = 0
+script = ExtResource("3_ssf1o")
+event_name = "Event 2"

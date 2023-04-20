@@ -245,6 +245,8 @@ func on_page_button_pressed(event_page_number :String):
 	await clear_all_input_forms()
 	tab_number = event_page_number
 	input_node_dict = {}
+	
+	
 	load_event_notes(event_page_number)
 	load_event_trigger_input(event_page_number)
 	load_loop_animation_input(event_page_number)
@@ -412,16 +414,13 @@ func _on_Save_Close_Button_button_up() -> void:
 func save_event_data(is_dbmanager :bool = false):
 	var this_event_dict:Dictionary = {}
 	event_dict["0"] = {"Display Name": event_name_label._get_input_value()}
+	
 	for child in input_node_dict:
 		var node = input_node_dict[child]
 #		print(child)
 		this_event_dict[node.labelNode.get_text()] =  node.get_input_value()
 	event_dict[tab_number] = this_event_dict
-	
-	
-	
-	
-	
+
 	save_file(table_save_path + event_folder + event_name + table_file_format, event_dict)
 	selectedPageNode = event_page_button_list.get_child(int(tab_number) - 1)
 	selectedPageNode.on_Button_button_up()
@@ -454,9 +453,13 @@ func input_node_changed(value):
 
 
 func _on_Delete_Page_Button_button_up() -> void:
+
 	event_dict.erase(tab_number)
-	for index in event_dict.size():
+	print("EVENT DICT SIZZE: ", event_dict.size())
+
+	for index in event_dict.size() - 1:
 		index += 1
+		print(index)
 		if !event_dict.has(str(index)):
 			var next_page_number = str(index + 1)
 			var next_line = event_dict[next_page_number]
@@ -465,10 +468,16 @@ func _on_Delete_Page_Button_button_up() -> void:
 
 	var data_dict = import_event_data(event_name, true)
 	data_dict["Row"].erase(str(data_dict["Row"].size()))
+	
+	event_dict["0"] = {"Display Name": event_name_label._get_input_value()}
 	save_file(table_save_path + event_folder + event_name + table_file_format, event_dict)
 	save_file(table_save_path + event_folder + event_name + table_info_file_format, data_dict)
 	tab_number = "1"
 	_ready()
+
+
+
+
 #	set_initial_values()
 #	tab_number = "1"
 #	on_page_button_pressed(tab_number)
@@ -480,17 +489,15 @@ func _on_Save_Page_Button_button_up() -> void:
 
 func _on_Copy_Page_Button_button_up() -> void:
 	var new_page_dict :Dictionary = event_dict[tab_number].duplicate(true)
-	var new_tab_number = str(event_dict.size() + 1)
+	var new_tab_number = str(event_dict.size())
 	var new_data_dict = import_event_data(event_name, true)
 	var new_data_row:Dictionary = new_data_dict["Row"][tab_number]
-
-	event_dict[new_tab_number] = new_page_dict
+	event_dict[new_tab_number] = new_page_dict.duplicate(true)
 	new_data_dict["Row"][new_tab_number] = new_data_row
-#	add_event_key(new_tab_number, "1", true, true, false, false,event_page_template["1"])
 	tab_number = new_tab_number
+	event_dict["0"] = {"Display Name": event_name_label._get_input_value()}
 	save_file(table_save_path + event_folder + event_name + table_file_format, event_dict)
 	save_file(table_save_path + event_folder + event_name + table_info_file_format, new_data_dict)
-#	save_all_db_files()
 	set_initial_values()
 
 
@@ -498,15 +505,14 @@ func add_new_event_page():
 	var event_page_template = import_data("Event Table Template")
 	var event_page_data_template = import_data("Event Table Template", true)["Row"]["1"]
 	var data_dict = import_event_data(event_name, true)
-	var new_tab_number = str(event_dict.size() + 1)
-
-	event_dict[new_tab_number] = event_page_template
+	var new_tab_number: String = str(event_dict.size())
+	print("NEW TAB NUMBER: ", new_tab_number)
+	event_dict[new_tab_number] = event_page_template.duplicate(true)
 	data_dict["Row"][new_tab_number] = event_page_data_template
-#	add_event_key(new_tab_number, "1", true, true, false, false,event_page_template["1"])
 	tab_number = new_tab_number
+	event_dict["0"] = {"Display Name": event_name_label._get_input_value()}
 	save_file(table_save_path + event_folder + event_name + table_file_format, event_dict)
 	save_file(table_save_path + event_folder + event_name + table_info_file_format, data_dict)
-#	save_all_db_files()
 	set_initial_values()
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=8 format=3 uid="uid://c7w4mfwiuasxy"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Event_Manager.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="3"]
@@ -163,20 +163,33 @@ text = "Cancel"
 visible = false
 layout_mode = 1
 
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection" index="1"]
+popup/item_10/text = "To Be Deleted"
+
+[node name="Table_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="2"]
+label_text = "Table_Selection"
+
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
-item_count = 37
-popup/item_25/text = "Action Types"
-popup/item_26/text = "Movement Directions"
-popup/item_27/text = "Animation States"
-popup/item_28/text = "Animation Groups"
-popup/item_29/text = "UI Scenes"
-popup/item_30/text = "None"
-popup/item_31/text = "UI Navigation"
-popup/item_32/text = "Table Category"
-popup/item_33/text = "Project Settings"
-popup/item_34/text = "Testing Table"
-popup/item_35/text = "Local Variables"
-popup/item_36/text = "Operations"
+item_count = 39
+popup/item_1/text = "Game Data"
+popup/item_2/text = "Data Types"
+popup/item_23/text = "Game State"
+popup/item_24/text = "Action Types"
+popup/item_25/text = "Movement Directions"
+popup/item_26/text = "Animation States"
+popup/item_27/text = "Animation Groups"
+popup/item_28/text = "UI Scenes"
+popup/item_29/text = "None"
+popup/item_30/text = "UI Navigation"
+popup/item_31/text = "Table Category"
+popup/item_32/text = "Project Settings"
+popup/item_33/text = "Testing Table"
+popup/item_34/text = "Local Variables"
+popup/item_35/text = "Operations"
+popup/item_36/text = "AU3 InputMap"
+popup/item_37/text = "UI Script Methods"
+popup/item_38/text = "UI Methods"
+popup/item_38/id = 38
 
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource("7")]
 visible = false
@@ -207,15 +220,6 @@ grow_vertical = 2
 [connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/AddNewItem" to="." method="_on_AddNewItem_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/DeleteSelectedItem" to="." method="_on_DeleteSelectedItem_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_TextureButton_button_up" flags=18]
-[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_mouse_entered" flags=18]
-[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 1" method="_on_pressed" flags=18]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_TextureButton_button_up" flags=18]
-[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_mouse_entered" flags=18]
-[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 2" method="_on_pressed" flags=18]
-[connection signal="button_up" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" method="_on_TextureButton_button_up" flags=18]
-[connection signal="mouse_entered" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" method="_on_mouse_entered" flags=18]
-[connection signal="pressed" from="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" to="VBox1/HBox2/Scroll1/Table_Buttons/Event 3" method="_on_pressed" flags=18]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_deletePopup_Accept_button_up"]
 [connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on__deletePopup_Cancel_button_up"]
 [connection signal="button_up" from="Popups/popup_newValue/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_NewField_Accept_button_up"]

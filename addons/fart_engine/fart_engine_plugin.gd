@@ -19,14 +19,16 @@ func _enter_tree():
 	get_editor_interface().get_editor_main_screen().add_child(main_panel_instance)
 	var mainPanel = get_editor_interface().get_editor_main_screen().get_node("FART ENGINE")
 # Hide the main panel. Very much required.
+	print("Main Panel added")
 	_make_visible(false)
-	var icon =preload("res://fart_data/png/AU3Icon.png") #get_editor_interface().get_base_control().get_theme_icon("CharacterBody2D", "EditorIcons")
+	var icon =preload("res://addons/fart_engine/Editor_Icons/FartEngineIcon.png") #get_editor_interface().get_base_control().get_theme_icon("CharacterBody2D", "EditorIcons")
 	add_custom_type("Fart Event", "CharacterBody2D", preload("res://addons/fart_engine/Example Game/Event.gd"), icon)
 #	icon = get_editor_interface().get_base_control().get_theme_icon("Button", "EditorIcons")
 	add_custom_type("Fart UI Button", "TextureButton", preload("res://addons/fart_engine/UI_Manager/au3_ui_button.gd"), icon)
 	add_control_to_container(CONTAINER_CANVAS_EDITOR_MENU, toolbar)
 	
 	connect_singals()
+	print("Signals Connected")
 	toolbar.visible = false
 
 
@@ -46,7 +48,7 @@ func _get_plugin_name():
 
 
 func _get_plugin_icon():
-	return preload("res://fart_data/png/AU3Icon.png")
+	return preload("res://addons/fart_engine/Editor_Icons/FartEngineIcon.png")
 #	return get_editor_interface().get_base_control().get_theme_icon("Node", "EditorIcons")
 
 
