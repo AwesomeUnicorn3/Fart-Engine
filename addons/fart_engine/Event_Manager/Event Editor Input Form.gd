@@ -455,11 +455,11 @@ func input_node_changed(value):
 func _on_Delete_Page_Button_button_up() -> void:
 
 	event_dict.erase(tab_number)
-	print("EVENT DICT SIZZE: ", event_dict.size())
+#	print("EVENT DICT SIZZE: ", event_dict.size())
 
 	for index in event_dict.size() - 1:
 		index += 1
-		print(index)
+#		print(index)
 		if !event_dict.has(str(index)):
 			var next_page_number = str(index + 1)
 			var next_line = event_dict[next_page_number]
@@ -506,7 +506,7 @@ func add_new_event_page():
 	var event_page_data_template = import_data("Event Table Template", true)["Row"]["1"]
 	var data_dict = import_event_data(event_name, true)
 	var new_tab_number: String = str(event_dict.size())
-	print("NEW TAB NUMBER: ", new_tab_number)
+#	print("NEW TAB NUMBER: ", new_tab_number)
 	event_dict[new_tab_number] = event_page_template.duplicate(true)
 	data_dict["Row"][new_tab_number] = event_page_data_template
 	tab_number = new_tab_number

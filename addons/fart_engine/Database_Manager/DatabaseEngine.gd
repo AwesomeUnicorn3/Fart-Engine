@@ -411,7 +411,7 @@ func delete_event(delete_tbl_name):
 	update_dictionaries()
 	Delete_Key(delete_tbl_name)
 	save_all_db_files(current_table_name)
-	print("Table Path: ", table_save_path + event_folder + delete_tbl_name + table_file_format)
+#	print("Table Path: ", table_save_path + event_folder + delete_tbl_name + table_file_format)
 	#Then delete all of the files associated with the delted table
 	var dir :DirAccess = DirAccess.open(table_save_path)
 	var file_delete = table_save_path + event_folder + delete_tbl_name + table_file_format
@@ -429,7 +429,7 @@ func delete_table(delete_tbl_name):
 	update_dictionaries()
 	Delete_Key(delete_tbl_name)
 	save_all_db_files(current_table_name)
-	print("Table Path: ", table_save_path  + delete_tbl_name + table_file_format)
+#	print("Table Path: ", table_save_path  + delete_tbl_name + table_file_format)
 	#Then delete all of the files associated with the delted table
 	var dir :DirAccess = DirAccess.open(table_save_path)
 	var file_delete = table_save_path + delete_tbl_name + table_file_format
@@ -440,7 +440,7 @@ func delete_table(delete_tbl_name):
 
 
 func delete_field(field_name, selectedDict:Dictionary = current_dict, selectedDataDict:Dictionary = currentData_dict):
-	print("DELETE field NAME: ", field_name)
+#	print("DELETE field NAME: ", field_name)
 	var tmp_dict = {}
 	var main_tbl = {}
 	data_type = "Column"
@@ -452,7 +452,7 @@ func delete_field(field_name, selectedDict:Dictionary = current_dict, selectedDa
 	for i in tmp_dict:
 		if selectedDataDict[data_type][i]["FieldName"] == field_name:
 			selectedDataDict[data_type].erase(i) #Erase entry
-			print("BREAK1")
+#			print("BREAK1")
 			break
 	#Loop through number 0 to row_dict size
 	for j in tmp_dict.size() - 1:
@@ -464,14 +464,14 @@ func delete_field(field_name, selectedDict:Dictionary = current_dict, selectedDa
 			if selectedDataDict[data_type].has(next_entry):
 				selectedDataDict[data_type].erase(next_entry) #Delete next entry
 			else:
-				print("BREAK2")
+#				print("BREAK2")
 				break
 	print("delete key complete")
 	return [selectedDict, selectedDataDict]
 
 
 func Delete_Key(key_name, selectedDict:Dictionary = current_dict, selectedDataDict:Dictionary = currentData_dict):
-	print("DELETE KEY NAME: ", key_name)
+#	print("DELETE KEY NAME: ", key_name)
 	var tmp_dict = {}
 	var main_tbl = {}
 	data_type = "Row"
@@ -487,7 +487,7 @@ func Delete_Key(key_name, selectedDict:Dictionary = current_dict, selectedDataDi
 	for i in tmp_dict:
 		if selectedDataDict[data_type][i]["FieldName"] == key_name:
 			selectedDataDict[data_type].erase(i) #Erase entry
-			print("BREAK1")
+#			print("BREAK1")
 			break
 	#Loop through number 0 to row_dict size
 	for j in tmp_dict.size() - 1:
@@ -499,7 +499,7 @@ func Delete_Key(key_name, selectedDict:Dictionary = current_dict, selectedDataDi
 			if selectedDataDict[data_type].has(next_entry):
 				selectedDataDict[data_type].erase(next_entry) #Delete next entry
 			else:
-				print("BREAK2")
+#				print("BREAK2")
 				break
 	print("delete key complete")
 	return [selectedDict, selectedDataDict]
@@ -882,7 +882,7 @@ func is_table_dropdown_list(tableName :String):
 
 
 func get_input_type_node(input_type :String):
-	print("INPUT TYPE: ", input_type)
+#	print("INPUT TYPE: ", input_type)
 	var return_node : Object
 	datatype_dict = import_data("DataTypes")
 	return_node =  load(datatype_dict[input_type]["Default Scene"])
@@ -1350,12 +1350,38 @@ func get_cropped_texture(texture : Texture, region : Rect2) -> AtlasTexture:
 	return atlas_texture
 
 
-
-
-
 func get_list_of_all_tables():
 	var table_dict : Dictionary = import_data("Table Data")
 	return table_dict
+
+
+#func rearrange_key_fields(new_index :String = button_focus_index, old_index:String = button_selected , selected_data_dict :Dictionary = currentData_dict):
+#	new_index = get_data_index(new_index, "Row")
+#	old_index = get_data_index(old_index, "Row")
+#	var key_data = currentData_dict["Row"][old_index]
+#	var test_dict = currentData_dict.duplicate(true)
+#	#remove the old index
+#	test_dict["Row"].erase(old_index)
+#	for key in test_dict["Row"].size():
+#		key += 1
+#		var key_string :String = str(key)
+#		if !test_dict["Row"].has(key_string):
+#			var next_key = str(key + 1)
+#			var next_key_data = test_dict["Row"][next_key]
+#			test_dict["Row"][key_string] = next_key_data
+#			test_dict["Row"].erase(next_key)
+#	#insert the old key data in the new key index and shift all the remaining keys down
+#	for key in range(test_dict["Row"].size() + 1,0,-1):
+#		var key_string :String = str(key)
+#		var previous_key = str(key - 1)
+#		if key_string == new_index:
+#			test_dict["Row"].erase(key_string)
+#			test_dict["Row"][key_string] = key_data
+#			break
+#		else:
+#			var prev_key_data = test_dict["Row"][previous_key]
+#			test_dict["Row"].erase(previous_key)
+#			test_dict["Row"][key_string] = prev_key_data
 
 
 func rearrange_table_keys(new_index :String = button_focus_index, old_index:String = button_selected , selected_data_dict :Dictionary = currentData_dict):
@@ -1388,7 +1414,7 @@ func rearrange_table_keys(new_index :String = button_focus_index, old_index:Stri
 
 	currentData_dict["Row"] = test_dict["Row"]
 	for child in $Button_Float.get_children():
-		child._on_TextureButton_button_up()
+		child._on_Navigation_Button_button_up()
 		child.queue_free()
 
 
@@ -1416,8 +1442,8 @@ func add_starting_position_node_to_map(selectedItemID,previous_selectionID, pare
 	
 	new_map_path = get_mappath_from_displayname(selectedItemName)
 	previous_map_path = get_mappath_from_displayname(previous_selection)
-	print("SELECTED ITEM NAME: ", selectedItemName)
-	print("PREVIOUS ITEM NAME: ", previous_selection)
+#	print("SELECTED ITEM NAME: ", selectedItemName)
+#	print("PREVIOUS ITEM NAME: ", previous_selection)
 	var starting_position_node = Sprite2D.new()
 	var new_map_scene  = load(new_map_path).instantiate()
 	new_map_scene.add_child(starting_position_node)
@@ -1436,7 +1462,7 @@ func add_starting_position_node_to_map(selectedItemID,previous_selectionID, pare
 	
 	parent_node._on_Save_button_up()
 	open_scene_in_editor(new_map_path)
-	print("NEW MAP PATH: ", new_map_path)
+#	print("NEW MAP PATH: ", new_map_path)
 	var tabbar :TabBar = get_editor_tabbar()
 	var tabbar_dict :Dictionary = get_open_scenes_in_editor()
 	var previous_scene_name :String = previous_map_path.get_file().get_basename()
@@ -1465,7 +1491,7 @@ func close_scene_in_editor(scene_name :String):
 
 
 func select_node_in_editor(node_name : String):
-	print("Node Name: ", node_name)
+#	print("Node Name: ", node_name)
 	var editor  = load("res://addons/fart_engine/EditorEngine.gd").new()
 	editor.get_editor_interface().get_selection().clear()
 	editor.get_editor_interface().edit_node(editor.get_editor_interface().get_edited_scene_root().get_node(node_name))
@@ -1512,20 +1538,20 @@ func get_open_scenes_in_editor() -> Dictionary:
 
 
 func delete_starting_position_from_old_map(previous_selection, node_name:String = "StartingPositionNode" ):
-	print("PREVIOUS SELECTION: ", previous_selection)
+#	print("PREVIOUS SELECTION: ", previous_selection)
 	var maps_dict = import_data("Maps")
 	var new_map_path
 	for map_id in maps_dict:
 		if map_id == previous_selection:
 			new_map_path = maps_dict[map_id]["Path"]
 #			break
-	print("NEW MAP PATH: ", new_map_path)
+#	print("NEW MAP PATH: ", new_map_path)
 	if !new_map_path == null:
 		var new_map_scene :Node = load(new_map_path).instantiate()
 		new_map_scene.set_name(previous_selection)
 
 		var start_pos_node :Sprite2D = new_map_scene.get_node(node_name)
-		print("START POS NODE: ", start_pos_node)
+#		print("START POS NODE: ", start_pos_node)
 		if start_pos_node != null:
 			new_map_scene.remove_child(start_pos_node)
 			start_pos_node.queue_free()
@@ -1595,7 +1621,7 @@ func update_input_actions_table():
 
 
 	for id in AU3_input_map_dict:
-		print(id)
+#		print(id)
 		var displayName:String = convert_string_to_type(AU3_input_map_dict[id]["Display Name"])["text"]
 
 		if !inputMap.has(displayName):# or displayName.left(3) == "ui_":
@@ -1604,7 +1630,7 @@ func update_input_actions_table():
 			AU3_input_map_data_dict = newDictArray[1].duplicate(true)
 	
 		if displayName.left(3) == "ui_":
-			print(displayName)
+#			print(displayName)
 			var newDictArray :Array = Delete_Key(id, AU3_input_map_dict.duplicate(true),AU3_input_map_data_dict.duplicate(true) )
 			AU3_input_map_dict = newDictArray[0].duplicate(true)
 			AU3_input_map_data_dict = newDictArray[1].duplicate(true)

@@ -14,7 +14,7 @@ signal checkbox_pressed
 var me = self #needed to call elements from scripts that extend this one
 
 var DBENGINE := DatabaseEngine.new()
-var labelNode
+var labelNode = null
 var inputNode
 var itemName = ""
 var default = null
@@ -51,6 +51,10 @@ func get_input_node():
 
 func get_label_node():
 	labelNode = await find_child("Label_Button", true)
+	while labelNode == null:
+		await get_tree().process_frame
+	print("LABEL NODE FOUND")
+	show_label()
 	return labelNode
 
 
@@ -77,8 +81,8 @@ func set_default_value():
 
 func label_pressed():
 	var fieldName :String = labelNode.text
-	print("FieldName: ", fieldName)
-	print("Is Label: ", is_label_button)
+#	print("FieldName: ", fieldName)
+#	print("Is Label: ", is_label_button)
 	if is_label_button:
 		if fieldName == "Key":
 			display_edit_table_menu()
@@ -192,6 +196,11 @@ func on_text_changed(new_text = "Blank"):
 
 
 func set_initial_show_value():
+#	set_label_text()
+#	while labelNode.text == "Button":
+#		await get_tree().process_frame
+#		print(labelNode.text)
+#	labelNode.get_parent().get_node("Hide_Button").visible = true
 	var show_value := false
 	var field_name_index :String = parent_node.get_data_index(labelNode.text, "Column")
 	if field_name_index != "":
@@ -201,6 +210,7 @@ func set_initial_show_value():
 
 
 func hide_value_button_pressed():
+	print(labelNode.text)
 	var show_value :bool = !parent_node.currentData_dict["Column"][parent_node.get_data_index(labelNode.text, "Column")]["ShowValue"]
 	show_field_value(show_value)
 
@@ -213,7 +223,7 @@ func show_field_value(show_value :bool):
 	parent_node.currentData_dict["Column"][parent_node.get_data_index(labelNode.text, "Column")]["ShowValue"] = show_value
 	if show_value:
 		show_field = true
-		labelNode.get_parent().get_node("Hide_Button").set_text("Hide Value")
+		labelNode.get_parent().get_node("Hide_Button").set_text("Hide")
 		for i in get_children():
 			if !i.is_in_group("Label"):
 				if i.has_method("set_visible"):
@@ -221,7 +231,7 @@ func show_field_value(show_value :bool):
 					
 	else:
 		show_field = false
-		labelNode.get_parent().get_node("Hide_Button").set_text("Show Value")
+		labelNode.get_parent().get_node("Hide_Button").set_text("Show")
 		for i in get_children():
 			if !i.is_in_group("Label"):
 				if i.has_method("set_visible"):

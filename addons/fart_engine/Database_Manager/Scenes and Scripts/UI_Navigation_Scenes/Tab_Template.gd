@@ -3,7 +3,7 @@ extends DatabaseEngine
 signal popup_closed
 signal table_refresh_complete
 
-@onready var btn_itemselect = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Btn_ItemSelect.tscn")
+@onready var btn_itemselect = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
 
 @onready var btn_saveChanges = $VBox1/HBox1/SaveChanges_Button
 @onready var btn_addNewItem = $VBox1/HBox1/AddNewKey_Button
@@ -49,7 +49,7 @@ func _ready():
 		update_dictionaries()
 		reload_buttons()
 		await get_tree().process_frame
-		table_list.get_child(0)._on_TextureButton_button_up()
+		table_list.get_child(0)._on_Navigation_Button_button_up()
 		custom_table_settings()
 
 
@@ -199,6 +199,7 @@ func clear_data():
 func enable_all_buttons(value : bool = true):
 	for i in table_list.get_children():
 		i.disabled = !value
+		i.reset_self_modulate()
 
 
 func refresh_data(item_name : String = Item_Name):
@@ -223,8 +224,6 @@ func refresh_data(item_name : String = Item_Name):
 	emit_signal("table_refresh_complete")
 
 
-
-
 func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
 	var sorted_current_dict :Dictionary = list_keys_in_display_order(tableName)
@@ -240,10 +239,14 @@ func create_table_buttons():
 				displayName = current_dict[label]["Display Name"]["text"]
 		var do_not_edit_array :Array = ["Table Data"]
 		if !do_not_edit_array.has(currentData_dict["Row"][item_number]["FieldName"]):
-			var newbtn :Button = btn_itemselect.instantiate() #Create new instance of item button
+			var newbtn :TextureButton = btn_itemselect.instantiate() #Create new instance of item button
 			newbtn.set_name(label) #Set the name of the new button as the item name
-			newbtn.set_label_text(label, displayName, useDisplayName)
+			newbtn.add_to_group("Key")
+#			print("Label: ", useDisplayName)
+			#label_text: String = "", keyName: String = "", displayName :String = "", displayNameVisible :bool = true
+			
 			table_list.add_child(newbtn) #Add new item button to table_list
+			newbtn.set_label_text(label, displayName, useDisplayName)
 			newbtn.main_page = self
 
 
@@ -272,17 +275,17 @@ func update_dropdown_tables():
 	for i in get_node("..").get_children():
 		if i != self and i.is_in_group("Tab") and i.has_method("reload_buttons"):
 			i.reload_buttons()
-			i.table_list.get_child(0)._on_TextureButton_button_up()
+#			i.table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
 func reload_data_without_saving():
 	reload_buttons()
 	await get_tree().process_frame
 	if table_list.has_node(Item_Name):
-		var btnNode:Button = table_list.get_node(Item_Name)
-		btnNode._on_TextureButton_button_up()
+		var btnNode:TextureButton = table_list.get_node(Item_Name)
+		btnNode._on_Navigation_Button_button_up()
 	else:
-		table_list.get_child(0)._on_TextureButton_button_up()
+		table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
 func update_values():
@@ -291,11 +294,11 @@ func update_values():
 	keyNode = key_node
 	get_value_from_input_node(keyNode,"Key")
 	for i in container_list1.get_children():
-		value = i.labelNode.get_text()
+		value = i.labelNode.text
 		get_value_from_input_node(i, value)
 
 	for i in container_list2.get_children():
-		value = i.labelNode.get_text()
+		value = i.labelNode.text
 		get_value_from_input_node(i, value)
 		#NOTE: Does NOT update the database files. That function is located in the save_data method
 	if keyNode != null:
@@ -332,9 +335,9 @@ func has_empty_fields():
 
 func get_next_key_number(table_Name :String) -> String:
 	#get table, loop through keys, find last key
-	var next_key_number :int = 0
+	var next_key_number :int = 1
 	for key in current_dict:
-		print("Key number: ", key)
+#		print("Key number: ", key)
 		var key_int: int = int(key)
 		if next_key_number < key_int:
 			next_key_number = key_int + 1
@@ -490,7 +493,7 @@ func does_table_name_exist(tableName:String)->bool:
 
 func delete_selected_table():
 	var del_tbl_name = key_node.inputNode.get_text()
-	print("Table ID ", del_tbl_name)
+#	print("Table ID ", del_tbl_name)
 	delete_table(del_tbl_name)
 	get_main_node()._ready()
 	await get_tree().process_frame
@@ -528,13 +531,13 @@ func _on_SaveNewItem_button_up(newKeyName :String, new_key_dict :Dictionary = {}
 		if does_key_display_name_exist(displayName):
 			print("ERROR: Duplicate Display Name Exists, to Allow this, change 'Allow Duplicate Display Name' in Table Options")
 			return
-	print("New Key Name0: ", newKeyName)
+#	print("New Key Name: ", newKeyName)
 	if !does_key_exist(newKeyName):
-		print("New Key Name: ", newKeyName)
+#		print("New Key Name: ", newKeyName)
 		if !does_key_contain_invalid_characters(str(newKeyName)):
-			print("New Key Name2: ", newKeyName)
+#			print("New Key Name2: ", newKeyName)
 			if !has_empty_fields():
-				print("New Key Name3: ", newKeyName)
+#				print("New Key Name3: ", newKeyName)
 				add_key(newKeyName, "1", true, false, false,false, new_key_dict)
 				if current_dict[newKeyName].has("Display Name"):
 					current_dict[newKeyName]["Display Name"] = {"text" : displayName}
@@ -548,3 +551,29 @@ func _on_SaveNewItem_button_up(newKeyName :String, new_key_dict :Dictionary = {}
 				scroll_table_list.set_v_scroll(max_v_scroll)
 	else:
 		print("ERROR! No changes were made")
+
+
+
+
+#_________________________________________________________________#
+func set_display_name_first(): #Rearrange Fields- Not quite, but close
+	#Or any time all tables need to be searched and modified
+	var table_list: Dictionary = get_list_of_all_tables()
+	
+	for table_name in table_list:
+	
+		var read_dict:Dictionary = await import_data(table_name, true)["Column"].duplicate(true)
+		var write_dict: Dictionary = await import_data(table_name, true)
+		for order_number in read_dict:
+			var field_name: String = read_dict[order_number]["FieldName"]
+			if field_name == "Display Name" and order_number != str(1):
+				print("Table Name: ", table_name)
+				print("Order Number: ", order_number)
+				print("Field Name: ", read_dict[order_number]["FieldName"])
+				
+				var display_dict: Dictionary = read_dict[order_number].duplicate(true)
+				var index_1_dict: Dictionary = read_dict["1"].duplicate(true)
+				write_dict["Column"]["1"] = display_dict
+				write_dict["Column"][order_number] = index_1_dict
+				print(write_dict["Column"])
+				save_file(table_save_path + table_name + table_info_file_format, write_dict)

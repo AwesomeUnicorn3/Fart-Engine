@@ -30,6 +30,7 @@ grow_vertical = 2
 color = Color(0.14902, 0.145098, 0.152941, 1)
 
 [node name="ProjectWelcomeLabel" type="HBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -79,28 +80,28 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Project Settings" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 40)
+custom_minimum_size = Vector2(175, 55)
 layout_mode = 2
 button_text = "Project Settings"
 
 [node name="RefreshTables" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 40)
+custom_minimum_size = Vector2(175, 55)
 layout_mode = 2
 button_text = "Refresh Tables"
 auto_connect_signals = false
 
 [node name="DisplaySaveFile" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 40)
+custom_minimum_size = Vector2(175, 55)
 layout_mode = 2
 button_text = "Edit Save Files"
 
 [node name="Event_Manager" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 40)
+custom_minimum_size = Vector2(175, 55)
 layout_mode = 2
 button_text = "Events"
 
 [node name="Table Data" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 40)
+custom_minimum_size = Vector2(175, 55)
 layout_mode = 2
 button_text = "Table Data"
 
