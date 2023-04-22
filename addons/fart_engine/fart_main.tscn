@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bs50ag77dy28v"]
+[gd_scene load_steps=8 format=3 uid="uid://bs50ag77dy28v"]
 
 [ext_resource type="Theme" uid="uid://bo3gu4nrkb880" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_25.tres" id="1_vhr7c"]
 [ext_resource type="Script" path="res://addons/fart_engine/fart_main.gd" id="2_if1nk"]
 [ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="3_ukiag"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/SaveFile_Manager/DisplaySaveFile.tscn" id="4_h11b6"]
+[ext_resource type="Texture2D" uid="uid://5os0hp7n0x5y" path="res://addons/fart_engine/Editor_Icons/Default_Editor_Label_Texture.png" id="4_vvki4"]
 [ext_resource type="PackedScene" uid="uid://c7w4mfwiuasxy" path="res://addons/fart_engine/Event_Manager/Event_Manager.tscn" id="5_0ld3m"]
 [ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="5_megf8"]
 
@@ -79,31 +80,41 @@ vertical_scroll_mode = 0
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Project Settings" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 55)
+[node name="Project Settings" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database", "Top Row"] instance=ExtResource("5_megf8")]
+self_modulate = Color(0.337255, 0.705882, 0.333333, 1)
+custom_minimum_size = Vector2(125, 40)
 layout_mode = 2
 button_text = "Project Settings"
+auto_set_minimum_size = false
 
-[node name="RefreshTables" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 55)
+[node name="RefreshTables" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database", "Top Row"] instance=ExtResource("5_megf8")]
+self_modulate = Color(0.337255, 0.705882, 0.333333, 1)
+custom_minimum_size = Vector2(125, 40)
 layout_mode = 2
 button_text = "Refresh Tables"
 auto_connect_signals = false
+auto_set_minimum_size = false
 
-[node name="DisplaySaveFile" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 55)
+[node name="DisplaySaveFile" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database", "Top Row"] instance=ExtResource("5_megf8")]
+self_modulate = Color(0.337255, 0.705882, 0.333333, 1)
+custom_minimum_size = Vector2(125, 40)
 layout_mode = 2
 button_text = "Edit Save Files"
+auto_set_minimum_size = false
 
-[node name="Event_Manager" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 55)
+[node name="Event_Manager" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database", "Top Row"] instance=ExtResource("5_megf8")]
+self_modulate = Color(0.337255, 0.705882, 0.333333, 1)
+custom_minimum_size = Vector2(125, 40)
 layout_mode = 2
 button_text = "Events"
+auto_set_minimum_size = false
 
-[node name="Table Data" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database"] instance=ExtResource("5_megf8")]
-custom_minimum_size = Vector2(175, 55)
+[node name="Table Data" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database", "Top Row"] instance=ExtResource("5_megf8")]
+self_modulate = Color(0.337255, 0.705882, 0.333333, 1)
+custom_minimum_size = Vector2(125, 40)
 layout_mode = 2
 button_text = "Table Data"
+auto_set_minimum_size = false
 
 [node name="TableCategoryScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3"]
 layout_mode = 2
@@ -124,10 +135,16 @@ vertical_scroll_mode = 0
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HideNavigation" parent="MainDisplay_Level1/MainDisplay_Level2" groups=["Database"] instance=ExtResource("5_megf8")]
+[node name="HideNavigation" parent="MainDisplay_Level1/MainDisplay_Level2" groups=["Database", "Top Row"] instance=ExtResource("5_megf8")]
+self_modulate = Color(0.337255, 0.705882, 0.333333, 1)
+custom_minimum_size = Vector2(150, 25)
 layout_mode = 2
+texture_normal = ExtResource("4_vvki4")
+texture_pressed = ExtResource("4_vvki4")
 button_text = "Show/Hide Navigation Menu"
 auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [node name="TableDisplay" type="Control" parent="MainDisplay_Level1/MainDisplay_Level2"]
 layout_mode = 2

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b0x40ln8a6syy"]
+[gd_scene load_steps=3 format=3 uid="uid://b0x40ln8a6syy"]
 
 [ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="1_01h3u"]
+[ext_resource type="Texture2D" uid="uid://5os0hp7n0x5y" path="res://addons/fart_engine/Editor_Icons/Default_Editor_Label_Texture.png" id="2_6yhrp"]
 
 [node name="Input_Label_Template" type="VBoxContainer" groups=["Label"]]
 custom_minimum_size = Vector2(0, 25)
@@ -18,37 +19,23 @@ layout_mode = 2
 size_flags_vertical = 3
 metadata/_edit_layout_mode = 1
 
-[node name="Label_Button1" type="Button" parent="HBox1"]
-visible = false
+[node name="Label_Button" parent="HBox1" groups=["Node Label"] instance=ExtResource("1_01h3u")]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 17
-text = "Number_Counter"
-
-[node name="Hide_Button1" type="Button" parent="HBox1"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
-theme_override_font_sizes/font_size = 17
-text = "Hide Value"
-
-[node name="Label_Button" parent="HBox1" groups=["Node_Label"] instance=ExtResource("1_01h3u")]
-self_modulate = Color(0.25, 0.75, 0.45, 1)
-custom_minimum_size = Vector2(175, 25)
-layout_mode = 2
-size_flags_horizontal = 3
+texture_normal = ExtResource("2_6yhrp")
+texture_pressed = ExtResource("2_6yhrp")
 button_text = "Button"
 auto_connect_signals = false
 auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="Hide_Button" parent="HBox1" groups=["Node_Label"] instance=ExtResource("1_01h3u")]
+[node name="Hide_Button" parent="HBox1" groups=["Node Label"] instance=ExtResource("1_01h3u")]
 visible = false
-self_modulate = Color(0.25, 0.75, 0.45, 1)
 custom_minimum_size = Vector2(75, 25)
 layout_mode = 2
+texture_normal = ExtResource("2_6yhrp")
+texture_pressed = ExtResource("2_6yhrp")
 button_text = "Hide"
 auto_connect_signals = false
 auto_set_minimum_size = false
+auto_set_color = true

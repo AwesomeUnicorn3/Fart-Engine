@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://c1x7xqj1wrnjx"]
+[gd_scene load_steps=10 format=3 uid="uid://c1x7xqj1wrnjx"]
 
 [ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="1"]
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_ivdqc"]
 [ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://dt6l57m25hulg" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Button_Separator.tscn" id="4_22jb8"]
 [ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_xcjwq"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Tab_Template.gd" id="6"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Popups.tscn" id="7_dgruc"]
@@ -42,12 +41,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="RefreshData_Button" parent="VBox1/HBox1" instance=ExtResource("4_xcjwq")]
-custom_minimum_size = Vector2(175, 25)
+[node name="RefreshData_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
 layout_mode = 2
 button_text = "Refresh Table"
 auto_connect_signals = false
-auto_set_minimum_size = true
+auto_set_color = true
 
 [node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox1"]
 layout_mode = 2
@@ -59,70 +58,50 @@ size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
-[node name="AddNewTable_Button" parent="VBox1/HBox1" instance=ExtResource("4_xcjwq")]
+[node name="AddNewTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
 layout_mode = 2
 button_text = "Add Table"
 auto_connect_signals = false
-auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="DeleteTable_Button" parent="VBox1/HBox1" instance=ExtResource("4_xcjwq")]
+[node name="DeleteTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
 layout_mode = 2
 button_text = "Delete Table"
 auto_connect_signals = false
-auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="AddNewKey_Button" parent="VBox1/HBox1" instance=ExtResource("4_xcjwq")]
+[node name="AddNewKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
 visible = false
+self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
 layout_mode = 2
 button_text = "Add Key"
 auto_connect_signals = false
-auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="DuplicateKey_Button" parent="VBox1/HBox1" instance=ExtResource("4_xcjwq")]
+[node name="DuplicateKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
 visible = false
+self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
 layout_mode = 2
 button_text = "Duplicate Key"
 auto_connect_signals = false
-auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="DeleteSelectedKey_Button" parent="VBox1/HBox1" instance=ExtResource("4_xcjwq")]
+[node name="DeleteSelectedKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
 visible = false
+self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
 layout_mode = 2
 button_text = "Delete Key"
 auto_connect_signals = false
-auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="SaveChanges_Button" parent="VBox1/HBox1" instance=ExtResource("4_xcjwq")]
+[node name="SaveChanges_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
 layout_mode = 2
 button_text = "Save"
 auto_connect_signals = false
-auto_set_minimum_size = false
-
-[node name="DeleteTable_Button1" type="Button" parent="VBox1/HBox1"]
-visible = false
-layout_mode = 2
-text = "Delete Table"
-
-[node name="AddNewKey_Button1" type="Button" parent="VBox1/HBox1"]
-visible = false
-layout_mode = 2
-text = "Add New Key"
-
-[node name="DuplicateKey_Button1" type="Button" parent="VBox1/HBox1"]
-visible = false
-layout_mode = 2
-text = "Duplicate Key"
-
-[node name="DeleteSelectedKey_Button1" type="Button" parent="VBox1/HBox1"]
-visible = false
-layout_mode = 2
-text = "Delete Key"
-
-[node name="SaveChanges_Button1" type="Button" parent="VBox1/HBox1"]
-visible = false
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-text = "Save"
+auto_set_color = true
 
 [node name="TableName" parent="VBox1" instance=ExtResource("1")]
 layout_mode = 2
@@ -136,12 +115,13 @@ custom_minimum_size = Vector2(0, 35)
 [node name="HBox1" parent="VBox1/TableName/Label" index="0"]
 custom_minimum_size = Vector2(0, 30)
 
-[node name="Label_Button" parent="VBox1/TableName/Label/HBox1" index="2"]
-custom_minimum_size = Vector2(175, 25)
+[node name="Label_Button" parent="VBox1/TableName/Label/HBox1" index="0"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 auto_set_minimum_size = true
 
-[node name="Hide_Button" parent="VBox1/TableName/Label/HBox1" index="3"]
-custom_minimum_size = Vector2(175, 25)
+[node name="Hide_Button" parent="VBox1/TableName/Label/HBox1" index="1"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+custom_minimum_size = Vector2(150, 30)
 auto_set_minimum_size = true
 
 [node name="Input" parent="VBox1/TableName" index="1"]
@@ -156,12 +136,13 @@ is_label_button = false
 [node name="HBox1" parent="VBox1/Key/Label" index="0"]
 custom_minimum_size = Vector2(0, 20)
 
-[node name="Label_Button" parent="VBox1/Key/Label/HBox1" index="2"]
-custom_minimum_size = Vector2(175, 25)
+[node name="Label_Button" parent="VBox1/Key/Label/HBox1" index="0"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 auto_set_minimum_size = true
 
-[node name="Hide_Button" parent="VBox1/Key/Label/HBox1" index="3"]
-custom_minimum_size = Vector2(175, 25)
+[node name="Hide_Button" parent="VBox1/Key/Label/HBox1" index="1"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+custom_minimum_size = Vector2(150, 30)
 auto_set_minimum_size = true
 
 [node name="Input" parent="VBox1/Key" index="1"]
@@ -183,33 +164,19 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
 
-[node name="AddNewField_Button" parent="VBox1/HBox2" instance=ExtResource("4_xcjwq")]
-custom_minimum_size = Vector2(150, 25)
+[node name="AddNewField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
 layout_mode = 2
 button_text = "New Field"
 auto_connect_signals = false
-auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="AddNewField_Button1" type="Button" parent="VBox1/HBox2"]
-visible = false
-layout_mode = 2
-text = "New Field"
-
-[node name="Button_Separator" parent="VBox1/HBox2" instance=ExtResource("4_22jb8")]
-visible = false
-layout_mode = 2
-
-[node name="DeleteField_Button" parent="VBox1/HBox2" instance=ExtResource("4_xcjwq")]
-custom_minimum_size = Vector2(150, 25)
+[node name="DeleteField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
 layout_mode = 2
 button_text = "Delete Field"
 auto_connect_signals = false
-auto_set_minimum_size = false
-
-[node name="DeleteField_Button1" type="Button" parent="VBox1/HBox2"]
-visible = false
-layout_mode = 2
-text = "Delete Field"
+auto_set_color = true
 
 [node name="HBox3" type="HBoxContainer" parent="VBox1"]
 layout_mode = 2
@@ -283,15 +250,8 @@ layout_mode = 1
 [connection signal="button_up" from="VBox1/HBox1/DuplicateKey_Button" to="." method="_on_duplicate_key_button_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/DeleteSelectedKey_Button" to="." method="_on_DeleteSelectedItem_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/SaveChanges_Button" to="." method="_on_Save_button_up"]
-[connection signal="button_up" from="VBox1/HBox1/DeleteTable_Button1" to="." method="delete_selected_table"]
-[connection signal="button_up" from="VBox1/HBox1/AddNewKey_Button1" to="." method="show_new_key_input_form"]
-[connection signal="button_up" from="VBox1/HBox1/DuplicateKey_Button1" to="." method="_on_duplicate_key_button_button_up"]
-[connection signal="button_up" from="VBox1/HBox1/DeleteSelectedKey_Button1" to="." method="_on_DeleteSelectedItem_button_up"]
-[connection signal="button_up" from="VBox1/HBox1/SaveChanges_Button1" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/AddNewField_Button" to="." method="_on_AddField_button_up"]
-[connection signal="button_up" from="VBox1/HBox2/AddNewField_Button1" to="." method="_on_AddField_button_up"]
 [connection signal="button_up" from="VBox1/HBox2/DeleteField_Button" to="." method="display_options"]
-[connection signal="button_up" from="VBox1/HBox2/DeleteField_Button1" to="." method="display_options"]
 [connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept_Button" to="." method="_on_deletePopup_Accept_button_up"]
 [connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel_Button" to="." method="_on__deletePopup_Cancel_button_up"]
 [connection signal="item_selected" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" to="." method="_on_Itemlist_item_selected"]

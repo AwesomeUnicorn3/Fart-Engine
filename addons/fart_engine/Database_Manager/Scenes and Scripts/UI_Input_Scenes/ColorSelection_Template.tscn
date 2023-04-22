@@ -1,0 +1,88 @@
+[gd_scene load_steps=4 format=3 uid="uid://cuj8c7uaesndt"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ColorSelection_Template.gd" id="1_u0hkx"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_1lmac"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="3_44qwg"]
+
+[node name="ColorSelection_Template" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_u0hkx")
+label_text = "ColorSelection_Template"
+
+[node name="Label" parent="." instance=ExtResource("2_1lmac")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="OpenScene" type="ColorPickerButton" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pick Color"
+
+[node name="HBox3" type="HBoxContainer" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Input" type="LineEdit" parent="HBoxContainer/HBox3"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Color(1, 1, 1, 1)"
+placeholder_text = "Enter Value As Text"
+max_length = 45
+caret_blink = true
+
+[node name="InputR" type="LineEdit" parent="HBoxContainer/HBox3"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+placeholder_text = "Enter Value As Text"
+alignment = 1
+max_length = 45
+caret_blink = true
+
+[node name="InputG" type="LineEdit" parent="HBoxContainer/HBox3"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+placeholder_text = "Enter Value As Text"
+alignment = 1
+max_length = 45
+caret_blink = true
+
+[node name="InputB" type="LineEdit" parent="HBoxContainer/HBox3"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+placeholder_text = "Enter Value As Text"
+alignment = 1
+max_length = 45
+caret_blink = true
+
+[node name="InputA" type="LineEdit" parent="HBoxContainer/HBox3"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+placeholder_text = "Enter Value As Text"
+alignment = 1
+max_length = 45
+caret_blink = true
+
+[node name="input_templateBuffer" parent="." instance=ExtResource("3_44qwg")]
+layout_mode = 2
+
+[connection signal="color_changed" from="HBoxContainer/OpenScene" to="." method="_on_open_scene_color_changed"]

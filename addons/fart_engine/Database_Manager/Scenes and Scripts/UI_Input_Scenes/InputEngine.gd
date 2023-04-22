@@ -49,11 +49,11 @@ func get_input_node():
 	inputNode = await find_child("Input", true)
 	return inputNode
 
+
 func get_label_node():
 	labelNode = await find_child("Label_Button", true)
 	while labelNode == null:
 		await get_tree().process_frame
-	print("LABEL NODE FOUND")
 	show_label()
 	return labelNode
 
@@ -63,8 +63,6 @@ func show_label(show :bool = true):
 
 
 func set_label_text():
-#	print("LABLE TEXT: ", label_text)
-#	print("ITEM NAME: ", itemName)
 	if !is_instance_valid(labelNode):
 		get_label_node()
 	if label_text == "":
@@ -81,8 +79,6 @@ func set_default_value():
 
 func label_pressed():
 	var fieldName :String = labelNode.text
-#	print("FieldName: ", fieldName)
-#	print("Is Label: ", is_label_button)
 	if is_label_button:
 		if fieldName == "Key":
 			display_edit_table_menu()
@@ -196,11 +192,6 @@ func on_text_changed(new_text = "Blank"):
 
 
 func set_initial_show_value():
-#	set_label_text()
-#	while labelNode.text == "Button":
-#		await get_tree().process_frame
-#		print(labelNode.text)
-#	labelNode.get_parent().get_node("Hide_Button").visible = true
 	var show_value := false
 	var field_name_index :String = parent_node.get_data_index(labelNode.text, "Column")
 	if field_name_index != "":
@@ -210,7 +201,6 @@ func set_initial_show_value():
 
 
 func hide_value_button_pressed():
-	print(labelNode.text)
 	var show_value :bool = !parent_node.currentData_dict["Column"][parent_node.get_data_index(labelNode.text, "Column")]["ShowValue"]
 	show_field_value(show_value)
 

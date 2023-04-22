@@ -41,18 +41,16 @@ func _ready():
 		await clear_all_buttons()
 		add_category_buttons()
 		add_database_buttons_to_button_dict()
+		add_other_nav_buttons_to_button_dict()
 		add_database_tabs_to_display_dict()
-		
 
 		for key in display_form_dict:
 			if display_form_dict[key].has_method("reload_data_without_saving"):
 				display_form_dict[key].reload_data_without_saving()
-#		#IM NOT SURE WHY, BUT THIS NEEDS TO RUN 2X TO WORK PROPERLY
-#		await get_tree().process_frame
-		resize_buttons("Category")
-#		resize_buttons("Category")
-		resize_buttons("Database")
-#		resize_buttons("Database")
+		set_buttom_theme("Top Row")
+		set_buttom_theme("Category")
+
+
 		is_uds_main_updating = false
 
 
@@ -87,9 +85,11 @@ func add_new_button(BtnIndex:String,display_name:String, buttonScene, parentCont
 		parentContainer.add_child(newbtn)
 		button_dict[currButtonName] = newbtn
 	
-	
+	newbtn.name = BtnIndex
 	newbtn.add_to_group(group)
 	newbtn.root = self
+#	print(newbtn.get_groups())
+	newbtn.auto_set_color = false
 	
 	
 	return newbtn
@@ -106,11 +106,14 @@ func add_database_buttons_to_button_dict():
 		if !button_dict.has(child.name):
 			var newbtn :TextureButton = child
 			button_dict[child.name] = newbtn
+
+func add_other_nav_buttons_to_button_dict():
+	var child: TextureButton = $MainDisplay_Level1/MainDisplay_Level2/HideNavigation
+	if !button_dict.has(child.name):
+		var newbtn :TextureButton = child
+		button_dict[child.name] = newbtn
 		
-#	call_deferred("resize_buttons","Database")
-#			await change_button_size(newbtn)
-
-
+		
 func clear_data_tabs():
 	var display_form_dict_copy :Dictionary = display_form_dict.duplicate(true)
 	for display_tab_name in display_form_dict_copy:
@@ -129,13 +132,13 @@ func clear_all_buttons():
 	for buttonName in button_dict_copy:
 		var currButton :TextureButton = button_dict_copy[buttonName]
 		var do_not_delete_me = currButton.is_in_group("Database")
-		if !do_not_delete_me:
+		if do_not_delete_me:
+			button_dict.erase(currButton.name)
+		else:
 			currButton.queue_free()
 			button_dict.erase(currButton.name)
 			await get_tree().process_frame
-		else:
-			button_dict.erase(currButton.name)
-	await get_tree().process_frame
+#	await get_tree().process_frame
 
 
 func clear_table_buttons():
@@ -148,21 +151,26 @@ func clear_table_buttons():
 				currButton.queue_free()
 				button_dict.erase(currButton.name)
 				await get_tree().process_frame
-	await get_tree().process_frame
+#	await get_tree().process_frame
 
 
-func resize_buttons(group: String): #Enables all Navigation buttons
-	await get_tree().create_timer(.5).timeout
-	var group_name: String = group
+func set_buttom_theme(group: String):
+#	print("BUTTON THEME: ", group)
+	#SET COLOR BASED ON GROUP
+	#get project table
+	var project_table: Dictionary = DBENGINE.import_data("Project Settings")
+	var fart_editor_themes_table: Dictionary = DBENGINE.import_data("Fart Editor Themes")
+	
+	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
+	var category_color: Color = str_to_var(fart_editor_themes_table[theme_profile][group + " Button"])
+#	var group_name: String = group
 	for buttonName in button_dict:
 		var button_node = button_dict[buttonName]
-#		print("BUTTON GROUP ", button_dict[buttonName].get_groups())
-		if button_node.is_in_group(group_name):
-#			print(buttonName)
-#		button_dict[buttonName].disabled = false
-			await _change_button_size(button_node)
-#		button_dict[buttonName].reset_self_modulate()
-
+		button_node.root = self
+		if button_node.is_in_group(group):
+#			print(buttonName, " Group: ", group)
+			_change_button_size(button_node)
+			button_node.set_base_color(category_color)
 
 
 func enable_table_buttons():
@@ -200,7 +208,8 @@ func show_selected_tab(tabName : String = ""):
 		display_form_dict[tabName].visible = true
 		var current_button = button_dict[tabName]
 		current_button.set_disabled(true)
-		selected_tab_name = tabName
+		if tabName != "Project Settings" and tabName != "Table Data":
+			selected_tab_name = tabName
 
 
 func hide_all_tables(): #Hides all of the Tables
@@ -221,7 +230,7 @@ func navigation_button_click(btnName, btnNode):
 		add_tables_in_category(btnName)
 		enable_category_buttons()
 		
-		resize_buttons("Table")
+		set_buttom_theme("Table")
 #		print(display_form_dict)
 #		print(display_form_dict.keys())
 #		show_selected_tab(selected_tab_name)
@@ -269,15 +278,9 @@ func add_tables_in_category(category :String):
 
 		
 		if category_key == table_category_key and create_tab:
-#			print(tableKey)
-			#print("Table ID: ", tableKey)
-			#print("Table Category ID: ", table_category_ID)
-			#print("Table Category Name: ", table_category_name)
-			#print("Category: ", category)
-#			print("Table Key: ", tableKey)
 			var newbtn = add_new_button(tableKey, display_name , NavigationButton, table_buttons, "Table")
 			var newbtn_name = newbtn.name
-			
+
 			var newtab = tabTemplate.instantiate()
 			newtab.tableName = tableKey
 			newtab.name = newbtn_name
@@ -297,9 +300,22 @@ func add_tables_in_category(category :String):
 			
 #			await change_button_size(newbtn)
 #	print("END OF ADD TABLES TO CATEGORY")
-	selected_tab_name = ""
+#	selected_tab_name = ""
+#	table_buttons.get_child(0)._on_Navigation_Button_button_up()
+	await get_tree().create_timer(0.1).timeout
 	
-#	if selected_tab_name != "":
+	if selected_tab_name != "":
+		if button_dict.has(selected_tab_name):
+#		print(selected_tab_name)
+#		print(table_buttons.find_child(selected_tab_name))
+			button_dict[selected_tab_name]._on_Navigation_Button_button_up()
+		else:
+#			print("NOPE")
+#			print(button_dict)
+			table_buttons.get_child(0, true)._on_Navigation_Button_button_up()
+	else:
+		selected_tab_name = "Global Data"
+		button_dict[selected_tab_name]._on_Navigation_Button_button_up()
 #		#print(selected_tab_name)
 #		show_selected_tab(selected_tab_name)
 
@@ -312,7 +328,7 @@ func when_editor_saved():
 	print("PROJECT SETTINGS CHANGED")
 	DBENGINE.update_input_actions_table()
 	DBENGINE.update_UI_method_table()
-	await get_tree().create_timer(.5).timeout
+	await get_tree().create_timer(.1).timeout
 	_ready()
 
 

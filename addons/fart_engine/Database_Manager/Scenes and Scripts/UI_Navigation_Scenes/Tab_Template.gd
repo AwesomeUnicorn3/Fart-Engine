@@ -49,8 +49,9 @@ func _ready():
 		update_dictionaries()
 		reload_buttons()
 		await get_tree().process_frame
-		table_list.get_child(0)._on_Navigation_Button_button_up()
+
 		custom_table_settings()
+		table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
 func custom_table_settings():
@@ -242,12 +243,32 @@ func create_table_buttons():
 			var newbtn :TextureButton = btn_itemselect.instantiate() #Create new instance of item button
 			newbtn.set_name(label) #Set the name of the new button as the item name
 			newbtn.add_to_group("Key")
+			set_buttom_theme(newbtn, "Key")
+			
 #			print("Label: ", useDisplayName)
 			#label_text: String = "", keyName: String = "", displayName :String = "", displayNameVisible :bool = true
 			
 			table_list.add_child(newbtn) #Add new item button to table_list
 			newbtn.set_label_text(label, displayName, useDisplayName)
 			newbtn.main_page = self
+
+
+func set_buttom_theme(button_node: TextureButton, group: String):
+#	print("BUTTON THEME: ", group)
+	#SET COLOR BASED ON GROUP
+	#get project table
+	var project_table: Dictionary = import_data("Project Settings")
+	var fart_editor_themes_table: Dictionary = import_data("Fart Editor Themes")
+	
+	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
+	var category_color: Color = str_to_var(fart_editor_themes_table[theme_profile][group + " Button"])
+#	var group_name: String = group
+#	for buttonName in button_dict:
+#		var button_node = button_dict[buttonName]
+#		button_node.root = self
+	if button_node.is_in_group(group):
+		button_node.set_base_color(category_color)
+
 
 
 func _on_Save_button_up(update_Values : bool = true):

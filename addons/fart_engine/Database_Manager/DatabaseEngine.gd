@@ -749,7 +749,8 @@ func convert_string_to_type(variant, datatype = ""):
 			"2":
 				variant = str_to_var(str(variant))
 			"3":
-				variant = str(variant).to_float()
+				variant = str_to_var(variant)
+
 			"6":
 				variant = str(variant)
 				
@@ -942,9 +943,9 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 		"TYPE_INT": #INT
 			node_type = "2"
 			did_datatype_change = true
-		"TYPE_REAL": #Float
-			node_type = "3"
-			did_datatype_change = true
+#		"TYPE_REAL": #Float
+#			node_type = "3"
+#			did_datatype_change = true
 		"TYPE_STRING": #String
 			node_type = "1"
 			did_datatype_change = true
@@ -1075,9 +1076,9 @@ func get_value_from_input_node(current_node, field_name := "", key_name := Item_
 		"TYPE_INT": #INT
 			input_type = "2"
 			did_datatype_change = true
-		"TYPE_REAL": #Float
-			input_type = "3"
-			did_datatype_change = true
+#		"TYPE_REAL": #Float
+#			input_type = "3"
+#			did_datatype_change = true
 		"TYPE_STRING": #String
 			input_type = "1"
 			did_datatype_change = true
