@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cvdteo5jg62qn"]
+[gd_scene load_steps=7 format=3 uid="uid://cvdteo5jg62qn"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Condition_line_item.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="2_q1clg"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/Event_Manager/TableKeyField_Dropdown_Template.tscn" id="3_wrdmd"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_f1jwx"]
+[ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_f1jwx"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="7"]
 
@@ -17,7 +18,16 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("2")
 
-[node name="DeleteButton" type="Button" parent="."]
+[node name="DeleteButton" parent="." groups=["Table Action"] instance=ExtResource("2_q1clg")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(75, 30)
+layout_mode = 2
+button_text = "Delete"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="DeleteButton1" type="Button" parent="."]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 9
 text = "Delete"
@@ -31,20 +41,26 @@ is_label_button = false
 [node name="Label" parent="Key_Display" index="0"]
 custom_minimum_size = Vector2(0, 10)
 
+[node name="Label_Button" parent="Key_Display/Label/HBox1" index="0"]
+custom_minimum_size = Vector2(50, 30)
+
 [node name="Input" parent="Key_Display" index="1"]
 custom_minimum_size = Vector2(0, 10)
-size_flags_horizontal = 0
 placeholder_text = "1"
 
 [node name="LeftOperator" parent="." instance=ExtResource("3_wrdmd")]
 layout_mode = 2
 
 [node name="Label_Button" parent="LeftOperator/TopLabel/HBox1" index="0"]
-text = "IF"
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+button_text = "IF"
+
+[node name="Hide_Button" parent="LeftOperator/TopLabel/HBox1" index="1"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="Input" parent="LeftOperator/TableKeyField_Combo/Table_DropDown" index="1"]
 item_count = 8
-popup/item_0/text = "Global Data"
+popup/item_0/text = "Game Data"
 popup/item_1/text = "Items"
 popup/item_2/text = "GlobalOptions"
 popup/item_3/text = "Global Settings"
@@ -58,7 +74,7 @@ selection_table_name = "Global Data"
 
 [node name="Input" parent="LeftOperator/TableKeyField_Combo/Key_DropDown" index="1"]
 item_count = 1
-popup/item_0/text = "2"
+popup/item_0/text = "Profile 1"
 
 [node name="Input" parent="LeftOperator/TableKeyField_Combo/Field_DropDown" index="1"]
 item_count = 24
@@ -120,20 +136,23 @@ layout_mode = 2
 is_left = false
 
 [node name="Label_Button" parent="RightOperator/TopLabel/HBox1" index="0"]
-text = "VALUE"
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+button_text = "Value"
+
+[node name="Hide_Button" parent="RightOperator/TopLabel/HBox1" index="1"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="Input" parent="RightOperator/TableKeyField_Combo/Table_DropDown" index="1"]
-item_count = 3
+item_count = 2
 popup/item_0/text = "Global Data"
 popup/item_1/text = "Items"
-popup/item_2/text = "Testing Table"
 
 [node name="Key_DropDown" parent="RightOperator/TableKeyField_Combo" index="1"]
 selection_table_name = "Global Data"
 
 [node name="Input" parent="RightOperator/TableKeyField_Combo/Key_DropDown" index="1"]
 item_count = 1
-popup/item_0/text = "2"
+popup/item_0/text = "Profile 1"
 
 [node name="Input" parent="RightOperator/TableKeyField_Combo/Field_DropDown" index="1"]
 popup/item_0/text = "Active Character"
@@ -173,13 +192,16 @@ layout_mode = 2
 size_flags_horizontal = 1
 true_text = "AND"
 false_text = "OR"
-label_text = "Compare Type"
+label_text = "And/OR"
 is_label_button = false
 
 [connection signal="button_up" from="DeleteButton" to="." method="_on_delete_button_button_up"]
+[connection signal="button_up" from="DeleteButton1" to="." method="_on_delete_button_button_up"]
 [connection signal="checkbox_pressed" from="Static_Option" to="." method="_on_static_option_checkbox_pressed"]
 
 [editable path="Key_Display"]
+[editable path="Key_Display/Label"]
+[editable path="Key_Display/input_templateBuffer"]
 [editable path="LeftOperator"]
 [editable path="LeftOperator/TopLabel"]
 [editable path="LeftOperator/TableKeyField_Combo/Table_DropDown"]

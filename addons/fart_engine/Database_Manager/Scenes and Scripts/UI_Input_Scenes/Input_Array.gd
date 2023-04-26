@@ -22,11 +22,11 @@ func startup():
 func _get_input_value():
 
 	input_data = {}
-	options_dict["action"] = $ActionSelection._get_input_value()
+	options_dict["action"] = $Control/ActionSelection._get_input_value()
 	input_data["options_dict"] = options_dict
 	var id :int = 1
 	var curr_input_dict :Dictionary = {}
-	for child in $Scroll1/Input.get_children():
+	for child in $Control/Scroll1/Input.get_children():
 		var input_node = child.get_child(1)
 		curr_input_dict[str(id)] = input_node.get_input_value()
 		id += 1
@@ -40,16 +40,17 @@ func _set_input_value(node_value):
 		node_value = str_to_var(node_value)
 	input_data = node_value
 	options_dict = input_data["options_dict"]
-	$ActionSelection.populate_list()
-	var action_name_id = $ActionSelection.get_dropdown_index_from_key(options_dict["action"])
-	$ActionSelection.select_index(action_name_id)
+	$Control/ActionSelection.populate_list()
+	var action_name_id = $Control/ActionSelection.get_dropdown_index_from_key(options_dict["action"])
+	$Control/ActionSelection.select_index(action_name_id)
 	set_input_data()
 
 
 
 func delete_selected_key(index:String):
 	input_dict.erase(index)
-	for key in input_dict.size():
+	await get_tree().process_frame
+	for key in input_dict.size() + 1:
 		var str_key = str(key + 1)
 		if !input_dict.has(str_key):
 			if input_dict.has(str(key + 2)):
@@ -72,7 +73,7 @@ func add_new_key():
 
 func set_input_data():
 	input_dict = input_data["input_dict"]
-	for child in $Scroll1/Input.get_children():
+	for child in $Control/Scroll1/Input.get_children():
 		child.queue_free()
 	for index in input_dict:
 		var current_input
@@ -88,9 +89,9 @@ func set_input_data():
 		var next_scene = DBENGINE.get_input_type_node(input_type).instantiate()
 		var node_value = input_dict[index]
 		#instantiate a container with a delete button
-		var input_control_node :HBoxContainer = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/InputArray_Node_Field.tscn").instantiate()
+		var input_control_node :HBoxContainer = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/InputArray_Node_Field.tscn").instantiate()
 		#add new container to Scroll1/input
-		$Scroll1/Input.add_child(input_control_node)
+		$Control/Scroll1/Input.add_child(input_control_node)
 		#add new input node to new_container
 		var newInputNode = DBENGINE.create_datatype_node(input_type)
 		input_control_node.add_child(newInputNode)

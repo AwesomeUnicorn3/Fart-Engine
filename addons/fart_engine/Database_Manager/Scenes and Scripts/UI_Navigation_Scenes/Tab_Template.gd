@@ -358,10 +358,11 @@ func get_next_key_number(table_Name :String) -> String:
 	#get table, loop through keys, find last key
 	var next_key_number :int = 1
 	for key in current_dict:
-#		print("Key number: ", key)
+		print("Key number: ", key)
 		var key_int: int = int(key)
-		if next_key_number < key_int:
+		if next_key_number <= key_int:
 			next_key_number = key_int + 1
+	print("next Key number: ", next_key_number)
 	return str(next_key_number)
 
 
@@ -370,7 +371,7 @@ func delete_selected_key():
 	Delete_Key(Item_Name, current_dict, currentData_dict)
 	save_all_db_files(current_table_name)
 	reload_buttons()
-	table_list.get_child(0)._on_TextureButton_button_up()
+	table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
 func _on_DeleteSelectedItem_button_up():

@@ -11,10 +11,17 @@ func _init() -> void:
 
 
 func _set_input_value(node_value):
+	var text: String
 	if typeof(node_value) == 4:
 		node_value = str_to_var(node_value)
+	
+#	if typeof(node_value) == 4:
+#		text = node_value
+#	else:
+	text = str(node_value["text"])
+		
+		
 	input_data = node_value
-	var text :String = input_data["text"]
 	$Input.set_text(text)
 
 

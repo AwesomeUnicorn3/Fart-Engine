@@ -1,8 +1,8 @@
 @tool
 extends DatabaseEngine
 
-@onready var btn_itemselect = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Btn_ItemSelect.tscn")
-@onready var event_editor_input_form = load("res://addons/fart_engine/Event_Manager/Event Editor Input Form.tscn")
+@onready var btn_itemselect = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
+@onready var event_editor_input_form = preload("res://addons/fart_engine/Event_Manager/Event Editor Input Form.tscn")
 
 @onready var btn_saveChanges = $VBox1/HBox1/SaveChanges
 @onready var btn_addNewItem = $VBox1/HBox1/AddNewItem
@@ -30,10 +30,13 @@ var current_event_editor_input
 var event_display_name :String = ""
 var selected_button
 
+var selected_event_ID: String = "Event 1"
+
+var event_page_scroll_position:int = 0
 
 func _ready():
 	reload_buttons()
-	table_list.get_child(0)._on_TextureButton_button_up()
+	table_list.get_child(0)._on_Navigation_Button_button_up()
 	selected_button = table_list.get_child(0)
 	
 func set_ref_table():
@@ -122,7 +125,7 @@ func clear_buttons():
 
 
 func reload_buttons():
-	clear_buttons()
+#	clear_buttons()
 	create_table_buttons()
 
 
@@ -130,39 +133,48 @@ func enable_all_buttons(value : bool = true):
 	#Enables user to interact with all item buttons on table_list
 	for i in table_list.get_children():
 		i.disabled = !value
+		i.reset_self_modulate()
 
+
+func navigation_button_click(key_name:String, button_node):
+#	print("KEY NAME: ", key_name)
+	refresh_data(key_name)
+#	print(button_node.get_groups())
+	selected_event_ID = key_name
+	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
+	button_node.reset_self_modulate()
 
 
 func refresh_data(SelectedEventName : String):
-	#clear existing event input forms
 	enable_all_buttons()
-#	print("Item Name: ", Item_Name)
-	#close previous event editor input form
-#	for child_node in event_editor_panel.get_children():
-#		if child_node.has_method("close_event_input_form_in_dbmanager"):
-#			child_node.close_event_input_form_in_dbmanager()
+	
+	var current_page = "1"
+	if current_event_editor_input != null:
+		event_page_scroll_position = current_event_editor_input.get_node("VBoxContainer/VBoxContainer/Scroll1").get_v_scroll()
+		current_page = current_event_editor_input.tab_number
+#		print(event_page_scroll_position)
 
-	#translate display_name to event_name using the table , data dictionary
-#	var tableData_dict = import_data("Table Data")
-#	var currentTable_name :String
-#	for table_name in tableData_dict:
-#		var tempDisplayName :Dictionary= convert_string_to_type(str(tableData_dict[table_name]["Display Name"]))
-#		if tempDisplayName["text"] == display_name:
-#			currentTable_name = table_name
-#
-#	#load event editor input form for event selected
-#	print("refreshdata Selected event name: ", SelectedEventName)
 	current_event_editor_input = event_editor_input_form.instantiate()
-#
 	current_event_editor_input.event_name = SelectedEventName
 	event_editor_panel.add_child(current_event_editor_input)
-#	current_event_editor_input.get_node("Scroll1/VBox1/HBox2").visible = false
-#	current_event_editor_input.load_event_from_dbmanager()
-	table_list.get_node(SelectedEventName).disabled = true #Sets current item button to disabled
-	table_list.get_node(SelectedEventName).grab_focus()
 	event_display_name = SelectedEventName
+	selected_event_ID = SelectedEventName
+
+	await get_tree().process_frame
+	var page_button_node
+	if (current_event_editor_input.get_node("VBoxContainer/Hbox4").get_node_or_null(current_page)) != null:
+		page_button_node = current_event_editor_input.get_node("VBoxContainer/Hbox4").get_node(current_page)
+	else:
+		page_button_node = current_event_editor_input.get_node("VBoxContainer/Hbox4").get_node("1")
+	page_button_node.on_Button_button_up()
 
 
+	await get_tree().create_timer(0.5).timeout
+	current_event_editor_input.get_node("VBoxContainer/VBoxContainer/Scroll1").set_v_scroll(event_page_scroll_position)
+#	print(current_event_editor_input.get_node("VBoxContainer/VBoxContainer/Scroll1").get_v_scroll())
+
+	
+	
 func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
 	clear_buttons()
@@ -181,7 +193,8 @@ func create_table_buttons():
 #		else:
 #		print("Event Name: ", Event_Name)
 		label = event_display_name
-		var newbtn: Button = btn_itemselect.instantiate() #Create new instance of item button
+		var newbtn: TextureButton = btn_itemselect.instantiate() #Create new instance of item button
+		newbtn.add_to_group("Key")
 		table_list.add_child(newbtn) #Add new item button to table_list
 		#Use the row_dict key (item_number) to set the button label as the item name
 		newbtn.set_name(Event_Name) #Set the name of the new button as the item name
@@ -192,10 +205,13 @@ func create_table_buttons():
 
 
 func _on_Save_button_up():
+	
 	event_display_name = current_event_editor_input.save_event_data(true)
 	create_table_buttons()
-	table_list.get_node(event_display_name).disabled = true #Sets current item button to disabled
-	table_list.get_node(event_display_name).grab_focus()
+	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
+#	sdfsd
+#	table_list.get_node(event_display_name).disabled = true #Sets current item button to disabled
+#	table_list.get_node(event_display_name).grab_focus()
 
 
 func get_AU3():
@@ -213,12 +229,13 @@ func update_dropdown_tables():
 	for i in get_node("..").get_children():
 		if i != self and i.is_in_group("Tab") and i.has_method("reload_buttons"):
 			i.reload_buttons()
-			i.table_list.get_child(0)._on_TextureButton_button_up()
+			i.table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
 func reload_data_without_saving():
 	reload_buttons()
-	table_list.get_child(0)._on_TextureButton_button_up()
+#	print("EVENT ID NO SAVE: ", selected_event_ID)
+	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
 
 
 func add_entry_row(entry_value):
@@ -268,19 +285,20 @@ func _on_AddNewItem_button_up():
 
 	get_main_node()._ready()
 	await get_tree().process_frame
-	table_list.get_node(event_display_name)._on_TextureButton_button_up()
+	#table_list.get_node(event_display_name)._on_Navigation_Button_button_up()
 
 
 func delete_selected_item():
 	delete_event(current_event_editor_input.event_name)
 	get_main_node()._ready()
 	#reload_buttons()
-	table_list.get_child(0)._on_TextureButton_button_up()
+	table_list.get_child(0)._on_Navigation_Button_button_up()
+
 
 func _on_DeleteSelectedItem_button_up():
-	var popup_label = $Popups/popup_delete_confirm/PanelContainer/VBoxContainer/Label
-	var popup_label2 = $Popups/popup_delete_confirm/PanelContainer/VBoxContainer/Label2
-	var lbl_text : String = popup_label2.get_text()
+	var popup_label = $Popups/popup_delete_confirm/PanelContainer/VBoxContainer/Label/HBox1/Label_Button
+	#var popup_label2 = $Popups/popup_delete_confirm/PanelContainer/VBoxContainer/Label2
+	var lbl_text : String = popup_label.get_text()
 	lbl_text = lbl_text.replace("%", event_display_name.to_upper())
 	popup_label.set_text(lbl_text)
 	popup_main.visible = true
@@ -392,3 +410,8 @@ func _on_RefreshData_button_up() -> void:
 
 func _on_SaveNewItem_button_up() -> void:
 	pass # Replace with function body.
+
+
+func _on_scroll_2_scroll_ended():
+	print("SCROLL ENDED EVENT MANAGER")
+

@@ -10,7 +10,9 @@ func _ready() -> void:
 		var save_file_dict : Dictionary = FARTENGINE.load_save_file(i)
 		var loadFileSelect_new :Node = loadFileSelect.instantiate()
 		loadFileSelect_new.get_node("Load").set_text("Load File " + i)
-		var map_path : String = save_file_dict["Global Data"][await FARTENGINE.get_global_settings_profile()]["Current Map"]
+#		var map_path
+		var map_path : String = save_file_dict["Global Data"][await FARTENGINE.get_global_settings_profile()]["Current Map"]["text"]
+		
 		loadFileSelect_new.file_name = i
 		loadFileSelect_new.parent_container = self
 		loadFileSelect_new.get_node("ColorRect/VBoxContainer/MapNameInput").set_text(await FARTENGINE.get_map_name(map_path))

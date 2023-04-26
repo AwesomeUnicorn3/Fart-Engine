@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1b7rp10lemc"]
+[gd_scene load_steps=5 format=3 uid="uid://d1b7rp10lemc"]
 
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="1"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Vector.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="3_nl8wl"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4"]
 
 [node name="Input_Vector" type="VBoxContainer"]
@@ -19,14 +20,36 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Button" type="Button" parent="Hbox1"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Vector 2"
 
 [node name="Button2" type="Button" parent="Hbox1"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Vector3"
+
+[node name="Vec2Button" parent="Hbox1" groups=["Table Action"] instance=ExtResource("3_nl8wl")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(50, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+button_text = "Vector 2"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
+
+[node name="Vec3Button" parent="Hbox1" groups=["Table Action"] instance=ExtResource("3_nl8wl")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(50, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+button_text = "Vector 3"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [node name="HBox2" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -103,6 +126,8 @@ layout_mode = 2
 
 [connection signal="button_up" from="Hbox1/Button" to="." method="_on_Button_button_up"]
 [connection signal="button_up" from="Hbox1/Button2" to="." method="_on_Button2_button_up"]
+[connection signal="button_down" from="Hbox1/Vec2Button" to="." method="_on_Button_button_up"]
+[connection signal="button_down" from="Hbox1/Vec3Button" to="." method="_on_Button2_button_up"]
 [connection signal="text_changed" from="HBox3/InputX" to="." method="_on_InputX_text_changed"]
 [connection signal="text_changed" from="HBox3/InputY" to="." method="_on_InputY_text_changed"]
 [connection signal="text_changed" from="HBox3/InputZ" to="." method="_on_InputZ_text_changed"]

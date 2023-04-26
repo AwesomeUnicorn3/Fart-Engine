@@ -236,8 +236,9 @@ func _on_hide_advanced_button_up():
 
 func show_advanced_options():
 	var showhide_dict := {false : "Show", true : "Hide"}
-	$AdvancedControlsVBox/Control/Button.set_text(showhide_dict[hide_advanced_options])
 	$AdvancedControlsVBox/AdvancedControlsHBox.visible = hide_advanced_options
+	$AdvancedControlsVBox/Label/HBox1/Hide_Button.set_text(showhide_dict[hide_advanced_options])
+
 
 func set_hide_advanced():
 	hide_advanced_options = !hide_advanced_options
@@ -275,7 +276,7 @@ func _on_speed_button_up(increase):
 	get_data_and_create_sprite()
 
 
-func _on_height_sprite_size_button_up(increase):
+func HeightSpriteSizeDown(increase):
 	var input_value :String = modify_value(height_sprite_size.get_text(), increase)
 	input_value = input_value_clamp(input_value)
 	height_sprite_size.set_text(input_value)

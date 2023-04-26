@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3 uid="uid://bcdug8ct1087b"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://drn7pem71psym" path="res://fart_data/png/AwesomeUnicorn (copy).png" id="3_4jusd"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/IncreaseValue Button.tscn" id="3_alox6"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_pr4se"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="5"]
 
 [sub_resource type="SpriteFrames" id="3"]
@@ -16,9 +17,16 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("2")
+metadata/_edit_vertical_guides_ = [-175.0]
 
 [node name="Label" parent="." instance=ExtResource("5")]
 layout_mode = 2
+
+[node name="Label_Button" parent="Label/HBox1" index="0"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+
+[node name="Hide_Button" parent="Label/HBox1" index="1"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="StandardControlsHBox" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 100)
@@ -94,13 +102,23 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
-[node name="Add_ButtonV" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1" instance=ExtResource("3_alox6")]
+[node name="Add_ButtonV" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
+button_text = "+"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="Sub_ButtonV" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1" instance=ExtResource("3_alox6")]
+[node name="Sub_ButtonV" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
-text = "-"
-increase_value = false
+button_text = "-"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [node name="HInput" type="LineEdit" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1"]
 layout_mode = 2
@@ -115,13 +133,23 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.26
 
-[node name="Add_ButtonH" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2" instance=ExtResource("3_alox6")]
+[node name="Add_ButtonH" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
+button_text = "+"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="Sub_ButtonH" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2" instance=ExtResource("3_alox6")]
+[node name="Sub_ButtonH" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
-text = "-"
-increase_value = false
+button_text = "-"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [node name="Input" type="TextureButton" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox"]
 show_behind_parent = true
@@ -177,36 +205,16 @@ grow_vertical = 2
 [node name="AdvancedControlsVBox" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="Control" type="HBoxContainer" parent="AdvancedControlsVBox"]
+[node name="Label" parent="AdvancedControlsVBox" instance=ExtResource("5")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="Label4" type="ColorRect" parent="AdvancedControlsVBox/Control"]
-custom_minimum_size = Vector2(0, 35)
-layout_mode = 2
-size_flags_horizontal = 3
-color = Color(0.313726, 0.145098, 0, 1)
+[node name="Label_Button" parent="AdvancedControlsVBox/Label/HBox1" index="0"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+button_text = "Advanced Options"
 
-[node name="Label2" type="Label" parent="AdvancedControlsVBox/Control/Label4" groups=["Label"]]
-custom_minimum_size = Vector2(0, 25)
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
-text = "Advanced Animation Controls"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button" type="Button" parent="AdvancedControlsVBox/Control"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.15
-text = "Hide"
+[node name="Hide_Button" parent="AdvancedControlsVBox/Label/HBox1" index="1"]
+visible = true
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="AdvancedControlsHBox" type="HBoxContainer" parent="AdvancedControlsVBox"]
 layout_mode = 2
@@ -274,13 +282,35 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
-[node name="VFrameUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+[node name="VFrameUp1" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 
-[node name="VFrameDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+[node name="VFrameDown1" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 text = "-"
 increase_value = false
+
+[node name="VFrameUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "+"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
+
+[node name="VFrameDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "-"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [node name="HFrame" type="LineEdit" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1"]
 layout_mode = 2
@@ -295,13 +325,35 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.26
 
-[node name="HFrameUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
+[node name="HFrameUp1" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 
-[node name="HFrameDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
+[node name="HFrameDown1" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 text = "-"
 increase_value = false
+
+[node name="HFrameUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "+"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
+
+[node name="HFrameDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "-"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [node name="HBox2" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox"]
 layout_mode = 2
@@ -361,13 +413,35 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
-[node name="SpeedUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+[node name="SpeedUp1" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 
-[node name="SpeedDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+[node name="SpeedDown1" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 text = "-"
 increase_value = false
+
+[node name="SpeedUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "+"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
+
+[node name="SpeedDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "-"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [node name="HBox2" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox"]
 layout_mode = 2
@@ -435,13 +509,35 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
-[node name="HeightSpriteSizeUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+[node name="HeightSpriteSizeUp1" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 
-[node name="HeightSpriteSizeDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+[node name="HeightSpriteSizeDown1" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 text = "-"
 increase_value = false
+
+[node name="HeightSpriteSizeUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "+"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
+
+[node name="HeightSpriteSizeDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "-"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [node name="WidthSpriteSize" type="LineEdit" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1"]
 layout_mode = 2
@@ -456,13 +552,35 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.26
 
-[node name="WidthSpriteSizeUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
+[node name="WidthSpriteSizeUp1" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 
-[node name="WidthSpriteSizeDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
+[node name="WidthSpriteSizeDown1" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" instance=ExtResource("3_alox6")]
+visible = false
 layout_mode = 2
 text = "-"
 increase_value = false
+
+[node name="WidthSpriteSizeUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "+"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
+
+[node name="WidthSpriteSizeDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(40, 30)
+layout_mode = 2
+size_flags_vertical = 3
+button_text = "-"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [node name="HBox2" type="HBoxContainer" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox"]
 layout_mode = 2
@@ -477,26 +595,39 @@ sprite_frames = SubResource("3")
 centered = false
 
 [connection signal="text_changed" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VInput" to="." method="_on_VInput_text_changed"]
-[connection signal="self_pressed" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1/Add_ButtonV" to="." method="_on_atlasVFrame_button_up"]
-[connection signal="self_pressed" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1/Sub_ButtonV" to="." method="_on_atlasVFrame_button_up"]
+[connection signal="button_up" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1/Add_ButtonV" to="." method="_on_atlasVFrame_button_up" binds= [true]]
+[connection signal="button_up" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1/Sub_ButtonV" to="." method="_on_atlasVFrame_button_up" binds= [false]]
 [connection signal="text_changed" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/HInput" to="." method="_on_HInput_text_changed"]
-[connection signal="self_pressed" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2/Add_ButtonH" to="." method="_on_atlasHFrame_button_up"]
-[connection signal="self_pressed" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2/Sub_ButtonH" to="." method="_on_atlasHFrame_button_up"]
+[connection signal="button_up" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2/Add_ButtonH" to="." method="_on_atlasHFrame_button_up" binds= [true]]
+[connection signal="button_up" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2/Sub_ButtonH" to="." method="_on_atlasHFrame_button_up" binds= [false]]
 [connection signal="button_up" from="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/Input" to="." method="_on_TextureButton_button_up"]
 [connection signal="resized" from="StandardControlsHBox/PreviewVBox/Control/PreviewWindow" to="." method="_on_preview_window_resized"]
-[connection signal="button_up" from="AdvancedControlsVBox/Control/Button" to="." method="_on_hide_advanced_button_up"]
+[connection signal="button_down" from="AdvancedControlsVBox/Label/HBox1/Hide_Button" to="." method="_on_hide_advanced_button_up"]
 [connection signal="text_changed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VFrame" to="." method="_on_v_frame_text_changed"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1/VFrameUp" to="." method="_on_v_frame_button_up"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1/VFrameDown" to="." method="_on_v_frame_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1/VFrameUp1" to="." method="_on_v_frame_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1/VFrameDown1" to="." method="_on_v_frame_button_up"]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1/VFrameUp" to="." method="_on_v_frame_button_up" binds= [true]]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1/VFrameDown" to="." method="_on_v_frame_button_up" binds= [false]]
 [connection signal="text_changed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/HFrame" to="." method="_on_h_frame_text_changed"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2/HFrameUp" to="." method="_on_h_frame_button_up"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2/HFrameDown" to="." method="_on_h_frame_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2/HFrameUp1" to="." method="_on_h_frame_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2/HFrameDown1" to="." method="_on_h_frame_button_up"]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2/HFrameUp" to="." method="_on_h_frame_button_up" binds= [true]]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2/HFrameDown" to="." method="_on_h_frame_button_up" binds= [false]]
 [connection signal="text_changed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/SpeedInput" to="." method="_on_speed_input_text_changed"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1/SpeedUp" to="." method="_on_speed_button_up"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1/SpeedDown" to="." method="_on_speed_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1/SpeedUp1" to="." method="_on_speed_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1/SpeedDown1" to="." method="_on_speed_button_up"]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1/SpeedUp" to="." method="_on_speed_button_up" binds= [true]]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1/SpeedDown" to="." method="_on_speed_button_up" binds= [false]]
 [connection signal="text_changed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/HeightSpriteSize" to="." method="_on_height_sprite_size_text_changed"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1/HeightSpriteSizeUp" to="." method="_on_height_sprite_size_button_up"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1/HeightSpriteSizeDown" to="." method="_on_height_sprite_size_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1/HeightSpriteSizeUp1" to="." method="_on_height_sprite_size_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1/HeightSpriteSizeDown1" to="." method="_on_height_sprite_size_button_up"]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1/HeightSpriteSizeUp" to="." method="HeightSpriteSizeDown" binds= [true]]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1/HeightSpriteSizeDown" to="." method="HeightSpriteSizeDown" binds= [false]]
 [connection signal="text_changed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/WidthSpriteSize" to="." method="_on_width_sprite_size_text_changed"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2/WidthSpriteSizeUp" to="." method="_on_width_sprite_size_button_up"]
-[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2/WidthSpriteSizeDown" to="." method="_on_width_sprite_size_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2/WidthSpriteSizeUp1" to="." method="_on_width_sprite_size_button_up"]
+[connection signal="self_pressed" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2/WidthSpriteSizeDown1" to="." method="_on_width_sprite_size_button_up"]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2/WidthSpriteSizeUp" to="." method="_on_width_sprite_size_button_up" binds= [true]]
+[connection signal="button_up" from="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2/WidthSpriteSizeDown" to="." method="_on_width_sprite_size_button_up" binds= [false]]
+
+[editable path="Label"]
+[editable path="AdvancedControlsVBox/Label"]

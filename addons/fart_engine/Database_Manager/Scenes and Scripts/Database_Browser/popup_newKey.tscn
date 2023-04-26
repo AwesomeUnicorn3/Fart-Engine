@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7dxrtf1kdkv4"]
+[gd_scene load_steps=4 format=3 uid="uid://b7dxrtf1kdkv4"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.gd" id="1_0lrqy"]
 [ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="2_5i1la"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="3_ntso6"]
 
 [node name="popup_newKey" type="Control"]
 layout_mode = 3
@@ -41,14 +42,23 @@ is_label_button = false
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Accept" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Accept" parent="PanelContainer/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("3_ntso6")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Accept"
+button_text = "Accept"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="Cancel" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Cancel" parent="PanelContainer/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("3_ntso6")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Cancel"
+button_text = "Cancel"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
 [editable path="PanelContainer/VBoxContainer/Input_Text"]
+[editable path="PanelContainer/VBoxContainer/Input_Text/input_templateBuffer"]

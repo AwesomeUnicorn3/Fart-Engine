@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://dvgljil6b3f5p"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Map_Engine.gd" id="1_yn33e"]
 [ext_resource type="Texture2D" uid="uid://h7cy6ybik7pw" path="res://fart_data/png/MenuBackground.png" id="2_4wqvc"]

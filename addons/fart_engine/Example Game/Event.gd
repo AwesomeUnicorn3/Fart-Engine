@@ -216,7 +216,7 @@ func static_movement(delta):
 			#var sprite_texture_data  :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
 			var sprite_atlas_dict :Dictionary = sprite_texture_data["atlas_dict"]
 			var sprite_advanced_dict :Dictionary = sprite_texture_data["advanced_dict"]
-			var begin_frame :int = sprite_advanced_dict["frame_range"].x
+			var begin_frame :int = DBENGINE.convert_string_to_vector(sprite_advanced_dict["frame_range"]).x
 			sprite_animation.play("Default Animation")
 			sprite_animation.stop()
 			sprite_animation.set_frame(begin_frame - 1)
@@ -284,7 +284,7 @@ func play_event_sprite_animation(animation_name: String):
 func play_sprite_animation_static_or_editor(sprite_texture_data: Dictionary):
 	var sprite_atlas_dict :Dictionary = sprite_texture_data["atlas_dict"]
 	var sprite_advanced_dict :Dictionary = sprite_texture_data["advanced_dict"]
-	var begin_frame :int = sprite_advanced_dict["frame_range"].x
+	var begin_frame :int = DBENGINE.convert_string_to_vector(sprite_advanced_dict["frame_range"]).x
 	sprite_animation.play("Default Animation")
 	sprite_animation.stop()
 	sprite_animation.set_frame(begin_frame - 1)

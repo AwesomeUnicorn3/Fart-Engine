@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://0ill6t8ua6iu"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/SaveFile_Manager/DisplaySaveFile.gd" id="1"]
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_62w8q"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="3_pi623"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4_ei3xg"]
+[ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Popup_Delete_Confirm.tscn" id="4_vh2p1"]
 
 [node name="DisplaySaveFile" type="Control" groups=["Database", "Tab"]]
 layout_mode = 3
@@ -19,96 +22,109 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.145098, 0.145098, 0.145098, 1)
 
-[node name="VBox1" type="VBoxContainer" parent="."]
+[node name="Main_VBox" type="VBoxContainer" parent="."]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="Hbox2" type="HBoxContainer" parent="VBox1"]
+[node name="Header_Button_HBox" type="HBoxContainer" parent="Main_VBox"]
 layout_mode = 2
 
-[node name="CenterContainer2" type="CenterContainer" parent="VBox1/Hbox2"]
+[node name="CenterContainer2" type="CenterContainer" parent="Main_VBox/Header_Button_HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="VBox1/Hbox2/CenterContainer2"]
+[node name="Label" type="Label" parent="Main_VBox/Header_Button_HBox/CenterContainer2"]
 visible = false
 layout_mode = 2
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
-[node name="Save" type="Button" parent="VBox1/Hbox2"]
+[node name="Save" parent="Main_VBox/Header_Button_HBox" groups=["Table Action"] instance=ExtResource("3_pi623")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
-disabled = true
-text = "Save Changes"
+button_text = "Save"
+auto_connect_signals = false
+auto_set_minimum_size = false
 
-[node name="DeleteFile" type="Button" parent="VBox1/Hbox2"]
+[node name="DeleteFile" parent="Main_VBox/Header_Button_HBox" groups=["Table Action"] instance=ExtResource("3_pi623")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
-disabled = true
-text = "Delete  File"
+button_text = "Delete  File"
+auto_connect_signals = false
+auto_set_minimum_size = false
 
-[node name="HBox3" type="HBoxContainer" parent="VBox1"]
-layout_mode = 2
-
-[node name="HBox1" type="HBoxContainer" parent="VBox1"]
+[node name="Display_HBox" type="HBoxContainer" parent="Main_VBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox1"]
+[node name="File_Scroll" type="ScrollContainer" parent="Main_VBox/Display_HBox"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox1" type="VBoxContainer" parent="Main_VBox/Display_HBox/File_Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll1"]
+[node name="Label" parent="Main_VBox/Display_HBox/File_Scroll/VBox1" instance=ExtResource("4_ei3xg")]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="Label_Button" parent="Main_VBox/Display_HBox/File_Scroll/VBox1/Label/HBox1" index="0"]
+button_text = "File Number"
+
+[node name="Table_Scroll" type="ScrollContainer" parent="Main_VBox/Display_HBox"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox1" type="VBoxContainer" parent="Main_VBox/Display_HBox/Table_Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="VBox1/HBox1/Scroll1/VBox1"]
+[node name="Label" parent="Main_VBox/Display_HBox/Table_Scroll/VBox1" instance=ExtResource("4_ei3xg")]
 layout_mode = 2
-text = "File Number"
+size_flags_vertical = 1
 
-[node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox1"]
+[node name="Label_Button" parent="Main_VBox/Display_HBox/Table_Scroll/VBox1/Label/HBox1" index="0"]
+button_text = "Table"
+
+[node name="Key_Scroll" type="ScrollContainer" parent="Main_VBox/Display_HBox"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBox1" type="VBoxContainer" parent="Main_VBox/Display_HBox/Key_Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll2"]
+[node name="Label" parent="Main_VBox/Display_HBox/Key_Scroll/VBox1" instance=ExtResource("4_ei3xg")]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="Label_Button" parent="Main_VBox/Display_HBox/Key_Scroll/VBox1/Label/HBox1" index="0"]
+button_text = "Key"
+
+[node name="Field_Scroll" type="ScrollContainer" parent="Main_VBox/Display_HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="VBox1/HBox1/Scroll2/VBox1"]
-layout_mode = 2
-text = "Table  Name"
-
-[node name="Scroll3" type="ScrollContainer" parent="VBox1/HBox1"]
+[node name="VBox1" type="VBoxContainer" parent="Main_VBox/Display_HBox/Field_Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll3"]
+[node name="Label" parent="Main_VBox/Display_HBox/Field_Scroll/VBox1" instance=ExtResource("4_ei3xg")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 1
 
-[node name="Label" type="Label" parent="VBox1/HBox1/Scroll3/VBox1"]
-layout_mode = 2
-text = "Key Name"
-
-[node name="Scroll4" type="ScrollContainer" parent="VBox1/HBox1"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VBox1" type="VBoxContainer" parent="VBox1/HBox1/Scroll4"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Label" type="Label" parent="VBox1/HBox1/Scroll4/VBox1"]
-layout_mode = 2
-text = "Fields"
+[node name="Label_Button" parent="Main_VBox/Display_HBox/Field_Scroll/VBox1/Label/HBox1" index="0"]
+button_text = "Field"
 
 [node name="Popups" type="ColorRect" parent="."]
 visible = false
@@ -117,19 +133,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(1, 1, 1, 0.211765)
 
+[node name="PanelContainer" type="ColorRect" parent="Popups"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
 [node name="popup_delete_confirm" type="Control" parent="Popups"]
 visible = false
 anchors_preset = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="PanelContainer" type="ColorRect" parent="Popups/popup_delete_confirm"]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0, 0, 0, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Popups/popup_delete_confirm/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Popups/popup_delete_confirm"]
+visible = false
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -143,36 +160,46 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_layout_mode = 1
 
-[node name="Label" type="Label" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Popups/popup_delete_confirm/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Are you sure you want to delete File Number %?"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="Popups/popup_delete_confirm/VBoxContainer"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Are you sure you want to delete File Number %?"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Popups/popup_delete_confirm/VBoxContainer"]
 layout_mode = 2
 
-[node name="Accept" type="Button" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Accept" type="Button" parent="Popups/popup_delete_confirm/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Accept"
 
-[node name="Cancel" type="Button" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Cancel" type="Button" parent="Popups/popup_delete_confirm/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel"
 
-[connection signal="button_up" from="VBox1/Hbox2/Save" to="." method="_on_Save_button_up"]
-[connection signal="button_up" from="VBox1/Hbox2/DeleteFile" to="." method="_on_DeleteFile_button_up"]
-[connection signal="button_up" from="VBox1/HBox1/Scroll1/VBox1/1" to="VBox1/HBox1/Scroll1/VBox1/1" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="VBox1/HBox1/Scroll1/VBox1/2" to="VBox1/HBox1/Scroll1/VBox1/2" method="_on_Navigation_Button_button_up" flags=18]
-[connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_Delete_Accept_button_up"]
-[connection signal="button_up" from="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_Delete_Cancel_button_up"]
+[node name="Popup_Delete_Confirm" parent="Popups" instance=ExtResource("4_vh2p1")]
+visible = false
+layout_mode = 1
+
+[connection signal="button_up" from="Main_VBox/Header_Button_HBox/Save" to="." method="_on_Save_button_up"]
+[connection signal="button_up" from="Main_VBox/Header_Button_HBox/DeleteFile" to="." method="_on_DeleteFile_button_up"]
+[connection signal="button_up" from="Popups/popup_delete_confirm/VBoxContainer/HBoxContainer/Accept" to="." method="_on_Delete_Accept_button_up"]
+[connection signal="button_up" from="Popups/popup_delete_confirm/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_Delete_Cancel_button_up"]
+[connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Accept_Button" to="." method="_on_Delete_Accept_button_up"]
+[connection signal="button_up" from="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer/Cancel_Button" to="." method="_on_Delete_Cancel_button_up"]
+
+[editable path="Main_VBox/Display_HBox/File_Scroll/VBox1/Label"]
+[editable path="Main_VBox/Display_HBox/Table_Scroll/VBox1/Label"]
+[editable path="Main_VBox/Display_HBox/Key_Scroll/VBox1/Label"]
+[editable path="Main_VBox/Display_HBox/Field_Scroll/VBox1/Label"]
+[editable path="Popups/Popup_Delete_Confirm"]

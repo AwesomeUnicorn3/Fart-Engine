@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://d3so6uqlaf4o8"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/InputArray_Node_Field.gd" id="1_l4eig"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="2_5qrtg"]
 
 [node name="HBoxContainer" type="HBoxContainer"]
 offset_right = 900.0
@@ -9,12 +10,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l4eig")
 
-[node name="Button" type="Button" parent="."]
+[node name="Navigation Button" parent="." groups=["Table Action"] instance=ExtResource("2_5qrtg")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
-offset_right = 900.0
-offset_bottom = 83.0
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.06
-text = "-"
+size_flags_stretch_ratio = 0.1
+button_text = "-"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
-[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
+[connection signal="button_down" from="Navigation Button" to="." method="_on_button_button_up"]

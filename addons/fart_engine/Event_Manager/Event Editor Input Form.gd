@@ -4,14 +4,14 @@ extends DatabaseEngine
 signal event_selection_popup_closed
 signal event_editor_input_form_closed
 
-@onready var commands_node := $Scroll1/VBox1/VBox1
-@onready var conditions_node := $Scroll1/VBox1/HBox1/HBox1
-@onready var event_name_label := $Scroll1/VBox1/HBox3/Input_Text
-@onready var event_trigger_display := $Scroll1/VBox1/HBox1/VBox1
+@onready var commands_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/VBox1
+@onready var conditions_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox1/HBox1
+@onready var event_name_label := $VBoxContainer/HBox3/Input_Text
+@onready var event_trigger_display := $VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox1/VBox1
 @onready var popup_main := $Popups
 @onready var event_selection_popup := $Popups/popup_Event_Selection
 @onready var event_selection_dropdown_input := $Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown
-@onready var event_page_button_list := $Scroll1/VBox1/Hbox4
+@onready var event_page_button_list := $VBoxContainer/Hbox4
 
 var parent_node
 var event_dict :Dictionary 
@@ -22,6 +22,8 @@ var initial_event_display_name :String = ""
 var input_node_dict :Dictionary = {}
 var selectedPageNode : Node
 var event_data_dict:Dictionary
+
+var scroll_position:int = 0
 
 func _ready():
 	if event_name != "":
@@ -50,6 +52,7 @@ func match_fields_to_template():
 
 
 func load_event_data(event_tab := tab_number):
+	tab_number = event_tab
 	event_name_label.set_input_value(event_dict["0"]["Display Name"] )
 	match_fields_to_template()
 	for child in event_page_button_list.get_children():
@@ -239,9 +242,9 @@ func load_event_commands_input(event_tab):
 func on_page_button_pressed(event_page_number :String):
 	selectedPageNode = event_page_button_list.get_child(int(event_page_number) - 1)
 	if event_page_number == "1":
-		$Scroll1/VBox1/HBox3/HBox1/Delete_Page_Button.disabled = true
+		$VBoxContainer/HBox3/HBox1/Delete_Page_Button.disabled = true
 	else:
-		$Scroll1/VBox1/HBox3/HBox1/Delete_Page_Button.disabled = false
+		$VBoxContainer/HBox3/HBox1/Delete_Page_Button.disabled = false
 	await clear_all_input_forms()
 	tab_number = event_page_number
 	input_node_dict = {}
@@ -434,7 +437,7 @@ func clear_all_input_forms():
 	for child in input_node_dict:
 		var node = input_node_dict[child]
 		node.queue_free()
-		await get_tree().process_frame
+#		await get_tree().process_frame
 	#await get_tree().process_frame
 
 
@@ -556,3 +559,8 @@ func _on_event_selection_Cancel_button_up() -> void:
 	event_name = ""
 	emit_signal("event_selection_popup_closed")
 	_on_Button_button_up()
+
+
+#func _process(delta):
+#	scroll_position = $Scroll1.scroll_vertical
+#	print(scroll_position)

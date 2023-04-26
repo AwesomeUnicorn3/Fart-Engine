@@ -166,6 +166,7 @@ func get_dropdown_index_from_key(table_key:String):
 func _set_input_value(node_value):
 	labelNode = await get_label_node()
 	labelNode.set_text(itemName)
+
 	populate_list()
 	if str(node_value) == "Default":
 		node_value = default

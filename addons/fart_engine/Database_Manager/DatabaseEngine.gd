@@ -869,6 +869,7 @@ func add_input_field(par: Node, nodeName):
 	new_node.set_owner(par)
 	return new_node
 
+
 func is_table_dropdown_list(tableName :String):
 	var tables_dict = import_data("Table Data")
 	var table_data = import_data("Table Data", true)
@@ -1010,9 +1011,15 @@ func create_input_node(key_name:String, table_name:String, table_dict:Dictionary
 		table_dict = import_data(table_name)
 	if table_data_dict == {}:
 		table_data_dict = import_data(table_name, true)
-		
+	
 	data_type = get_datatype(key_name, table_data_dict)
+	if data_type == "":
+		print("KEY NAME: ", key_name)
+#	if data_type == "5":
+#		var reference_table = table_data_dict[]
+		
 	var new_node = create_datatype_node(data_type)
+
 #	datatype_dict = import_data("DataTypes")
 #	data_type = get_datatype(key_name, table_data_dict)
 #	var input_node = load(datatype_dict[data_type]["Default Scene"]).instantiate()
@@ -1033,8 +1040,8 @@ func create_datatype_node(datatype:String):
 	datatype_dict = import_data("DataTypes")
 	var input_node = load(datatype_dict[datatype]["Default Scene"]).instantiate()
 	var input_default_value = convert_string_to_type(datatype_dict[datatype]["Default Values"])["text"]
-#	print("DEFAULT VALUE: ", input_default_value, " INPUT.DEFAULT: ", input_node.default)
-	input_node._set_input_value(input_default_value)
+#	print("DEFAULT VALUE: ", input_default_value)
+#	input_node._set_input_value(input_default_value)
 	
 	return input_node
 
@@ -1049,6 +1056,8 @@ func get_datatype(field_ID:String, table_data_dict :Dictionary):
 		if currFieldName == field_ID:
 			data_type = data_dict_column[datakey]["DataType"]
 			break
+#	if data_type == "":
+#		print(field_ID)
 	return data_type
 	
 

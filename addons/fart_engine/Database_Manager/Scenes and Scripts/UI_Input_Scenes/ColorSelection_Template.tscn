@@ -12,7 +12,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_u0hkx")
-label_text = "ColorSelection_Template"
 
 [node name="Label" parent="." instance=ExtResource("2_1lmac")]
 layout_mode = 2

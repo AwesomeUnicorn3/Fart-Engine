@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://dlthmlrbks64q"]
+[gd_scene load_steps=2 format=3 uid="uid://dlthmlrbks64q"]
+
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="1_5v528"]
 
 [node name="Popup_Delete_Confirm" type="Control"]
 layout_mode = 3
@@ -50,14 +52,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Accept_Button" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Accept_Button" parent="PanelContainer/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("1_5v528")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Accept"
+button_text = "Accept"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
 
-[node name="Cancel_Button" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="Cancel_Button" parent="PanelContainer/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("1_5v528")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Cancel"
+button_text = "Cancel"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true

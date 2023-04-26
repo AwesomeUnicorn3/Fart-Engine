@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://blsphh8y3ro14"]
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_x8d0h"]
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_List_Forms/ModifyInventory_EventInputForm.gd" id="2_da3qg"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="3_l5hgx"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_tplko"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="3_l5hgx"]
+[ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_tplko"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_m2brm"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Deprecated.tscn" id="7_i6vjt"]
 
 [node name="ModifyInventory_EventInputForm" type="Control"]
@@ -11,6 +12,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_x8d0h")
 script = ExtResource("2_da3qg")
 
@@ -52,7 +55,10 @@ label_text = "Select Item"
 is_label_button = false
 
 [node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
-text = "Select Item"
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+
+[node name="Hide_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="1"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
 item_count = 1
@@ -74,23 +80,28 @@ text = "+"
 
 [node name="WholeNumber" parent="Control/VBoxContainer" instance=ExtResource("7_i6vjt")]
 layout_mode = 2
+label_text = "WholeNumber"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Accept" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+[node name="Accept" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_m2brm")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Accept"
+button_text = "Accept"
+auto_connect_signals = false
+auto_set_minimum_size = false
 
-[node name="Cancel" type="Button" parent="Control/VBoxContainer/HBoxContainer"]
+[node name="Cancel" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_m2brm")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Cancel"
+button_text = "Cancel"
+auto_connect_signals = false
+auto_set_minimum_size = false
 
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
@@ -98,3 +109,4 @@ text = "Cancel"
 [editable path="Control/VBoxContainer/KeyDropdown"]
 [editable path="Control/VBoxContainer/KeyDropdown/Label"]
 [editable path="Control/VBoxContainer/TrueorFalse"]
+[editable path="Control/VBoxContainer/TrueorFalse/Label"]

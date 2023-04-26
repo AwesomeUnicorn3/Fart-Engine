@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://bhhe1y6ucvenk"]
 
-[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="1_mcaxt"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Array.gd" id="2_3vmfu"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_77ecb"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4_tpyhl"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="5_hf5fs"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="5_hf5fs"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_b2i82"]
 
 [node name="Input_Array" type="VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
@@ -15,53 +15,73 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("1_mcaxt")
 script = ExtResource("2_3vmfu")
 label_text = "Input_Array"
 
 [node name="Label" parent="." instance=ExtResource("3_77ecb")]
 layout_mode = 2
+size_flags_vertical = 1
 size_flags_stretch_ratio = 1.0
 
 [node name="input_templateBuffer2" parent="." instance=ExtResource("4_tpyhl")]
 layout_mode = 2
 
-[node name="ActionSelection" parent="." instance=ExtResource("5_hf5fs")]
+[node name="Control" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActionSelection" parent="Control" instance=ExtResource("5_hf5fs")]
 layout_mode = 2
 selection_table_name = "DataTypes"
 label_text = "Data Type"
 is_label_button = false
 show_field = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 2
 
-[node name="Label3" parent="HBoxContainer" instance=ExtResource("3_77ecb")]
+[node name="Label3" parent="Control/HBoxContainer" instance=ExtResource("3_77ecb")]
 layout_mode = 2
 size_flags_stretch_ratio = 1.0
 
-[node name="HBox1" parent="HBoxContainer/Label3" index="0"]
+[node name="HBox1" parent="Control/HBoxContainer/Label3" index="0"]
 custom_minimum_size = Vector2(0, 30)
 
-[node name="Label_Button" parent="HBoxContainer/Label3/HBox1" index="0"]
-text = "List Items"
+[node name="Label_Button" parent="Control/HBoxContainer/Label3/HBox1" index="0"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+custom_minimum_size = Vector2(50, 30)
+button_text = "Begin List"
 
-[node name="AddKeyButton" type="Button" parent="HBoxContainer"]
+[node name="Hide_Button" parent="Control/HBoxContainer/Label3/HBox1" index="1"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+
+[node name="AddKeyButton" type="Button" parent="Control/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(50, 25)
 layout_mode = 2
 text = "+"
 
-[node name="Scroll1" type="ScrollContainer" parent="."]
+[node name="Navigation Button" parent="Control/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_b2i82")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+custom_minimum_size = Vector2(50, 30)
+layout_mode = 2
+button_text = "+"
+auto_connect_signals = false
+auto_set_minimum_size = false
+auto_set_color = true
+
+[node name="Scroll1" type="ScrollContainer" parent="Control"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
-[node name="Input" type="VBoxContainer" parent="Scroll1"]
+[node name="Input" type="VBoxContainer" parent="Control/Scroll1"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[connection signal="button_up" from="HBoxContainer/AddKeyButton" to="." method="add_new_key"]
+[connection signal="button_up" from="Control/HBoxContainer/AddKeyButton" to="." method="add_new_key"]
+[connection signal="button_down" from="Control/HBoxContainer/Navigation Button" to="." method="add_new_key"]
 
-[editable path="HBoxContainer/Label3"]
+[editable path="Control/HBoxContainer/Label3"]

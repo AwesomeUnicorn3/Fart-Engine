@@ -117,7 +117,7 @@ func display_edit_table_menu():
 
 
 func display_edit_field_menu():
-	var edit_field_values :Object = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_Edit_Field_Values.tscn").instantiate()
+	var edit_field_values :Object = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_Edit_Field_Values.tscn").instantiate()
 	parent_node  = get_main_tab(self)
 	var keyName :String = parent_node.Item_Name
 	var fieldName :String = labelNode.text

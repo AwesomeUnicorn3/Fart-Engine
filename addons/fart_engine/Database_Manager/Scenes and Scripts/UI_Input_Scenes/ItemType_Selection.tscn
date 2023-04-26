@@ -17,9 +17,6 @@ selection_table_name = "Table Data"
 [node name="Label" parent="." instance=ExtResource("3")]
 layout_mode = 2
 
-[node name="Label_Button" parent="Label/HBox1" index="0"]
-text = "ItemType_Selection"
-
 [node name="Input" type="OptionButton" parent="."]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2

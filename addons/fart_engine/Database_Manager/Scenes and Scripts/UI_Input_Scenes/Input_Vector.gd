@@ -30,25 +30,26 @@ func set_input_nodes():
 
 func _on_Button2_button_up() -> void:
 	set_input_nodes()
-	$Hbox1/Button.disabled = false
-	$Hbox1/Button2.disabled = true
 	$HBox3/InputZ.visible = true
 	z_label.visible = true
 	vector_type = "Vector3"
 	default = Vector3(0,0,0)
 	inputNode.set_text(str(default))
+	$Hbox1/Vec3Button.disabled = true
+	$Hbox1/Vec2Button.disabled = false
+	$Hbox1/Vec2Button.reset_self_modulate()
 
 
 func _on_Button_button_up() -> void:
 	set_input_nodes()
-	$Hbox1/Button.disabled = true
-	$Hbox1/Button2.disabled = false
 	$HBox3/InputZ.visible = false
 	z_label.visible = false
 	vector_type = "Vector2"
 	default = Vector2(0,0)
 	inputNode.set_text(str(default))
-
+	$Hbox1/Vec2Button.disabled = true
+	$Hbox1/Vec3Button.disabled = false
+	$Hbox1/Vec3Button.reset_self_modulate()
 
 func _on_InputZ_text_changed(new_text: String) -> void:
 	set_inputNode_value()
@@ -76,10 +77,11 @@ func set_inputNode_value():
 		"Vector2":
 			var returnVector :Vector2 = Vector2(xvalue.to_float(), yvalue.to_float())
 			inputNode.set_text(str(returnVector))
-
+			
 		"Vector3":
 			var returnVector :Vector3 = Vector3(xvalue.to_float(), yvalue.to_float(), zvalue.to_float())
 			inputNode.set_text(str(returnVector))
+			
 	if !omit_changed:
 		inputNode.emit_signal("text_changed", inputNode.text)
 
@@ -114,3 +116,5 @@ func _set_input_value(node_value):
 	inputNode.set_text(str(node_value))
 	set_user_input_value()
 	set_inputNode_value()
+	$Hbox1/Vec2Button.reset_self_modulate()
+	$Hbox1/Vec3Button.reset_self_modulate()

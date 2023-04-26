@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://w7ofuy3yb7fx"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Condition_input_form.gd" id="1"]
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_boojr"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_7actr"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_3piga"]
 
 [node name="Condition_input_form" type="Control"]
 layout_mode = 3
@@ -25,7 +27,32 @@ layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
+[node name="Label3" parent="VBox1" instance=ExtResource("3_7actr")]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="Label_Button" parent="VBox1/Label3/HBox1" index="0"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+button_text = "Condition List"
+
+[node name="Hide_Button" parent="VBox1/Label3/HBox1" index="1"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+
+[node name="AddItem" parent="VBox1/Label3/HBox1" index="2" groups=["Table Action"] instance=ExtResource("4_3piga")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+layout_mode = 2
+button_text = "Add Condition"
+auto_connect_signals = false
+
+[node name="Close" parent="VBox1/Label3/HBox1" index="3" groups=["Table Action"] instance=ExtResource("4_3piga")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+layout_mode = 2
+button_text = "Save and Close"
+auto_connect_signals = false
+
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -36,28 +63,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 10.0
 text = "Conditions Necessary for Event to Run"
-
-[node name="AddItem" type="Button" parent="VBox1/HBox1"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Add Condition"
-
-[node name="SaveChanges" type="Button" parent="VBox1/HBox1"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Save"
-
-[node name="DeleteItem" type="Button" parent="VBox1/HBox1"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Delete Item"
-
-[node name="Close" type="Button" parent="VBox1/HBox1"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Save and Close"
 
 [node name="Input" type="LineEdit" parent="VBox1/HBox1"]
 visible = false
@@ -78,6 +83,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[connection signal="button_up" from="VBox1/HBox1/AddItem" to="." method="_on_AddItem_button_up"]
-[connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_SaveChanges_button_up"]
-[connection signal="button_up" from="VBox1/HBox1/Close" to="." method="_on_Close_button_up"]
+[connection signal="button_up" from="VBox1/Label3/HBox1/AddItem" to="." method="_on_AddItem_button_up"]
+[connection signal="button_up" from="VBox1/Label3/HBox1/Close" to="." method="_on_Close_button_up"]
+
+[editable path="VBox1/Label3"]

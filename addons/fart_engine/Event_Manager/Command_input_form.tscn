@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://cxcsnitldc8r3"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_input_form.gd" id="1_136m3"]
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_ykv7a"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="2_srs0f"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_wfmec"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_rlduj"]
 
 [node name="Command_input_form" type="Control"]
 layout_mode = 3
@@ -36,14 +38,42 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="Label2" parent="VBox1/HBox1" instance=ExtResource("3_wfmec")]
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="Label_Button" parent="VBox1/HBox1/Label2/HBox1" index="0"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+button_text = "Command List"
+
+[node name="Hide_Button" parent="VBox1/HBox1/Label2/HBox1" index="1"]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+
+[node name="Close" parent="VBox1/HBox1/Label2/HBox1" index="2" groups=["Table Action"] instance=ExtResource("4_rlduj")]
+visible = false
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+layout_mode = 2
+button_text = "Close"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
 [node name="Label" type="Button" parent="VBox1/HBox1"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 10.0
 text = "Commands"
 
-[node name="AddItem" type="Button" parent="VBox1/HBox1"]
+[node name="AddItem" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_rlduj")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+layout_mode = 2
+button_text = "Add Command"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="AddItem1" type="Button" parent="VBox1/HBox1"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Add Command"
@@ -54,13 +84,15 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Save"
 
-[node name="DeleteItem" type="Button" parent="VBox1/HBox1"]
-visible = false
+[node name="Close" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_rlduj")]
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Delete Item"
+button_text = "Save and Close"
+auto_connect_signals = false
+auto_set_minimum_size = false
 
-[node name="Close" type="Button" parent="VBox1/HBox1"]
+[node name="Close1" type="Button" parent="VBox1/HBox1"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Save and Close"
@@ -85,5 +117,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [connection signal="button_up" from="VBox1/HBox1/AddItem" to="." method="_on_AddItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/AddItem1" to="." method="_on_AddItem_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_SaveChanges_button_up"]
 [connection signal="button_up" from="VBox1/HBox1/Close" to="." method="_on_Close_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/Close1" to="." method="_on_Close_button_up"]
+
+[editable path="VBox1/HBox1/Label2"]

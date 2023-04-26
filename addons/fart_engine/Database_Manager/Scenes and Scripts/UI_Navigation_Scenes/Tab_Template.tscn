@@ -42,11 +42,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RefreshData_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 button_text = "Refresh Table"
 auto_connect_signals = false
-auto_set_color = true
 
 [node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox1"]
 layout_mode = 2
@@ -59,49 +58,43 @@ theme_override_font_sizes/font_size = 13
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
 [node name="AddNewTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 button_text = "Add Table"
 auto_connect_signals = false
-auto_set_color = true
 
 [node name="DeleteTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 button_text = "Delete Table"
 auto_connect_signals = false
-auto_set_color = true
 
 [node name="AddNewKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
 visible = false
-self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 button_text = "Add Key"
 auto_connect_signals = false
-auto_set_color = true
 
 [node name="DuplicateKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
 visible = false
-self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 button_text = "Duplicate Key"
 auto_connect_signals = false
-auto_set_color = true
 
 [node name="DeleteSelectedKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
 visible = false
-self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 button_text = "Delete Key"
 auto_connect_signals = false
-auto_set_color = true
 
 [node name="SaveChanges_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 button_text = "Save"
 auto_connect_signals = false
-auto_set_color = true
 
 [node name="TableName" parent="VBox1" instance=ExtResource("1")]
 layout_mode = 2
@@ -116,11 +109,9 @@ custom_minimum_size = Vector2(0, 35)
 custom_minimum_size = Vector2(0, 30)
 
 [node name="Label_Button" parent="VBox1/TableName/Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 auto_set_minimum_size = true
 
 [node name="Hide_Button" parent="VBox1/TableName/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 custom_minimum_size = Vector2(150, 30)
 auto_set_minimum_size = true
 
@@ -137,11 +128,9 @@ is_label_button = false
 custom_minimum_size = Vector2(0, 20)
 
 [node name="Label_Button" parent="VBox1/Key/Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 auto_set_minimum_size = true
 
 [node name="Hide_Button" parent="VBox1/Key/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 custom_minimum_size = Vector2(150, 30)
 auto_set_minimum_size = true
 
@@ -165,18 +154,16 @@ size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
 
 [node name="AddNewField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 button_text = "New Field"
 auto_connect_signals = false
-auto_set_color = true
 
 [node name="DeleteField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.239216, 0.101961, 0.513726, 1)
+self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
 layout_mode = 2
 button_text = "Delete Field"
 auto_connect_signals = false
-auto_set_color = true
 
 [node name="HBox3" type="HBoxContainer" parent="VBox1"]
 layout_mode = 2
@@ -267,3 +254,4 @@ layout_mode = 1
 [editable path="Popups"]
 [editable path="Popups/Popup_Delete_Confirm"]
 [editable path="Popups/popup_deleteKey"]
+[editable path="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Label2"]

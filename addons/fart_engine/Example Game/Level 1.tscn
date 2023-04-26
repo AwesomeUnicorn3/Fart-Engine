@@ -39,11 +39,6 @@ layer_3/y_sort_origin = 0
 layer_3/z_index = 1
 layer_3/tile_data = PackedInt32Array()
 
-[node name="StartingPositionNode" type="Sprite2D" parent="."]
-position = Vector2(214, 14)
-texture = ExtResource("4_bd63d")
-script = ExtResource("5_h8nqf")
-
 [node name="Fart Event" type="CharacterBody2D" parent="."]
 position = Vector2(200, -44)
 collision_layer = 2
@@ -53,3 +48,8 @@ floor_snap_length = 0.0
 platform_floor_layers = 0
 script = ExtResource("3_ssf1o")
 event_name = "Event 2"
+
+[node name="StartingPositionNode" type="Sprite2D" parent="."]
+position = Vector2(200, 2)
+texture = ExtResource("4_bd63d")
+script = ExtResource("5_h8nqf")

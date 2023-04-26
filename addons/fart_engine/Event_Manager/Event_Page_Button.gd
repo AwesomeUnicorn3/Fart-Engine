@@ -1,5 +1,5 @@
 @tool
-extends Button
+extends Control
 
 #var par
 var event_page_number :String = ""
@@ -12,14 +12,18 @@ var event_page_number :String = ""
 func _ready() -> void:
 	pass # Replace with function body.
 
-
+func set_disabled(value: bool):
+	$"Navigation Button".disabled = value
+	$"Navigation Button".reset_self_modulate()
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
-
+func set_text(text: String):
+	$"Navigation Button".set_text(text)
 
 func on_Button_button_up() -> void:
-	get_node("../../../..").enable_all_page_buttons()
-	get_node("../../../..").on_page_button_pressed(event_page_number)
-	grab_focus()
-	set_disabled(true)
+	get_node("../../..").enable_all_page_buttons()
+	get_node("../../..").on_page_button_pressed(event_page_number)
+#	$"Navigation Button".grab_focus()
+	$"Navigation Button".set_disabled(true)
+	$"Navigation Button".reset_self_modulate()

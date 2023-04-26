@@ -255,7 +255,8 @@ func load_and_set_map(map_path := ""):
 	set_game_state("7")
 	var map_node = load(map_path).instantiate()
 	root.get_node("map").add_child(map_node)
-	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Current Map"] = map_path
+	var map_input: Dictionary = {"text" : map_path}
+	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Current Map"] = map_input
 	await set_current_map(map_node, map_path)
 	emit_signal("map_data_updated")
 	add_map_to_events(await get_map_name(map_path))
@@ -280,7 +281,7 @@ func save_game():
 	if int(save_id) == 0: #set save id when player loads game
 		set_save_path()
 	id = str(save_id)
-	var time = Time.get_date_dict_from_system()
+	var time:Dictionary = {"text" : Time.get_date_dict_from_system()}
 	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Time"] = time
 	var save_d :Dictionary = Dynamic_Game_Dict
 	var save_path :String = save_game_path + id + save_format
@@ -411,8 +412,9 @@ func get_starting_map_path():
 	var current_map_path :String = Static_Game_Dict['Maps'][current_map_key]["Path"]
 	return current_map_path
 
+
 func get_current_map_path() -> String:
-	var current_map_path : String = Dynamic_Game_Dict['Global Data'][await get_global_settings_profile()]['Current Map']
+	var current_map_path : String = Dynamic_Game_Dict['Global Data'][await get_global_settings_profile()]['Current Map']["text"]
 	return current_map_path
 
 func sort_ascending(a, b):

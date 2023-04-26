@@ -2,6 +2,8 @@
 
 extends TextureButton
 signal button_size_changed
+signal btn_pressed(btn_name:String)
+
 
 @export var button_text: String = ""
 @export var auto_connect_signals: bool = true
@@ -11,7 +13,7 @@ signal button_size_changed
 var root 
 var text: String = ""
 var btn_moved := false
-var btn_pressed := false
+var _pressed := false
 var parent
 var grandparent
 var main_page = null
@@ -88,18 +90,33 @@ func set_base_color(color: Color):
 	
 
 
+
+
+func _on_command_list_button_button_up():
+	emit_signal("btn_pressed", str(name))
+
 func _on_Navigation_Button_button_up():
-	reset_self_modulate()
+	
 	if self.is_in_group("Key"):
 		if !btn_moved:
 			var Name = name
 			main_page.refresh_data(Name)
 			self.disabled = true
 		btn_moved = false
-		btn_pressed = false
+		_pressed = false
 		main_page.button_movement_active = false
+
+	elif self.is_in_group("Table Action"):
+		if is_instance_valid(root):
+			root.navigation_button_click(name, self)
+		self.disabled = false
+		reset_self_modulate()
+
 	else:
 		root.navigation_button_click(name, self)
+		
+	emit_signal("btn_pressed", str(name))
+	reset_self_modulate()
 
 
 func get_visible_label() -> Label:
@@ -160,25 +177,25 @@ func connect_signals():
 
 
 
-func _on_pressed():
-	if main_page.button_movement_active:
-		main_page.rearrange_table_keys()
-		main_page._on_Save_button_up()
-
-	elif main_page.name != "Event_Manager":
-		btn_pressed = true
-		await get_tree().create_timer(.25).timeout
-		if btn_pressed:
-			modulate = Color(1,1,1,.25)
-			btn_moved = true
-			parent = get_parent()
-			grandparent = main_page.get_node("Button_Float")
-			var current_index := get_index()
-			parent.remove_child(self)
-			grandparent.add_child(self)
-			main_page.button_movement_active = true
-			main_page.button_selected = name
-			main_page.enable_all_buttons()
+#func _on_pressed():
+#	if main_page.button_movement_active:
+#		main_page.rearrange_table_keys()
+#		main_page._on_Save_button_up()
+#
+#	elif main_page.name != "Event_Manager" or null:
+#		_pressed = true
+#		await get_tree().create_timer(.25).timeout
+#		if btn_pressed:
+#			modulate = Color(1,1,1,.25)
+#			btn_moved = true
+#			parent = get_parent()
+#			grandparent = main_page.get_node("Button_Float")
+#			var current_index := get_index()
+#			parent.remove_child(self)
+#			grandparent.add_child(self)
+#			main_page.button_movement_active = true
+#			main_page.button_selected = name
+#			main_page.enable_all_buttons()
 
 
 func reset_self_modulate():
@@ -218,8 +235,8 @@ func _on_texture_button_down():
 
 func _on_texture_pressed():
 	set_self_modulate_selected()
-	if self.is_in_group("Key"):
-		_on_pressed()
+#	if self.is_in_group("Key"):
+#		_on_pressed()
 
 
 func set_texture(buttonTexture:Texture2D=null, textureLayer:String = "Normal"):

@@ -20,6 +20,7 @@ size_flags_vertical = 3
 metadata/_edit_layout_mode = 1
 
 [node name="Label_Button" parent="HBox1" groups=["Node Label"] instance=ExtResource("1_01h3u")]
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 texture_normal = ExtResource("2_6yhrp")
@@ -27,10 +28,10 @@ texture_pressed = ExtResource("2_6yhrp")
 button_text = "Button"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="Hide_Button" parent="HBox1" groups=["Node Label"] instance=ExtResource("1_01h3u")]
 visible = false
+self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 custom_minimum_size = Vector2(75, 25)
 layout_mode = 2
 texture_normal = ExtResource("2_6yhrp")
@@ -38,4 +39,3 @@ texture_pressed = ExtResource("2_6yhrp")
 button_text = "Hide"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
