@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/UI.gd" id="1_urxdq"]
 [ext_resource type="Texture2D" uid="uid://cik6fhthyto55" path="res://fart_data/png/Mike's Cell Phone.png" id="2_4jqi7"]
-[ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/AU3Button.png" id="3_iduti"]
+[ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/Fart_UI_Button.png" id="3_iduti"]
 [ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/au3_ui_button.gd" id="4_gtkwn"]
 
 [node name="GUI" type="Control"]

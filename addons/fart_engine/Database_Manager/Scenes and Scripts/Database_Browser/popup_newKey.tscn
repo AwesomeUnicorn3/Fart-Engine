@@ -49,7 +49,6 @@ size_flags_horizontal = 3
 button_text = "Accept"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="Cancel" parent="PanelContainer/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("3_ntso6")]
 self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
@@ -58,7 +57,7 @@ size_flags_horizontal = 3
 button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [editable path="PanelContainer/VBoxContainer/Input_Text"]
+[editable path="PanelContainer/VBoxContainer/Input_Text/Label"]
 [editable path="PanelContainer/VBoxContainer/Input_Text/input_templateBuffer"]

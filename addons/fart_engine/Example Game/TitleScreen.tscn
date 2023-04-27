@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://2sfw2vt04m3n"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/TitleScreen.gd" id="1"]
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_0ty4t"]
+[ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/Fart_UI_Button.png" id="3_er10l"]
+[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/au3_ui_button.gd" id="4_loe3d"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -53,22 +55,39 @@ size_flags_horizontal = 3
 [node name="VBox1" type="VBoxContainer" parent="VBox1/VBox2/HBox1"]
 layout_mode = 2
 
-[node name="NewGame" type="Button" parent="VBox1/VBox2/HBox1/VBox1"]
+[node name="New_Game" type="TextureButton" parent="VBox1/VBox2/HBox1/VBox1"]
+self_modulate = Color(1, 0.647059, 0, 1)
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-text = "NEW GAME"
+texture_normal = ExtResource("3_er10l")
+texture_pressed = ExtResource("3_er10l")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_loe3d")
+selected_method_key = "7"
 
-[node name="LoadGame" type="Button" parent="VBox1/VBox2/HBox1/VBox1"]
+[node name="Load_Game" type="TextureButton" parent="VBox1/VBox2/HBox1/VBox1"]
+self_modulate = Color(1, 0.647059, 0, 1)
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-text = "LOAD GAME"
+texture_normal = ExtResource("3_er10l")
+texture_pressed = ExtResource("3_er10l")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_loe3d")
+selected_method_key = "9"
 
-[node name="LoadGame2" type="Button" parent="VBox1/VBox2/HBox1/VBox1"]
+[node name="Exit" type="TextureButton" parent="VBox1/VBox2/HBox1/VBox1"]
+self_modulate = Color(1, 0.647059, 0, 1)
+custom_minimum_size = Vector2(150, 50)
 layout_mode = 2
-text = "EXIT"
+texture_normal = ExtResource("3_er10l")
+texture_pressed = ExtResource("3_er10l")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_loe3d")
+selected_method_key = "10"
 
 [node name="HBox2" type="HBoxContainer" parent="VBox1/VBox2/HBox1"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[connection signal="button_up" from="VBox1/VBox2/HBox1/VBox1/NewGame" to="." method="_on_NewGame_button_up"]
-[connection signal="button_up" from="VBox1/VBox2/HBox1/VBox1/LoadGame" to="." method="_on_LoadGame_button_up"]
-[connection signal="button_up" from="VBox1/VBox2/HBox1/VBox1/LoadGame2" to="." method="_on_LoadGame2_button_up"]

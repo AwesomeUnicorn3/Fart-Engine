@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c884eb1tycoal"
-path="res://.godot/imported/AU3Button.png-c712782dde7fd5badf733881af432b24.ctex"
+path="res://.godot/imported/Fart_UI_Button.png-997891deb632c40220537b869e2dd97d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://fart_data/png/AU3Button.png"
-dest_files=["res://.godot/imported/AU3Button.png-c712782dde7fd5badf733881af432b24.ctex"]
+source_file="res://fart_data/png/Fart_UI_Button.png"
+dest_files=["res://.godot/imported/Fart_UI_Button.png-997891deb632c40220537b869e2dd97d.ctex"]
 
 [params]
 

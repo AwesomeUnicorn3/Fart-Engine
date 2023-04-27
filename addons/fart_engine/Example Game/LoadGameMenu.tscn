@@ -1,54 +1,67 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://dvscjd6j4cjo8"]
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_43kt7"]
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/LoadGameMenu.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/Fart_UI_Button.png" id="3_vmotn"]
+[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/au3_ui_button.gd" id="4_xrolt"]
 
 [node name="LoadGameMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_43kt7")
 script = ExtResource("2")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 1)
 
 [node name="VBox1" type="VBoxContainer" parent="."]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
-offset_right = 900.0
-offset_bottom = 31.0
+layout_mode = 2
+
+[node name="Fart UI Button" type="TextureButton" parent="VBox1/HBox1"]
+self_modulate = Color(1, 0.647059, 0, 1)
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+texture_normal = ExtResource("3_vmotn")
+texture_pressed = ExtResource("3_vmotn")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("4_xrolt")
+selected_method_key = "5"
+label_text_override = "Return to Title Screen"
+minimum_size = Vector2(250, 50)
 
 [node name="ReturnToTitle" type="Button" parent="VBox1/HBox1"]
-offset_right = 210.0
-offset_bottom = 31.0
+visible = false
+layout_mode = 2
 text = "Return to Title Screen"
 
 [node name="Label" type="Label" parent="VBox1/HBox1"]
-offset_left = 214.0
-offset_right = 900.0
-offset_bottom = 31.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Select Save Game to Load"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Scroll1" type="ScrollContainer" parent="VBox1"]
-offset_top = 35.0
-offset_right = 900.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBox1" type="VBoxContainer" parent="VBox1/Scroll1"]
-offset_right = 900.0
+layout_mode = 2
 size_flags_horizontal = 3
 
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="button_up" from="VBox1/HBox1/ReturnToTitle" to="." method="_on_ReturnToTitle_button_up"]

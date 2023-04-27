@@ -231,6 +231,19 @@ func import_data(table_name : String, get_table_data :bool = false):
 	return curr_tbl_data
 
 
+func set_background_theme(background_node: ColorRect):
+#	print("BUTTON THEME: ", group)
+	#SET COLOR BASED ON GROUP
+	#get project table
+	var project_table: Dictionary = import_data("Project Settings")
+	var fart_editor_themes_table: Dictionary = import_data("Fart Editor Themes")
+	
+	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
+	var category_color: Color = str_to_var(fart_editor_themes_table[theme_profile]["Background"])
+	background_node.set_base_color(category_color)
+
+
+
 func save_file(sv_path, tbl_data:Dictionary):
 #Save dictionary to .json upon user confirmation
 	var save_file :FileAccess = FileAccess.open(sv_path,FileAccess.WRITE_READ)

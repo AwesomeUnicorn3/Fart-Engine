@@ -50,6 +50,6 @@ script = ExtResource("3_ssf1o")
 event_name = "Event 2"
 
 [node name="StartingPositionNode" type="Sprite2D" parent="."]
-position = Vector2(200, 2)
+position = Vector2(201, 3)
 texture = ExtResource("4_bd63d")
 script = ExtResource("5_h8nqf")

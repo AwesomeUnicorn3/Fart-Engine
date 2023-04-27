@@ -19,10 +19,10 @@ func _ready() -> void:
 
 func _on_Load_button_up() -> void:
 	FARTENGINE.load_game(file_name)
-	FARTENGINE.root.get_node("UI/TitleScreen").visible = false
+#	FARTENGINE.root.get_node("UI/TitleScreen").visible = false
 	#SET PLAYER POSITION
 #	FARTENGINEset_player_position()
-	parent_container.remove_load_menu()
+#	parent_container.remove_load_menu()
 
 
 func _on_Delete_button_up() -> void:

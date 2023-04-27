@@ -7,6 +7,7 @@ signal map_loaded
 signal clear_loading_screen
 signal map_data_updated
 signal in_game_menu_closed
+signal initial_menus_loaded
 
 @onready var EVENTS :EventEngine = EventEngine.new()
 @onready var UIENGINE : UIEngine = UIEngine.new()
@@ -52,11 +53,13 @@ var operatingSystem :String
 func _ready():
 	operatingSystem = OS.get_name()
 	Static_Game_Dict = create_dictionary_of_all_tables()
+	Dynamic_Game_Dict = {}
 	set_var_type_dict(Static_Game_Dict)
 	set_root_node()
-	
 	add_required_scenes_to_UI()
-	set_game_state(gameState) #this should get the game state from the global data [selected profile]
+	await initial_menus_loaded
+
+	set_game_state("1") #this should get the game state from the global data [selected profile]
 #	update_key_bindings()
 	
 
@@ -180,20 +183,29 @@ func _input(event):
 					#MAYBE PUT A CALL V HERE ONLY IF IS ACTION JUST PRESSED IS TRUE, THAT WILL CALL
 					#A METHOD SET IN THE TABLE (SIMILAR TO UI BUTTONS)
 					if action == "open_main_menu" and is_action_just_pressed:
-						show_in_game_main_menu()
+						set_game_state("6")
 
 
 func show_in_game_main_menu(show :bool = true):
 	root.get_node("UI/InGameMainMenu").visible = show
-	if show:
-		set_game_state("6")
-		await in_game_menu_closed
-		set_game_state("2")
+#	if show:
+#		set_game_state("6")
+##		await in_game_menu_closed
+#	else:
+#		set_game_state("2")
 
 
 func quit_game():
-	pass
-	#RETURN TO MAIN MENU
+	set_game_state("1")
+	emit_signal("in_game_menu_closed")
+	remove_player_from_map_node()
+	remove_map_from_root()
+	Dynamic_Game_Dict = {}
+
+
+func remove_map_from_root():
+	if current_map_node != null:
+		current_map_node.queue_free()
 
 
 func get_UI_window():
@@ -340,14 +352,16 @@ func get_player_interaction_area():
 	var interation_area = player_node.get_node("PlayerInteractionArea")
 	return interation_area
 
+
 func move_to_map_Ysort(current_map_node, objectNode :Node = player_node, parent :Node = root):
 	parent.remove_child(objectNode)
 	current_map_node.ysort_node.add_child(objectNode)
 
 
-func remove_player_from_map_node(current_map_node):
-	player_node.get_parent().remove_child(player_node)
-	root.add_child(player_node)
+func remove_player_from_map_node():
+	if player_node != null:
+		player_node.get_parent().remove_child(player_node)
+		root.add_child(player_node)
 
 
 func set_player_position_in_db(new_position):
@@ -562,9 +576,17 @@ func add_required_scenes_to_UI():
 	Menu_Scene.visible = false
 	Menu_Scene.set_name("InGameMainMenu")
 
+	var LoadMenu_ID :String = str(global_data_dict["Default Load Game Menu"])
+	var LoadMenu_Scene :Variant = load(menu_scenes[LoadMenu_ID]["Path"]).instantiate()
+	LoadMenu_Scene.visible = false
+	LoadMenu_Scene.set_name("LoadGameMenu")
+	root.get_node("UI").add_child(LoadMenu_Scene)
+
+
 	add_loading_screen_to_UI()
 	add_dialog_node_to_UI()
 	add_audio_node_to_UI()
+	emit_signal("initial_menus_loaded")
 
 
 func add_map_node_to_root():
@@ -578,12 +600,14 @@ func add_UI_node_to_root():
 	node.set_name("UI")
 	root.add_child(node)
 
+
 func add_loading_screen_to_UI():
 	var node :Control = Control.new()
 	node.set_anchors_preset(Control.PRESET_FULL_RECT)
 	node.set_name("LoadingScreen")
 	node.visible = false
 	get_UI_window().add_child(node)
+
 
 func add_dialog_node_to_UI():
 	var node :Control = Control.new()
@@ -592,10 +616,12 @@ func add_dialog_node_to_UI():
 	node.visible = false
 	get_UI_window().add_child(node)
 
+
 func add_audio_node_to_UI():
 	var node :Node = Node.new()
 	node.set_name("EventAudio")
 	get_UI_window().add_child(node)
+
 
 func set_game_state(newGameState :String):
 	gameState = newGameState
@@ -609,9 +635,22 @@ func set_game_state(newGameState :String):
 	var global_data_dict :Dictionary = global_dict["Global Data"][await get_global_settings_profile()]
 	var gameState_dict :Dictionary = Static_Game_Dict["Game State"]
 
-	set_player_movement_state(convert_string_to_type(gameState_dict[str(gameState)]["Player Can Move"]))
+
+
+	show_gui(convert_string_to_type(gameState_dict[str(gameState)]["Show GUI"]))
+	show_in_game_main_menu(convert_string_to_type(gameState_dict[str(gameState)]["Show In-Game Menu"]))
+	show_title_screen(convert_string_to_type(gameState_dict[str(gameState)]["Show Title Screen"]))
+	show_load_game_menu(convert_string_to_type(gameState_dict[str(gameState)]["Show Load Game Menu"]))
 	await add_loading_screen_to_root(convert_string_to_type(gameState_dict[str(gameState)]["Show Load Screen"]))
-	show_hud(convert_string_to_type(gameState_dict[str(gameState)]["Show HUD"]))
+	set_player_movement_state(convert_string_to_type(gameState_dict[str(gameState)]["Player Can Move"]))
+
+
+func show_load_game_menu(is_visible:bool):
+	root.get_node("UI/LoadGameMenu").visible = is_visible
+
+
+func show_title_screen(is_visible:bool):
+	root.get_node("UI/TitleScreen").visible = is_visible
 
 
 func set_player_movement_state(canMove :bool):
@@ -619,7 +658,7 @@ func set_player_movement_state(canMove :bool):
 		player_node.set_character_movement(canMove)
 
 
-func show_hud(show :bool):
+func show_gui(show :bool):
 	get_gui().visible = show
 
 

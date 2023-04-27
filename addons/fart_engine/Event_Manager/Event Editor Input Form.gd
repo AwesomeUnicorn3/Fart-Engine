@@ -3,6 +3,8 @@ extends DatabaseEngine
 
 signal event_selection_popup_closed
 signal event_editor_input_form_closed
+signal event_editor_input_form_loaded
+
 
 @onready var commands_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/VBox1
 @onready var conditions_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox1/HBox1
@@ -29,6 +31,9 @@ func _ready():
 	if event_name != "":
 		load_event_from_dbmanager()
 		event_data_dict = import_event_data(event_name, true)
+	set_background_theme($Background)
+#	emit_signal("event_editor_input_form_loaded")
+#	print("EVENT EDITOR FORM LOADED")
 
 
 func match_fields_to_template():
@@ -58,10 +63,13 @@ func load_event_data(event_tab := tab_number):
 	for child in event_page_button_list.get_children():
 		child.queue_free()
 	load_page_buttons()
+#	await get_tree().create_timer(0.5).timeout
+#	emit_signal("event_editor_input_form_loaded")
+#	print("EVENT EDITOR LOADED")
 
 
 func load_page_buttons():
-	var page_button = load("res://addons/fart_engine/Event_Manager/Event_Page_Button.tscn")
+	var page_button = preload("res://addons/fart_engine/Event_Manager/Event_Page_Button.tscn")
 	var event_size : int = event_dict.size() - 1 #This is to account for the display name
 	for index in event_size:
 		var index_text :String = str(index + 1)
@@ -145,7 +153,7 @@ func animation_group_selected(selected_index):
 
 
 func show_animation_movement_options(show:bool = true):
-	await get_tree().process_frame
+#	await get_tree().process_frame
 	input_node_dict["Loop Animation"].visible = !show
 	input_node_dict["Attack Player?"].visible = show
 	input_node_dict["Animation Group"].visible = show
@@ -240,15 +248,17 @@ func load_event_commands_input(event_tab):
 
 
 func on_page_button_pressed(event_page_number :String):
+	var v_scroll = get_v_scroll()
+	
 	selectedPageNode = event_page_button_list.get_child(int(event_page_number) - 1)
 	if event_page_number == "1":
 		$VBoxContainer/HBox3/HBox1/Delete_Page_Button.disabled = true
 	else:
 		$VBoxContainer/HBox3/HBox1/Delete_Page_Button.disabled = false
-	await clear_all_input_forms()
+	clear_all_input_forms()
+	await get_tree().create_timer(0.1).timeout
 	tab_number = event_page_number
 	input_node_dict = {}
-	
 	
 	load_event_notes(event_page_number)
 	load_event_trigger_input(event_page_number)
@@ -272,6 +282,12 @@ func on_page_button_pressed(event_page_number :String):
 	for node_name in input_node_dict:
 		input_node_dict[node_name].is_label_button = false
 
+	
+#	if get_tree() != null:
+	if self.is_inside_tree():
+		await get_tree().create_timer(0.1).timeout
+		set_v_scroll(v_scroll)
+#	$VBoxContainer/VBoxContainer/Scroll1.set_v_scroll(v_scroll)
 
 #func get_table_data_key(table_name := "", return_display_name := false):
 #	var key_name :String
@@ -391,7 +407,7 @@ func load_event(EventName:String) -> void:
 #				if event_name != "":
 #					set_initial_values()
 #			else:
-	get_node("Scroll1/VBox1/HBox2").visible = true
+	get_node("VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2").visible = true
 	set_name("EventInputForm")
 	set_initial_values()
 
@@ -425,8 +441,8 @@ func save_event_data(is_dbmanager :bool = false):
 	event_dict[tab_number] = this_event_dict
 
 	save_file(table_save_path + event_folder + event_name + table_file_format, event_dict)
-	selectedPageNode = event_page_button_list.get_child(int(tab_number) - 1)
-	selectedPageNode.on_Button_button_up()
+#	selectedPageNode = event_page_button_list.get_child(int(tab_number) - 1)
+#	selectedPageNode.on_Button_button_up()
 	var eventNode = get_node("../../../../..")
 	if eventNode.has_method("clear_datachange_warning"): eventNode.clear_datachange_warning()
 
@@ -436,9 +452,10 @@ func save_event_data(is_dbmanager :bool = false):
 func clear_all_input_forms():
 	for child in input_node_dict:
 		var node = input_node_dict[child]
-		node.queue_free()
+		if is_instance_valid(node):
+			node.queue_free()
 #		await get_tree().process_frame
-	#await get_tree().process_frame
+#	await get_tree().process_frame
 
 
 
@@ -447,7 +464,7 @@ func clear_all_input_forms():
 func enable_all_page_buttons():
 	for child in event_page_button_list.get_children():
 		child.set_disabled(false)
-		child.release_focus()
+#		child.release_focus()
 
 
 func input_node_changed(value):
@@ -560,7 +577,13 @@ func _on_event_selection_Cancel_button_up() -> void:
 	emit_signal("event_selection_popup_closed")
 	_on_Button_button_up()
 
+func set_v_scroll(scroll_pos: int):
+	$VBoxContainer/VBoxContainer/Scroll1.set_v_scroll(scroll_pos)
+	scroll_position = scroll_pos
 
+func get_v_scroll():
+	scroll_position = $VBoxContainer/VBoxContainer/Scroll1.get_v_scroll()
+	return scroll_position
 #func _process(delta):
 #	scroll_position = $Scroll1.scroll_vertical
 #	print(scroll_position)

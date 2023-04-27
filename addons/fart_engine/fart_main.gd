@@ -49,9 +49,21 @@ func _ready():
 				display_form_dict[key].reload_data_without_saving()
 		set_buttom_theme("Top Row")
 		set_buttom_theme("Category")
-
+		DBENGINE.set_background_theme($Background)
 
 		is_uds_main_updating = false
+
+#func set_background_theme(background_node = $Background):
+##	print("BUTTON THEME: ", group)
+#	#SET COLOR BASED ON GROUP
+#	#get project table
+#	var project_table: Dictionary = DBENGINE.import_data("Project Settings")
+#	var fart_editor_themes_table: Dictionary = DBENGINE.import_data("Fart Editor Themes")
+#
+#	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
+#	var category_color: Color = str_to_var(fart_editor_themes_table[theme_profile]["Background"])
+#	background_node.set_base_color(category_color)
+
 
 
 func add_category_buttons():

@@ -126,6 +126,7 @@ func set_initial_in_game_values():
 	current_map_key = FARTENGINE.current_map_key
 #	print(current_map_key)
 	event_dict = get_event_dict(event_name)
+	
 	var pos :Vector2 = get_global_position()
 	if !FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key].has(name):
 		update_event_data()

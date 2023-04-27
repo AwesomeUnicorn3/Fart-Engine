@@ -3,11 +3,12 @@ extends TextureButton
 
 @export var selected_method_key :String = "1":
 	set = set_selected_method_key
-
+@export var label_text_override: String = ""
+@export var minimum_size: Vector2 = Vector2(150,50)
 
 var label :Label
 #NEED TO ADD THIS TO DATABASE AND PULL FROM THERE 
-var default_button_texture:Texture2D = preload("res://fart_data/png/AU3Button.png")
+var default_button_texture:Texture2D = preload("res://fart_data/png/Fart_UI_Button.png")
 var ui_navigation_dict :Dictionary 
 
 
@@ -33,15 +34,15 @@ func connect_signals():
 
 
 func reset_self_modulate():
-	set_self_modulate(Color.WHITE)
+	set_self_modulate(Color.ORANGE)
 
 
 func set_self_modulate_selected():
-	set_self_modulate(Color(0.4,0.4,0.4,1.0))
+	set_self_modulate(Color.ORANGE.darkened(0.5))
 
 
 func set_self_modulate_hover():
-	set_self_modulate(Color(1.0,0.67,0.0,1.0))
+	set_self_modulate(Color.ORANGE.lightened(.5))
 
 
 func _on_mouse_entered():
@@ -101,7 +102,7 @@ func set_selected_method_key(selectedKey:String):
 
 
 func create_button():
-	set_custom_minimum_size(Vector2(150, 50))
+	set_custom_minimum_size(minimum_size)
 	reset_self_modulate()
 	set_texture(default_button_texture, "Normal")
 	set_texture(default_button_texture, "Pressed")
@@ -123,13 +124,17 @@ func create_button():
 	
 	if is_inside_tree():
 #	if is_instance_valid(get_tree()):
-
-		if !get_tree().get_edited_scene_root(): 
+		var displayName = label_text_override
+#		if displayName == "":
+		if !get_tree().get_edited_scene_root():
 			ui_navigation_dict = FARTENGINE.Static_Game_Dict["UI Script Methods"]
-			var displayName :String = FARTENGINE.convert_string_to_type(ui_navigation_dict[str(selected_method_key)]["Button Label"])["text"]
-			label.set_text(displayName)
+			if displayName == "":
+				displayName= FARTENGINE.convert_string_to_type(ui_navigation_dict[str(selected_method_key)]["Button Label"])["text"]
+#			label.set_text(displayName)
 		else:
 			var DBENGINE: DatabaseEngine = DatabaseEngine.new()
 			ui_navigation_dict = DBENGINE.import_data("UI Script Methods")
-			var displayName :String = DBENGINE.convert_string_to_type(ui_navigation_dict[str(selected_method_key)]["Button Label"])["text"]
-			label.set_text(displayName)
+			if displayName == "":
+				displayName = DBENGINE.convert_string_to_type(ui_navigation_dict[str(selected_method_key)]["Button Label"])["text"]
+		
+		label.set_text(displayName)

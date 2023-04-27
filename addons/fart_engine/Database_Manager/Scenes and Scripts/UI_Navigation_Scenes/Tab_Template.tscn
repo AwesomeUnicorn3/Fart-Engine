@@ -22,6 +22,7 @@ script = ExtResource("6")
 metadata/_edit_horizontal_guides_ = [636.0]
 
 [node name="Background" parent="." instance=ExtResource("2")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 grow_horizontal = 2

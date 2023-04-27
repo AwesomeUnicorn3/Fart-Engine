@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://q7rw71igw86x"]
+[gd_scene load_steps=11 format=3 uid="uid://q7rw71igw86x"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Event Editor Input Form.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://ceao37vrqplqj" path="res://addons/fart_engine/Event_Manager/popup_Event_Selection.tscn" id="2"]
 [ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="3"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewFieldPopup.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bqwjqshj5056o" path="res://addons/fart_engine/Example Game/Fart_Background_Color.tscn" id="3_1ua6b"]
+[ext_resource type="PackedScene" uid="uid://7aknajkgeawg" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewFieldPopup.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_t4rb7"]
@@ -22,14 +23,8 @@ size_flags_vertical = 3
 theme = ExtResource("3")
 script = ExtResource("1")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-metadata/_edit_layout_mode = 1
+[node name="Background" parent="." instance=ExtResource("3_1ua6b")]
+layout_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -283,62 +278,6 @@ text = "Cancel"
 [node name="popup_newValue" parent="Popups" instance=ExtResource("4")]
 visible = false
 layout_mode = 1
-
-[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection" index="1"]
-item_count = 15
-popup/item_2/text = "Color"
-popup/item_9/text = "Number Range"
-popup/item_10/text = "Audio"
-popup/item_11/text = "Conditions"
-popup/item_12/text = "Commands"
-popup/item_13/text = "Dialog"
-popup/item_14/text = "List"
-
-[node name="Table_Selection" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1" index="2"]
-label_text = "Table_Selection"
-
-[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
-item_count = 40
-popup/item_1/text = "Game Data"
-popup/item_2/text = "Project Settings"
-popup/item_3/text = "Data Types"
-popup/item_4/text = "Maps"
-popup/item_5/text = "Items"
-popup/item_6/text = "Controls"
-popup/item_7/text = "Characters"
-popup/item_8/text = "GlobalOptions"
-popup/item_9/text = "Character Formation"
-popup/item_10/text = "Global Settings"
-popup/item_11/text = "ItemType"
-popup/item_12/text = "FieldPref"
-popup/item_13/text = "Control Categories"
-popup/item_14/text = "Character Classes"
-popup/item_15/text = "Sprite Groups"
-popup/item_16/text = "Event Triggers"
-popup/item_17/text = "Event Table Template"
-popup/item_18/text = "Global Variables"
-popup/item_19/text = "Inequalities"
-popup/item_20/text = "Event Save Data"
-popup/item_21/text = "Event Movement States"
-popup/item_22/text = "Dialog Groups"
-popup/item_23/text = "SFX Groups"
-popup/item_25/text = "Action Types"
-popup/item_26/text = "Movement Directions"
-popup/item_27/text = "Animation States"
-popup/item_28/text = "Animation Groups"
-popup/item_29/text = "UI Scenes"
-popup/item_30/text = "None"
-popup/item_31/text = "Table Category"
-popup/item_32/text = "UI Navigation"
-popup/item_33/text = "Testing Table"
-popup/item_34/text = "Local Variables"
-popup/item_35/text = "Operations"
-popup/item_36/text = "AU3 InputMap"
-popup/item_37/text = "UI Script Methods"
-popup/item_38/text = "UI Methods"
-popup/item_38/id = 38
-popup/item_39/text = "Fart Editor Themes"
-popup/item_39/id = 39
 
 [node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="1"]
 item_count = 7

@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8r8ng52nw8du"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/AU3Button.png" id="1_x4uhe"]
+[ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/Fart_UI_Button.png" id="1_x4uhe"]
 
 [node name="TextureButton" type="TextureButton"]
 anchors_preset = 15

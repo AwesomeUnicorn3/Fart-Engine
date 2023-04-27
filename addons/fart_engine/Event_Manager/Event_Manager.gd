@@ -28,7 +28,7 @@ var input_changed = false
 
 var current_event_editor_input
 var event_display_name :String = ""
-var selected_button
+#var selected_button
 
 var selected_event_ID: String = "Event 1"
 
@@ -36,9 +36,11 @@ var event_page_scroll_position:int = 0
 
 func _ready():
 	reload_buttons()
+	await get_tree().create_timer(0.5).timeout
 	table_list.get_child(0)._on_Navigation_Button_button_up()
-	selected_button = table_list.get_child(0)
-	
+#	selected_button = table_list.get_child(0)
+
+
 func set_ref_table():
 	var tbl_ref_dict = import_data("Table Data")
 	table_ref = tbl_ref_dict[tableName]["Display Name"]
@@ -122,10 +124,12 @@ func clear_buttons():
 	for i in table_list.get_children():
 		table_list.remove_child(i)
 		i.queue_free()
+	
 
 
 func reload_buttons():
-#	clear_buttons()
+	clear_buttons()
+#	get_tree().process_frame
 	create_table_buttons()
 
 
@@ -139,45 +143,48 @@ func enable_all_buttons(value : bool = true):
 func navigation_button_click(key_name:String, button_node):
 #	print("KEY NAME: ", key_name)
 	refresh_data(key_name)
+#	await get_tree().create_timer(0.5).timeout
 #	print(button_node.get_groups())
 	selected_event_ID = key_name
-	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
+#	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
 	button_node.reset_self_modulate()
 
 
 func refresh_data(SelectedEventName : String):
 	enable_all_buttons()
-	
+
 	var current_page = "1"
 	if current_event_editor_input != null:
-		event_page_scroll_position = current_event_editor_input.get_node("VBoxContainer/VBoxContainer/Scroll1").get_v_scroll()
+		event_page_scroll_position = current_event_editor_input.scroll_position
 		current_page = current_event_editor_input.tab_number
-#		print(event_page_scroll_position)
+#		event_editor_panel.remove_child(current_event_editor_input)
+		
+		current_event_editor_input.queue_free()
+		current_event_editor_input = null
 
 	current_event_editor_input = event_editor_input_form.instantiate()
 	current_event_editor_input.event_name = SelectedEventName
 	event_editor_panel.add_child(current_event_editor_input)
+#	print("START WIATING")
+
+#	await current_event_editor_input.event_editor_input_form_loaded
+#	print("END WIATING")
 	event_display_name = SelectedEventName
 	selected_event_ID = SelectedEventName
-
-	await get_tree().process_frame
-	var page_button_node
-	if (current_event_editor_input.get_node("VBoxContainer/Hbox4").get_node_or_null(current_page)) != null:
-		page_button_node = current_event_editor_input.get_node("VBoxContainer/Hbox4").get_node(current_page)
-	else:
-		page_button_node = current_event_editor_input.get_node("VBoxContainer/Hbox4").get_node("1")
-	page_button_node.on_Button_button_up()
-
-
+	
 	await get_tree().create_timer(0.5).timeout
-	current_event_editor_input.get_node("VBoxContainer/VBoxContainer/Scroll1").set_v_scroll(event_page_scroll_position)
-#	print(current_event_editor_input.get_node("VBoxContainer/VBoxContainer/Scroll1").get_v_scroll())
+	var page_button_node = current_event_editor_input.get_node("VBoxContainer/Hbox4").get_node_or_null(current_page)
+	if page_button_node != null:
+		current_event_editor_input.set_v_scroll(event_page_scroll_position)
+		page_button_node.on_Button_button_up()
+#		await get_tree().create_timer(0.1).timeout
+#		current_event_editor_input.set_v_scroll(event_page_scroll_position)
 
-	
-	
+
 func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
-	clear_buttons()
+#	clear_buttons()
+#	await get_tree().create_timer(0.5).timeout
 	var event_list_array :Array = get_list_of_events()
 #	print("Event List Array: ", event_list_array)
 #	var table_dict :Dictionary = get_list_of_all_tables()
@@ -191,7 +198,7 @@ func create_table_buttons():
 #			var eventName_dict :Dictionary = str_to_var(Event_Name)
 #			label = eventName_dict["text"]
 #		else:
-#		print("Event Name: ", Event_Name)
+#		print("Event Name: ", event_display_name)
 		label = event_display_name
 		var newbtn: TextureButton = btn_itemselect.instantiate() #Create new instance of item button
 		newbtn.add_to_group("Key")
@@ -202,12 +209,15 @@ func create_table_buttons():
 		var labelNode :Label = newbtn.get_node("Label")
 		labelNode.visible = true
 		labelNode.text = label
+	
 
 
 func _on_Save_button_up():
 	
 	event_display_name = current_event_editor_input.save_event_data(true)
-	create_table_buttons()
+	await get_tree().create_timer(0.25).timeout
+#	refresh_data(event_display_name)
+#	create_table_buttons()
 	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
 #	sdfsd
 #	table_list.get_node(event_display_name).disabled = true #Sets current item button to disabled
