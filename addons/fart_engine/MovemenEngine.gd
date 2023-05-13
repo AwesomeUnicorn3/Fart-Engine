@@ -1,13 +1,16 @@
 extends CharacterBody2D
 class_name MovementEngine
 
+signal sprite_anim_complete
+
 var previous_state :String
 var state :String = "idle"
 var direction_string :String = "Down"
 var previous_direction_string :String = "Down"
 
 
-func set_character_velocity(curr_velocity:Vector2,direction:Vector2,characterMaxSpeed:int, characterFriction:int,characterAcceleration, is_gravity_active:bool,  delta):
+func set_character_velocity(curr_velocity:Vector2,direction:Vector2,characterMaxSpeed:float, characterFriction:float,characterAcceleration:float, is_gravity_active:bool,  delta):
+
 	var VELOCITY = curr_velocity
 	if is_gravity_active:
 		if direction == Vector2.ZERO:
@@ -16,11 +19,16 @@ func set_character_velocity(curr_velocity:Vector2,direction:Vector2,characterMax
 			VELOCITY.x = VELOCITY.move_toward(direction * characterMaxSpeed, characterAcceleration * delta).x
 
 	elif !is_gravity_active:
-		if abs(VELOCITY.x) < characterMaxSpeed:
+		if VELOCITY.x < characterMaxSpeed:
 			VELOCITY.x += direction.x
-		if abs(VELOCITY.y) < characterMaxSpeed:
+		if VELOCITY.y < characterMaxSpeed:
 			VELOCITY.y += direction.y
-		VELOCITY = VELOCITY.move_toward(direction * characterMaxSpeed, characterAcceleration * delta)
+
+		if direction == Vector2.ZERO:
+			VELOCITY = VELOCITY.move_toward(Vector2.ZERO, characterFriction * delta)
+		else:
+			VELOCITY = VELOCITY.move_toward(direction * characterMaxSpeed, characterAcceleration * delta)
+
 	return VELOCITY
 
 
@@ -31,12 +39,9 @@ func get_direction_string(direction:Vector2):
 	for key in movement_dict:
 		var directionVector :Vector2 = FARTENGINE.convert_string_to_vector(movement_dict[key]["Direction Vector"])
 		if direction == directionVector:
-			direction_string =  FARTENGINE.convert_string_to_type(movement_dict[key]["Display Name"])["text"]
+			direction_string =  FARTENGINE.get_text(movement_dict[key]["Display Name"])
 			break
 	return direction_string
-
-
-signal sprite_anim_complete
 
 
 func play_sprite_animation(direction :Vector2, sprite_animation,shadow_sprite_animation, draw_shadow, runOnce :bool = false):

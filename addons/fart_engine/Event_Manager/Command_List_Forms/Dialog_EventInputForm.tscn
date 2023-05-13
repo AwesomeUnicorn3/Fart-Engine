@@ -67,12 +67,6 @@ selection_table_name = "Dialog Groups"
 label_text = "Select Group"
 is_label_button = false
 
-[node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
-[node name="Hide_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
 item_count = 1
 selected = 0
@@ -107,6 +101,15 @@ text = "Default"
 
 [node name="Scene_Selection_ScenePath" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox" index="1"]
 visible = false
+
+[node name="ActionSelection" parent="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Input_Array/Control" index="0"]
+visible = false
+
+[node name="Label_Button" parent="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Input_Array/Control/HBoxContainer/Label3/HBox1" index="0"]
+visible = false
+
+[node name="Scroll1" parent="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Input_Array/Control" index="2"]
+custom_minimum_size = Vector2(0, 500)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
@@ -203,10 +206,26 @@ layout_mode = 0
 [editable path="Control/VBoxContainer/input_dialog"]
 [editable path="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Checkbox"]
 [editable path="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Checkbox/Label"]
+[editable path="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Text"]
+[editable path="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Text/Input_Node/Label"]
+[editable path="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="Control/VBoxContainer/input_dialog/CharacterName_HBox/CharacterName_Text/input_templateBuffer"]
+[editable path="Control/VBoxContainer/input_dialog/Dialog_Text"]
+[editable path="Control/VBoxContainer/input_dialog/Dialog_Text/Input_Node/Label"]
+[editable path="Control/VBoxContainer/input_dialog/Dialog_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="Control/VBoxContainer/input_dialog/Dialog_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="Control/VBoxContainer/input_dialog/Dialog_Text/input_templateBuffer"]
 [editable path="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox"]
 [editable path="Control/VBoxContainer/input_dialog/IconSelection_HBox/IconSelection_Checkbox/Label"]
 [editable path="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox"]
 [editable path="Control/VBoxContainer/input_dialog/SceneSelection_HBox/SceneSelection_Checkbox/Label"]
+[editable path="Control/VBoxContainer/input_dialog/AdvancedControlsVBox"]
+[editable path="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Checkbox_Template"]
+[editable path="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Checkbox_Template/Label"]
+[editable path="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Label"]
+[editable path="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Input_Array"]
+[editable path="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Input_Array/Control/HBoxContainer/Label3"]
 [editable path="Popups/Popup_Delete_Confirm"]
 [editable path="Popups/popup_deleteKey"]
 [editable path="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Label2"]

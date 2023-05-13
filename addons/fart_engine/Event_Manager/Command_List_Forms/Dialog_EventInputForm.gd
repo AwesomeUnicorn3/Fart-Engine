@@ -15,6 +15,8 @@ func _ready():
 	key_node.populate_list()
 	$Control/VBoxContainer/TrueorFalse.inputNode.toggled.connect(set_group_or_single)
 	$Control/VBoxContainer/TrueorFalse.inputNode.emit_signal("toggled",true )
+	$Control/VBoxContainer/input_dialog/AdvancedControlsVBox.get_index_to_dialog_options()
+
 
 func set_group_or_single(button_pressed):
 	$Control/VBoxContainer/KeyDropdown.visible = !button_pressed

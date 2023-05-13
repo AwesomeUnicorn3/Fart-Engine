@@ -21,11 +21,12 @@ func _on_popup_newTable_visibility_changed():
 func reset_values():
 	for child in $PanelContainer/MainVBox/UserInputScroll/UserInputVBox.get_children():
 		child.queue_free()
-		await get_tree().process_frame
+	await get_tree().process_frame
 
 
 func set_input(input_dict :Dictionary = get_default_values()):
 	await reset_values()
+	await get_tree().process_frame
 	var DBENGINE :DatabaseEngine = DatabaseEngine.new()
 	var input_data_dict :Dictionary = DBENGINE.import_data("Table Data", true)
 	
@@ -34,11 +35,13 @@ func set_input(input_dict :Dictionary = get_default_values()):
 		var newNode = DBENGINE.create_input_node(keyName,"Table Data", input_dict, input_data_dict)
 		if newNode.type == "5":
 			newNode.selection_table_name = "Table Category"
+		$PanelContainer/MainVBox/UserInputScroll/UserInputVBox.add_child(newNode)
 		newNode.set_input_value(input_dict[keyName])
 		newNode.is_label_button = false
-		$PanelContainer/MainVBox/UserInputScroll/UserInputVBox.add_child(newNode)
-		await get_tree().process_frame
-
+		
+		
+	
+	
 
 func get_default_values():
 	var default_dict :Dictionary = DatabaseEngine.new().import_data("Table Data")["Blank"]

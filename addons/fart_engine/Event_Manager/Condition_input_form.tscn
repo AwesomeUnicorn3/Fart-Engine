@@ -33,11 +33,7 @@ layout_mode = 2
 size_flags_vertical = 1
 
 [node name="Label_Button" parent="VBox1/Label3/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 button_text = "Condition List"
-
-[node name="Hide_Button" parent="VBox1/Label3/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="AddItem" parent="VBox1/Label3/HBox1" index="2" groups=["Table Action"] instance=ExtResource("4_3piga")]
 self_modulate = Color(0.368627, 0.156863, 0.788235, 1)

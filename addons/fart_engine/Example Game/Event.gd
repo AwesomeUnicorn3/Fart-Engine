@@ -24,6 +24,7 @@ var event_trigger := ""
 var active_page := ""
 var is_in_editor := false
 var local_variables_dict :Dictionary = {}
+var options_button_variables_dict :Dictionary = {}
 var current_map_name : String 
 var current_map_key :String
 var is_queued_for_delete :bool = false
@@ -136,12 +137,13 @@ func set_initial_in_game_values():
 			FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Position"] =  pos
 			FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"] = await FARTENGINE.import_data("Local Variables")
 			FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Attached Event"] = event_name
-
+			FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Event Dialog Variables"] = await FARTENGINE.import_data("Event Dialog Variables")
 	var event_position = FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Position"]
 	var posvect :Vector2 = FARTENGINE.convert_string_to_vector(str(event_position))
 	set_global_position(posvect)
 	
 	local_variables_dict = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"])
+	options_button_variables_dict = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Event Dialog Variables"])
 
 
 func set_initial_values():
@@ -374,6 +376,7 @@ func update_event_data():
 		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name] = {}
 		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
 		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Local Variables"] = FARTENGINE.import_data("Local Variables")["1"]
+		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Event Dialog Variables"] = FARTENGINE.import_data("Event Dialog Variables")["1"]
 		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Attached Event"] = event_name
 	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
 
@@ -423,45 +426,16 @@ func call_commands():
 			await FARTENGINE.EVENTS.callv(function_name, variable_array)
 
 
-#func get_event_dict():
-#	var selected_dict
-#	var table_dict :Dictionary = DBENGINE.import_data("Table Data")
-#	event_list = {}
-#	for table_name in table_dict:
-#		var is_event = DBENGINE.convert_string_to_type(table_dict[table_name]["Is Event"])
-#		if is_event:
-#			event_list[table_name] = table_dict[table_name]["Display Name"]
-#	selected_dict = DBENGINE.import_data(event_name)
-#	return selected_dict
 
 func get_event_dict(event_name:String):
-#	var table_list_dict = import_data("Table Data")
-	
 	var event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
 	var all_events_dict := {}
 	var this_event_dict:= {}
 
 	for eventName in event_list:
-
-#		if tableName == "Options Player Data.json":
-#			var save_path_global = "user://OptionsData.json"
-#			var save_dir = list_files_with_param(save_game_path, table_file_format)
-#			if save_dir.has("OptionsData.json"):
-#				Global_Options_Dict = import_data(save_path_global)
-#			else:
-#				Global_Options_Dict = import_data("Options")
-#				save_global_options_data()
-#		else:
 		var array = []
-#		var eventName = eventName
 		array = eventName.rsplit(".")
 		eventName = array[0]
-
-#
-#			if str_to_var(table_list_dict[tblname]["Display Name"]) != null:
-#				dictname = str_to_var(table_list_dict[tblname]["Display Name"])["text"]
-#			else:
-#				dictname = table_list_dict[tblname]["Display Name"]
 		all_events_dict[eventName] = DBENGINE.import_event_data(eventName)
 
 	this_event_dict = all_events_dict[event_name]
@@ -577,13 +551,18 @@ func get_condition_value(conditions_dict:Dictionary, condition:String, fieldID:S
 	var table_ID:String = compare_dict["TableID"]
 	var key_ID: String =  compare_dict["KeyID"]
 	var field_ID = compare_dict["FieldID"]
-	var condition_value = FARTENGINE.get_field_value(table_ID, key_ID, field_ID, true)
+	var condition_value
 
 	if table_ID == "Local Variables":
 		local_variables_dict = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"])
 		condition_value = local_variables_dict[field_ID]
 	
-
+	elif table_ID == "Event Dialog Variables":
+		options_button_variables_dict = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Event Dialog Variables"])
+		condition_value = options_button_variables_dict[field_ID]
+	else:
+		condition_value = FARTENGINE.get_field_value(table_ID, key_ID, field_ID, true)
+	
 	return condition_value
 
 
@@ -591,7 +570,7 @@ func get_global_variable_index_name_from_display_name(If_Key_Name_DropDown):
 	var global_variable_dict :Dictionary = FARTENGINE.Dynamic_Game_Dict["Global Variables"]
 	var index
 	for id in global_variable_dict:
-		if FARTENGINE.convert_string_to_type(global_variable_dict[id]["Display Name"])["text"] == If_Key_Name_DropDown:
+		if FARTENGINE.get_text(global_variable_dict[id]["Display Name"]) == If_Key_Name_DropDown:
 			index = id
 	return index
 
@@ -747,136 +726,3 @@ func show_event_toolbar_in_editor(selected_node_name):
 
 func is_new_event_object() -> void:
 	pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#						match condition_key_value:
-#							"Event Variable":
-#								var event_variable_value
-#								var event_required_variable_value :bool
-#								for line in conditions_dict[condition]:
-#									current_condition_list.append(conditions_dict[condition][line]["value"])
-#								event_required_variable_value = FARTENGINE.convert_string_to_type(current_condition_list[3])
-#								for variable in local_variables_dict:
-#									if local_variables_dict[variable]["Value 1"] == current_condition_list[1]:
-#										event_variable_value = FARTENGINE.convert_string_to_type(local_variables_dict[variable]["Value 2"])
-#										break
-#								if event_required_variable_value != event_variable_value:
-#									conditions_met = false
-#								else:
-#									conditions_met = true
-#							"Inventory Item":
-#								#Check if selected item is in player inventory
-#								var player_inventory :Dictionary = FARTENGINE.Dynamic_Game_Dict["Inventory"]
-#								var inventory_item :String = conditions_dict[condition]["If_Key_Name_DropDown"]["value"]
-#								if player_inventory.has(inventory_item):
-#									var item_count :int = player_inventory[inventory_item]["ItemCount"]
-#									if player_inventory[inventory_item]["ItemCount"] > 0:
-#										conditions_met = true
-#									else:
-#										conditions_met = false
-#
-#							"Global Variable":
-#								var global_variable_dict :Dictionary = FARTENGINE.Dynamic_Game_Dict["Global Variables"]
-#								#Check if global variable conditions are met
-#								var If_Key_Name_DropDown = conditions_dict[condition]["If_Key_Name_DropDown"]["value"]
-#								var if_Value_Name_DropDown = conditions_dict[condition]["if_Value_Name_DropDown"]["value"]
-#								var global_variable_conditions_met :bool = false
-#								var id = get_global_variable_index_name_from_display_name(If_Key_Name_DropDown)
-#								match if_Value_Name_DropDown:
-#									"True or False":
-#										var global_variable_bool = FARTENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Bool"]["value"])
-#										var Is_Value_Bool :bool = FARTENGINE.convert_string_to_type(global_variable_dict[id]["True or False"])
-#										if Is_Value_Bool == global_variable_bool:
-#											global_variable_conditions_met = true
-#
-#									"Display Name":
-#										var global_variable_text = FARTENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Text"]["value"])
-#										var Is_Value_Text = global_variable_dict[id]["Text"]
-#										if Is_Value_Text == global_variable_text:
-#											global_variable_conditions_met = true
-#
-#									"Text":
-#										var global_variable_text = FARTENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Text"]["value"])
-#										var Is_Value_Text = global_variable_dict[id]["Text"]
-#										if Is_Value_Text == global_variable_text:
-#											global_variable_conditions_met = true
-#
-#									"Decimal Number":
-#										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
-#										var global_variable_float = FARTENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Float"]["value"], "3")
-#										var Is_Value_Float = FARTENGINE.convert_string_to_type(global_variable_dict[id][if_Value_Name_DropDown], "3")
-#										match Is_Text:
-#											"Greater Than":
-#												if Is_Value_Float > global_variable_float:
-#													global_variable_conditions_met = true
-#											"Less Than":
-#												if Is_Value_Float < global_variable_float:
-#													global_variable_conditions_met = true
-#											"Equal To":
-#												if Is_Value_Float == global_variable_float:
-#													global_variable_conditions_met = true
-#											"NOT Equal To":
-#												if Is_Value_Float != global_variable_float:
-#													global_variable_conditions_met = true
-#											"Greater Than OR Equal To":
-#												if Is_Value_Float >= global_variable_float:
-#													global_variable_conditions_met = true
-#											"Less Than OR Equal To":
-#												if Is_Value_Float <= global_variable_float:
-#													global_variable_conditions_met = true
-#
-#									"Whole Number":
-#										var Is_Text = conditions_dict[condition]["Is_DropDown"]["value"]
-#										var global_variable_float = FARTENGINE.convert_string_to_type(conditions_dict[condition]["Is_Value_Int"]["value"], "2")
-#										var Is_Value_Float = FARTENGINE.convert_string_to_type(global_variable_dict[id][if_Value_Name_DropDown], "2")
-#										match Is_Text:
-#											"Greater Than":
-#												if Is_Value_Float > global_variable_float:
-#													global_variable_conditions_met = true
-#											"Less Than":
-#												if Is_Value_Float < global_variable_float:
-#													global_variable_conditions_met = true
-#											"Equal To":
-#												if Is_Value_Float == global_variable_float:
-#													global_variable_conditions_met = true
-#											"NOT Equal To":
-#												if Is_Value_Float != global_variable_float:
-#													global_variable_conditions_met = true
-#											"Greater Than OR Equal To":
-#												if Is_Value_Float >= global_variable_float:
-#													global_variable_conditions_met = true
-#											"Less Than OR Equal To":
-#												if Is_Value_Float <= global_variable_float:
-#													global_variable_conditions_met = true
-#
-#								conditions_met = global_variable_conditions_met
-#						break

@@ -54,7 +54,7 @@ func _on_mouse_exited():
 
 
 func _on_texture_button_up():
-	var function_name :String = FARTENGINE.convert_string_to_type(ui_navigation_dict[str(selected_method_key)]["Function Name"])["text"]
+	var function_name :String = FARTENGINE.get_text(ui_navigation_dict[str(selected_method_key)]["Function Name"])
 	FARTENGINE.UIENGINE.callv(function_name, [])
 	reset_self_modulate()
 
@@ -129,12 +129,12 @@ func create_button():
 		if !get_tree().get_edited_scene_root():
 			ui_navigation_dict = FARTENGINE.Static_Game_Dict["UI Script Methods"]
 			if displayName == "":
-				displayName= FARTENGINE.convert_string_to_type(ui_navigation_dict[str(selected_method_key)]["Button Label"])["text"]
+				displayName= FARTENGINE.get_text(ui_navigation_dict[str(selected_method_key)]["Button Label"])
 #			label.set_text(displayName)
 		else:
 			var DBENGINE: DatabaseEngine = DatabaseEngine.new()
 			ui_navigation_dict = DBENGINE.import_data("UI Script Methods")
 			if displayName == "":
-				displayName = DBENGINE.convert_string_to_type(ui_navigation_dict[str(selected_method_key)]["Button Label"])["text"]
+				displayName = DBENGINE.get_text(ui_navigation_dict[str(selected_method_key)]["Button Label"])
 		
 		label.set_text(displayName)

@@ -52,10 +52,10 @@ size_flags_vertical = 0
 label_text = "New Field Name"
 is_label_button = false
 
-[node name="Input" parent="PanelContainer/VBox1/HBox1/Input_Text" index="1"]
-caret_blink_interval = 0.5
+[node name="AdvancedControlsVBox" parent="PanelContainer/VBox1/HBox1/Input_Text/Input_Node" index="2"]
+visible = false
 
-[node name="input_templateBuffer" parent="PanelContainer/VBox1/HBox1/Input_Text" index="2"]
+[node name="input_templateBuffer" parent="PanelContainer/VBox1/HBox1/Input_Text" index="1"]
 visible = false
 
 [node name="ItemType_Selection" parent="PanelContainer/VBox1/HBox1" instance=ExtResource("4_rgqyx")]
@@ -219,7 +219,9 @@ auto_set_minimum_size = false
 [connection signal="button_up" from="PanelContainer/VBox1/HBox2/Cancel" to="." method="_on_cancel_button_up"]
 
 [editable path="PanelContainer/VBox1/HBox1/Input_Text"]
-[editable path="PanelContainer/VBox1/HBox1/Input_Text/Label"]
+[editable path="PanelContainer/VBox1/HBox1/Input_Text/Input_Node/Label"]
+[editable path="PanelContainer/VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="PanelContainer/VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Display_Node/Label"]
 [editable path="PanelContainer/VBox1/HBox1/Input_Text/input_templateBuffer"]
 [editable path="PanelContainer/VBox1/HBox1/ItemType_Selection"]
 [editable path="PanelContainer/VBox1/HBox1/ItemType_Selection/Label"]

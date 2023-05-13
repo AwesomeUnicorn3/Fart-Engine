@@ -183,22 +183,12 @@ func refresh_data(SelectedEventName : String):
 
 func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
-#	clear_buttons()
-#	await get_tree().create_timer(0.5).timeout
 	var event_list_array :Array = get_list_of_events()
-#	print("Event List Array: ", event_list_array)
-#	var table_dict :Dictionary = get_list_of_all_tables()
 	for Event_Name in event_list_array:
-
-#		print("create table button Event Name: ", Event_Name)
 		var label :String 
 		var event_dict:Dictionary = import_event_data(Event_Name)
-		var event_display_name:String = event_dict["0"]["Display Name"]["text"]
-#		if typeof(str_to_var(Event_Name)) == TYPE_DICTIONARY:
-#			var eventName_dict :Dictionary = str_to_var(Event_Name)
-#			label = eventName_dict["text"]
-#		else:
-#		print("Event Name: ", event_display_name)
+		var event_display_name:String =  get_text(event_dict["0"]["Display Name"])
+
 		label = event_display_name
 		var newbtn: TextureButton = btn_itemselect.instantiate() #Create new instance of item button
 		newbtn.add_to_group("Key")
@@ -216,12 +206,7 @@ func _on_Save_button_up():
 	
 	event_display_name = current_event_editor_input.save_event_data(true)
 	await get_tree().create_timer(0.25).timeout
-#	refresh_data(event_display_name)
-#	create_table_buttons()
 	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
-#	sdfsd
-#	table_list.get_node(event_display_name).disabled = true #Sets current item button to disabled
-#	table_list.get_node(event_display_name).grab_focus()
 
 
 func get_AU3():
@@ -244,7 +229,6 @@ func update_dropdown_tables():
 
 func reload_data_without_saving():
 	reload_buttons()
-#	print("EVENT ID NO SAVE: ", selected_event_ID)
 	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
 
 
@@ -255,9 +239,7 @@ func add_entry_row(entry_value):
 
 
 func add_table_key(key):
-	#duplicate "Default" value
 	var new_entry = current_dict["Default"].duplicate(true)
-	#Add value to item dict
 	current_dict[key] = new_entry
 
 
@@ -358,7 +340,7 @@ func _on_NewField_Cancel_button_up():
 
 func add_newField(): 
 	var datafield = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox2/ItemType_Selection
-	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input.get_text()
+	var fieldName = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox1/Input_Text/Input_Node/Input.get_text()
 	var selected_item_name = datafield.selectedItemName
 	var datatype = datafield.get_dataType_ID(selected_item_name)
 	var showField = $Popups/popup_newValue/PanelContainer/VBox1/HBox1/VBox3/LineEdit3.is_pressed()

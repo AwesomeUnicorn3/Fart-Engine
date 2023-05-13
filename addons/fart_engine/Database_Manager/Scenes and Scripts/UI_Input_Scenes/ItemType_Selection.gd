@@ -16,18 +16,24 @@ func _init() -> void:
 	type = "5"
 
 
-func populate_list(update_selection_table :bool = true, use_custom_dict :bool = false):
+func populate_list(Update_selection_table :bool = true, use_custom_dict :bool = false):
 	sorted_table = {}
-	if update_selection_table:
+	if Update_selection_table:
 		update_selection_table()
 		
 	if !use_custom_dict:
 		populate_list_with_selection_table()
 	else:
 		var index = 1
+#		print("POPULATE LIST CUSTOM DICT: ", selection_table)
 		for key in selection_table:
-			sorted_table[str(index)] = [key, key, selection_table[key]["Datatype"]] 
+			var datatype = "0"
+			if typeof(selection_table[key]) == TYPE_DICTIONARY :
+				if selection_table[key].has("Datatype"):
+					datatype = selection_table[key]["Datatype"]
+			sorted_table[str(index)] = [key, key, datatype] 
 			index += 1
+#		print("POPULATE LIST SORTED TABLE CUSTOM DICT: ", sorted_table)
 		populate_list_with_sorted_table()
 	
 	select_index(0)
@@ -36,8 +42,10 @@ func populate_list(update_selection_table :bool = true, use_custom_dict :bool = 
 
 func populate_list_with_sorted_table(sortedTable:= sorted_table):
 	clear_input_value()
+#	print(sortedTable)
 	for keyID in sortedTable.size():
-		inputNode.add_item (sortedTable[str(keyID + 1)][0])
+#		print(sortedTable[str(keyID + 1)][1])
+		inputNode.add_item (sortedTable[str(keyID + 1)][1])
 	sorted_table = sortedTable
 	select_index(0)
 
@@ -47,7 +55,6 @@ func populate_list_with_selection_table(selectionTable := selection_table, selec
 	selection_table = selectionTable
 	var DBENGINE: DatabaseEngine = DatabaseEngine.new()
 	sorted_table = DBENGINE.list_custom_dict_keys_in_display_order(selectionTable, selection_table_name)
-#	print(sorted_table)
 	for keyID in sorted_table.size():
 #		print(keyID)
 		inputNode.add_item (sorted_table[str(keyID + 1)][0])
@@ -70,6 +77,7 @@ func filter_by_datatype(datatype:String, old_dict:Dictionary = sorted_table):
 		var key_datatype: String = old_dict[strkey][2]
 		if key_datatype == datatype:
 			filtered_dict[strkey] = old_dict[strkey]
+
 	return filtered_dict
 
 
@@ -81,16 +89,18 @@ func filter_tables_for_condition(old_dict:Dictionary = selection_table):
 		var include_in_conditions:bool = DBENGINE.convert_string_to_type(table_list_dict[key]["Include in Event Conditions"])
 		if include_in_conditions == true:
 			filtered_dict[key] = old_dict[key]
+
 	return filtered_dict
+
 
 
 func get_dataType_ID(displayName : String):
 	var returnValue
 	var displayDict = selection_table
 	if typeof(DBENGINE.convert_string_to_type(displayName)) == TYPE_DICTIONARY:
-		displayName = DBENGINE.convert_string_to_type(displayName)["text"]
+		displayName = DBENGINE.get_text(displayName)
 	for key in displayDict:
-		if str_to_var(displayDict[key]["Display Name"])["text"] == displayName:
+		if DBENGINE.get_text(displayDict[key]["Display Name"]) == displayName:
 			returnValue = key
 			break
 		elif key == displayName:
@@ -119,12 +129,15 @@ func get_selection_datatype():
 
 
 func get_key_from_dropdown_index(dropdown_index : int):
+#	print("ITEM TYPE SORTED TABLE: ", sorted_table)
 	var selected_display_name = sorted_table[str(dropdown_index + 1)][0]
 	var selected_key = sorted_table[str(dropdown_index + 1)][1]
+	
 	var selection_table_keys_array = sorted_table.keys()
 	
 	if selection_table_keys_array.size() == 0:
 		print("ERROR- NO DATA IN SELECTED TABLE NAMED: " , selection_table_name , " At Index: " , index)
+#	print("ITEM TYPE SELECTED KEY: ", selected_key)
 	return selected_key
 
 
@@ -187,35 +200,5 @@ func set_value_do_not_populate(node_value):
 
 func _get_input_value():
 	var value = selectedItemKey
+
 	return value
-
-
-#func get_id(item_name : String = ""):
-#	#Get index # of selected item in dropdown list
-##	var dropDownSize :int = inputNode.get_popup().get_item_count()
-#	var item_id := 0
-#	print("Item Name in 'get_id' function: ", item_name)
-##	for id in dropDownSize: #Loop through all values in dropdown list until the item name is found, return index #
-##		var list_ItemName = inputNode.get_item_text(id) #display name
-##		for key in selection_table:
-##			var selectionKeyType :int = typeof(selection_table[key])
-##			if selectionKeyType == TYPE_STRING or selectionKeyType == TYPE_BOOL:
-##				if key == item_name:
-##					item_name = key
-##			elif selection_table[key].has("Display Name"):
-##				if key == item_name:
-##					item_name = DBENGINE.convert_string_to_type(selection_table[key]["Display Name"])["text"]
-##			else:
-##				if key == item_name:
-##					item_name = key
-##
-##		if typeof(DBENGINE.convert_string_to_type(list_ItemName)) == TYPE_DICTIONARY:
-##			list_ItemName = DBENGINE.convert_string_to_type(list_ItemName)["text"]
-##
-##		if typeof(DBENGINE.convert_string_to_type(item_name)) == TYPE_DICTIONARY:
-##			item_name = DBENGINE.convert_string_to_type(item_name)["text"]
-##
-##		if item_name == list_ItemName:
-##			item_id = id
-##			break
-#	return item_id

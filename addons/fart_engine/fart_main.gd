@@ -73,7 +73,7 @@ func add_category_buttons():
 		var key_string:String = str(key + 1)
 		#print(categories_dict[sorted_category_dict[key_string][1]])
 		
-		var category_name :String = DBENGINE.convert_string_to_type(categories_dict[sorted_category_dict[key_string][1]]["Display Name"])["text"]
+		var category_name :String = DBENGINE.get_text(categories_dict[sorted_category_dict[key_string][1]]["Display Name"])
 		#print(category_name)
 		var new_button :TextureButton = add_new_button(category_name, category_name, NavigationButton, table_category, "Category")
 #		new_button.add_to_group("Category")
@@ -286,7 +286,7 @@ func add_tables_in_category(category :String):
 		#BtnIndex = table_data["Row"][BtnIndex]["FieldName"] #TABLE NAME
 		var create_tab :bool = DBENGINE.convert_string_to_type(tables_dict[tableKey]["Create Tab"])
 		var table_category_key :String  = str(tables_dict[tableKey]["Table Category"])
-		var display_name: String = DBENGINE.convert_string_to_type(tables_dict[tableKey]["Display Name"])["text"]
+		var display_name: String = DBENGINE.get_text(tables_dict[tableKey]["Display Name"])
 
 		
 		if category_key == table_category_key and create_tab:
@@ -304,7 +304,7 @@ func add_tables_in_category(category :String):
 			if !display_form_dict.has(newbtn_name):
 				table_display.add_child(newtab)
 				display_form_dict[newbtn_name] = newtab
-				newtab.get_node("VBox1/TableName/Label/HBox1/Label_Button").set_text(display_name)
+				newtab.get_node("VBox1/TableName/Input_Node/Label/HBox1/Label_Button").set_text(display_name)
 				var new_node = newtab.get_node("VBox1/Key")
 				new_node.table_ref = newtab.set_ref_table()
 				newtab.visible = false

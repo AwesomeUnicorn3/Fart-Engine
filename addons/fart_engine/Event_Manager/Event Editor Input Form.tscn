@@ -25,6 +25,7 @@ script = ExtResource("1")
 
 [node name="Background" parent="." instance=ExtResource("3_1ua6b")]
 layout_mode = 1
+color = Color(0.196078, 0.188235, 0.188235, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -68,6 +69,9 @@ layout_mode = 2
 layout_mode = 2
 label_text = "Event Name"
 is_label_button = false
+
+[node name="AdvancedControlsVBox" parent="VBoxContainer/HBox3/Input_Text/Input_Node" index="2"]
+visible = false
 
 [node name="Buffer" type="Label" parent="VBoxContainer/HBox3"]
 layout_mode = 2
@@ -373,11 +377,15 @@ layout_mode = 0
 [editable path="VBoxContainer/Input_Label_Template2"]
 [editable path="VBoxContainer/Input_Label_Template3"]
 [editable path="VBoxContainer/HBox3/Input_Text"]
-[editable path="VBoxContainer/HBox3/Input_Text/Label"]
+[editable path="VBoxContainer/HBox3/Input_Text/Input_Node/Label"]
+[editable path="VBoxContainer/HBox3/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="VBoxContainer/HBox3/Input_Text/Display_Node/Label"]
 [editable path="VBoxContainer/HBox3/Input_Text/input_templateBuffer"]
 [editable path="Popups/popup_newValue"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Display_Node/Label"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/input_templateBuffer"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection/Label"]

@@ -13,7 +13,7 @@ func _ready() -> void:
 		var loadFileSelect_new :Node = loadFileSelect.instantiate()
 		loadFileSelect_new.get_node("Load").set_text("Load File " + i)
 #		var map_path
-		var map_path : String = save_file_dict["Global Data"][await FARTENGINE.get_global_settings_profile()]["Current Map"]["text"]
+		var map_path : String = FARTENGINE.get_text(save_file_dict["Global Data"][await FARTENGINE.get_global_settings_profile()]["Current Map"])
 		
 		loadFileSelect_new.file_name = i
 		loadFileSelect_new.parent_container = self

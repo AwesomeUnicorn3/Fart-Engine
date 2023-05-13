@@ -41,7 +41,6 @@ func set_right_operators(value:Dictionary):
 		filtered_right_table = value
 		right_operator.filter_by_datatype()
 		filter_inequalities()
-
 		var table_ID:String = left_operator.table_drop_down.selectedItemKey
 		var key_ID:String = left_operator.key_drop_down.selectedItemKey
 		var field_ID:String = left_operator.field_drop_down.selectedItemKey
@@ -72,8 +71,8 @@ func get_inequality_dicts():
 		var is_text_operator:bool = convert_string_to_type(inequalities_table[key]["Is Text Operator"])
 		if is_text_operator:
 			text_inequality_raw_dict[key] = inequalities_table[key]
-			var displayName:String = convert_string_to_type(inequalities_table[key]["Display Name"])["text"]
-			text_inequality_dict[str(index)] = [displayName, key, "0"] 
+			var displayName:String = get_text(inequalities_table[key]["Display Name"])
+			text_inequality_dict[str(index)] = [key, displayName, "0"] 
 			index += 1
 
 
@@ -93,6 +92,9 @@ func add_input_node_for_event_condition(table_name:String, key_ID:String, field_
 		var left_field_ref_table: String = get_reference_table(table_name, key_ID, field_ID)
 		new_input_node.selection_table_name = left_field_ref_table
 		new_input_node.populate_list()
+	if datatype == "1":
+		new_input_node.show_advanced_node(false)
+	
 
 
 
@@ -111,13 +113,14 @@ func _on_static_option_checkbox_pressed(button_pressed):
 
 func get_key_ID():
 	var return_val:String
-	return_val = key_display.get_input_value()["text"]
+	return_val = key_display.get_text()
 	return return_val
 
 
 func get_input_value():
 	var return_dict:Dictionary = {}
-	return_dict["Inequalities"] = inequality_dropdown.get_input_value()
+	return_dict["Inequalities"] = inequality_dropdown.get_display_name_from_key(inequality_dropdown.get_input_value())
+#	print(return_dict["Inequalities"])
 	return_dict["Datatype"] =  left_operator.selected_datatype
 	return_dict["Is Static"] = static_option.get_input_value()
 	return_dict["Optional Operations"] = operations_dropdown.get_input_value()

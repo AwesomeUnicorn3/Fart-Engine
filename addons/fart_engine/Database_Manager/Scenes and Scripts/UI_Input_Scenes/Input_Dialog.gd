@@ -10,6 +10,10 @@ extends InputEngine
 @onready var IconSelection_Icon := $IconSelection_HBox/IconSelection_Icon
 @onready var SceneSelection_Checkbox := $SceneSelection_HBox/SceneSelection_Checkbox
 @onready var Scene_Selection_ScenePath := $SceneSelection_HBox/Scene_Selection_ScenePath
+@onready var Event_Option_Input_Array:= $AdvancedControlsVBox/Input_Array
+@onready var advanced_controls_v_box = $AdvancedControlsVBox
+
+
 
 func _init() -> void:
 	type = "16"
@@ -22,7 +26,9 @@ func startup():
 	CharacterName_Checkbox.inputNode.toggled.connect(character_input_toggle)
 	IconSelection_Checkbox.inputNode.toggled.connect(icon_selection_toggled)
 	SceneSelection_Checkbox.inputNode.toggled.connect(scene_selection_toggled)
-
+	Dialog_Text.display_advanced_options(false)
+	Event_Option_Input_Array.startup()
+	advanced_controls_v_box.get_index_to_dialog_options()
 
 
 func character_name_changed():
@@ -59,6 +65,12 @@ func _get_input_value():
 	return_value["scene_selection_checkbox"] = SceneSelection_Checkbox._get_input_value()
 	return_value["scene_selection_scenepath"] = Scene_Selection_ScenePath.inputNode.get_text()
 	return_value["icon_selection_icon"] = IconSelection_Icon.inputNode.texture_normal.get_path()
+#
+#	if !input_data.has["event_options_buttons"]:
+#		input_data["event_options_buttons"] = Event_Option_Input_Array.input_data["event_options_buttons"]
+#	
+	return_value["event_options_buttons"] = advanced_controls_v_box.get_input_value()
+	var testing = advanced_controls_v_box.get_input_value()
 	return return_value
 
 
@@ -74,8 +86,8 @@ func _set_input_value(node_value):
 	CharacterName_Checkbox.inputNode.button_pressed = use_character_dropdown
 	CharacterName_Checkbox.inputNode.emit_signal("toggled",use_character_dropdown )
 	CharacterName_Dropdown.inputNode.set_text(input_data["character_name_dropdown"])
-	CharacterName_Text.inputNode.set_text(input_data["character_name_text"]["text"])
-	Dialog_Text.inputNode.set_text(input_data["dialog_text"]["text"])
+	CharacterName_Text.inputNode.set_text(DBENGINE.get_text(input_data["character_name_text"]))
+	Dialog_Text.inputNode.set_text(DBENGINE.get_text(input_data["dialog_text"]))
 	var use_animation :bool = input_data["icon_selection_checkbox"]
 	IconSelection_Checkbox.inputNode.button_pressed = use_animation
 	IconSelection_Checkbox.inputNode.emit_signal("toggled",use_animation)
@@ -86,3 +98,6 @@ func _set_input_value(node_value):
 	SceneSelection_Checkbox.inputNode.button_pressed = use_default_scene
 	SceneSelection_Checkbox.inputNode.emit_signal("toggled",use_default_scene )
 	Scene_Selection_ScenePath._set_input_value(input_data["scene_selection_scenepath"])
+
+#	Event_Option_Input_Array._set_input_value(input_data["event_options_buttons"])
+	advanced_controls_v_box.set_input_value(input_data["event_options_buttons"])

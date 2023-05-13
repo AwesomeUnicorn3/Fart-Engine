@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://d35vb05h7ybqc"]
+
+[ext_resource type="Texture2D" uid="uid://bip4y1ny7erbl" path="res://addons/fart_engine/Editor_Icons/Default_Editor_Button_Texture.png" id="1_5atj1"]
+[ext_resource type="Script" path="res://addons/fart_engine/Example Game/Event_Option_Button.gd" id="2_ckn4n"]
+
+[node name="Navigation Button" type="TextureButton"]
+custom_minimum_size = Vector2(150, 30)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+action_mode = 0
+texture_normal = ExtResource("1_5atj1")
+texture_pressed = ExtResource("1_5atj1")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_ckn4n")
+
+[node name="Label" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = " Button"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+uppercase = true
+
+[node name="DisplayLabel" type="Label" parent="."]
+visible = false
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Test Key"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+uppercase = true
+metadata/_edit_layout_mode = 1

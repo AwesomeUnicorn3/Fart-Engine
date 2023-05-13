@@ -9,6 +9,9 @@ signal btn_pressed(btn_name:String)
 @export var auto_connect_signals: bool = true
 @export var auto_set_minimum_size: bool = true
 @export var auto_set_color:bool = false
+@export var is_sticky:bool = false
+
+
 
 var root 
 var text: String = ""
@@ -23,8 +26,6 @@ var default_button_texture:Texture2D = preload("res://addons/fart_engine/Editor_
 var default_label_texture: Texture2D = preload("res://addons/fart_engine/Editor_Icons/Default_Editor_Label_Texture.png")
 var minimum_size: Vector2 = Vector2(150,30)
 
-
-
 var button_base_color: Color = Color(1,1,1,1)
 
 func _ready():
@@ -35,6 +36,7 @@ func _ready():
 	connect_signals()
 	if auto_set_color == true:
 		set_base_color(get_base_color())
+	set_toggle_mode(is_sticky)
 
 
 func get_main_tab(par :Node = self):
@@ -47,6 +49,7 @@ func get_main_tab(par :Node = self):
 			return null
 	return par
 
+
 func get_parent_table():
 	var par = get_parent()
 	var grps := par.get_groups()
@@ -58,6 +61,7 @@ func get_parent_table():
 			return null
 	return par
 
+
 func get_base_color()-> Color:
 	var DBENGINE: DatabaseEngine = DatabaseEngine.new()
 	var project_table: Dictionary = DBENGINE.import_data("Project Settings")
@@ -66,12 +70,11 @@ func get_base_color()-> Color:
 	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
 	var category_color = null
 	var group
-	var index: int = 0
+	
 	var groups = get_groups()
-
-#	print(groups)
+	var index: int = groups.size() - 1
 	while category_color == null:
-		if index > groups.size() - 1:
+		if index < 0:
 #			print(name, " DOES NOT HAVE A GROUP")
 			category_color = Color.WHITE
 		else:
@@ -80,7 +83,7 @@ func get_base_color()-> Color:
 				category_color = str_to_var(fart_editor_themes_table[theme_profile][group + " Button"])
 #				print(group)
 			else:
-				index += 1
+				index -= 1
 
 	return category_color
 
@@ -129,6 +132,7 @@ func get_visible_label() -> Label:
 
 func get_text()-> String:
 	return text
+
 
 func set_text(textString: String):
 	get_visible_label().set_text(textString)

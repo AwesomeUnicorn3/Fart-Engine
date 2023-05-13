@@ -88,6 +88,7 @@ func load_event_notes(event_tab):#updated
 	var input_value = event_dict[event_tab]["Notes"]
 #	print(input_value)
 	var notes_container = create_input_node("Notes", event_name, event_dict, event_data_dict)
+#	notes_container.show_advanced_options_node = false
 	event_trigger_display.add_child(notes_container)
 	notes_container.set_input_value(input_value)
 	input_node_dict["Notes"] = notes_container
@@ -145,7 +146,7 @@ func animation_group_selected(selected_index):
 	var sprite_group_dict :Dictionary = import_data("Sprite Groups")
 	var idle_anim_dict :Dictionary = {}
 	for sprite_name in sprite_group_dict:
-		if str_to_var(sprite_group_dict[sprite_name]["Display Name"])["text"] == group_name:
+		if get_text(sprite_group_dict[sprite_name]["Display Name"]) == group_name:
 			var current_group_dict :Dictionary = sprite_group_dict[sprite_name]
 			idle_anim_dict = str_to_var(current_group_dict["Idle"])
 	default_anim_node.set_input_value(idle_anim_dict)
@@ -282,31 +283,9 @@ func on_page_button_pressed(event_page_number :String):
 	for node_name in input_node_dict:
 		input_node_dict[node_name].is_label_button = false
 
-	
-#	if get_tree() != null:
 	if self.is_inside_tree():
 		await get_tree().create_timer(0.1).timeout
 		set_v_scroll(v_scroll)
-#	$VBoxContainer/VBoxContainer/Scroll1.set_v_scroll(v_scroll)
-
-#func get_table_data_key(table_name := "", return_display_name := false):
-#	var key_name :String
-#	var display_name :String
-#	var table_list :Dictionary = import_data("Table Data")
-#	for tableName in table_list:
-#		if tableName == table_name:
-#			key_name = tableName
-#			display_name = str_to_var(table_list[tableName]["Display Name"])["text"]
-#			break
-#		elif convert_string_to_type(table_list[tableName]["Display Name"])["text"] == table_name:
-#			key_name = tableName
-#			display_name = table_list[tableName]["Display Name"]
-#			break
-#
-#	if return_display_name:
-#		return display_name
-#	else:
-#		return key_name
 
 
 func set_table_data_display_name(event_key :String , displayName :String):
@@ -321,7 +300,6 @@ func set_table_data_display_name(event_key :String , displayName :String):
 			break
 	
 	save_file(table_save_path + "Table Data" + table_file_format, table_list)
-#	print("set table data event Name: ", event_name)
 	event_node.event_name = event_name
 	update_editor()
 
@@ -330,7 +308,7 @@ func set_table_data_display_name_from_dbmanager(event_key :String , displayName 
 	var tableData_dict :Dictionary = import_data("Table Data")
 	for tableName in tableData_dict:
 		var tableName_dict :Dictionary = str_to_var(tableData_dict[tableName]["Display Name"])
-		var tblDisplayName :String = tableName_dict["text"]
+		var tblDisplayName :String = get_text(tableName_dict)
 		if tableName == event_key:
 			tableData_dict[tableName]["Display Name"] = var_to_str({"text" : displayName})
 	save_file(table_save_path + "Table Data" + table_file_format, tableData_dict)

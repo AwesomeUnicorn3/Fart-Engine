@@ -31,7 +31,8 @@ func _on_table_drop_down_input_selection_changed():
 func _on_field_drop_down_input_selection_changed():
 	if is_left:
 		var filter:Dictionary = get_filtered_table()
-		get_parent().filtered_right_table = filter
+		if "filtered_right_table" in get_parent():
+			get_parent().filtered_right_table = filter
 
 
 func get_filtered_table():
@@ -50,37 +51,46 @@ func get_filtered_table():
 					filterd_table[table].merge(new_dict)
 				else:
 					filterd_table[table] = {field_name: selected_datatype}
+
 	return filterd_table
 
 
-func update_left_key_and_field():
+func update_left_key_and_field(include_display_name:bool = false):
 	var selected_table_key: String = table_drop_down.selectedItemKey
 	var selected_table_dict: Dictionary = DBENGINE.import_data(selected_table_key)
 	var selected_table_data_dict: Dictionary = DBENGINE.import_data(selected_table_key, true)
 
 	key_drop_down.selection_table_name = table_drop_down._get_input_value()
+
 	var sorted_key_list: Dictionary = key_drop_down.populate_list()
 	
 	var field_list: Dictionary = {}
 	for key in selected_table_dict[selected_table_dict.keys()[0]]:
 		field_list[key] = {"Datatype": DBENGINE.get_datatype(key, selected_table_data_dict)}
+		if key == "Display Name":
+			if !include_display_name:
+				field_list.erase(key)
+			
+#		print("KEY: ", key)
 	field_drop_down.selection_table = field_list
 	field_drop_down.populate_list(false, true)
 
 
 
 func filter_by_datatype():
-	var table_dict:Dictionary = {}
+#	var table_dict:Dictionary = {}
 	var filtered_table: Dictionary = get_parent().filtered_right_table
 	table_drop_down.selection_table = filtered_table
 	var sorted_table :Dictionary = DBENGINE.list_custom_dict_keys_in_display_order(filtered_table, "Table Data")
 	table_drop_down.populate_list_with_sorted_table(sorted_table)
 	await get_tree().create_timer(.25).timeout
 	#table_drop_down.select_index(0)
+
 	update_right_side()
 
 
-func update_right_side():
+
+func update_right_side(include_display_name:bool = false):
 	var filtered_table: Dictionary = get_parent().filtered_right_table
 	var selected_table_key: String = table_drop_down.selectedItemKey
 	var selected_table_dict: Dictionary = DBENGINE.import_data(selected_table_key)
@@ -92,7 +102,10 @@ func update_right_side():
 	for field in selected_table_dict[selected_table_dict.keys()[0]]:
 		if filtered_table[selected_table_key].has(field):
 			field_list[field] = {"Datatype": DBENGINE.get_datatype(field, selected_table_data_dict)}
-	
+		if field == "Display Name":
+			if !include_display_name:
+				field_list.erase(field)
+
 	field_drop_down.selection_table = field_list
 	field_drop_down.populate_list(false, true)
 

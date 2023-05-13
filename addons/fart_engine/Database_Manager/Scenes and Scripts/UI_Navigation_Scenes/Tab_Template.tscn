@@ -103,41 +103,22 @@ size_flags_vertical = 3
 label_text = "Table Name"
 is_label_button = false
 
-[node name="Label" parent="VBox1/TableName" index="0"]
-custom_minimum_size = Vector2(0, 35)
-
-[node name="HBox1" parent="VBox1/TableName/Label" index="0"]
-custom_minimum_size = Vector2(0, 30)
-
-[node name="Label_Button" parent="VBox1/TableName/Label/HBox1" index="0"]
-auto_set_minimum_size = true
-
-[node name="Hide_Button" parent="VBox1/TableName/Label/HBox1" index="1"]
-custom_minimum_size = Vector2(150, 30)
-auto_set_minimum_size = true
-
-[node name="Input" parent="VBox1/TableName" index="1"]
+[node name="Input" parent="VBox1/TableName/Input_Node" index="1"]
 visible = false
-custom_minimum_size = Vector2(0, 25)
+
+[node name="AdvancedControlsVBox" parent="VBox1/TableName/Input_Node" index="2"]
+visible = false
 
 [node name="Key" parent="VBox1" instance=ExtResource("1")]
 layout_mode = 2
 label_text = "Key"
 is_label_button = false
 
-[node name="HBox1" parent="VBox1/Key/Label" index="0"]
-custom_minimum_size = Vector2(0, 20)
-
-[node name="Label_Button" parent="VBox1/Key/Label/HBox1" index="0"]
-auto_set_minimum_size = true
-
-[node name="Hide_Button" parent="VBox1/Key/Label/HBox1" index="1"]
-custom_minimum_size = Vector2(150, 30)
-auto_set_minimum_size = true
-
-[node name="Input" parent="VBox1/Key" index="1"]
-custom_minimum_size = Vector2(0, 35)
+[node name="Input" parent="VBox1/Key/Input_Node" index="1"]
 editable = false
+
+[node name="AdvancedControlsVBox" parent="VBox1/Key/Input_Node" index="2"]
+visible = false
 
 [node name="HBox2" type="HBoxContainer" parent="VBox1"]
 custom_minimum_size = Vector2(0, 50)
@@ -247,10 +228,14 @@ layout_mode = 1
 [connection signal="button_up" from="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_DeleteField_Cancel_button_up"]
 
 [editable path="VBox1/TableName"]
-[editable path="VBox1/TableName/Label"]
+[editable path="VBox1/TableName/Input_Node/Label"]
+[editable path="VBox1/TableName/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="VBox1/TableName/Display_Node/Label"]
 [editable path="VBox1/TableName/input_templateBuffer"]
 [editable path="VBox1/Key"]
-[editable path="VBox1/Key/Label"]
+[editable path="VBox1/Key/Input_Node/Label"]
+[editable path="VBox1/Key/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="VBox1/Key/Display_Node/Label"]
 [editable path="VBox1/Key/input_templateBuffer"]
 [editable path="Popups"]
 [editable path="Popups/Popup_Delete_Confirm"]

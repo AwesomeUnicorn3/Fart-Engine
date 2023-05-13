@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Condition_line_item.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="2_q1clg"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Event_Manager/TableKeyField_Dropdown_Template.tscn" id="3_wrdmd"]
+[ext_resource type="PackedScene" uid="uid://3ptlys0saqnv" path="res://addons/fart_engine/Event_Manager/TableKeyField_Dropdown_Template.tscn" id="3_wrdmd"]
 [ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_f1jwx"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="7"]
@@ -38,81 +38,11 @@ size_flags_horizontal = 0
 label_text = "Key"
 is_label_button = false
 
-[node name="Label" parent="Key_Display" index="0"]
-custom_minimum_size = Vector2(0, 10)
-
-[node name="Label_Button" parent="Key_Display/Label/HBox1" index="0"]
-custom_minimum_size = Vector2(50, 30)
-
-[node name="Input" parent="Key_Display" index="1"]
-custom_minimum_size = Vector2(0, 10)
-placeholder_text = "1"
-
 [node name="LeftOperator" parent="." instance=ExtResource("3_wrdmd")]
 layout_mode = 2
 
 [node name="Label_Button" parent="LeftOperator/TopLabel/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 button_text = "IF"
-
-[node name="Hide_Button" parent="LeftOperator/TopLabel/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
-[node name="Input" parent="LeftOperator/TableKeyField_Combo/Table_DropDown" index="1"]
-item_count = 8
-popup/item_0/text = "Game Data"
-popup/item_1/text = "Items"
-popup/item_2/text = "GlobalOptions"
-popup/item_3/text = "Global Settings"
-popup/item_4/text = "Character Classes"
-popup/item_5/text = "Global Variables"
-popup/item_6/text = "Testing Table"
-popup/item_7/text = "Local Variables"
-
-[node name="Key_DropDown" parent="LeftOperator/TableKeyField_Combo" index="1"]
-selection_table_name = "Global Data"
-
-[node name="Input" parent="LeftOperator/TableKeyField_Combo/Key_DropDown" index="1"]
-item_count = 1
-popup/item_0/text = "Profile 1"
-
-[node name="Input" parent="LeftOperator/TableKeyField_Combo/Field_DropDown" index="1"]
-item_count = 24
-popup/item_0/text = "Active Character"
-popup/item_1/text = "Current Map"
-popup/item_2/text = "Default Controls"
-popup/item_3/text = "Default Dialog Box"
-popup/item_4/text = "Default GUI"
-popup/item_5/text = "Default In-Game Menu"
-popup/item_6/text = "Default Menu Controls"
-popup/item_7/text = "Default Player Scene"
-popup/item_8/text = "Display Name"
-popup/item_9/text = "Game State"
-popup/item_10/text = "Game Title"
-popup/item_11/text = "Gravity Force"
-popup/item_12/text = "Is Game Active"
-popup/item_13/text = "Is Gravity Active"
-popup/item_13/id = 13
-popup/item_14/text = "Loading Screen"
-popup/item_14/id = 14
-popup/item_15/text = "NewGame"
-popup/item_15/id = 15
-popup/item_16/text = "Player POS"
-popup/item_16/id = 16
-popup/item_17/text = "Player Starting Position"
-popup/item_17/id = 17
-popup/item_18/text = "Project Root Scene"
-popup/item_18/id = 18
-popup/item_19/text = "Save ID"
-popup/item_19/id = 19
-popup/item_20/text = "Starting Character"
-popup/item_20/id = 20
-popup/item_21/text = "Starting Map"
-popup/item_21/id = 21
-popup/item_22/text = "Time"
-popup/item_22/id = 22
-popup/item_23/text = "Title Screen"
-popup/item_23/id = 23
 
 [node name="Inequality_Dropdown" parent="." instance=ExtResource("6")]
 layout_mode = 2
@@ -136,38 +66,27 @@ layout_mode = 2
 is_left = false
 
 [node name="Label_Button" parent="RightOperator/TopLabel/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 button_text = "Value"
-
-[node name="Hide_Button" parent="RightOperator/TopLabel/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="Input" parent="RightOperator/TableKeyField_Combo/Table_DropDown" index="1"]
 item_count = 2
 popup/item_0/text = "Global Data"
-popup/item_1/text = "Items"
-
-[node name="Key_DropDown" parent="RightOperator/TableKeyField_Combo" index="1"]
-selection_table_name = "Global Data"
-
-[node name="Input" parent="RightOperator/TableKeyField_Combo/Key_DropDown" index="1"]
-item_count = 1
-popup/item_0/text = "Profile 1"
 
 [node name="Input" parent="RightOperator/TableKeyField_Combo/Field_DropDown" index="1"]
-popup/item_0/text = "Active Character"
+item_count = 14
 popup/item_1/text = "Default Controls"
 popup/item_2/text = "Default Dialog Box"
 popup/item_3/text = "Default GUI"
 popup/item_4/text = "Default In-Game Menu"
-popup/item_5/text = "Default Menu Controls"
-popup/item_6/text = "Default Player Scene"
-popup/item_7/text = "Game State"
-popup/item_8/text = "Loading Screen"
-popup/item_9/text = "Project Root Scene"
-popup/item_10/text = "Starting Character"
-popup/item_11/text = "Starting Map"
-popup/item_12/text = "Title Screen"
+popup/item_5/text = "Default Load Game Menu"
+popup/item_6/text = "Default Menu Controls"
+popup/item_7/text = "Default Player Scene"
+popup/item_8/text = "Game State"
+popup/item_9/text = "Loading Screen"
+popup/item_10/text = "Project Root Scene"
+popup/item_11/text = "Starting Character"
+popup/item_12/text = "Starting Map"
+popup/item_13/text = "Title Screen"
 
 [node name="StaticValue1" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(150, 50)
@@ -200,7 +119,9 @@ is_label_button = false
 [connection signal="checkbox_pressed" from="Static_Option" to="." method="_on_static_option_checkbox_pressed"]
 
 [editable path="Key_Display"]
-[editable path="Key_Display/Label"]
+[editable path="Key_Display/Input_Node/Label"]
+[editable path="Key_Display/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="Key_Display/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
 [editable path="Key_Display/input_templateBuffer"]
 [editable path="LeftOperator"]
 [editable path="LeftOperator/TopLabel"]

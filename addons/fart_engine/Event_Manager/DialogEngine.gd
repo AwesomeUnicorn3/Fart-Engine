@@ -4,6 +4,7 @@ class_name DialogEngine
 signal start_dialog
 signal dialog_ended
 signal next_message_pressed
+signal option_button_pressed
 
 #@onready var UI :Control = FARTENGINE.get_ui()
 var dialog_scene
@@ -19,10 +20,12 @@ var icon_selection_icon :Texture2D
 var icon_selection_sprite :Dictionary
 var scene_selection_checkbox :bool
 var scene_selection_scenepath :String
+var use_option_buttons:bool
+var event_option_buttons_dict:Dictionary
 
 var waiting_for_user_input :bool = false
 var dialog_window :Control 
-
+var event_node_name:String
 
 
 func _ready():
@@ -57,14 +60,18 @@ func load_dialog_scene():
 
 func get_variables():
 	character_name_checkbox = current_dialog_dictionary["character_name_checkbox"]
-	character_name_text = current_dialog_dictionary["character_name_text"]["text"]
+	character_name_text = FARTENGINE.get_text(current_dialog_dictionary["character_name_text"])
 	character_name_dropdown = current_dialog_dictionary["character_name_dropdown"]
-	dialog_text = current_dialog_dictionary["dialog_text"]["text"]
+	dialog_text = FARTENGINE.get_text(current_dialog_dictionary["dialog_text"])
 	icon_selection_checkbox = current_dialog_dictionary["icon_selection_checkbox"]
 	icon_selection_icon = load(current_dialog_dictionary["icon_selection_icon"])
 	icon_selection_sprite = current_dialog_dictionary["icon_selection_sprite"]
 	scene_selection_checkbox = current_dialog_dictionary["scene_selection_checkbox"]
 	scene_selection_scenepath = current_dialog_dictionary["scene_selection_scenepath"]
+	
+	var event_options_dict: Dictionary = current_dialog_dictionary	["event_options_buttons"]
+	use_option_buttons = event_options_dict["show_event_options_buttons"]
+	event_option_buttons_dict = event_options_dict["event_buttons"]["input_dict"]
 
 
 func set_variables():
@@ -73,11 +80,13 @@ func set_variables():
 	set_icon()
 
 
-func dialog_begin(dialog_dict):
+func dialog_begin(dialog_dict, event_ID:String):
 	#UI = FARTENGINE.get_gui()
+	event_node_name = event_ID
 	set_selected_group_dict_data(dialog_dict)
 	await iterate_through_dialog()
 	waiting_for_user_input = false
+	
 	dialog_end()
 
 
@@ -93,8 +102,38 @@ func iterate_through_dialog():
 		dialog_scene.name = "dialog " + dialog_index
 		set_variables()
 		waiting_for_user_input = true
+
+
+		if use_option_buttons:
+			display_options_buttons()
+
+			await option_button_pressed
+
 		await next_message_pressed
 		dialog_scene.queue_free()
+
+
+func display_options_buttons():
+
+	for btn_key in event_option_buttons_dict:
+		var btn_text: String = FARTENGINE.get_text(event_option_buttons_dict[btn_key]["Button_Text"])
+		var dialog_var: String = event_option_buttons_dict[btn_key]["Dialog_Option"]
+		
+		var newbtn: TextureButton = preload("res://addons/fart_engine/Example Game/Event_Option_Button.tscn").instantiate()
+		dialog_scene.get_node("VBoxContainer/TopVBox/VBoxContainer/OptionScroll/OptionButtonParent").add_child(newbtn)
+		newbtn.set_input_values(btn_text, dialog_var, "")
+		newbtn.button_up.connect(_on_option_button_pressed.bind(newbtn))
+#
+#		print(FARTENGINE.get_text(event_option_buttons_dict[btn_key]["Button_Text"]))
+
+
+func _on_option_button_pressed(optbtn: TextureButton):
+	print(optbtn.options_variable)
+	
+	FARTENGINE.EVENTS.change_event_options_variable(optbtn.options_variable, "", event_node_name, null)
+	emit_signal("option_button_pressed")
+	emit_signal("next_message_pressed")
+
 
 
 func set_selected_group_dict_data(dialog_dict):
@@ -117,8 +156,10 @@ func set_selected_group_dict_data(dialog_dict):
 
 
 func set_dialog_text():
-	var text_node = dialog_scene.find_child("DialogText")
-	text_node.set_text(dialog_text)
+	var text_node = dialog_scene.find_child("DialogText")#CAN I SET THIS IN THE 
+	#EDITOR?
+	text_node.set_values(dialog_text)#(dialog_text)
+
 
 func set_speaker_name():
 	var speaker_node = dialog_scene.find_child("SpeakerNode")

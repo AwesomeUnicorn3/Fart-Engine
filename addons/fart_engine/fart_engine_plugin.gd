@@ -21,10 +21,8 @@ func _enter_tree():
 # Hide the main panel. Very much required.
 	print("Main Panel added")
 	_make_visible(false)
-	var icon =preload("res://addons/fart_engine/Editor_Icons/FartEngineIcon.png") #get_editor_interface().get_base_control().get_theme_icon("CharacterBody2D", "EditorIcons")
-	add_custom_type("Fart Event", "CharacterBody2D", preload("res://addons/fart_engine/Example Game/Event.gd"), icon)
-#	icon = get_editor_interface().get_base_control().get_theme_icon("Button", "EditorIcons")
-	add_custom_type("Fart UI Button", "TextureButton", preload("res://addons/fart_engine/UI_Manager/au3_ui_button.gd"), icon)
+	add_custom_types()
+	
 	add_control_to_container(CONTAINER_CANVAS_EDITOR_MENU, toolbar)
 	
 	connect_singals()
@@ -38,9 +36,15 @@ func _exit_tree():
 	if toolbar:
 		toolbar.queue_free()
 
+func add_custom_types():
+	var icon =preload("res://addons/fart_engine/Editor_Icons/FartEngineIcon.png") #get_editor_interface().get_base_control().get_theme_icon("CharacterBody2D", "EditorIcons")
+	add_custom_type("Fart Event", "CharacterBody2D", preload("res://addons/fart_engine/Example Game/Event.gd"), icon)
+	add_custom_type("Fart UI Button", "TextureButton", preload("res://addons/fart_engine/UI_Manager/au3_ui_button.gd"), icon)
+	add_custom_type("Fart Data Display", "Control", preload("res://addons/fart_engine/Fart_Custom_Nodes/Fart_Data_Display.gd"), icon)
 
 func _has_main_screen():
 	return true
+
 
 
 func _get_plugin_name():

@@ -16,7 +16,7 @@ signal table_refresh_complete
 @onready var container_list1 = $VBox1/HBox3/Scroll2/Field_List_Vbox
 @onready var container_list2 = $VBox1/HBox3/Scroll3/Field_List_Vbox
 @onready var key_node = $VBox1/Key
-@onready var item_name_input = $VBox1/Key/Input
+@onready var item_name_input = $VBox1/Key/Input_Node/Input
 @onready var label_changeNotification = $VBox1/HBox1/CenterContainer/Label
 
 @onready var popup_main = $Popups
@@ -57,8 +57,8 @@ func _ready():
 func custom_table_settings():
 	var curr_table_settings_dict: Dictionary = import_data("Table Data")[tableName]
 	#Disable editing the key for ALL tables
-	$VBox1/Key/Input.editable = false
-	$VBox1/Key.is_label_button = false
+	item_name_input.editable = false
+	key_node.is_label_button = false
 	for key in curr_table_settings_dict:
 		var KeyValue = convert_string_to_type(curr_table_settings_dict[key])
 		match key:
@@ -78,7 +78,7 @@ func custom_table_settings():
 				allow_duplicate_display_name = KeyValue
 
 	if is_table_dropdown_list(current_table_name):
-		$VBox1/Key/Input.editable = false
+		item_name_input.editable = false
 
 
 func does_key_display_name_exist(keyName:String)-> bool:
@@ -91,12 +91,12 @@ func does_key_display_name_exist(keyName:String)-> bool:
 
 
 func get_display_name_from_key(key:String)-> String:
-	return str_to_var(str(current_dict[key]["Display Name"]))["text"]
+	return get_text(current_dict[key]["Display Name"])
 
 
 func set_ref_table():
 	var tbl_ref_dict = import_data("Table Data")
-	table_ref = convert_string_to_type(str(tbl_ref_dict[tableName]["Display Name"]))["text"]
+	table_ref = get_text(tbl_ref_dict[tableName]["Display Name"])
 	current_table_ref = table_ref
 	return table_ref
 
@@ -159,7 +159,7 @@ func get_values_dict(req = false):
 			if str_to_var(value_name) == null:
 				item_value = current_dict[Item_Name][value_name]
 			else:
-				var value_name_text :String  = str_to_var(value_name)["text"]
+				var value_name_text :String  = get_text(value_name)
 				item_value = current_dict[Item_Name][value_name_text]
 		custom_dict[value_name] = {"Value" : item_value, "DataType" : itemType, "TableRef" : tableRef, "Order" : i}
 	return custom_dict
@@ -214,6 +214,9 @@ func refresh_data(item_name : String = Item_Name):
 	var index_half = (field_dict1.size() + 1)/2
 	for i in field_dict1:
 		var new_input = await add_input_node(index,index_half, i, field_dict1, container_list1, container_list2)
+		
+		if new_input.get("show_advanced_options_node") != null: new_input.show_advanced_options_node = true
+		
 		custom_table_settings()
 		index += 1
 	if item_name != "Default":
@@ -231,44 +234,29 @@ func create_table_buttons():
 	for i in sorted_current_dict.size():
 		var item_number = str(i + 1) #row_dict key
 		var displayName :String = ""
-		var label :String = currentData_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
+		var label :String = currentData_dict["Row"][item_number]["FieldName"]
 		var key_dict :Dictionary = current_dict[label]
 		if key_dict.has("Display Name"):
-			if typeof(current_dict[label]["Display Name"]) == TYPE_STRING:
-				displayName = str_to_var(current_dict[label]["Display Name"])["text"]
-			else:
-				displayName = current_dict[label]["Display Name"]["text"]
+			displayName = get_text(current_dict[label]["Display Name"])
 		var do_not_edit_array :Array = ["Table Data"]
 		if !do_not_edit_array.has(currentData_dict["Row"][item_number]["FieldName"]):
-			var newbtn :TextureButton = btn_itemselect.instantiate() #Create new instance of item button
-			newbtn.set_name(label) #Set the name of the new button as the item name
+			var newbtn :TextureButton = btn_itemselect.instantiate() 
+			newbtn.set_name(label)
 			newbtn.add_to_group("Key")
 			set_buttom_theme(newbtn, "Key")
-			
-#			print("Label: ", useDisplayName)
-			#label_text: String = "", keyName: String = "", displayName :String = "", displayNameVisible :bool = true
-			
-			table_list.add_child(newbtn) #Add new item button to table_list
+
+			table_list.add_child(newbtn)
 			newbtn.set_label_text(label, displayName, useDisplayName)
 			newbtn.main_page = self
 
 
 func set_buttom_theme(button_node: TextureButton, group: String):
-#	print("BUTTON THEME: ", group)
-	#SET COLOR BASED ON GROUP
-	#get project table
 	var project_table: Dictionary = import_data("Project Settings")
 	var fart_editor_themes_table: Dictionary = import_data("Fart Editor Themes")
-	
 	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
 	var category_color: Color = str_to_var(fart_editor_themes_table[theme_profile][group + " Button"])
-#	var group_name: String = group
-#	for buttonName in button_dict:
-#		var button_node = button_dict[buttonName]
-#		button_node.root = self
 	if button_node.is_in_group(group):
 		button_node.set_base_color(category_color)
-
 
 
 func _on_Save_button_up(update_Values : bool = true):
@@ -468,25 +456,15 @@ func _on_add_new_table_button_button_up():
 	$Popups/popup_newTable.set_input()
 	popup_main.visible = true
 
+
 func _on_new_table_Accept_button_up():
 	var newTableName: String = await add_table()
 	Item_Name = newTableName
-	
 	reload_buttons()
 	refresh_data()
-	#_on_Save_button_up()
 	await get_tree().create_timer(0.5)
 	_on_Save_button_up()
-
-	#get_main_node()._ready()
 	await get_tree().create_timer(1.5)
-	#_on_Save_button_up()
-	
-#	var btn_node = table_list.get_node(newTableName)
-#	print("Btn Node Name: ", btn_node.name)
-#	btn_node._on_TextureButton_button_up()
-	
-	
 	_on_newtable_Cancel_button_up()
 
 
@@ -498,7 +476,7 @@ func _on_newtable_Cancel_button_up():
 func add_table():
 	var newTableInput := $Popups/popup_newTable
 	var new_table_dict :Dictionary = newTableInput.get_input()
-	var newTableName = new_table_dict["Display Name"]["text"]
+	var newTableName = get_text(new_table_dict["Display Name"])
 	if newTableName == "":
 		print("ERROR: Table Name Cannot be Blank")
 	elif does_table_name_exist(newTableName):

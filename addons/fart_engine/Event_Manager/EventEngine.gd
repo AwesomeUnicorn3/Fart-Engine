@@ -10,11 +10,14 @@ var AUDIO : AudioEngine = AudioEngine.new()
 func change_local_variable(which_var:String, to_what:bool, _event_name :String, event_node_name :String, _event_node):
 	var local_variable_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Local Variables"])
 	local_variable_dict[which_var] = to_what
-#	for Variable in local_variable_dict:
-#		if local_variable_dict[Variable]["Value 1"] == which_var:
-#			local_variable_dict[Variable]["Value 2"] = to_what
 	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Local Variables"] = local_variable_dict
 
+
+func change_event_options_variable(which_var:String, _event_name :String, event_node_name :String, _event_node):
+	var event_options_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+	event_options_dict[which_var] = true
+	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
+	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
 
 
 func change_global_variable(which_var, which_field:String,  to_what, _event_name :String, _event_node_name :String, _event_node):
@@ -64,11 +67,7 @@ func modify_player_inventory(what , how_many , increase_value :bool, _event_name
 	var modify_amount :int = int(abs(how_many))
 	if !increase_value:
 		modify_amount = int(-abs(modify_amount))
-#	for key in dict_static_items:
-#		if dict_static_items[key].has("Display Name"):
-#			if str_to_var(dict_static_items[key]["Display Name"])["text"] == what:
-#				what = key
-#				break
+
 	if dict_static_items.has(what):
 		if !FARTENGINE.is_item_in_inventory(what):
 			FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] = {"ItemCount" : 0}
@@ -84,7 +83,7 @@ func modify_player_inventory(what , how_many , increase_value :bool, _event_name
 func start_dialog(dialog_data :Dictionary, _event_name :String, _event_node_name:String, _event_node):
 	var previousGameState : String = FARTENGINE.gameState
 	FARTENGINE.set_game_state("4")
-	DIALOG.dialog_begin(dialog_data)
+	DIALOG.dialog_begin(dialog_data,_event_node_name)
 	await DIALOG.dialog_ended
 	FARTENGINE.set_game_state(previousGameState)
 
@@ -97,7 +96,7 @@ func sfx(audio_data :Dictionary, _event_name :String, _event_node_name:String, _
 func change_game_state(to_what:String, _event_name :String, _event_node_name:String, _event_node):
 	var gameState_dict :Dictionary = FARTENGINE.Static_Game_Dict["Game State"]
 	for key in gameState_dict:
-		if str_to_var(gameState_dict[key]["Display Name"])["text"] == to_what:
+		if FARTENGINE.get_text(gameState_dict[key]["Display Name"]) == to_what:
 			to_what = key
 			break
 	FARTENGINE.set_game_state(to_what)

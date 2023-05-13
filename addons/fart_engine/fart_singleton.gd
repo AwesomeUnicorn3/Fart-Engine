@@ -83,47 +83,8 @@ func create_dictionary_of_all_tables():
 			array = eventName.rsplit(".")
 			var tblname = array[0]
 			var dictname :String
-
-#			if str_to_var(table_list_dict[tblname]["Display Name"]) != null:
-#				dictname = str_to_var(table_list_dict[tblname]["Display Name"])["text"]
-#			else:
-#				dictname = table_list_dict[tblname]["Display Name"]
 			dict[tblname] = import_data(tblname)
 	return dict
-
-
-#func get_event_dict(event_name:String):
-##	var table_list_dict = import_data("Table Data")
-#
-#	var event_list = list_files_with_param(event_folder, table_file_format)
-#	var all_events_dict := {}
-#	var this_event_dict:= {}
-#	for eventName in event_list:
-##		if tableName == "Options Player Data.json":
-##			var save_path_global = "user://OptionsData.json"
-##			var save_dir = list_files_with_param(save_game_path, table_file_format)
-##			if save_dir.has("OptionsData.json"):
-##				Global_Options_Dict = import_data(save_path_global)
-##			else:
-##				Global_Options_Dict = import_data("Options")
-##				save_global_options_data()
-##		else:
-#		var array = []
-##		var eventName = eventName
-#		array = eventName.rsplit("_")
-#		var tblname = array[0]
-#		var dictname :String
-#		print(array)
-##
-##			if str_to_var(table_list_dict[tblname]["Display Name"]) != null:
-##				dictname = str_to_var(table_list_dict[tblname]["Display Name"])["text"]
-##			else:
-##				dictname = table_list_dict[tblname]["Display Name"]
-#		all_events_dict[eventName] = import_event_data(eventName)
-#
-#	this_event_dict = all_events_dict[event_name]
-#	return this_event_dict
-
 
 
 func _process(delta):
@@ -150,26 +111,7 @@ func input_process():
 			else:
 				CurrentInputAction_dict[actionKey]["action_strength"] = 0.0
 				CurrentInputAction_dict[actionKey]["is_pressed"] = false
-#func input_process():
-#	for actionKey in FARTENGINE.Static_Game_Dict["Input Actions"]:
-#		var actionType :String = str(FARTENGINEStatic_Game_Dict["Input Actions"][actionKey]["Action Type"])
-#		var actionName :String = FARTENGINE.get_displayName_text(str_to_var(FARTENGINEStatic_Game_Dict["Input Actions"][actionKey]["Display Name"]))
-#
-#		if actionType == "1":
-#			if !CurrentInputAction_dict.has(actionKey):
-#				CurrentInputAction_dict[actionKey] = actionState_dict.duplicate(true)
-#				CurrentInputAction_dict[actionKey]["action_name"] = actionName
-#
-#			if Input.is_action_pressed(actionName):
-#				CurrentInputAction_dict[actionKey]["is_pressed"] = true
-#				CurrentInputAction_dict[actionKey]["action_strength"] = Input.get_action_strength(actionName)
-#				if Input.is_action_just_pressed(actionName):
-#					pass
-#					#(actionName, "Just Pressed")
-#					#MAYBE EMIT A SIGNAL?
-#			else:
-#				CurrentInputAction_dict[actionKey]["action_strength"] = 0.0
-#				CurrentInputAction_dict[actionKey]["is_pressed"] = false
+
 
 
 func _input(event):
@@ -188,11 +130,7 @@ func _input(event):
 
 func show_in_game_main_menu(show :bool = true):
 	root.get_node("UI/InGameMainMenu").visible = show
-#	if show:
-#		set_game_state("6")
-##		await in_game_menu_closed
-#	else:
-#		set_game_state("2")
+
 
 
 func quit_game():
@@ -256,7 +194,7 @@ func get_map_name(map_path : String):
 	var map_name : String =""
 	for map_id in map_dict:
 		if map_dict[map_id]["Path"] == map_path:
-			map_name = str_to_var(map_dict[map_id]["Display Name"])["text"]
+			map_name = get_text(map_dict[map_id]["Display Name"])
 			break
 	return map_name
 
@@ -401,7 +339,7 @@ func new_game():
 			array = name.rsplit(".")
 			var tblname = array[0]
 			var deleteme = tbl_data[tblname]
-			var dictname = tblname #str_to_var(deleteme["Display Name"])["text"]
+			var dictname = tblname
 			var include_in_save_file = convert_string_to_type(deleteme["Include in Save File"])
 			if include_in_save_file == true:
 				dict[dictname] = import_data(tblname)
@@ -418,7 +356,7 @@ func new_game():
 
 func get_game_title():
 	var initial_save_data : Dictionary = await import_data("Global Data")
-	var game_title = str_to_var(initial_save_data[await get_global_settings_profile()]["Game Title"])["text"]
+	var game_title = get_text(initial_save_data[await get_global_settings_profile()]["Game Title"])
 	return game_title
 
 func get_starting_map_path():
@@ -428,7 +366,7 @@ func get_starting_map_path():
 
 
 func get_current_map_path() -> String:
-	var current_map_path : String = Dynamic_Game_Dict['Global Data'][await get_global_settings_profile()]['Current Map']["text"]
+	var current_map_path : String = get_text(Dynamic_Game_Dict['Global Data'][await get_global_settings_profile()]['Current Map'])
 	return current_map_path
 
 func sort_ascending(a, b):
@@ -454,7 +392,7 @@ func edit_dict(dict, itm_nm, amt):
 
 func get_lead_character_id(): #Character the player is actively controlling
 	var lead_char_id :String = str(Static_Game_Dict['Character Formation']["1"]["ID"])
-	var lead_char_name :String = str(str_to_var(Static_Game_Dict["Characters"][lead_char_id]["Display Name"])["text"])
+	var lead_char_name :String = get_text(Static_Game_Dict["Characters"][lead_char_id]["Display Name"])
 	return lead_char_id
 
 #######BEGIN CONTROL FUNCTIONS###############################33
@@ -468,42 +406,8 @@ func get_lead_character_id(): #Character the player is actively controlling
 #				InputMap.action_erase_event(action_name, action_event)
 
 func get_displayName_text(displayName_dict :Dictionary) -> String: 
-	var displayName :String = displayName_dict["text"]
+	var displayName :String = get_text(displayName_dict)
 	return displayName
-
-
-#func update_key_bindings():
-#	var control_dict :Dictionary = Static_Game_Dict["Controls"]
-#	var global_data_dict :Dictionary = Static_Game_Dict["Global Data"]
-#	var control_template :String= str(global_data_dict[await get_global_settings_profile()]["Default Controls"])
-#	var menu_template :String = str(global_data_dict[await get_global_settings_profile()]["Default Menu Controls"])
-#	for action in InputMap.get_actions():
-#		inputMapActions.append(action)
-#
-#	clear_key_bindings()
-#	add_input_actions(str_to_var(control_dict[control_template]["Input List"]))
-#	add_input_actions(str_to_var(control_dict[menu_template]["Input List"]))
-
-
-#func add_input_actions(selectedControl_dict :Dictionary):
-#	var inputDict :Dictionary = selectedControl_dict["input_dict"]
-#	var actions_dict:Dictionary = import_data("Input Actions")
-#	for keyOption in inputDict:
-#		var actionName :String = inputDict[keyOption]["options_dict"]["action"]
-#		actionName = convert_string_to_type(actions_dict[actionName]["Display Name"])["text"]
-#		var keysDict :Dictionary = inputDict[keyOption]["input_dict"]
-#		for key in keysDict:
-#			var controlOption_dict :Dictionary = keysDict[key]
-#			var deviceClass : String = controlOption_dict["device class"]
-#			var keycode : int = controlOption_dict["keycode"]
-#			var keyname : String = controlOption_dict["keyname"]
-#			if !inputMapActions.has(actionName):
-#				InputMap.add_action(actionName)
-#				inputMapActions.append(actionName)
-#			if keycode != 0:
-#				var keyObject = InputEventKey.new()
-#				keyObject.set_keycode(keycode)
-#				InputMap.action_add_event(actionName, keyObject)
 
 
 #######################################BEGIN INVENTORY FUNCTIONS###############################################################################

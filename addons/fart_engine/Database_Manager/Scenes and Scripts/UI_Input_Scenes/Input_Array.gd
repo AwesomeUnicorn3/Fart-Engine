@@ -17,6 +17,9 @@ func _init() -> void:
 func startup():
 	parent = get_parent()
 	key_id = parent.name
+#	var default = DBENGINE.get_default_value(type)
+#	print("INPUT ARRAY DEFAULT DICT: ", default)
+
 
 
 func _get_input_value():
@@ -63,7 +66,11 @@ func delete_selected_key(index:String):
 
 
 func add_new_key():
+	_get_input_value()
 	var next_index :String = str(input_dict.size() + 1)
+	
+#	print("INPUT ARRAY OPTIONS DICT: ", options_dict)
+	
 	var action_type :String = options_dict["action"]
 	var default_dict  = DBENGINE.get_default_value(action_type)
 	input_dict[next_index] = default_dict

@@ -31,8 +31,7 @@ func add_field_data_to_container():
 	var field_type_dict = DBENGINE.import_data("Field_Pref_Values")
 	var data_type_dict = DBENGINE.import_data("DataTypes")
 	var field_data_type :String = this_data_dict["DataType"]
-	var field_data_dict :Dictionary = str_to_var(data_type_dict[field_data_type]["Display Name"])
-	var input_node_type_name :String = field_data_dict["text"]
+	var input_node_type_name :String = DBENGINE.get_text(data_type_dict[field_data_type]["Display Name"])
 
 	for child in $PanelContainer/VBox1/Scroll1/VBox1.get_children():
 		var node_value = DBENGINE.convert_string_to_type(this_data_dict[child.name])
@@ -65,10 +64,7 @@ func add_field_data_to_container():
 			"TableRef":
 				child.populate_list()
 				var field_table_ref :String = this_data_dict["TableRef"]
-				print(child.selection_table[field_table_ref]["Display Name"])
-				var field_table_dict :Dictionary = str_to_var(child.selection_table[field_table_ref]["Display Name"])
-				var table_ref_name :String = field_table_dict["text"]
-				
+				var table_ref_name :String = DBENGINE.get_text(child.selection_table[field_table_ref]["Display Name"])
 				datatype_input = child
 				var dropdown_index :int = child.get_dropdown_index_from_key(table_ref_name)
 				child.select_index(dropdown_index)

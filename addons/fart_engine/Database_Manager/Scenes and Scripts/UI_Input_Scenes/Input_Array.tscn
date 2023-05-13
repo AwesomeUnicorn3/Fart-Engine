@@ -48,12 +48,8 @@ size_flags_stretch_ratio = 1.0
 custom_minimum_size = Vector2(0, 30)
 
 [node name="Label_Button" parent="Control/HBoxContainer/Label3/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 custom_minimum_size = Vector2(50, 30)
 button_text = "Begin List"
-
-[node name="Hide_Button" parent="Control/HBoxContainer/Label3/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="AddKeyButton" type="Button" parent="Control/HBoxContainer"]
 visible = false
@@ -68,7 +64,6 @@ layout_mode = 2
 button_text = "+"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="Scroll1" type="ScrollContainer" parent="Control"]
 custom_minimum_size = Vector2(0, 100)

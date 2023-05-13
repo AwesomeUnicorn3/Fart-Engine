@@ -10,12 +10,17 @@ signal checkbox_pressed
 @export var is_label_button := true
 @export var showLabel := true
 @export var show_field := false
+@export var show_input_node :bool = true
 
 var me = self #needed to call elements from scripts that extend this one
 
 var DBENGINE := DatabaseEngine.new()
 var labelNode = null
 var inputNode
+
+var input_child: VBoxContainer
+var display_child: VBoxContainer
+
 var itemName = ""
 var default = null
 var type = ""
@@ -41,6 +46,9 @@ func _ready():
 	parent_node = await get_main_tab(self)
 	set_default_value()
 	emit_signal("input_load_complete")
+	input_child = await get_input_child()
+	display_child = await get_display_child()
+
 	if me.has_method("startup"):
 		await me.startup()
 
@@ -58,7 +66,32 @@ func get_label_node():
 	return labelNode
 
 
+func get_input_child() -> VBoxContainer:
+	var get_node = await find_child("Input_Node", true)
+	while get_node == null:
+		await get_tree().process_frame
+	show_label()
+	return get_node
+
+
+func get_display_child() -> VBoxContainer:
+	var get_node = await find_child("Display_Child", true)
+	while get_node == null:
+		await get_tree().process_frame
+	show_label()
+	return get_node
+
+
+func get_display_node() -> VBoxContainer:
+	var get_node = await find_child("Display_Node", true)
+	while get_node == null:
+		await get_tree().process_frame
+	return get_node
+
+
 func show_label(show :bool = true):
+	if labelNode == null:
+		labelNode = await get_label_node()
 	labelNode.visible = show
 
 
@@ -67,7 +100,7 @@ func set_label_text():
 		get_label_node()
 	if label_text == "":
 		labelNode.set_text(itemName)
-		label_text = itemName
+#		label_text = itemName
 	else:
 		labelNode.set_text(label_text)
 
@@ -147,7 +180,8 @@ func display_edit_field_menu():
 				curr_input = i.selectedItemKey
 				
 			elif field_name == "FieldName":
-				curr_input = str_to_var(curr_input)["text"]
+
+				curr_input = DBENGINE.get_text(curr_input)
 			parent_node.currentData_dict["Column"][edit_field_values.field_index][field_name] = curr_input
 
 	if edit_field_values.is_datatype_changed:
@@ -209,12 +243,24 @@ func show_showHide_button():
 	labelNode.get_parent().get_node("Hide_Button").visible = true
 
 
+func get_active_node():
+	if display_child == null and input_child == null:
+		return self
+		
+	elif show_input_node:
+		return input_child
+	else:
+		return display_child
+
+
 func show_field_value(show_value :bool):
+	var active_node = get_active_node()
 	parent_node.currentData_dict["Column"][parent_node.get_data_index(labelNode.text, "Column")]["ShowValue"] = show_value
+	
 	if show_value:
 		show_field = true
 		labelNode.get_parent().get_node("Hide_Button").set_text("Hide")
-		for i in get_children():
+		for i in active_node.get_children():
 			if !i.is_in_group("Label"):
 				if i.has_method("set_visible"):
 					i.visible = true
@@ -222,10 +268,15 @@ func show_field_value(show_value :bool):
 	else:
 		show_field = false
 		labelNode.get_parent().get_node("Hide_Button").set_text("Show")
-		for i in get_children():
+		for i in active_node.get_children():
 			if !i.is_in_group("Label"):
 				if i.has_method("set_visible"):
 					i.visible = false
+
+	if me.has_method("show_advanced_node"):
+
+		me.show_advanced_node(show_field)
+
 	parent_node.save_all_db_files()
 
 

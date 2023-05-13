@@ -39,6 +39,9 @@ layout_mode = 2
 label_text = "New Key Display Name"
 is_label_button = false
 
+[node name="AdvancedControlsVBox" parent="PanelContainer/VBoxContainer/Input_Text/Input_Node" index="2"]
+visible = false
+
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -59,5 +62,7 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [editable path="PanelContainer/VBoxContainer/Input_Text"]
-[editable path="PanelContainer/VBoxContainer/Input_Text/Label"]
+[editable path="PanelContainer/VBoxContainer/Input_Text/Input_Node/Label"]
+[editable path="PanelContainer/VBoxContainer/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="PanelContainer/VBoxContainer/Input_Text/Input_Node/AdvancedControlsVBox/Display_Node/Label"]
 [editable path="PanelContainer/VBoxContainer/Input_Text/input_templateBuffer"]

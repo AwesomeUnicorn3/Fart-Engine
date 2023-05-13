@@ -27,7 +27,7 @@ func _on_cancel_button_up():
 
 func get_values():
 	main_dict = {}
-	var fieldName :String = $PanelContainer/VBox1/HBox1/Input_Text.get_input_value()["text"]
+	var fieldName :String = $PanelContainer/VBox1/HBox1/Input_Text.get_text()
 	main_dict["fieldName"] = fieldName
 	var datatype_node = $PanelContainer/VBox1/HBox1/ItemType_Selection
 	var datatype_name = datatype_node.selectedItemKey

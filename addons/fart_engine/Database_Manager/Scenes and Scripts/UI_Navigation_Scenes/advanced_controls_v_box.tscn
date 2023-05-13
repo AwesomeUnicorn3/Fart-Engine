@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://bp7bq0b2kkfqc"]
+
+[ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="1_1dd2u"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="1_71wbn"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/advanced_controls_v_box.gd" id="1_m4x1o"]
+[ext_resource type="PackedScene" uid="uid://bhhe1y6ucvenk" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Array.tscn" id="4_us1dx"]
+
+[node name="Dialog_Event_Options" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -512.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_m4x1o")
+
+[node name="Checkbox_Template" parent="." instance=ExtResource("1_1dd2u")]
+layout_mode = 2
+true_text = "Yes"
+false_text = "No"
+label_text = "Use Option Buttons"
+is_label_button = false
+
+[node name="Input" parent="Checkbox_Template/Hbox1/Background" index="0"]
+text = "No"
+
+[node name="Label" parent="." instance=ExtResource("1_71wbn")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="Label_Button" parent="Label/HBox1" index="0"]
+button_text = "Advanced Options"
+
+[node name="Hide_Button" parent="Label/HBox1" index="1"]
+button_text = "Show"
+
+[node name="Input_Array" parent="." instance=ExtResource("4_us1dx")]
+visible = false
+layout_mode = 2
+
+[node name="Label" parent="Input_Array" index="0"]
+visible = false
+
+[node name="ActionSelection" parent="Input_Array/Control" index="0"]
+visible = false
+
+[connection signal="checkbox_pressed" from="Checkbox_Template" to="." method="_on_checkbox_template_checkbox_pressed"]
+
+[editable path="Checkbox_Template"]
+[editable path="Checkbox_Template/Label"]
+[editable path="Label"]
+[editable path="Input_Array"]
+[editable path="Input_Array/Control/HBoxContainer/Label3"]

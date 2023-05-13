@@ -23,12 +23,12 @@ var character_dictionary_name = "Characters"
 var gravity: float  #Game gravity (Think of this as y acceleration) - DBAA
 var is_gravity_active:bool
 var base_gravity: float
-var characterMaxSpeed :int = 0#character max speed - DBAA
-var characterFriction :int = 0 # stop speed- DBAA
-var characterAcceleration :int = 0 #how quickly to max speed
-var characterJumpSpeed : int = 0 # character jump speed (jump velocity) - DBAA
+var characterMaxSpeed :float = 0#character max speed - DBAA
+var characterFriction :float= 0 # stop speed- DBAA
+var characterAcceleration :float = 0 #how quickly to max speed
+var characterJumpSpeed : float = 0 # character jump speed (jump velocity) - DBAA
 var activeCharacterId : String = "" #Use function get_lead_character() to set value -DBAA
-var characterMass :int
+var characterMass :float
 var draw_shadow :bool
 
 var player_starting_jump_y :float = 0.0
@@ -58,15 +58,17 @@ func _ready() -> void:
 
 
 func set_required_variables():
+	var upscale :float = 10.0
+
 	var activeCharacterId = FARTENGINE.get_lead_character_id()
-	characterFriction = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Friction", use_save_dict)
-	characterAcceleration = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Acceleration", use_save_dict)
-	characterMaxSpeed = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Max Speed", use_save_dict)
-	characterJumpSpeed = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Jump Speed", use_save_dict)
+	characterFriction = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Friction", use_save_dict) * upscale
+	characterAcceleration = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Acceleration", use_save_dict) * upscale
+	characterMaxSpeed = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Max Speed", use_save_dict) * upscale
+	characterJumpSpeed = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Jump Speed", use_save_dict) * upscale
 	draw_shadow = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Draw Shadow", use_save_dict)
-	gravity = FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Gravity Force", use_save_dict)
+	gravity = FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Gravity Force", use_save_dict) * upscale
 	base_gravity = gravity
-	characterMass = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Mass", use_save_dict)
+	characterMass = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Mass", use_save_dict) * upscale
 
 
 func add_raycast():
@@ -173,6 +175,7 @@ func get_direction():
 				var movement_direction = FARTENGINE.convert_string_to_vector(FARTENGINE.Static_Game_Dict["Movement Directions"][directionKey]["Direction Vector"])
 				direction.x += movement_direction.x * actionStrength
 				direction.y += movement_direction.y * actionStrength
+	direction = direction.normalized()
 	return direction
 
 

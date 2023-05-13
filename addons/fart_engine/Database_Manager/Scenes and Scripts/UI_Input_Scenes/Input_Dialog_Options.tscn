@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://clhvg1mji42vr"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dialog_Options.gd" id="1_4qac3"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_f7hfy"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="3_6jkhv"]
+[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="4_t56ij"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="4_x3miu"]
+
+[node name="Dialog_Options" type="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_4qac3")
+label_text = "Dialog Options"
+is_label_button = false
+
+[node name="Label" parent="." instance=ExtResource("2_f7hfy")]
+layout_mode = 2
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+
+[node name="Input" type="TextEdit" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="input_templateBuffer2" parent="." instance=ExtResource("3_6jkhv")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+
+[node name="Input_Text" parent="HBoxContainer" instance=ExtResource("4_t56ij")]
+layout_mode = 2
+show_advanced_options_node = true
+label_text = "Button Text"
+is_label_button = false
+
+[node name="Event_Dialog_Options_Table" parent="HBoxContainer" instance=ExtResource("4_x3miu")]
+visible = false
+layout_mode = 2
+selection_table_name = "Event Dialog Variables"
+label_text = "Event Dialog Variables"
+is_label_button = false
+
+[node name="Event_Dialog_Variable" parent="HBoxContainer" instance=ExtResource("4_x3miu")]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_stretch_ratio = 0.5
+selection_table_name = ""
+label_text = "Option Variable"
+is_label_button = false

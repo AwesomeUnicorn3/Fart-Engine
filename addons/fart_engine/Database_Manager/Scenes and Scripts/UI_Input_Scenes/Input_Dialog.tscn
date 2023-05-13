@@ -1,19 +1,22 @@
-[gd_scene load_steps=10 format=3 uid="uid://cy0f7smblnqgn"]
+[gd_scene load_steps=11 format=3 uid="uid://cy0f7smblnqgn"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dialog.gd" id="1_ggkpl"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_p2fuw"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="3_e1vdb"]
+[ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="3_e1vdb"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="3_mwq4e"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="5_fgbfj"]
 [ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="5_xab2l"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.tscn" id="7_lfbfv"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.tscn" id="8_4eupo"]
+[ext_resource type="PackedScene" uid="uid://bcdug8ct1087b" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.tscn" id="8_4eupo"]
+[ext_resource type="PackedScene" uid="uid://bp7bq0b2kkfqc" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/advanced_controls_v_box.tscn" id="8_ijkgo"]
 [ext_resource type="PackedScene" uid="uid://bvvjo3tmjc5ds" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ScenePath_Template.tscn" id="8_q84tl"]
 
 [node name="input_dialog" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -37.0
+offset_bottom = 38.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -21,6 +24,7 @@ script = ExtResource("1_ggkpl")
 label_text = "input_dialog"
 
 [node name="Input" type="Control" parent="."]
+visible = false
 layout_mode = 2
 
 [node name="Label" parent="." instance=ExtResource("2_p2fuw")]
@@ -48,11 +52,36 @@ is_label_button = false
 
 [node name="CharacterName_Text" parent="CharacterName_HBox" instance=ExtResource("5_xab2l")]
 layout_mode = 2
+show_advanced_options_node = true
 label_text = "Custom Name"
 is_label_button = false
 
+[node name="AdvancedControlsVBox" parent="CharacterName_HBox/CharacterName_Text/Input_Node" index="2"]
+visible = true
+
+[node name="AdvancedControlsHBox" parent="CharacterName_HBox/CharacterName_Text/Input_Node/AdvancedControlsVBox" index="1"]
+visible = false
+
+[node name="Display_Child" parent="CharacterName_HBox/CharacterName_Text/Input_Node/AdvancedControlsVBox" index="2"]
+visible = false
+
 [node name="Dialog_Text" parent="." instance=ExtResource("5_xab2l")]
 layout_mode = 2
+show_advanced_options_node = true
+label_text = "Dialog Text"
+is_label_button = false
+
+[node name="AdvancedControlsVBox" parent="Dialog_Text/Input_Node" index="2"]
+visible = true
+
+[node name="Hide_Button" parent="Dialog_Text/Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
+button_text = "Show"
+
+[node name="AdvancedControlsHBox" parent="Dialog_Text/Input_Node/AdvancedControlsVBox" index="1"]
+visible = false
+
+[node name="Display_Child" parent="Dialog_Text/Input_Node/AdvancedControlsVBox" index="2"]
+visible = false
 
 [node name="IconSelection_HBox" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -94,5 +123,23 @@ layout_mode = 2
 label_text = "Custom Scene"
 is_label_button = false
 
+[node name="input_templateBuffer2" parent="." instance=ExtResource("5_fgbfj")]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="AdvancedControlsVBox" parent="." instance=ExtResource("8_ijkgo")]
+layout_mode = 2
+
 [node name="input_templateBuffer" parent="." instance=ExtResource("5_fgbfj")]
 layout_mode = 2
+
+[editable path="CharacterName_HBox/CharacterName_Text"]
+[editable path="CharacterName_HBox/CharacterName_Text/Input_Node/Label"]
+[editable path="CharacterName_HBox/CharacterName_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="CharacterName_HBox/CharacterName_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="CharacterName_HBox/CharacterName_Text/input_templateBuffer"]
+[editable path="Dialog_Text"]
+[editable path="Dialog_Text/Input_Node/Label"]
+[editable path="Dialog_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="Dialog_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="Dialog_Text/input_templateBuffer"]

@@ -102,7 +102,7 @@ func get_id_from_display_name(table_dictionary :Dictionary, display_name :String
 	var id_display_name :String 
 	for id in table_dictionary:
 		if table_dictionary[id].has("Display Name"):
-			id_display_name = str_to_var(str(table_dictionary[id]["Display Name"]))["text"]
+			id_display_name = get_text(table_dictionary[id]["Display Name"])
 			if id_display_name == display_name:
 				index = id
 				break
@@ -184,7 +184,7 @@ func get_list_of_events(for_dropdown:bool = false):
 		if for_dropdown:
 			
 			var curr_event_dict:Dictionary = import_event_data(eventID)
-			var eventName:String = curr_event_dict["0"]["Display Name"]["text"]
+			var eventName:String = get_text(curr_event_dict["0"]["Display Name"])
 			#Convert eventName(Event ID) to Event Display name
 			#return dict with list of events  *sorted* and with format: sorted_table[index] = [key, key, ["Datatype"]] 
 			return_dict[str(index)] = [eventName, eventID, "0"]
@@ -273,10 +273,7 @@ func list_keys_in_display_order(table_name:String):
 		var key_name :String = data_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
 		var key_dict :Dictionary = table_dict[key_name]
 		if key_dict.has("Display Name"):
-			if typeof(table_dict[key_name]["Display Name"]) == TYPE_STRING:
-				displayName = str_to_var(table_dict[key_name]["Display Name"])["text"]
-			else:
-				displayName = table_dict[key_name]["Display Name"]["text"]
+			displayName = get_text(table_dict[key_name]["Display Name"])
 		sorted_dict[item_number] = [displayName, key_name, datatype]
 	return sorted_dict
 
@@ -292,17 +289,12 @@ func list_custom_dict_keys_in_display_order(table_dict:Dictionary, table_name:St
 		var displayName :String = ""
 		var datatype :String = data_dict["Row"][item_number]["DataType"]
 		var key_name :String = data_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
-		
+#		print(table_dict)
 		if table_dict.has(key_name):
 			var key_dict :Dictionary = table_dict[key_name]
 			if key_dict.has("Display Name"):
-				if typeof(table_dict[key_name]["Display Name"]) == TYPE_STRING:
-					if typeof(str_to_var(table_dict[key_name]["Display Name"])) == TYPE_INT:
-						displayName = key_name
-					else:
-						displayName = str_to_var(table_dict[key_name]["Display Name"])["text"]
-				else:
-					displayName = table_dict[key_name]["Display Name"]["text"]
+				displayName = get_text(table_dict[key_name]["Display Name"])
+#				print(displayName)
 			else:
 				displayName = key_name
 			sorted_dict[str(index)] = [displayName, key_name, datatype]
@@ -527,7 +519,7 @@ func add_key(keyName, datatype, showKey, requiredValue, dropdown,  newTable : bo
 	#Get custom key fields and add them to tableData dict
 	for i in CustomData_dict:
 		var currentKey_dict :Dictionary = str_to_var(CustomData_dict[i]["ItemID"])
-		var currentKey :String = currentKey_dict["text"]
+		var currentKey :String = get_text(currentKey_dict)
 		match currentKey:
 			"DataType":
 				newValue = datatype
@@ -563,7 +555,7 @@ func add_event_key(keyName, datatype, showKey, requiredValue, dropdown,  newTabl
 	#Get custom key fields and add them to tableData dict
 	for i in CustomData_dict:
 		var currentKey_dict :Dictionary = str_to_var(CustomData_dict[i]["ItemID"])
-		var currentKey :String = currentKey_dict["text"]
+		var currentKey :String = get_text(currentKey_dict)
 		match currentKey:
 			"DataType":
 				newValue = datatype
@@ -596,7 +588,7 @@ func get_default_value(itemType :String):
 	for key in datatype_dict:
 		if key == itemType:
 			var default_dict :Dictionary =  str_to_var(datatype_dict[key]["Default Values"])
-			var default_value = default_dict["text"]
+			var default_value = get_text(default_dict)
 			item_value = convert_string_to_type(default_value)  #default value
 			if item_value == null:
 				item_value = default_value
@@ -615,7 +607,7 @@ func add_field(fieldName, datatype, showField, required_value, tblName = "empty"
 
 	for i in fieldCustomData_dict:
 		var currentKey_dict :Dictionary = str_to_var(fieldCustomData_dict[i]["ItemID"])
-		var currentKey :String = currentKey_dict["text"]
+		var currentKey :String = get_text(currentKey_dict)
 		match currentKey:
 			"DataType":
 				newValue = datatype
@@ -908,7 +900,7 @@ func get_input_type_id_from_name(input_type_name :String):
 	datatype_dict = import_data("DataTypes")
 	for key in datatype_dict:
 		var displayname_dict :Dictionary = str_to_var(datatype_dict[key]["Display Name"])
-		var key_name :String = displayname_dict["text"]
+		var key_name :String = get_text(displayname_dict)
 #
 		if key_name == input_type_name:
 			return key
@@ -1019,45 +1011,24 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 func create_input_node(key_name:String, table_name:String, table_dict:Dictionary = {}, table_data_dict: Dictionary = {}):
 	var data_type:String
 	var node_input_value: Variant
-
 	if table_dict == {}:
 		table_dict = import_data(table_name)
 	if table_data_dict == {}:
 		table_data_dict = import_data(table_name, true)
-	
 	data_type = get_datatype(key_name, table_data_dict)
 	if data_type == "":
 		print("KEY NAME: ", key_name)
-#	if data_type == "5":
-#		var reference_table = table_data_dict[]
-		
 	var new_node = create_datatype_node(data_type)
-
-#	datatype_dict = import_data("DataTypes")
-#	data_type = get_datatype(key_name, table_data_dict)
-#	var input_node = load(datatype_dict[data_type]["Default Scene"]).instantiate()
-#	if str(node_input_value) == "Default":
-#		node_input_value = input_node.default
-#
-#	if data_type == "5":#dropdown selection (itemtype selection)
-#		if table_name == "":
-#			input_node.selection_table_name = table_dict[key_name]["TableRef"]
-#		else:
-#			input_node.selection_table_name = table_name
-	
 	new_node.set_name(key_name)
 
 	return new_node
 
+
 func create_datatype_node(datatype:String):
 	datatype_dict = import_data("DataTypes")
 	var input_node = load(datatype_dict[datatype]["Default Scene"]).instantiate()
-	var input_default_value = convert_string_to_type(datatype_dict[datatype]["Default Values"])["text"]
-#	print("DEFAULT VALUE: ", input_default_value)
-#	input_node._set_input_value(input_default_value)
-	
+	var input_default_value = get_text(datatype_dict[datatype]["Default Values"])
 	return input_node
-
 
 
 func get_datatype(field_ID:String, table_data_dict :Dictionary):
@@ -1148,7 +1119,7 @@ func get_value_from_input_node(current_node, field_name := "", key_name := Item_
 	if field_name != "" and field_name != "Key":
 		current_dict[key_name][field_name] = returnValue
 	elif field_name == "Key":
-		update_key_name(key_name, str_to_var(returnValue)["text"])
+		update_key_name(key_name, get_text(returnValue))
 	return returnValue
 
 
@@ -1450,7 +1421,7 @@ func get_mappath_from_displayname(map_name :String):
 	var maps_dict = import_data("Maps")
 	var new_map_path :String = ""
 	for map_id in maps_dict:
-		if str_to_var(maps_dict[map_id]["Display Name"])["text"] == map_name:
+		if get_text(maps_dict[map_id]["Display Name"]) == map_name:
 			new_map_path = maps_dict[map_id]["Path"]
 			break
 	return new_map_path
@@ -1460,13 +1431,11 @@ func add_starting_position_node_to_map(selectedItemID,previous_selectionID, pare
 	var new_map_path :String
 	var previous_map_path :String
 	
-	var selectedItemName:String = str_to_var(import_data("Maps")[selectedItemID]["Display Name"])["text"]
-	var previous_selection:String = str_to_var(import_data("Maps")[previous_selectionID]["Display Name"])["text"]
+	var selectedItemName:String = get_text(import_data("Maps")[selectedItemID]["Display Name"])
+	var previous_selection:String = get_text(import_data("Maps")[previous_selectionID]["Display Name"])
 	
 	new_map_path = get_mappath_from_displayname(selectedItemName)
 	previous_map_path = get_mappath_from_displayname(previous_selection)
-#	print("SELECTED ITEM NAME: ", selectedItemName)
-#	print("PREVIOUS ITEM NAME: ", previous_selection)
 	var starting_position_node = Sprite2D.new()
 	var new_map_scene  = load(new_map_path).instantiate()
 	new_map_scene.add_child(starting_position_node)
@@ -1607,7 +1576,7 @@ func update_UI_method_table():
 			var tempArray :Array = add_key_to_table(NewKeyName, method_name.replace("_", " "), "",AU3_UI_method_dict, AU3_UI_method_data_dict )
 			AU3_UI_method_dict[NewKeyName]["Function Name"] = displayName
 	for id in AU3_UI_method_dict:
-		var functionName:String = convert_string_to_type(AU3_UI_method_dict[id]["Function Name"])["text"]
+		var functionName:String = get_text(AU3_UI_method_dict[id]["Function Name"])
 		if !method_dict.has(functionName):
 			var newDictArray :Array = Delete_Key(id, AU3_UI_method_dict,AU3_UI_method_data_dict )
 			AU3_UI_method_dict = newDictArray[0].duplicate(true)
@@ -1645,7 +1614,7 @@ func update_input_actions_table():
 
 	for id in AU3_input_map_dict:
 #		print(id)
-		var displayName:String = convert_string_to_type(AU3_input_map_dict[id]["Display Name"])["text"]
+		var displayName:String = get_text(AU3_input_map_dict[id]["Display Name"])
 
 		if !inputMap.has(displayName):# or displayName.left(3) == "ui_":
 			var newDictArray :Array = Delete_Key(id, AU3_input_map_dict.duplicate(true),AU3_input_map_data_dict.duplicate(true) )
@@ -1666,7 +1635,7 @@ func update_input_actions_table():
 func get_display_name(inputDict: Dictionary):
 	var display_name_dict :Dictionary = {}
 	for key in inputDict:
-		var display_name :String = convert_string_to_type(inputDict[key]["Display Name"])["text"]
+		var display_name :String = get_text(inputDict[key]["Display Name"])
 		display_name_dict[display_name] = key
 	return display_name_dict
 
@@ -1674,7 +1643,7 @@ func get_display_name(inputDict: Dictionary):
 func get_field_value_dict(inputDict: Dictionary, fieldName:String ="Function Name"):
 	var display_name_dict :Dictionary = {}
 	for key in inputDict:
-		var display_name :String = convert_string_to_type(inputDict[key][fieldName])["text"]
+		var display_name :String = get_text(inputDict[key][fieldName])
 		display_name_dict[display_name] = key
 	return display_name_dict
 
@@ -1690,8 +1659,7 @@ func add_key_to_table(NewKeyName :String, NewDisplayName: String, TableName:Stri
 	var newValue
 
 	for ID in CustomData_dict:
-		var currentKey_dict :Dictionary = str_to_var(CustomData_dict[ID]["ItemID"])
-		var currentKey :String = currentKey_dict["text"]
+		var currentKey :String = get_text(CustomData_dict[ID]["ItemID"])
 		newValue = target_data_dict["Row"][target_data_dict["Row"].keys()[0]][currentKey]
 		newOptions_dict[currentKey] = newValue
 
@@ -1714,3 +1682,13 @@ func get_next_key_ID(target_dict:Dictionary):
 	while target_dict.has(str(next_key_number)):
 		next_key_number += 1
 	return next_key_number
+
+
+func get_text(text_value)-> String:
+	var return_string:String
+	var typed_value = convert_string_to_type(text_value)
+	if typeof(typed_value) == TYPE_DICTIONARY:
+		return_string = convert_string_to_type(text_value)["text"]
+	else:
+		return_string = str(text_value)
+	return return_string

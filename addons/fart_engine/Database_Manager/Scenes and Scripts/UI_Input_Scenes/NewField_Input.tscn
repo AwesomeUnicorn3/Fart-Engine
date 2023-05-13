@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://d2ab73gy41gea"]
 
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="1"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewField_Input.gd" id="2"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="3"]
 
 [node name="NewFieldInput" type="HBoxContainer"]
 anchors_preset = 15
@@ -21,10 +21,10 @@ size_flags_vertical = 0
 label_text = "New Field Name"
 is_label_button = false
 
-[node name="Input" parent="Input_Text" index="1"]
-caret_blink_interval = 0.5
+[node name="AdvancedControlsVBox" parent="Input_Text/Input_Node" index="2"]
+visible = false
 
-[node name="input_templateBuffer" parent="Input_Text" index="2"]
+[node name="input_templateBuffer" parent="Input_Text" index="1"]
 visible = false
 
 [node name="ItemType_Selection" parent="." instance=ExtResource("1")]
@@ -32,9 +32,6 @@ layout_mode = 2
 size_flags_vertical = 0
 selection_table_name = "DataTypes"
 label_text = "Field Data Type"
-
-[node name="Label_Button" parent="ItemType_Selection/Label/HBox1" index="0"]
-text = "Field Data Type"
 
 [node name="input_templateBuffer" parent="ItemType_Selection" index="2"]
 visible = false
@@ -44,13 +41,14 @@ visible = false
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="Label_Button" parent="Table_Selection/Label/HBox1" index="0"]
-text = "Table_Selection"
-
 [node name="input_templateBuffer" parent="Table_Selection" index="2"]
 visible = false
 
 [editable path="Input_Text"]
+[editable path="Input_Text/Input_Node/Label"]
+[editable path="Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="Input_Text/Input_Node/AdvancedControlsVBox/Display_Node/Label"]
+[editable path="Input_Text/input_templateBuffer"]
 [editable path="ItemType_Selection"]
 [editable path="ItemType_Selection/Label"]
 [editable path="Table_Selection"]
