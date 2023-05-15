@@ -30,18 +30,11 @@ func set_input_value(node_value):
 	
 
 
-
-
-
 func get_input_value():
 	var return_value:Dictionary
 	
 	return_value["event_buttons"] = $Input_Array.get_input_value()
 	return_value["show_event_options_buttons"] = $Checkbox_Template.get_input_value()
-	
-#	print("ADVANCED CONTROLS GET INPUT: ", return_value)
-	
-	
 	return return_value
 
 

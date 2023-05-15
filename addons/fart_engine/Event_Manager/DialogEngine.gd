@@ -122,7 +122,7 @@ func display_options_buttons():
 		var newbtn: TextureButton = preload("res://addons/fart_engine/Example Game/Event_Option_Button.tscn").instantiate()
 		dialog_scene.get_node("VBoxContainer/TopVBox/VBoxContainer/OptionScroll/OptionButtonParent").add_child(newbtn)
 		newbtn.set_input_values(btn_text, dialog_var, "")
-		newbtn.button_up.connect(_on_option_button_pressed.bind(newbtn))
+		newbtn.get_node("Button").button_up.connect(_on_option_button_pressed.bind(newbtn))
 #
 #		print(FARTENGINE.get_text(event_option_buttons_dict[btn_key]["Button_Text"]))
 

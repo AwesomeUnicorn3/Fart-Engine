@@ -1,6 +1,11 @@
 @tool
 extends DatabaseEngine
 
+signal buttons_enabled
+signal table_buttons_created
+signal clear_buttons_complete
+signal reload_buttons_complete
+
 @onready var btn_itemselect = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
 @onready var event_editor_input_form = preload("res://addons/fart_engine/Event_Manager/Event Editor Input Form.tscn")
 
@@ -29,16 +34,34 @@ var input_changed = false
 var current_event_editor_input
 var event_display_name :String = ""
 #var selected_button
-
 var selected_event_ID: String = "Event 1"
-
 var event_page_scroll_position:int = 0
 
+var is_event_ready_running:bool = false
 func _ready():
-	reload_buttons()
-	await get_tree().create_timer(0.5).timeout
-	table_list.get_child(0)._on_Navigation_Button_button_up()
-#	selected_button = table_list.get_child(0)
+
+	if !is_event_ready_running:
+#		print("EVENT MANAGER - READY - BEGIN")
+		is_event_ready_running = true
+		reload_buttons()
+		await reload_buttons_complete
+	#	await get_tree().create_timer(0.5).timeout
+		table_list.get_child(0)._on_Navigation_Button_button_up()
+	#	selected_button = table_list.get_child(0)
+		await get_tree().create_timer(2.5).timeout
+		is_event_ready_running = false
+#		print("EVENT MANAGER - READY - END")
+
+
+func reload_data_without_saving():
+#	print("EVENT MANAGER - RELOAD DATA NO SAVE - BEGIN")
+	var reload:bool = await reload_buttons()
+	await get_tree().create_timer(0.25).timeout
+	print(selected_event_ID)
+#	while table_list.get_node(selected_event_ID) == null:
+#		await get_tree().process_frame
+	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
+#	print("EVENT MANAGER - RELOAD DATA NO SAVE - END")
 
 
 func set_ref_table():
@@ -49,9 +72,10 @@ func set_ref_table():
 
 func _on_visibility_changed():
 	if visible:
-		popup_main = $Popups
-		if popup_main.visible:
-			hide_all_popups()
+		pass
+#		popup_main = $Popups
+#		if popup_main.visible:
+#			hide_all_popups()
 	else:
 		pass
 #		hide_all_popups()
@@ -121,23 +145,39 @@ func hide_all_popups():
 
 func clear_buttons():
 	#Removes all item name buttons from table_list
+#	print("EVENT MANAGER - CLEAR BUTTONS - BEGIN")
 	for i in table_list.get_children():
-		table_list.remove_child(i)
+#		table_list.remove_child(i)
 		i.queue_free()
+#		await get_tree().process_frame
+#	await get_tree().create_timer(0.4)
+#	emit_signal("clear_buttons_complete")
+#	print("EVENT MANAGER - CLEAR BUTTONS - END")
 	
 
 
 func reload_buttons():
+#	print("EVENT MANAGER - RELOAD BUTTONS - BEGIN")
 	clear_buttons()
-#	get_tree().process_frame
+	
+#	await clear_buttons_complete
+	##WAIT UNTIL CLEAR IS COMPLETE
+	await get_tree().create_timer(0.25).timeout
 	create_table_buttons()
-
+#	await table_buttons_created
+	reload_buttons_complete.emit()
+#	print("EVENT MANAGER - RELOAD BUTTONS - END")
+#	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.25).timeout
+	return true
 
 func enable_all_buttons(value : bool = true):
 	#Enables user to interact with all item buttons on table_list
 	for i in table_list.get_children():
 		i.disabled = !value
 		i.reset_self_modulate()
+	await get_tree().process_frame
+	emit_signal("buttons_enabled")
 
 
 func navigation_button_click(key_name:String, button_node):
@@ -151,8 +191,9 @@ func navigation_button_click(key_name:String, button_node):
 
 
 func refresh_data(SelectedEventName : String):
+#	print("EVENT MANAGER - REFRESH DATA - BEGIN")
 	enable_all_buttons()
-
+#	await buttons_enabled
 	var current_page = "1"
 	if current_event_editor_input != null:
 		event_page_scroll_position = current_event_editor_input.scroll_position
@@ -172,18 +213,23 @@ func refresh_data(SelectedEventName : String):
 	event_display_name = SelectedEventName
 	selected_event_ID = SelectedEventName
 	
-	await get_tree().create_timer(0.5).timeout
+#	await get_tree().create_timer(0.5).timeout
 	var page_button_node = current_event_editor_input.get_node("VBoxContainer/Hbox4").get_node_or_null(current_page)
 	if page_button_node != null:
-		current_event_editor_input.set_v_scroll(event_page_scroll_position)
 		page_button_node.on_Button_button_up()
-#		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.1).timeout
+		current_event_editor_input.set_v_scroll(event_page_scroll_position)
+#	print("EVENT MANAGER - REFRESH DATA - END")
 #		current_event_editor_input.set_v_scroll(event_page_scroll_position)
+		
+
 
 
 func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
+#	print("EVENT MANAGER - CREATE TABLE BUTTONS - BEGIN")
 	var event_list_array :Array = get_list_of_events()
+	
 	for Event_Name in event_list_array:
 		var label :String 
 		var event_dict:Dictionary = import_event_data(Event_Name)
@@ -199,14 +245,23 @@ func create_table_buttons():
 		var labelNode :Label = newbtn.get_node("Label")
 		labelNode.visible = true
 		labelNode.text = label
-	
+#	await get_tree().create_timer(0.1)
+#	emit_signal("table_buttons_created")
+#	print("EVENT MANAGER - CREATE TABLE BUTTONS - END")
 
 
+var is_saving:bool = false
 func _on_Save_button_up():
-	
-	event_display_name = current_event_editor_input.save_event_data(true)
-	await get_tree().create_timer(0.25).timeout
-	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
+#	print("EVENT MANAGER - SAVE BUTTON UP - BEGIN")
+	if !is_saving:
+		is_saving = true
+		event_display_name = await current_event_editor_input.save_event_data()
+#		await get_tree().create_timer(0.25).timeout
+		#table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
+		await get_tree().create_timer(0.1).timeout
+		is_saving = false
+#		table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
+#	print("EVENT MANAGER - SAVE BUTTON UP - END")
 
 
 func get_AU3():
@@ -220,16 +275,14 @@ func get_AU3():
 	return main_node
 
 
-func update_dropdown_tables():
-	for i in get_node("..").get_children():
-		if i != self and i.is_in_group("Tab") and i.has_method("reload_buttons"):
-			i.reload_buttons()
-			i.table_list.get_child(0)._on_Navigation_Button_button_up()
+#func update_dropdown_tables():
+#	for i in get_node("..").get_children():
+#		if i != self and i.is_in_group("Tab") and i.has_method("reload_buttons"):
+#			i.reload_buttons()
+#			i.table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
-func reload_data_without_saving():
-	reload_buttons()
-	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
+
 
 
 func add_entry_row(entry_value):
@@ -397,7 +450,9 @@ func clear_datachange_warning():
 
 
 func _on_RefreshData_button_up() -> void:
+#	print("EVENT MANAGER - REFRESH BUTTON UP - BEGIN")
 	reload_data_without_saving()
+#	print("EVENT MANAGER - REFRESH BUTTON UP - END")
 
 
 func _on_SaveNewItem_button_up() -> void:

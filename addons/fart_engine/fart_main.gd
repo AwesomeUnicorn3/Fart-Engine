@@ -46,25 +46,35 @@ func _ready():
 
 		for key in display_form_dict:
 			if display_form_dict[key].has_method("reload_data_without_saving"):
-				display_form_dict[key].reload_data_without_saving()
+				print(key, selected_tab_name)
+				if key != selected_tab_name:
+					display_form_dict[key].reload_data_without_saving()
+
 		set_buttom_theme("Top Row")
 		set_buttom_theme("Category")
 		DBENGINE.set_background_theme($Background)
-
+		await get_tree().create_timer(0.1).timeout
 		is_uds_main_updating = false
 
-#func set_background_theme(background_node = $Background):
-##	print("BUTTON THEME: ", group)
-#	#SET COLOR BASED ON GROUP
-#	#get project table
-#	var project_table: Dictionary = DBENGINE.import_data("Project Settings")
-#	var fart_editor_themes_table: Dictionary = DBENGINE.import_data("Fart Editor Themes")
-#
-#	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
-#	var category_color: Color = str_to_var(fart_editor_themes_table[theme_profile]["Background"])
-#	background_node.set_base_color(category_color)
+var is_editor_saving:bool = false
 
+func when_editor_saved():
+	if !is_editor_saving:
+		is_editor_saving = true
+#	print("FART MAIN - SELECTED TAB NAME: ", selected_tab_name)
+		if !is_uds_main_updating:
+#			print("FART MAIN - WHEN EDITOR SAVED - BEGIN")
+			if display_form_dict.has(selected_tab_name):
+				print(selected_tab_name)
+				display_form_dict[selected_tab_name]._on_Save_button_up()
+				await get_tree().create_timer(0.1).timeout
 
+			_ready()
+			DBENGINE.update_input_actions_table()
+			DBENGINE.update_UI_method_table()
+			await get_tree().create_timer(0.2).timeout
+			is_editor_saving = false
+#			print("FART MAIN - WHEN EDITOR SAVED - END")
 
 func add_category_buttons():
 	var categories_dict :Dictionary = DBENGINE.import_data("Table Category")
@@ -84,7 +94,7 @@ func add_category_buttons():
 	if selected_category == "":
 		selected_category = "Game Settings"
 	button_dict[selected_category]._on_Navigation_Button_button_up()
-	
+
 
 func add_new_button(BtnIndex:String,display_name:String, buttonScene, parentContainer, group:String):
 #	#Create button for table
@@ -119,13 +129,14 @@ func add_database_buttons_to_button_dict():
 			var newbtn :TextureButton = child
 			button_dict[child.name] = newbtn
 
+
 func add_other_nav_buttons_to_button_dict():
 	var child: TextureButton = $MainDisplay_Level1/MainDisplay_Level2/HideNavigation
 	if !button_dict.has(child.name):
 		var newbtn :TextureButton = child
 		button_dict[child.name] = newbtn
-		
-		
+
+
 func clear_data_tabs():
 	var display_form_dict_copy :Dictionary = display_form_dict.duplicate(true)
 	for display_tab_name in display_form_dict_copy:
@@ -136,7 +147,7 @@ func clear_data_tabs():
 		else:
 			display_tab.queue_free()
 			display_form_dict.erase(display_tab_name)
-#		await get_tree().process_frame
+		await get_tree().process_frame
 
 
 func clear_all_buttons():
@@ -162,7 +173,7 @@ func clear_table_buttons():
 			if !do_not_delete_me:
 				currButton.queue_free()
 				button_dict.erase(currButton.name)
-				await get_tree().process_frame
+#				await get_tree().process_frame
 #	await get_tree().process_frame
 
 
@@ -332,18 +343,41 @@ func add_tables_in_category(category :String):
 #		show_selected_tab(selected_tab_name)
 
 
-func when_editor_saved():
-	while is_uds_main_updating:
-		await get_tree().process_frame
-	if display_form_dict.has(selected_tab_name):
-		display_form_dict[selected_tab_name]._on_Save_button_up()
-	print("PROJECT SETTINGS CHANGED")
-	DBENGINE.update_input_actions_table()
-	DBENGINE.update_UI_method_table()
-	await get_tree().create_timer(.1).timeout
-	_ready()
 
 
+#	if is_uds_main_updating == false:
+#		is_uds_main_updating = true
+#		print("FART Main _Ready Begin")
+#		connect_signals()
+#		await clear_data_tabs()
+#		await clear_all_buttons()
+#		add_category_buttons()
+#		add_database_buttons_to_button_dict()
+#		add_other_nav_buttons_to_button_dict()
+#		add_database_tabs_to_display_dict()
+#
+#		for key in display_form_dict:
+#			if display_form_dict[key].has_method("reload_data_without_saving"):
+#				display_form_dict[key].reload_data_without_saving()
+#		set_buttom_theme("Top Row")
+#		set_buttom_theme("Category")
+#		DBENGINE.set_background_theme($Background)
+#
+#		is_uds_main_updating = false
+
+
+
+
+#func when_editor_saved():
+#	while is_uds_main_updating:
+#		await get_tree().process_frame
+#	if display_form_dict.has(selected_tab_name):
+#		display_form_dict[selected_tab_name]._on_Save_button_up()
+#	print("PROJECT SETTINGS CHANGED")
+#	DBENGINE.update_input_actions_table()
+#	DBENGINE.update_UI_method_table()
+#	await get_tree().create_timer(.1).timeout
+#	_ready()
 
 func connect_signals():
 	pass

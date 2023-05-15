@@ -218,6 +218,16 @@ auto_set_minimum_size = false
 visible = false
 layout_mode = 1
 
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection" index="1"]
+item_count = 16
+popup/item_15/text = "Dialog Options"
+popup/item_15/id = 15
+
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
+item_count = 41
+popup/item_40/text = "Event Dialog Variables"
+popup/item_40/id = 40
+
 [node name="popup_deleteKey" parent="Popups" instance=ExtResource("7")]
 visible = false
 layout_mode = 1
@@ -261,7 +271,7 @@ grow_vertical = 2
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/Label"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Display_Node/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/input_templateBuffer"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection/Label"]

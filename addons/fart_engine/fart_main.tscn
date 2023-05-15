@@ -24,7 +24,7 @@ metadata/_edit_vertical_guides_ = []
 
 [node name="Background" parent="." instance=ExtResource("3_83a5l")]
 layout_mode = 1
-color = Color(0.0117647, 0, 0.133333, 1)
+color = Color(0.196078, 0.188235, 0.188235, 1)
 
 [node name="ProjectWelcomeLabel" type="HBoxContainer" parent="."]
 visible = false

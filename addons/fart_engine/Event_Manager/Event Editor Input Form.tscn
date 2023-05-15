@@ -70,9 +70,6 @@ layout_mode = 2
 label_text = "Event Name"
 is_label_button = false
 
-[node name="AdvancedControlsVBox" parent="VBoxContainer/HBox3/Input_Text/Input_Node" index="2"]
-visible = false
-
 [node name="Buffer" type="Label" parent="VBoxContainer/HBox3"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -283,6 +280,16 @@ text = "Cancel"
 visible = false
 layout_mode = 1
 
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection" index="1"]
+item_count = 16
+popup/item_15/text = "Dialog Options"
+popup/item_15/id = 15
+
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
+item_count = 41
+popup/item_40/text = "Event Dialog Variables"
+popup/item_40/id = 40
+
 [node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="1"]
 item_count = 7
 item_0/text = "Character Classes"
@@ -379,13 +386,13 @@ layout_mode = 0
 [editable path="VBoxContainer/HBox3/Input_Text"]
 [editable path="VBoxContainer/HBox3/Input_Text/Input_Node/Label"]
 [editable path="VBoxContainer/HBox3/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
-[editable path="VBoxContainer/HBox3/Input_Text/Display_Node/Label"]
+[editable path="VBoxContainer/HBox3/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
 [editable path="VBoxContainer/HBox3/Input_Text/input_templateBuffer"]
 [editable path="Popups/popup_newValue"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/Label"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
-[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Display_Node/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/input_templateBuffer"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection"]
 [editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection/Label"]

@@ -4,7 +4,9 @@ extends DatabaseEngine
 signal event_selection_popup_closed
 signal event_editor_input_form_closed
 signal event_editor_input_form_loaded
-
+signal input_forms_cleared
+signal match_fields_to_template_complete
+signal page_button_load_complete
 
 @onready var commands_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/VBox1
 @onready var conditions_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox1/HBox1
@@ -24,19 +26,22 @@ var initial_event_display_name :String = ""
 var input_node_dict :Dictionary = {}
 var selectedPageNode : Node
 var event_data_dict:Dictionary
-
+var v_scroll :int = 0
 var scroll_position:int = 0
 
 func _ready():
+#	print("EVENT EDITOR INPUT FORM - READY - BEGIN")
 	if event_name != "":
-		load_event_from_dbmanager()
-		event_data_dict = import_event_data(event_name, true)
+		set_initial_values()
+		
 	set_background_theme($Background)
 #	emit_signal("event_editor_input_form_loaded")
 #	print("EVENT EDITOR FORM LOADED")
+#	print("EVENT EDITOR INPUT FORM - READY - END")
 
 
 func match_fields_to_template():
+#	print("EVENT EDITOR INPUT FORM - MATCH FIELDS TO TEMPLATE - BEGIN")
 	var event_template_dict :Dictionary = import_data("Event Table Template")
 	for key in event_template_dict:
 		for field in event_template_dict[key]:
@@ -49,28 +54,42 @@ func match_fields_to_template():
 		for field in event_dict[tab]:
 			if !event_template_dict["1"].has(field):
 				remove_field_array.append(field)
+				await get_tree().process_frame
 
 	if remove_field_array.size() != 0:
 		for field in remove_field_array:
 			for tab in event_dict:
 				event_dict[tab].erase(field)
+				await get_tree().process_frame
+#	print("EVENT EDITOR INPUT FORM - MATCH FIELDS TO TEMPLATE - END")
+#	await match_fields_to_template_complete
+	match_fields_to_template_complete.emit()
 
 
 func load_event_data(event_tab := tab_number):
+#	print("EVENT EDITOR INPUT FORM - LOAD EVENT DATA - BEGIN")
 	tab_number = event_tab
 	event_name_label.set_input_value(event_dict["0"]["Display Name"] )
+	
 	match_fields_to_template()
+	await match_fields_to_template_complete
+	
 	for child in event_page_button_list.get_children():
 		child.queue_free()
 	load_page_buttons()
+	
+#	print("EVENT EDITOR INPUT FORM - LOAD EVENT DATA - END")
 #	await get_tree().create_timer(0.5).timeout
 #	emit_signal("event_editor_input_form_loaded")
 #	print("EVENT EDITOR LOADED")
 
 
 func load_page_buttons():
+#	print("EVENT EDITOR INPUT FORM - LOAD PAGE BUTTONS - BEGIN")
 	var page_button = preload("res://addons/fart_engine/Event_Manager/Event_Page_Button.tscn")
 	var event_size : int = event_dict.size() - 1 #This is to account for the display name
+	var selected_page_button
+	
 	for index in event_size:
 		var index_text :String = str(index + 1)
 		var new_button = page_button.instantiate()
@@ -79,12 +98,13 @@ func load_page_buttons():
 		event_page_button_list.add_child(new_button)
 		new_button.event_page_number = index_text
 		if new_button.event_page_number == tab_number:
-			new_button.on_Button_button_up()
+			selected_page_button = new_button
+	selected_page_button.on_Button_button_up()
+#	print("EVENT EDITOR INPUT FORM - LOAD PAGE BUTTONS - END")
 
 
 func load_event_notes(event_tab):#updated
-	if event_data_dict == {}:
-		event_data_dict = import_event_data(event_name, true)
+
 	var input_value = event_dict[event_tab]["Notes"]
 #	print(input_value)
 	var notes_container = create_input_node("Notes", event_name, event_dict, event_data_dict)
@@ -249,18 +269,41 @@ func load_event_commands_input(event_tab):
 
 
 func on_page_button_pressed(event_page_number :String):
-	var v_scroll = get_v_scroll()
+#	print("EVENT EDITOR INPUT FORM - PAGE BUTTON PRESSED - BEGIN - PAGE NUMBER: ", event_page_number)
+	v_scroll = get_v_scroll()
 	
 	selectedPageNode = event_page_button_list.get_child(int(event_page_number) - 1)
+
 	if event_page_number == "1":
 		$VBoxContainer/HBox3/HBox1/Delete_Page_Button.disabled = true
 	else:
 		$VBoxContainer/HBox3/HBox1/Delete_Page_Button.disabled = false
+	
 	clear_all_input_forms()
-	await get_tree().create_timer(0.1).timeout
+#	await "input_forms_cleared"
+	await get_tree().create_timer(.1)
+	
 	tab_number = event_page_number
 	input_node_dict = {}
+	if event_data_dict == {}:
+		event_data_dict = import_event_data(event_name, true)
+
+#	await get_tree().create_timer(0.01)
+	set_page_input_data(event_page_number)
+
+	for node_name in input_node_dict:
+		input_node_dict[node_name].is_label_button = false
+
+	if self.is_inside_tree():
+#		await get_tree().create_timer(0.01).timeout
+		set_v_scroll(v_scroll)
 	
+#	print("EVENT EDITOR INPUT FORM - PAGE BUTTON PRESSED - END")
+#	emit_signal("page_button_load_complete")
+
+
+func set_page_input_data(event_page_number):
+#	print("EVENT EDITOR INPUT FORM - SET PAGE INPUT DATA - BEGIN")
 	load_event_notes(event_page_number)
 	load_event_trigger_input(event_page_number)
 	load_loop_animation_input(event_page_number)
@@ -273,19 +316,12 @@ func on_page_button_pressed(event_page_number :String):
 	load_event_animation_state_input(event_page_number)
 	load_event_animation_group_input(event_page_number)
 	load_event_animation_input(event_page_number)
-
 	var does_event_move_node = input_node_dict["Does Event Move?"]
 	does_event_move_node._on_input_toggled(does_event_move_node.inputNode.button_pressed)
 
 	load_event_conditions_input(event_page_number)
 	load_event_commands_input(event_page_number)
-
-	for node_name in input_node_dict:
-		input_node_dict[node_name].is_label_button = false
-
-	if self.is_inside_tree():
-		await get_tree().create_timer(0.1).timeout
-		set_v_scroll(v_scroll)
+#	print("EVENT EDITOR INPUT FORM - SET PAGE INPUT DATA - END")
 
 
 func set_table_data_display_name(event_key :String , displayName :String):
@@ -302,6 +338,8 @@ func set_table_data_display_name(event_key :String , displayName :String):
 	save_file(table_save_path + "Table Data" + table_file_format, table_list)
 	event_node.event_name = event_name
 	update_editor()
+	
+
 
 
 func set_table_data_display_name_from_dbmanager(event_key :String , displayName :String):
@@ -351,40 +389,18 @@ func get_next_event_key():
 
 func set_initial_values(tabNumber := tab_number):
 	current_table_name = event_name
-#	update_dictionaries()
-#	print("Intitial event Name: ", event_name)
+	event_data_dict = import_event_data(event_name, true)
 	event_dict = import_event_data(event_name)
 	load_event_data(tabNumber)
 
 
 
-func load_event_from_dbmanager():
-	set_initial_values()
+#func load_event_from_dbmanager():
+#	set_initial_values()
 
 
 func load_event(EventName:String) -> void:
-#	var editor := EditorScript.new()
-#	var selection_array = editor.get_editor_interface().get_selection().get_selected_nodes()
-#	if selection_array.size() != 0:
-#		if selection_array.size() == 1:
-#			event_node = editor.get_editor_interface().get_selection().get_selected_nodes()[0]
-#	print("Load event Name: ", EventName)
 	event_name = EventName
-#			if event_name == "":
-#				popup_main.visible = true
-#				event_selection_dropdown_input.selection_table = get_list_of_events()
-#				event_selection_dropdown_input.selection_table_name = "Events"
-#				if event_selection_dropdown_input.selection_table.size()!= 0:
-#					event_selection_dropdown_input.populate_list(false)
-#					event_selection_dropdown_input.select_index()
-#					event_selection_dropdown_input.visible = true
-#				else:
-#					event_selection_dropdown_input.visible = false
-#				event_selection_popup.visible = true
-#				await event_selection_popup_closed
-#				if event_name != "":
-#					set_initial_values()
-#			else:
 	get_node("VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2").visible = true
 	set_name("EventInputForm")
 	set_initial_values()
@@ -392,9 +408,6 @@ func load_event(EventName:String) -> void:
 
 func _on_Button_button_up() -> void: #close form - event node
 	emit_signal("event_editor_input_form_closed")
-#	var editor = EditorPlugin.new()
-#	editor.remove_control_from_container(EditorPlugin.CONTAINER_CANVAS_EDITOR_BOTTOM, self)
-#	queue_free()
 
 
 func close_event_input_form_in_dbmanager():
@@ -407,31 +420,43 @@ func _on_Save_Close_Button_button_up() -> void:
 	udsplugin._ready()
 	call_deferred("_on_Button_button_up")
 
-
-func save_event_data(is_dbmanager :bool = false):
-	var this_event_dict:Dictionary = {}
-	event_dict["0"] = {"Display Name": event_name_label._get_input_value()}
-	
-	for child in input_node_dict:
-		var node = input_node_dict[child]
-#		print(child)
-		this_event_dict[node.labelNode.get_text()] =  node.get_input_value()
-	event_dict[tab_number] = this_event_dict
-
-	save_file(table_save_path + event_folder + event_name + table_file_format, event_dict)
-#	selectedPageNode = event_page_button_list.get_child(int(tab_number) - 1)
-#	selectedPageNode.on_Button_button_up()
-	var eventNode = get_node("../../../../..")
-	if eventNode.has_method("clear_datachange_warning"): eventNode.clear_datachange_warning()
-
+var event_data_is_saving:bool = false
+func save_event_data():
+#	print("EVENT EDITOR INPUT FORM - SAVE EVENT DATA - BEGIN")
+	if !event_data_is_saving:
+		event_data_is_saving = true
+		v_scroll = get_v_scroll()
+		var this_event_dict:Dictionary = {}
+		event_dict["0"] = {"Display Name": event_name_label._get_input_value()}
+		
+		for child in input_node_dict:
+			var node = input_node_dict[child]
+	#		print(child)
+			this_event_dict[node.labelNode.get_text()] =  node.get_input_value()
+		event_dict[tab_number] = this_event_dict
+		
+		save_file(table_save_path + event_folder + event_name + table_file_format, event_dict)
+	#	selectedPageNode = event_page_button_list.get_child(int(tab_number) - 1)
+	#	selectedPageNode.on_Button_button_up()
+		var eventNode = get_node("../../../../..")
+		if eventNode.has_method("clear_datachange_warning"): eventNode.clear_datachange_warning()
+		await get_tree().process_frame
+		event_data_is_saving = false
+#	print("EVENT EDITOR INPUT FORM - SAVE EVENT DATA - BEGIN")
 	return event_name
 
 
 func clear_all_input_forms():
+#	print("EVENT EDITOR INPUT FORM - CLEAR ALL INPUT FORMS - BEGIN")
 	for child in input_node_dict:
 		var node = input_node_dict[child]
 		if is_instance_valid(node):
+			node.get_parent().remove_child(node)
 			node.queue_free()
+#	await get_tree().create_timer(0.1).timeout
+	
+	input_forms_cleared.emit()
+#	print("EVENT EDITOR INPUT FORM - CLEAR ALL INPUT FORMS - END")
 #		await get_tree().process_frame
 #	await get_tree().process_frame
 
