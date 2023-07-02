@@ -36,8 +36,8 @@ func connect_signals(new_node):
 	set_input.connect(new_node.set_input_values)
 
 func _on_close_button_up():
-	queue_free()
 	emit_signal("closed")
+	queue_free()
 
 
 func _on_remove_event_button_up():
@@ -70,7 +70,6 @@ func _on_global_variables_button_up():
 #	await globalVariables_EventInputForm.global_var_node.populate_list(false)
 	
 	globalVariables_EventInputForm.commandListForm = self
-#	globalVariables_EventInputForm.global_var_node.select_index(0)
 	connect_signals(globalVariables_EventInputForm)
 
 func _on_print_to_console_button_up():

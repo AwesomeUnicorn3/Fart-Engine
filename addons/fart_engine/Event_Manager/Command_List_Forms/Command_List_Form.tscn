@@ -38,11 +38,7 @@ layout_mode = 2
 size_flags_vertical = 1
 
 [node name="Label_Button" parent="VBoxContainer/Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 button_text = "Command List"
-
-[node name="Hide_Button" parent="VBoxContainer/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="Close1" type="Button" parent="VBoxContainer/Label/HBox1" index="2"]
 visible = false

@@ -4,8 +4,8 @@
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_List_Forms/ModifyInventory_EventInputForm.gd" id="2_da3qg"]
 [ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="3_l5hgx"]
 [ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_tplko"]
+[ext_resource type="PackedScene" uid="uid://c7c0ymusji584" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="5_bnonm"]
 [ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_m2brm"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Deprecated.tscn" id="7_i6vjt"]
 
 [node name="ModifyInventory_EventInputForm" type="Control"]
 layout_mode = 3
@@ -54,12 +54,6 @@ selection_table_name = "Items"
 label_text = "Select Item"
 is_label_button = false
 
-[node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
-[node name="Hide_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
 item_count = 1
 selected = 0
@@ -78,9 +72,10 @@ is_label_button = false
 button_pressed = true
 text = "+"
 
-[node name="WholeNumber" parent="Control/VBoxContainer" instance=ExtResource("7_i6vjt")]
+[node name="Number_Counter" parent="Control/VBoxContainer" instance=ExtResource("5_bnonm")]
 layout_mode = 2
-label_text = "WholeNumber"
+is_int = true
+label_text = "How Many?"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2

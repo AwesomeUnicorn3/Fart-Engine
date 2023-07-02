@@ -22,12 +22,6 @@ metadata/_edit_vertical_guides_ = [-175.0]
 [node name="Label" parent="." instance=ExtResource("5")]
 layout_mode = 2
 
-[node name="Label_Button" parent="Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
-[node name="Hide_Button" parent="Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
 [node name="StandardControlsHBox" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
@@ -205,12 +199,10 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Label_Button" parent="AdvancedControlsVBox/Label/HBox1" index="0" groups=["Sub Label 1"]]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 button_text = "Advanced Options"
 
 [node name="Hide_Button" parent="AdvancedControlsVBox/Label/HBox1" index="1"]
 visible = true
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="AdvancedControlsHBox" type="HBoxContainer" parent="AdvancedControlsVBox"]
 layout_mode = 2
@@ -227,9 +219,6 @@ layout_mode = 2
 [node name="Label_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/Label/HBox1" index="0" groups=["Node Label Level 1"]]
 self_modulate = Color(0, 0.266667, 0.321569, 1)
 button_text = "Frame Range"
-
-[node name="Hide_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox"]
 visible = false
@@ -371,10 +360,7 @@ layout_mode = 2
 
 [node name="Label_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/Label/HBox1" index="0" groups=["Node Label Level 1"]]
 self_modulate = Color(0, 0.266667, 0.321569, 1)
-button_text = "Frame Range"
-
-[node name="Hide_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+button_text = "FPS"
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox"]
 visible = false
@@ -469,12 +455,10 @@ layout_mode = 2
 
 [node name="Label_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/Label/HBox1" index="0" groups=["Node Label Level 1"]]
 self_modulate = Color(0, 0.266667, 0.321569, 1)
-button_text = "Frame Range"
-
-[node name="Hide_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+button_text = "Sprite Size (Pixels)"
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox"]
+visible = false
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 3

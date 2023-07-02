@@ -92,4 +92,4 @@ auto_set_minimum_size = false
 
 [connection signal="button_up" from="Control/VBoxContainer/OpenMap_Button" to="." method="_on_open_map_button_button_up"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
-[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up2"]

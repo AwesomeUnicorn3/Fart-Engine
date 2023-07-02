@@ -130,7 +130,7 @@ func _input(event):
 
 func show_in_game_main_menu(show :bool = true):
 	root.get_node("UI/InGameMainMenu").visible = show
-
+	show_gui(!show)
 
 
 func quit_game():
@@ -138,6 +138,7 @@ func quit_game():
 	emit_signal("in_game_menu_closed")
 	remove_player_from_map_node()
 	remove_map_from_root()
+	show_gui(false)
 	Dynamic_Game_Dict = {}
 
 

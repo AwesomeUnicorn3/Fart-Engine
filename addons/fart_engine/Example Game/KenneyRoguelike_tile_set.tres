@@ -1,7 +1,7 @@
 [gd_resource type="TileSet" load_steps=8 format=3 uid="uid://w8ltbymfnl68"]
 
-[ext_resource type="Texture2D" uid="uid://bdp03jh53715c" path="res://addons/fart_engine/Example Game/Kenney Assets/roguelike-pack/Spritesheet/roguelikeSheet_transparent.png" id="1_6sh7t"]
-[ext_resource type="Texture2D" uid="uid://c5vxcn5cjuspx" path="res://addons/fart_engine/Example Game/gfx Assets/Overworld.png" id="2_y2f6g"]
+[ext_resource type="Texture2D" uid="uid://bdp03jh53715c" path="res://addons/fart_engine/Example Game/Kenney Assets/roguelike-pack/Spritesheet/roguelikeSheet_transparent.png" id="1_6e3yc"]
+[ext_resource type="Texture2D" uid="uid://c5vxcn5cjuspx" path="res://addons/fart_engine/Example Game/gfx Assets/Overworld.png" id="2_1bo72"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_f1nnu"]
 tile_data = PackedInt32Array(0, 327681, 16, 65536, 327681, 17, 1, 393217, 16, 65537, 393217, 17)
@@ -14,7 +14,7 @@ tile_data = PackedInt32Array(0, 327681, 18, 65536, 327681, 19, 1, 327681, 18, 65
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g1slp"]
 resource_name = "Kenney RogueLike"
-texture = ExtResource("1_6sh7t")
+texture = ExtResource("1_6e3yc")
 separation = Vector2i(1, 1)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -8843,7 +8843,7 @@ separation = Vector2i(1, 1)
 56:0/0/physics_layer_1/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yyi77"]
-texture = ExtResource("2_y2f6g")
+texture = ExtResource("2_1bo72")
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0

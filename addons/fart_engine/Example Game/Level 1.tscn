@@ -1,18 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://biv7x8dydjk6u"]
+[gd_scene load_steps=7 format=3 uid="uid://biv7x8dydjk6u"]
 
-[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Map_Engine.gd" id="1_jh4or"]
-[ext_resource type="TileSet" uid="uid://w8ltbymfnl68" path="res://addons/fart_engine/Example Game/KenneyRoguelike_tile_set.tres" id="2_sqmck"]
-[ext_resource type="Script" path="res://addons/fart_engine/Example Game/Event.gd" id="3_ssf1o"]
-[ext_resource type="Texture2D" uid="uid://bl1yj02fc0y1s" path="res://fart_data/png/StartingPosition.png" id="4_bd63d"]
-[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/StartingPositionNode.gd" id="5_h8nqf"]
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Map_Engine.gd" id="1_b7j2j"]
+[ext_resource type="TileSet" uid="uid://w8ltbymfnl68" path="res://addons/fart_engine/Example Game/KenneyRoguelike_tile_set.tres" id="2_l2id8"]
+[ext_resource type="Script" path="res://addons/fart_engine/Example Game/Event.gd" id="3_5xexi"]
+[ext_resource type="Texture2D" uid="uid://bl1yj02fc0y1s" path="res://fart_data/png/StartingPosition.png" id="4_ejyix"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/StartingPositionNode.gd" id="5_tmwa8"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/TransferPositionNode.gd" id="6_eegt8"]
 
 [node name="1" type="Node2D" groups=["Map"]]
 y_sort_enabled = true
-script = ExtResource("1_jh4or")
+script = ExtResource("1_b7j2j")
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
-tile_set = ExtResource("2_sqmck")
+tile_set = ExtResource("2_l2id8")
 format = 2
 layer_0/name = "1"
 layer_0/z_index = -1
@@ -40,16 +41,21 @@ layer_3/z_index = 1
 layer_3/tile_data = PackedInt32Array()
 
 [node name="Fart Event2" type="CharacterBody2D" parent="."]
-position = Vector2(199, 23)
+position = Vector2(131, -8)
 collision_layer = 2
 collision_mask = 3
 floor_max_angle = 3.14159
 floor_snap_length = 0.0
 platform_floor_layers = 0
-script = ExtResource("3_ssf1o")
+script = ExtResource("3_5xexi")
 event_name = "Event 1"
 
 [node name="StartingPositionNode" type="Sprite2D" parent="."]
-position = Vector2(199, 7)
-texture = ExtResource("4_bd63d")
-script = ExtResource("5_h8nqf")
+position = Vector2(130, 41)
+texture = ExtResource("4_ejyix")
+script = ExtResource("5_tmwa8")
+
+[node name="TransferPositionNode" type="Sprite2D" parent="."]
+position = Vector2(132, -56)
+texture = ExtResource("4_ejyix")
+script = ExtResource("6_eegt8")

@@ -24,7 +24,7 @@ func get_index_to_dialog_options():
 func set_input_value(node_value):
 	if typeof(node_value) == TYPE_STRING:
 		node_value = str_to_var(node_value)
-	print("ADVANCED CONTROLS SET INPUT: ", node_value)
+#	print("ADVANCED CONTROLS SET INPUT: ", node_value)
 	$Input_Array._set_input_value(node_value["event_buttons"])
 	$Checkbox_Template._set_input_value(node_value["show_event_options_buttons"])
 	

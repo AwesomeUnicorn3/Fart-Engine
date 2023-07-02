@@ -1,8 +1,8 @@
 @tool
 extends CommandForm
 
-@onready var map_node = $Control/VBoxContainer/DropDown_Template
-@onready var vector_node = $Control/VBoxContainer/Input_Vector
+@onready var map_node := $Control/VBoxContainer/DropDown_Template
+@onready var vector_node := $Control/VBoxContainer/Input_Vector
 @onready var DBENGINE : DatabaseEngine = DatabaseEngine.new()
 
 var function_name :String = "transfer_player" #must be name of valid function
@@ -19,26 +19,33 @@ func _ready():
 
 func set_input_values(old_function_dict :Dictionary):
 	edit_state = true
-	map_node.inputNode.text = old_function_dict[function_name][0]
-	vector_node.inputNode.text = old_function_dict[function_name][1]
-	vector_node.set_user_input_value()
+	map_node.set_input_value(old_function_dict[function_name][0])
+	vector_node.set_input_value(old_function_dict[function_name][1])
+#	vector_node.set_user_input_value()
 
 
 func get_input_values():
-	which_map = map_node.inputNode.text
-	what_coordinates = vector_node.inputNode.text
-	var return_function_dict = {function_name : [which_map,what_coordinates , event_name]}
+	which_map = map_node.get_input_value()
+	what_coordinates = vector_node.get_input_value()
+	var return_function_dict = {function_name : [which_map, what_coordinates, event_name]}
+
 	return return_function_dict
 
 
 func _on_accept_button_up():
-	commandListForm.CommandInputForm.function_dict = get_input_values()
+	commandListForm.CommandInputForm.function_dict = await get_input_values()
 	delete_transfer_node()
 	if DBENGINE.get_main_node(self).name == "FART ENGINE":
 		DBENGINE.close_scene_in_editor(which_map)
-		await get_tree().create_timer(.25).timeout
+		
 		DBENGINE.return_to_AU3Engine()
+	
+	await get_tree().create_timer(.25).timeout
+	get_parent()._on_close_button_up() 
 
+func _on_cancel_button_up2():
+	delete_transfer_node()
+	await get_tree().create_timer(.25).timeout
 	get_parent()._on_close_button_up() 
 
 
@@ -60,10 +67,13 @@ func Add_Starting_position_node_to_map(selectedItemName):
 	var new_map_path :String = DBENGINE.get_mappath_from_displayname(selectedItemName)
 	var transfer_position_node = Sprite2D.new()
 	var new_map_scene = load(new_map_path).instantiate()
+	transfer_node = transfer_position_node
+	
 	new_map_scene.add_child(transfer_position_node)
 	transfer_position_node.set_owner(new_map_scene)
 	transfer_position_node.set_name("TransferPositionNode")
 	transfer_position_node.set_script(load("res://addons/fart_engine/Database_Manager/TransferPositionNode.gd"))
+	
 	var transfer_position_icon :Texture = load("res://fart_data/png/StartingPosition.png")
 	transfer_position_node.set_texture(transfer_position_icon)
 	var new_packed_scene = PackedScene.new()
@@ -89,7 +99,12 @@ func Add_Starting_position_node_to_map(selectedItemName):
 
 
 func delete_transfer_node():
-	DBENGINE.delete_starting_position_from_old_map(scene_name, "TransferPositionNode")
+	var editor = EditorScript.new().get_editor_interface().get_edited_scene_root()
+	if editor != null:
+		if is_instance_valid(editor.has_node("TransferPositionNode")):
+	#if editor.get_edited_scene_root().get_node("TransferPositionNode") != null:
+			editor.get_node("TransferPositionNode").queue_free()
+#	DBENGINE.delete_starting_position_from_old_map(scene_name, "TransferPositionNode")
 
 
 func update_position(current_position):
@@ -100,3 +115,6 @@ func update_position(current_position):
 	if typeof(current_position) == TYPE_VECTOR3:
 		vector_node.z_input.set_text(str(current_position.z))
 	what_coordinates = vector_node.inputNode.text
+
+
+

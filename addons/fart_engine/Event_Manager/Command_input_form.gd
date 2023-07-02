@@ -34,20 +34,8 @@ func edit_selected_command(key:String):
 	open_selected_form_for_editing(function_name, selected_command_dict,key )
 
 
-func open_selected_form_for_editing(function_name :String ,old_command_dict:Dictionary, key_value :String) -> void:
-	#show Command List Form
-	var CommandListForm = load("res://addons/fart_engine/Event_Manager/Command_List_Forms/Command_List_Form.tscn").instantiate()
-	#send key value to command list form so it can append the main dictionary with the new command dict
-	await add_child(CommandListForm)
-	CommandListForm.CommandInputForm = self
-#	CommandListForm.local_variable_dictionary = local_variable_dictionary
-	CommandListForm._open_selected_form(function_name)
-	CommandListForm.emit_signal("set_input", old_command_dict)
-	await CommandListForm.closed
-	if function_dict != {}:
-		mainDictionary[str(key_value)] = function_dict
-	refresh_form()
-	_on_SaveChanges_button_up()
+
+	
 
 
 func change_command_order(current_index:String, move_amount :int):
@@ -65,9 +53,9 @@ func change_command_order(current_index:String, move_amount :int):
 
 
 func _on_Close_button_up() -> void:
-	emit_signal("save_complete")
 	_on_SaveChanges_button_up()
-	self.call_deferred("close_form")
+	emit_signal("save_complete")
+	call_deferred("close_form")
 
 
 func close_form():
@@ -75,7 +63,7 @@ func close_form():
 
 
 func delete_me():
-	self.queue_free()
+	queue_free()
 
 
 func _on_SaveChanges_button_up() -> void:
@@ -120,19 +108,33 @@ func create_input_fields():
 		command_line_node.get_node("ScriptInput/Input").set_text(str(command_line_node.line_item_dictionary))
 
 
-func _on_AddItem_button_up() -> void:
+func open_selected_form_for_editing(function_name :String ,old_command_dict:Dictionary, key_value :String) -> void:
 	#show Command List Form
 	var CommandListForm = load("res://addons/fart_engine/Event_Manager/Command_List_Forms/Command_List_Form.tscn").instantiate()
 	#send key value to command list form so it can append the main dictionary with the new command dict
-	var key_value = get_next_key()
-	await add_child(CommandListForm)
+	add_child(CommandListForm)
 	CommandListForm.CommandInputForm = self
-#	CommandListForm.local_variable_dictionary = local_variable_dictionary
+	CommandListForm._open_selected_form(function_name)
+	CommandListForm.emit_signal("set_input", old_command_dict)
 	await CommandListForm.closed
 	if function_dict != {}:
 		mainDictionary[str(key_value)] = function_dict
 	refresh_form()
 	_on_SaveChanges_button_up()
+
+
+func _on_AddItem_button_up() -> void:
+	#show Command List Form
+	var CommandListForm = preload("res://addons/fart_engine/Event_Manager/Command_List_Forms/Command_List_Form.tscn").instantiate()
+	#send key value to command list form so it can append the main dictionary with the new command dict
+	var key_value = get_next_key()
+	add_child(CommandListForm)
+	CommandListForm.CommandInputForm = self
+	await CommandListForm.closed
+	if function_dict != {}:
+		mainDictionary[str(key_value)] = function_dict
+		refresh_form()
+		_on_SaveChanges_button_up()
 
 
 func get_next_key() -> int:
@@ -144,13 +146,13 @@ func get_next_key() -> int:
 	return nextKeyValue
 
 
-func _add_input_field() ->String:
-	_on_SaveChanges_button_up()
-	var nextKeyValue :int = get_next_key()
-	var default_dictionary :Dictionary = get_default_value("15")
-	mainDictionary[str(nextKeyValue)] = default_dictionary["1"]
-	_on_SaveChanges_button_up()
-	return str(nextKeyValue)
+#func _add_input_field() ->String:
+#	_on_SaveChanges_button_up()
+#	var nextKeyValue :int = get_next_key()
+#	var default_dictionary :Dictionary = get_default_value("15")
+#	mainDictionary[str(nextKeyValue)] = default_dictionary["1"]
+#	_on_SaveChanges_button_up()
+#	return str(nextKeyValue)
 
 
 func refresh_form():

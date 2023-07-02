@@ -119,7 +119,9 @@ func display_options_buttons():
 		var btn_text: String = FARTENGINE.get_text(event_option_buttons_dict[btn_key]["Button_Text"])
 		var dialog_var: String = event_option_buttons_dict[btn_key]["Dialog_Option"]
 		
-		var newbtn: TextureButton = preload("res://addons/fart_engine/Example Game/Event_Option_Button.tscn").instantiate()
+		var newbtn: TextureButton = load(FARTENGINE.get_field_value("UI Scenes", "10", "Path")).instantiate()
+		var btn_color: Color = FARTENGINE.get_field_value("UI Scenes", "10", "Background Color")
+		newbtn.reset_self_modulate()
 		dialog_scene.get_node("VBoxContainer/TopVBox/VBoxContainer/OptionScroll/OptionButtonParent").add_child(newbtn)
 		newbtn.set_input_values(btn_text, dialog_var, "")
 		newbtn.get_node("Button").button_up.connect(_on_option_button_pressed.bind(newbtn))
@@ -128,7 +130,7 @@ func display_options_buttons():
 
 
 func _on_option_button_pressed(optbtn: TextureButton):
-	print(optbtn.options_variable)
+#	print(optbtn.options_variable)
 	
 	FARTENGINE.EVENTS.change_event_options_variable(optbtn.options_variable, "", event_node_name, null)
 	emit_signal("option_button_pressed")

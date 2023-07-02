@@ -96,7 +96,7 @@ func _on_hide_advanced_button_up():
 func display_advanced_options(show:bool):
 #	print(show_advanced_options)
 	var showhide_dict := {true : "Hide", false : "Show"}
-	$Input_Node/AdvancedControlsVBox/AdvancedControlsHBox.visible = show
+#	$Input_Node/AdvancedControlsVBox/AdvancedControlsHBox.visible = show
 	$Input_Node/AdvancedControlsVBox/Display_Child.visible = show
 	$Input_Node/AdvancedControlsVBox/Label/HBox1/Hide_Button.set_text(showhide_dict[show])
 	set_hide_advanced(show)

@@ -9,28 +9,31 @@ func _init() -> void:
 func _get_input_value() -> String:
 	var return_value :String
 	return_value = inputNode.get_text()
-	
+#	print("GET VALUE: ", return_value)
 	return return_value
 
 
 func _set_input_value(node_value):
-#	print(var_to_str(node_value))
+#	print("NODE VALUE: ",var_to_str(node_value))
 	var selected_color: Color = node_value
 #	inputNode.set_text(str(node_value))
 	$HBoxContainer/OpenScene.set_pick_color(node_value)
 	$HBoxContainer/OpenScene.emit_signal("color_changed", node_value)
-	
-
-
 
 
 func _on_open_scene_color_changed(color):
+	var snap_step: float = 0.01
+	color.r = snapped(color.r, snap_step)
+	color.g = snapped(color.g, snap_step)
+	color.b = snapped(color.b, snap_step)
+	color.a = snapped(color.a, snap_step)
+	
 	$HBoxContainer/HBox3/InputR.set_text(str(color.r))
 	$HBoxContainer/HBox3/InputG.set_text(str(color.g))
 	$HBoxContainer/HBox3/InputB.set_text(str(color.b))
 	$HBoxContainer/HBox3/InputA.set_text(str(color.a))
 	inputNode.set_text(var_to_str(color))
-#	print(var_to_str(color))
+#	print("COLOR CHANGED TO VALUE: ", var_to_str(color))
 
 
 #func _on_open_scene_button_up():

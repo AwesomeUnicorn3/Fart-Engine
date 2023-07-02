@@ -98,7 +98,8 @@ is_label_button = false
 [node name="RepeatSoundAmount" parent="Control/VBoxContainer/HBoxContainer2" instance=ExtResource("6_k2qp6")]
 visible = false
 layout_mode = 2
-label_text = "RepeatSoundAmount"
+is_int = true
+label_text = "How Many Times?"
 
 [node name="WaitCheckbox" parent="Control/VBoxContainer" instance=ExtResource("4_827w4")]
 layout_mode = 2

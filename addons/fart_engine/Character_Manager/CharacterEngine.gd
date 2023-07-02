@@ -69,6 +69,7 @@ func set_required_variables():
 	gravity = FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Gravity Force", use_save_dict) * upscale
 	base_gravity = gravity
 	characterMass = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Mass", use_save_dict) * upscale
+	is_gravity_active = FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
 
 
 func add_raycast():
@@ -104,7 +105,7 @@ func _physics_process(delta):
 				elif current_selected_interactive_body != null:
 					current_selected_interactive_body.emit_signal("player_exited_interaction_area")
 					current_selected_interactive_body = null
-			is_gravity_active =  FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
+#			is_gravity_active =  FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
 
 #			input_process()
 			state_machine(delta)
@@ -148,13 +149,14 @@ func set_gravity(delta):
 
 
 func interaction_raycast_collision(body):
-	var main_body = body.get_parent()
-	if !is_instance_valid(current_selected_interactive_body):
-		if main_body.is_in_group("Events"):
-			assign_interactive_body_and_apply_shader(main_body)
-	elif main_body != current_selected_interactive_body:
-		current_selected_interactive_body.emit_signal("player_exited_interaction_area")
-		current_selected_interactive_body = null
+	if body != null:
+		var main_body = body.get_parent()
+		if !is_instance_valid(current_selected_interactive_body):
+			if main_body.is_in_group("Events"):
+				assign_interactive_body_and_apply_shader(main_body)
+		elif main_body != current_selected_interactive_body:
+			current_selected_interactive_body.emit_signal("player_exited_interaction_area")
+			current_selected_interactive_body = null
 
 func set_character_movement(canMove :bool):
 	character_can_move = canMove

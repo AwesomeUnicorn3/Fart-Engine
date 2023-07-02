@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://c521sxmdt64pl"]
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://c521sxmdt64pl"]
+
+[sub_resource type="SystemFont" id="SystemFont_6irfc"]
 
 [sub_resource type="StyleBoxFlat" id="1"]
 bg_color = Color(0, 0.14902, 0.498039, 1)
@@ -35,6 +37,7 @@ bg_color = Color(0.337255, 0.337255, 0.337255, 1)
 [resource]
 default_font_size = 20
 Button/colors/font_color = Color(1, 1, 1, 1)
+Button/fonts/font = SubResource("SystemFont_6irfc")
 Button/styles/disabled = SubResource("1")
 Button/styles/focus = SubResource("5")
 Button/styles/hover = SubResource("3")

@@ -57,7 +57,7 @@ func reload_data_without_saving():
 #	print("EVENT MANAGER - RELOAD DATA NO SAVE - BEGIN")
 	var reload:bool = await reload_buttons()
 	await get_tree().create_timer(0.25).timeout
-	print(selected_event_ID)
+#	print(selected_event_ID)
 #	while table_list.get_node(selected_event_ID) == null:
 #		await get_tree().process_frame
 	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()

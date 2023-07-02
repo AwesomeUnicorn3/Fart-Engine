@@ -9,6 +9,7 @@ var position_updated :bool = true
 var DBENGINE := DatabaseEngine.new()
 var save_table_wait_index :int = 0
 var CurrentPosition
+var par_node
 
 func _ready():
 	
@@ -26,6 +27,7 @@ func update_starting_position(current_position):
 	emit_signal("position_changed", CurrentPosition)
 
 
+
 func _process(delta):
 	if position != previous_position:
 		current_position = position
@@ -40,4 +42,3 @@ func _process(delta):
 	elif save_table_wait_index == 0 and !position_updated:
 		position_updated = true
 		update_starting_position(current_position)
-

@@ -41,7 +41,6 @@ layout_mode = 2
 button_text = "Edit Commands"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="input_templateBuffer" parent="." instance=ExtResource("4_wcfvt")]
 layout_mode = 2

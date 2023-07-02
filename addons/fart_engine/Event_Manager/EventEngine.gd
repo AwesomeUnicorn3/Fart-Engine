@@ -17,7 +17,7 @@ func change_event_options_variable(which_var:String, _event_name :String, event_
 	var event_options_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
 	event_options_dict[which_var] = true
 	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
-	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+	#print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
 
 
 func change_global_variable(which_var, which_field:String,  to_what, _event_name :String, _event_node_name :String, _event_node):
@@ -38,13 +38,13 @@ func wait(how_long: float, _event_name :String, _event_node_name:String, _event_
 	await FARTENGINE.root.get_tree().create_timer(how_long).timeout
 
 
-func transfer_player(which_map :String, what_coordinates, _event_name :String, _event_node_name:String, _event_node):
+func transfer_player(which_map :int, what_coordinates, _event_name :String, _event_node_name:String, _event_node):
 	var currGameState = FARTENGINE.gameState
 	FARTENGINE.set_game_state("7")
-	FARTENGINE.call_deferred("remove_player_from_map_node" ,FARTENGINE.current_map_node)
-	var map_path :String = FARTENGINE.get_mappath_from_displayname(which_map)
-	if FARTENGINE.current_map_name != which_map:
-		FARTENGINE.call_deferred("load_and_set_map",map_path)
+	FARTENGINE.call_deferred("remove_player_from_map_node")
+	var map_path :String = FARTENGINE.get_mappath_from_key(str(which_map))
+#	if FARTENGINE.current_map_name != str(which_map):
+	FARTENGINE.call_deferred("load_and_set_map",map_path)
 	await FARTENGINE.get_tree().create_timer(.25).timeout
 	FARTENGINE.player_node = await FARTENGINE.get_player_node()
 	FARTENGINE.player_node.set_player_position(FARTENGINE.convert_string_to_vector(what_coordinates))
@@ -72,11 +72,15 @@ func modify_player_inventory(what , how_many , increase_value :bool, _event_name
 		if !FARTENGINE.is_item_in_inventory(what):
 			FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] = {"ItemCount" : 0}
 		var inv_count = int(FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
-		FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] =  inv_count + how_many
+		FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] =  inv_count + modify_amount
 	else:
 		print(what, " needs to be added to Item Table")
-	print(what, ": ", how_many, " added to Inventory")
-#	print(FARTENGINEDynamic_Game_Dict["Inventory"][what]["ItemCount"])
+	
+	if int(FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"]) < 0:
+		FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] = 0
+
+	print(what, ": ", modify_amount, " added to Inventory")
+	print(FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
 	return FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"]
 
 

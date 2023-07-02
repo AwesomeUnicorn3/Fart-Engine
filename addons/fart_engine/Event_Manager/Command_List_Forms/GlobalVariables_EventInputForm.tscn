@@ -59,14 +59,8 @@ layout_mode = 2
 label_text = "Table"
 is_label_button = false
 
-[node name="Label_Button" parent="Control/VBoxContainer/TableDropdown/Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
-[node name="Hide_Button" parent="Control/VBoxContainer/TableDropdown/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
 [node name="Input" parent="Control/VBoxContainer/TableDropdown" index="1"]
-item_count = 40
+item_count = 41
 selected = 18
 popup/item_0/text = "Table Data"
 popup/item_0/id = 0
@@ -148,18 +142,14 @@ popup/item_38/text = "UI Methods"
 popup/item_38/id = 38
 popup/item_39/text = "Fart Editor Themes"
 popup/item_39/id = 39
+popup/item_40/text = "Event Dialog Variables"
+popup/item_40/id = 40
 
 [node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
 layout_mode = 2
 selection_table_name = "Global Variables"
 label_text = "Global Variable"
 is_label_button = false
-
-[node name="Label_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
-[node name="Hide_Button" parent="Control/VBoxContainer/KeyDropdown/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
 item_count = 4
@@ -177,12 +167,6 @@ popup/item_3/id = 3
 layout_mode = 2
 label_text = "Variable Key"
 is_label_button = false
-
-[node name="Label_Button" parent="Control/VBoxContainer/FieldDropdown/Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
-
-[node name="Hide_Button" parent="Control/VBoxContainer/FieldDropdown/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="Input" parent="Control/VBoxContainer/FieldDropdown" index="1"]
 item_count = 4

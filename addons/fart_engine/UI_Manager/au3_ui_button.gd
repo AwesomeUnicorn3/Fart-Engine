@@ -8,15 +8,35 @@ extends TextureButton
 
 var label :Label
 #NEED TO ADD THIS TO DATABASE AND PULL FROM THERE 
-var default_button_texture:Texture2D = preload("res://fart_data/png/Fart_UI_Button.png")
+var default_button_texture:Texture2D #= preload("res://fart_data/png/Fart_UI_Button.png")
 var ui_navigation_dict :Dictionary 
+var texture_background_color:Color
 
 
+func _init():
+	default_button_texture = load(get_default_button_texture())
+	texture_background_color = get_default_background_color()
 
 func _ready():
-
+	
 	connect_signals()
+	
 	create_button()
+
+
+func get_default_button_texture() -> String:
+	var DBENGINE = DatabaseEngine.new()
+	var UI_scenes_table:Dictionary = DBENGINE.import_data("UI Scenes")
+	var return_texture_path:String = UI_scenes_table["11"]["Path"]
+	return return_texture_path
+
+
+func get_default_background_color() -> Color:
+	var DBENGINE = DatabaseEngine.new()
+	var UI_scenes_table:Dictionary = DBENGINE.import_data("UI Scenes")
+	var return_color:Color = str_to_var(UI_scenes_table["11"]["Background Color"])
+	return return_color
+
 
 
 func connect_signals():
@@ -34,15 +54,15 @@ func connect_signals():
 
 
 func reset_self_modulate():
-	set_self_modulate(Color.ORANGE)
+	set_self_modulate(texture_background_color)
 
 
 func set_self_modulate_selected():
-	set_self_modulate(Color.ORANGE.darkened(0.5))
+	set_self_modulate(texture_background_color.darkened(0.5))
 
 
 func set_self_modulate_hover():
-	set_self_modulate(Color.ORANGE.lightened(.5))
+	set_self_modulate(texture_background_color.lightened(.5))
 
 
 func _on_mouse_entered():
@@ -65,29 +85,30 @@ func _on_texture_button_down():
 func _on_texture_pressed():
 	set_self_modulate_selected()
 
+
 func set_texture(buttonTexture:Texture2D=null, textureLayer:String = "Normal"):
 	if buttonTexture == null:
-		buttonTexture = default_button_texture #preload("res://Data/png/AwesomeUnicorn (copy).png")
+		buttonTexture = load(get_default_button_texture()) #preload("res://Data/png/AwesomeUnicorn (copy).png")
 	
 	self.ignore_texture_size = true
 	self.set_stretch_mode(TextureButton.STRETCH_SCALE)
 	
 	match textureLayer:
 		"Normal":
-			if self.get_texture_normal() == null:
-				self.set_texture_normal(buttonTexture)
+				#if self.get_texture_normal() == null:
+			self.set_texture_normal(buttonTexture)
 		"Pressed":
-				if self.get_texture_pressed() == null:
-					self.set_texture_pressed(buttonTexture)
+				#if self.get_texture_pressed() == null:
+			self.set_texture_pressed(buttonTexture)
 		"Hover":
-				if self.get_texture_pressed() == null:
-					self.set_texture_pressed(buttonTexture)
+				#if self.get_texture_hover() == null:
+			self.set_texture_hover(buttonTexture)
 		"Disabled":
-				if self.get_texture_pressed() == null:
-					self.set_texture_pressed(buttonTexture)
+				#if self.get_texture_disabled() == null:
+			self.set_texture_disabled(buttonTexture)
 		"Focused":
-				if self.get_texture_pressed() == null:
-					self.set_texture_pressed(buttonTexture)
+				#if self.get_texture_focused() == null:
+			self.set_texture_focused(buttonTexture)
 
 
 

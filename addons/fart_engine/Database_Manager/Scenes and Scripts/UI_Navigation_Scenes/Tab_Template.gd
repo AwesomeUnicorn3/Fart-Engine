@@ -346,11 +346,11 @@ func get_next_key_number(table_Name :String) -> String:
 	#get table, loop through keys, find last key
 	var next_key_number :int = 1
 	for key in current_dict:
-		print("Key number: ", key)
+#		print("Key number: ", key)
 		var key_int: int = int(key)
 		if next_key_number <= key_int:
 			next_key_number = key_int + 1
-	print("next Key number: ", next_key_number)
+#	print("next Key number: ", next_key_number)
 	return str(next_key_number)
 
 
@@ -567,13 +567,13 @@ func set_display_name_first(): #Rearrange Fields- Not quite, but close
 		for order_number in read_dict:
 			var field_name: String = read_dict[order_number]["FieldName"]
 			if field_name == "Display Name" and order_number != str(1):
-				print("Table Name: ", table_name)
-				print("Order Number: ", order_number)
-				print("Field Name: ", read_dict[order_number]["FieldName"])
+#				print("Table Name: ", table_name)
+#				print("Order Number: ", order_number)
+#				print("Field Name: ", read_dict[order_number]["FieldName"])
 				
 				var display_dict: Dictionary = read_dict[order_number].duplicate(true)
 				var index_1_dict: Dictionary = read_dict["1"].duplicate(true)
 				write_dict["Column"]["1"] = display_dict
 				write_dict["Column"][order_number] = index_1_dict
-				print(write_dict["Column"])
+#				print(write_dict["Column"])
 				save_file(table_save_path + table_name + table_info_file_format, write_dict)

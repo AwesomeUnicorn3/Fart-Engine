@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvgljil6b3f5p"]
+[gd_scene load_steps=6 format=3 uid="uid://dvgljil6b3f5p"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Map_Engine.gd" id="1_yn33e"]
 [ext_resource type="Texture2D" uid="uid://h7cy6ybik7pw" path="res://fart_data/png/MenuBackground.png" id="2_4wqvc"]
+[ext_resource type="Texture2D" uid="uid://bl1yj02fc0y1s" path="res://fart_data/png/StartingPosition.png" id="3_jswly"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/TransferPositionNode.gd" id="4_7ebvb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_npjxb"]
 size = Vector2(903, 10)
@@ -35,3 +37,8 @@ shape = SubResource("RectangleShape2D_npjxb")
 position = Vector2(451, 267)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_npjxb")
+
+[node name="TransferPositionNode" type="Sprite2D" parent="."]
+position = Vector2(62, -59)
+texture = ExtResource("3_jswly")
+script = ExtResource("4_7ebvb")

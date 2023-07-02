@@ -471,7 +471,7 @@ func delete_field(field_name, selectedDict:Dictionary = current_dict, selectedDa
 			else:
 #				print("BREAK2")
 				break
-	print("delete key complete")
+#	print("delete key complete")
 	return [selectedDict, selectedDataDict]
 
 
@@ -506,7 +506,7 @@ func Delete_Key(key_name, selectedDict:Dictionary = current_dict, selectedDataDi
 			else:
 #				print("BREAK2")
 				break
-	print("delete key complete")
+#	print("delete key complete")
 	return [selectedDict, selectedDataDict]
 
 
@@ -740,8 +740,8 @@ func convert_string_to_type(variant, datatype = ""):
 			TYPE_STRING:
 				found_match = true
 
-		if !found_match:
-			print("No Match found for ", variant)
+#		if !found_match:
+#			print("No Match found for ", variant)
 
 	else:
 		match datatype:
@@ -1017,7 +1017,7 @@ func create_input_node(key_name:String, table_name:String, table_dict:Dictionary
 		table_data_dict = import_data(table_name, true)
 	data_type = get_datatype(key_name, table_data_dict)
 	if data_type == "":
-		print("KEY NAME: ", key_name)
+		print("NO DATATYPE ASSIGNED: ", key_name)
 	var new_node = create_datatype_node(data_type)
 	new_node.set_name(key_name)
 
@@ -1426,6 +1426,15 @@ func get_mappath_from_displayname(map_name :String):
 			break
 	return new_map_path
 
+func get_mappath_from_key(key :String) -> String:
+	var maps_dict = import_data("Maps")
+	var new_map_path :String = ""
+	new_map_path = maps_dict[key]["Path"]
+#	for map_id in maps_dict:
+#		if get_text(maps_dict[map_id]["Display Name"]) == map_name:
+#			new_map_path = maps_dict[map_id]["Path"]
+#			break
+	return new_map_path
 
 func add_starting_position_node_to_map(selectedItemID,previous_selectionID, parent_node):
 	var new_map_path :String
@@ -1491,13 +1500,27 @@ func select_node_in_editor(node_name : String):
 
 func get_editor_tabbar() -> TabBar:
 	var tabbar #:TabBar
+	var current_node: Node
 	var editor  = load("res://addons/fart_engine/EditorEngine.gd").new()
 	#editor.get_editor_interface()
-	tabbar = editor.get_editor_interface().get_editor_main_screen().get_parent().get_parent().get_node("@@716/@@717/@@718")
-#	for child in tabbar.get_children():
-#		(child.name, " ", child.get_class())
-	
-	return tabbar
+	current_node = editor.get_editor_interface().get_editor_main_screen().get_parent().get_parent()
+	var tabArray: Array = current_node.find_children("*", "TabBar", true, false)
+	print(tabArray)
+#	while tabbar == null:
+#
+#		for child in current_node.get_children():
+#			print(child.name, " ", child.get_class())
+#			if child.get_class() == "TabBar":
+#				tabbar = child
+#				break
+#
+#		if tabbar == null:
+#			if current_node.get_parent() == null:
+#				break
+#			else:
+#				current_node = current_node.get_parent()
+		
+	return tabArray[0]
 
 
 func return_to_AU3Engine():
@@ -1597,7 +1620,7 @@ func get_UI_methods():
 
 
 func update_input_actions_table():
-	print("UPDATE INPUT ACTIONS TABLE BEGIN")
+#	print("UPDATE INPUT ACTIONS TABLE BEGIN")
 	var AU3_input_map_dict:Dictionary = import_data("AU3 InputMap")
 	var AU3_input_map_data_dict: Dictionary = import_data("AU3 InputMap", true)
 	var input_actions_display_name_dict:Dictionary = get_display_name(AU3_input_map_dict)
@@ -1629,7 +1652,7 @@ func update_input_actions_table():
 
 	save_file( table_save_path + "AU3 InputMap" + table_file_format, AU3_input_map_dict )
 	save_file( table_save_path + "AU3 InputMap" + "_data" + table_file_format, AU3_input_map_data_dict )
-	print("UPDATE INPUT ACTIONS TABLE END")
+#	print("UPDATE INPUT ACTIONS TABLE END")
 
 
 func get_display_name(inputDict: Dictionary):

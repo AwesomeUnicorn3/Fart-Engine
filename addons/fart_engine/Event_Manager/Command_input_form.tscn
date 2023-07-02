@@ -43,11 +43,7 @@ layout_mode = 2
 size_flags_vertical = 1
 
 [node name="Label_Button" parent="VBox1/HBox1/Label2/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 button_text = "Command List"
-
-[node name="Hide_Button" parent="VBox1/HBox1/Label2/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
 
 [node name="Close" parent="VBox1/HBox1/Label2/HBox1" index="2" groups=["Table Action"] instance=ExtResource("4_rlduj")]
 visible = false

@@ -46,7 +46,7 @@ func _ready():
 
 		for key in display_form_dict:
 			if display_form_dict[key].has_method("reload_data_without_saving"):
-				print(key, selected_tab_name)
+#				print(key, selected_tab_name)
 				if key != selected_tab_name:
 					display_form_dict[key].reload_data_without_saving()
 
@@ -65,7 +65,7 @@ func when_editor_saved():
 		if !is_uds_main_updating:
 #			print("FART MAIN - WHEN EDITOR SAVED - BEGIN")
 			if display_form_dict.has(selected_tab_name):
-				print(selected_tab_name)
+#				print(selected_tab_name)
 				display_form_dict[selected_tab_name]._on_Save_button_up()
 				await get_tree().create_timer(0.1).timeout
 

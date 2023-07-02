@@ -25,15 +25,15 @@ func _ready():
 
 
 func update_starting_position_in_profile(CurrentPosition):
-	print("BEGIN UPDATE STARTING POSITION IN PROFILE")
+#	print("BEGIN UPDATE STARTING POSITION IN PROFILE")
 	
 	
 	var global_data_dict = DBENGINE.import_data("Global Data")
 	var profileid:String = await DBENGINE.get_global_settings_profile()
-	print("CurrentPosition: ", CurrentPosition)
+#	print("CurrentPosition: ", CurrentPosition)
 	global_data_dict[profileid]["Player Starting Position"] = CurrentPosition
 	DBENGINE.save_file(DBENGINE.table_save_path + "Global Data" + DBENGINE.table_file_format, global_data_dict)
-	print("END UPDATE STARTING POSITION IN PROFILE")
+#	print("END UPDATE STARTING POSITION IN PROFILE")
 
 
 func _process(delta):

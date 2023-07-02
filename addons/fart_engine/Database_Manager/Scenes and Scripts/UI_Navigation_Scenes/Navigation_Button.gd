@@ -98,8 +98,8 @@ func set_base_color(color: Color):
 func _on_command_list_button_button_up():
 	emit_signal("btn_pressed", str(name))
 
+
 func _on_Navigation_Button_button_up():
-	
 	if self.is_in_group("Key"):
 		if !btn_moved:
 			var Name = name
@@ -110,8 +110,9 @@ func _on_Navigation_Button_button_up():
 		main_page.button_movement_active = false
 
 	elif self.is_in_group("Table Action"):
-		if is_instance_valid(root):
-			root.navigation_button_click(name, self)
+		print("BUTTON IS IN TABLE ACTION")
+#		if is_instance_valid(root):
+#			root.navigation_button_click(name, self)
 		self.disabled = false
 		reset_self_modulate()
 
@@ -305,3 +306,7 @@ func change_button_size():
 #	if !self.is_in_group("Key"):
 #		await root.get_tree().process_frame
 #		emit_signal("button_size_changed")
+
+
+func _on_cancel_button_up():
+	pass # Replace with function body.
