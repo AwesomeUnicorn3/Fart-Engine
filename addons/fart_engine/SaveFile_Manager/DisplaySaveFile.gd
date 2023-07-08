@@ -174,9 +174,12 @@ func _on_Save_button_up() -> void:
 
 		var fileName = save_game_path + FileSelected + save_format
 		save_file(fileName, saveFile)
+		emit_signal("table_save_complete")
 	#Reset input_changed and hide notification
 	_input_node_changed(false)
 	$Popups.visible = false
+#	print("DISPLAY SAVE FILE: ON_SAVE_BUTTON_UP- END")
+	
 
 
 func _on_DeleteFile_button_up() -> void:

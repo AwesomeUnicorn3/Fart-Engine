@@ -103,7 +103,11 @@ func connect_singals():
 #func _apply_changes():
 #	print("APPLY CHANGES")
 #	main_panel_instance.when_editor_saved()
-	
+
 func _save_external_data():
-	print("SAVE EXTERNAL DATA")
-	main_panel_instance.when_editor_saved()
+	if !main_panel_instance.is_editor_saving:
+#		print("FART ENGINE PLUGIN: SAVE EXTERNAL DATA - BEGIN")
+		main_panel_instance.when_editor_saved()
+		await main_panel_instance.save_complete
+		print("FART ENGINE SAVE COMPLETE")
+#		print("FART ENGINE PLUGIN: SAVE EXTERNAL DATA - END")

@@ -227,11 +227,12 @@ func on_text_changed(new_text = "Blank"):
 
 func set_initial_show_value():
 	var show_value := false
-	var field_name_index :String = parent_node.get_data_index(labelNode.text, "Column")
-	if field_name_index != "":
-		show_value = parent_node.convert_string_to_type(parent_node.currentData_dict["Column"][field_name_index]["ShowValue"], "4")
-		show_showHide_button()
-		show_field_value(show_value)
+	if is_inside_tree():
+		var field_name_index :String = parent_node.get_data_index(labelNode.text, "Column")
+		if field_name_index != "":
+			show_value = parent_node.convert_string_to_type(parent_node.currentData_dict["Column"][field_name_index]["ShowValue"], "4")
+			show_showHide_button()
+			show_field_value(show_value)
 
 
 func hide_value_button_pressed():

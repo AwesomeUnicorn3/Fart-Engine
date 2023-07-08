@@ -6,6 +6,7 @@ signal table_buttons_created
 signal clear_buttons_complete
 signal reload_buttons_complete
 
+
 @onready var btn_itemselect = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
 @onready var event_editor_input_form = preload("res://addons/fart_engine/Event_Manager/Event Editor Input Form.tscn")
 
@@ -36,6 +37,7 @@ var event_display_name :String = ""
 #var selected_button
 var selected_event_ID: String = "Event 1"
 var event_page_scroll_position:int = 0
+var is_button_reloading: bool = false
 
 var is_event_ready_running:bool = false
 func _ready():
@@ -48,7 +50,7 @@ func _ready():
 	#	await get_tree().create_timer(0.5).timeout
 		table_list.get_child(0)._on_Navigation_Button_button_up()
 	#	selected_button = table_list.get_child(0)
-		await get_tree().create_timer(2.5).timeout
+		await get_tree().create_timer(0.1).timeout
 		is_event_ready_running = false
 #		print("EVENT MANAGER - READY - END")
 
@@ -56,8 +58,8 @@ func _ready():
 func reload_data_without_saving():
 #	print("EVENT MANAGER - RELOAD DATA NO SAVE - BEGIN")
 	var reload:bool = await reload_buttons()
-	await get_tree().create_timer(0.25).timeout
-#	print(selected_event_ID)
+#	await get_tree().create_timer(0.25).timeout
+	print(selected_event_ID)
 #	while table_list.get_node(selected_event_ID) == null:
 #		await get_tree().process_frame
 	table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
@@ -149,8 +151,10 @@ func clear_buttons():
 	for i in table_list.get_children():
 #		table_list.remove_child(i)
 		i.queue_free()
+#	while table_list.get_child_count() != 0:
 #		await get_tree().process_frame
-#	await get_tree().create_timer(0.4)
+#	await get_tree().process_frame
+	clear_buttons_complete.emit()
 #	emit_signal("clear_buttons_complete")
 #	print("EVENT MANAGER - CLEAR BUTTONS - END")
 	
@@ -158,17 +162,21 @@ func clear_buttons():
 
 func reload_buttons():
 #	print("EVENT MANAGER - RELOAD BUTTONS - BEGIN")
-	clear_buttons()
-	
-#	await clear_buttons_complete
-	##WAIT UNTIL CLEAR IS COMPLETE
-	await get_tree().create_timer(0.25).timeout
-	create_table_buttons()
-#	await table_buttons_created
-	reload_buttons_complete.emit()
-#	print("EVENT MANAGER - RELOAD BUTTONS - END")
-#	await get_tree().create_timer(0.1).timeout
-	await get_tree().create_timer(0.25).timeout
+	if !is_button_reloading:
+		is_button_reloading = true
+#		print("EVENT MANAGER- RELAOD BUTTONS- CLEAR BUTTONS START")
+		clear_buttons()
+		while table_list.get_child_count() != 0:
+			await get_tree().process_frame
+#		await clear_buttons_complete
+#		print("EVENT MANAGER- RELAOD BUTTONS- CLEAR BUTTONS END")
+		create_table_buttons()
+		reload_buttons_complete.emit()
+		await get_tree().create_timer(2.5).timeout
+		is_button_reloading = false
+#	else: #REMOVE WHEN DONE TESTING
+#		await get_tree().create_timer(5.0).timeout
+#		is_button_reloading = false
 	return true
 
 func enable_all_buttons(value : bool = true):
@@ -177,7 +185,8 @@ func enable_all_buttons(value : bool = true):
 		i.disabled = !value
 		i.reset_self_modulate()
 	await get_tree().process_frame
-	emit_signal("buttons_enabled")
+	buttons_enabled.emit()
+#	emit_signal("buttons_enabled")
 
 
 func navigation_button_click(key_name:String, button_node):
@@ -256,11 +265,8 @@ func _on_Save_button_up():
 	if !is_saving:
 		is_saving = true
 		event_display_name = await current_event_editor_input.save_event_data()
-#		await get_tree().create_timer(0.25).timeout
-		#table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
-		await get_tree().create_timer(0.1).timeout
 		is_saving = false
-#		table_list.get_node(selected_event_ID)._on_Navigation_Button_button_up()
+#		print("EVENT SAVE SUCCESSFULL")
 #	print("EVENT MANAGER - SAVE BUTTON UP - END")
 
 
@@ -451,6 +457,7 @@ func clear_datachange_warning():
 
 func _on_RefreshData_button_up() -> void:
 #	print("EVENT MANAGER - REFRESH BUTTON UP - BEGIN")
+	clear_datachange_warning()
 	reload_data_without_saving()
 #	print("EVENT MANAGER - REFRESH BUTTON UP - END")
 

@@ -5,6 +5,8 @@ signal Editor_Refresh_Complete
 signal get_datatype_complete
 signal import_complete
 signal save_file_complete
+signal table_save_complete
+
 
 var save_format = ".sav"
 var table_save_path = "res://fart_data/"
@@ -258,7 +260,8 @@ func save_file(sv_path, tbl_data:Dictionary):
 #		print("save completed successfully")
 		#print(tbl_data)
 		#save_file.close()
-	emit_signal("save_file_complete")
+	save_file_complete.emit()
+#	emit_signal("save_file_complete")
 
 
 func list_keys_in_display_order(table_name:String):

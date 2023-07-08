@@ -56,6 +56,5 @@ texture = ExtResource("4_ejyix")
 script = ExtResource("5_tmwa8")
 
 [node name="TransferPositionNode" type="Sprite2D" parent="."]
-position = Vector2(132, -56)
 texture = ExtResource("4_ejyix")
 script = ExtResource("6_eegt8")

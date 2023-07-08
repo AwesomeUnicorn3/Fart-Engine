@@ -16,10 +16,9 @@ texture_pressed = ExtResource("1_vs8xf")
 ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("1")
-auto_set_color = true
 
 [node name="Label" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+self_modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

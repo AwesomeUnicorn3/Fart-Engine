@@ -3,6 +3,7 @@ extends DatabaseEngine
 signal popup_closed
 signal table_refresh_complete
 
+
 @onready var btn_itemselect = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
 
 @onready var btn_saveChanges = $VBox1/HBox1/SaveChanges_Button
@@ -40,18 +41,31 @@ var allow_duplicate_display_name:bool = false
 
 func _ready():
 	if first_load:
-		current_table_name = tableName
-		#print(current_table_name)
-		first_load = false
 		root = get_main_node()
-		set_ref_table()
-		use_display_name()
-		update_dictionaries()
-		reload_buttons()
-		await get_tree().process_frame
+		while !root.has_method("when_editor_saved"):
+			await root.get_tree().process_frame
+		if is_inside_tree():
+			current_table_name = tableName
+			first_load = false
+			
+			set_ref_table()
+			use_display_name()
+			update_dictionaries()
+			reload_buttons()
+			await get_tree().process_frame
+			custom_table_settings()
+			
+		auto_select_key()
 
-		custom_table_settings()
-		table_list.get_child(0)._on_Navigation_Button_button_up()
+
+func auto_select_key():
+	selectedKeyID = root.display_form_dict[current_table_name]["Selected Key"]
+	var keyNode:Object
+	if selectedKeyID == "None Selected":
+		keyNode = table_list.get_child(0)
+	else:
+		keyNode = table_list.get_node(selectedKeyID)
+	keyNode._on_Navigation_Button_button_up()
 
 
 func custom_table_settings():
@@ -205,7 +219,7 @@ func enable_all_buttons(value : bool = true):
 
 func refresh_data(item_name : String = Item_Name):
 	Item_Name = item_name
-	get_root_node().selected_key = item_name
+#	get_root_node().selected_key = item_name
 	enable_all_buttons()
 	clear_data()
 	field_dict1 = get_values_dict(true)
@@ -221,8 +235,6 @@ func refresh_data(item_name : String = Item_Name):
 		index += 1
 	if item_name != "Default":
 		var btnNode = table_list.get_node(item_name)
-		#print(table_list.get_node(item_name).name)
-		#table_list.get_node(item_name)._on_TextureButton_button_up()
 		btnNode.grab_focus() #sets focus to current item
 		
 	emit_signal("table_refresh_complete")
@@ -244,8 +256,10 @@ func create_table_buttons():
 			newbtn.set_name(label)
 			newbtn.add_to_group("Key")
 			set_buttom_theme(newbtn, "Key")
-
+	
 			table_list.add_child(newbtn)
+			
+
 			newbtn.set_label_text(label, displayName, useDisplayName)
 			newbtn.main_page = self
 
@@ -256,35 +270,37 @@ func set_buttom_theme(button_node: TextureButton, group: String):
 	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
 	var category_color: Color = str_to_var(fart_editor_themes_table[theme_profile][group + " Button"])
 	if button_node.is_in_group(group):
-		button_node.set_base_color(category_color)
+		button_node.set_button_base_color(category_color)
 
-
+var is_saving_table:bool = false
 func _on_Save_button_up(update_Values : bool = true):
-	if !has_empty_fields():
-		if update_Values:
-			update_values()
-			await get_tree().create_timer(.5)
-		save_all_db_files(current_table_name)
-		update_dictionaries()
-		var table_dict : Dictionary = import_data("Table Data")
-		var is_dropown :bool= convert_string_to_type(table_dict[current_table_name]["Show in Dropdown Lists"])
-		if is_dropown and current_table_name != "Table Data": 
-			update_dropdown_tables()
-		input_changed = true
-		$VBox1/HBox1/CenterContainer/Label.visible = false
-		match current_table_name:
-			"Table Data":
-				get_main_node()._ready()
-		print("Save Successful")
-	else:
-		print("There was an error. Data has not been updated")
+	if !is_saving_table and is_inside_tree():
+		is_saving_table = true
+		if !has_empty_fields():
+			if update_Values:
+				update_values()
+				await get_tree().create_timer(.5)
+			save_all_db_files(current_table_name)
+			update_dictionaries()
+			var table_dict : Dictionary = import_data("Table Data")
+			var is_dropown :bool= convert_string_to_type(table_dict[current_table_name]["Show in Dropdown Lists"])
+			if is_dropown and current_table_name != "Table Data": 
+				update_dropdown_tables()
+			input_changed = true
+			$VBox1/HBox1/CenterContainer/Label.visible = false
+			match current_table_name:
+				"Table Data":
+					get_main_node()._ready()
+		else:
+			print("There was an error. Data has not been updated")
+		table_save_complete.emit()
+		is_saving_table = false
 
 
 func update_dropdown_tables():
 	for i in get_node("..").get_children():
 		if i != self and i.is_in_group("Tab") and i.has_method("reload_buttons"):
 			i.reload_buttons()
-#			i.table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
 func reload_data_without_saving():
@@ -346,11 +362,9 @@ func get_next_key_number(table_Name :String) -> String:
 	#get table, loop through keys, find last key
 	var next_key_number :int = 1
 	for key in current_dict:
-#		print("Key number: ", key)
 		var key_int: int = int(key)
 		if next_key_number <= key_int:
 			next_key_number = key_int + 1
-#	print("next Key number: ", next_key_number)
 	return str(next_key_number)
 
 
@@ -493,7 +507,6 @@ func does_table_name_exist(tableName:String)->bool:
 
 func delete_selected_table():
 	var del_tbl_name = key_node.inputNode.get_text()
-#	print("Table ID ", del_tbl_name)
 	delete_table(del_tbl_name)
 	get_main_node()._ready()
 	await get_tree().process_frame
@@ -531,13 +544,9 @@ func _on_SaveNewItem_button_up(newKeyName :String, new_key_dict :Dictionary = {}
 		if does_key_display_name_exist(displayName):
 			print("ERROR: Duplicate Display Name Exists, to Allow this, change 'Allow Duplicate Display Name' in Table Options")
 			return
-#	print("New Key Name: ", newKeyName)
 	if !does_key_exist(newKeyName):
-#		print("New Key Name: ", newKeyName)
 		if !does_key_contain_invalid_characters(str(newKeyName)):
-#			print("New Key Name2: ", newKeyName)
 			if !has_empty_fields():
-#				print("New Key Name3: ", newKeyName)
 				add_key(newKeyName, "1", true, false, false,false, new_key_dict)
 				if current_dict[newKeyName].has("Display Name"):
 					current_dict[newKeyName]["Display Name"] = {"text" : displayName}
@@ -556,24 +565,16 @@ func _on_SaveNewItem_button_up(newKeyName :String, new_key_dict :Dictionary = {}
 
 
 #_________________________________________________________________#
-func set_display_name_first(): #Rearrange Fields- Not quite, but close
-	#Or any time all tables need to be searched and modified
+func set_display_name_first():
 	var table_list: Dictionary = get_list_of_all_tables()
-	
 	for table_name in table_list:
-	
 		var read_dict:Dictionary = await import_data(table_name, true)["Column"].duplicate(true)
 		var write_dict: Dictionary = await import_data(table_name, true)
 		for order_number in read_dict:
 			var field_name: String = read_dict[order_number]["FieldName"]
 			if field_name == "Display Name" and order_number != str(1):
-#				print("Table Name: ", table_name)
-#				print("Order Number: ", order_number)
-#				print("Field Name: ", read_dict[order_number]["FieldName"])
-				
 				var display_dict: Dictionary = read_dict[order_number].duplicate(true)
 				var index_1_dict: Dictionary = read_dict["1"].duplicate(true)
 				write_dict["Column"]["1"] = display_dict
 				write_dict["Column"][order_number] = index_1_dict
-#				print(write_dict["Column"])
 				save_file(table_save_path + table_name + table_info_file_format, write_dict)

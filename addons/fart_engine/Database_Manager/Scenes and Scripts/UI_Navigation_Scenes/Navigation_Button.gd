@@ -8,10 +8,9 @@ signal btn_pressed(btn_name:String)
 @export var button_text: String = ""
 @export var auto_connect_signals: bool = true
 @export var auto_set_minimum_size: bool = true
-@export var auto_set_color:bool = false
+@export var auto_set_button_color:bool = true
+@export var auto_set_font_color:bool = true
 @export var is_sticky:bool = false
-
-
 
 var root 
 var text: String = ""
@@ -26,7 +25,9 @@ var default_button_texture:Texture2D = preload("res://addons/fart_engine/Editor_
 var default_label_texture: Texture2D = preload("res://addons/fart_engine/Editor_Icons/Default_Editor_Label_Texture.png")
 var minimum_size: Vector2 = Vector2(150,30)
 
-var button_base_color: Color = Color(1,1,1,1)
+var button_base_color: Color = Color.WHITE
+var font_base_color: Color = Color.BLACK
+
 
 func _ready():
 	var Par = get_parent()
@@ -34,9 +35,13 @@ func _ready():
 	set_label_text()
 	create_button()
 	connect_signals()
-	if auto_set_color == true:
-		set_base_color(get_base_color())
+	if auto_set_button_color == true:
+		set_button_base_color(get_button_base_color())
+	if auto_set_font_color == true:
+		set_font_base_color(get_font_base_color())
+		
 	set_toggle_mode(is_sticky)
+	
 
 
 func get_main_tab(par :Node = self):
@@ -62,7 +67,7 @@ func get_parent_table():
 	return par
 
 
-func get_base_color()-> Color:
+func get_button_base_color()-> Color:
 	var DBENGINE: DatabaseEngine = DatabaseEngine.new()
 	var project_table: Dictionary = DBENGINE.import_data("Project Settings")
 	var fart_editor_themes_table: Dictionary = DBENGINE.import_data("Fart Editor Themes")
@@ -87,13 +92,22 @@ func get_base_color()-> Color:
 
 	return category_color
 
-func set_base_color(color: Color):
+
+func get_font_base_color():
+	var DBENGINE: DatabaseEngine = DatabaseEngine.new()
+	var project_table: Dictionary = DBENGINE.import_data("Project Settings")
+	var fart_editor_themes_table: Dictionary = DBENGINE.import_data("Fart Editor Themes")
+	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
+	var font_color = str_to_var(fart_editor_themes_table[theme_profile]["Font Base Color"])
+	return font_color
+
+func set_button_base_color(color: Color):
 	button_base_color = color
 	reset_self_modulate()
-	
 
-
-
+func set_font_base_color(color: Color):
+	font_base_color = color
+	reset_self_modulate()
 
 func _on_command_list_button_button_up():
 	emit_signal("btn_pressed", str(name))
@@ -108,17 +122,12 @@ func _on_Navigation_Button_button_up():
 		btn_moved = false
 		_pressed = false
 		main_page.button_movement_active = false
-
+		root.display_form_dict[main_page.name]["Selected Key"] = str(self.name)
 	elif self.is_in_group("Table Action"):
-		print("BUTTON IS IN TABLE ACTION")
-#		if is_instance_valid(root):
-#			root.navigation_button_click(name, self)
 		self.disabled = false
 		reset_self_modulate()
-
 	else:
 		root.navigation_button_click(name, self)
-		
 	emit_signal("btn_pressed", str(name))
 	reset_self_modulate()
 
@@ -130,6 +139,7 @@ func get_visible_label() -> Label:
 			labelNode = child
 			break
 	return labelNode
+
 
 func get_text()-> String:
 	return text
@@ -204,18 +214,27 @@ func connect_signals():
 
 
 func reset_self_modulate():
-	if !self.disabled:
-		set_self_modulate(button_base_color)
-	else:
+
+	set_self_modulate(button_base_color)
+	$Label.set_self_modulate(font_base_color)
+	$DisplayLabel.set_self_modulate(font_base_color)
+	
+	if self.disabled:
 		_on_texture_disabled()
 
 
 func set_self_modulate_selected():
 	set_self_modulate(button_base_color.darkened(.7))
+	$Label.set_self_modulate(font_base_color.lightened(0.7))
+	$DisplayLabel.set_self_modulate(font_base_color.lightened(0.7))
+
 
 func set_self_modulate_hover():
 	if !self.disabled:
 		set_self_modulate(button_base_color.lightened(.6))
+		$Label.set_self_modulate(font_base_color.darkened(0.6))
+		$DisplayLabel.set_self_modulate(font_base_color.darkened(0.6))
+
 
 func _on_texture_disabled():
 	set_self_modulate_selected()
@@ -240,9 +259,15 @@ func _on_texture_button_down():
 
 func _on_texture_pressed():
 	set_self_modulate_selected()
-#	if self.is_in_group("Key"):
-#		_on_pressed()
 
+
+#func set_text_display_node():
+#	if display_label == null:
+#		display_label = $Label
+
+func set_font_color():
+	$Label.set_self_modulate(font_base_color)
+	$DisplayLabel.set_self_modulate(font_base_color)
 
 func set_texture(buttonTexture:Texture2D=null, textureLayer:String = "Normal"):
 	if buttonTexture == null:
@@ -275,15 +300,13 @@ func create_button():
 
 	if auto_set_minimum_size:
 		set_custom_minimum_size(minimum_size)
-
-	reset_self_modulate()
-
+	set_font_color()
 	set_texture(selected_texture, "Normal")
 	set_texture(selected_texture, "Pressed")
 	set_texture(selected_texture, "Hover")
 	set_texture(selected_texture, "Disabled")
 	set_texture(selected_texture, "Focused")
-
+	reset_self_modulate()
 
 func _process(delta):
 	if btn_moved:

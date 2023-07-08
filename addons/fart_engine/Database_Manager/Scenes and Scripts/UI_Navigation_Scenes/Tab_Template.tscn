@@ -43,7 +43,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="RefreshData_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Refresh Table"
 auto_connect_signals = false
@@ -59,40 +59,40 @@ theme_override_font_sizes/font_size = 13
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
 [node name="AddNewTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Add Table"
 auto_connect_signals = false
 
 [node name="DeleteTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Delete Table"
 auto_connect_signals = false
 
 [node name="AddNewKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
 visible = false
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Add Key"
 auto_connect_signals = false
 
 [node name="DuplicateKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
 visible = false
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Duplicate Key"
 auto_connect_signals = false
 
 [node name="DeleteSelectedKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
 visible = false
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Delete Key"
 auto_connect_signals = false
 
 [node name="SaveChanges_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Save"
 auto_connect_signals = false
@@ -103,22 +103,76 @@ size_flags_vertical = 3
 label_text = "Table Name"
 is_label_button = false
 
+[node name="Label_Button" parent="VBox1/TableName/Input_Node/Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="VBox1/TableName/Input_Node/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
 [node name="Input" parent="VBox1/TableName/Input_Node" index="1"]
 visible = false
 
 [node name="AdvancedControlsVBox" parent="VBox1/TableName/Input_Node" index="2"]
 visible = false
 
+[node name="Label_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Label/HBox1" index="0"]
+self_modulate = Color(0, 0.27, 0.32, 1)
+
+[node name="Hide_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Underline" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Bold" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Italics" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="2"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Label_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
 [node name="Key" parent="VBox1" instance=ExtResource("1")]
 layout_mode = 2
 label_text = "Key"
 is_label_button = false
+
+[node name="Label_Button" parent="VBox1/Key/Input_Node/Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="VBox1/Key/Input_Node/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Input" parent="VBox1/Key/Input_Node" index="1"]
 editable = false
 
 [node name="AdvancedControlsVBox" parent="VBox1/Key/Input_Node" index="2"]
 visible = false
+
+[node name="Label_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Label/HBox1" index="0"]
+self_modulate = Color(0, 0.27, 0.32, 1)
+
+[node name="Hide_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Underline" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Bold" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Italics" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="2"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Label_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="HBox2" type="HBoxContainer" parent="VBox1"]
 custom_minimum_size = Vector2(0, 50)
@@ -136,13 +190,13 @@ size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
 
 [node name="AddNewField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "New Field"
 auto_connect_signals = false
 
 [node name="DeleteField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Delete Field"
 auto_connect_signals = false
@@ -198,9 +252,27 @@ layout_mode = 1
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Accept_Button" parent="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+
+[node name="Cancel_Button" parent="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+
+[node name="Label_Button" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Label2/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Label2/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
 [node name="32198" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="1"]
 offset_right = 8.0
 offset_bottom = 8.0
+
+[node name="Accept" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+
+[node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 
 [node name="popup_newKey" parent="Popups" instance=ExtResource("8_dq72o")]
 visible = false
@@ -230,12 +302,12 @@ layout_mode = 1
 [editable path="VBox1/TableName"]
 [editable path="VBox1/TableName/Input_Node/Label"]
 [editable path="VBox1/TableName/Input_Node/AdvancedControlsVBox/Label"]
-[editable path="VBox1/TableName/Display_Node/Label"]
+[editable path="VBox1/TableName/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
 [editable path="VBox1/TableName/input_templateBuffer"]
 [editable path="VBox1/Key"]
 [editable path="VBox1/Key/Input_Node/Label"]
 [editable path="VBox1/Key/Input_Node/AdvancedControlsVBox/Label"]
-[editable path="VBox1/Key/Display_Node/Label"]
+[editable path="VBox1/Key/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
 [editable path="VBox1/Key/input_templateBuffer"]
 [editable path="Popups"]
 [editable path="Popups/Popup_Delete_Confirm"]
