@@ -2,7 +2,7 @@
 extends Node
 class_name Map
 
-@onready var DBENGINE :DatabaseEngine = DatabaseEngine.new()
+
 
 
 func _ready() -> void:
@@ -14,7 +14,12 @@ func _ready() -> void:
 
 
 func get_event_dict():
+	var DBENGINE
 	#EVENT DICT NEEDS TO BE THE TABLE DATA BUT ONLY THE TABLES THAT ARE DESIGNATED AS EVENTS
+	if !Engine.is_editor_hint():
+		DBENGINE = DBENGINE.new()
+	else:
+		DBENGINE = FARTENGINE
 	var table_dict :Dictionary = DBENGINE.import_data("Table Data")
 	var event_dict = {}
 	for table_name in table_dict:

@@ -2,7 +2,6 @@
 extends DatabaseEngine
 
 
-
 @onready var right_operator := $RightOperator
 @onready var left_operator = $LeftOperator
 
@@ -13,8 +12,6 @@ extends DatabaseEngine
 @onready var operations_dropdown = $Operations_Dropdown
 @onready var static_value_2 = $StaticValue2
 @onready var compare_option = $Compare_Option
-
-
 
 
 var table = "DataTypes"
@@ -37,7 +34,9 @@ func _ready() -> void:
 
 
 func set_right_operators(value:Dictionary):
+#	print("SET RIGHT OPERATORS: ")
 	if right_operator != null:
+#		print("FILTERED RIGHT TABLE: ", value)
 		filtered_right_table = value
 		right_operator.filter_by_datatype()
 		filter_inequalities()
@@ -50,16 +49,16 @@ func set_right_operators(value:Dictionary):
 
 func filter_inequalities():
 	var datatype = left_operator.selected_datatype
-	var datatype_dict: Dictionary = import_data("Datatypes")
+	var datatype_dict: Dictionary = await import_data("DataTypes")
 	var is_datatype_number:bool = convert_string_to_type(datatype_dict[datatype]["Is Number"])
-	if !is_datatype_number:
-		inequality_dropdown.populate_list_with_sorted_table(text_inequality_dict)
-		$Operations_Dropdown.visible = false
-		$StaticValue2.visible = false
-	else:
+	if is_datatype_number:
 		inequality_dropdown.populate_list()
 		$Operations_Dropdown.visible = true
 		$StaticValue2.visible = true
+	else:
+		inequality_dropdown.populate_list(false, true, true, text_inequality_dict)
+		$Operations_Dropdown.visible = false
+		$StaticValue2.visible = false
 
 
 func get_inequality_dicts():
@@ -72,9 +71,9 @@ func get_inequality_dicts():
 		if is_text_operator:
 			text_inequality_raw_dict[key] = inequalities_table[key]
 			var displayName:String = get_text(inequalities_table[key]["Display Name"])
-			text_inequality_dict[str(index)] = [key, displayName, "0"] 
+			text_inequality_dict[str(index)] = [displayName,key, "0"]
 			index += 1
-
+#	print("TEXT INEQUALITY DICT: ", text_inequality_dict)
 
 
 func add_input_node_for_event_condition(table_name:String, key_ID:String, field_ID: String, newParent :Node= static_value_1 ):
@@ -94,8 +93,6 @@ func add_input_node_for_event_condition(table_name:String, key_ID:String, field_
 		new_input_node.populate_list()
 	if datatype == "1":
 		new_input_node.show_advanced_node(false)
-	
-
 
 
 func show_right_side_selection(show:bool):
@@ -119,7 +116,7 @@ func get_key_ID():
 
 func get_input_value():
 	var return_dict:Dictionary = {}
-	return_dict["Inequalities"] = inequality_dropdown.get_display_name_from_key(inequality_dropdown.get_input_value())
+	return_dict["Inequalities"] = inequality_dropdown.get_input_value()
 #	print(return_dict["Inequalities"])
 	return_dict["Datatype"] =  left_operator.selected_datatype
 	return_dict["Is Static"] = static_option.get_input_value()
@@ -145,19 +142,17 @@ func set_input_values(value:Dictionary):
 #		print("SET INPUT VALUES")
 		filter_inequalities()
 		
-		inequality_dropdown.set_value_do_not_populate(value["Inequalities"])
+		inequality_dropdown._set_input_value(value["Inequalities"], false)
 		
 		static_option.set_input_value(convert_string_to_type(value["Is Static"]))
-		operations_dropdown.set_value_do_not_populate(value["Optional Operations"])
+		operations_dropdown._set_input_value(value["Optional Operations"], false)
 		compare_option.set_input_value(convert_string_to_type(value["Is And"]))
 
 		#must be set last
 		static_value_1.get_child(0).set_input_value(value["Static Value 1"])
 		static_value_2.get_child(0).set_input_value(value["Static Value 2"])
-		
 
 
 func _on_delete_button_button_up():
 	var keyID:String = get_key_ID()
 	get_node("../../../..")._delete_selected_list_item(keyID)
-

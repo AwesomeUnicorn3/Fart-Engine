@@ -60,7 +60,7 @@ label_text = "Table"
 is_label_button = false
 
 [node name="Input" parent="Control/VBoxContainer/TableDropdown" index="1"]
-item_count = 41
+item_count = 42
 selected = 18
 popup/item_0/text = "Table Data"
 popup/item_0/id = 0
@@ -102,48 +102,50 @@ popup/item_18/text = "Global Variables"
 popup/item_18/id = 18
 popup/item_19/text = "Inequalities"
 popup/item_19/id = 19
-popup/item_20/text = "Event Save Data"
+popup/item_20/text = "Event Movement States"
 popup/item_20/id = 20
-popup/item_21/text = "Event Movement States"
+popup/item_21/text = "Dialog Groups"
 popup/item_21/id = 21
-popup/item_22/text = "Dialog Groups"
+popup/item_22/text = "SFX Groups"
 popup/item_22/id = 22
-popup/item_23/text = "SFX Groups"
+popup/item_23/text = "Game State"
 popup/item_23/id = 23
-popup/item_24/text = "Game State"
+popup/item_24/text = "Action Types"
 popup/item_24/id = 24
-popup/item_25/text = "Action Types"
+popup/item_25/text = "Movement Directions"
 popup/item_25/id = 25
-popup/item_26/text = "Movement Directions"
+popup/item_26/text = "Animation States"
 popup/item_26/id = 26
-popup/item_27/text = "Animation States"
+popup/item_27/text = "Animation Groups"
 popup/item_27/id = 27
-popup/item_28/text = "Animation Groups"
+popup/item_28/text = "UI Scenes"
 popup/item_28/id = 28
-popup/item_29/text = "UI Scenes"
+popup/item_29/text = "None"
 popup/item_29/id = 29
-popup/item_30/text = "None"
+popup/item_30/text = "Table Category"
 popup/item_30/id = 30
-popup/item_31/text = "Table Category"
+popup/item_31/text = "UI Navigation"
 popup/item_31/id = 31
-popup/item_32/text = "UI Navigation"
+popup/item_32/text = "Testing Table"
 popup/item_32/id = 32
-popup/item_33/text = "Testing Table"
+popup/item_33/text = "Local Variables"
 popup/item_33/id = 33
-popup/item_34/text = "Local Variables"
+popup/item_34/text = "Operations"
 popup/item_34/id = 34
-popup/item_35/text = "Operations"
+popup/item_35/text = "AU3 InputMap"
 popup/item_35/id = 35
-popup/item_36/text = "AU3 InputMap"
+popup/item_36/text = "UI Script Methods"
 popup/item_36/id = 36
-popup/item_37/text = "UI Script Methods"
+popup/item_37/text = "UI Methods"
 popup/item_37/id = 37
-popup/item_38/text = "UI Methods"
+popup/item_38/text = "Fart Editor Themes"
 popup/item_38/id = 38
-popup/item_39/text = "Fart Editor Themes"
+popup/item_39/text = "Event Dialog Variables"
 popup/item_39/id = 39
-popup/item_40/text = "Event Dialog Variables"
+popup/item_40/text = "Event Save Data"
 popup/item_40/id = 40
+popup/item_41/text = "DisplaySelection"
+popup/item_41/id = 41
 
 [node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_peys3")]
 layout_mode = 2
@@ -154,7 +156,7 @@ is_label_button = false
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
 item_count = 4
 selected = 0
-popup/item_0/text = "Is Segment 1 Complete"
+popup/item_0/text = "Level 1 Complete"
 popup/item_0/id = 0
 popup/item_1/text = "Is Segment 2 Complete"
 popup/item_1/id = 1
@@ -168,18 +170,6 @@ layout_mode = 2
 label_text = "Variable Key"
 is_label_button = false
 
-[node name="Input" parent="Control/VBoxContainer/FieldDropdown" index="1"]
-item_count = 4
-selected = 0
-popup/item_0/text = "Display Name"
-popup/item_0/id = 0
-popup/item_1/text = "Number"
-popup/item_1/id = 1
-popup/item_2/text = "Text"
-popup/item_2/id = 2
-popup/item_3/text = "True or False"
-popup/item_3/id = 3
-
 [node name="InputContainer" type="VBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 
@@ -189,7 +179,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Accept" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("4_kkbe7")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 button_text = "Accept"
@@ -197,14 +187,14 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="Cancel" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("4_kkbe7")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
-[connection signal="input_selection_changed" from="Control/VBoxContainer/TableDropdown" to="." method="_on_table_dropdown_input_selection_changed"]
+[connection signal="input_selection_changed" from="Control/VBoxContainer/KeyDropdown" to="." method="_on_key_dropdown_input_selection_changed"]
 [connection signal="input_selection_changed" from="Control/VBoxContainer/FieldDropdown" to="." method="_on_field_dropdown_input_selection_changed"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]

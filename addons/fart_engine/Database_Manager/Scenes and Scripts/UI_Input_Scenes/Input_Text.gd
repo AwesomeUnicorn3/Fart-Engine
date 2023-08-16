@@ -10,8 +10,8 @@ func _init() -> void:
 	type = "1"
 
 
-func startup():
-	inputNode.set_fit_content_height_enabled(true)
+#func startup():
+#	inputNode.set_fit_content_height_enabled(true)
 #	input_child.visible = show_input_node
 #	display_child.visible = !show_input_node   
 

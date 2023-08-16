@@ -23,10 +23,23 @@ func populate_dropdown_inputs():
 	var event_dialog_options_dict: Dictionary = DBENGINE.import_data(event_dialog_options_table.selection_table_name)
 	var selection_dict: Dictionary = event_dialog_options_dict[event_dialog_options_table.selectedItemKey]
 #	print("SELECTION DICT: ", selection_dict)
-	event_dialog_variable.selection_table = selection_dict
-	if selection_dict.has("Display Name"):
-		selection_dict.erase("Display Name")
-	event_dialog_variable.populate_list(false, true)
+#	event_dialog_variable.selection_table = selection_dict
+	
+	
+	var field_list: Dictionary = {}
+	var field_selected_table_data_dict: Dictionary = DBENGINE.import_data(event_dialog_options_table.selectedItemKey, true)
+	for key in selection_dict:
+		if key != "Display Name":
+			field_list[key] = {"Datatype": DBENGINE.get_datatype(key, field_selected_table_data_dict)}
+	event_dialog_variable.populate_list(false, true, true, field_list)
+	
+	
+	
+	
+#
+#	if selection_dict.has("Display Name"):
+#		selection_dict.erase("Display Name")
+#	event_dialog_variable.populate_list(false, true)
 #	print("SELECTION DICT: ", selection_dict)
 
 
@@ -41,24 +54,11 @@ func _get_input_value():
 func _set_input_value(node_value):
 	if typeof(node_value) == 4:
 		node_value = str_to_var(node_value)
-
-
-#	print("SORTED TABLE: ", (int(key_selection) - 1))
-
-#	print("SORTED TABLE: ", (int(key_selection) - 1))
-#	$HBoxContainer/Variable_Selection.table_drop_down.select_index(int(key_selection)-1)
-	
-
-#
 	input_data = node_value
-#	print("INPUT DATA IN: ", input_data)
 	set_input_data()
 
 
 func set_input_data():
 	populate_dropdown_inputs()
-#	await get_tree().create_timer(0.15).timeout
-#	print("BUTTON TEXT: ", input_data["Dialog_Option"])
 	input_text._set_input_value(input_data["Button_Text"])
-	event_dialog_variable.set_value_do_not_populate(input_data["Dialog_Option"])
-#	$HBoxContainer/Variable_Selection.set_input_values(input_data["Dialog_Option"])
+	event_dialog_variable._set_input_value(input_data["Dialog_Option"], false)

@@ -35,7 +35,7 @@ var current_table_ref = ""
 var table_ref = ""
 var Item_Name :String = ""
 var root : Node
-var json_object : JSON = JSON.new()
+
 
 #used to rearrange keys
 var button_focus_index :String = "" 
@@ -151,6 +151,7 @@ func remove_special_char(text : String):
 
 
 func load_save_file(table_name :String):
+	var json_object : JSON = JSON.new()
 	var curr_tbl_data : Dictionary = {}
 	var file_extension: String = table_file_format
 	var table_path :String = save_game_path + table_name
@@ -189,7 +190,7 @@ func get_list_of_events(for_dropdown:bool = false):
 			var eventName:String = get_text(curr_event_dict["0"]["Display Name"])
 			#Convert eventName(Event ID) to Event Display name
 			#return dict with list of events  *sorted* and with format: sorted_table[index] = [key, key, ["Datatype"]] 
-			return_dict[str(index)] = [eventName, eventID, "0"]
+			return_dict[str(index)] = [eventName, eventID,  "0"]
 			index += 1
 			return_value = return_dict
 #			return return_dict
@@ -202,6 +203,7 @@ func get_list_of_events(for_dropdown:bool = false):
 
 
 func import_event_data(event_name:String, get_event_data:bool = false):
+	var json_object : JSON = JSON.new()
 	var curr_event_data : Dictionary = {}
 	var file_extension: String = table_file_format
 	if get_event_data:
@@ -218,6 +220,7 @@ func import_event_data(event_name:String, get_event_data:bool = false):
 
 
 func import_data(table_name : String, get_table_data :bool = false):
+	var json_object : JSON = JSON.new()
 	var curr_tbl_data : Dictionary = {}
 	var file_extension: String = table_file_format
 	if get_table_data:
@@ -282,23 +285,30 @@ func list_keys_in_display_order(table_name:String):
 
 
 func list_custom_dict_keys_in_display_order(table_dict:Dictionary, table_name:String):
-	
+#	print("TABLE NAME FOR LIST CUSTOM DICT IN DISPLAY ORDER: ", table_name)
 	var data_dict:Dictionary = import_data(table_name, true)
+	
 	var sorted_dict: Dictionary = {}
 	var index := 1
 	for keyID in data_dict["Row"].size():
-		
+
 		var item_number = str(keyID + 1) #row_dict key
 		var displayName :String = ""
 		var datatype :String = data_dict["Row"][item_number]["DataType"]
 		var key_name :String = data_dict["Row"][item_number]["FieldName"] #Use the row_dict key (item_number) to set the button label as the item name
 #		print(table_dict)
 		if table_dict.has(key_name):
+			
 			var key_dict :Dictionary = table_dict[key_name]
+#			print("KEY DICT: ", key_dict)
 			if key_dict.has("Display Name"):
+#
+#				print("HAS DISPLAY NAME")
+#				print(table_dict)
 				displayName = get_text(table_dict[key_name]["Display Name"])
 #				print(displayName)
 			else:
+#				print("NO DISPLAY NAME")
 				displayName = key_name
 			sorted_dict[str(index)] = [displayName, key_name, datatype]
 			index += 1
@@ -349,8 +359,9 @@ func set_root_node():
 	var root_path = import_data("UI Scenes")[root_ID]["Path"]
 	var root_scene = load(root_path).instantiate()
 	var root_node_name :String = root_scene.get_node(".").name
-	root_scene.queue_free()
+	await get_tree().create_timer(0.1).timeout
 	root = get_tree().get_root().get_node(root_node_name)
+	root_scene.call_deferred("queue_free")
 
 
 func get_root_node():
@@ -914,7 +925,6 @@ func create_independant_input_node(table_name:String, key_ID:String, field_ID :S
 	var table_data_dict: Dictionary = import_data(table_name, true)
 	var datatype:String = get_datatype(field_ID,table_data_dict )
 	datatype_dict = import_data("DataTypes")
-
 	var input_node = load(datatype_dict[datatype]["Default Scene"]).instantiate()
 #	input_node.set_input_value(input_node.default, key_ID, table_name)
 
@@ -1013,14 +1023,20 @@ func add_input_node(index, index_half, key_name, table_dict := current_dict, con
 
 func create_input_node(key_name:String, table_name:String, table_dict:Dictionary = {}, table_data_dict: Dictionary = {}):
 	var data_type:String
-	var node_input_value: Variant
+#	var node_input_value: Variant
 	if table_dict == {}:
 		table_dict = import_data(table_name)
 	if table_data_dict == {}:
 		table_data_dict = import_data(table_name, true)
 	data_type = get_datatype(key_name, table_data_dict)
-	if data_type == "":
-		print("NO DATATYPE ASSIGNED: ", key_name)
+#	print("DATATYPE: ", data_type)
+#	print("TABLE DICT: ", table_dict)
+#	if data_type == "" and table_dict == {}: #Event data from save file
+#		print("CREATE INPUT NODE KEY DATA: ", key_name)
+#		print("NO DATATYPE ASSIGNED: ", key_name)
+#		table_dict = {"text" : "Blank"}
+#		data_type = "1"
+
 	var new_node = create_datatype_node(data_type)
 	new_node.set_name(key_name)
 
@@ -1029,6 +1045,7 @@ func create_input_node(key_name:String, table_name:String, table_dict:Dictionary
 
 func create_datatype_node(datatype:String):
 	datatype_dict = import_data("DataTypes")
+#	print("CREATE DATATYPE: ", datatype)
 	var input_node = load(datatype_dict[datatype]["Default Scene"]).instantiate()
 	var input_default_value = get_text(datatype_dict[datatype]["Default Values"])
 	return input_node
@@ -1037,14 +1054,19 @@ func create_datatype_node(datatype:String):
 func get_datatype(field_ID:String, table_data_dict :Dictionary):
 	var data_type: String = ""
 #	print("TABLE DATA DICT: ", table_data_dict)
-	var data_dict_column :Dictionary = table_data_dict["Column"]
-	for datakey in data_dict_column:
-		var currFieldName:String = data_dict_column[datakey]["FieldName"]
-		if currFieldName == field_ID:
-			data_type = data_dict_column[datakey]["DataType"]
-			break
-#	if data_type == "":
-#		print(field_ID)
+#	print("FIELD ID: ", field_ID)
+	var data_dict_column :Dictionary
+	if table_data_dict.has("Column"):
+		data_dict_column = table_data_dict["Column"]
+		for datakey in data_dict_column:
+#			print("DATAKEY: ", datakey)
+			var currFieldName:String = data_dict_column[datakey]["FieldName"]
+			if currFieldName == field_ID:
+				data_type = data_dict_column[datakey]["DataType"]
+				break
+	if data_type == "":
+		print("NO DATATYPE FOUND FOR: ", field_ID)
+#	print("GET DATATYPE RETURN VALUE: ", data_type)
 	return data_type
 	
 
@@ -1167,11 +1189,11 @@ func create_sprite_animation():
 	return character_animated_sprite
 
 
-func add_animation_to_animatedSprite(sprite_field_name :String, sprite_texture_data :Dictionary, create_collision :bool = true, animated_sprite : AnimatedSprite2D = AnimatedSprite2D.new(), sprite_frames :SpriteFrames = SpriteFrames.new()):
+func add_animation_to_animatedSprite(sprite_field_name :String, sprite_texture_data :Dictionary,animated_sprite : AnimatedSprite2D , create_collision :bool = true,  sprite_frames :SpriteFrames = SpriteFrames.new()):
 	var collision
 
-	if sprite_frames == null:
-		sprite_frames = SpriteFrames.new()
+#	if sprite_frames == null:
+#		sprite_frames = SpriteFrames.new()
 
 	var frame_vector :Vector2 = convert_string_to_vector(str(sprite_texture_data["atlas_dict"]["frames"]))
 	var frame_range :Vector2 = convert_string_to_vector(str(sprite_texture_data["advanced_dict"]["frame_range"]))
@@ -1198,7 +1220,6 @@ func add_animation_to_animatedSprite(sprite_field_name :String, sprite_texture_d
 	var frame_count = 1
 	
 	animated_sprite.set_sprite_frames(sprite_frames)
-#
 	for i in range(1, total_frames + 1):
 		var region_offset = Vector2(frame_size.x * h_count, (frame_size.y * v_count))
 		var region := Rect2( region_offset ,  Vector2(frame_size.x , frame_size.y))
@@ -1217,6 +1238,7 @@ func add_animation_to_animatedSprite(sprite_field_name :String, sprite_texture_d
 		collision = get_collision_shape(sprite_field_name, sprite_texture_data)
 
 	sprite_frames.set_animation_speed(sprite_field_name, speed)
+#	sprite_frames.queue_free()
 
 	return [sprite_field_name, collision]
 
@@ -1238,7 +1260,7 @@ func add_sprite_group_to_animatedSprite(main_node , Sprite_Group_Id :String) -> 
 
 		if j != "Display Name":
 			var animation_name : String = j
-			var anim_array :Array = FARTENGINE.add_animation_to_animatedSprite( animation_name, FARTENGINE.convert_string_to_type(animation_dictionary[j]), true ,new_animatedsprite2d, spriteFrames)
+			var anim_array :Array = FARTENGINE.add_animation_to_animatedSprite( animation_name, FARTENGINE.convert_string_to_type(animation_dictionary[j]),new_animatedsprite2d, true , spriteFrames)
 			main_node.add_child(anim_array[1])
 
 	return_value_dictionary["animated_sprite"] = new_animatedsprite2d
@@ -1508,7 +1530,7 @@ func get_editor_tabbar() -> TabBar:
 	#editor.get_editor_interface()
 	current_node = editor.get_editor_interface().get_editor_main_screen().get_parent().get_parent()
 	var tabArray: Array = current_node.find_children("*", "TabBar", true, false)
-	print(tabArray)
+#	print(tabArray)
 #	while tabbar == null:
 #
 #		for child in current_node.get_children():
@@ -1619,6 +1641,7 @@ func get_UI_methods():
 	for id in UIMethodList:
 		if id["return"]["usage"] == 6 and id["flags"] == 1 and id["id"] == 0 and id.name != "free":
 			method_dict[id.name] = id.name
+#	UIENGINE.queue_free()
 	return method_dict
 
 

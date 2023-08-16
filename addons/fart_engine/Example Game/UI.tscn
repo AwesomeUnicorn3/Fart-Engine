@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bt5060lw4y8ac"]
+[gd_scene load_steps=6 format=3 uid="uid://bt5060lw4y8ac"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/UI.gd" id="1_n0l2f"]
-[ext_resource type="Texture2D" uid="uid://cik6fhthyto55" path="res://fart_data/png/Mike's Cell Phone.png" id="2_ce6i8"]
+[ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/Fart_UI_Button.png" id="2_ws1m2"]
 [ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/au3_ui_button.gd" id="3_k542j"]
+[ext_resource type="PackedScene" uid="uid://bgj1soos3p52i" path="res://addons/fart_engine/Example Game/inventory_menu.tscn" id="4_4vvcp"]
+[ext_resource type="Script" path="res://addons/fart_engine/Example Game/FPS_Display.gd" id="4_xxpdq"]
 
 [node name="GUI" type="Control"]
 layout_mode = 3
@@ -13,33 +15,71 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n0l2f")
 
-[node name="Button" type="TextureButton" parent="."]
-visible = false
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-texture_normal = ExtResource("2_ce6i8")
-
-[node name="Label" type="Label" parent="Button"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Menu"
-horizontal_alignment = 1
-vertical_alignment = 1
+size_flags_vertical = 3
 
-[node name="AU3 UI Button" type="TextureButton" parent="."]
-self_modulate = Color(0.462745, 1, 0.615686, 1)
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="AU3 UI Button" type="TextureButton" parent="VBoxContainer/HBoxContainer4/HBoxContainer"]
+self_modulate = Color(0, 0.03, 0.33, 1)
 custom_minimum_size = Vector2(150, 50)
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 50.0
+layout_mode = 2
+texture_normal = ExtResource("2_ws1m2")
+texture_pressed = ExtResource("2_ws1m2")
+texture_hover = ExtResource("2_ws1m2")
+texture_disabled = ExtResource("2_ws1m2")
+texture_focused = ExtResource("2_ws1m2")
 ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("3_k542j")
 selected_method_key = "3"
 
-[connection signal="button_down" from="Button" to="." method="_on_Menu_button_down"]
+[node name="Buffer" type="Label" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer4/HBoxContainer2"]
+layout_mode = 2
+
+[node name="FPS_Display" type="Label" parent="VBoxContainer/HBoxContainer4/HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(100, 25)
+layout_mode = 2
+script = ExtResource("4_xxpdq")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="Buffer" type="Label" parent="VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.7
+
+[node name="Inventory_Menu" parent="VBoxContainer/HBoxContainer3/VBoxContainer" instance=ExtResource("4_4vvcp")]
+layout_mode = 2
+size_flags_vertical = 3

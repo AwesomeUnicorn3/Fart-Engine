@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://boqwm8hen1mt0"]
 
 [ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="1_posdu"]
 [ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/popup_UIMethod_Selection.gd" id="2_6egdv"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_wb0bb"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4_soebf"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="5_3f8h7"]
+[ext_resource type="PackedScene" uid="uid://caa8n4gw1ppk5" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="5_3f8h7"]
 
 [node name="popup_UIMethod_Selection" type="Control"]
 custom_minimum_size = Vector2(600, 0)
@@ -60,7 +60,10 @@ size_flags_stretch_ratio = 0.25
 custom_minimum_size = Vector2(0, 30)
 
 [node name="Label_Button" parent="PanelContainer/VBox1/Input_Label_Template/HBox1" index="0"]
-text = "Select Method to run when button is pressed"
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="PanelContainer/VBox1/Input_Label_Template/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="input_templateBuffer" parent="PanelContainer/VBox1" instance=ExtResource("4_soebf")]
 layout_mode = 2
@@ -79,20 +82,28 @@ showLabel = false
 visible = false
 
 [node name="Input" parent="PanelContainer/VBox1/HBox1/Existing_Events_Dropdown" index="1"]
-item_count = 6
+item_count = 10
 selected = 0
-popup/item_0/text = "Exit Current Menu"
+popup/item_0/text = "save game"
 popup/item_0/id = 0
-popup/item_1/text = "Save Game"
+popup/item_1/text = "close in game menu"
 popup/item_1/id = 1
-popup/item_2/text = "Close Main Menu"
+popup/item_2/text = "open in game menu"
 popup/item_2/id = 2
-popup/item_3/text = "Quit Game"
+popup/item_3/text = "close current menu"
 popup/item_3/id = 3
-popup/item_4/text = "Return to Title Screen"
+popup/item_4/text = "quit game"
 popup/item_4/id = 4
-popup/item_5/text = "Open Main Menu"
+popup/item_5/text = "open menu"
 popup/item_5/id = 5
+popup/item_6/text = "do nothing"
+popup/item_6/id = 6
+popup/item_7/text = "new game"
+popup/item_7/id = 7
+popup/item_8/text = "load game"
+popup/item_8/id = 8
+popup/item_9/text = "exit program"
+popup/item_9/id = 9
 
 [node name="input_templateBuffer" parent="PanelContainer/VBox1/HBox1/Existing_Events_Dropdown" index="2"]
 visible = false

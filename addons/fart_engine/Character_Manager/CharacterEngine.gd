@@ -10,7 +10,8 @@ var character_can_move :bool = false
 # NO DB = No Database Entry needed for this variable
 # DBA - Need to add this variable to the database
 # DBAA - Value set from DB Manager
-var interaction_raycast :RayCast2D
+var interaction_raycast_dict: Dictionary = {}
+#var interaction_raycast :RayCast2D
 var current_selected_interactive_body = null
 var player_animation_dictionary :Dictionary = {}
 var player_shadow_dictionary :Dictionary = {}
@@ -52,7 +53,7 @@ func _ready() -> void:
 		set_required_variables()
 		FARTENGINE.save_game_data.connect(save_player_position)
 		set_animation_sprites()
-		add_raycast()
+		add_raycasts_to_player()
 #		if draw_shadow:
 #			set_shadow_animation()
 
@@ -72,13 +73,18 @@ func set_required_variables():
 	is_gravity_active = FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
 
 
-func add_raycast():
-	for child in get_children():
-		if child.name == "InteractionRaycast":
-			child.name = str(child.get_instance_id())
-			child.queue_free()
-	
-	interaction_raycast = RayCast2D.new()
+func add_raycasts_to_player():
+	#clear old raycast nodes
+	for child in interaction_raycast_dict:
+		interaction_raycast_dict[child]["raycast_node"].queue_free()
+	await get_tree().process_frame
+	create_raycast(15)
+	create_raycast(-15)
+
+
+
+func create_raycast(target_pos_x:int)-> RayCast2D:
+	var interaction_raycast := RayCast2D.new()
 	interaction_raycast.set_collision_mask_value(1,true)
 	interaction_raycast.set_collision_mask_value(2,false)
 	interaction_raycast.set_collision_mask_value(3,true)
@@ -86,12 +92,12 @@ func add_raycast():
 	interaction_raycast.set_collide_with_bodies(true)
 	
 	var interactionArea :float = FARTENGINE.get_player_interaction_area().get_child(0).shape.get_radius()
-	interaction_raycast.set_target_position(Vector2(0,interactionArea/3)) #The "3" could be set in character table
-#	interaction_raycast.set_hit_from_inside(true)
-#	interaction_raycast.set_exclude_parent_body(true)
-	interaction_raycast_collided.connect(interaction_raycast_collision)
+	interaction_raycast.set_target_position(Vector2(target_pos_x,interactionArea)) #The "3" could be set in character table
+#	interaction_raycast_collided.connect(interaction_raycast_collision)
 	add_child(interaction_raycast)
-	interaction_raycast.set_name("InteractionRaycast")
+	interaction_raycast.set_name(str(interaction_raycast.get_instance_id()))
+	interaction_raycast_dict[interaction_raycast_dict.size() + 1] = {"raycast_node": interaction_raycast}
+	return interaction_raycast
 
 
 func _physics_process(delta):
@@ -99,10 +105,15 @@ func _physics_process(delta):
 		var game_active :bool = FARTENGINE.Dynamic_Game_Dict['Global Data'][await FARTENGINE.get_global_settings_profile()]["Is Game Active"]
 		if game_active:
 			
-			if interaction_raycast != null:
-				if interaction_raycast.is_colliding():
-					emit_signal("interaction_raycast_collided", interaction_raycast.get_collider())
-				elif current_selected_interactive_body != null:
+			if interaction_raycast_dict != {}:
+				var is_colliding:bool = false
+				for ray in interaction_raycast_dict:
+					var interaction_raycast = interaction_raycast_dict[ray]["raycast_node"]
+					if interaction_raycast.is_colliding():
+						interaction_raycast_collision(interaction_raycast.get_collider())
+#						emit_signal("interaction_raycast_collided", interaction_raycast.get_collider())
+						is_colliding = true
+				if !is_colliding and current_selected_interactive_body != null:
 					current_selected_interactive_body.emit_signal("player_exited_interaction_area")
 					current_selected_interactive_body = null
 #			is_gravity_active =  FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
@@ -244,7 +255,7 @@ func add_sprite_group_to_node(animatedSprite :AnimatedSprite2D, sprite_dict :Dic
 		if anim != "Display Name":
 			var animation_name : String = anim
 			FARTENGINE.set_sprite_scale(animatedSprite,animation_name ,FARTENGINE.convert_string_to_type(sprite_dict[anim]))
-			var anim_array :Array = FARTENGINE.add_animation_to_animatedSprite( animation_name, FARTENGINE.convert_string_to_type(sprite_dict[anim]), true ,animatedSprite, spriteFrames)
+			var anim_array :Array = FARTENGINE.add_animation_to_animatedSprite( animation_name, FARTENGINE.convert_string_to_type(sprite_dict[anim]),animatedSprite,true , spriteFrames)
 			var collisionShape = anim_array[1]
 			collisionShape.name = animation_state + anim + "Collision"
 			var collisionShapeName :String = collisionShape.name
@@ -346,18 +357,21 @@ func state_machine(delta):
 #	direction_string = get_direction_string(dir)
 	enable_collision(state + direction_string)
 
+var self_rotation :int = 0
 func rotate_ineraction_raycast(direction:Vector2):
+	
 	if direction != Vector2.ZERO:
-		var rotation :int = 0
+		
 		if direction.x < 0:
-				rotation = 90
+			self_rotation = 90
 		elif direction.x > 0:
-			rotation = -90
+			self_rotation = -90
 		if direction.y < 0:
-			rotation = 180
+			self_rotation = 180
 		elif direction.y > 0:
-			rotation = 0
-
+			self_rotation = 0
+	for ray in interaction_raycast_dict:
+		var interaction_raycast :RayCast2D = interaction_raycast_dict[ray]["raycast_node"]
 		var current_rotation :int = rad_to_deg(interaction_raycast.get_rotation())
-		if current_rotation != rotation:
-			interaction_raycast.set_rotation(deg_to_rad(rotation))
+		if current_rotation != self_rotation:
+			interaction_raycast.set_rotation(deg_to_rad(self_rotation))

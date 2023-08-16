@@ -8,12 +8,14 @@ signal clear_loading_screen
 signal map_data_updated
 signal in_game_menu_closed
 signal initial_menus_loaded
+signal inventory_updated
 
-@onready var EVENTS :EventEngine = EventEngine.new()
-@onready var UIENGINE : UIEngine = UIEngine.new()
+var EVENTS :EventEngine = EventEngine.new()
+var UIENGINE : UIEngine = UIEngine.new()
 
 var actionState_dict :Dictionary = {"action_name": "", "is_pressed": false, "action_strength" : 0.0}
 var CurrentInputAction_dict :Dictionary = {}
+var save_game_data_dict: Dictionary
 
 var inputMapActions :Array
 var movementDirections_dict :Dictionary
@@ -56,11 +58,14 @@ func _ready():
 	Dynamic_Game_Dict = {}
 	set_var_type_dict(Static_Game_Dict)
 	set_root_node()
+	await get_tree().create_timer(0.1).timeout
 	add_required_scenes_to_UI()
-	await initial_menus_loaded
-
+	await get_tree().create_timer(0.1).timeout
+#	await initial_menus_loaded
+	await get_tree().create_timer(0.1).timeout
+	EVENTS._ready()
 	set_game_state("1") #this should get the game state from the global data [selected profile]
-#	update_key_bindings()
+
 	
 
 
@@ -130,7 +135,7 @@ func _input(event):
 
 func show_in_game_main_menu(show :bool = true):
 	root.get_node("UI/InGameMainMenu").visible = show
-	show_gui(!show)
+#	show_gui(!show)
 
 
 func quit_game():
@@ -179,6 +184,24 @@ func get_map_dict() -> Dictionary:
 	var map_dict : Dictionary = await import_data("Maps")
 	return map_dict
 
+func get_event_save_dict() -> Dictionary:
+	if !Dynamic_Game_Dict.has("Event Save Data"):
+		create_event_save_data()
+	else:
+		save_game_data_dict = Dynamic_Game_Dict["Event Save Data"]
+#	print(save_game_data_dict)
+	return save_game_data_dict
+
+
+func set_save_game_data():
+#	save_game_data_dict = save_game_dict
+	Dynamic_Game_Dict["Event Save Data"] = get_event_save_dict()
+
+
+func create_event_save_data():
+	Dynamic_Game_Dict["Event Save Data"] = {}
+	save_game_data_dict = Dynamic_Game_Dict["Event Save Data"]
+
 
 func get_map_key(map_path : String):
 	var map_dict : Dictionary = await get_map_dict()
@@ -210,14 +233,14 @@ func load_and_set_map(map_path := ""):
 	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Current Map"] = map_input
 	await set_current_map(map_node, map_path)
 	emit_signal("map_data_updated")
-	add_map_to_events(await get_map_name(map_path))
+#	add_map_to_events(await get_map_name(map_path))
 	#hide load screen
 	set_game_state("2")
 
-
-func add_map_to_events(map_name:String):
-	if !Dynamic_Game_Dict["Event Save Data"].has(map_name):
-			Dynamic_Game_Dict["Event Save Data"][map_name] = {}
+#
+#func add_map_to_events(map_name:String):
+#	if !Dynamic_Game_Dict["Event Save Data"].has(map_name):
+#			Dynamic_Game_Dict["Event Save Data"][map_name] = {}
 
 
 func save_global_options_data():
@@ -227,7 +250,8 @@ func save_global_options_data():
 func save_game():
 	var return_Save_ID
 	emit_signal("save_game_data")
-	current_map_node.save_event_data()
+#	current_map_node.save_event_data()
+	set_save_game_data()
 	save_id = Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Save ID"]
 	if int(save_id) == 0: #set save id when player loads game
 		set_save_path()
@@ -278,6 +302,7 @@ func load_game(file_name : String):
 #	add_all_items_to_player_inventory()
 	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Is Game Active"] = true
 	dict_loaded = true
+	inventory_updated.emit()
 	emit_signal("DbManager_loaded")
 
 
@@ -351,6 +376,7 @@ func new_game():
 	load_and_set_map(await get_starting_map_path())
 	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Is Game Active"] = true
 	dict_loaded = true
+	inventory_updated.emit()
 	#root.get_node("UI/TitleScreen").visible = false # hides title screen.  Should be donw somewhere else, but not yet sre where
 	emit_signal("DbManager_loaded")
 
@@ -445,6 +471,8 @@ func is_item_in_inventory(item_name : String):
 
 ##########################END INVENTORY FUNCTIONS################333
 func add_required_scenes_to_UI():
+
+
 	var global_dict :Dictionary
 
 	if Dynamic_Game_Dict.has("Global Data"):
@@ -459,27 +487,35 @@ func add_required_scenes_to_UI():
 	var playerScene_Scene :Variant = load(menu_scenes[playerScene_ID]["Path"]).instantiate()
 	root.add_child(playerScene_Scene)
 	playerScene_Scene.set_name("Player")
+	
 
 	add_map_node_to_root()
 	add_UI_node_to_root()
+
 	
+
 	var TitleScreen_ID :String = str(global_data_dict["Title Screen"])
 	var TitleScreen_Scene :Variant = load(menu_scenes[TitleScreen_ID]["Path"]).instantiate()
+	TitleScreen_Scene.set_name("TitleScreen")
 	root.get_node("UI").add_child(TitleScreen_Scene)
 	TitleScreen_Scene.visible = true
-	TitleScreen_Scene.set_name("TitleScreen")
-	
+
+	print("4")
+	print_orphan_nodes()
 	var GUI_ID :String = str(global_data_dict["Default GUI"])
 	var GUI_Scene :Variant = load(menu_scenes[GUI_ID]["Path"]).instantiate()
+	GUI_Scene.set_name("GUI")
 	root.get_node("UI").add_child(GUI_Scene)
 	GUI_Scene.visible = false
-	GUI_Scene.set_name("GUI")
-	
+	print("5")
+	print_orphan_nodes()
+
 	var MainMenu_ID :String = str(global_data_dict["Default In-Game Menu"])
 	var Menu_Scene :Variant = load(menu_scenes[MainMenu_ID]["Path"]).instantiate()
+	Menu_Scene.set_name("InGameMainMenu")
 	root.get_node("UI").add_child(Menu_Scene)
 	Menu_Scene.visible = false
-	Menu_Scene.set_name("InGameMainMenu")
+
 
 	var LoadMenu_ID :String = str(global_data_dict["Default Load Game Menu"])
 	var LoadMenu_Scene :Variant = load(menu_scenes[LoadMenu_ID]["Path"]).instantiate()
@@ -498,6 +534,7 @@ func add_map_node_to_root():
 	var node :Node2D = Node2D.new()
 	node.set_name("map")
 	root.add_child(node)
+
 
 
 func add_UI_node_to_root():

@@ -38,7 +38,11 @@ layout_mode = 2
 size_flags_vertical = 1
 
 [node name="Label_Button" parent="VBoxContainer/Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 button_text = "Command List"
+
+[node name="Hide_Button" parent="VBoxContainer/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Close1" type="Button" parent="VBoxContainer/Label/HBox1" index="2"]
 visible = false
@@ -47,7 +51,7 @@ layout_mode = 2
 text = "Close"
 
 [node name="Close" parent="VBoxContainer/Label/HBox1" index="3" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Close"
 auto_connect_signals = false
@@ -91,7 +95,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="start_dialog" parent="VBoxContainer/HBoxContainer/DialogVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "New Dialog"
 
@@ -122,7 +126,7 @@ layout_mode = 2
 text = "Modify Inventory"
 
 [node name="modify_player_inventory" parent="VBoxContainer/HBoxContainer/InventoryVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Modify Inventory"
 
@@ -147,53 +151,33 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="change_game_state1" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
-visible = false
-layout_mode = 2
-text = "Game State"
-
-[node name="change_local_varia2" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
-visible = false
-layout_mode = 2
-text = "Local Variables"
-
-[node name="change_global_varwiable" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
-visible = false
-layout_mode = 2
-text = "Global Variables"
-
-[node name="remove_event1" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
-visible = false
-layout_mode = 2
-text = "Remove Event"
-
-[node name="wait1" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
-visible = false
-layout_mode = 2
-text = "Wait"
-
 [node name="change_game_state" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Game State"
 
 [node name="change_local_variable" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Local Variables"
 
+[node name="change_dialog_options" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Dialog Options"
+
 [node name="change_global_variable" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Global Variables"
 
 [node name="remove_event" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Remove Event"
 
 [node name="wait" parent="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Wait"
 
@@ -218,13 +202,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="transfer_player1" parent="VBoxContainer/HBoxContainer/MovementVBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
-visible = false
-layout_mode = 2
-text = "Player Transfer"
-
 [node name="transfer_player" parent="VBoxContainer/HBoxContainer/MovementVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Transfer Player"
 
@@ -249,23 +228,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="print_to_console1" parent="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
-visible = false
-layout_mode = 2
-text = "Print to Console"
-
-[node name="sfx1" parent="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_siuql")]
-visible = false
-layout_mode = 2
-text = "SFX"
-
 [node name="print_to_console" parent="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Print to Console"
 
 [node name="sfx" parent="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Audio"
 
@@ -274,20 +243,13 @@ button_text = "Audio"
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/DialogVBoxContainer/ScrollContainer/VBoxContainer/start_dialog" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/InventoryVBoxContainer/ScrollContainer/VBoxContainer/modify_player_inventory1" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/InventoryVBoxContainer/ScrollContainer/VBoxContainer/modify_player_inventory" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_game_state1" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_local_varia2" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_global_varwiable" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/remove_event1" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/wait1" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_game_state" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_local_variable" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_dialog_options" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_global_variable" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/remove_event" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/wait" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MovementVBoxContainer/ScrollContainer/VBoxContainer/transfer_player1" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MovementVBoxContainer/ScrollContainer/VBoxContainer/transfer_player" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer/print_to_console1" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer/sfx1" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer/print_to_console" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer/sfx" to="." method="_open_selected_form"]
 

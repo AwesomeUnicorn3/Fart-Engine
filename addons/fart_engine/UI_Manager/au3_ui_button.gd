@@ -1,6 +1,6 @@
 @tool
 extends TextureButton
-
+#@onready var DBENGINE: DatabaseEngine
 @export var selected_method_key :String = "1":
 	set = set_selected_method_key
 @export var label_text_override: String = ""
@@ -14,26 +14,32 @@ var texture_background_color:Color
 
 
 func _init():
+#	DBENGINE = DatabaseEngine.new()
 	default_button_texture = load(get_default_button_texture())
 	texture_background_color = get_default_background_color()
-
+	
 func _ready():
-	
 	connect_signals()
-	
 	create_button()
+#	FARTENGINE.get_root_node().print_orphan_nodes()
 
 
 func get_default_button_texture() -> String:
-	var DBENGINE = DatabaseEngine.new()
-	var UI_scenes_table:Dictionary = DBENGINE.import_data("UI Scenes")
+	var UI_scenes_table:Dictionary
+	if Engine.is_editor_hint():
+		UI_scenes_table= DatabaseEngine.new().import_data("UI Scenes")
+	else:
+		UI_scenes_table= FARTENGINE.import_data("UI Scenes")
 	var return_texture_path:String = UI_scenes_table["11"]["Path"]
 	return return_texture_path
 
 
 func get_default_background_color() -> Color:
-	var DBENGINE = DatabaseEngine.new()
-	var UI_scenes_table:Dictionary = DBENGINE.import_data("UI Scenes")
+	var UI_scenes_table:Dictionary
+	if Engine.is_editor_hint():
+		UI_scenes_table= DatabaseEngine.new().import_data("UI Scenes")
+	else:
+		UI_scenes_table = FARTENGINE.import_data("UI Scenes")
 	var return_color:Color = str_to_var(UI_scenes_table["11"]["Background Color"])
 	return return_color
 
@@ -123,6 +129,10 @@ func set_selected_method_key(selectedKey:String):
 
 
 func create_button():
+	for child in self.get_children():
+		if child.get_class() == "Label":
+			child.name = child.name + "1"
+			child.queue_free()
 	set_custom_minimum_size(minimum_size)
 	reset_self_modulate()
 	set_texture(default_button_texture, "Normal")
@@ -131,11 +141,6 @@ func create_button():
 	set_texture(default_button_texture, "Disabled")
 	set_texture(default_button_texture, "Focused")
 
-
-	for child in self.get_children():
-		if child.get_class() == "Label":
-			child.queue_free()
-
 	label = Label.new()
 	label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	label.set_horizontal_alignment(HORIZONTAL_ALIGNMENT_CENTER)
@@ -143,11 +148,14 @@ func create_button():
 	add_child(label)
 	
 	
+#	await get_tree().process_frame
+#	pass
+	
 	if is_inside_tree():
 #	if is_instance_valid(get_tree()):
 		var displayName = label_text_override
 #		if displayName == "":
-		if !get_tree().get_edited_scene_root():
+		if !Engine.is_editor_hint():
 			ui_navigation_dict = FARTENGINE.Static_Game_Dict["UI Script Methods"]
 			if displayName == "":
 				displayName= FARTENGINE.get_text(ui_navigation_dict[str(selected_method_key)]["Button Label"])
@@ -159,3 +167,6 @@ func create_button():
 				displayName = DBENGINE.get_text(ui_navigation_dict[str(selected_method_key)]["Button Label"])
 		
 		label.set_text(displayName)
+		label.name = displayName
+		print("NAME: ", displayName)
+		

@@ -1,24 +1,61 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3so6uqlaf4o8"]
+[gd_scene load_steps=4 format=3 uid="uid://d3so6uqlaf4o8"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/InputArray_Node_Field.gd" id="1_l4eig"]
 [ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="2_5qrtg"]
+[ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="3_f7755"]
 
 [node name="HBoxContainer" type="HBoxContainer"]
-offset_right = 900.0
-offset_bottom = 83.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l4eig")
 
-[node name="Navigation Button" parent="." groups=["Table Action"] instance=ExtResource("2_5qrtg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
-custom_minimum_size = Vector2(50, 30)
+[node name="DeleteItemButton" parent="." groups=["Table Action"] instance=ExtResource("2_5qrtg")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(50, 10)
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.1
 button_text = "-"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
-[connection signal="button_down" from="Navigation Button" to="." method="_on_button_button_up"]
+[node name="ChkBox" parent="." instance=ExtResource("3_f7755")]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_horizontal = 1
+is_checkbox = true
+
+[node name="Label" parent="ChkBox" index="0"]
+visible = false
+
+[node name="Label_Button" parent="ChkBox/Label/HBox1" index="0"]
+custom_minimum_size = Vector2(5, 30)
+
+[node name="Label" parent="ChkBox/Label/HBox1/Label_Button" index="0"]
+self_modulate = Color(1, 1, 1, 1)
+offset_right = -116.0
+text = "ChkBox"
+
+[node name="DisplayLabel" parent="ChkBox/Label/HBox1/Label_Button" index="1"]
+self_modulate = Color(1, 1, 1, 1)
+
+[node name="Input" parent="ChkBox/Hbox1/Background" index="0"]
+visible = false
+
+[node name="CheckBox" parent="ChkBox/Hbox1/Background" index="1"]
+visible = true
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -34.0
+offset_top = -15.5
+offset_right = 34.0
+offset_bottom = 15.5
+text = "False"
+
+[connection signal="button_down" from="DeleteItemButton" to="." method="_on_button_button_up"]
+
+[editable path="ChkBox"]
+[editable path="ChkBox/Label"]
+[editable path="ChkBox/Label/HBox1/Label_Button"]

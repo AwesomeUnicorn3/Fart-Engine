@@ -42,7 +42,6 @@ label_text = "Button Text"
 is_label_button = false
 
 [node name="Event_Dialog_Options_Table" parent="HBoxContainer" instance=ExtResource("4_x3miu")]
-visible = false
 layout_mode = 2
 selection_table_name = "Event Dialog Variables"
 label_text = "Event Dialog Variables"

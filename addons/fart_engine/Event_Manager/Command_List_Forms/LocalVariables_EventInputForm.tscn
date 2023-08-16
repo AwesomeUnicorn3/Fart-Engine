@@ -80,16 +80,13 @@ show_field = true
 [node name="Label" parent="Control/VBoxContainer/Checkbox_Template" index="0"]
 visible = false
 
-[node name="Label_Button" parent="Control/VBoxContainer/Checkbox_Template/Label/HBox1" index="0"]
-visible = false
-
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Accept" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("5_q7kja")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 button_text = "Accept"
@@ -97,7 +94,7 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="Cancel" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("5_q7kja")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 button_text = "Cancel"

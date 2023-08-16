@@ -28,6 +28,8 @@ func _open_selected_form(btn_name):
 			_on_dialog_button_up()
 		"sfx":
 			_on_sfx_button_up()
+		"change_dialog_options":
+			_on_change_dialog_options_button_up()
 
 
 
@@ -46,16 +48,17 @@ func _on_remove_event_button_up():
 	_on_close_button_up()
 
 func _on_local_variables_button_up():
-	#instatiate and add local var inp as "localVariables_EventInputForm"
 	var localVariables_EventInputForm = preload("res://addons/fart_engine/Event_Manager/Command_List_Forms/LocalVariables_EventInputForm.tscn").instantiate()
 	add_child(localVariables_EventInputForm)
-	#set variable dict as selection_node table
-#	localVariables_EventInputForm.selection_node.selection_table = local_variable_dictionary
-#	localVariables_EventInputForm.selection_node.selection_table_name = "" #REPLACE THIS WITH DICTIONARY INPUT IN EVENT TABLE???
-	#populate list on seelction_node 
-#	localVariables_EventInputForm.selection_node.populate_list()
 	localVariables_EventInputForm.commandListForm = self
 	connect_signals(localVariables_EventInputForm)
+
+
+func _on_change_dialog_options_button_up():
+	var EventInputForm = preload("res://addons/fart_engine/Event_Manager/Command_List_Forms/DialogOptions_EventInputForm.tscn").instantiate()
+	add_child(EventInputForm)
+	EventInputForm.commandListForm = self
+	connect_signals(EventInputForm)
 
 func _on_global_variables_button_up():
 	#instatiate and add local var inp as "localVariables_EventInputForm"

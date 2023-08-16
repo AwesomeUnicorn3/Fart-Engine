@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://dubrme47bbxfp"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/Player_Template.gd" id="2"]
 
@@ -18,8 +18,7 @@ show_behind_parent = true
 [node name="AnimSprites" type="Node2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-current = true
-zoom = Vector2(4, 4)
+zoom = Vector2(2, 2)
 
 [node name="PlayerInteractionArea" type="Area2D" parent="."]
 collision_layer = 4

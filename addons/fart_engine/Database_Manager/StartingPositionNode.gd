@@ -4,7 +4,7 @@ extends Sprite2D
 var current_position :Vector2 = Vector2.ZERO
 var previous_position:Vector2 = Vector2.ZERO
 var position_updated :bool = true
-var DBENGINE = DatabaseEngine.new()
+var DBENGINE 
 var editor 
 var save_table_wait_index :int = 0
 var set_position_button
@@ -13,7 +13,7 @@ func _ready():
 	
 	if get_tree().get_edited_scene_root() != null:
 	#Set current position based on Global Data info
-		
+		DBENGINE = DatabaseEngine.new()
 		var global_data_dict = DBENGINE.import_data("Global Data")
 		current_position = DBENGINE.convert_string_to_vector(global_data_dict[await DBENGINE.get_global_settings_profile()]["Player Starting Position"])
 		set_position(current_position)

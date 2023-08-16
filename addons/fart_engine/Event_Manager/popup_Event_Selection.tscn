@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/popup_Event_Selection.gd" id="1"]
 [ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="2"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://caa8n4gw1ppk5" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_ij2mt"]
@@ -15,9 +15,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -312.0
-offset_top = -75.0
+offset_top = -95.0
 offset_right = 312.0
-offset_bottom = 75.0
+offset_bottom = 95.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2")
@@ -48,11 +48,11 @@ size_flags_stretch_ratio = 0.25
 custom_minimum_size = Vector2(0, 30)
 
 [node name="Label_Button" parent="PanelContainer/VBox1/Input_Label_Template/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 button_text = "Select or Create New Event"
 
 [node name="Hide_Button" parent="PanelContainer/VBox1/Input_Label_Template/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="input_templateBuffer" parent="PanelContainer/VBox1" instance=ExtResource("5")]
 layout_mode = 2
@@ -62,7 +62,6 @@ layout_mode = 2
 
 [node name="Existing_Events_Dropdown" parent="PanelContainer/VBox1/HBox1" instance=ExtResource("3")]
 layout_mode = 2
-selection_table_name = "Events"
 label_text = "Existing Events"
 is_label_button = false
 
@@ -76,13 +75,12 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.01
 
 [node name="Create_New_Event_Button" parent="PanelContainer/VBox1/HBox1" groups=["Table Action"] instance=ExtResource("6_ij2mt")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 button_text = "Create New Event"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="Create_New_Event_Button1" type="Button" parent="PanelContainer/VBox1/HBox1"]
 visible = false
@@ -100,22 +98,20 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 
 [node name="Accept" parent="PanelContainer/VBox1/HBox2" groups=["Table Action"] instance=ExtResource("6_ij2mt")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 button_text = "Accept"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="Cancel" parent="PanelContainer/VBox1/HBox2" groups=["Table Action"] instance=ExtResource("6_ij2mt")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [editable path="PanelContainer/VBox1/Input_Label_Template"]
 [editable path="PanelContainer/VBox1/HBox1/Existing_Events_Dropdown"]

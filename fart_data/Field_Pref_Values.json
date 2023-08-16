@@ -1,1 +1,1 @@
-{"1":{"ItemID":"{\n\"text\": \"FieldName\"\n}"},"2":{"ItemID":"{\n\"text\": \"ShowValue\"\n}"},"3":{"ItemID":"{\n\"text\": \"DataType\"\n}"},"4":{"ItemID":"{\n\"text\": \"RequiredValue\"\n}"},"5":{"ItemID":"{\n\"text\": \"TableRef\"\n}"}}
+{"1":{"ItemID":"{\n\"show_advanced_options\": false,\n\"text\": \"FieldName\"\n}"},"2":{"ItemID":"{\n\"text\": \"ShowValue\"\n}"},"3":{"ItemID":"{\n\"text\": \"DataType\"\n}"},"4":{"ItemID":"{\n\"text\": \"RequiredValue\"\n}"},"5":{"ItemID":"{\n\"text\": \"TableRef\"\n}"}}

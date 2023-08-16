@@ -59,7 +59,7 @@ func _on_FileDialog_file_selected(path):
 
 func _get_input_value() -> String:
 	var return_value :String
-	return_value = inputNode.get_texture_normal().get_path().get_file()
+	return_value = inputNode.get_texture_normal().get_path()
 	return return_value
 
 
@@ -68,4 +68,4 @@ func _set_input_value(node_value):
 	if texture_path == "empty":
 		texture_path = default
 	var tempBtn :TextureButton = inputNode
-	tempBtn.set_texture_normal(load(DBENGINE.table_save_path + DBENGINE.icon_folder + texture_path))
+	tempBtn.set_texture_normal(load(texture_path))

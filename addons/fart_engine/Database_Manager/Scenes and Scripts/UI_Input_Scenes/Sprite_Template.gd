@@ -83,7 +83,7 @@ func create_sprite_animation():
 	if sprite_animation.is_playing():
 		sprite_animation.stop()
 	sprite_animation.get_sprite_frames().remove_animation(labelNode.get_text())
-	DBENGINE.add_animation_to_animatedSprite(labelNode.get_text(), input_data, false,  sprite_animation)
+	DBENGINE.add_animation_to_animatedSprite(labelNode.get_text(), input_data,sprite_animation, false)
 	sprite_animation.play(labelNode.get_text())
 
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b0cutin5hwilp"]
 
-[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Event Tools.gd" id="1"]
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Event_Tools.gd" id="1_7o23k"]
 
 [node name="Event Tools" type="Control"]
 layout_mode = 3
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1")
+script = ExtResource("1_7o23k")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
@@ -28,5 +28,12 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Assign Function"
 
+[node name="Edit_Data_Display" type="Button" parent="HBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+text = "Edit Data Display"
+
 [connection signal="button_up" from="HBoxContainer/Edit_Event_Button" to="." method="_on_Button_button_up"]
 [connection signal="button_up" from="HBoxContainer/Assign_Function" to="." method="_on_assign_function_button_up"]
+[connection signal="button_up" from="HBoxContainer/Edit_Data_Display" to="." method="_on_edit_data_display_button_up"]

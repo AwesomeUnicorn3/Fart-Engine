@@ -39,6 +39,5 @@ rotation = 1.5708
 shape = SubResource("RectangleShape2D_npjxb")
 
 [node name="TransferPositionNode" type="Sprite2D" parent="."]
-position = Vector2(62, -59)
 texture = ExtResource("3_jswly")
 script = ExtResource("4_7ebvb")

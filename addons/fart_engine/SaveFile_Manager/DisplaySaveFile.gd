@@ -10,6 +10,7 @@ extends DatabaseEngine
 @onready var fileContainer = $Main_VBox/Display_HBox/File_Scroll/VBox1
 @onready var tableContainer = $Main_VBox/Display_HBox/Table_Scroll/VBox1
 @onready var keyContainer = $Main_VBox/Display_HBox/Key_Scroll/VBox1
+@onready var eventContainer = $Main_VBox/Display_HBox/Key_Scroll_Event/VBox1
 @onready var valueContainer = $Main_VBox/Display_HBox/Field_Scroll/VBox1
 
 
@@ -18,6 +19,7 @@ var FileSelected
 var TableSelected
 var KeySelected
 var ValueSelected
+var EventSelected
 var input_changed = false
 
 
@@ -28,6 +30,8 @@ func _ready() -> void:
 	clear_single_container(tableContainer)
 	clear_single_container(keyContainer)
 	clear_single_container(valueContainer)
+	clear_single_container(eventContainer)
+	_input_node_changed(false)
 	for i in files:
 		i = str(i).trim_suffix(save_format)
 		create_button(i , fileContainer, Navigation_Button, "File_Button")
@@ -45,6 +49,9 @@ func navigation_button_up(button: TextureButton):
 		
 	elif button.is_in_group("Key_Button"):
 		_on_key_button_up(button.text)
+		
+	elif button.is_in_group("Event_Button"):
+		_on_event_button_up(button.text)
 	
 	button.disabled = true
 	button.reset_self_modulate()
@@ -58,6 +65,7 @@ func _on_file_button_up(saveName):
 	clear_single_container(tableContainer)
 	clear_single_container(keyContainer)
 	clear_single_container(valueContainer)
+	clear_single_container(eventContainer)
 	FileSelected = saveName
 	$Main_VBox/Header_Button_HBox/DeleteFile.disabled = false
 	saveFile = load_save_file(fileLocation)
@@ -69,6 +77,7 @@ func _on_file_button_up(saveName):
 func _on_table_button_up(Name):
 	clear_single_container(keyContainer)
 	clear_single_container(valueContainer)
+	clear_single_container(eventContainer)
 	TableSelected = Name
 	set_saveFile_data("key")
 	_input_node_changed(false)
@@ -77,10 +86,18 @@ func _on_table_button_up(Name):
 
 func _on_key_button_up(Name):
 	clear_single_container(valueContainer)
+	clear_single_container(eventContainer)
 	KeySelected = Name
 	set_saveFile_data("value")
-	_input_node_changed()
+#	_input_node_changed()
 	enable_buttons(keyContainer)
+
+func _on_event_button_up(Name):
+	clear_single_container(valueContainer)
+	EventSelected = Name
+	set_saveFile_data("event")
+#	_input_node_changed()
+	enable_buttons(eventContainer)
 
 
 func set_saveFile_data(get_value: String):
@@ -98,22 +115,44 @@ func set_saveFile_data(get_value: String):
 				create_button(KeySelected, keyContainer,Navigation_Button, "Key_Button")
 
 		"value":
+			ValueSelected = ""
+			var modified_table_name = TableSelected
+			if modified_table_name == "Inventory":
+				modified_table_name = "Items"
+#			print("MODIFIED TABLE NAME: ", modified_table_name)
+			if modified_table_name == "Event Save Data":
+				load_save_data(modified_table_name)
+			else:
+				for k in saveFile[TableSelected][KeySelected]: # k = field Name
+					ValueSelected = saveFile[TableSelected][KeySelected][k]
+					var input = create_input_node(k, modified_table_name)
+					valueContainer.add_child(input)
+					if input.has_method("populate_list"):
+						var reference_table = get_reference_table(modified_table_name, KeySelected, k)
+						input.selection_table_name = reference_table
+					input._set_input_value(ValueSelected)
+					input.labelNode.set_text(k)
+					input.is_label_button = false
+		"event":
+				ValueSelected = ""
+#				print("VALUE SELECTED: ", KeySelected)
+				for value_dict in saveFile[TableSelected][KeySelected][EventSelected]: # k = field Name
+#					print(value_dict)
+					ValueSelected = saveFile[TableSelected][KeySelected][EventSelected][value_dict]
+					var input = create_input_node(value_dict, TableSelected)
+					valueContainer.add_child(input)
+					if input.has_method("populate_list"):
+						var reference_table = get_reference_table(TableSelected, KeySelected, value_dict)
+						input.selection_table_name = reference_table
+					input._set_input_value(ValueSelected)
+					input.labelNode.set_text(value_dict)
+					input.is_label_button = false
 
-			for k in saveFile[TableSelected][KeySelected]: # k = field Name
-				var modified_table_name = TableSelected
-				if modified_table_name == "Inventory":
-					modified_table_name = "Items"
-				ValueSelected = saveFile[TableSelected][KeySelected][k]
-#				print(var_to_str(ValueSelected))
-	
-				var input = create_input_node(k, modified_table_name)
-				valueContainer.add_child(input)
-				if input.has_method("populate_list"):
-					var reference_table = get_reference_table(modified_table_name, KeySelected, k)
-					input.selection_table_name = reference_table
-				input._set_input_value(ValueSelected)
-				input.labelNode.set_text(k)
-				input.is_label_button = false
+
+func load_save_data(modified_table_name: String):
+	clear_single_container(eventContainer)
+	for event in saveFile[TableSelected][KeySelected]:
+		create_button(event, eventContainer,Navigation_Button, "Event_Button")
 
 
 func clear_single_container(container: VBoxContainer):
@@ -134,6 +173,8 @@ func enable_buttons(container:VBoxContainer):
 #	valueName = str(valueName)
 #	container.add_child(input_node)
 #	return input_node
+
+
 
 
 func create_button(valueName:String, container: VBoxContainer, button: PackedScene, group_name: String):
@@ -165,16 +206,26 @@ func _on_Save_button_up() -> void:
 	#CODE TO SAVE CHANGES TO SAVEfILE
 	#loop through input column, get all values
 	$Popups.visible = true
-	if valueContainer.get_children().size() >= 2:
-		for i in valueContainer.get_children():
-			if "inputNode" in i:
-				var curr_value = i._get_input_value()
-				var curr_field = i.labelNode.text
-				saveFile[TableSelected][KeySelected][curr_field] = curr_value
-
+	if TableSelected != "Event Save Data":
+		if valueContainer.get_children().size() >= 2:
+			for i in valueContainer.get_children():
+				if "inputNode" in i:
+					var curr_value = i._get_input_value()
+					var curr_field = i.labelNode.text
+					saveFile[TableSelected][KeySelected][curr_field] = curr_value
 		var fileName = save_game_path + FileSelected + save_format
 		save_file(fileName, saveFile)
-		emit_signal("table_save_complete")
+	else:
+		if valueContainer.get_children().size() >= 2:
+			for i in valueContainer.get_children():
+				if "inputNode" in i:
+					var curr_value = i._get_input_value()
+					var curr_field = i.labelNode.text
+					saveFile[TableSelected][KeySelected][EventSelected][curr_field] = curr_value
+		var fileName = save_game_path + FileSelected + save_format
+		save_file(fileName, saveFile)
+	
+	emit_signal("table_save_complete")
 	#Reset input_changed and hide notification
 	_input_node_changed(false)
 	$Popups.visible = false
@@ -191,6 +242,8 @@ func _on_DeleteFile_button_up() -> void:
 	lbl_text = lbl_text.replace("%", FileSelected.to_upper())
 	popup_label.set_text(lbl_text)
 
+func input_node_changed(text):
+	_input_node_changed()
 
 func _input_node_changed(hidden = true):
 	$Main_VBox/Header_Button_HBox/CenterContainer2/Label.visible = hidden

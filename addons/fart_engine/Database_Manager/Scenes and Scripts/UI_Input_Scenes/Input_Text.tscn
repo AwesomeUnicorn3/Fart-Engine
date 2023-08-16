@@ -21,6 +21,12 @@ size_flags_vertical = 3
 [node name="Label" parent="Input_Node" instance=ExtResource("2_5ug2b")]
 layout_mode = 2
 
+[node name="Label_Button" parent="Input_Node/Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="Input_Node/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
 [node name="Input" type="TextEdit" parent="Input_Node"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -35,18 +41,19 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Label_Button" parent="Input_Node/AdvancedControlsVBox/Label/HBox1" index="0" groups=["Node Label Level 1"]]
-self_modulate = Color(0, 0.266667, 0.321569, 1)
+self_modulate = Color(0, 0.27, 0.32, 1)
 button_text = "Advanced Options"
 
 [node name="Hide_Button" parent="Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
 visible = true
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="AdvancedControlsHBox" type="HBoxContainer" parent="Input_Node/AdvancedControlsVBox"]
 visible = false
 layout_mode = 2
 
 [node name="Underline" parent="Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" groups=["Node Label"] instance=ExtResource("3_ie1oh")]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 toggle_mode = true
@@ -56,7 +63,7 @@ auto_set_minimum_size = false
 is_sticky = true
 
 [node name="Bold" parent="Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" groups=["Node Label"] instance=ExtResource("3_ie1oh")]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 toggle_mode = true
@@ -66,7 +73,7 @@ auto_set_minimum_size = false
 is_sticky = true
 
 [node name="Italics" parent="Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" groups=["Node Label"] instance=ExtResource("3_ie1oh")]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 toggle_mode = true
@@ -83,7 +90,11 @@ size_flags_vertical = 3
 layout_mode = 2
 
 [node name="Label_Button" parent="Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 button_text = "How the text will look in-game"
+
+[node name="Hide_Button" parent="Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="display" type="RichTextLabel" parent="Input_Node/AdvancedControlsVBox/Display_Child"]
 custom_minimum_size = Vector2(0, 50)

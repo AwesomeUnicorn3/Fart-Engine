@@ -68,16 +68,18 @@ func get_label_node():
 
 func get_input_child() -> VBoxContainer:
 	var get_node = await find_child("Input_Node", true)
-	while get_node == null:
-		await get_tree().process_frame
+	if get_tree().get_edited_scene_root() == null: 
+		while get_node == null:
+			await get_tree().process_frame
 	show_label()
 	return get_node
 
 
 func get_display_child() -> VBoxContainer:
 	var get_node = await find_child("Display_Child", true)
-	while get_node == null:
-		await get_tree().process_frame
+	if get_tree().get_edited_scene_root() == null: 
+		while get_node == null:
+			await get_tree().process_frame
 	show_label()
 	return get_node
 
@@ -92,17 +94,20 @@ func get_display_node() -> VBoxContainer:
 func show_label(show :bool = true):
 	if labelNode == null:
 		labelNode = await get_label_node()
+#	print("labelnode name: ", labelNode.name)
 	labelNode.visible = show
+#	
+#func _show_label(show :bool = true):
+#
 
-
-func set_label_text():
+func set_label_text(text_value: String = label_text):
 	if !is_instance_valid(labelNode):
 		get_label_node()
-	if label_text == "":
+	if text_value == "":
 		labelNode.set_text(itemName)
 #		label_text = itemName
 	else:
-		labelNode.set_text(label_text)
+		labelNode.set_text(text_value)
 
 
 func set_default_value():
@@ -290,6 +295,9 @@ func connect_signals():
 	if inputNode.has_signal("pressed"):
 		inputNode.pressed.connect(on_text_changed.bind(inputNode.pressed))
 	labelNode.mouse_entered.connect(on_mouse_entered)
+
+
+
 
 
 func input_value_clamp(value:String, min_value = 1, max_value = 500) -> String:

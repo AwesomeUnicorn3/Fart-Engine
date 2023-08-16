@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="2_q1clg"]
 [ext_resource type="PackedScene" uid="uid://3ptlys0saqnv" path="res://addons/fart_engine/Event_Manager/TableKeyField_Dropdown_Template.tscn" id="3_wrdmd"]
 [ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_f1jwx"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://caa8n4gw1ppk5" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="7"]
 
 [node name="Condition_line_item" type="HBoxContainer"]
@@ -19,7 +19,7 @@ size_flags_horizontal = 3
 script = ExtResource("2")
 
 [node name="DeleteButton" parent="." groups=["Table Action"] instance=ExtResource("2_q1clg")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(35, 30)
 layout_mode = 2
 button_text = "-"
@@ -51,7 +51,11 @@ visible = false
 layout_mode = 2
 
 [node name="Label_Button" parent="LeftOperator/TopLabel/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 button_text = "IF"
+
+[node name="Hide_Button" parent="LeftOperator/TopLabel/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Inequality_Dropdown" parent="." instance=ExtResource("6")]
 layout_mode = 2
@@ -75,11 +79,23 @@ layout_mode = 2
 is_left = false
 
 [node name="Label_Button" parent="RightOperator/TopLabel/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 button_text = "Value"
 
+[node name="Hide_Button" parent="RightOperator/TopLabel/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
 [node name="Input" parent="RightOperator/TableKeyField_Combo/Table_DropDown" index="1"]
-item_count = 2
+item_count = 3
 popup/item_0/text = "Global Data"
+popup/item_2/text = "Testing Table"
+
+[node name="Key_DropDown" parent="RightOperator/TableKeyField_Combo" index="1"]
+selection_table_name = "1"
+
+[node name="Input" parent="RightOperator/TableKeyField_Combo/Key_DropDown" index="1"]
+item_count = 0
+selected = -1
 
 [node name="Input" parent="RightOperator/TableKeyField_Combo/Field_DropDown" index="1"]
 item_count = 14

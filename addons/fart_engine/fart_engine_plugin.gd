@@ -3,7 +3,7 @@ extends EditorPlugin
 
 const MainPanel = preload("res://addons/fart_engine/fart_main.tscn")
 var main_panel_instance
-var toolbar = preload("res://addons/fart_engine/Event_Manager/Event Tools.tscn").instantiate()
+var toolbar = preload("res://addons/fart_engine/Event_Manager/Event_Tools.tscn").instantiate()
 
 
 func _init():
@@ -41,6 +41,7 @@ func add_custom_types():
 	add_custom_type("Fart Event", "CharacterBody2D", preload("res://addons/fart_engine/Example Game/Event.gd"), icon)
 	add_custom_type("Fart UI Button", "TextureButton", preload("res://addons/fart_engine/UI_Manager/au3_ui_button.gd"), icon)
 	add_custom_type("Fart Data Display", "Control", preload("res://addons/fart_engine/Fart_Custom_Nodes/Fart_Data_Display.gd"), icon)
+	
 
 func _has_main_screen():
 	return true
@@ -80,20 +81,30 @@ func _process(delta: float) -> void:
 				toolbar.visible = true
 				toolbar.get_node("HBoxContainer/Edit_Event_Button").visible = true
 				toolbar.get_node("HBoxContainer/Assign_Function").visible = false
+				toolbar.get_node("HBoxContainer/Edit_Data_Display").visible = false
 				
 			elif current_selection.has_method("show_UIMethod_selection_in_editor"):
 				toolbar.visible = true
 				toolbar.get_node("HBoxContainer/Assign_Function").visible = true
 				toolbar.get_node("HBoxContainer/Edit_Event_Button").visible = false
+				toolbar.get_node("HBoxContainer/Edit_Data_Display").visible = false
 				
+			elif current_selection.has_method("data_display"):
+				toolbar.visible = true
+				toolbar.get_node("HBoxContainer/Edit_Data_Display").visible = true
+				toolbar.get_node("HBoxContainer/Edit_Event_Button").visible = false
+				toolbar.get_node("HBoxContainer/Assign_Function").visible = false
 			else:
 				toolbar.get_node("HBoxContainer/Edit_Event_Button").visible = false
 				toolbar.get_node("HBoxContainer/Assign_Function").visible = false
+				toolbar.get_node("HBoxContainer/Edit_Data_Display").visible = false
+
 				toolbar.visible = false
 	else:
 		toolbar.visible = false
 		toolbar.get_node("HBoxContainer/Edit_Event_Button").visible = false
 		toolbar.get_node("HBoxContainer/Assign_Function").visible = false
+		toolbar.get_node("HBoxContainer/Edit_Data_Display").visible = false
 		selected_node = null
 
 

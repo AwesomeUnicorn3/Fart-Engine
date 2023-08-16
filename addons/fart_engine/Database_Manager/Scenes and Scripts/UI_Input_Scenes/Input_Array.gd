@@ -1,6 +1,13 @@
 @tool
 extends InputEngine
 
+@export var showDeleteButton:bool = true
+@export var showListItemLabel:bool = true
+@export var showDatatypeSelection:bool = true
+@export var showBeginListLabel:bool = true
+@export var showSelectionCheckbox:bool = false
+
+
 var parent
 var action_string_button
 var action_control
@@ -30,8 +37,8 @@ func _get_input_value():
 	var id :int = 1
 	var curr_input_dict :Dictionary = {}
 	for child in $Control/Scroll1/Input.get_children():
-		var input_node = child.get_child(1)
-		curr_input_dict[str(id)] = input_node.get_input_value()
+		var input_node = child
+		curr_input_dict[str(id)] = input_node._get_input_value()
 		id += 1
 	input_data["input_dict"] = curr_input_dict
 
@@ -39,6 +46,9 @@ func _get_input_value():
 
 
 func _set_input_value(node_value):
+	if node_value == null:
+		node_value =  DBENGINE.get_default_value(type)
+#	print(node_value)
 	if typeof(node_value) == 4:
 		node_value = str_to_var(node_value)
 	input_data = node_value
@@ -62,26 +72,30 @@ func delete_selected_key(index:String):
 				input_dict.erase(str(key + 2))
 	_set_input_value(input_data)
 
-			
-
 
 func add_new_key():
 	_get_input_value()
 	var next_index :String = str(input_dict.size() + 1)
-	
-#	print("INPUT ARRAY OPTIONS DICT: ", options_dict)
-	
 	var action_type :String = options_dict["action"]
 	var default_dict  = DBENGINE.get_default_value(action_type)
-	input_dict[next_index] = default_dict
+	input_dict[next_index] = {"Input_Node": default_dict, "ChkBox": true}
 	input_data["input_dict"] = input_dict
 	_set_input_value(input_data)
 
+
+func show_datatype_selection(show:bool):
+	$Control/ActionSelection.visible = show
+
+func show_begin_list_label(show:bool):
+	$Control/HBoxContainer.visible = show
 
 func set_input_data():
 	input_dict = input_data["input_dict"]
 	for child in $Control/Scroll1/Input.get_children():
 		child.queue_free()
+	show_datatype_selection(showDatatypeSelection)
+	show_begin_list_label(showBeginListLabel)
+
 	for index in input_dict:
 		var current_input
 		if typeof(input_dict) != TYPE_DICTIONARY:
@@ -98,15 +112,32 @@ func set_input_data():
 		#instantiate a container with a delete button
 		var input_control_node :HBoxContainer = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/InputArray_Node_Field.tscn").instantiate()
 		#add new container to Scroll1/input
+		input_control_node.show_delete_button(showDeleteButton)
+		input_control_node.show_selection_checkbox(showSelectionCheckbox)
 		$Control/Scroll1/Input.add_child(input_control_node)
 		#add new input node to new_container
 		var newInputNode = DBENGINE.create_datatype_node(input_type)
+		newInputNode.set_name("Input_Node")
+		
 		input_control_node.add_child(newInputNode)
 #		DBENGINE.add_input_node(1, 1, index, current_input, input_control_node,  null, node_value, input_type)
+		
+		newInputNode.set_label_text(index)
+		
 		next_scene.set_name(index)
 		input_control_node.set_name(index)
 		input_control_node.array_item_delete.connect(delete_selected_key)
-		newInputNode._set_input_value(node_value)
+		newInputNode.show_label(showListItemLabel)
+
+		input_control_node._set_input_value(node_value)
+		Control.new().size_flags_changed
 		#connect new_container delete signal to delete_selected_key
 		#be sure to emit the signal with the input_node name as the index arguement
 
+
+
+func _on_visibility_changed():
+	if Engine.is_editor_hint():
+		if visible:
+			show_datatype_selection(showDatatypeSelection)
+			show_begin_list_label(showBeginListLabel)

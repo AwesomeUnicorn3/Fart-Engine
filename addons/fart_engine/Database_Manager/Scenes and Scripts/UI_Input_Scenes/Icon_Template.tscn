@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=6 format=3 uid="uid://jcs70y6hwbi6"]
 
 [ext_resource type="Texture2D" uid="uid://calnq6d7e5dk3" path="res://fart_data/png/Default.png" id="1"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.gd" id="2"]

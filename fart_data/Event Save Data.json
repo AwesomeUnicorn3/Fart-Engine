@@ -1,1 +1,1 @@
-{"Default":{"Position":"(0, 0)"}}
+{"1":{"Attached Event":"{\n\"show_advanced_options\": false,\n\"text\": \"Default Text\"\n}","Display Name":"{\n\"show_advanced_options\": false,\n\"text\": \"Default Text\"\n}","Event Dialog Variables":"{\n\"input_dict\": {},\n\"options_dict\": {\n\"action\": \"4\"\n}\n}","Local Variables":"{\n\"input_dict\": {},\n\"options_dict\": {\n\"action\": \"4\"\n}\n}","Position":"(0, 0)"}}

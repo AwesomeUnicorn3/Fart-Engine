@@ -1,4 +1,4 @@
-class_name UIEngine extends Control
+class_name UIEngine extends GDScript
 
 func do_nothing():
 	pass

@@ -1,4 +1,4 @@
-extends Node
+extends GDScript
 class_name EventEngine
 
 var DIALOG :DialogEngine = DialogEngine.new()
@@ -6,18 +6,30 @@ var AUDIO : AudioEngine = AudioEngine.new()
 
 ##############################EVENT SCRIPTS#####################################3
 
+func _ready():
+	AUDIO._ready()
 
-func change_local_variable(which_var:String, to_what:bool, _event_name :String, event_node_name :String, _event_node):
+func change_local_variable(which_var:Variant, to_what:bool, _event_name :String, event_node_name :String, _event_node):
+	which_var = var_to_str(which_var)
 	var local_variable_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Local Variables"])
-	local_variable_dict[which_var] = to_what
-	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Local Variables"] = local_variable_dict
+	local_variable_dict["input_dict"][which_var] = to_what
+	FARTENGINE.save_game_data_dict[FARTENGINE.current_map_key][event_node_name]["Local Variables"] = local_variable_dict
 
 
 func change_event_options_variable(which_var:String, _event_name :String, event_node_name :String, _event_node):
 	var event_options_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
-	event_options_dict[which_var] = true
+	event_options_dict["input_dict"][which_var] = true
 	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
-	#print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+
+func change_dialog_options(which_var:Variant,  to_what:bool, _event_name :String, event_node_name :String, _event_node):
+	which_var = var_to_str(which_var)
+	var event_options_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+	event_options_dict["input_dict"][which_var] = to_what
+	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
+	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+
+
 
 
 func change_global_variable(which_var, which_field:String,  to_what, _event_name :String, _event_node_name :String, _event_node):
@@ -79,8 +91,9 @@ func modify_player_inventory(what , how_many , increase_value :bool, _event_name
 	if int(FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"]) < 0:
 		FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] = 0
 
-	print(what, ": ", modify_amount, " added to Inventory")
-	print(FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
+#	print(what, ": ", modify_amount, " added to Inventory")
+#	print(FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
+	FARTENGINE.emit_signal("inventory_updated")
 	return FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"]
 
 

@@ -18,7 +18,10 @@ func _ready():
 func get_eventID():
 	var eventID
 	eventID = $PanelContainer/VBox1/HBox1/Existing_Events_Dropdown._get_input_value()
-#	print("Event ID: ", eventID)
+
+	var event_name =  $PanelContainer/VBox1/HBox1/Existing_Events_Dropdown.get_dropdown_index_from_displayName(eventID)
+	print("Event Name: ", event_name)
+	print("Event ID: ", eventID)
 	
 	return eventID
 #func _on_popup_newValue_visibility_changed():
@@ -29,6 +32,8 @@ func get_eventID():
 func populate_events_dropdown(event_list:Dictionary):
 	#populate event list to dropdown
 	#convert array to dictionary
-#	print("Event list: ", event_list)
+	print("Event list: ", event_list)
 	var event_selection_dropdown := $PanelContainer/VBox1/HBox1/Existing_Events_Dropdown
-	event_selection_dropdown.populate_list_with_sorted_table(event_list)
+	event_selection_dropdown.populate_list(false, true, true, event_list)
+#	event_selection_dropdown.populate_list(false)
+	

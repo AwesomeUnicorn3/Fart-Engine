@@ -5,8 +5,10 @@ class_name EventHandler
 signal player_entered_interaction_area
 signal player_exited_interaction_area
 #@onready var MOVEMENTENGINE :MovementEngine = MovementEngine.new()
-@onready var DBENGINE :DatabaseEngine = DatabaseEngine.new()
+#@onready var DBENGINE :DatabaseEngine = DatabaseEngine.new()
+@onready var interaction_shader_material :ShaderMaterial = load("res://addons/fart_engine/Event_Manager/2dOutline_Material.tres")
 @export var event_name :String = ""
+var DBENGINE:DatabaseEngine
 #var velocity :Vector2
 var root_node : EventHandler
 var collision_node :CollisionShape2D
@@ -17,20 +19,21 @@ var event_animation_dictionary :Dictionary = {}
 var event_shadow_dictionary :Dictionary = {}
 var interaction_area :Area2D
 var attack_area :Area2D
-var event_list :Dictionary = {}
+var event_list :Array = []
 var event_dict :Dictionary = {}
+var command_dict :Dictionary = {}
 var event_node_name := ""
 var event_trigger := ""
 var active_page := ""
 var is_in_editor := false
-var local_variables_dict :Dictionary = {}
-var options_button_variables_dict :Dictionary = {}
+#var local_variables_dict :Dictionary = {}
+#var options_button_variables_dict :Dictionary = {}
 var current_map_name : String 
 var current_map_key :String
 var is_queued_for_delete :bool = false
 var character_is_in_interaction_area :bool = false
 var is_interaction_in_progress :bool = false
-var autorun_complete :bool = false
+var autorun_complete :bool = true
 var event_info_loaded := false
 var map_node
 var player_node
@@ -44,6 +47,7 @@ var collide_with_player :bool = true
 
 #var state :String = "Idle"
 #var previous_state :String
+var triggerIndex :String = "0"
 var does_event_move :bool
 var attack_player :bool
 var max_speed :int 
@@ -60,19 +64,29 @@ var walk_down ="Walk Down"
 
 
 func _ready() -> void:
-	if get_tree().get_edited_scene_root() != null:
+	
+	if Engine.is_editor_hint():
+		DBENGINE = DatabaseEngine.new()
 		is_in_editor = true
 		root_node = get_tree().get_edited_scene_root().get_child(get_index())
+		event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
 		connect("draw",_on_event_draw)
+
 	else:
+		DBENGINE = FARTENGINE
+		event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
 		is_updating_animations = true
-		await FARTENGINE.map_loaded
+		await DBENGINE.map_loaded
+		
 		set_initial_in_game_values()
+
 
 		if event_name != "":
 			set_initial_values()
+
+
 			await add_sprite_and_collision()
-			
+
 			if active_page != "":
 				autorun_commands()
 				interaction_area.monitoring = true
@@ -86,15 +100,18 @@ func _ready() -> void:
 
 func connect_signals():
 	if !is_in_editor:
-		FARTENGINE.save_game_data.connect(update_event_data)
+		DBENGINE.save_game_data.connect(save_game_data)
 		interaction_area.area_entered.connect(interaction_area_entered)
 		player_exited_interaction_area.connect(player_interaction_excited)
 		player_entered_interaction_area.connect(player_interaction_entered)
 
+
 func player_interaction_entered():
-	set_interaction_shader()
+	if triggerIndex == "2": #Touch and Interact
+		set_interaction_shader()
 	character_is_in_interaction_area = true
 	interaction_area_entered(self)
+
 
 func player_interaction_excited():
 	clear_interaction_shader()
@@ -102,11 +119,11 @@ func player_interaction_excited():
 
 
 func set_interaction_shader():
-	var interaction_shader_material :ShaderMaterial = load("res://addons/fart_engine/Event_Manager/2dOutline_Material.tres")
 	sprite_animation.set_material(interaction_shader_material)
 
 func clear_interaction_shader():
-	sprite_animation.set_material(null)
+	if sprite_animation != null:
+		sprite_animation.set_material(null)
 
 func set_event_node_default_settings():
 	set_collision_layer_value(1, false)
@@ -123,35 +140,37 @@ func set_event_node_default_settings():
 
 
 func set_initial_in_game_values():
-	root_node = self
-	current_map_key = FARTENGINE.current_map_key
-#	print(current_map_key)
-	event_dict = get_event_dict(event_name)
 	
-	var pos :Vector2 = get_global_position()
-	if !FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key].has(name):
-		update_event_data()
+	root_node = self
+	current_map_key = DBENGINE.current_map_key
+	DBENGINE.get_event_save_dict()
+	create_event_data_dict()
+	var Name = name
+	var event_position = DBENGINE.save_game_data_dict[current_map_key][name]["Position"]
+#	create_event_data_dict()
+#	event_dict = get_event_dict(event_name)
+
+	if DBENGINE.save_game_data_dict[current_map_key].has(name):
+#		update_event_data()
 		var attached_event_editor :String = event_name
-		var attached_event_save_file :String = FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Attached Event"]
+		var attached_event_save_file :String = DBENGINE.save_game_data_dict[current_map_key][name]["Attached Event"]["text"]
 		if attached_event_editor != attached_event_save_file:
-			FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Position"] =  pos
-			FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"] = await FARTENGINE.import_data("Local Variables")
-			FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Attached Event"] = event_name
-			FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Event Dialog Variables"] = await FARTENGINE.import_data("Event Dialog Variables")
-	var event_position = FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Position"]
-	var posvect :Vector2 = FARTENGINE.convert_string_to_vector(str(event_position))
+			DBENGINE.save_game_data_dict[current_map_key][name]  = {}
+			create_event_data_dict()
+
+	event_position = DBENGINE.save_game_data_dict[current_map_key][name]["Position"]
+	var posvect :Vector2 = DBENGINE.convert_string_to_vector(str(event_position))
 	set_global_position(posvect)
 	
-	local_variables_dict = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"])
-	options_button_variables_dict = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Event Dialog Variables"])
+#	local_variables_dict = DBENGINE.convert_string_to_type(DBENGINE.save_game_data_dict[current_map_key][name]["Local Variables"])
+#	options_button_variables_dict = DBENGINE.convert_string_to_type(DBENGINE.save_game_data_dict[current_map_key][name]["Event Dialog Variables"])
 
 
 func set_initial_values():
 	event_dict = get_event_dict(event_name)
 	active_page = get_active_event_page()
+	command_dict = DBENGINE.convert_string_to_type(event_dict[active_page]["Commands"])
 	animation_group = event_dict[active_page]["Animation Group"]
-	var DBENGINE :DatabaseEngine = DatabaseEngine.new()
-	
 	loop_animation = DBENGINE.convert_string_to_type(event_dict[active_page]["Loop Animation"])
 	attack_player = DBENGINE.convert_string_to_type(event_dict[active_page]["Attack Player?"])
 	does_event_move = DBENGINE.convert_string_to_type(event_dict[active_page]["Does Event Move?"])
@@ -160,11 +179,10 @@ func set_initial_values():
 	max_speed = DBENGINE.convert_string_to_type(event_dict[active_page]["Max Speed"])
 	acceleration = DBENGINE.convert_string_to_type(event_dict[active_page]["Acceleration"])
 	friction = DBENGINE.convert_string_to_type(event_dict[active_page]["Friction"])
-	DBENGINE.queue_free()
+#	DBENGINE.queue_free()
 
 
 func get_trigger_index(triggerKey:String):
-	var triggerIndex :String = "0"
 	triggerIndex = triggerKey
 	return triggerIndex
 
@@ -181,7 +199,20 @@ func _on_event_draw():
 
 
 func emit_refresh_event_signal():
-	map_node.emit_signal("update_events")
+	map_node.refresh_events()
+
+
+func _process(delta):
+	if is_inside_tree() and get_tree().get_edited_scene_root() == null:
+		if character_is_in_interaction_area:
+			match event_trigger:
+				"2": #Touch and "action_pressed" 
+					if action_button_pressed and !is_interaction_in_progress:
+						await run_commands()
+		if event_trigger == "4": #loop continuosly while conditions are true
+			await run_commands()
+		else:
+			autorun_commands()
 
 
 func _physics_process(delta):
@@ -189,7 +220,17 @@ func _physics_process(delta):
 		if !is_in_editor:
 			state_machine(delta)
 			move_and_slide()
-
+	
+func autorun_commands():
+	if !is_in_editor:
+		if autorun_complete:
+			match event_trigger:
+				"3": #Immediately
+					autorun_complete = false
+					await get_tree().process_frame
+					await run_commands()
+					autorun_complete = true
+					emit_refresh_event_signal()
 
 func state_machine(delta):
 	if does_event_move :
@@ -209,29 +250,35 @@ func state_machine(delta):
 
 func static_movement(delta):
 	if !is_updating_animations:
-		var sprite_texture_data  :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
-		if loop_animation:
-			sprite_animation.play("Default Animation")
-			if draw_shadow:
-				set_shadow("Default Animation", sprite_texture_data)
-				shadow_sprite_animation.play("Default Animation")
+		var sprite_texture_data  :Dictionary
+		if Engine.is_editor_hint():
+			pass
+#			DBENGINE = DatabaseEngine.new()
+#			sprite_texture_data = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
 		else:
-			#var sprite_texture_data  :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
-			var sprite_atlas_dict :Dictionary = sprite_texture_data["atlas_dict"]
-			var sprite_advanced_dict :Dictionary = sprite_texture_data["advanced_dict"]
-			var begin_frame :int = DBENGINE.convert_string_to_vector(sprite_advanced_dict["frame_range"]).x
-			sprite_animation.play("Default Animation")
-			sprite_animation.stop()
-			sprite_animation.set_frame(begin_frame - 1)
-			if draw_shadow:
-				set_shadow("Default Animation", sprite_texture_data)
-				shadow_sprite_animation.play("Default Animation")
-				shadow_sprite_animation.stop()
-				shadow_sprite_animation.set_frame(begin_frame - 1)
-				
-		call_deferred("enable_collision","Default Animation")
-		FARTENGINE.set_sprite_scale(sprite_animation,"Default Animation" , sprite_texture_data)
-	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+			sprite_texture_data = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
+			if loop_animation:
+				sprite_animation.play("Default Animation")
+				if draw_shadow:
+					set_shadow("Default Animation", sprite_texture_data)
+					shadow_sprite_animation.play("Default Animation")
+			else:
+				#var sprite_texture_data  :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
+				var sprite_atlas_dict :Dictionary = sprite_texture_data["atlas_dict"]
+				var sprite_advanced_dict :Dictionary = sprite_texture_data["advanced_dict"]
+				var begin_frame :int = DBENGINE.convert_string_to_vector(sprite_advanced_dict["frame_range"]).x
+	#			sprite_animation.play("Default Animation")
+	#			sprite_animation.stop()
+	#			sprite_animation.set_frame(begin_frame - 1)
+				if draw_shadow:
+					set_shadow("Default Animation", sprite_texture_data)
+	#				shadow_sprite_animation.play("Default Animation")
+	#				shadow_sprite_animation.stop()
+	#				shadow_sprite_animation.set_frame(begin_frame - 1)
+					
+			call_deferred("enable_collision","Default Animation")
+			DBENGINE.set_sprite_scale(sprite_animation,"Default Animation" , sprite_texture_data)
+#	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
 
 func random_movement(delta):
@@ -279,7 +326,7 @@ func play_event_sprite_animation(animation_name: String):
 	if !is_updating_animations and !is_queued_for_delete:
 		sprite_animation.play(animation_name)
 		enable_collision(animation_name)
-		FARTENGINE.set_sprite_scale(sprite_animation,animation_name , event_animation_dictionary)
+		DBENGINE.set_sprite_scale(sprite_animation,animation_name , event_animation_dictionary)
 		if draw_shadow:
 			set_shadow(animation_name)
 
@@ -291,35 +338,36 @@ func play_sprite_animation_static_or_editor(sprite_texture_data: Dictionary):
 	sprite_animation.play("Default Animation")
 	sprite_animation.stop()
 	sprite_animation.set_frame(begin_frame - 1)
-	if draw_shadow:
-		shadow_sprite_animation.play("Default Animation")
-		shadow_sprite_animation.stop()
-		shadow_sprite_animation.set_frame(begin_frame - 1)
+#	if draw_shadow:
+##		shadow_sprite_animation.play("Default Animation")
+##		shadow_sprite_animation.stop()
+#		shadow_sprite_animation.set_frame(begin_frame - 1)
 
 
 func set_shadow(animation_name :String, texture_data :Dictionary = event_animation_dictionary):
-	shadow_sprite_animation.play(animation_name)
-	FARTENGINE.set_sprite_scale(shadow_sprite_animation,animation_name , texture_data)
-	var scale_size = shadow_sprite_animation.get_scale()
-	shadow_sprite_animation.set_scale(Vector2(shadow_sprite_animation.scale.x,shadow_sprite_animation.scale.y))
+	
+#	var scale_size = shadow_sprite_animation.get_scale()
+#	shadow_sprite_animation.set_scale(Vector2(shadow_sprite_animation.scale.x,shadow_sprite_animation.scale.y))
 	shadow_sprite_frames = shadow_sprite_animation.sprite_frames
 	if texture_data.has("animation_dictionary"):
-		texture_data  = FARTENGINE.convert_string_to_type(texture_data["animation_dictionary"][animation_name])
+		texture_data  = DBENGINE.convert_string_to_type(texture_data["animation_dictionary"][animation_name])
 	var atlas_dict :Dictionary = texture_data["atlas_dict"]
 	var advanced_dict :Dictionary  = texture_data["advanced_dict"]
-	var sprite_texture = load(FARTENGINE.table_save_path + FARTENGINE.icon_folder + atlas_dict["texture_name"])
-	var sprite_frame_size:Vector2 = FARTENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
+	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"])
+	var sprite_frame_size:Vector2 = DBENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
 	var sprite_final_size = advanced_dict["sprite_size"]
 	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
+	DBENGINE.set_sprite_scale(shadow_sprite_animation,animation_name , texture_data)
 	shadow_sprite_animation.set_material(preload("res://addons/fart_engine/Character_Manager/ShadowMaterial.tres"))
 	shadow_sprite_animation.material.set_shader_parameter("sprite_size", sprite_cell_size)
-
+	shadow_sprite_animation.play(animation_name)
 
 func add_shadow_animation():
 	shadow_sprite_animation.set_name("ShadowSprite")
 	shadow_sprite_frames = shadow_sprite_animation.sprite_frames
 	shadow_sprite_animation.show_behind_parent = true
 	add_child(shadow_sprite_animation)
+#	await get_tree().process_frame
 
 
 func set_editor_or_static_shadow():
@@ -352,34 +400,37 @@ func _input(event): #CHANGE THIS TO RECIEVE SIGNAL FROM CHARACTER ENGINE BASED O
 	#THIS MIGHT IMPROVE PERFORMACE SINCE EACH EVENT WON'T BE CONSTATNLY LOOKING FOR INPUT
 	if Input.is_action_just_pressed("Interact_Advance Dialog"):
 		if is_interaction_in_progress:
-			FARTENGINE.EVENTS.DIALOG.next_message()
+			DBENGINE.EVENTS.DIALOG.next_message()
 
 		elif can_interact and !action_button_pressed and character_is_in_interaction_area:
 			action_button_pressed = true
 
 
-func _process(delta):
-	if is_inside_tree() and get_tree().get_edited_scene_root() == null:
-		if character_is_in_interaction_area:
-			match event_trigger:
-				"2": #Touch and "action_pressed" 
-					if action_button_pressed and !is_interaction_in_progress:
-						await run_commands()
-		if event_trigger == "4": #loop continuosly while conditions are true
-			await run_commands()
 
 
-func update_event_data():
-	var current_map_name : String = FARTENGINE.current_map_key
-	var pos :Vector2 = get_global_position()
-	if !FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name].has(name):
-		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name] = {}
-		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
-		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Local Variables"] = FARTENGINE.import_data("Local Variables")["1"]
-		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Event Dialog Variables"] = FARTENGINE.import_data("Event Dialog Variables")["1"]
-		FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Attached Event"] = event_name
-	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_name][name]["Position"] =  pos
 
+func save_game_data():
+	DBENGINE.set_save_game_data()
+	
+	
+func create_event_data_dict():
+	if DBENGINE.save_game_data_dict[current_map_key].has(name) and DBENGINE.save_game_data_dict[current_map_key][name] == {}:
+		DBENGINE.save_game_data_dict[current_map_key][name] =  {"Position":get_global_position()}
+		DBENGINE.save_game_data_dict[current_map_key][name]["Local Variables"] = DBENGINE.import_data("Local Variables")["1"]
+		DBENGINE.save_game_data_dict[current_map_key][name]["Local Variables"].erase("Display Name")
+		DBENGINE.save_game_data_dict[current_map_key][name]["Local Variables"] = {"input_dict": DBENGINE.save_game_data_dict[current_map_key][name]["Local Variables"]}
+		DBENGINE.save_game_data_dict[current_map_key][name]["Local Variables"]["options_dict"] = {"action": "4"}
+
+		DBENGINE.save_game_data_dict[current_map_key][name]["Event Dialog Variables"] = DBENGINE.import_data("Event Dialog Variables")["1"]
+		DBENGINE.save_game_data_dict[current_map_key][name]["Event Dialog Variables"].erase("Display Name")
+		DBENGINE.save_game_data_dict[current_map_key][name]["Event Dialog Variables"] = {"input_dict": DBENGINE.save_game_data_dict[current_map_key][name]["Event Dialog Variables"]}
+		DBENGINE.save_game_data_dict[current_map_key][name]["Event Dialog Variables"]["options_dict"] = {"action": "4"}
+	
+		DBENGINE.save_game_data_dict[current_map_key][name]["Attached Event"] = {"text" : event_name}
+		
+#	DBENGINE.save_game_data_dict[current_map_key][name]["Position"] =  pos
+
+#{"input_dict": {"1": true,"2": true},"options_dict": {"action": "4"}}
 
 func interaction_area_entered(area): #Player touch
 	if !is_interaction_in_progress:
@@ -411,24 +462,24 @@ func attack_player_area_entered(area): #Player touch
 
 
 func call_commands():
-	var command_dict = FARTENGINE.convert_string_to_type(event_dict[active_page]["Commands"])
 	if command_dict != {}:
 		for command_index in command_dict:
 			var function_name :String = command_dict[command_index].keys()[0]
 			var variable_array: Array = command_dict[command_index][function_name]
 			var temp_variable_array :Array
 			for index in variable_array:
-				var variable_with_type = FARTENGINE.convert_string_to_type(index)
+				var variable_with_type = DBENGINE.convert_string_to_type(index)
 				temp_variable_array.append(variable_with_type)
 			temp_variable_array.append(name)
 			temp_variable_array.append(self)
 			variable_array = temp_variable_array
-			await FARTENGINE.EVENTS.callv(function_name, variable_array)
+			await DBENGINE.EVENTS.callv(function_name, variable_array)
+#	await get_tree().create_timer(0.1).timeout
 
 
 
 func get_event_dict(event_name:String):
-	var event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
+	#var event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
 	var all_events_dict := {}
 	var this_event_dict:= {}
 
@@ -447,9 +498,9 @@ func get_active_event_page() -> String:
 	var active_page :String = "" 
 	var conditions_met :bool = true
 	if !is_in_editor:
-		current_map_key  = FARTENGINE.current_map_key
+		current_map_key  = DBENGINE.current_map_key
 		#LOCAL VARIABLES MIGHT BE DIFFERENT NOW, IM NOT SURE BUT ONCE I GET THE FRAMEWORK FOR THIS COMPLETE, I NEED TO DIVE IN TO THE LOCAL VARIABLE STUFF
-		#local_variables_dict = FARTENGINE.convert_string_to_type(FARTENGINEDynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"])
+		#local_variables_dict = DBENGINE.convert_string_to_type(DBENGINEDynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"])
 		
 		
 		for page in range(event_dict.size() - 1,0,-1): #Loop through event pages starting with LAST page but dont include index 0
@@ -461,19 +512,19 @@ func get_active_event_page() -> String:
 #					print("Condition: ", condition)
 					var datatype:String = conditions_dict[condition]["Datatype"]
 					var compare_right_value
-					var compare_left_value = FARTENGINE.convert_string_to_type(get_condition_value(conditions_dict, condition, "Compare Left"),datatype)
+					var compare_left_value = DBENGINE.convert_string_to_type(get_condition_value(conditions_dict, condition, "Compare Left"),datatype)
 					var is_static:bool = conditions_dict[condition]["Is Static"]
 					#only need this if is_static is false
 					if is_static:
-						compare_right_value = FARTENGINE.convert_string_to_type(conditions_dict[condition]["Static Value 1"],datatype)
+						compare_right_value = DBENGINE.convert_string_to_type(conditions_dict[condition]["Static Value 1"],datatype)
 					else:
-						compare_right_value = FARTENGINE.convert_string_to_type(get_condition_value(conditions_dict, condition, "Variable Value"),datatype)
+						compare_right_value = DBENGINE.convert_string_to_type(get_condition_value(conditions_dict, condition, "Variable Value"),datatype)
 
 					
-					var is_datatype_numeric:bool = FARTENGINE.get_field_value("DataTypes", datatype, "Is Number", false)
+					var is_datatype_numeric:bool = DBENGINE.get_field_value("DataTypes", datatype, "Is Number", false)
 					
 					if is_datatype_numeric:
-						var static_value_2 = FARTENGINE.convert_string_to_type(conditions_dict[condition]["Static Value 2"],datatype)
+						var static_value_2 = DBENGINE.convert_string_to_type(conditions_dict[condition]["Static Value 2"],datatype)
 						var optional_operations = conditions_dict[condition]["Optional Operations"]
 						compare_right_value = apply_operator(compare_right_value, static_value_2, optional_operations)
 
@@ -554,66 +605,65 @@ func get_condition_value(conditions_dict:Dictionary, condition:String, fieldID:S
 	var condition_value
 
 	if table_ID == "Local Variables":
-		local_variables_dict = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Local Variables"])
+		var local_variables_dict = DBENGINE.convert_string_to_type(DBENGINE.save_game_data_dict[current_map_key][name]["Local Variables"]["input_dict"])
 		condition_value = local_variables_dict[field_ID]
 	
 	elif table_ID == "Event Dialog Variables":
-		options_button_variables_dict = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][current_map_key][name]["Event Dialog Variables"])
+		var options_button_variables_dict = DBENGINE.convert_string_to_type(DBENGINE.save_game_data_dict[current_map_key][name]["Event Dialog Variables"]["input_dict"])
 		condition_value = options_button_variables_dict[field_ID]
 	else:
-		condition_value = FARTENGINE.get_field_value(table_ID, key_ID, field_ID, true)
+		condition_value = DBENGINE.get_field_value(table_ID, key_ID, field_ID, true)
 	
 	return condition_value
 
 
 func get_global_variable_index_name_from_display_name(If_Key_Name_DropDown):
-	var global_variable_dict :Dictionary = FARTENGINE.Dynamic_Game_Dict["Global Variables"]
+	var global_variable_dict :Dictionary = DBENGINE.Dynamic_Game_Dict["Global Variables"]
 	var index
 	for id in global_variable_dict:
-		if FARTENGINE.get_text(global_variable_dict[id]["Display Name"]) == If_Key_Name_DropDown:
+		if DBENGINE.get_text(global_variable_dict[id]["Display Name"]) == If_Key_Name_DropDown:
 			index = id
 	return index
 
-
+var is_refreshing:bool = false
 func refresh_event_data():
-	if is_queued_for_delete:
-		call_deferred("queue_free")
-	else:
-		var current_active_page := active_page
-		event_dict = get_event_dict(event_name)
-		active_page = get_active_event_page()
-		if active_page != "":
-			event_trigger = get_trigger_index(event_dict[active_page]["Event Trigger"])
-			
-			if current_active_page != active_page:
-				does_event_move = FARTENGINE.convert_string_to_type(event_dict[active_page]["Does Event Move?"])
-				attack_player = DBENGINE.convert_string_to_type(event_dict[active_page]["Attack Player?"])
-				animation_group = event_dict[active_page]["Animation Group"]
-				loop_animation = FARTENGINE.convert_string_to_type(event_dict[active_page]["Loop Animation"])
-				max_speed = DBENGINE.convert_string_to_type(event_dict[active_page]["Max Speed"])
-				acceleration = DBENGINE.convert_string_to_type(event_dict[active_page]["Acceleration"])
-				friction = DBENGINE.convert_string_to_type(event_dict[active_page]["Friction"])
-				draw_shadow = DBENGINE.convert_string_to_type(event_dict[active_page]["Draw Shadow?"])
-				is_updating_animations = true
-				clear_event_children()
-#				await get_tree().create_timer(0.2).timeout
-				await add_sprite_and_collision()
-				is_updating_animations = false
-				autorun_complete = false
-			if !autorun_complete:
-				autorun_commands()
+	if !is_refreshing:
+		if is_queued_for_delete:
+#			print(event_animation_dictionary)
+#			if .has("animated_sprite"):
+#				event_animation_dictionary["animated_sprite"].queue_free()
+			sprite_animation.queue_free()
+			call_deferred("queue_free")
 		else:
-			clear_event_children()
+			var current_active_page := active_page
+			event_dict = get_event_dict(event_name)
+			active_page = get_active_event_page()
+			if active_page != "":
+				command_dict = DBENGINE.convert_string_to_type(event_dict[active_page]["Commands"])
+				event_trigger = get_trigger_index(event_dict[active_page]["Event Trigger"])
+#				if !autorun_complete:
+#					autorun_commands()
+				if current_active_page != active_page:
+					does_event_move = DBENGINE.convert_string_to_type(event_dict[active_page]["Does Event Move?"])
+					attack_player = DBENGINE.convert_string_to_type(event_dict[active_page]["Attack Player?"])
+					animation_group = event_dict[active_page]["Animation Group"]
+					loop_animation = DBENGINE.convert_string_to_type(event_dict[active_page]["Loop Animation"])
+					max_speed = DBENGINE.convert_string_to_type(event_dict[active_page]["Max Speed"])
+					acceleration = DBENGINE.convert_string_to_type(event_dict[active_page]["Acceleration"])
+					friction = DBENGINE.convert_string_to_type(event_dict[active_page]["Friction"])
+					draw_shadow = DBENGINE.convert_string_to_type(event_dict[active_page]["Draw Shadow?"])
+					is_updating_animations = true
+					clear_event_children()
+	#				await get_tree().create_timer(0.2).timeout
+					add_sprite_and_collision()
+					is_updating_animations = false
+#					autorun_complete = false
+
+			else:
+				clear_event_children()
+		is_refreshing = false
 
 
-func autorun_commands():
-	if !is_in_editor:
-		match event_trigger:
-			"3": #Immediately
-				await get_tree().process_frame
-				await run_commands()
-				autorun_complete = true
-				emit_refresh_event_signal()
 
 
 func add_sprite_and_collision():
@@ -623,9 +673,10 @@ func add_sprite_and_collision():
 	collide_with_player = DBENGINE.convert_string_to_type(event_dict[active_page]["Collide with Player?"])
 	if is_in_editor or !does_event_move:
 		set_editor_or_static_animation(sprite_texture_data)
+
 		if draw_shadow:
 			set_editor_or_static_shadow()
-			add_shadow_animation()
+			await add_shadow_animation()
 
 		if loop_animation:
 			sprite_animation.play("Default Animation")
@@ -635,6 +686,7 @@ func add_sprite_and_collision():
 			play_sprite_animation_static_or_editor(sprite_texture_data)
 	else :
 		add_and_play_animation_group()
+
 		if draw_shadow:
 			add_shadow_animation()
 
@@ -644,7 +696,7 @@ func add_sprite_and_collision():
 	set_interaction_area(sprite_texture_data)
 	if attack_player and does_event_move:
 		set_attack_player_area(sprite_texture_data)
-
+#	await get_tree().create_timer(0.5).timeout
 
 func add_and_play_animation_group():
 	event_animation_dictionary = DBENGINE.add_sprite_group_to_animatedSprite(self, animation_group)
@@ -660,10 +712,12 @@ func set_editor_or_static_animation(sprite_texture_data:Dictionary):
 	sprite_animation.set_name("event_sprite")
 	sprite_texture_data  = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
 	set_default_animation(sprite_texture_data, sprite_animation)
-	var sprite_atlas_dict :Dictionary = sprite_texture_data["atlas_dict"]
-	var sprite_advanced_dict :Dictionary = sprite_texture_data["advanced_dict"]
+#	var sprite_atlas_dict :Dictionary = sprite_texture_data["atlas_dict"]
+#	var sprite_advanced_dict :Dictionary = sprite_texture_data["advanced_dict"]
 	add_child(sprite_animation)
-	sprite_animation.set_owner(self)
+
+
+#	sprite_animation.set_owner(self)
 
 
 func set_collision_area(sprite_texture_data:Dictionary):
@@ -674,7 +728,8 @@ func set_collision_area(sprite_texture_data:Dictionary):
 
 func set_interaction_area(sprite_texture_data:Dictionary):
 	interaction_area  = DBENGINE.create_event_interaction_area("Default Animation", sprite_texture_data)
-	call_deferred("add_child", interaction_area)
+	add_child(interaction_area)
+#	call_deferred("add_child", interaction_area)
 	interaction_area.set_collision_layer_value(1, false)
 	interaction_area.set_collision_layer_value(2, false)
 	interaction_area.set_collision_layer_value(3, true)
@@ -709,15 +764,16 @@ func set_default_animation(sprite_texture_data, animation_player):
 	var y_scale_value = modified_sprite_size_y / sprite_cell_size.y
 	var x_scale_value = modified_sprite_size_x / sprite_cell_size.x
 	sprite_animation.set_scale(Vector2(x_scale_value, y_scale_value))
-	DBENGINE.add_animation_to_animatedSprite("Default Animation", sprite_texture_data, true,animation_player)
-
+	DBENGINE.add_animation_to_animatedSprite("Default Animation", sprite_texture_data, animation_player,false)
+	await get_tree().process_frame
 
 func clear_event_children():
 	if root_node.get_child_count() != 0:
 		for child in root_node.get_children():
 			var childname :String = child.name
 			child.name = childname + "1"
-			child.queue_free()
+			child.call_deferred("queue_free")
+			#child.queue_free()
 
 
 func show_event_toolbar_in_editor(selected_node_name):

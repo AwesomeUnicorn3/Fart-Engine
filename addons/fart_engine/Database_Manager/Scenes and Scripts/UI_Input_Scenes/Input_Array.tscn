@@ -47,9 +47,13 @@ size_flags_stretch_ratio = 1.0
 [node name="HBox1" parent="Control/HBoxContainer/Label3" index="0"]
 custom_minimum_size = Vector2(0, 30)
 
-[node name="Label_Button" parent="Control/HBoxContainer/Label3/HBox1" index="0"]
+[node name="Label_Button" parent="Control/HBoxContainer/Label3/HBox1" index="0" groups=["Node Label Level 1"]]
+self_modulate = Color(0, 0.27, 0.32, 1)
 custom_minimum_size = Vector2(50, 30)
 button_text = "Begin List"
+
+[node name="Hide_Button" parent="Control/HBoxContainer/Label3/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="AddKeyButton" type="Button" parent="Control/HBoxContainer"]
 visible = false
@@ -58,7 +62,7 @@ layout_mode = 2
 text = "+"
 
 [node name="Navigation Button" parent="Control/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_b2i82")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 button_text = "+"
@@ -76,6 +80,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="button_up" from="Control/HBoxContainer/AddKeyButton" to="." method="add_new_key"]
 [connection signal="button_down" from="Control/HBoxContainer/Navigation Button" to="." method="add_new_key"]
 

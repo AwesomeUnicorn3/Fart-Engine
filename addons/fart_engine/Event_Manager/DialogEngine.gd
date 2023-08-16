@@ -1,4 +1,4 @@
-extends Node
+extends GDScript
 class_name DialogEngine
 
 signal start_dialog
@@ -69,7 +69,7 @@ func get_variables():
 	scene_selection_checkbox = current_dialog_dictionary["scene_selection_checkbox"]
 	scene_selection_scenepath = current_dialog_dictionary["scene_selection_scenepath"]
 	
-	var event_options_dict: Dictionary = current_dialog_dictionary	["event_options_buttons"]
+	var event_options_dict: Dictionary = current_dialog_dictionary["event_options_buttons"]
 	use_option_buttons = event_options_dict["show_event_options_buttons"]
 	event_option_buttons_dict = event_options_dict["event_buttons"]["input_dict"]
 
@@ -116,8 +116,8 @@ func iterate_through_dialog():
 func display_options_buttons():
 
 	for btn_key in event_option_buttons_dict:
-		var btn_text: String = FARTENGINE.get_text(event_option_buttons_dict[btn_key]["Button_Text"])
-		var dialog_var: String = event_option_buttons_dict[btn_key]["Dialog_Option"]
+		var btn_text: String = FARTENGINE.get_text(event_option_buttons_dict[btn_key]["Input_Node"]["Button_Text"])
+		var dialog_var: String = event_option_buttons_dict[btn_key]["Input_Node"]["Dialog_Option"]
 		
 		var newbtn: TextureButton = load(FARTENGINE.get_field_value("UI Scenes", "10", "Path")).instantiate()
 		var btn_color: Color = FARTENGINE.get_field_value("UI Scenes", "10", "Background Color")
@@ -158,9 +158,9 @@ func set_selected_group_dict_data(dialog_dict):
 
 
 func set_dialog_text():
-	var text_node = dialog_scene.find_child("DialogText")#CAN I SET THIS IN THE 
+	var text_node:RichTextLabel = dialog_scene.find_child("DialogText")#CAN I SET THIS IN THE 
 	#EDITOR?
-	text_node.set_values(dialog_text)#(dialog_text)
+	text_node.parse_bbcode(dialog_text)#(dialog_text)
 
 
 func set_speaker_name():
@@ -184,7 +184,7 @@ func set_icon():
 
 	else:
 		var animated_sprite :AnimatedSprite2D = dialog_scene.find_child("SpriteAnimationIcon")
-		var animation_array :Array = FARTENGINE.add_animation_to_animatedSprite("Default Animation", icon_selection_sprite, false, animated_sprite)
+		var animation_array :Array = FARTENGINE.add_animation_to_animatedSprite("Default Animation", icon_selection_sprite,animated_sprite, false)
 		var anim_sprite_size :Vector2 = FARTENGINE.convert_string_to_vector(str(icon_selection_sprite["advanced_dict"]["sprite_size"]))
 		var left_buffer_size_x :int = dialog_scene.find_child("LeftBuffer").size.x
 		animation_buffer.visible = true

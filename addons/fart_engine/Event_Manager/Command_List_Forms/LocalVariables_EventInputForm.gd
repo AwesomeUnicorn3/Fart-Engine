@@ -21,7 +21,7 @@ func _ready():
 
 func set_input_values(old_function_dict :Dictionary):
 	edit_state = true
-	field_dropdown.set_value_do_not_populate(old_function_dict[function_name][0])
+	field_dropdown._set_input_value(old_function_dict[function_name][0], false)
 	var toggled_value :bool = convert_string_to_type(old_function_dict[function_name][1])
 	value_node.set_input_value(toggled_value)
 
@@ -41,9 +41,16 @@ func _on_accept_button_up():
 
 func _on_key_dropdown_input_selection_changed():
 	var field_list: Dictionary = {}
-	var selected_table_data_dict: Dictionary = DBENGINE.import_data(key_dropdown.selection_table_name, true)
+	var field_selected_table_data_dict: Dictionary = DBENGINE.import_data(key_dropdown.selection_table_name, true)
 	for key in key_dropdown.selection_table[key_dropdown.selection_table.keys()[0]]:
 		if key != "Display Name":
-			field_list[key] = {"Datatype": DBENGINE.get_datatype(key, selected_table_data_dict)}
-	field_dropdown.selection_table = field_list
-	field_dropdown.populate_list(false, true)
+			field_list[key] = {"Datatype": DBENGINE.get_datatype(key, field_selected_table_data_dict)}
+	field_dropdown.populate_list(false, true, true, field_list)
+#	var field_list: Dictionary = {}
+#	var selected_table_data_dict: Dictionary = DBENGINE.import_data(key_dropdown.selection_table_name, true)
+#	for key in key_dropdown.selection_table[key_dropdown.selection_table.keys()[0]]:
+#		if key != "Display Name":
+#			field_list[key] = {"Datatype": DBENGINE.get_datatype(key, selected_table_data_dict)}
+##	field_dropdown.selection_table = field_list
+#	field_dropdown.populate_list(false, true, true, field_list)
+	#populate_list(update_selection_table :bool = true, select_index:bool = true, use_custom_dict :bool = false, custom_dict:Dictionary = {}):

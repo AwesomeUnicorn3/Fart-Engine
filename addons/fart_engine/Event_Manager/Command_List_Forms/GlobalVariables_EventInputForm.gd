@@ -28,26 +28,24 @@ var id :String
 func _ready():
 	table_drop_down.populate_list()
 	table_drop_down.select_index(table_drop_down.get_dropdown_index_from_displayName("Global Variables"))
-
+	_on_table_dropdown_input_selection_changed()
 
 func _on_table_dropdown_input_selection_changed():
 	var selected_table_key: String = table_drop_down.selectedItemKey
 	var selected_table_dict: Dictionary = DBENGINE.import_data(selected_table_key)
 	var selected_table_data_dict: Dictionary = DBENGINE.import_data(selected_table_key, true)
-
 	key_drop_down.selection_table_name = table_drop_down._get_input_value()
-	var sorted_key_list: Dictionary = key_drop_down.populate_list()
-	
+	key_drop_down.populate_list()
 	var field_list: Dictionary = {}
-	for key in selected_table_dict[selected_table_dict.keys()[0]]:
-		field_list[key] = {"Datatype": DBENGINE.get_datatype(key, selected_table_data_dict)}
-	field_drop_down.selection_table = field_list
-	field_drop_down.populate_list(false, true)
-
+	var field_selected_table_data_dict: Dictionary = DBENGINE.import_data(key_drop_down.selection_table_name, true)
+	for key in key_drop_down.selection_table[key_drop_down.selection_table.keys()[0]]:
+		if key != "Display Name":
+			field_list[key] = {"Datatype": DBENGINE.get_datatype(key, field_selected_table_data_dict)}
+	field_drop_down.populate_list(false, true, true, field_list)
 
 func set_input_values(old_function_dict :Dictionary):
-	key_drop_down.set_value_do_not_populate(old_function_dict[function_name][0])
-	field_drop_down.set_value_do_not_populate(old_function_dict[function_name][1])
+	key_drop_down._set_input_value(old_function_dict[function_name][0], false)
+	field_drop_down._set_input_value(old_function_dict[function_name][1], false)
 
 
 func get_input_values():
@@ -69,6 +67,7 @@ func add_input_node_for_event_condition(table_name:String, key_ID:String, field_
 	var datatype = field_drop_down.get_selection_datatype()
 	for child in newParent.get_children():
 		child.queue_free()
+	print("TABLEKEYFIELD: ", table_name, key_ID, field_ID)
 	var new_input_node = create_independant_input_node(table_name, key_ID, field_ID )
 	new_input_node.label_text = "VALUE"
 	new_input_node.is_label_button = false
@@ -80,6 +79,10 @@ func add_input_node_for_event_condition(table_name:String, key_ID:String, field_
 
 func _on_field_dropdown_input_selection_changed():
 	var table_name:String = table_drop_down.selectedItemKey
-	var key_ID:String = key_drop_down.selectedItemKey
+	var key_ID:String = key_drop_down._get_input_value()
 	var field_ID:String = field_drop_down.selectedItemKey
 	add_input_node_for_event_condition(table_name, key_ID, field_ID)
+
+
+func _on_key_dropdown_input_selection_changed():
+	pass # Replace with function body.
