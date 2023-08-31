@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://bt5060lw4y8ac"]
+[gd_scene load_steps=8 format=3 uid="uid://bt5060lw4y8ac"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/UI.gd" id="1_n0l2f"]
 [ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/Fart_UI_Button.png" id="2_ws1m2"]
 [ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/au3_ui_button.gd" id="3_k542j"]
 [ext_resource type="PackedScene" uid="uid://bgj1soos3p52i" path="res://addons/fart_engine/Example Game/inventory_menu.tscn" id="4_4vvcp"]
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/FPS_Display.gd" id="4_xxpdq"]
+[ext_resource type="PackedScene" uid="uid://say43mgnaxsb" path="res://addons/fart_engine/Example Game/PlayerHPDisplay.tscn" id="5_twqnn"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="6_o8car"]
 
 [node name="GUI" type="Control"]
 layout_mode = 3
@@ -63,6 +65,20 @@ layout_mode = 2
 custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
 script = ExtResource("4_xxpdq")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer4/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureProgressBar" parent="VBoxContainer/HBoxContainer4/HBoxContainer2/VBoxContainer2" instance=ExtResource("5_twqnn")]
+layout_mode = 2
+size_flags_stretch_ratio = 0.5
+
+[node name="input_templateBuffer" parent="VBoxContainer/HBoxContainer4/HBoxContainer2/VBoxContainer2" instance=ExtResource("6_o8car")]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 3
+color = Color(0, 0, 0, 0)
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

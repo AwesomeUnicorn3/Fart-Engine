@@ -49,12 +49,12 @@ func play_sprite_animation(direction :Vector2, sprite_animation,shadow_sprite_an
 	if previous_state != state:
 		previous_state = state
 		sprite_animation.visible = true
-		shadow_sprite_animation.visible = true
 		for child in $AnimSprites.get_children():
 			if child is AnimatedSprite2D:
 				if child.name != state:
 					child.visible = false
-		if draw_shadow:
+		if draw_shadow and shadow_sprite_animation != null:
+			shadow_sprite_animation.visible = true
 			for child in $ShadowAnimSprites.get_children():
 				if child is AnimatedSprite2D:
 					if child.name != state:
@@ -73,8 +73,9 @@ func play_sprite_animation(direction :Vector2, sprite_animation,shadow_sprite_an
 	if state == "Jump":
 		pass
 		#(direction_string)
-	if shadow_sprite_animation.sprite_frames.has_animation(direction_string):
-		shadow_sprite_animation.play(direction_string)
+	if draw_shadow:
+		if shadow_sprite_animation.sprite_frames.has_animation(direction_string):
+			shadow_sprite_animation.play(direction_string)
 
 	if runOnce:
 		await sprite_animation.animation_finished

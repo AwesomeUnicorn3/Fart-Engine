@@ -133,21 +133,44 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBox1" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1"]
+[node name="Top" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="VBox1" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox1"]
+[node name="A" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Top"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBox1" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox1"]
+[node name="B" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Top"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBox1" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1"]
+[node name="C" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Top"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Middle" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="A" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Middle"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="B" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Middle"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="C" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Middle"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bottom" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

@@ -69,6 +69,6 @@ func _get_input_value() -> String:
 
 
 func _set_input_value(node_value):
-	inputNode.set_text(node_value)
+	inputNode.set_text(str(node_value))
 	set_user_input_value()
 	set_inputNode_value()

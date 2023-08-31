@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://duiyotmxkrj4u"]
+
+[ext_resource type="FontFile" uid="uid://b1kmm7ld3iq8e" path="res://addons/fart_engine/Example Game/Fonts/RodaBamboo.ttf" id="1_7hxdj"]
+
+[resource]
+default_font = ExtResource("1_7hxdj")
+default_font_size = 30

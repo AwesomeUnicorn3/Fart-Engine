@@ -18,10 +18,10 @@ func _init() -> void:
 
 
 #CHANGE LIST VALUES
-func populate_list(update_selection_table :bool = true, select_index:bool = true, use_custom_dict :bool = false, custom_dict:Dictionary = {}):
+func populate_list(update_selected_table :bool = true, select_index:bool = true, use_custom_dict :bool = false, custom_dict:Dictionary = {}):
 #	print("POPULATE LIST")
 #	var return_table:Dictionary = {}
-	if update_selection_table:
+	if update_selected_table:
 		update_selection_table()
 	if use_custom_dict:
 		_populate_list_with_custom_dict(custom_dict)
@@ -61,8 +61,8 @@ func _populate_list_with_custom_dict(custom_dict):
 
 
 func _populate_list_with_sorted_table(sortedTable:= sorted_table):
-	print("populate list with sorted tabled")
-	print(sortedTable)
+#	print("populate list with sorted tabled")
+#	print(sortedTable)
 	clear_input_value()
 	for keyID in sortedTable.size():
 		inputNode.add_item (sortedTable[str(keyID + 1)][0])
@@ -75,7 +75,7 @@ func _populate_list_with_selection_table(selectionTable := selection_table):
 	clear_input_value()
 	selection_table = selectionTable
 	var DBENGINE: DatabaseEngine = DatabaseEngine.new()
-	print("_populate_list_with_selection_table: ")
+#	print("_populate_list_with_selection_table: ")
 	sorted_table = await DBENGINE.list_custom_dict_keys_in_display_order(selectionTable, selection_table_name)
 	for keyID in sorted_table.size():
 		inputNode.add_item (sorted_table[str(keyID + 1)][0])

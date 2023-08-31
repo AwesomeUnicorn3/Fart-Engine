@@ -173,6 +173,7 @@ func set_speaker_name():
 	else:
 		speaker_name.set_text(character_name_dropdown)
 
+
 func set_icon():
 	var speaker_icon :TextureRect = dialog_scene.find_child("SpeakerIcon")
 	var animation_buffer :Label = dialog_scene.find_child("AnimationBuffer")
@@ -180,7 +181,11 @@ func set_icon():
 
 	var empty_space_container :VBoxContainer = dialog_scene.find_child("EmptySpaceContainer")
 	if !icon_selection_checkbox:
-		speaker_icon.set_texture(icon_selection_icon)
+		var filename: String = icon_selection_icon.resource_path.get_file()
+		if filename != "Blank.png":
+			speaker_icon.set_texture(icon_selection_icon)
+		else:
+			speaker_icon.hide()
 
 	else:
 		var animated_sprite :AnimatedSprite2D = dialog_scene.find_child("SpriteAnimationIcon")

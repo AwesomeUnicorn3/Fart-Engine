@@ -2,11 +2,12 @@ extends GDScript
 class_name EventEngine
 
 var DIALOG :DialogEngine = DialogEngine.new()
-var AUDIO : AudioEngine = AudioEngine.new()
+var AUDIO : AudioEngine 
 
 ##############################EVENT SCRIPTS#####################################3
 
 func _ready():
+	AUDIO = FARTENGINE.AUDIO
 	AUDIO._ready()
 
 func change_local_variable(which_var:Variant, to_what:bool, _event_name :String, event_node_name :String, _event_node):
@@ -20,14 +21,14 @@ func change_event_options_variable(which_var:String, _event_name :String, event_
 	var event_options_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
 	event_options_dict["input_dict"][which_var] = true
 	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
-	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+#	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
 
 func change_dialog_options(which_var:Variant,  to_what:bool, _event_name :String, event_node_name :String, _event_node):
 	which_var = var_to_str(which_var)
 	var event_options_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
 	event_options_dict["input_dict"][which_var] = to_what
 	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
-	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+#	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
 
 
 
@@ -38,8 +39,11 @@ func change_global_variable(which_var, which_field:String,  to_what, _event_name
 
 
 func remove_event(_event_name :String, _event_node_name:String, event_node):
-#	event_node.update_event_data()
 	event_node.is_queued_for_delete = true
+	event_node.visible = false
+	await event_node.get_tree().process_frame
+#	event_node.is_refreshing = false
+#	event_node.refresh_event_data()
 
 
 func print_to_console(input_text :String ,_event_name :String, _event_node_name:String, _event_node):
@@ -54,6 +58,7 @@ func transfer_player(which_map :int, what_coordinates, _event_name :String, _eve
 	var currGameState = FARTENGINE.gameState
 	FARTENGINE.set_game_state("7")
 	FARTENGINE.call_deferred("remove_player_from_map_node")
+	FARTENGINE.CAMERA.remove_camera_from_map()
 	var map_path :String = FARTENGINE.get_mappath_from_key(str(which_map))
 #	if FARTENGINE.current_map_name != str(which_map):
 	FARTENGINE.call_deferred("load_and_set_map",map_path)
@@ -62,15 +67,6 @@ func transfer_player(which_map :int, what_coordinates, _event_name :String, _eve
 	FARTENGINE.player_node.set_player_position(FARTENGINE.convert_string_to_vector(what_coordinates))
 	remove_unused_maps()
 	FARTENGINE.set_game_state(currGameState)
-
-
-func remove_unused_maps():
-	var maps_node = FARTENGINE.root.get_node("map")
-	for child in maps_node.get_children():
-		if child != FARTENGINE.current_map_node:
-			for event in child.event_array:
-				event.is_queued_for_delete = true
-			child.queue_free()
 
 
 func modify_player_inventory(what , how_many , increase_value :bool, _event_name :String, _event_node_name:String, _event_node ):
@@ -107,7 +103,8 @@ func start_dialog(dialog_data :Dictionary, _event_name :String, _event_node_name
 
 func sfx(audio_data :Dictionary, _event_name :String, _event_node_name:String, _event_node):
 	AUDIO.audio_begin(audio_data, _event_node)
-	await AUDIO.audio_finished
+	if audio_data["wait"]:
+		await AUDIO.audio_finished
 
 
 func change_game_state(to_what:String, _event_name :String, _event_node_name:String, _event_node):
@@ -117,3 +114,26 @@ func change_game_state(to_what:String, _event_name :String, _event_node_name:Str
 			to_what = key
 			break
 	FARTENGINE.set_game_state(to_what)
+
+
+
+#NO COMMAND YET AVAIALBLE
+func remove_unused_maps():
+	var maps_node = FARTENGINE.root.get_node("map")
+	for child in maps_node.get_children():
+		if child != FARTENGINE.current_map_node:
+			for event in child.event_array:
+				if is_instance_valid(event):
+					event.is_queued_for_delete = true
+			child.queue_free()
+
+
+func change_player_health(to_what:String, _event_name :String, _event_node_name:String, _event_node):
+	var player_node = FARTENGINE.player_node
+	var player_max_health: int = player_node.current_health.z
+	var player_min_health: int = player_node.current_health.x
+	var player_current_health: int = player_node.current_health.y
+	
+	player_node.current_health.y = clamp(player_current_health - int(to_what), player_min_health, player_max_health)
+	FARTENGINE.emit_signal("player_health_updated")
+#	print("Current Player HP: ", FARTENGINE.player_node.current_health.y)

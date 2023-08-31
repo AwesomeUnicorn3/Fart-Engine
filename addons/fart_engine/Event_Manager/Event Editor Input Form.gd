@@ -8,16 +8,23 @@ signal input_forms_cleared
 signal match_fields_to_template_complete
 signal page_button_load_complete
 
-@onready var commands_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/VBox1
-@onready var conditions_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox1/HBox1
+@onready var bottom_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/Bottom
+@onready var top_a_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/Top/A
+@onready var top_b_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/Top/B
+@onready var top_c_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/Top/C
+@onready var middle_a_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/Middle/A
+@onready var middle_b_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/Middle/B
+@onready var middle_c_node := $VBoxContainer/VBoxContainer/Scroll1/VBox1/Middle/C
+
 @onready var event_name_label := $VBoxContainer/HBox3/Input_Text
-@onready var event_trigger_display := $VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox1/VBox1
 @onready var popup_main := $Popups
 @onready var event_selection_popup := $Popups/popup_Event_Selection
 @onready var event_selection_dropdown_input := $Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown
 @onready var event_page_button_list := $VBoxContainer/Hbox4
 
 var parent_node
+var default_event_dict: Dictionary = {}
+var default_event_data_dict: Dictionary = {}
 var event_dict :Dictionary 
 var event_name :String = ""
 var event_node :EventHandler
@@ -33,26 +40,26 @@ func _ready():
 #	print("EVENT EDITOR INPUT FORM - READY - BEGIN")
 	if event_name != "":
 		set_initial_values()
-		
 	set_background_theme($Background)
-#	emit_signal("event_editor_input_form_loaded")
-#	print("EVENT EDITOR FORM LOADED")
 #	print("EVENT EDITOR INPUT FORM - READY - END")
 
 
 func match_fields_to_template():
 #	print("EVENT EDITOR INPUT FORM - MATCH FIELDS TO TEMPLATE - BEGIN")
-	var event_template_dict :Dictionary = import_data("Event Table Template")
-	for key in event_template_dict:
-		for field in event_template_dict[key]:
+	if default_event_dict == {}:
+		default_event_dict = import_data("Event Table Template")
+	if default_event_data_dict == {}:
+		default_event_data_dict = import_data("Event Table Template", true)
+	for key in default_event_dict:
+		for field in default_event_dict[key]:
 				for tab in event_dict:
 					if !event_dict[tab].has(field):
-						event_dict[tab][field] = event_template_dict[key][field]
+						event_dict[tab][field] = default_event_dict[key][field]
 #	
 	var remove_field_array = []
 	for tab in event_dict:
 		for field in event_dict[tab]:
-			if !event_template_dict["1"].has(field):
+			if !default_event_dict["1"].has(field):
 				remove_field_array.append(field)
 				await get_tree().process_frame
 
@@ -62,7 +69,6 @@ func match_fields_to_template():
 				event_dict[tab].erase(field)
 				await get_tree().process_frame
 #	print("EVENT EDITOR INPUT FORM - MATCH FIELDS TO TEMPLATE - END")
-#	await match_fields_to_template_complete
 	match_fields_to_template_complete.emit()
 
 
@@ -77,11 +83,7 @@ func load_event_data(event_tab := tab_number):
 	for child in event_page_button_list.get_children():
 		child.queue_free()
 	load_page_buttons()
-	
 #	print("EVENT EDITOR INPUT FORM - LOAD EVENT DATA - END")
-#	await get_tree().create_timer(0.5).timeout
-#	emit_signal("event_editor_input_form_loaded")
-#	print("EVENT EDITOR LOADED")
 
 
 func load_page_buttons():
@@ -103,61 +105,20 @@ func load_page_buttons():
 #	print("EVENT EDITOR INPUT FORM - LOAD PAGE BUTTONS - END")
 
 
-func load_event_notes(event_tab):#updated
-
-	var input_value = event_dict[event_tab]["Notes"]
-#	print(input_value)
-	var notes_container = create_input_node("Notes", event_name, event_dict, event_data_dict)
-#	notes_container.show_advanced_options_node = false
-	event_trigger_display.add_child(notes_container)
-	notes_container.set_input_value(input_value)
-	input_node_dict["Notes"] = notes_container
-
-
-func load_event_trigger_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Event Trigger"]
-	var trigger_selection_container  = create_input_node("Event Trigger", event_name, event_dict, event_data_dict)
-	trigger_selection_container.selection_table_name = "Event Triggers"
-	event_trigger_display.add_child(trigger_selection_container)
-	trigger_selection_container.set_input_value(input_value)
-	input_node_dict["Event Trigger"] = trigger_selection_container
+#CALLED FROM SIGNAL
+func animation_state_selected(show :bool):
+	input_node_dict["Loop Animation"].visible = !show
+	input_node_dict["Attack Player?"].visible = show
+	input_node_dict["Animation Group"].visible = show
+	input_node_dict["Max Speed"].visible = show
+	input_node_dict["Acceleration"].visible = show
+	input_node_dict["Friction"].visible = show
 
 
-func load_event_animation_state_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Does Event Move?"]
-	var new_input_container =  create_input_node("Does Event Move?", event_name, event_dict, event_data_dict)
-	event_trigger_display.add_child(new_input_container)
-	input_node_dict["Does Event Move?"] = new_input_container
-	new_input_container.true_text = "Yes"
-	new_input_container.false_text = "No"
-	new_input_container.checkbox_pressed.connect(animation_state_selected)
-	new_input_container.set_input_value(input_value)
-
-
-func load_attack_player_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Attack Player?"]
-	var new_input_container =  create_input_node("Attack Player?", event_name, event_dict, event_data_dict)
-	conditions_node.add_child(new_input_container)
-	input_node_dict["Attack Player?"] = new_input_container
-	new_input_container.true_text = "Yes"
-	new_input_container.false_text = "No"
-#	new_input_container.checkbox_pressed.connect(animation_state_selected)
-	new_input_container.set_input_value(input_value)
-
-
-func load_draw_shadow_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Draw Shadow?"]
-	var new_input_container =  create_input_node("Draw Shadow?", event_name, event_dict, event_data_dict)
-	conditions_node.add_child(new_input_container)
-	input_node_dict["Draw Shadow?"] = new_input_container
-	new_input_container.true_text = "Yes"
-	new_input_container.false_text = "No"
-#	new_input_container.checkbox_pressed.connect(animation_state_selected)
-	new_input_container.set_input_value(input_value)
-
-
-func animation_state_selected(event_moves :bool):
-	show_animation_movement_options(event_moves)
+func does_cause_damage(show:bool):
+	input_node_dict["Knockback Power"].visible = show
+	input_node_dict["Damage Cooldown Time"].visible = show
+	input_node_dict["Damage Amount"].visible = show
 
 
 func animation_group_selected(selected_index):
@@ -173,155 +134,75 @@ func animation_group_selected(selected_index):
 	default_anim_node.get_data_and_create_sprite()
 
 
-func show_animation_movement_options(show:bool = true):
-#	await get_tree().process_frame
-	input_node_dict["Loop Animation"].visible = !show
-	input_node_dict["Attack Player?"].visible = show
-	input_node_dict["Animation Group"].visible = show
-	input_node_dict["Max Speed"].visible = show
-	input_node_dict["Acceleration"].visible = show
-	input_node_dict["Friction"].visible = show
-
-
-func load_event_animation_group_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Animation Group"]
-	var trigger_selection_container  = create_input_node("Animation Group", event_name, event_dict, event_data_dict)
-	trigger_selection_container.selection_table_name = "Sprite Groups"
-	event_trigger_display.add_child(trigger_selection_container)
-	trigger_selection_container.set_input_value(input_value)
-	input_node_dict["Animation Group"] = trigger_selection_container
-
-
-func load_event_conditions_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Conditions"]
-	var conditions_container  = create_input_node("Conditions", event_name, event_dict, event_data_dict)
-	commands_node.add_child(conditions_container)
-	conditions_container.parent_node = self
-	conditions_container.set_input_value(input_value)
-	input_node_dict["Conditions"] = conditions_container
-
-
-func load_event_animation_input(event_tab):
-	var input_value = event_dict[event_tab]["Default Animation"]
-	var new_input_container  =create_input_node("Default Animation", event_name, event_dict, event_data_dict) 
-	input_node_dict["Default Animation"] = new_input_container
-	event_trigger_display.add_child(new_input_container)
-	input_node_dict["Default Animation"] = new_input_container
-	new_input_container.set_input_value(input_value)
-	new_input_container.show_field = true
-
-
-func load_loop_animation_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Loop Animation"]
-	var new_input_container  =create_input_node("Loop Animation", event_name, event_dict, event_data_dict) 
-	input_node_dict["Loop Animation"] = new_input_container
-	conditions_node.add_child(new_input_container)
-	input_node_dict["Loop Animation"] = new_input_container
-	new_input_container.set_input_value(input_value)
-
-
-func load_collide_with_player_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Collide with Player?"]
-	var new_input_container  = create_input_node("Collide with Player?", event_name, event_dict, event_data_dict)
-	conditions_node.add_child(new_input_container)
-	input_node_dict["Collide with Player?"] = new_input_container
-	new_input_container.set_input_value(input_value)
-
-
-func load_max_speed_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Max Speed"]
-	var new_input_container  =create_input_node("Max Speed", event_name, event_dict, event_data_dict) 
-	conditions_node.add_child(new_input_container)
-	input_node_dict["Max Speed"] = new_input_container
-	new_input_container.set_input_value(input_value)
-
-
-func load_acceleration_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Acceleration"]
-	var new_input_container  =create_input_node("Acceleration", event_name, event_dict, event_data_dict) 
-	conditions_node.add_child(new_input_container)
-	input_node_dict["Acceleration"] = new_input_container
-	new_input_container.set_input_value(input_value)
-
-
-func load_friction_input(event_tab):#updated
-	var input_value = event_dict[event_tab]["Friction"]
-	var new_input_container  =create_input_node("Friction", event_name, event_dict, event_data_dict) 
-	conditions_node.add_child(new_input_container)
-	input_node_dict["Friction"] = new_input_container
-	new_input_container.set_input_value(input_value)
-
-
-#func display_condition_list():
-#	var list_display = load("res://addons/UDSEngine/Event_Manager/Condition_input_form.tscn").instantiate()
-##	list_display.local_variable_dictionary = get_local_variables()
-#	add_child(list_display)
-#	list_display._ready() 
-
-
-func load_event_commands_input(event_tab):
-	var input_value = event_dict[event_tab]["Commands"]
-	var container  = create_input_node("Commands", event_name, event_dict, event_data_dict)
-	commands_node.add_child(container)
-	container.parent_node = self
-	container.set_input_value(input_value)
-	input_node_dict["Commands"] = container
-
-
 func on_page_button_pressed(event_page_number :String):
 #	print("EVENT EDITOR INPUT FORM - PAGE BUTTON PRESSED - BEGIN - PAGE NUMBER: ", event_page_number)
 	v_scroll = get_v_scroll()
-	
 	selectedPageNode = event_page_button_list.get_child(int(event_page_number) - 1)
-
 	if event_page_number == "1":
 		$VBoxContainer/HBox3/HBox1/Delete_Page_Button.disabled = true
 	else:
 		$VBoxContainer/HBox3/HBox1/Delete_Page_Button.disabled = false
-	
 	clear_all_input_forms()
-#	await "input_forms_cleared"
 	await get_tree().create_timer(.1)
-	
 	tab_number = event_page_number
 	input_node_dict = {}
 	if event_data_dict == {}:
 		event_data_dict = import_event_data(event_name, true)
-
-#	await get_tree().create_timer(0.01)
-	set_page_input_data(event_page_number)
-
+	load_event_page_inputs(event_page_number)
 	for node_name in input_node_dict:
 		input_node_dict[node_name].is_label_button = false
-
 	if self.is_inside_tree():
-#		await get_tree().create_timer(0.01).timeout
 		set_v_scroll(v_scroll)
-	
 #	print("EVENT EDITOR INPUT FORM - PAGE BUTTON PRESSED - END")
-#	emit_signal("page_button_load_complete")
 
 
-func set_page_input_data(event_page_number):
-#	print("EVENT EDITOR INPUT FORM - SET PAGE INPUT DATA - BEGIN")
-	load_event_notes(event_page_number)
-	load_event_trigger_input(event_page_number)
-	load_loop_animation_input(event_page_number)
-	load_attack_player_input(event_page_number)
-	load_max_speed_input(event_page_number)
-	load_collide_with_player_input(event_page_number)
-	load_draw_shadow_input(event_page_number)
-	load_friction_input(event_page_number)
-	load_acceleration_input(event_page_number)
-	load_event_animation_state_input(event_page_number)
-	load_event_animation_group_input(event_page_number)
-	load_event_animation_input(event_page_number)
-	var does_event_move_node = input_node_dict["Does Event Move?"]
-	does_event_move_node._on_input_toggled(does_event_move_node.inputNode.button_pressed)
 
-	load_event_conditions_input(event_page_number)
-	load_event_commands_input(event_page_number)
-#	print("EVENT EDITOR INPUT FORM - SET PAGE INPUT DATA - END")
+func load_event_page_inputs(event_tab):
+	var display_category_dict: Dictionary = {
+	"Notes" : top_a_node, 
+	"Attack Player?" : middle_b_node,
+	"Damage Player on Touch" :middle_b_node,
+	"Damage Amount" :middle_b_node,
+	"Knockback Power" :middle_b_node,
+	"Damage Cooldown Time" :middle_b_node,
+	"Event Trigger" :middle_a_node,
+	"Does Event Move?" :middle_a_node,
+	"Draw Shadow?" :middle_c_node,
+	"Animation Group" :middle_a_node,
+	"Conditions" :top_b_node,
+	"Default Animation" :middle_c_node,
+	"Loop Animation" :middle_c_node,
+	"Collide with Player?" :middle_b_node,
+	"Max Speed" :middle_b_node,
+	"Acceleration" :middle_b_node,
+	"Friction" :middle_b_node,
+	"Commands" :middle_a_node
+	}
+	for index in default_event_data_dict["Column"]:
+		var field_name: String = default_event_data_dict["Column"][index]["FieldName"]
+		var input_value = event_dict[event_tab][field_name]
+		var this_container
+		var parent_container = display_category_dict[field_name]
+		this_container = create_input_node(field_name, event_name, default_event_dict, default_event_data_dict)
+		parent_container.add_child(this_container)
+		input_node_dict[field_name] = this_container
+		this_container.parent_node = self
+		if field_name == "Event Trigger":
+			input_node_dict["Event Trigger"].selection_table_name = "Event Triggers"
+			input_node_dict["Event Trigger"].populate_list(true)
+		this_container.set_input_value(input_value)
+
+	
+
+	input_node_dict["Does Event Move?"].checkbox_pressed.connect(animation_state_selected)
+	input_node_dict["Does Event Move?"]._on_input_toggled(input_node_dict["Does Event Move?"].inputNode.button_pressed)
+
+	input_node_dict["Damage Player on Touch"].checkbox_pressed.connect(does_cause_damage)
+	input_node_dict["Damage Player on Touch"]._on_input_toggled(input_node_dict["Damage Player on Touch"].inputNode.button_pressed)
+	#REMOVE WHEN THE OPTIONS ARE WORKING AGAIN
+	input_node_dict["Does Event Move?"].visible = false
+	
+	
 
 
 func set_table_data_display_name(event_key :String , displayName :String):

@@ -65,7 +65,8 @@ func auto_select_key():
 		keyNode = table_list.get_child(0)
 	else:
 		keyNode = table_list.get_node(selectedKeyID)
-	keyNode._on_Navigation_Button_button_up()
+	if keyNode != null:
+		keyNode._on_Navigation_Button_button_up()
 
 
 func custom_table_settings():
@@ -156,26 +157,27 @@ func show_control_buttons():
 func get_values_dict(req = false):
 	var custom_dict = {}
 	var currentDict_inOrder = list_values_in_display_order(current_table_name)
-	var data_dict_size = currentData_dict["Column"].size()
-	for field in data_dict_size:
-		field = str(field + 1)
-		currentDict_inOrder[field] = currentData_dict["Column"][field]
-	for i in currentDict_inOrder:
-		var value_name = currentData_dict["Column"][i]["FieldName"]
-		var itemType = currentData_dict["Column"][i]["DataType"]
-		var tableRef = currentData_dict["Column"][i]["TableRef"]
-		var required  = convert_string_to_type(currentData_dict["Column"][i]["RequiredValue"])
-		var showValue  = convert_string_to_type(currentData_dict["Column"][i]["ShowValue"])
-		var item_value
-		if Item_Name == "Default":
-			item_value = get_default_value(itemType)
-		else:
-			if str_to_var(value_name) == null:
-				item_value = current_dict[Item_Name][value_name]
+	if currentDict_inOrder.size() > 0:
+		var data_dict_size = currentData_dict["Column"].size()
+		for field in data_dict_size:
+			field = str(field + 1)
+			currentDict_inOrder[field] = currentData_dict["Column"][field]
+		for i in currentDict_inOrder:
+			var value_name = currentData_dict["Column"][i]["FieldName"]
+			var itemType = currentData_dict["Column"][i]["DataType"]
+			var tableRef = currentData_dict["Column"][i]["TableRef"]
+			var required  = convert_string_to_type(currentData_dict["Column"][i]["RequiredValue"])
+			var showValue  = convert_string_to_type(currentData_dict["Column"][i]["ShowValue"])
+			var item_value
+			if Item_Name == "Default":
+				item_value = get_default_value(itemType)
 			else:
-				var value_name_text :String  = get_text(value_name)
-				item_value = current_dict[Item_Name][value_name_text]
-		custom_dict[value_name] = {"Value" : item_value, "DataType" : itemType, "TableRef" : tableRef, "Order" : i}
+				if str_to_var(value_name) == null:
+					item_value = current_dict[Item_Name][value_name]
+				else:
+					var value_name_text :String  = get_text(value_name)
+					item_value = current_dict[Item_Name][value_name_text]
+			custom_dict[value_name] = {"Value" : item_value, "DataType" : itemType, "TableRef" : tableRef, "Order" : i}
 	return custom_dict
 
 
@@ -291,6 +293,9 @@ func _on_Save_button_up(update_Values : bool = true):
 			match current_table_name:
 				"Table Data":
 					get_main_node()._ready()
+				"Items":
+					add_items_to_inventory_table()
+					get_main_node()._ready()
 		else:
 			print("There was an error. Data has not been updated")
 		table_save_complete.emit()
@@ -309,7 +314,7 @@ func reload_data_without_saving():
 	if table_list.has_node(Item_Name):
 		var btnNode:TextureButton = table_list.get_node(Item_Name)
 		btnNode._on_Navigation_Button_button_up()
-	else:
+	elif is_instance_valid(table_list.get_child(0)):
 		table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
@@ -373,7 +378,8 @@ func delete_selected_key():
 	Delete_Key(Item_Name, current_dict, currentData_dict)
 	save_all_db_files(current_table_name)
 	reload_buttons()
-	table_list.get_child(0)._on_Navigation_Button_button_up()
+	if is_instance_valid(table_list.get_child(0)):
+		table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
 func _on_DeleteSelectedItem_button_up():

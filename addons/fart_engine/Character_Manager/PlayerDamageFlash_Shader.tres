@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://be0bu6nab36ni"]
+
+[ext_resource type="Shader" path="res://addons/fart_engine/Character_Manager/PlayerHit.gdshader" id="1_sk2pq"]
+
+[resource]
+shader = ExtResource("1_sk2pq")
+shader_parameter/active = false

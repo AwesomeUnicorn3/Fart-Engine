@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://chrrvye6ijyav"]
+[gd_scene load_steps=2 format=3 uid="uid://chrrvye6ijyav"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.gd" id="1_s5uu5"]
 
 [node name="Control" type="Control"]
 custom_minimum_size = Vector2(0, 15)
@@ -9,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+script = ExtResource("1_s5uu5")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
@@ -17,6 +20,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Fart Engine V.1.0 Alpha 3"
+text = "Fart Engine V.0.5.6"
 horizontal_alignment = 1
 vertical_alignment = 1

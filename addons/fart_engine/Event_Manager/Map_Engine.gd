@@ -7,14 +7,14 @@ var ysort_node
 var player_node
 var player_interaction_area
 var event_array :Array = []
-var BGM_Player :AudioStreamPlayer = AudioStreamPlayer.new()
+var BGM_Player 
 var bgm_stream :String
 var bgm_volume :float
 var bgm_pitch :float
 #var bgm_loop :bool
 
 func _ready():
-	add_child(BGM_Player)
+#	add_child(BGM_Player)
 	ysort_node = Node2D.new()
 	ysort_node.set_name("YSort")
 	add_child(ysort_node)
@@ -59,16 +59,11 @@ func _ready():
 		player_node.set_position(starting_position)
 		FARTENGINE.set_save_data_value("Global Data", await FARTENGINE.get_global_settings_profile(), "NewGame", false)
 
-	await FARTENGINE.move_to_map_Ysort(self)
-
-	if self.has_node("TileMap"):
-		await FARTENGINE.move_to_map_Ysort(self, $TileMap, self)
+	await FARTENGINE.move_player_to_map_Ysort(self)
+	FARTENGINE.CAMERA.add_camera_to_map(self)
+#	if self.has_node("TileMap"):
+#		await FARTENGINE.move_player_to_map_Ysort(self, $TileMap, self)
 	FARTENGINE.emit_signal("map_loaded")
-
-#func save_event_data():
-#	for event_node in event_array:
-#		if !event_node == null:
-#			event_node.update_event_data()
 
 
 func get_bgm_values():
@@ -79,16 +74,16 @@ func get_bgm_values():
 
 
 func set_bgm(BGM_path : String = bgm_stream, volume :float = bgm_volume, pitch :float = bgm_pitch):
-	BGM_Player.set_bus("BGM")
-	BGM_Player.set_stream(load(FARTENGINE.table_save_path + FARTENGINE.sfx_folder + bgm_stream))
-	BGM_Player.set_volume_db(volume)
-	BGM_Player.set_pitch_scale(pitch)
-	BGM_Player.play()
+	FARTENGINE.AUDIO.stop_all_audio()
+	var bgm_dict :Dictionary = str_to_var(map_dict["BGM"])
+	BGM_Player = await FARTENGINE.AUDIO.get_next_audio_player("BGM")
+	FARTENGINE.AUDIO.audio_begin(bgm_dict, null)
+
 
 var is_updating_events:bool = false
 func refresh_events():
 	if !is_updating_events:
 		emit_signal("update_events")
 		is_updating_events = true
-		await get_tree().create_timer(0.2).timeout
+		await get_tree().create_timer(0.1).timeout
 		is_updating_events = false

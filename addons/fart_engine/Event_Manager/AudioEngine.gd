@@ -5,48 +5,40 @@ signal start_audio
 signal audio_finished
 signal next_message_pressed
 
+
 var AudioParent :Node
-var audio_player
-var current_audio_dictionary :Dictionary
 var selected_group_dictionary :Dictionary
-var audio_dictionary :Dictionary
 var game_audio_dict:Dictionary
 
-var is_group :bool
-var wait :bool
-var repeat_audio :bool
-var repeat_amount :int
-
-var stream:String
-var volume:float
-var pitch :float
-var max_distance :float
 
 func _ready():
-	add_audio_players(10)
+	add_audio_players("SFX", 10)
+	add_audio_players("BGM", 1)
 	start_audio.connect(audio_begin)
 
 
-func add_audio_players(how_many:int = 1):
+func add_audio_players( bus:String, how_many:int = 1):
 	var audio_nodes_added:int = 1
+	var parent = FARTENGINE.get_root_node().get_node(bus)
 	while audio_nodes_added <= how_many:
 		var audio_player = AudioStreamPlayer2D.new()
-		audio_player.set_bus("SFX")
+		audio_player.set_bus(bus)
 		audio_player.set_name(str(audio_nodes_added))
-		FARTENGINE.get_root_node().add_child(audio_player)
-		game_audio_dict[audio_nodes_added] = audio_player
+		parent.add_child(audio_player)
+		game_audio_dict[audio_nodes_added] = {"Audio Node": audio_player, "Player Type" : bus}
 		audio_nodes_added += 1
 
 
-func get_next_audio_player() -> AudioStreamPlayer2D:
+func get_next_audio_player(player_type:String = "SFX") -> AudioStreamPlayer2D:
 	var next_player :AudioStreamPlayer2D
 	var player_found:bool = false
 	
 	while player_found == false:
 		for playerID in game_audio_dict:
-			if !game_audio_dict[playerID].is_playing():
-				next_player = game_audio_dict[playerID]
-				player_found = true
+			if game_audio_dict[playerID]["Player Type"] == player_type:
+				if !game_audio_dict[playerID]["Audio Node"].is_playing():
+					next_player = game_audio_dict[playerID]["Audio Node"]
+					player_found = true
 		await FARTENGINE.get_root_node().get_tree().process_frame
 	#GET NEXT AVAILABLE AUDIO PLAYER FROM DICTIONARY
 	#IF NONE ARE AVAIALBE, WAIT UNTIL ONE IS
@@ -60,71 +52,78 @@ func is_audio_player_available(audio_player: AudioStreamPlayer2D)-> bool:
 	return is_player_available
 
 
-#func load_audio_player():
-#	var scene = AudioStreamPlayer2D.new()
-#	AudioParent.add_child(scene)
-##	scene.finished.connect(audio_player_cleanup)
-#	scene.set_name("audio" + str(current_audio_dictionary.size() + 1) )
-#	return scene
+func get_current_player_dict(function_dict:Dictionary)-> Dictionary:
+	var current_audio_dictionary:Dictionary
+	if function_dict.has("audio_data"):
+		current_audio_dictionary = function_dict["audio_data"]
+	else:
+		current_audio_dictionary = function_dict
+	return current_audio_dictionary
 
 
-func set_audio_player_variables(function_dict:Dictionary):
-	current_audio_dictionary = function_dict["audio_data"]
-
-
-func set_variable_data(index):
-	var index_dict :Dictionary = FARTENGINE.convert_string_to_type(selected_group_dictionary[index])
-	stream = index_dict["stream"]
-	volume = index_dict["volume"].to_float()
-	pitch = index_dict["pitch"].to_float()
-	max_distance = index_dict["max_distance"]
+func set_variable_data(index, audio_player:AudioStreamPlayer2D, current_audio_dict:Dictionary):
+	var index_dict :Dictionary = FARTENGINE.convert_string_to_type(current_audio_dict)
+	var stream = index_dict["stream"]
+	var volume = index_dict["volume"].to_float()
+	var pitch = index_dict["pitch"].to_float()
+	var max_distance = index_dict["max_distance"]
 
 	audio_player.set_stream(load(FARTENGINE.table_save_path + FARTENGINE.sfx_folder + stream ))
 	audio_player.set_volume_db(volume)
 	audio_player.set_pitch_scale(pitch)
 	audio_player.set_max_distance(max_distance)
-	audio_player.set_position(AudioParent.position)
-	print(audio_player.position)
+	if is_instance_valid(AudioParent):
+		audio_player.set_position(AudioParent.position)
 
 
+#FOR PROCESSING AUDIO FILES STORES AS FIELDS IN A TABLE-----------------------------
 func audio_begin(audio_dict, event_node :EventHandler):
 	AudioParent = event_node#
-	audio_dictionary = audio_dict
-	is_group = audio_dictionary["is_group"]
-	repeat_amount = audio_dictionary["repeat_amount"]
-	repeat_audio = audio_dictionary["repeat_audio"]
-	wait = audio_dictionary["wait"]
+
 	
-	set_selected_group_dict_data(audio_dict)
+	var is_group :bool = false
+	var repeat_amount :int = 1
+	var repeat_audio : bool = false
+	var wait :bool = false
+	
+	if audio_dict.has("is_group"):
+		is_group = audio_dict["is_group"]
+	if audio_dict.has("repeat_amount"):
+		repeat_amount = audio_dict["repeat_amount"]
+	if audio_dict.has("repeat_audio"):
+		repeat_audio = audio_dict["repeat_audio"]
+	if audio_dict.has("wait"):
+		wait = audio_dict["wait"]
+	
+	set_selected_group_dict_data(audio_dict, is_group)
 	if wait:
-		await iterate_through_audio()
+		await iterate_through_audio(repeat_audio, repeat_amount)
 	else:
-		iterate_through_audio()
+		iterate_through_audio(repeat_audio, repeat_amount)
 
 	audio_end()
 
 
-func iterate_through_audio():
-	if !repeat_audio:
+func iterate_through_audio(repeat:bool, repeat_amount:int):
+
+	if !repeat:
 		repeat_amount = 1
 	for run_index in repeat_amount:
 		for audio_index in selected_group_dictionary:
+			var current_audio_dictionary :Dictionary 
 			if typeof(selected_group_dictionary[audio_index]) == TYPE_STRING:
 				current_audio_dictionary = str_to_var(selected_group_dictionary[audio_index])
 			else:
 				current_audio_dictionary = selected_group_dictionary[audio_index]
-			
-			set_audio_player_variables(audio_dictionary)
+			var audio_player :AudioStreamPlayer2D
 			audio_player = await get_next_audio_player()
-			print(audio_player.name)
-#			audio_player.name = "audio " + audio_index
-			set_variable_data(audio_index)
-			await AudioParent.get_tree().process_frame
+			set_variable_data(audio_index, audio_player, current_audio_dictionary)
+			await FARTENGINE.root.get_tree().process_frame
 			audio_player.play()
 			await audio_player.finished
 
 
-func set_selected_group_dict_data(audio_dict):
+func set_selected_group_dict_data(audio_dict, is_group:bool):
 	selected_group_dictionary = {}
 	var group_name :String = ""
 	var static_audio_group_dictionary :Dictionary = FARTENGINE.Static_Game_Dict["SFX Groups"]
@@ -139,7 +138,10 @@ func set_selected_group_dict_data(audio_dict):
 				selected_group_dictionary[str(index)] = static_audio_group_dictionary[group_name][field_name]
 				index += 1
 	else:
-		selected_group_dictionary["1"] = audio_dict["audio_data"]["Single"]
+		if audio_dict.has("audio_data"):
+			selected_group_dictionary["1"] = audio_dict["audio_data"]["Single"]
+		else:
+			selected_group_dictionary["1"] = audio_dict
 
 
 func audio_end():
@@ -150,6 +152,12 @@ func audio_end():
 		emit_signal("audio_finished")
 
 
+func stop_all_audio():
+	for audioID in game_audio_dict:
+		if game_audio_dict[audioID]["Audio Node"].is_playing():
+			game_audio_dict[audioID]["Audio Node"].stop()
+
+#-------------------------------------------------------------------------------------------------
 #func audio_player_cleanup():
 #	for child in AudioParent.get_children():
 #		if child.get_class() == "AudioStreamPlayer2D":

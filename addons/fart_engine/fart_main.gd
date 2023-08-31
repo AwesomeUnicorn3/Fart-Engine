@@ -25,7 +25,7 @@ var button_dict :Dictionary = {}
 var display_form_dict :Dictionary = {}
 var category_settings_dict: Dictionary = {}
 var selected_tab_name :String= ""
-var selected_category :String = ""
+var selected_category :String = "Game Settings"
 var is_uds_main_updating: bool = false
 
 
@@ -56,7 +56,9 @@ func _ready():
 		DBENGINE.set_background_theme($Background)
 		await get_tree().create_timer(0.1).timeout
 		is_uds_main_updating = false
-		table_category.get_node("Game Settings")._on_Navigation_Button_button_up()
+		
+		
+		table_category.get_node(selected_category)._on_Navigation_Button_button_up()
 var is_editor_saving:bool = false
 
 
@@ -74,6 +76,7 @@ func when_editor_saved():
 						print(table_name, " SAVE COMPLETE")
 			DBENGINE.update_input_actions_table()
 			DBENGINE.update_UI_method_table()
+			DBENGINE.add_items_to_inventory_table()
 			await get_tree().create_timer(0.2).timeout
 		is_editor_saving = false
 		print("FART MAIN - WHEN EDITOR SAVED - END")

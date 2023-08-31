@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://say43mgnaxsb"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Example Game/PlayerHPDisplay.gd" id="1_rl2cs"]
+[ext_resource type="Texture2D" uid="uid://c76c780tsexl" path="res://fart_data/png/ProgressBar_Red.png" id="2_bdfa4"]
+[ext_resource type="Texture2D" uid="uid://xf0jkrql8ejd" path="res://fart_data/png/ProgressBar_Green.png" id="3_7q48g"]
+
+[node name="TextureProgressBar" type="TextureProgressBar"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+value = 75.0
+nine_patch_stretch = true
+texture_under = ExtResource("2_bdfa4")
+texture_progress = ExtResource("3_7q48g")
+script = ExtResource("1_rl2cs")

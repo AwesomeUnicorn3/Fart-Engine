@@ -157,7 +157,8 @@ func load_save_file(table_name :String):
 	var table_path :String = save_game_path + table_name
 	var currdata_dir :FileAccess = FileAccess.open(table_path,FileAccess.READ_WRITE)
 	if currdata_dir == null :
-		print("Error Could not open file at: " + table_path)
+		pass
+#		print("Error Could not open file at: " + table_path)
 	else:
 		var currdata_json = json_object.parse(currdata_dir.get_as_text())
 		curr_tbl_data = json_object.get_data()
@@ -211,7 +212,8 @@ func import_event_data(event_name:String, get_event_data:bool = false):
 	var table_path :String = table_save_path + event_folder + event_name + file_extension
 	var currdata_dir :FileAccess = FileAccess.open(table_path,FileAccess.READ_WRITE)
 	if currdata_dir == null :
-		print("Error Could not open file at: " + table_path)
+		pass
+#		print("Error Could not open file at: " + table_path)
 	else:
 		var currdata_json = json_object.parse(currdata_dir.get_as_text())
 		curr_event_data = json_object.get_data()
@@ -228,7 +230,8 @@ func import_data(table_name : String, get_table_data :bool = false):
 	var table_path :String = table_save_path + table_name + file_extension
 	var currdata_dir :FileAccess = FileAccess.open(table_path,FileAccess.READ_WRITE)
 	if currdata_dir == null :
-		print("Error Could not open file at: " + table_path)
+		pass
+#		print("Error Could not open file at: " + table_path)
 	else:
 		var currdata_json = json_object.parse(currdata_dir.get_as_text())
 		curr_tbl_data = json_object.get_data()
@@ -335,8 +338,22 @@ func save_all_db_files(table_name :String = current_table_name):
 
 
 func update_project_settings(): #called when save_all_db_files is run
+	set_target_screen_size()
 	set_game_root()
 
+
+func set_target_screen_size():
+	var project_settings_dict: Dictionary = import_data("Project Settings")
+	var target_screen_size_x: int = convert_string_to_type(project_settings_dict["1"]["Target Screen Size"],"9").x
+	var target_screen_size_y: int = convert_string_to_type(project_settings_dict["1"]["Target Screen Size"],"9").y
+
+	
+	var current_screen_size_x = ProjectSettings.get("display/window/size/viewport_width")
+	var current_screen_size_y = ProjectSettings.get("display/window/size/viewport_height")
+	
+	if target_screen_size_x != current_screen_size_x:
+		ProjectSettings.set("display/window/size/viewport_width", target_screen_size_x) 
+		ProjectSettings.set("display/window/size/viewport_height", target_screen_size_y) 
 
 func set_game_root():
 	var settings_profile :String = await get_global_settings_profile()
@@ -745,6 +762,8 @@ func convert_string_to_type(variant, datatype = ""):
 				found_match = true
 			TYPE_BOOL:
 				found_match = true
+			TYPE_VECTOR3:
+				found_match = true
 			TYPE_VECTOR2:
 				found_match = true
 			TYPE_DICTIONARY:
@@ -787,10 +806,8 @@ func convert_string_to_type(variant, datatype = ""):
 				variant = string_to_array(str(variant))
 			"15":
 				variant = string_to_dictionary(variant)
-			"16":
-				pass
-
-#				variant = string_to_dictionary(variant)
+			"12":
+				variant = convert_string_to_vector(variant)
 
 			"17":
 				variant = string_to_dictionary(variant)
@@ -1031,11 +1048,6 @@ func create_input_node(key_name:String, table_name:String, table_dict:Dictionary
 	data_type = get_datatype(key_name, table_data_dict)
 #	print("DATATYPE: ", data_type)
 #	print("TABLE DICT: ", table_dict)
-#	if data_type == "" and table_dict == {}: #Event data from save file
-#		print("CREATE INPUT NODE KEY DATA: ", key_name)
-#		print("NO DATATYPE ASSIGNED: ", key_name)
-#		table_dict = {"text" : "Blank"}
-#		data_type = "1"
 
 	var new_node = create_datatype_node(data_type)
 	new_node.set_name(key_name)
@@ -1064,8 +1076,9 @@ func get_datatype(field_ID:String, table_data_dict :Dictionary):
 			if currFieldName == field_ID:
 				data_type = data_dict_column[datakey]["DataType"]
 				break
-	if data_type == "":
-		print("NO DATATYPE FOUND FOR: ", field_ID)
+#	if data_type == "":
+##		print(table_data_dict)
+#		print("NO DATATYPE FOUND FOR: ", field_ID)
 #	print("GET DATATYPE RETURN VALUE: ", data_type)
 	return data_type
 	
@@ -1679,6 +1692,58 @@ func update_input_actions_table():
 	save_file( table_save_path + "AU3 InputMap" + table_file_format, AU3_input_map_dict )
 	save_file( table_save_path + "AU3 InputMap" + "_data" + table_file_format, AU3_input_map_data_dict )
 #	print("UPDATE INPUT ACTIONS TABLE END")
+
+
+func add_items_to_inventory_table():
+	var items_dict:Dictionary = import_data("Items")
+	var items_dict_data_dict: Dictionary = import_data("Items", true)
+	var current_inventory_dict: Dictionary = import_data("Inventory")
+	var current_inventory_data_dict: Dictionary = import_data("Inventory", true)
+	var input_actions_display_name_dict:Dictionary = get_display_name(items_dict)
+
+	var new_inventory_dict: Dictionary
+	var new_inventory_data_dict: Dictionary = current_inventory_data_dict.duplicate(true)
+#	new_inventory_data_dict["Row"].erase("1")
+
+
+	var item_index : int = 1
+	new_inventory_data_dict["Row"] = {}
+	for item_id in items_dict:
+		new_inventory_dict[item_id] = {"Display Name" : items_dict[item_id]["Display Name"], "ItemCount" : 0}
+#		print("ITEM INEX: ", item_index)
+		var new_line:Dictionary = {"DataType":"1","FieldName":"","RequiredValue":true,"ShowValue":true,"TableRef":true}
+		new_line["FieldName"] = item_id
+		new_inventory_data_dict["Row"][item_index] =  new_line
+#		new_inventory_data_dict["Row"][item_index]["FieldName"] = item_id
+		item_index += 1
+	
+#	print(new_inventory_data_dict)
+	save_file( table_save_path + "Inventory" + table_file_format, new_inventory_dict )
+	save_file( table_save_path + "Inventory" + "_data" + table_file_format, new_inventory_data_dict)
+
+
+#			if !input_actions_display_name_dict.has(action_name):
+#				var NewKeyName :String = str(get_next_key_ID(AU3_input_map_dict))
+#				var tempArray :Array = add_key_to_table(NewKeyName, action_name, "",AU3_input_map_dict, AU3_input_map_data_dict )
+
+
+#	for id in items_dict:
+##		print(id)
+#		var displayName:String = get_text(AU3_input_map_dict[id]["Display Name"])
+#
+#		if !inputMap.has(displayName):# or displayName.left(3) == "ui_":
+#			var newDictArray :Array = Delete_Key(id, AU3_input_map_dict.duplicate(true),AU3_input_map_data_dict.duplicate(true) )
+#			AU3_input_map_dict = newDictArray[0].duplicate(true)
+#			AU3_input_map_data_dict = newDictArray[1].duplicate(true)
+#
+#		if displayName.left(3) == "ui_":
+##			print(displayName)
+#			var newDictArray :Array = Delete_Key(id, AU3_input_map_dict.duplicate(true),AU3_input_map_data_dict.duplicate(true) )
+#			AU3_input_map_dict = newDictArray[0].duplicate(true)
+#			AU3_input_map_data_dict = newDictArray[1].duplicate(true)
+#
+#	save_file( table_save_path + "Inventory" + table_file_format, AU3_input_map_dict )
+#	save_file( table_save_path + "Inventory" + "_data" + table_file_format, AU3_input_map_data_dict )
 
 
 func get_display_name(inputDict: Dictionary):

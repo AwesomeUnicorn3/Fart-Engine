@@ -9,9 +9,12 @@ signal map_data_updated
 signal in_game_menu_closed
 signal initial_menus_loaded
 signal inventory_updated
+signal player_health_updated
 
 var EVENTS :EventEngine = EventEngine.new()
 var UIENGINE : UIEngine = UIEngine.new()
+var AUDIO : AudioEngine = AudioEngine.new()
+var CAMERA : CameraEngine = CameraEngine.new()
 
 var actionState_dict :Dictionary = {"action_name": "", "is_pressed": false, "action_strength" : 0.0}
 var CurrentInputAction_dict :Dictionary = {}
@@ -47,24 +50,27 @@ var current_map_node
 var current_map_key :String = ""
 var current_map_scene_path :String = ""
 
+var main_camera :Camera2D
 var player_node
 var gameState :String = "1"
 var operatingSystem :String
 
 
 func _ready():
-	operatingSystem = OS.get_name()
-	Static_Game_Dict = create_dictionary_of_all_tables()
-	Dynamic_Game_Dict = {}
-	set_var_type_dict(Static_Game_Dict)
-	set_root_node()
-	await get_tree().create_timer(0.1).timeout
-	add_required_scenes_to_UI()
-	await get_tree().create_timer(0.1).timeout
-#	await initial_menus_loaded
-	await get_tree().create_timer(0.1).timeout
-	EVENTS._ready()
-	set_game_state("1") #this should get the game state from the global data [selected profile]
+	if !Engine.is_editor_hint():
+		operatingSystem = OS.get_name()
+		Static_Game_Dict = create_dictionary_of_all_tables()
+		Dynamic_Game_Dict = {}
+		set_var_type_dict(Static_Game_Dict)
+		set_root_node()
+		await get_tree().create_timer(0.1).timeout
+		add_required_scenes_to_UI()
+		await get_tree().create_timer(0.1).timeout
+	#	await initial_menus_loaded
+		await get_tree().create_timer(0.1).timeout
+		EVENTS._ready()
+
+		set_game_state("1") #this should get the game state from the global data [selected profile]
 
 	
 
@@ -93,13 +99,14 @@ func create_dictionary_of_all_tables():
 
 
 func _process(delta):
-	input_process()
+	if !Engine.is_editor_hint():
+		input_process()
 
 
 func input_process():
 	for actionKey in FARTENGINE.Static_Game_Dict["AU3 InputMap"]:
-		var actionType :String = str(FARTENGINE.Static_Game_Dict["AU3 InputMap"][actionKey]["Action Type"])
-		var actionName :String = FARTENGINE.get_displayName_text(str_to_var(FARTENGINE.Static_Game_Dict["AU3 InputMap"][actionKey]["Display Name"]))
+		var actionType :String = str(Static_Game_Dict["AU3 InputMap"][actionKey]["Action Type"])
+		var actionName :String = get_displayName_text(str_to_var(FARTENGINE.Static_Game_Dict["AU3 InputMap"][actionKey]["Display Name"]))
 
 		if actionType == "1":
 			if !CurrentInputAction_dict.has(actionKey):
@@ -139,12 +146,13 @@ func show_in_game_main_menu(show :bool = true):
 
 
 func quit_game():
-	set_game_state("1")
 	emit_signal("in_game_menu_closed")
 	remove_player_from_map_node()
 	remove_map_from_root()
 	show_gui(false)
+	AUDIO.stop_all_audio()
 	Dynamic_Game_Dict = {}
+	set_game_state("1")
 
 
 func remove_map_from_root():
@@ -233,14 +241,8 @@ func load_and_set_map(map_path := ""):
 	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Current Map"] = map_input
 	await set_current_map(map_node, map_path)
 	emit_signal("map_data_updated")
-#	add_map_to_events(await get_map_name(map_path))
 	#hide load screen
-	set_game_state("2")
-
-#
-#func add_map_to_events(map_name:String):
-#	if !Dynamic_Game_Dict["Event Save Data"].has(map_name):
-#			Dynamic_Game_Dict["Event Save Data"][map_name] = {}
+	set_game_state("2")#Play
 
 
 func save_global_options_data():
@@ -293,12 +295,15 @@ func set_save_path():
 		doFileExists = directory.file_exists(save_path)
 	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Save ID"] = save_id
 
+
 func load_game(file_name : String):
 	dict_loaded = false
 	Dynamic_Game_Dict = load_save_file(file_name)
 	load_and_set_map(await get_current_map_path())
-	var player_pos  = convert_string_to_vector(get_field_value("Global Data", await get_global_settings_profile(), "Player POS"))
+	var player_pos  = convert_string_to_vector(str(get_field_value("Global Data", await get_global_settings_profile(), "Player POS")))
+	player_node.load_game = true
 	player_node.set_player_position(player_pos)
+	player_node._ready()
 #	add_all_items_to_player_inventory()
 	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Is Game Active"] = true
 	dict_loaded = true
@@ -317,7 +322,7 @@ func get_player_interaction_area():
 	return interation_area
 
 
-func move_to_map_Ysort(current_map_node, objectNode :Node = player_node, parent :Node = root):
+func move_player_to_map_Ysort(current_map_node, objectNode :Node = player_node, parent :Node = root):
 	parent.remove_child(objectNode)
 	current_map_node.ysort_node.add_child(objectNode)
 
@@ -341,12 +346,23 @@ func set_save_data_value(table_name :String, key_name :String, value_name :Strin
 	Dynamic_Game_Dict[table_name][key_name][value_name] = new_value
 
 
-func get_field_value(table_name :String, key_name :String, value_name :String, from_save_dict :bool = true):
+func get_save_data_value(table_name :String, key_name :String, value_name :String, from_save_dict :bool = true):
+	var datatype = get_datatype(value_name, import_data(table_name, true))
 	var rtn_value
 	if from_save_dict and Dynamic_Game_Dict.has(table_name):
-		rtn_value = convert_string_to_type(str(Dynamic_Game_Dict[table_name][key_name][value_name]))
+		rtn_value = convert_string_to_type(str(Dynamic_Game_Dict[table_name][key_name][value_name]), datatype)
 	else:
-		rtn_value = convert_string_to_type(str(Static_Game_Dict[table_name][key_name][value_name]))
+		rtn_value = convert_string_to_type(str(Static_Game_Dict[table_name][key_name][value_name]),datatype)
+	return rtn_value
+
+#SAME AS ABOVE BUT NEED TO MIGRATE THOSE THAT USE THIS ON TO THE ABOVE BECAUSE BETTER NAME
+func get_field_value(table_name :String, key_name :String, value_name :String, from_save_dict :bool = true):
+	var datatype = get_datatype(value_name, import_data(table_name, true))
+	var rtn_value
+	if from_save_dict and Dynamic_Game_Dict.has(table_name):
+		rtn_value = convert_string_to_type(str(Dynamic_Game_Dict[table_name][key_name][value_name]), datatype)
+	else:
+		rtn_value = convert_string_to_type(str(Static_Game_Dict[table_name][key_name][value_name]),datatype)
 	return rtn_value
 
 
@@ -377,7 +393,7 @@ func new_game():
 	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Is Game Active"] = true
 	dict_loaded = true
 	inventory_updated.emit()
-	#root.get_node("UI/TitleScreen").visible = false # hides title screen.  Should be donw somewhere else, but not yet sre where
+	player_node.set_required_variables()
 	emit_signal("DbManager_loaded")
 
 
@@ -385,6 +401,7 @@ func get_game_title():
 	var initial_save_data : Dictionary = await import_data("Global Data")
 	var game_title = get_text(initial_save_data[await get_global_settings_profile()]["Game Title"])
 	return game_title
+
 
 func get_starting_map_path():
 	var current_map_key : String = var_to_str(Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]['Starting Map'])
@@ -395,6 +412,7 @@ func get_starting_map_path():
 func get_current_map_path() -> String:
 	var current_map_path : String = get_text(Dynamic_Game_Dict['Global Data'][await get_global_settings_profile()]['Current Map'])
 	return current_map_path
+
 
 func sort_ascending(a, b):
 	if a < b:
@@ -408,14 +426,6 @@ func sort_filename_ascending(a, b):
 		return true
 	return false
 
-
-func edit_dict(dict, itm_nm, amt):
-	if Dynamic_Game_Dict[dict].has(itm_nm):
-		Dynamic_Game_Dict[dict][itm_nm]["ItemCount"] += amt
-	else:
-		var item = Static_Game_Dict["Items"][itm_nm]
-		Dynamic_Game_Dict[dict][itm_nm] = item
-		Dynamic_Game_Dict[dict][itm_nm]["ItemCount"] += amt
 
 func get_lead_character_id(): #Character the player is actively controlling
 	var lead_char_id :String = str(Static_Game_Dict['Character Formation']["1"]["ID"])
@@ -441,7 +451,7 @@ func get_displayName_text(displayName_dict :Dictionary) -> String:
 
 func add_all_items_to_player_inventory():
 	var item_dict : Dictionary = Static_Game_Dict["Items"]
-	if !Dynamic_Game_Dict.has("Inventory"):
+	if !Dynamic_Game_Dict["Inventory"].has("Default Item"):
 		Dynamic_Game_Dict["Inventory"] = {}
 	for item_name in item_dict:
 		change_player_inventory(item_name)
@@ -472,7 +482,6 @@ func is_item_in_inventory(item_name : String):
 ##########################END INVENTORY FUNCTIONS################333
 func add_required_scenes_to_UI():
 
-
 	var global_dict :Dictionary
 
 	if Dynamic_Game_Dict.has("Global Data"):
@@ -487,28 +496,23 @@ func add_required_scenes_to_UI():
 	var playerScene_Scene :Variant = load(menu_scenes[playerScene_ID]["Path"]).instantiate()
 	root.add_child(playerScene_Scene)
 	playerScene_Scene.set_name("Player")
-	
 
 	add_map_node_to_root()
 	add_UI_node_to_root()
-
+	add_sfx_node_to_root()
+	add_bgm_node_to_root()
 	
-
 	var TitleScreen_ID :String = str(global_data_dict["Title Screen"])
 	var TitleScreen_Scene :Variant = load(menu_scenes[TitleScreen_ID]["Path"]).instantiate()
 	TitleScreen_Scene.set_name("TitleScreen")
 	root.get_node("UI").add_child(TitleScreen_Scene)
 	TitleScreen_Scene.visible = true
 
-	print("4")
-	print_orphan_nodes()
 	var GUI_ID :String = str(global_data_dict["Default GUI"])
 	var GUI_Scene :Variant = load(menu_scenes[GUI_ID]["Path"]).instantiate()
 	GUI_Scene.set_name("GUI")
 	root.get_node("UI").add_child(GUI_Scene)
 	GUI_Scene.visible = false
-	print("5")
-	print_orphan_nodes()
 
 	var MainMenu_ID :String = str(global_data_dict["Default In-Game Menu"])
 	var Menu_Scene :Variant = load(menu_scenes[MainMenu_ID]["Path"]).instantiate()
@@ -516,17 +520,22 @@ func add_required_scenes_to_UI():
 	root.get_node("UI").add_child(Menu_Scene)
 	Menu_Scene.visible = false
 
-
 	var LoadMenu_ID :String = str(global_data_dict["Default Load Game Menu"])
 	var LoadMenu_Scene :Variant = load(menu_scenes[LoadMenu_ID]["Path"]).instantiate()
 	LoadMenu_Scene.visible = false
 	LoadMenu_Scene.set_name("LoadGameMenu")
 	root.get_node("UI").add_child(LoadMenu_Scene)
 
+	var PlayerDeath_ID :String = str(global_data_dict["Default Player Death Scene"])
+	var PlayerDeath_Scene :Variant = load(menu_scenes[PlayerDeath_ID]["Path"]).instantiate()
+	PlayerDeath_Scene.set_name("PlayerDeathScene")
+	root.get_node("UI").add_child(PlayerDeath_Scene)
+	PlayerDeath_Scene.visible = false
 
 	add_loading_screen_to_UI()
 	add_dialog_node_to_UI()
 	add_audio_node_to_UI()
+
 	emit_signal("initial_menus_loaded")
 
 
@@ -536,12 +545,20 @@ func add_map_node_to_root():
 	root.add_child(node)
 
 
-
 func add_UI_node_to_root():
 	var node :CanvasLayer = CanvasLayer.new()
 	node.set_name("UI")
 	root.add_child(node)
 
+func add_sfx_node_to_root():
+	var node :Node = Node.new()
+	node.set_name("SFX")
+	root.add_child(node)
+
+func add_bgm_node_to_root():
+	var node :Node = Node.new()
+	node.set_name("BGM")
+	root.add_child(node)
 
 func add_loading_screen_to_UI():
 	var node :Control = Control.new()
@@ -576,15 +593,37 @@ func set_game_state(newGameState :String):
 
 	var global_data_dict :Dictionary = global_dict["Global Data"][await get_global_settings_profile()]
 	var gameState_dict :Dictionary = Static_Game_Dict["Game State"]
-
-
-
+	await play_state_BGM(gameState_dict, str(gameState))
 	show_gui(convert_string_to_type(gameState_dict[str(gameState)]["Show GUI"]))
 	show_in_game_main_menu(convert_string_to_type(gameState_dict[str(gameState)]["Show In-Game Menu"]))
 	show_title_screen(convert_string_to_type(gameState_dict[str(gameState)]["Show Title Screen"]))
 	show_load_game_menu(convert_string_to_type(gameState_dict[str(gameState)]["Show Load Game Menu"]))
 	await add_loading_screen_to_root(convert_string_to_type(gameState_dict[str(gameState)]["Show Load Screen"]))
 	set_player_movement_state(convert_string_to_type(gameState_dict[str(gameState)]["Player Can Move"]))
+	set_player_death_state(convert_string_to_type(gameState_dict[str(gameState)]["Show Death Scene"]))
+	
+
+
+func play_state_BGM(gameState_dict:Dictionary, gameState:String):
+	if gameState_dict[gameState]["Play BGM"]:
+#		BGM_Player = await FARTENGINE.AUDIO.get_next_audio_player("BGM")
+		AUDIO.stop_all_audio()
+		
+		var audio_dict:Dictionary = FARTENGINE.convert_string_to_type(gameState_dict[gameState]["BGM"])
+		audio_dict["wait"] = true
+		FARTENGINE.AUDIO.audio_begin(audio_dict, null)
+#		print(gameState_dict[str(gameState)]["BGM"])
+
+
+func set_player_death_state(is_visible:bool):
+	root.get_node("UI/PlayerDeathScene").visible = is_visible
+
+
+	if is_visible:
+		await AUDIO.audio_finished
+		call_deferred("quit_game")
+		root.get_node("UI/PlayerDeathScene").visible = false
+
 
 
 func show_load_game_menu(is_visible:bool):
@@ -598,6 +637,12 @@ func show_title_screen(is_visible:bool):
 func set_player_movement_state(canMove :bool):
 	if player_node != null:
 		player_node.set_character_movement(canMove)
+
+
+func damage_player(damage_amount, knockback_power, event_position):
+	player_node._damage_player(damage_amount, knockback_power, event_position)
+
+
 
 
 func show_gui(show :bool):

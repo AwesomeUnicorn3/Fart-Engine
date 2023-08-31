@@ -1,6 +1,7 @@
-[gd_scene load_steps=29 format=3]
+[gd_scene load_steps=30 format=3 uid="uid://ht8kfr4u1t3u"]
 
-[ext_resource type="Material" uid="uid://bgrgn0dq0v85i" path="res://addons/fart_engine/Character_Manager/ShadowMaterial.tres" id="1_7byrd"]
+[ext_resource type="Material" uid="uid://dmhjx6himnvt7" path="res://addons/fart_engine/Character_Manager/ShadowMaterial.tres" id="1_7byrd"]
+[ext_resource type="Material" uid="uid://be0bu6nab36ni" path="res://addons/fart_engine/Character_Manager/PlayerDamageFlash_Shader.tres" id="1_d8od5"]
 [ext_resource type="Texture2D" uid="uid://wgod6swbslxj" path="res://fart_data/png/link.png" id="2_10j6d"]
 [ext_resource type="Texture2D" uid="uid://dj2rmkqrk0uf4" path="res://fart_data/png/Blobby_Idle.png" id="2_52upu"]
 [ext_resource type="Texture2D" uid="uid://cd5llp35ehqf" path="res://fart_data/png/Dhood_FloatingRupee.png" id="2_xxiwd"]
@@ -96,17 +97,83 @@ region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_emglb"]
 animations = [{
-"frames": [SubResource("AtlasTexture_co413"), SubResource("AtlasTexture_vydt3"), SubResource("AtlasTexture_bjvsf"), SubResource("AtlasTexture_hrtyv")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_co413")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vydt3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjvsf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrtyv")
+}],
 "loop": true,
 "name": &"New Anim",
 "speed": 7.0
 }, {
-"frames": [SubResource("AtlasTexture_7e5tt"), SubResource("AtlasTexture_mwtg6"), SubResource("AtlasTexture_getx7"), SubResource("AtlasTexture_svutd"), SubResource("AtlasTexture_82b7g"), SubResource("AtlasTexture_2xnyt"), SubResource("AtlasTexture_1jkov"), SubResource("AtlasTexture_wytr7"), SubResource("AtlasTexture_glks8"), SubResource("AtlasTexture_5cdo7")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7e5tt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwtg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_getx7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svutd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_82b7g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2xnyt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jkov")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wytr7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glks8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5cdo7")
+}],
 "loop": true,
 "name": &"New Anim 1",
 "speed": 15.0
 }, {
-"frames": [SubResource("AtlasTexture_lbqep"), SubResource("AtlasTexture_x53wl"), SubResource("AtlasTexture_7gifs"), SubResource("AtlasTexture_p1l76"), SubResource("AtlasTexture_glevd"), SubResource("AtlasTexture_07vxv"), SubResource("AtlasTexture_vqlpk"), SubResource("AtlasTexture_bkd7p")],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lbqep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x53wl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7gifs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1l76")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glevd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07vxv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vqlpk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkd7p")
+}],
 "loop": true,
 "name": &"default",
 "speed": 10.0
@@ -115,13 +182,13 @@ animations = [{
 [node name="Node" type="Node"]
 
 [node name="body" type="AnimatedSprite2D" parent="."]
-frames = SubResource("SpriteFrames_emglb")
+material = ExtResource("1_d8od5")
+position = Vector2(0, -2)
+sprite_frames = SubResource("SpriteFrames_emglb")
 animation = &"New Anim"
-playing = true
 
 [node name="Shadow" type="AnimatedSprite2D" parent="body"]
 show_behind_parent = true
 material = ExtResource("1_7byrd")
-frames = SubResource("SpriteFrames_emglb")
+sprite_frames = SubResource("SpriteFrames_emglb")
 animation = &"New Anim"
-playing = true

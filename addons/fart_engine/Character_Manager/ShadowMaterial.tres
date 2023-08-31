@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dmhjx6himnvt7"]
 
 [ext_resource type="Shader" path="res://addons/fart_engine/Character_Manager/Shadow.gdshader" id="1_vbrdv"]
 
