@@ -9,10 +9,10 @@ var dict_static_items : Dictionary
 
 
 func update_all_active_quests():
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
-	dict_quest = FARTENGINE.Static_Game_Dict["Quest"]
-	dict_inventory = FARTENGINE.Dynamic_Game_Dict["Inventory"]
-	dict_static_items = FARTENGINE.Static_Game_Dict["Items"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_quest = FART.Static_Game_Dict["Quest"]
+	dict_inventory = FART.Dynamic_Game_Dict["Inventory"]
+	dict_static_items = FART.Static_Game_Dict["Items"]
 	var quest_number = 0
 	
 	for i in dict_PlayerQuestData:
@@ -39,14 +39,14 @@ func update_all_active_quests():
 
 
 func issue_reward(quest_number, objective_number):
-	dict_quest = FARTENGINE.Static_Game_Dict["Quest"]
-	dict_inventory = FARTENGINE.Dynamic_Game_Dict["Inventory"]
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_quest = FART.Static_Game_Dict["Quest"]
+	dict_inventory = FART.Dynamic_Game_Dict["Inventory"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
 	quest_number = str(quest_number)
 	objective_number = str(objective_number)
 	var reward_value = int(dict_quest[quest_number]["Reward_Count_" + objective_number])
 	var reward_item = dict_quest[quest_number]["Reward_item_" + objective_number]
-	dict_static_items = FARTENGINE.Static_Game_Dict["Items"]
+	dict_static_items = FART.Static_Game_Dict["Items"]
 	if dict_static_items.has(reward_item):
 		if!dict_inventory.has(reward_item):
 			dict_inventory[reward_item] = {"ItemCount" : 0}
@@ -65,9 +65,9 @@ func issue_reward(quest_number, objective_number):
 
 func activate_quest(quest_number, inactive : bool = false):
 	quest_number = str(quest_number)
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
-	dict_quest = FARTENGINE.Static_Game_Dict["Quest"]
-#	dict_inventory = FARTENGINE.Dynamic_Game_Dict["Inventory"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_quest = FART.Static_Game_Dict["Quest"]
+#	dict_inventory = FART.Dynamic_Game_Dict["Inventory"]
 	var not_valid_quest_number = true
 	var already_exists = false
 	var key = 0
@@ -100,7 +100,7 @@ func activate_quest(quest_number, inactive : bool = false):
 func is_quest_objective_complete(quest_number, objective_number):
 	var complete = false
 	quest_number = str(quest_number)
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
 	for i in dict_PlayerQuestData:
 		if str(dict_PlayerQuestData[i]["Quest_Number"]) == quest_number:
 			complete = dict_PlayerQuestData[i]["Objective_" + str(objective_number) + "_Complete"]
@@ -109,7 +109,7 @@ func is_quest_objective_complete(quest_number, objective_number):
 func is_quest_complete(quest_number):
 	var complete = false
 	quest_number = str(quest_number)
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
 	for i in dict_PlayerQuestData:
 		if str(dict_PlayerQuestData[i]["Quest_Number"]) == quest_number:
 			complete = dict_PlayerQuestData[i]["Complete"]
@@ -118,7 +118,7 @@ func is_quest_complete(quest_number):
 func is_reward_recieved(quest_number):
 	var complete = false
 	quest_number = str(quest_number)
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
 	for i in dict_PlayerQuestData:
 		if str(dict_PlayerQuestData[i]["Quest_Number"]) == quest_number:
 			complete = dict_PlayerQuestData[str(i)]["Reward_Recieved"]
@@ -128,7 +128,7 @@ func set_objective_complete(quest_number, objective_number, giveReward : bool = 
 	quest_number = str(quest_number)
 	if !is_quest_active(quest_number):
 		activate_quest(quest_number)
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
 	for i in dict_PlayerQuestData:
 		if str(dict_PlayerQuestData[i]["Quest_Number"]) == quest_number:
 			dict_PlayerQuestData[str(i)]["Objective_" +  str(objective_number) + "_Complete"] = true
@@ -148,7 +148,7 @@ func set_objective_complete(quest_number, objective_number, giveReward : bool = 
 #	Signal.emit_signal("is_quest_complete_or_active")
 
 func get_quest_objective_total(quest_number):
-	dict_quest = FARTENGINE.Static_Game_Dict["Quest"]
+	dict_quest = FART.Static_Game_Dict["Quest"]
 	quest_number = str(quest_number)
 	var curr_count = 0
 	for i in range(1,10):
@@ -158,8 +158,8 @@ func get_quest_objective_total(quest_number):
 	return curr_count
 
 func get_quest_objective_item_count(quest_number, objective_number):
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
-	dict_quest = FARTENGINE.Static_Game_Dict["Quest"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_quest = FART.Static_Game_Dict["Quest"]
 	quest_number = str(quest_number)
 	objective_number = str(objective_number)
 	var curr_count = 0
@@ -175,8 +175,8 @@ func get_quest_objective_item_count(quest_number, objective_number):
 	return curr_count
 
 func get_quest_objective_item_total(quest_number, objective_number):
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
-	dict_quest = FARTENGINE.Static_Game_Dict["Quest"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_quest = FART.Static_Game_Dict["Quest"]
 	quest_number = str(quest_number)
 	objective_number = str(objective_number)
 	var curr_count = 0
@@ -200,8 +200,8 @@ func is_objective_with_itemCount_complete(quest_number, object_number):
 
 
 func update_quest_objctive(quest_number, objective_number, value):
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
-	dict_quest = FARTENGINE.Static_Game_Dict["Quest"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_quest = FART.Static_Game_Dict["Quest"]
 	quest_number = str(quest_number)
 	var curr_count = 0
 	for i in dict_PlayerQuestData:
@@ -220,7 +220,7 @@ func update_quest_objctive(quest_number, objective_number, value):
 
 func set_quest_complete(quest_number):
 	quest_number = str(quest_number)
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
 	for i in dict_PlayerQuestData:
 		if int(i) != 0:
 			var quest_num = str(dict_PlayerQuestData[i]["Quest_Number"])
@@ -232,13 +232,13 @@ func set_quest_complete(quest_number):
 func is_quest_active(quest_number):
 	var quest_status = false
 	quest_number = str(quest_number)
-	dict_PlayerQuestData = FARTENGINE.Dynamic_Game_Dict["PlayerQuestData"]
+	dict_PlayerQuestData = FART.Dynamic_Game_Dict["PlayerQuestData"]
 	for i in dict_PlayerQuestData:
 		if str(dict_PlayerQuestData[i]["Quest_Number"]) == quest_number:
 			quest_status = dict_PlayerQuestData[i]["Active"]
 	return quest_status
 
 func get_player_character():
-	var dict_formation = FARTENGINE.Dynamic_Game_Dict["Formation"]
+	var dict_formation = FART.Dynamic_Game_Dict["Formation"]
 	var curr_char = dict_formation["1"]["CharName"]
 	return curr_char

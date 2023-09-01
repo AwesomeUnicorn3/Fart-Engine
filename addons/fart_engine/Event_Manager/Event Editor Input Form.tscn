@@ -319,7 +319,7 @@ popup/item_16/text = "Field Value Selection"
 popup/item_16/id = 16
 
 [node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
-item_count = 42
+item_count = 44
 popup/item_20/text = "Event Movement States"
 popup/item_21/text = "Dialog Groups"
 popup/item_22/text = "SFX Groups"
@@ -344,6 +344,10 @@ popup/item_40/text = "Event Save Data"
 popup/item_40/id = 40
 popup/item_41/text = "DisplaySelection"
 popup/item_41/id = 41
+popup/item_42/text = "Inventory"
+popup/item_42/id = 42
+popup/item_43/text = "Camera List"
+popup/item_43/id = 43
 
 [node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="1"]
 item_count = 7

@@ -35,7 +35,7 @@ bg_color = Color(0.14902, 0.172549, 0.231373, 1)
 bg_color = Color(0.337255, 0.337255, 0.337255, 1)
 
 [resource]
-default_font_size = 20
+default_font_size = 15
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/fonts/font = SubResource("SystemFont_6irfc")
 Button/styles/disabled = SubResource("1")

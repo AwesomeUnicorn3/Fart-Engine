@@ -18,14 +18,14 @@ func _ready() -> void:
 
 
 func _on_Load_button_up() -> void:
-	FARTENGINE.load_game(file_name)
-#	FARTENGINE.root.get_node("UI/TitleScreen").visible = false
+	FART.load_game(file_name)
+#	FART.root.get_node("UI/TitleScreen").visible = false
 	#SET PLAYER POSITION
-#	FARTENGINEset_player_position()
+#	FARTset_player_position()
 #	parent_container.remove_load_menu()
 
 
 func _on_Delete_button_up() -> void:
-	FARTENGINE.delete_save_file(file_name)
+	FART.delete_save_file(file_name)
 	parent_container.clear_save_file_list()
 	parent_container._ready()

@@ -7,7 +7,7 @@ var toolbar = preload("res://addons/fart_engine/Event_Manager/Event_Tools.tscn")
 
 
 func _init():
-	add_autoload_singleton("FARTENGINE", "res://addons/fart_engine/fart_singleton.gd")
+	add_autoload_singleton("FART", "res://addons/fart_engine/fart_singleton.gd")
 #	add_autoload_singleton('Quest', "res://addons/Quest_Manager/Quest_Scripts.gd")
 
 

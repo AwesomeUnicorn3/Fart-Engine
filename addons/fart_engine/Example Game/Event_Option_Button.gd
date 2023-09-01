@@ -83,8 +83,8 @@ func _on_mouse_exited():
 
 
 func _on_texture_button_up():
-#	var function_name :String = FARTENGINE.get_text(ui_navigation_dict[str(selected_method_key)]["Function Name"])
-#	FARTENGINE.UIENGINE.callv(function_name, [])
+#	var function_name :String = FART.get_text(ui_navigation_dict[str(selected_method_key)]["Function Name"])
+#	FART.UIENGINE.callv(function_name, [])
 	reset_self_modulate()
 
 func _on_texture_button_down():

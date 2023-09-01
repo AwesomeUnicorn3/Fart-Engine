@@ -7,23 +7,23 @@ var save_files_arr: Array =[]
 
 func _ready() -> void:
 	
-	save_files_arr = FARTENGINE.get_save_files()
+	save_files_arr = FART.get_save_files()
 	for i in save_files_arr:
-		var save_file_dict : Dictionary = FARTENGINE.load_save_file(i)
+		var save_file_dict : Dictionary = FART.load_save_file(i)
 		var loadFileSelect_new :Node = loadFileSelect.instantiate()
 		loadFileSelect_new.get_node("Load").set_text("Load File " + i)
 #		var map_path
-		var map_path : String = FARTENGINE.get_text(save_file_dict["Global Data"][await FARTENGINE.get_global_settings_profile()]["Current Map"])
+		var map_path : String = FART.get_text(save_file_dict["Global Data"][await FART.get_global_settings_profile()]["Current Map"])
 		
 		loadFileSelect_new.file_name = i
 		loadFileSelect_new.parent_container = self
-		loadFileSelect_new.get_node("ColorRect/VBoxContainer/MapNameInput").set_text(await FARTENGINE.get_map_name(map_path))
+		loadFileSelect_new.get_node("ColorRect/VBoxContainer/MapNameInput").set_text(await FART.get_map_name(map_path))
 		
 		file_list_container.add_child(loadFileSelect_new)
 
 
 func _on_ReturnToTitle_button_up() -> void:
-	FARTENGINE.set_game_state("1")
+	FART.set_game_state("1")
 #	remove_load_menu()
 
 func remove_load_menu():

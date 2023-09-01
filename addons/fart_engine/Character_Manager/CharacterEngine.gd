@@ -45,16 +45,16 @@ var current_health
 
 func _ready() -> void:
 	if is_inside_tree():
-		if FARTENGINE.dict_loaded == false:
-			await FARTENGINE.DbManager_loaded
-		FARTENGINE.CAMERA._ready()
-		var newgame = FARTENGINE.get_field_value("Global Data",await FARTENGINE.get_global_settings_profile(), "NewGame")
+		if FART.dict_loaded == false:
+			await FART.DbManager_loaded
+		FART.CAMERA._ready()
+		var newgame = FART.get_field_value("Global Data",await FART.get_global_settings_profile(), "NewGame")
 		if newgame:
 			use_save_dict = false
-			#FARTENGINEset_save_data_value("Global Data", await FARTENGINE.get_global_settings_profile(), "NewGame", false)
+			#FARTset_save_data_value("Global Data", await FART.get_global_settings_profile(), "NewGame", false)
 		
 		if !load_game:
-			FARTENGINE.save_game_data.connect(save_player_data)
+			FART.save_game_data.connect(save_player_data)
 			add_raycasts_to_player()
 			set_animation_sprites()
 
@@ -69,18 +69,18 @@ func _ready() -> void:
 func set_required_variables():
 	var upscale :float = 10.0
 
-	var activeCharacterId = FARTENGINE.get_lead_character_id()
-	characterFriction = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Friction", use_save_dict) * upscale
-	characterAcceleration = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Acceleration", use_save_dict) * upscale
-	characterMaxSpeed = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Max Speed", use_save_dict) * upscale
-	characterJumpSpeed = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Jump Speed", use_save_dict) * upscale
-	draw_shadow = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Draw Shadow", use_save_dict)
-	invincibility_time = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Invincible Time", use_save_dict)
+	var activeCharacterId = FART.get_lead_character_id()
+	characterFriction = FART.get_field_value(character_dictionary_name, activeCharacterId, "Friction", use_save_dict) * upscale
+	characterAcceleration = FART.get_field_value(character_dictionary_name, activeCharacterId, "Acceleration", use_save_dict) * upscale
+	characterMaxSpeed = FART.get_field_value(character_dictionary_name, activeCharacterId, "Max Speed", use_save_dict) * upscale
+	characterJumpSpeed = FART.get_field_value(character_dictionary_name, activeCharacterId, "Jump Speed", use_save_dict) * upscale
+	draw_shadow = FART.get_field_value(character_dictionary_name, activeCharacterId, "Draw Shadow", use_save_dict)
+	invincibility_time = FART.get_field_value(character_dictionary_name, activeCharacterId, "Invincible Time", use_save_dict)
 
-	gravity = FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Gravity Force", use_save_dict) * upscale
+	gravity = FART.get_field_value("Global Data", await FART.get_global_settings_profile(), "Gravity Force", use_save_dict) * upscale
 	base_gravity = gravity
-	characterMass = FARTENGINE.get_field_value(character_dictionary_name, activeCharacterId, "Mass", use_save_dict) * upscale
-	is_gravity_active = FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
+	characterMass = FART.get_field_value(character_dictionary_name, activeCharacterId, "Mass", use_save_dict) * upscale
+	is_gravity_active = FART.get_field_value("Global Data", await FART.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
 	set_initial_player_health()
 
 
@@ -102,7 +102,7 @@ func create_raycast(target_pos_x:int)-> RayCast2D:
 	interaction_raycast.set_collide_with_areas(true)
 	interaction_raycast.set_collide_with_bodies(true)
 	
-	var interactionArea :float = FARTENGINE.get_player_interaction_area().get_child(0).shape.get_radius()
+	var interactionArea :float = FART.get_player_interaction_area().get_child(0).shape.get_radius()
 	interaction_raycast.set_target_position(Vector2(target_pos_x,interactionArea)) #The "3" could be set in character table
 #	interaction_raycast_collided.connect(interaction_raycast_collision)
 	add_child(interaction_raycast)
@@ -113,8 +113,8 @@ func create_raycast(target_pos_x:int)-> RayCast2D:
 
 func _physics_process(delta):
 
-	if FARTENGINE.Dynamic_Game_Dict.has("Global Data"):
-		var game_active :bool = FARTENGINE.Dynamic_Game_Dict['Global Data'][await FARTENGINE.get_global_settings_profile()]["Is Game Active"]
+	if FART.Dynamic_Game_Dict.has("Global Data"):
+		var game_active :bool = FART.Dynamic_Game_Dict['Global Data'][await FART.get_global_settings_profile()]["Is Game Active"]
 		if game_active:
 			
 			if interaction_raycast_dict != {}:
@@ -128,8 +128,8 @@ func _physics_process(delta):
 				if !is_colliding and current_selected_interactive_body != null:
 					current_selected_interactive_body.emit_signal("player_exited_interaction_area")
 					current_selected_interactive_body = null
-#			is_gravity_active =  FARTENGINE.get_field_value("Global Data", await FARTENGINE.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
-			FARTENGINE.CAMERA.follow_player()
+#			is_gravity_active =  FART.get_field_value("Global Data", await FART.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
+			FART.CAMERA.camera_physics_process(delta)
 #			input_process()
 			state_machine(delta)
 
@@ -196,10 +196,10 @@ func get_direction():
 	var direction :Vector2 = Vector2.ZERO
 	if character_can_move:
 		#loop through input actions, if action is movement, run the below code
-		for actionKey in FARTENGINE.CurrentInputAction_dict: #ONCE SET UP, THIS SHOULD BE ONLY MOVEMENT ACTIONS
-				var actionStrength :float = FARTENGINE.CurrentInputAction_dict[actionKey]["action_strength"]
-				var directionKey :String  = str(FARTENGINE.convert_string_to_type(FARTENGINE.Static_Game_Dict["AU3 InputMap"][actionKey]["Movement Direction"]))
-				var movement_direction = FARTENGINE.convert_string_to_vector(FARTENGINE.Static_Game_Dict["Movement Directions"][directionKey]["Direction Vector"])
+		for actionKey in FART.CurrentInputAction_dict: #ONCE SET UP, THIS SHOULD BE ONLY MOVEMENT ACTIONS
+				var actionStrength :float = FART.CurrentInputAction_dict[actionKey]["action_strength"]
+				var directionKey :String  = str(FART.convert_string_to_type(FART.Static_Game_Dict["AU3 InputMap"][actionKey]["Movement Direction"]))
+				var movement_direction = FART.convert_string_to_vector(FART.Static_Game_Dict["Movement Directions"][directionKey]["Direction Vector"])
 				direction.x += movement_direction.x * actionStrength
 				direction.y += movement_direction.y * actionStrength
 	direction = direction.normalized()
@@ -224,7 +224,7 @@ func enable_collision(collision_name :String):
 
 
 func save_player_position():
-	FARTENGINE.set_player_position_in_db(get_global_position())
+	FART.set_player_position_in_db(get_global_position())
 
 
 func set_player_position(new_position :Vector2):
@@ -242,19 +242,19 @@ func save_player_data():
 
 func set_initial_player_health():
 	await get_tree().create_timer(0.1).timeout
-	current_health = FARTENGINE.get_save_data_value(character_dictionary_name, FARTENGINE.get_lead_character_id(), "HP", use_save_dict)
-	FARTENGINE.emit_signal("player_health_updated")
+	current_health = FART.get_save_data_value(character_dictionary_name, FART.get_lead_character_id(), "HP", use_save_dict)
+	FART.emit_signal("player_health_updated")
 #	print("CURRENT HEALTH: ", current_health)
 
 func save_player_health():
-	FARTENGINE.set_save_data_value(character_dictionary_name, FARTENGINE.get_lead_character_id(), "HP", current_health)
+	FART.set_save_data_value(character_dictionary_name, FART.get_lead_character_id(), "HP", current_health)
 
 func set_animation_sprites():
-	sprite_group_id = str(FARTENGINE.Static_Game_Dict["Characters"][FARTENGINE.get_lead_character_id()]["Animation State Profile"])
+	sprite_group_id = str(FART.Static_Game_Dict["Characters"][FART.get_lead_character_id()]["Animation State Profile"])
 	#sprite group dict should containe one state's up,down,left,right animations
 	
-	var animationStates_dict :Dictionary = FARTENGINE.Static_Game_Dict["Animation States"]
-	var animationGroups_dict :Dictionary = FARTENGINE.Static_Game_Dict["Animation Groups"]
+	var animationStates_dict :Dictionary = FART.Static_Game_Dict["Animation States"]
+	var animationGroups_dict :Dictionary = FART.Static_Game_Dict["Animation Groups"]
 	
 	for animState in animationStates_dict[sprite_group_id]:
 		if animState != "Display Name":
@@ -279,14 +279,14 @@ func set_animation_sprites():
 				$ShadowAnimSprites.add_child(new_shadow_animation)
 
 func add_sprite_group_to_node(animatedSprite :AnimatedSprite2D, sprite_dict :Dictionary, animation_state :String):
-	var sprite_group_dict :Dictionary = FARTENGINE.Static_Game_Dict["Sprite Groups"]
+	var sprite_group_dict :Dictionary = FART.Static_Game_Dict["Sprite Groups"]
 	var spriteFrames : SpriteFrames = SpriteFrames.new()
 	for anim in sprite_dict:
 		
 		if anim != "Display Name":
 			var animation_name : String = anim
-			FARTENGINE.set_sprite_scale(animatedSprite,animation_name ,FARTENGINE.convert_string_to_type(sprite_dict[anim]))
-			var anim_array :Array = FARTENGINE.add_animation_to_animatedSprite( animation_name, FARTENGINE.convert_string_to_type(sprite_dict[anim]),animatedSprite,true , spriteFrames)
+			FART.set_sprite_scale(animatedSprite,animation_name ,FART.convert_string_to_type(sprite_dict[anim]))
+			var anim_array :Array = FART.add_animation_to_animatedSprite( animation_name, FART.convert_string_to_type(sprite_dict[anim]),animatedSprite,true , spriteFrames)
 			var collisionShape = anim_array[1]
 			collisionShape.name = animation_state + anim + "Collision"
 			var collisionShapeName :String = collisionShape.name
@@ -300,7 +300,7 @@ func add_sprite_group_to_node(animatedSprite :AnimatedSprite2D, sprite_dict :Dic
 
 
 func set_shadow_animation():
-	player_shadow_dictionary = FARTENGINE.add_sprite_group_to_animatedSprite(self, sprite_group_id)
+	player_shadow_dictionary = FART.add_sprite_group_to_animatedSprite(self, sprite_group_id)
 	shadow_sprite_animation = player_shadow_dictionary["animated_sprite"]
 	shadow_sprite_animation.set_name("ShadowSprite")
 	shadow_sprite_frames = shadow_sprite_animation.sprite_frames
@@ -418,7 +418,7 @@ func _damage_player(damage_amount:float, knockback_power:float, event_position:V
 		set_player_invincible(true)
 		var distance:Vector2 = (position - event_position).normalized()
 		velocity = distance * knockback_power * 10
-		FARTENGINE.EVENTS.change_player_health(str(damage_amount), "_event_name", "_event_node_name", "_event_node")
+		FART.EVENTS.change_player_health(str(damage_amount), "_event_name", "_event_node_name", "_event_node")
 		await damage_flash(invincibility_time)
 		set_player_invincible(false)
 		if current_health.y <= current_health.x:
@@ -428,7 +428,7 @@ func _damage_player(damage_amount:float, knockback_power:float, event_position:V
 func player_death():
 	#PLAY DEATH ANIMATION HERE
 	# WAIT UNTIL IT IS COMPLETE, THEN SET DEATH GAME STATE
-	FARTENGINE.set_game_state("10")
+	FART.set_game_state("10")
 
 
 func set_player_invincible(value:bool):

@@ -21,7 +21,7 @@ func _init():
 func _ready():
 	connect_signals()
 	create_button()
-#	FARTENGINE.get_root_node().print_orphan_nodes()
+#	FART.get_root_node().print_orphan_nodes()
 
 
 func get_default_button_texture() -> String:
@@ -29,7 +29,7 @@ func get_default_button_texture() -> String:
 	if Engine.is_editor_hint():
 		UI_scenes_table= DatabaseEngine.new().import_data("UI Scenes")
 	else:
-		UI_scenes_table= FARTENGINE.import_data("UI Scenes")
+		UI_scenes_table= FART.import_data("UI Scenes")
 	var return_texture_path:String = UI_scenes_table["11"]["Path"]
 	return return_texture_path
 
@@ -39,7 +39,7 @@ func get_default_background_color() -> Color:
 	if Engine.is_editor_hint():
 		UI_scenes_table= DatabaseEngine.new().import_data("UI Scenes")
 	else:
-		UI_scenes_table = FARTENGINE.import_data("UI Scenes")
+		UI_scenes_table = FART.import_data("UI Scenes")
 	var return_color:Color = str_to_var(UI_scenes_table["11"]["Background Color"])
 	return return_color
 
@@ -80,8 +80,8 @@ func _on_mouse_exited():
 
 
 func _on_texture_button_up():
-	var function_name :String = FARTENGINE.get_text(ui_navigation_dict[str(selected_method_key)]["Function Name"])
-	FARTENGINE.UIENGINE.callv(function_name, [])
+	var function_name :String = FART.get_text(ui_navigation_dict[str(selected_method_key)]["Function Name"])
+	FART.UIENGINE.callv(function_name, [])
 	reset_self_modulate()
 
 func _on_texture_button_down():
@@ -156,9 +156,9 @@ func create_button():
 		var displayName = label_text_override
 #		if displayName == "":
 		if !Engine.is_editor_hint():
-			ui_navigation_dict = FARTENGINE.Static_Game_Dict["UI Script Methods"]
+			ui_navigation_dict = FART.Static_Game_Dict["UI Script Methods"]
 			if displayName == "":
-				displayName= FARTENGINE.get_text(ui_navigation_dict[str(selected_method_key)]["Button Label"])
+				displayName= FART.get_text(ui_navigation_dict[str(selected_method_key)]["Button Label"])
 #			label.set_text(displayName)
 		else:
 			var DBENGINE: DatabaseEngine = DatabaseEngine.new()

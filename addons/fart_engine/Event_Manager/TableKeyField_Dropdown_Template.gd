@@ -144,10 +144,10 @@ func update_right_side(include_display_name:bool = false):
 
 func get_input_value():
 	var return_dict:Dictionary = {}
-	if table_drop_down.get_input_value() == "Items":
-		return_dict["TableID"] = "Inventory"
-	else:
-		return_dict["TableID"]=  table_drop_down.get_input_value()
+#	if table_drop_down.get_input_value() == "Items":
+#		return_dict["TableID"] = "Inventory"
+#	else:
+	return_dict["TableID"]=  table_drop_down.get_input_value()
 
 	return_dict["KeyID"]=  key_drop_down.get_input_value()
 	return_dict["FieldID"]=  field_drop_down.get_input_value()
@@ -156,10 +156,10 @@ func get_input_value():
 
 func set_input_values(value:Dictionary):
 #	print("Table ID: ", value["TableID"] )
-	if value["TableID"] == "Inventory":
-		table_drop_down._set_input_value("Items", false)
-	else:
-		table_drop_down._set_input_value(value["TableID"], false)
+#	if value["TableID"] == "Inventory":
+#		table_drop_down._set_input_value("Items", false)
+#	else:
+	table_drop_down._set_input_value(value["TableID"], false)
 	
 	key_drop_down._set_input_value(value["KeyID"], false)
 	field_drop_down._set_input_value(value["FieldID"], false)

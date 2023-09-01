@@ -117,8 +117,8 @@ func set_saveFile_data(get_value: String):
 		"value":
 			ValueSelected = ""
 			var modified_table_name = TableSelected
-			if modified_table_name == "Inventory":
-				modified_table_name = "Items"
+#			if modified_table_name == "Inventory":
+#				modified_table_name = "Items"
 #			print("MODIFIED TABLE NAME: ", modified_table_name)
 			if modified_table_name == "Event Save Data":
 				load_save_data(modified_table_name)

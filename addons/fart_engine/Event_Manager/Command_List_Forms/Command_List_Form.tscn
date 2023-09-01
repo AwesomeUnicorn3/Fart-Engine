@@ -238,6 +238,47 @@ self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Audio"
 
+[node name="CameraVBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/CameraVBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Camera"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/CameraVBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="set_camera_speed" parent="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Camera Speed"
+
+[node name="set_camera_follow_player" parent="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Camera Follow Player"
+
+[node name="move_camera" parent="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Move Camera"
+
+[node name="move_camera_to_event" parent="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Camera Follow Event"
+
 [connection signal="button_up" from="VBoxContainer/Label/HBox1/Close1" to="." method="_on_close_button_up"]
 [connection signal="button_up" from="VBoxContainer/Label/HBox1/Close" to="." method="_on_close_button_up"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/DialogVBoxContainer/ScrollContainer/VBoxContainer/start_dialog" to="." method="_open_selected_form"]
@@ -252,5 +293,9 @@ button_text = "Audio"
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MovementVBoxContainer/ScrollContainer/VBoxContainer/transfer_player" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer/print_to_console" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer/sfx" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer/VBoxContainer/set_camera_speed" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer/VBoxContainer/set_camera_follow_player" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer/VBoxContainer/move_camera" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer/VBoxContainer/move_camera_to_event" to="." method="_open_selected_form"]
 
 [editable path="VBoxContainer/Label"]

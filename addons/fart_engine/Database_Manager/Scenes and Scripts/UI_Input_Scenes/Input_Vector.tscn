@@ -32,24 +32,22 @@ size_flags_horizontal = 3
 text = "Vector3"
 
 [node name="Vec2Button" parent="Hbox1" groups=["Table Action"] instance=ExtResource("3_nl8wl")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 button_text = "Vector 2"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="Vec3Button" parent="Hbox1" groups=["Table Action"] instance=ExtResource("3_nl8wl")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 button_text = "Vector 3"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="HBox2" type="HBoxContainer" parent="."]
 layout_mode = 2

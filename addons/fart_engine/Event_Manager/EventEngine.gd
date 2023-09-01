@@ -7,35 +7,35 @@ var AUDIO : AudioEngine
 ##############################EVENT SCRIPTS#####################################3
 
 func _ready():
-	AUDIO = FARTENGINE.AUDIO
+	AUDIO = FART.AUDIO
 	AUDIO._ready()
 
 func change_local_variable(which_var:Variant, to_what:bool, _event_name :String, event_node_name :String, _event_node):
 	which_var = var_to_str(which_var)
-	var local_variable_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Local Variables"])
+	var local_variable_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Local Variables"])
 	local_variable_dict["input_dict"][which_var] = to_what
-	FARTENGINE.save_game_data_dict[FARTENGINE.current_map_key][event_node_name]["Local Variables"] = local_variable_dict
+	FART.save_game_data_dict[FART.current_map_key][event_node_name]["Local Variables"] = local_variable_dict
 
 
 func change_event_options_variable(which_var:String, _event_name :String, event_node_name :String, _event_node):
-	var event_options_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+	var event_options_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
 	event_options_dict["input_dict"][which_var] = true
-	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
-#	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+	FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
+#	print(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
 
 func change_dialog_options(which_var:Variant,  to_what:bool, _event_name :String, event_node_name :String, _event_node):
 	which_var = var_to_str(which_var)
-	var event_options_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+	var event_options_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
 	event_options_dict["input_dict"][which_var] = to_what
-	FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
-#	print(FARTENGINE.Dynamic_Game_Dict["Event Save Data"][FARTENGINE.current_map_key][event_node_name]["Event Dialog Variables"])
+	FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
+#	print(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
 
 
 
 
 func change_global_variable(which_var, which_field:String,  to_what, _event_name :String, _event_node_name :String, _event_node):
-	var global_variable_dict  = FARTENGINE.convert_string_to_type(FARTENGINE.Dynamic_Game_Dict["Global Variables"])
-	FARTENGINE.Dynamic_Game_Dict["Global Variables"][str(which_var)][which_field] = to_what
+	var global_variable_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["Global Variables"])
+	FART.Dynamic_Game_Dict["Global Variables"][str(which_var)][which_field] = to_what
 
 
 func remove_event(_event_name :String, _event_node_name:String, event_node):
@@ -51,54 +51,54 @@ func print_to_console(input_text :String ,_event_name :String, _event_node_name:
 
 
 func wait(how_long: float, _event_name :String, _event_node_name:String, _event_node):
-	await FARTENGINE.root.get_tree().create_timer(how_long).timeout
+	await FART.root.get_tree().create_timer(how_long).timeout
 
 
 func transfer_player(which_map :int, what_coordinates, _event_name :String, _event_node_name:String, _event_node):
-	var currGameState = FARTENGINE.gameState
-	FARTENGINE.set_game_state("7")
-	FARTENGINE.call_deferred("remove_player_from_map_node")
-	FARTENGINE.CAMERA.remove_camera_from_map()
-	var map_path :String = FARTENGINE.get_mappath_from_key(str(which_map))
-#	if FARTENGINE.current_map_name != str(which_map):
-	FARTENGINE.call_deferred("load_and_set_map",map_path)
-	await FARTENGINE.get_tree().create_timer(.25).timeout
-	FARTENGINE.player_node = await FARTENGINE.get_player_node()
-	FARTENGINE.player_node.set_player_position(FARTENGINE.convert_string_to_vector(what_coordinates))
+	var currGameState = FART.gameState
+	FART.set_game_state("7")
+	FART.call_deferred("remove_player_from_map_node")
+	FART.CAMERA.remove_camera_from_map()
+	var map_path :String = FART.get_mappath_from_key(str(which_map))
+#	if FART.current_map_name != str(which_map):
+	FART.call_deferred("load_and_set_map",map_path)
+	await FART.get_tree().create_timer(.25).timeout
+	FART.player_node = await FART.get_player_node()
+	FART.player_node.set_player_position(FART.convert_string_to_vector(what_coordinates))
 	remove_unused_maps()
-	FARTENGINE.set_game_state(currGameState)
+	FART.set_game_state(currGameState)
 
 
 func modify_player_inventory(what , how_many , increase_value :bool, _event_name :String, _event_node_name:String, _event_node ):
 	what = str(what)
-	var dict_static_items = FARTENGINE.Static_Game_Dict["Items"]
+	var dict_static_items = FART.Static_Game_Dict["Items"]
 	var modify_amount :int = int(abs(how_many))
 	if !increase_value:
 		modify_amount = int(-abs(modify_amount))
 
 	if dict_static_items.has(what):
-		if !FARTENGINE.is_item_in_inventory(what):
-			FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] = {"ItemCount" : 0}
-		var inv_count = int(FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
-		FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] =  inv_count + modify_amount
+		if !FART.is_item_in_inventory(what):
+			FART.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] = {"ItemCount" : 0}
+		var inv_count = int(FART.Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
+		FART.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] =  inv_count + modify_amount
 	else:
 		print(what, " needs to be added to Item Table")
 	
-	if int(FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"]) < 0:
-		FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] = 0
+	if int(FART.Dynamic_Game_Dict["Inventory"][what]["ItemCount"]) < 0:
+		FART.Dynamic_Game_Dict["Inventory"][what]["ItemCount"] = 0
 
 #	print(what, ": ", modify_amount, " added to Inventory")
-#	print(FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
-	FARTENGINE.emit_signal("inventory_updated")
-	return FARTENGINE.Dynamic_Game_Dict["Inventory"][what]["ItemCount"]
+#	print(FART.Dynamic_Game_Dict["Inventory"][what]["ItemCount"])
+	FART.emit_signal("inventory_updated")
+	return FART.Dynamic_Game_Dict["Inventory"][what]["ItemCount"]
 
 
 func start_dialog(dialog_data :Dictionary, _event_name :String, _event_node_name:String, _event_node):
-	var previousGameState : String = FARTENGINE.gameState
-	FARTENGINE.set_game_state("4")
+	var previousGameState : String = FART.gameState
+	FART.set_game_state("4")
 	DIALOG.dialog_begin(dialog_data,_event_node_name)
 	await DIALOG.dialog_ended
-	FARTENGINE.set_game_state(previousGameState)
+	FART.set_game_state(previousGameState)
 
 
 func sfx(audio_data :Dictionary, _event_name :String, _event_node_name:String, _event_node):
@@ -108,20 +108,20 @@ func sfx(audio_data :Dictionary, _event_name :String, _event_node_name:String, _
 
 
 func change_game_state(to_what:String, _event_name :String, _event_node_name:String, _event_node):
-	var gameState_dict :Dictionary = FARTENGINE.Static_Game_Dict["Game State"]
+	var gameState_dict :Dictionary = FART.Static_Game_Dict["Game State"]
 	for key in gameState_dict:
-		if FARTENGINE.get_text(gameState_dict[key]["Display Name"]) == to_what:
+		if FART.get_text(gameState_dict[key]["Display Name"]) == to_what:
 			to_what = key
 			break
-	FARTENGINE.set_game_state(to_what)
+	FART.set_game_state(to_what)
 
 
 
 #NO COMMAND YET AVAIALBLE
 func remove_unused_maps():
-	var maps_node = FARTENGINE.root.get_node("map")
+	var maps_node = FART.root.get_node("map")
 	for child in maps_node.get_children():
-		if child != FARTENGINE.current_map_node:
+		if child != FART.current_map_node:
 			for event in child.event_array:
 				if is_instance_valid(event):
 					event.is_queued_for_delete = true
@@ -129,11 +129,32 @@ func remove_unused_maps():
 
 
 func change_player_health(to_what:String, _event_name :String, _event_node_name:String, _event_node):
-	var player_node = FARTENGINE.player_node
+	var player_node = FART.player_node
 	var player_max_health: int = player_node.current_health.z
 	var player_min_health: int = player_node.current_health.x
 	var player_current_health: int = player_node.current_health.y
 	
 	player_node.current_health.y = clamp(player_current_health - int(to_what), player_min_health, player_max_health)
-	FARTENGINE.emit_signal("player_health_updated")
-#	print("Current Player HP: ", FARTENGINE.player_node.current_health.y)
+	FART.emit_signal("player_health_updated")
+#	print("Current Player HP: ", FART.player_node.current_health.y)
+
+
+func set_camera_speed(to_what:float, _event_name :String, _event_node_name:String, _event_node):
+	FART.CAMERA.set_camera_smooth_speed(to_what)
+
+
+func set_camera_follow_player(to_what:bool, _event_name :String, _event_node_name:String, _event_node):
+	FART.CAMERA.set_is_following_player(to_what)
+
+
+func move_camera(what_dir :String, how_fast :float, how_long :float, return_to_player :bool, _event_name :String, _event_node_name:String, _event_node):
+	FART.CAMERA.move_camera(FART.convert_string_to_vector(what_dir), how_fast, how_long, return_to_player)
+	
+func move_camera_to_event(return_to_player :bool, how_long :float, use_this_event :bool, other_event_name:Dictionary,  _event_name :String, _event_node_name:String, _event_node):
+	var return_event_name: String = _event_node_name
+	if !use_this_event:
+		return_event_name = other_event_name["text"]
+	FART.CAMERA.move_camera_to_event(return_event_name, return_to_player, how_long)
+	#[return_to_player, how_long, use_this_event, other_event_name, event_name]}
+	
+	

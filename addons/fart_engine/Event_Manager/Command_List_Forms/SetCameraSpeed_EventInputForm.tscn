@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfjkybicaviwv"]
+
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_71luj"]
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_List_Forms/SetCameraSpeed_EventInputForm.gd" id="2_qt5yc"]
+[ext_resource type="PackedScene" uid="uid://c7c0ymusji584" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="3_0jldr"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_jopa6"]
+
+[node name="SetCameraSpeed_EventInputForm" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_71luj")
+script = ExtResource("2_qt5yc")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.5
+offset_top = -94.5
+offset_right = 197.5
+offset_bottom = 94.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+text = "Set Camera Speed"
+horizontal_alignment = 1
+
+[node name="Number_Counter_Float" parent="Control/VBoxContainer" instance=ExtResource("3_0jldr")]
+layout_mode = 2
+label_text = "(Pixels per second)"
+is_label_button = false
+
+[node name="Add_Button" parent="Control/VBoxContainer/Number_Counter_Float/HBox1/VBox1" index="2"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+
+[node name="Sub_Button" parent="Control/VBoxContainer/Number_Counter_Float/HBox1/VBox1" index="3"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Accept" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("4_jopa6")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+button_text = "Accept"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Cancel" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("4_jopa6")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+button_text = "Cancel"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="Control/VBoxContainer/Number_Counter_Float"]

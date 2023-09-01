@@ -46,7 +46,7 @@ var button_selected :String = ""
 func get_global_settings_profile() -> String:
 	is_in_editor = Engine.is_editor_hint()
 	if !is_in_editor:
-		var project_root = FARTENGINE
+		var project_root = FART
 		if project_root.global_settings_profile == "":
 			if project_root.settings_dict == {}:
 				project_root.settings_dict = import_data("Project Settings")
@@ -1260,12 +1260,12 @@ func add_sprite_group_to_animatedSprite(main_node , Sprite_Group_Id :String) -> 
 	var return_value_dictionary :Dictionary= {}
 	var animation_dictionary :Dictionary = {}
 	var new_animatedsprite2d :AnimatedSprite2D = create_sprite_animation()
-	var sprite_group_dict :Dictionary = FARTENGINE.Static_Game_Dict["Sprite Groups"]
+	var sprite_group_dict :Dictionary = FART.Static_Game_Dict["Sprite Groups"]
 	var spriteFrames : SpriteFrames = SpriteFrames.new()
 	animation_dictionary = sprite_group_dict[Sprite_Group_Id]
 
 	if main_node.has_method("call_commands") :
-		var default_dict :Dictionary = FARTENGINE.convert_string_to_type(main_node.event_dict[main_node.active_page]["Default Animation"])
+		var default_dict :Dictionary = FART.convert_string_to_type(main_node.event_dict[main_node.active_page]["Default Animation"])
 		default_dict["Display Name"] = "Default Animation"
 		animation_dictionary["Default Animation"] = default_dict
 
@@ -1273,7 +1273,7 @@ func add_sprite_group_to_animatedSprite(main_node , Sprite_Group_Id :String) -> 
 
 		if j != "Display Name":
 			var animation_name : String = j
-			var anim_array :Array = FARTENGINE.add_animation_to_animatedSprite( animation_name, FARTENGINE.convert_string_to_type(animation_dictionary[j]),new_animatedsprite2d, true , spriteFrames)
+			var anim_array :Array = FART.add_animation_to_animatedSprite( animation_name, FART.convert_string_to_type(animation_dictionary[j]),new_animatedsprite2d, true , spriteFrames)
 			main_node.add_child(anim_array[1])
 
 	return_value_dictionary["animated_sprite"] = new_animatedsprite2d
@@ -1286,12 +1286,12 @@ func set_sprite_scale(sprite_animation :AnimatedSprite2D, animation_name:String,
 	if !animation_dictionary.has("animation_dictionary"):
 		sprite_dict = animation_dictionary
 	else:
-		sprite_dict  = FARTENGINE.convert_string_to_type(animation_dictionary["animation_dictionary"][animation_name])
+		sprite_dict  = FART.convert_string_to_type(animation_dictionary["animation_dictionary"][animation_name])
 	var atlas_dict :Dictionary = sprite_dict["atlas_dict"]
 	var advanced_dict :Dictionary  = sprite_dict["advanced_dict"]
-	var sprite_texture = load(FARTENGINE.table_save_path + FARTENGINE.icon_folder + atlas_dict["texture_name"])
-	var sprite_frame_size:Vector2 = FARTENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
-	var sprite_final_size:Vector2 = FARTENGINE.convert_string_to_vector(str(advanced_dict["sprite_size"]))
+	var sprite_texture = load(FART.table_save_path + FART.icon_folder + atlas_dict["texture_name"])
+	var sprite_frame_size:Vector2 = FART.convert_string_to_vector(str(atlas_dict["frames"]))
+	var sprite_final_size:Vector2 = FART.convert_string_to_vector(str(advanced_dict["sprite_size"]))
 	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
 	var modified_sprite_size_y = sprite_final_size.x * additional_scaling.y
 	var modified_sprite_size_x = sprite_final_size.y * additional_scaling.x

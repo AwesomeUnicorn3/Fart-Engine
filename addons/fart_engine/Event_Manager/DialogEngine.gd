@@ -6,7 +6,7 @@ signal dialog_ended
 signal next_message_pressed
 signal option_button_pressed
 
-#@onready var UI :Control = FARTENGINE.get_ui()
+#@onready var UI :Control = FART.get_ui()
 var dialog_scene
 var current_dialog_dictionary :Dictionary
 var selected_group_dictionary :Dictionary
@@ -30,7 +30,7 @@ var event_node_name:String
 
 func _ready():
 	start_dialog.connect(dialog_begin)
-	dialog_window = FARTENGINE.get_ui().get_node("Dialog")
+	dialog_window = FART.get_ui().get_node("Dialog")
 
 	
 
@@ -44,14 +44,14 @@ func load_dialog_scene():
 	var scene
 	var scene_path :String = ""
 	if scene_selection_checkbox:
-		scene_path = await FARTENGINE.get_default_dialog_scene_path()
+		scene_path = await FART.get_default_dialog_scene_path()
 	else:
 		scene_path = scene_selection_scenepath
 	
 	if scene_path != "":
 		scene = load(scene_path).instantiate()
 	#UI.visible = true
-	dialog_window = FARTENGINE.get_UI_window().get_node("Dialog")
+	dialog_window = FART.get_UI_window().get_node("Dialog")
 	dialog_window.visible = true
 	dialog_window.add_child(scene)
 	scene.set_name("Dialog")
@@ -60,9 +60,9 @@ func load_dialog_scene():
 
 func get_variables():
 	character_name_checkbox = current_dialog_dictionary["character_name_checkbox"]
-	character_name_text = FARTENGINE.get_text(current_dialog_dictionary["character_name_text"])
+	character_name_text = FART.get_text(current_dialog_dictionary["character_name_text"])
 	character_name_dropdown = current_dialog_dictionary["character_name_dropdown"]
-	dialog_text = FARTENGINE.get_text(current_dialog_dictionary["dialog_text"])
+	dialog_text = FART.get_text(current_dialog_dictionary["dialog_text"])
 	icon_selection_checkbox = current_dialog_dictionary["icon_selection_checkbox"]
 	icon_selection_icon = load(current_dialog_dictionary["icon_selection_icon"])
 	icon_selection_sprite = current_dialog_dictionary["icon_selection_sprite"]
@@ -81,7 +81,7 @@ func set_variables():
 
 
 func dialog_begin(dialog_dict, event_ID:String):
-	#UI = FARTENGINE.get_gui()
+	#UI = FART.get_gui()
 	event_node_name = event_ID
 	set_selected_group_dict_data(dialog_dict)
 	await iterate_through_dialog()
@@ -116,23 +116,23 @@ func iterate_through_dialog():
 func display_options_buttons():
 
 	for btn_key in event_option_buttons_dict:
-		var btn_text: String = FARTENGINE.get_text(event_option_buttons_dict[btn_key]["Input_Node"]["Button_Text"])
+		var btn_text: String = FART.get_text(event_option_buttons_dict[btn_key]["Input_Node"]["Button_Text"])
 		var dialog_var: String = event_option_buttons_dict[btn_key]["Input_Node"]["Dialog_Option"]
 		
-		var newbtn: TextureButton = load(FARTENGINE.get_field_value("UI Scenes", "10", "Path")).instantiate()
-		var btn_color: Color = FARTENGINE.get_field_value("UI Scenes", "10", "Background Color")
+		var newbtn: TextureButton = load(FART.get_field_value("UI Scenes", "10", "Path")).instantiate()
+		var btn_color: Color = FART.get_field_value("UI Scenes", "10", "Background Color")
 		newbtn.reset_self_modulate()
 		dialog_scene.get_node("VBoxContainer/TopVBox/VBoxContainer/OptionScroll/OptionButtonParent").add_child(newbtn)
 		newbtn.set_input_values(btn_text, dialog_var, "")
 		newbtn.get_node("Button").button_up.connect(_on_option_button_pressed.bind(newbtn))
 #
-#		print(FARTENGINE.get_text(event_option_buttons_dict[btn_key]["Button_Text"]))
+#		print(FART.get_text(event_option_buttons_dict[btn_key]["Button_Text"]))
 
 
 func _on_option_button_pressed(optbtn: TextureButton):
 #	print(optbtn.options_variable)
 	
-	FARTENGINE.EVENTS.change_event_options_variable(optbtn.options_variable, "", event_node_name, null)
+	FART.EVENTS.change_event_options_variable(optbtn.options_variable, "", event_node_name, null)
 	emit_signal("option_button_pressed")
 	emit_signal("next_message_pressed")
 
@@ -141,12 +141,12 @@ func _on_option_button_pressed(optbtn: TextureButton):
 func set_selected_group_dict_data(dialog_dict):
 	selected_group_dictionary = {}
 	var group_name :String = ""
-	var static_dialog_group_dictionary :Dictionary = FARTENGINE.Static_Game_Dict["Dialog Groups"]
-	var static_dialog_group_data_dictionary :Dictionary = FARTENGINE.import_data("Dialog Groups", true)
+	var static_dialog_group_dictionary :Dictionary = FART.Static_Game_Dict["Dialog Groups"]
+	var static_dialog_group_data_dictionary :Dictionary = FART.import_data("Dialog Groups", true)
 	if dialog_dict.has("Group Name"):
 		group_name = dialog_dict["Group Name"]
 		#Get Group dict
-		var group_index = FARTENGINE.get_id_from_display_name(static_dialog_group_dictionary, group_name)
+		var group_index = FART.get_id_from_display_name(static_dialog_group_dictionary, group_name)
 		var index = 1
 		for field in static_dialog_group_data_dictionary["Column"]:
 			var field_name = static_dialog_group_data_dictionary["Column"][field]["FieldName"]
@@ -189,12 +189,12 @@ func set_icon():
 
 	else:
 		var animated_sprite :AnimatedSprite2D = dialog_scene.find_child("SpriteAnimationIcon")
-		var animation_array :Array = FARTENGINE.add_animation_to_animatedSprite("Default Animation", icon_selection_sprite,animated_sprite, false)
-		var anim_sprite_size :Vector2 = FARTENGINE.convert_string_to_vector(str(icon_selection_sprite["advanced_dict"]["sprite_size"]))
+		var animation_array :Array = FART.add_animation_to_animatedSprite("Default Animation", icon_selection_sprite,animated_sprite, false)
+		var anim_sprite_size :Vector2 = FART.convert_string_to_vector(str(icon_selection_sprite["advanced_dict"]["sprite_size"]))
 		var left_buffer_size_x :int = dialog_scene.find_child("LeftBuffer").size.x
 		animation_buffer.visible = true
 		animation_buffer.custom_minimum_size.x = anim_sprite_size.x
-		FARTENGINE.set_sprite_scale(animated_sprite,"Default Animation", icon_selection_sprite)
+		FART.set_sprite_scale(animated_sprite,"Default Animation", icon_selection_sprite)
 		speaker_icon.visible = false
 		animated_sprite.centered = true
 		animated_sprite.play("Default Animation")

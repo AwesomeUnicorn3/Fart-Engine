@@ -19,7 +19,7 @@ func _ready():
 
 func add_audio_players( bus:String, how_many:int = 1):
 	var audio_nodes_added:int = 1
-	var parent = FARTENGINE.get_root_node().get_node(bus)
+	var parent = FART.get_root_node().get_node(bus)
 	while audio_nodes_added <= how_many:
 		var audio_player = AudioStreamPlayer2D.new()
 		audio_player.set_bus(bus)
@@ -39,7 +39,7 @@ func get_next_audio_player(player_type:String = "SFX") -> AudioStreamPlayer2D:
 				if !game_audio_dict[playerID]["Audio Node"].is_playing():
 					next_player = game_audio_dict[playerID]["Audio Node"]
 					player_found = true
-		await FARTENGINE.get_root_node().get_tree().process_frame
+		await FART.get_root_node().get_tree().process_frame
 	#GET NEXT AVAILABLE AUDIO PLAYER FROM DICTIONARY
 	#IF NONE ARE AVAIALBE, WAIT UNTIL ONE IS
 	#RETURN SELECTED PLAYER
@@ -62,13 +62,13 @@ func get_current_player_dict(function_dict:Dictionary)-> Dictionary:
 
 
 func set_variable_data(index, audio_player:AudioStreamPlayer2D, current_audio_dict:Dictionary):
-	var index_dict :Dictionary = FARTENGINE.convert_string_to_type(current_audio_dict)
+	var index_dict :Dictionary = FART.convert_string_to_type(current_audio_dict)
 	var stream = index_dict["stream"]
 	var volume = index_dict["volume"].to_float()
 	var pitch = index_dict["pitch"].to_float()
 	var max_distance = index_dict["max_distance"]
 
-	audio_player.set_stream(load(FARTENGINE.table_save_path + FARTENGINE.sfx_folder + stream ))
+	audio_player.set_stream(load(FART.table_save_path + FART.sfx_folder + stream ))
 	audio_player.set_volume_db(volume)
 	audio_player.set_pitch_scale(pitch)
 	audio_player.set_max_distance(max_distance)
@@ -118,7 +118,7 @@ func iterate_through_audio(repeat:bool, repeat_amount:int):
 			var audio_player :AudioStreamPlayer2D
 			audio_player = await get_next_audio_player()
 			set_variable_data(audio_index, audio_player, current_audio_dictionary)
-			await FARTENGINE.root.get_tree().process_frame
+			await FART.root.get_tree().process_frame
 			audio_player.play()
 			await audio_player.finished
 
@@ -126,11 +126,11 @@ func iterate_through_audio(repeat:bool, repeat_amount:int):
 func set_selected_group_dict_data(audio_dict, is_group:bool):
 	selected_group_dictionary = {}
 	var group_name :String = ""
-	var static_audio_group_dictionary :Dictionary = FARTENGINE.Static_Game_Dict["SFX Groups"]
-	var static_audio_group_data_dictionary :Dictionary = FARTENGINE.import_data("SFX Groups", true)
+	var static_audio_group_dictionary :Dictionary = FART.Static_Game_Dict["SFX Groups"]
+	var static_audio_group_data_dictionary :Dictionary = FART.import_data("SFX Groups", true)
 	if is_group:
 		group_name = audio_dict["audio_data"]["Group Name"]
-		var group_index = FARTENGINE.get_id_from_display_name(static_audio_group_dictionary, group_name)
+		var group_index = FART.get_id_from_display_name(static_audio_group_dictionary, group_name)
 		var index = 1
 		for field in static_audio_group_data_dictionary["Column"]:
 			var field_name = static_audio_group_data_dictionary["Column"][field]["FieldName"]

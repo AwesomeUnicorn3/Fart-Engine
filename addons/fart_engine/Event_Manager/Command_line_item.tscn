@@ -34,7 +34,7 @@ size_flags_vertical = 3
 icon = ExtResource("3_3oiyx")
 
 [node name="DeleteButton" parent="." groups=["Table Action"] instance=ExtResource("4_d6q0e")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(75, 30)
 layout_mode = 2
 button_text = "Delete"
@@ -59,11 +59,11 @@ is_label_button = false
 layout_mode = 2
 
 [node name="Label_Button" parent="Key/Label/HBox1" index="0"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 custom_minimum_size = Vector2(75, 30)
 
 [node name="Hide_Button" parent="Key/Label/HBox1" index="1"]
-self_modulate = Color(0.427451, 0.454902, 0.54902, 1)
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Input" type="LineEdit" parent="Key"]
 layout_mode = 2
@@ -103,7 +103,7 @@ size_flags_horizontal = 9
 text = "Edit"
 
 [node name="EditCommand" parent="." groups=["Table Action"] instance=ExtResource("4_d6q0e")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(75, 30)
 layout_mode = 2
 button_text = "Edit"

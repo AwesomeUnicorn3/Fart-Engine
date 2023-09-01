@@ -2,3 +2,5 @@
 
 [node name="Camera2D" type="Camera2D"]
 zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0

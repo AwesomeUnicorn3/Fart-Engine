@@ -1,0 +1,100 @@
+[gd_scene load_steps=7 format=3 uid="uid://cp3c58p7pmf1l"]
+
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_5b6jr"]
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_List_Forms/moveCameraToEvent_EventInputForm.gd" id="2_hanmo"]
+[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="4_a2eb7"]
+[ext_resource type="PackedScene" uid="uid://c7c0ymusji584" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="4_u80vj"]
+[ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_py3cb"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_3wkos"]
+
+[node name="MoveCameraToEvent_EventInputForm" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_5b6jr")
+script = ExtResource("2_hanmo")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.282292
+anchor_top = 0.22037
+anchor_right = 0.75
+anchor_bottom = 0.744444
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+text = "Set Camera Follow Event"
+horizontal_alignment = 1
+
+[node name="Checkbox_Template" parent="Control/VBoxContainer" instance=ExtResource("5_py3cb")]
+layout_mode = 2
+true_text = "Yes"
+false_text = "No"
+label_text = "Use This Event"
+
+[node name="Input_Text" parent="Control/VBoxContainer" instance=ExtResource("4_a2eb7")]
+layout_mode = 2
+label_text = "Event Name"
+
+[node name="AdvancedControlsVBox" parent="Control/VBoxContainer/Input_Text/Input_Node" index="2"]
+visible = false
+
+[node name="Checkbox_Template2" parent="Control/VBoxContainer" instance=ExtResource("5_py3cb")]
+layout_mode = 2
+true_text = "Yes"
+false_text = "No"
+label_text = "Return to Player?"
+
+[node name="Number_Counter2" parent="Control/VBoxContainer" instance=ExtResource("4_u80vj")]
+visible = false
+layout_mode = 2
+label_text = "How Long"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Accept" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_3wkos")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+button_text = "Accept"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Cancel" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_3wkos")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+button_text = "Cancel"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="Control/VBoxContainer/Input_Text"]
+[editable path="Control/VBoxContainer/Input_Text/Input_Node/Label"]
+[editable path="Control/VBoxContainer/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="Control/VBoxContainer/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="Control/VBoxContainer/Input_Text/input_templateBuffer"]

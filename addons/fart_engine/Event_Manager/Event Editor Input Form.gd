@@ -170,7 +170,7 @@ func load_event_page_inputs(event_tab):
 	"Draw Shadow?" :middle_c_node,
 	"Animation Group" :middle_a_node,
 	"Conditions" :top_b_node,
-	"Default Animation" :middle_c_node,
+	"Default Animation" :bottom_node,
 	"Loop Animation" :middle_c_node,
 	"Collide with Player?" :middle_b_node,
 	"Max Speed" :middle_b_node,

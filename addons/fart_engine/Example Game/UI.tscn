@@ -49,6 +49,20 @@ stretch_mode = 0
 script = ExtResource("3_k542j")
 selected_method_key = "3"
 
+[node name="AU3 UI Button2" type="TextureButton" parent="VBoxContainer/HBoxContainer4/HBoxContainer"]
+self_modulate = Color(0, 0.03, 0.33, 1)
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+texture_normal = ExtResource("2_ws1m2")
+texture_pressed = ExtResource("2_ws1m2")
+texture_hover = ExtResource("2_ws1m2")
+texture_disabled = ExtResource("2_ws1m2")
+texture_focused = ExtResource("2_ws1m2")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("3_k542j")
+selected_method_key = "12"
+
 [node name="Buffer" type="Label" parent="VBoxContainer/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 3

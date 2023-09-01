@@ -5,18 +5,18 @@ func do_nothing():
 
 
 func save_game():
-	var save_id = await FARTENGINE.save_game()
+	var save_id = await FART.save_game()
 
 ##HELPFUL HINT
 func close_in_game_menu():
-	FARTENGINE.set_game_state("2")
+	FART.set_game_state("2")
 
 func open_in_game_menu():
-	FARTENGINE.set_game_state("6")
+	FART.set_game_state("6")
 
 
 func new_game():
-	FARTENGINE.new_game()
+	FART.new_game()
 
 
 func close_current_menu(current_menu:Object):
@@ -28,7 +28,7 @@ func close_current_menu(current_menu:Object):
 
 
 func quit_game():
-	FARTENGINE.quit_game()
+	FART.quit_game()
 
 
 func open_menu(menu_name:String):
@@ -37,13 +37,20 @@ func open_menu(menu_name:String):
 
 
 func load_game():
-	FARTENGINE.set_game_state("9")
+	FART.set_game_state("9")
 #	var LoadGameMenu : Node = load("res://addons/fart_engine/Example Game/LoadGameMenu.tscn").instantiate()
-#	FARTENGINE.root.get_node("UI").add_child(LoadGameMenu)
+#	FART.root.get_node("UI").add_child(LoadGameMenu)
 
 
 func exit_program():
-	FARTENGINE.root.get_tree().quit()
+	FART.root.get_tree().quit()
+
+
+func move_camera():
+	FART.CAMERA.set_camera_smooth_speed(10.0)
+	FART.CAMERA.move_camera_to_event("Fart Event", true, 5.0)
+	
+#	FART.CAMERA.move_camera(Vector2(0,50), 200.00, 1.25, false)
 
 ##HINT MESSAGE
 #func return_to_title_Screen():

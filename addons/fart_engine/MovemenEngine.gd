@@ -17,8 +17,9 @@ func set_character_velocity(curr_velocity:Vector2,direction:Vector2,characterMax
 			VELOCITY.x = VELOCITY.move_toward(Vector2.ZERO, characterFriction * delta).x
 		else:
 			VELOCITY.x = VELOCITY.move_toward(direction * characterMaxSpeed, characterAcceleration * delta).x
-
+	
 	elif !is_gravity_active:
+		#CHANGE THESE TO CLAMP
 		if VELOCITY.x < characterMaxSpeed:
 			VELOCITY.x += direction.x
 		if VELOCITY.y < characterMaxSpeed:
@@ -35,11 +36,11 @@ func set_character_velocity(curr_velocity:Vector2,direction:Vector2,characterMax
 
 func get_direction_string(direction:Vector2):
 	var direction_string :String = "Idle"
-	var movement_dict :Dictionary = FARTENGINE.Static_Game_Dict["Movement Directions"]
+	var movement_dict :Dictionary = FART.Static_Game_Dict["Movement Directions"]
 	for key in movement_dict:
-		var directionVector :Vector2 = FARTENGINE.convert_string_to_vector(movement_dict[key]["Direction Vector"])
+		var directionVector :Vector2 = FART.convert_string_to_vector(movement_dict[key]["Direction Vector"])
 		if direction == directionVector:
-			direction_string =  FARTENGINE.get_text(movement_dict[key]["Display Name"])
+			direction_string =  FART.get_text(movement_dict[key]["Display Name"])
 			break
 	return direction_string
 

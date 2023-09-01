@@ -19,7 +19,7 @@ func get_event_dict():
 	if !Engine.is_editor_hint():
 		DBENGINE = DBENGINE.new()
 	else:
-		DBENGINE = FARTENGINE
+		DBENGINE = FART
 	var table_dict :Dictionary = DBENGINE.import_data("Table Data")
 	var event_dict = {}
 	for table_name in table_dict:

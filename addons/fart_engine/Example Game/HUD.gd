@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 func _on_SaveButton_button_up() -> void:
-	FARTENGINE.save_game()
+	FART.save_game()
 	$Label.visible = true
 	await get_tree().create_timer(1.5).timeout
 	$Label.visible = false

@@ -35,7 +35,7 @@ var current_map_key :String
 var is_queued_for_delete :bool = false
 var character_is_in_interaction_area :bool = false
 var is_interaction_in_progress :bool = false
-var autorun_complete :bool = true
+var autorun_complete :bool = false
 var event_info_loaded := false
 var map_node
 var player_node
@@ -84,7 +84,7 @@ func _ready() -> void:
 		connect("draw",_on_event_draw)
 
 	else:
-		DBENGINE = FARTENGINE
+		DBENGINE = FART
 		event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
 		is_updating_animations = true
 		await DBENGINE.map_loaded
@@ -118,11 +118,11 @@ func connect_signals():
 
 
 func player_damage_entered(area):
-	if area.get_parent() == FARTENGINE.player_node:
+	if area.get_parent() == FART.player_node:
 		player_is_in_damage_area = true
 
 func player_damage_exited(area):
-	if area.get_parent() == FARTENGINE.player_node:
+	if area.get_parent() == FART.player_node:
 		player_is_in_damage_area = false
 
 
@@ -222,14 +222,14 @@ func _process(delta):
 						await run_commands()
 		if event_trigger == "4": #loop continuosly while conditions are true
 			await run_commands()
-		else:
-			autorun_commands()
+
+		autorun_commands()
 
 
 
 func event_damage_player():
 	if damage_player_on_touch and !is_damage_cooldown_active and player_is_in_damage_area:
-		FARTENGINE.damage_player(damage_amount, knockback_power, self.position)
+		FART.damage_player(damage_amount, knockback_power, self.position)
 		damage_cooldown_timer()
 
 
@@ -247,13 +247,14 @@ func _physics_process(delta):
 
 
 func autorun_commands():
-	if autorun_complete:
+	if !autorun_complete:
 		match event_trigger:
 			"3": #Immediately
-				autorun_complete = false
-#				await get_tree().process_frame
-				await run_commands()
 				autorun_complete = true
+				await get_tree().create_timer(1.0).timeout
+
+				await run_commands()
+#				autorun_complete = true
 #				emit_refresh_event_signal()
 
 
@@ -501,11 +502,11 @@ func create_event_data_dict():
 
 
 #func interaction_area_exited(area):
-#	if area.get_parent() == FARTENGINE.player_node:
+#	if area.get_parent() == FART.player_node:
 #		player_damage_exited()
 
 func interaction_area_entered(area): #Player touch
-#	if area.get_parent() == FARTENGINE.player_node:
+#	if area.get_parent() == FART.player_node:
 #		player_damage_entered()
 	
 	if !is_interaction_in_progress:
@@ -698,7 +699,7 @@ func refresh_event_data():
 			if active_page != "":
 
 				if current_active_page != active_page:
-
+				
 					set_active_page_variables()
 					is_updating_animations = true
 					clear_event_children()
@@ -726,7 +727,7 @@ func set_active_page_variables():
 	knockback_power = DBENGINE.convert_string_to_type(event_dict[active_page]["Knockback Power"])
 	damage_cooldown_time = DBENGINE.convert_string_to_type(event_dict[active_page]["Damage Cooldown Time"])
 	damage_amount = DBENGINE.convert_string_to_type(event_dict[active_page]["Damage Amount"])
-
+	autorun_complete = false
 
 func add_sprite_and_collision():
 	var active_page_data :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page])

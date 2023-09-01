@@ -114,8 +114,9 @@ func open_selected_form_for_editing(function_name :String ,old_command_dict:Dict
 	#send key value to command list form so it can append the main dictionary with the new command dict
 	add_child(CommandListForm)
 	CommandListForm.CommandInputForm = self
-	CommandListForm._open_selected_form(function_name)
+	CommandListForm._open_selected_form(function_name, true)
 	CommandListForm.emit_signal("set_input", old_command_dict)
+
 	await CommandListForm.closed
 	if function_dict != {}:
 		mainDictionary[str(key_value)] = function_dict

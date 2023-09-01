@@ -109,8 +109,8 @@ func set_font_base_color(color: Color):
 	font_base_color = color
 	reset_self_modulate()
 
-func _on_command_list_button_button_up():
-	emit_signal("btn_pressed", str(name))
+#func _on_command_list_button_button_up():
+#	emit_signal("btn_pressed", str(name), false)
 
 
 func _on_Navigation_Button_button_up():
@@ -128,7 +128,7 @@ func _on_Navigation_Button_button_up():
 		reset_self_modulate()
 	else:
 		root.navigation_button_click(name, self)
-	emit_signal("btn_pressed", str(name))
+	emit_signal("btn_pressed", str(name), false)
 	reset_self_modulate()
 
 

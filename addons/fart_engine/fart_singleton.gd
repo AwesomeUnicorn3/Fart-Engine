@@ -104,9 +104,9 @@ func _process(delta):
 
 
 func input_process():
-	for actionKey in FARTENGINE.Static_Game_Dict["AU3 InputMap"]:
+	for actionKey in FART.Static_Game_Dict["AU3 InputMap"]:
 		var actionType :String = str(Static_Game_Dict["AU3 InputMap"][actionKey]["Action Type"])
-		var actionName :String = get_displayName_text(str_to_var(FARTENGINE.Static_Game_Dict["AU3 InputMap"][actionKey]["Display Name"]))
+		var actionName :String = get_displayName_text(str_to_var(FART.Static_Game_Dict["AU3 InputMap"][actionKey]["Display Name"]))
 
 		if actionType == "1":
 			if !CurrentInputAction_dict.has(actionKey):
@@ -148,6 +148,8 @@ func show_in_game_main_menu(show :bool = true):
 func quit_game():
 	emit_signal("in_game_menu_closed")
 	remove_player_from_map_node()
+	CAMERA.remove_camera_from_map()
+	await get_tree().process_frame
 	remove_map_from_root()
 	show_gui(false)
 	AUDIO.stop_all_audio()
@@ -606,12 +608,12 @@ func set_game_state(newGameState :String):
 
 func play_state_BGM(gameState_dict:Dictionary, gameState:String):
 	if gameState_dict[gameState]["Play BGM"]:
-#		BGM_Player = await FARTENGINE.AUDIO.get_next_audio_player("BGM")
+#		BGM_Player = await FART.AUDIO.get_next_audio_player("BGM")
 		AUDIO.stop_all_audio()
 		
-		var audio_dict:Dictionary = FARTENGINE.convert_string_to_type(gameState_dict[gameState]["BGM"])
+		var audio_dict:Dictionary = FART.convert_string_to_type(gameState_dict[gameState]["BGM"])
 		audio_dict["wait"] = true
-		FARTENGINE.AUDIO.audio_begin(audio_dict, null)
+		FART.AUDIO.audio_begin(audio_dict, null)
 #		print(gameState_dict[str(gameState)]["BGM"])
 
 
