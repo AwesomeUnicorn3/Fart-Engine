@@ -13,7 +13,10 @@ func _ready() -> void:
 		var loadFileSelect_new :Node = loadFileSelect.instantiate()
 		loadFileSelect_new.get_node("Load").set_text("Load File " + i)
 #		var map_path
-		var map_path : String = FART.get_text(save_file_dict["Global Data"][await FART.get_global_settings_profile()]["Current Map"])
+		while FART.fart_root == null:
+			await get_tree().process_frame
+		var global_settings_profile_current = await FART.get_global_settings_profile(true)
+		var map_path : String = FART.get_text(save_file_dict["Global Data"][global_settings_profile_current]["Current Map"])
 		
 		loadFileSelect_new.file_name = i
 		loadFileSelect_new.parent_container = self

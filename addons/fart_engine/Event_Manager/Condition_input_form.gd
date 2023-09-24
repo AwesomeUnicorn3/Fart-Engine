@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends DatabaseManager
 
 signal save_complete
 

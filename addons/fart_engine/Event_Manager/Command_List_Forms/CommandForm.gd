@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends DatabaseManager
 class_name CommandForm
 
 var edit_state :bool = false

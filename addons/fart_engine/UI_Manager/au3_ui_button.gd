@@ -1,6 +1,6 @@
 @tool
 extends TextureButton
-#@onready var DBENGINE: DatabaseEngine
+#@onready var DBENGINE: DatabaseManager
 @export var selected_method_key :String = "1":
 	set = set_selected_method_key
 @export var label_text_override: String = ""
@@ -14,7 +14,7 @@ var texture_background_color:Color
 
 
 func _init():
-#	DBENGINE = DatabaseEngine.new()
+#	DBENGINE = DatabaseManager.new()
 	default_button_texture = load(get_default_button_texture())
 	texture_background_color = get_default_background_color()
 	
@@ -27,7 +27,7 @@ func _ready():
 func get_default_button_texture() -> String:
 	var UI_scenes_table:Dictionary
 	if Engine.is_editor_hint():
-		UI_scenes_table= DatabaseEngine.new().import_data("UI Scenes")
+		UI_scenes_table= DatabaseManager.new().import_data("UI Scenes")
 	else:
 		UI_scenes_table= FART.import_data("UI Scenes")
 	var return_texture_path:String = UI_scenes_table["11"]["Path"]
@@ -37,7 +37,7 @@ func get_default_button_texture() -> String:
 func get_default_background_color() -> Color:
 	var UI_scenes_table:Dictionary
 	if Engine.is_editor_hint():
-		UI_scenes_table= DatabaseEngine.new().import_data("UI Scenes")
+		UI_scenes_table= DatabaseManager.new().import_data("UI Scenes")
 	else:
 		UI_scenes_table = FART.import_data("UI Scenes")
 	var return_color:Color = str_to_var(UI_scenes_table["11"]["Background Color"])
@@ -161,7 +161,7 @@ func create_button():
 				displayName= FART.get_text(ui_navigation_dict[str(selected_method_key)]["Button Label"])
 #			label.set_text(displayName)
 		else:
-			var DBENGINE: DatabaseEngine = DatabaseEngine.new()
+			var DBENGINE: DatabaseManager = DatabaseManager.new()
 			ui_navigation_dict = DBENGINE.import_data("UI Script Methods")
 			if displayName == "":
 				displayName = DBENGINE.get_text(ui_navigation_dict[str(selected_method_key)]["Button Label"])

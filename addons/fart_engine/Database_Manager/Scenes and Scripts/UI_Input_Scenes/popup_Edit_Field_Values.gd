@@ -5,7 +5,7 @@ extends Control
 signal edit_field_values_closed
 @onready var DATA_CONTAINER :VBoxContainer = $PanelContainer/VBox1/Scroll1/VBox1
 @onready var label : = $PanelContainer/VBox1/Label/HBox1/Label_Button
-var DBENGINE : DatabaseEngine = DatabaseEngine.new()
+var DBENGINE : DatabaseManager = DatabaseManager.new()
 var parent_node :Object
 var keyName : String
 var fieldName :String

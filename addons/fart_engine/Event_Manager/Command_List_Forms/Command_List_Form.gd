@@ -4,7 +4,7 @@ signal closed
 signal set_input
 var CommandInputForm
 #var local_variable_dictionary :Dictionary
-var DBENGINE = DatabaseEngine.new()
+var DBENGINE = DatabaseManager.new()
 
 
 func _open_selected_form(btn_name, for_edit:bool):
@@ -39,6 +39,8 @@ func _open_selected_form(btn_name, for_edit:bool):
 			load_form("res://addons/fart_engine/Event_Manager/Command_List_Forms/move_camera_EventInputForm.tscn", for_edit)
 		"move_camera_to_event":
 			load_form("res://addons/fart_engine/Event_Manager/Command_List_Forms/moveCameraToEvent_EventInputForm.tscn", for_edit)
+		"change_player_health":
+			load_form("res://addons/fart_engine/Event_Manager/Command_List_Forms/Change_Player_Health_EventInputForm.tscn", for_edit)
 
 
 func connect_signals(new_node):

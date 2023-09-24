@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://dvgljil6b3f5p"]
 
-[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Map_Engine.gd" id="1_yn33e"]
+[ext_resource type="Script" path="res://addons/fart_engine/GameControllers/Map_Engine.gd" id="1_j1dqd"]
 [ext_resource type="Texture2D" uid="uid://ct65e4bd7imuc" path="res://fart_data/png/Level1_Ground_Layer0.png" id="2_cny5r"]
 [ext_resource type="Texture2D" uid="uid://chariv8hrkkm2" path="res://fart_data/png/Level1_TopBorder.png" id="3_2f1es"]
 [ext_resource type="Texture2D" uid="uid://bp2mxglpe4idu" path="res://fart_data/png/Level1_BottomBorder.png" id="4_2sb07"]
@@ -18,9 +18,9 @@ size = Vector2(1792, 143)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6a8no"]
 size = Vector2(121.5, 918)
 
-[node name="2" type="Node2D" groups=["Map"]]
+[node name="Level 2" type="Node2D" groups=["Map"]]
 y_sort_enabled = true
-script = ExtResource("1_yn33e")
+script = ExtResource("1_j1dqd")
 
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -10
@@ -43,25 +43,6 @@ shape = SubResource("RectangleShape2D_b3dbu")
 disabled = true
 
 [node name="Level1TopBorder" type="Sprite2D" parent="Top_Border"]
-position = Vector2(0, 86)
-texture = ExtResource("3_2f1es")
-offset = Vector2(0, -86)
-
-[node name="Top_Border2" type="StaticBody2D" parent="."]
-y_sort_enabled = true
-position = Vector2(-70, -63)
-collision_mask = 7
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Top_Border2"]
-position = Vector2(-442, 94)
-shape = SubResource("RectangleShape2D_b3dbu")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Top_Border2"]
-position = Vector2(511, 98)
-shape = SubResource("RectangleShape2D_b3dbu")
-
-[node name="Level1TopBorder" type="Sprite2D" parent="Top_Border2"]
-y_sort_enabled = true
 position = Vector2(0, 86)
 texture = ExtResource("3_2f1es")
 offset = Vector2(0, -86)
@@ -515,151 +496,31 @@ script = ExtResource("10_b0k6g")
 event_name = "Event 1"
 
 [node name="Fart Event2" type="CharacterBody2D" parent="."]
-position = Vector2(144, -174)
+position = Vector2(132, -421)
 collision_layer = 2
 collision_mask = 3
 floor_max_angle = 3.14159
 floor_snap_length = 0.0
 platform_floor_layers = 0
 script = ExtResource("10_b0k6g")
-event_name = "Event 1"
+event_name = "Event 2"
 
 [node name="Fart Event3" type="CharacterBody2D" parent="."]
-position = Vector2(223, -161)
+position = Vector2(166, -419)
 collision_layer = 2
 collision_mask = 3
 floor_max_angle = 3.14159
 floor_snap_length = 0.0
 platform_floor_layers = 0
 script = ExtResource("10_b0k6g")
-event_name = "Event 1"
+event_name = "Event 2"
 
 [node name="Fart Event4" type="CharacterBody2D" parent="."]
-position = Vector2(224, -282)
+position = Vector2(208, -420)
 collision_layer = 2
 collision_mask = 3
 floor_max_angle = 3.14159
 floor_snap_length = 0.0
 platform_floor_layers = 0
 script = ExtResource("10_b0k6g")
-event_name = "Event 1"
-
-[node name="Fart Event5" type="CharacterBody2D" parent="."]
-position = Vector2(319, -153)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 1"
-
-[node name="Fart Event6" type="CharacterBody2D" parent="."]
-position = Vector2(318, -282)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event7" type="CharacterBody2D" parent="."]
-position = Vector2(380, -281)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event8" type="CharacterBody2D" parent="."]
-position = Vector2(435, -285)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event9" type="CharacterBody2D" parent="."]
-position = Vector2(489, -281)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event10" type="CharacterBody2D" parent="."]
-position = Vector2(317, -246)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event11" type="CharacterBody2D" parent="."]
-position = Vector2(356, -257)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event12" type="CharacterBody2D" parent="."]
-position = Vector2(413, -260)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event13" type="CharacterBody2D" parent="."]
-position = Vector2(464, -265)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event14" type="CharacterBody2D" parent="."]
-position = Vector2(467, -230)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event15" type="CharacterBody2D" parent="."]
-position = Vector2(508, -247)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
-
-[node name="Fart Event16" type="CharacterBody2D" parent="."]
-position = Vector2(508, -247)
-collision_layer = 2
-collision_mask = 3
-floor_max_angle = 3.14159
-floor_snap_length = 0.0
-platform_floor_layers = 0
-script = ExtResource("10_b0k6g")
-event_name = "Event 3"
+event_name = "Event 2"

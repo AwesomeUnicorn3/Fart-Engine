@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends TableManager
 
 signal event_selection_popup_closed
 signal event_editor_input_form_closed
@@ -121,6 +121,11 @@ func does_cause_damage(show:bool):
 	input_node_dict["Damage Amount"].visible = show
 
 
+func can_be_pushed(show:bool):
+	input_node_dict["Being Pushed Speed"].visible = show
+	input_node_dict["Friction"].visible = show
+
+
 func animation_group_selected(selected_index):
 	var group_name :String = input_node_dict["Animation Group"].get_selected_value(selected_index)
 	var default_anim_node = input_node_dict["Default Animation"]
@@ -162,22 +167,26 @@ func load_event_page_inputs(event_tab):
 	"Notes" : top_a_node, 
 	"Attack Player?" : middle_b_node,
 	"Damage Player on Touch" :middle_b_node,
-	"Damage Amount" :middle_b_node,
-	"Knockback Power" :middle_b_node,
-	"Damage Cooldown Time" :middle_b_node,
+	"Damage Amount" :middle_c_node,
+	"Knockback Power" :middle_c_node,
+	"Damage Cooldown Time" :middle_c_node,
 	"Event Trigger" :middle_a_node,
 	"Does Event Move?" :middle_a_node,
-	"Draw Shadow?" :middle_c_node,
+	"Draw Shadow?" :middle_b_node,
 	"Animation Group" :middle_a_node,
-	"Conditions" :top_b_node,
+	"Conditions" :middle_a_node,
 	"Default Animation" :bottom_node,
-	"Loop Animation" :middle_c_node,
+	"Loop Animation" :middle_b_node,
 	"Collide with Player?" :middle_b_node,
 	"Max Speed" :middle_b_node,
 	"Acceleration" :middle_b_node,
-	"Friction" :middle_b_node,
-	"Commands" :middle_a_node
+	"Friction" :middle_c_node,
+	"Commands" :middle_a_node,
+	"Can Be Pushed" :middle_b_node,
+	"Being Pushed Speed": middle_c_node
 	}
+	
+	
 	for index in default_event_data_dict["Column"]:
 		var field_name: String = default_event_data_dict["Column"][index]["FieldName"]
 		var input_value = event_dict[event_tab][field_name]
@@ -191,8 +200,11 @@ func load_event_page_inputs(event_tab):
 			input_node_dict["Event Trigger"].selection_table_name = "Event Triggers"
 			input_node_dict["Event Trigger"].populate_list(true)
 		this_container.set_input_value(input_value)
+		this_container.show_field = true
 
-	
+	input_node_dict["Can Be Pushed"].checkbox_pressed.connect(can_be_pushed)
+	input_node_dict["Can Be Pushed"]._on_input_toggled(input_node_dict["Can Be Pushed"].inputNode.button_pressed)
+
 
 	input_node_dict["Does Event Move?"].checkbox_pressed.connect(animation_state_selected)
 	input_node_dict["Does Event Move?"]._on_input_toggled(input_node_dict["Does Event Move?"].inputNode.button_pressed)
@@ -246,21 +258,24 @@ func get_next_event_key():
 	# Set event_name based on event_dict.size() + 1
 	#if that key exists, add 1 and try again until key does not exist
 	var next_key :String = ""
-	var event_list:Array = get_list_of_events()
-	if event_list == []:
+	var event_list:Dictionary = get_list_of_events()
+
+	if event_list == {}:
 		next_key = "1"
-	else:
-		var event_number
-		var event_number_array := []
-		for displayName in event_list:
-			var event_array = displayName.rsplit(" ")
-			event_number = event_array[1]
-			event_number_array.append(event_number)
-		var event_size = event_number_array.size() + 2
-		for index in range(1,event_size):
-			if !event_number_array.has(str(index)):
-				next_key = str(index)
-				break
+	else: 
+		next_key = event_list.size + 100
+#	else:
+#		var event_number
+#		var event_number_array := []
+#		for displayName in event_list:
+#			var event_array = displayName.rsplit(" ")
+#			event_number = event_array[1]
+#			event_number_array.append(event_number)
+#		var event_size = event_number_array.size() + 2
+#		for index in range(1,event_size):
+#			if !event_number_array.has(str(index)):
+#				next_key = str(index)
+#				break
 
 	return next_key
 
@@ -297,8 +312,8 @@ func close_event_input_form_in_dbmanager():
 
 func _on_Save_Close_Button_button_up() -> void:
 	save_event_data()
-	var udsplugin = await get_AU3ENGINE_main_scene()
-	udsplugin._ready()
+	fart_root._ready()
+
 	call_deferred("_on_Button_button_up")
 
 var event_data_is_saving:bool = false
@@ -324,6 +339,7 @@ func save_event_data():
 		await get_tree().process_frame
 		event_data_is_saving = false
 #	print("EVENT EDITOR INPUT FORM - SAVE EVENT DATA - BEGIN")
+	update_all_event_list()
 	return event_name
 
 

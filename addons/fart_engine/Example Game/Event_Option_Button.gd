@@ -35,14 +35,14 @@ func _on_button_button_up():
 
 
 #func get_default_button_texture() -> String:
-#	var DBENGINE = DatabaseEngine.new()
+#	var DBENGINE = DatabaseManager.new()
 #	var UI_scenes_table:Dictionary = DBENGINE.import_data("UI Scenes")
 #	var return_texture_path:String = UI_scenes_table["11"]["Path"]
 #	return return_texture_path
 
 
 func get_default_background_color() -> Color:
-	var DBENGINE = DatabaseEngine.new()
+	var DBENGINE = DatabaseManager.new()
 	var UI_scenes_table:Dictionary = DBENGINE.import_data("UI Scenes")
 	var return_color:Color = str_to_var(UI_scenes_table["10"]["Background Color"])
 	return return_color

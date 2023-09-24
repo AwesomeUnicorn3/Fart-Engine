@@ -19,7 +19,7 @@ func _ready() -> void:
 
 func _on_Load_button_up() -> void:
 	FART.load_game(file_name)
-#	FART.root.get_node("UI/TitleScreen").visible = false
+#	FART.fart_root.get_node("UI/TitleScreen").visible = false
 	#SET PLAYER POSITION
 #	FARTset_player_position()
 #	parent_container.remove_load_menu()

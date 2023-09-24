@@ -8,7 +8,7 @@ extends CommandForm
 @onready var key_drop_down = $Control/VBoxContainer/KeyDropdown
 @onready var field_drop_down = $Control/VBoxContainer/FieldDropdown
 
-var DBENGINE:DatabaseEngine = DatabaseEngine.new()
+var DBENGINE:DatabaseManager = DatabaseManager.new()
 var value_node
 var global_variables_dictionary :Dictionary
 
@@ -68,7 +68,7 @@ func add_input_node_for_event_condition(table_name:String, key_ID:String, field_
 	for child in newParent.get_children():
 		child.queue_free()
 	print("TABLEKEYFIELD: ", table_name, key_ID, field_ID)
-	var new_input_node = create_independant_input_node(table_name, key_ID, field_ID )
+	var new_input_node = TableManager.new().create_independant_input_node(table_name, key_ID, field_ID )
 	new_input_node.label_text = "VALUE"
 	new_input_node.is_label_button = false
 	new_input_node.show_field= true

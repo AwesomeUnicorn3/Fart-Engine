@@ -6,7 +6,7 @@ signal position_changed
 var current_position :Vector2 = Vector2.ZERO
 var previous_position:Vector2 = Vector2.ZERO
 var position_updated :bool = true
-var DBENGINE := DatabaseEngine.new()
+var DBENGINE := DatabaseManager.new()
 var save_table_wait_index :int = 0
 var CurrentPosition
 var par_node

@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends TableManager
 
 @onready var Navigation_Button: PackedScene = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
 #@onready var tableButton = preload("res://addons/fart_engine/SaveFile_Manager/Navigation_Button_table.tscn")

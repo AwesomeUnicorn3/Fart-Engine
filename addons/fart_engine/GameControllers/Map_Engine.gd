@@ -86,5 +86,5 @@ func refresh_events():
 	if !is_updating_events:
 		emit_signal("update_events")
 		is_updating_events = true
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().process_frame
 		is_updating_events = false

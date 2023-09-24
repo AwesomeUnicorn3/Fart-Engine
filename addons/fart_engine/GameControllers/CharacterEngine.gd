@@ -42,6 +42,8 @@ var invincibility_time:float
 var is_player_invincible:bool = false
 var current_health
 
+var raycast_offset:float = 15
+
 
 func _ready() -> void:
 	if is_inside_tree():
@@ -89,8 +91,8 @@ func add_raycasts_to_player():
 	for child in interaction_raycast_dict:
 		interaction_raycast_dict[child]["raycast_node"].queue_free()
 	await get_tree().process_frame
-	create_raycast(15)
-	create_raycast(-15)
+	create_raycast(raycast_offset)
+	create_raycast(-raycast_offset)
 
 
 
@@ -102,13 +104,19 @@ func create_raycast(target_pos_x:int)-> RayCast2D:
 	interaction_raycast.set_collide_with_areas(true)
 	interaction_raycast.set_collide_with_bodies(true)
 	
-	var interactionArea :float = FART.get_player_interaction_area().get_child(0).shape.get_radius()
-	interaction_raycast.set_target_position(Vector2(target_pos_x,interactionArea)) #The "3" could be set in character table
-#	interaction_raycast_collided.connect(interaction_raycast_collision)
+	set_raycast_target_position(interaction_raycast, target_pos_x)
+#	var interactionArea :float = FART.get_player_interaction_area().get_child(0).shape.get_radius()
+#	interaction_raycast.set_target_position(Vector2(target_pos_x,interactionArea)) 
+
 	add_child(interaction_raycast)
 	interaction_raycast.set_name(str(interaction_raycast.get_instance_id()))
 	interaction_raycast_dict[interaction_raycast_dict.size() + 1] = {"raycast_node": interaction_raycast}
 	return interaction_raycast
+
+
+func set_raycast_target_position(interaction_raycast:RayCast2D, target_pos_x:float = raycast_offset, interaction_radius:float = FART.get_player_interaction_area().get_child(0).shape.get_radius()):
+#	var interactionArea_radius :float = FART.get_player_interaction_area().get_child(0).shape.get_radius()
+	interaction_raycast.set_target_position(Vector2(target_pos_x, interaction_radius)) 
 
 
 func _physics_process(delta):
@@ -116,25 +124,45 @@ func _physics_process(delta):
 	if FART.Dynamic_Game_Dict.has("Global Data"):
 		var game_active :bool = FART.Dynamic_Game_Dict['Global Data'][await FART.get_global_settings_profile()]["Is Game Active"]
 		if game_active:
-			
-			if interaction_raycast_dict != {}:
-				var is_colliding:bool = false
-				for ray in interaction_raycast_dict:
-					var interaction_raycast = interaction_raycast_dict[ray]["raycast_node"]
-					if interaction_raycast.is_colliding():
-						interaction_raycast_collision(interaction_raycast.get_collider())
-#						emit_signal("interaction_raycast_collided", interaction_raycast.get_collider())
-						is_colliding = true
-				if !is_colliding and current_selected_interactive_body != null:
-					current_selected_interactive_body.emit_signal("player_exited_interaction_area")
-					current_selected_interactive_body = null
-#			is_gravity_active =  FART.get_field_value("Global Data", await FART.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
-			FART.CAMERA.camera_physics_process(delta)
-#			input_process()
-			state_machine(delta)
 
+			emit_player_exited_interaction_signal()
+			FART.CAMERA.camera_physics_process(delta)
+			state_machine(delta)
 			move_and_slide()
-			
+
+
+func emit_player_exited_interaction_signal():
+	var is_interaction_colliding :bool = is_interaction_raycast_colliding()
+	if !is_interaction_colliding and current_selected_interactive_body != null:
+		current_selected_interactive_body.emit_signal("player_exited_interaction_area")
+		current_selected_interactive_body.push_ended()
+		current_selected_interactive_body = null
+
+
+func emit_player_entered_interaction_signal(body):
+	var main_body = body
+	if !is_instance_valid(current_selected_interactive_body):
+		if main_body.is_in_group("Events"):
+			current_selected_interactive_body = main_body
+			current_selected_interactive_body.emit_signal("player_entered_interaction_area")
+			current_selected_interactive_body.set_pushed_state()
+
+
+func is_interaction_raycast_colliding() -> bool:
+	var is_colliding:bool = false
+	if interaction_raycast_dict != {}:
+		for ray in interaction_raycast_dict:
+			var interaction_raycast = interaction_raycast_dict[ray]["raycast_node"]
+			if interaction_raycast.is_colliding():
+				var collision_body = interaction_raycast.get_collider()
+				if collision_body != null:
+					var collision_parent  = collision_body.get_parent()
+					if "can_interact" in collision_parent:
+						print(collision_parent.name)
+						emit_player_entered_interaction_signal(collision_parent)
+						is_colliding = true
+
+	return is_colliding
 
 
 var moveshadowto:Vector2 = Vector2.ZERO
@@ -172,24 +200,29 @@ func set_gravity(delta):
 		$ShadowAnimSprites.position = Vector2(0, 0)
 
 
-func interaction_raycast_collision(body):
-	if body != null:
-		var main_body = body.get_parent()
-		if !is_instance_valid(current_selected_interactive_body):
-			if main_body.is_in_group("Events"):
-				assign_interactive_body_and_apply_shader(main_body)
-		elif main_body != current_selected_interactive_body:
-			current_selected_interactive_body.emit_signal("player_exited_interaction_area")
-			current_selected_interactive_body = null
+#func interaction_raycast_collision(body):
+##	if body != null:
+#	var main_body = body
+#	if !is_instance_valid(current_selected_interactive_body):
+#		if main_body.is_in_group("Events"):
+#			current_selected_interactive_body = main_body
+#			current_selected_interactive_body.emit_signal("player_entered_interaction_area")
+			#MOVE THIS AFTER TESTING
+			
+#	elif main_body != current_selected_interactive_body:
+#		current_selected_interactive_body.emit_signal("player_exited_interaction_area")
+#		current_selected_interactive_body = main_body
+
+
 
 
 func set_character_movement(canMove :bool):
 	character_can_move = canMove
 	
 
-func assign_interactive_body_and_apply_shader(body):
-	current_selected_interactive_body = body
-	current_selected_interactive_body.emit_signal("player_entered_interaction_area")
+#func assign_interactive_body_and_apply_shader(body):
+#	current_selected_interactive_body = body
+#	current_selected_interactive_body.emit_signal("player_entered_interaction_area")
 
 
 func get_direction():
@@ -399,6 +432,7 @@ func rotate_ineraction_raycast(direction:Vector2):
 	if direction != Vector2.ZERO:
 		
 		if direction.x < 0:
+			
 			self_rotation = 90
 		elif direction.x > 0:
 			self_rotation = -90
@@ -406,23 +440,69 @@ func rotate_ineraction_raycast(direction:Vector2):
 			self_rotation = 180
 		elif direction.y > 0:
 			self_rotation = 0
+
 	for ray in interaction_raycast_dict:
 		var interaction_raycast :RayCast2D = interaction_raycast_dict[ray]["raycast_node"]
+		var current_offset:float = interaction_raycast.target_position.x
 		var current_rotation :int = rad_to_deg(interaction_raycast.get_rotation())
 		if current_rotation != self_rotation:
 			interaction_raycast.set_rotation(deg_to_rad(self_rotation))
+			set_raycast_target_position(interaction_raycast, current_offset)
 
 
-func _damage_player(damage_amount:float, knockback_power:float, event_position:Vector2):
+func change_player_health(health_change: float, knockback:float, custom_cooldown:float, use_default_cooldown:bool, set_number: bool, operation:int, event_node: EventHandler):
+	var health_after_change = event_node.apply_operator(current_health.y, health_change, str(operation))
+	if !set_number:
+		health_change = health_after_change - current_health.y 
+	else:
+		health_change = current_health.y - health_change
+		
+#	health_change = -health_change
+	if use_default_cooldown:
+		custom_cooldown = invincibility_time
+
+	if health_change >=0 :
+		_heal_player(health_change,knockback, event_node.get_global_position(), custom_cooldown)
+	else:
+		_damage_player(-health_change,knockback, event_node.get_global_position(), custom_cooldown)
+	
+	if current_health.y <= current_health.x:
+		player_death()
+
+
+func _damage_player(damage_amount:float, knockback_power:float, event_position:Vector2, custom_invincible_time:float = invincibility_time):
 	if !is_player_invincible:
 		set_player_invincible(true)
 		var distance:Vector2 = (position - event_position).normalized()
-		velocity = distance * knockback_power * 10
-		FART.EVENTS.change_player_health(str(damage_amount), "_event_name", "_event_node_name", "_event_node")
-		await damage_flash(invincibility_time)
+		if knockback_power != 0.0:
+			velocity = distance * knockback_power * 10
+		modify_player_health(damage_amount, "_event_name", "_event_node_name", "_event_node")
+		if custom_invincible_time != 0.0:
+			await damage_flash(custom_invincible_time)
 		set_player_invincible(false)
-		if current_health.y <= current_health.x:
-			player_death()
+
+
+
+func _heal_player(damage_amount:float, knockback_power:float, event_position:Vector2, custom_invincible_time:float = invincibility_time):
+	if !is_player_invincible:
+		set_player_invincible(true)
+		var distance:Vector2 = (position - event_position).normalized()
+		if knockback_power != 0.0:
+			velocity = distance * knockback_power * 10
+		modify_player_health(-damage_amount, "_event_name", "_event_node_name", "_event_node")
+		if custom_invincible_time != 0.0:
+			await damage_flash(custom_invincible_time)
+		set_player_invincible(false)
+
+
+func modify_player_health(to_what:float, _event_name :String, _event_node_name:String, _event_node):
+	var player_node = FART.player_node
+	var player_max_health: int = player_node.current_health.z
+	var player_min_health: int = player_node.current_health.x
+	var player_current_health: int = player_node.current_health.y
+	
+	player_node.current_health.y = clamp(player_current_health - to_what, player_min_health, player_max_health)
+	FART.emit_signal("player_health_updated")
 
 
 func player_death():

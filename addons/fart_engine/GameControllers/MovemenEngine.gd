@@ -8,6 +8,12 @@ var state :String = "idle"
 var direction_string :String = "Down"
 var previous_direction_string :String = "Down"
 
+var idle = "Idle"
+var walk_left = "Walk Left"
+var walk_right ="Walk Right"
+var walk_up = "Walk Up"
+var walk_down ="Walk Down"
+
 
 func set_character_velocity(curr_velocity:Vector2,direction:Vector2,characterMaxSpeed:float, characterFriction:float,characterAcceleration:float, is_gravity_active:bool,  delta):
 
@@ -83,3 +89,12 @@ func play_sprite_animation(direction :Vector2, sprite_animation,shadow_sprite_an
 		sprite_animation.stop()
 		shadow_sprite_animation.stop()
 		emit_signal("sprite_anim_complete")
+
+
+func get_next_direction() -> Vector2:
+	randomize()
+	var dirX :float = randf_range(-.99, .99)
+	var dirY :float = randf_range(-.99, .99)
+	return Vector2(dirX, dirY)
+
+

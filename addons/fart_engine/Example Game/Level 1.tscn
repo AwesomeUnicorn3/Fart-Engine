@@ -1,15 +1,15 @@
 [gd_scene load_steps=14 format=3 uid="uid://biv7x8dydjk6u"]
 
-[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Map_Engine.gd" id="1_b7j2j"]
+[ext_resource type="Script" path="res://addons/fart_engine/GameControllers/Map_Engine.gd" id="1_2x4ct"]
 [ext_resource type="Texture2D" uid="uid://ct65e4bd7imuc" path="res://fart_data/png/Level1_Ground_Layer0.png" id="2_q58r3"]
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/Event.gd" id="3_5xexi"]
 [ext_resource type="Texture2D" uid="uid://chariv8hrkkm2" path="res://fart_data/png/Level1_TopBorder.png" id="3_ygq1c"]
 [ext_resource type="Texture2D" uid="uid://bp2mxglpe4idu" path="res://fart_data/png/Level1_BottomBorder.png" id="4_13kj3"]
-[ext_resource type="Texture2D" uid="uid://bl1yj02fc0y1s" path="res://fart_data/png/StartingPosition.png" id="4_ejyix"]
-[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/StartingPositionNode.gd" id="5_tmwa8"]
 [ext_resource type="Texture2D" uid="uid://kix0xebgx55a" path="res://fart_data/png/Flower_Pink.png" id="5_wrvet"]
 [ext_resource type="Texture2D" uid="uid://dylor0gb7swqf" path="res://fart_data/png/Flower_Red.png" id="6_f5etc"]
 [ext_resource type="Texture2D" uid="uid://djmd6dpa4blde" path="res://fart_data/png/Bamboo_Leaf.png" id="7_t6w7f"]
+[ext_resource type="Texture2D" uid="uid://bl1yj02fc0y1s" path="res://fart_data/png/StartingPosition.png" id="9_ri7q5"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/StartingPositionNode.gd" id="10_iv1qg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_alcuv"]
 size = Vector2(833, 36.75)
@@ -20,13 +20,13 @@ size = Vector2(1792, 143)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b1j2v"]
 size = Vector2(121.5, 918)
 
-[node name="1" type="Node2D" groups=["Map"]]
+[node name="Level 1" type="Node2D" groups=["Map"]]
 y_sort_enabled = true
-script = ExtResource("1_b7j2j")
+script = ExtResource("1_2x4ct")
 
 [node name="Ground" type="Sprite2D" parent="."]
 z_index = -10
-position = Vector2(-10.0026, -102)
+position = Vector2(48, -106)
 scale = Vector2(1.22656, 1)
 texture = ExtResource("2_q58r3")
 
@@ -861,7 +861,17 @@ platform_floor_layers = 0
 script = ExtResource("3_5xexi")
 event_name = "Event 6"
 
+[node name="Fart Event_Testing" type="CharacterBody2D" parent="."]
+position = Vector2(462, 114)
+collision_layer = 2
+collision_mask = 3
+floor_max_angle = 3.14159
+floor_snap_length = 0.0
+platform_floor_layers = 0
+script = ExtResource("3_5xexi")
+event_name = "Event 2"
+
 [node name="StartingPositionNode" type="Sprite2D" parent="."]
-position = Vector2(300, 115)
-texture = ExtResource("4_ejyix")
-script = ExtResource("5_tmwa8")
+position = Vector2(115, 173)
+texture = ExtResource("9_ri7q5")
+script = ExtResource("10_iv1qg")

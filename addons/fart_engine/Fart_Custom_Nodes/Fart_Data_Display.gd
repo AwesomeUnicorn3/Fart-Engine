@@ -1,6 +1,6 @@
 @tool
 extends Control
-var DBENGINE: DatabaseEngine = DatabaseEngine.new()
+var DBENGINE: DatabaseManager = DatabaseManager.new()
 
 @export var table: String = "Global Data"
 @export var key:String = "1"

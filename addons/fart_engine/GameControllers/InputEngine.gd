@@ -1,6 +1,6 @@
 @tool
-extends Control
-class_name InputEngine
+
+class_name InputEngine extends TableManager
 
 signal input_selection_changed #emitted when dropdown list selected item changes
 signal input_load_complete
@@ -14,7 +14,7 @@ signal checkbox_pressed
 
 var me = self #needed to call elements from scripts that extend this one
 
-var DBENGINE := DatabaseEngine.new()
+var DBENGINE := DatabaseManager.new()
 var labelNode = null
 var inputNode
 
@@ -25,7 +25,7 @@ var itemName = ""
 var default = null
 var type = ""
 var table_name = ""
-var table_ref = ""
+#var table_ref = ""
 var parent_node :Object
 var input_data 
 var index :String
@@ -111,8 +111,7 @@ func set_label_text(text_value: String = label_text):
 
 
 func set_default_value():
-	var dbengine = DatabaseEngine.new()
-	default = dbengine.get_default_value(type)
+	default = get_default_value(type)
 
 
 func label_pressed():

@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://c1x7xqj1wrnjx"]
 
-[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="1"]
-[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_ivdqc"]
-[ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_xcjwq"]
-[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Tab_Template.gd" id="6"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Popups.tscn" id="7_dgruc"]
-[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="8"]
-[ext_resource type="PackedScene" uid="uid://b7dxrtf1kdkv4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.tscn" id="8_dq72o"]
-[ext_resource type="PackedScene" uid="uid://dwkxfkjegdq45" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.tscn" id="9_f50lx"]
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_ec0fd"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/TableTemplate.gd" id="2_7ieyv"]
+[ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="3_s40q1"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_jx4rk"]
+[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="5_gnyal"]
+[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="6_gt5g5"]
+[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Popups.tscn" id="7_q8yfc"]
+[ext_resource type="PackedScene" uid="uid://b7dxrtf1kdkv4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/Database_Browser/popup_newKey.tscn" id="8_taovj"]
+[ext_resource type="PackedScene" uid="uid://dwkxfkjegdq45" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_newTable.tscn" id="9_jrn4p"]
 
 [node name="Tab_Template" type="Control" groups=["Tab"]]
 layout_mode = 3
@@ -17,11 +17,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_ivdqc")
-script = ExtResource("6")
+theme = ExtResource("1_ec0fd")
+script = ExtResource("2_7ieyv")
 metadata/_edit_horizontal_guides_ = [636.0]
 
-[node name="Background" parent="." instance=ExtResource("2")]
+[node name="Background" parent="." instance=ExtResource("3_s40q1")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -42,7 +42,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="RefreshData_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+[node name="RefreshData_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_jx4rk")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Refresh Table"
@@ -53,61 +53,56 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="VBox1/HBox1/CenterContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
-[node name="AddNewTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+[node name="AddNewTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_jx4rk")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Add Table"
 auto_connect_signals = false
 
-[node name="DeleteTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+[node name="DeleteTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_jx4rk")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Delete Table"
 auto_connect_signals = false
 
-[node name="AddNewKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+[node name="AddNewKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_jx4rk")]
 visible = false
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Add Key"
 auto_connect_signals = false
 
-[node name="DuplicateKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+[node name="DuplicateKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_jx4rk")]
 visible = false
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Duplicate Key"
 auto_connect_signals = false
 
-[node name="DeleteSelectedKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+[node name="DeleteSelectedKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_jx4rk")]
 visible = false
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Delete Key"
 auto_connect_signals = false
 
-[node name="SaveChanges_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+[node name="SaveChanges_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_jx4rk")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Save"
 auto_connect_signals = false
 
-[node name="TableName" parent="VBox1" instance=ExtResource("1")]
+[node name="TableName" parent="VBox1" instance=ExtResource("5_gnyal")]
 layout_mode = 2
 size_flags_vertical = 3
 label_text = "Table Name"
 is_label_button = false
-
-[node name="Label_Button" parent="VBox1/TableName/Input_Node/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Hide_Button" parent="VBox1/TableName/Input_Node/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Input" parent="VBox1/TableName/Input_Node" index="1"]
 visible = false
@@ -115,64 +110,17 @@ visible = false
 [node name="AdvancedControlsVBox" parent="VBox1/TableName/Input_Node" index="2"]
 visible = false
 
-[node name="Label_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Label/HBox1" index="0"]
-self_modulate = Color(0, 0.27, 0.32, 1)
-
-[node name="Hide_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Underline" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Bold" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Italics" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="2"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Label_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Hide_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Key" parent="VBox1" instance=ExtResource("1")]
+[node name="Key" parent="VBox1" instance=ExtResource("5_gnyal")]
 layout_mode = 2
 label_text = "Key"
 is_label_button = false
 
-[node name="Label_Button" parent="VBox1/Key/Input_Node/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Hide_Button" parent="VBox1/Key/Input_Node/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
 [node name="Input" parent="VBox1/Key/Input_Node" index="1"]
+text = "Global Data"
 editable = false
 
 [node name="AdvancedControlsVBox" parent="VBox1/Key/Input_Node" index="2"]
 visible = false
-
-[node name="Label_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Label/HBox1" index="0"]
-self_modulate = Color(0, 0.27, 0.32, 1)
-
-[node name="Hide_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Underline" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Bold" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Italics" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="2"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Label_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Hide_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="HBox2" type="HBoxContainer" parent="VBox1"]
 custom_minimum_size = Vector2(0, 50)
@@ -189,13 +137,13 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 13
 
-[node name="AddNewField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+[node name="AddNewField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_jx4rk")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "New Field"
 auto_connect_signals = false
 
-[node name="DeleteField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_xcjwq")]
+[node name="DeleteField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_jx4rk")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Delete Field"
@@ -243,11 +191,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Version_Label" parent="VBox1" instance=ExtResource("8")]
+[node name="Version_Label" parent="VBox1" instance=ExtResource("6_gt5g5")]
 visible = false
 layout_mode = 2
 
-[node name="Popups" parent="." instance=ExtResource("7_dgruc")]
+[node name="Popups" parent="." instance=ExtResource("7_q8yfc")]
 layout_mode = 1
 grow_horizontal = 2
 grow_vertical = 2
@@ -274,11 +222,11 @@ self_modulate = Color(0.37, 0.16, 0.79, 1)
 [node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 
-[node name="popup_newKey" parent="Popups" instance=ExtResource("8_dq72o")]
+[node name="popup_newKey" parent="Popups" instance=ExtResource("8_taovj")]
 visible = false
 layout_mode = 1
 
-[node name="popup_newTable" parent="Popups" instance=ExtResource("9_f50lx")]
+[node name="popup_newTable" parent="Popups" instance=ExtResource("9_jrn4p")]
 visible = false
 layout_mode = 1
 

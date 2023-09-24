@@ -74,7 +74,7 @@ func _populate_list_with_selection_table(selectionTable := selection_table):
 #	print("SELECTION TABLE: ", selectionTable)
 	clear_input_value()
 	selection_table = selectionTable
-	var DBENGINE: DatabaseEngine = DatabaseEngine.new()
+	var DBENGINE: DatabaseManager = DatabaseManager.new()
 #	print("_populate_list_with_selection_table: ")
 	sorted_table = await DBENGINE.list_custom_dict_keys_in_display_order(selectionTable, selection_table_name)
 	for keyID in sorted_table.size():
@@ -212,8 +212,7 @@ func _on_Input_item_selected(index :int):
 		get_parent().swap_input_node(relatedInputNode, self, str(get_dataType_ID(selectedItemKey)), relatedTableName)
 	
 	if table_name == "Global Data" and $Label/HBox1/Label_Button.get_text() == "Starting Map":
-		await DBENGINE.delete_starting_position_from_old_map(previous_selection)
-		await DBENGINE.add_starting_position_node_to_map(selectedItemKey,previous_selection, parent_node)
+		await DBENGINE.fart_root.add_starting_position_node_to_map(selectedItemKey,previous_selection, parent_node)
 	previous_selection = selectedItemKey
 	return selectedItemKey
 

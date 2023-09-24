@@ -2,7 +2,7 @@
 extends InputEngine
 signal input_closed
 
-#var DBENGINE: DatabaseEngine = DatabaseEngine.new()
+#var DBENGINE: DatabaseManager = DatabaseManager.new()
 
 var display_type_selection: InputEngine = null
 var table_selection: InputEngine = null

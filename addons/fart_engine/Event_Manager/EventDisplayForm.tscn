@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://c7w4mfwiuasxy"]
 
-[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Event_Manager.gd" id="1"]
-[ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="4"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_aggtm"]
-[ext_resource type="PackedScene" uid="uid://7aknajkgeawg" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewFieldPopup.tscn" id="6_wbf0v"]
-[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="7"]
-[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="7_t8ows"]
-[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="8"]
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_b8vey"]
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/EventDisplayForm.gd" id="2_6co2m"]
+[ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="3_cup0c"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_6iuyv"]
+[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="5_mhtqm"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="6_jimih"]
+[ext_resource type="PackedScene" uid="uid://7aknajkgeawg" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewFieldPopup.tscn" id="7_vk7uu"]
+[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="8_uxxn5"]
 
 [node name="Event_Manager" type="Control" groups=["Database", "Tab"]]
 layout_mode = 3
@@ -18,10 +18,10 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("8")
-script = ExtResource("1")
+theme = ExtResource("1_b8vey")
+script = ExtResource("2_6co2m")
 
-[node name="Background" parent="." instance=ExtResource("3")]
+[node name="Background" parent="." instance=ExtResource("3_cup0c")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -39,7 +39,7 @@ grow_vertical = 2
 [node name="HBox1" type="HBoxContainer" parent="VBox1"]
 layout_mode = 2
 
-[node name="Refresh_Events" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_aggtm")]
+[node name="Refresh_Events" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_6iuyv")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Reset Events"
@@ -55,7 +55,7 @@ visible = false
 layout_mode = 2
 text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 
-[node name="SaveChanges" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_aggtm")]
+[node name="SaveChanges" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_6iuyv")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Save Page"
@@ -69,7 +69,7 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
-[node name="AddNewItem" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_aggtm")]
+[node name="AddNewItem" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_6iuyv")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Add Event"
@@ -79,14 +79,14 @@ auto_set_minimum_size = false
 [node name="Label3" type="Label" parent="VBox1/HBox1"]
 layout_mode = 2
 
-[node name="DeleteSelectedItem" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_aggtm")]
+[node name="DeleteSelectedItem" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_6iuyv")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Delete"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
-[node name="Cancel" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_aggtm")]
+[node name="Cancel" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_6iuyv")]
 visible = false
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
@@ -134,7 +134,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="VersionLabel" parent="VBox1/Hbox3" instance=ExtResource("4")]
+[node name="VersionLabel" parent="VBox1/Hbox3" instance=ExtResource("5_mhtqm")]
 layout_mode = 2
 
 [node name="Popups" type="ColorRect" parent="."]
@@ -179,7 +179,7 @@ offset_bottom = 45.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer" instance=ExtResource("7_t8ows")]
+[node name="Label" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer" instance=ExtResource("6_jimih")]
 layout_mode = 2
 
 [node name="Label_Button" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/Label/HBox1" index="0"]
@@ -202,7 +202,7 @@ uppercase = true
 [node name="HBoxContainer" type="HBoxContainer" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Accept" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("4_aggtm")]
+[node name="Accept" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("4_6iuyv")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -210,7 +210,7 @@ button_text = "Accept"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
-[node name="Cancel" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("4_aggtm")]
+[node name="Cancel" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("4_6iuyv")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -218,7 +218,7 @@ button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
-[node name="popup_newValue" parent="Popups" instance=ExtResource("6_wbf0v")]
+[node name="popup_newValue" parent="Popups" instance=ExtResource("7_vk7uu")]
 visible = false
 layout_mode = 1
 
@@ -266,7 +266,7 @@ self_modulate = Color(0.37, 0.16, 0.79, 1)
 [node name="Cancel" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox2" index="1"]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 
-[node name="popup_deleteKey" parent="Popups" instance=ExtResource("7")]
+[node name="popup_deleteKey" parent="Popups" instance=ExtResource("8_uxxn5")]
 visible = false
 layout_mode = 1
 

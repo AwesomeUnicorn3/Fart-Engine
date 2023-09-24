@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends TableManager
 signal popup_closed
 signal table_refresh_complete
 
@@ -41,9 +41,9 @@ var allow_duplicate_display_name:bool = false
 
 func _ready():
 	if first_load:
-		root = get_main_node()
-		while !root.has_method("when_editor_saved"):
-			await root.get_tree().process_frame
+#		fart_root = get_main_node()
+		while !fart_root.has_method("when_editor_saved"):
+			await fart_root.get_tree().process_frame
 		if is_inside_tree():
 			current_table_name = tableName
 			first_load = false
@@ -59,7 +59,7 @@ func _ready():
 
 
 func auto_select_key():
-	selectedKeyID = root.display_form_dict[current_table_name]["Selected Key"]
+	selectedKeyID = fart_root.display_form_dict[current_table_name]["Selected Key"]
 	var keyNode:Object
 	if selectedKeyID == "None Selected":
 		keyNode = table_list.get_child(0)
@@ -292,10 +292,10 @@ func _on_Save_button_up(update_Values : bool = true):
 			$VBox1/HBox1/CenterContainer/Label.visible = false
 			match current_table_name:
 				"Table Data":
-					get_main_node()._ready()
+					fart_root._ready()
 				"Items":
 					add_items_to_inventory_table()
-					get_main_node()._ready()
+					fart_root._ready()
 		else:
 			print("There was an error. Data has not been updated")
 		table_save_complete.emit()
@@ -309,13 +309,17 @@ func update_dropdown_tables():
 
 
 func reload_data_without_saving():
-	reload_buttons()
-	await get_tree().process_frame
-	if table_list.has_node(Item_Name):
-		var btnNode:TextureButton = table_list.get_node(Item_Name)
-		btnNode._on_Navigation_Button_button_up()
-	elif is_instance_valid(table_list.get_child(0)):
-		table_list.get_child(0)._on_Navigation_Button_button_up()
+	first_load = true
+	_ready()
+#
+#	reload_buttons()
+#	await get_tree().process_frame
+#	if table_list.has_node(Item_Name):
+#		var btnNode:TextureButton = table_list.get_node(Item_Name)
+#		btnNode._on_Navigation_Button_button_up()
+#
+#	elif is_instance_valid(table_list.get_child(0)):
+#		table_list.get_child(0)._on_Navigation_Button_button_up()
 
 
 func update_values():
@@ -514,7 +518,7 @@ func does_table_name_exist(tableName:String)->bool:
 func delete_selected_table():
 	var del_tbl_name = key_node.inputNode.get_text()
 	delete_table(del_tbl_name)
-	get_main_node()._ready()
+	fart_root._ready()
 	await get_tree().process_frame
 
 

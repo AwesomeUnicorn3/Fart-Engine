@@ -1,7 +1,7 @@
 @tool
 extends Control
 
-@onready var event_input_form_preload := preload("res://addons/fart_engine/Event_Manager/Event Editor Input Form.tscn")
+@onready var event_input_form_preload := preload("res://addons/fart_engine/Event_Manager/EventInputForm.tscn")
 @onready var UIMethod_Selection_form:= preload("res://addons/fart_engine/UI_Manager/popup_UIMethod_Selection.tscn")
 @onready var event_selection_form_preload:= preload("res://addons/fart_engine/Event_Manager/popup_Event_Selection.tscn")
 @onready var fart_data_display_form:= preload("res://addons/fart_engine/Fart_Custom_Nodes/fart_data_display_input.tscn")

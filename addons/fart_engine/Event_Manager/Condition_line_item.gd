@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends TableManager
 
 
 @onready var right_operator := $RightOperator

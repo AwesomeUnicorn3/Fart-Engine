@@ -1,0 +1,515 @@
+[gd_scene load_steps=12 format=3 uid="uid://ddgq6ov52fj7t"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/GameControllers/Map_Engine.gd" id="1_7vuro"]
+[ext_resource type="Texture2D" uid="uid://ct65e4bd7imuc" path="res://fart_data/png/Level1_Ground_Layer0.png" id="2_psciq"]
+[ext_resource type="Texture2D" uid="uid://chariv8hrkkm2" path="res://fart_data/png/Level1_TopBorder.png" id="3_65tti"]
+[ext_resource type="Texture2D" uid="uid://bp2mxglpe4idu" path="res://fart_data/png/Level1_BottomBorder.png" id="4_5exgv"]
+[ext_resource type="Texture2D" uid="uid://kix0xebgx55a" path="res://fart_data/png/Flower_Pink.png" id="5_q63wk"]
+[ext_resource type="Texture2D" uid="uid://dylor0gb7swqf" path="res://fart_data/png/Flower_Red.png" id="6_mo2ay"]
+[ext_resource type="Texture2D" uid="uid://djmd6dpa4blde" path="res://fart_data/png/Bamboo_Leaf.png" id="7_nvo8v"]
+[ext_resource type="Script" path="res://addons/fart_engine/Example Game/Event.gd" id="10_bgdll"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b3dbu"]
+size = Vector2(816, 35.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3maw3"]
+size = Vector2(1792, 143)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6a8no"]
+size = Vector2(121.5, 918)
+
+[node name="Tutorial Map" type="Node2D" groups=["Map"]]
+y_sort_enabled = true
+script = ExtResource("1_7vuro")
+
+[node name="Ground" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(-10.0026, -102)
+scale = Vector2(2.14011, 1.74481)
+texture = ExtResource("2_psciq")
+
+[node name="Top_Border" type="StaticBody2D" parent="."]
+y_sort_enabled = true
+position = Vector2(15, -507)
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Top_Border"]
+position = Vector2(-449, 92.875)
+shape = SubResource("RectangleShape2D_b3dbu")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Top_Border"]
+position = Vector2(514, 81)
+shape = SubResource("RectangleShape2D_b3dbu")
+disabled = true
+
+[node name="Level1TopBorder" type="Sprite2D" parent="Top_Border"]
+position = Vector2(0, 86)
+texture = ExtResource("3_65tti")
+offset = Vector2(0, -86)
+
+[node name="Top_Border2" type="StaticBody2D" parent="."]
+y_sort_enabled = true
+position = Vector2(-70, -63)
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Top_Border2"]
+position = Vector2(-442, 94)
+shape = SubResource("RectangleShape2D_b3dbu")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Top_Border2"]
+position = Vector2(511, 98)
+shape = SubResource("RectangleShape2D_b3dbu")
+
+[node name="Level1TopBorder" type="Sprite2D" parent="Top_Border2"]
+y_sort_enabled = true
+position = Vector2(0, 86)
+texture = ExtResource("3_65tti")
+offset = Vector2(0, -86)
+
+[node name="Bottom_and_Side_Border" type="StaticBody2D" parent="."]
+position = Vector2(0, -2)
+collision_mask = 7
+
+[node name="Level1BottomBorder" type="Sprite2D" parent="Bottom_and_Side_Border"]
+z_index = 1
+position = Vector2(13, 30)
+texture = ExtResource("4_5exgv")
+
+[node name="Level1BottomBorder2" type="Sprite2D" parent="Bottom_and_Side_Border"]
+z_index = 1
+position = Vector2(28, 10)
+scale = Vector2(1.12277, 1.44)
+texture = ExtResource("4_5exgv")
+
+[node name="Bottom_Collision" type="CollisionShape2D" parent="Bottom_and_Side_Border"]
+position = Vector2(11, 561)
+shape = SubResource("RectangleShape2D_3maw3")
+
+[node name="Side_Collision" type="CollisionShape2D" parent="Bottom_and_Side_Border"]
+position = Vector2(-840, 39)
+shape = SubResource("RectangleShape2D_6a8no")
+
+[node name="Side_Collision2" type="CollisionShape2D" parent="Bottom_and_Side_Border"]
+position = Vector2(855, 29)
+shape = SubResource("RectangleShape2D_6a8no")
+
+[node name="Environment_Sprites" type="Control" parent="."]
+y_sort_enabled = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Flower_Pink" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(27, 97)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink2" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-281, 48)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink3" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-592, 154)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink4" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-318, 222)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink5" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-469, 88)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink6" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-468, -242)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink7" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-657, -188)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink8" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-538, -226)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink9" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-366, -139)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink10" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-144, -282)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink11" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-19, -206)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink12" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(96, 4)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink13" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(191, -132)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink14" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(341, -283)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink15" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(214, -374)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink16" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(690, -367)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink17" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(750, -247)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink18" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(501, -222)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink19" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(623, -129)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink20" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(366, -117)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink21" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(675, 16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink22" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(373, 14)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink23" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(652, 182)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Pink24" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(634, 58)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_q63wk")
+
+[node name="Flower_Red" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-169, 206)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red2" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-93, 51)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red3" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-50, 5)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red4" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-471, 186)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red5" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-631, 57)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red6" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-716, 248)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red7" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-612, 330)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red8" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-340, 62)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red9" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-214, 318)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red10" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(241, 310)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red11" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(259, 59)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red12" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(729, 331)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red13" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(751, 206)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red14" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(721, 48)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="Flower_Red15" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(721, 48)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("6_mo2ay")
+
+[node name="LeafClump" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-980.5, -243)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump2" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-987.5, -178)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump3" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-994.5, -99)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump4" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-992.5, -36)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump5" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-982.5, 47)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump6" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-989.5, 112)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump7" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-996.5, 191)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump8" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-994.5, 254)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump9" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-984.5, 312)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump10" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-991.5, 377)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump11" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-998.5, 456)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump12" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-996.5, 519)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump33" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-954, 559)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump34" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1006, 583)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump13" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-973.5, -521)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump14" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-980.5, -456)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump15" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-987.5, -377)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump16" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(-985.5, -314)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump17" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1029.5, -248)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump18" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1022.5, -183)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump19" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1015.5, -104)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump20" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1017.5, -41)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump21" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1027.5, 42)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump22" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1020.5, 107)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump23" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1013.5, 186)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump24" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1015.5, 249)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump25" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1025.5, 307)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump26" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1018.5, 372)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump27" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1011.5, 451)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump28" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1013.5, 514)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump29" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1036.5, -526)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump30" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1029.5, -461)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump31" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1022.5, -382)
+texture = ExtResource("7_nvo8v")
+
+[node name="LeafClump32" type="Sprite2D" parent="Environment_Sprites"]
+y_sort_enabled = true
+position = Vector2(1024.5, -319)
+texture = ExtResource("7_nvo8v")
+
+[node name="Fart Event" type="CharacterBody2D" parent="."]
+position = Vector2(132, 111)
+collision_layer = 2
+collision_mask = 3
+floor_max_angle = 3.14159
+floor_snap_length = 0.0
+platform_floor_layers = 0
+script = ExtResource("10_bgdll")
+event_name = "Event 2"

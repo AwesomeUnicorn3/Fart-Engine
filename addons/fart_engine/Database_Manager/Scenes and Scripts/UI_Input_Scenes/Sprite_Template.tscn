@@ -22,6 +22,12 @@ metadata/_edit_vertical_guides_ = [-175.0]
 [node name="Label" parent="." instance=ExtResource("5")]
 layout_mode = 2
 
+[node name="Label_Button" parent="Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
 [node name="StandardControlsHBox" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
@@ -97,7 +103,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="Add_ButtonV" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 button_text = "+"
@@ -105,7 +111,7 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="Sub_ButtonV" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 button_text = "-"
@@ -126,7 +132,7 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.26
 
 [node name="Add_ButtonH" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 button_text = "+"
@@ -134,7 +140,7 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="Sub_ButtonH" parent="StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 button_text = "-"
@@ -199,10 +205,12 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Label_Button" parent="AdvancedControlsVBox/Label/HBox1" index="0" groups=["Sub Label 1"]]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 button_text = "Advanced Options"
 
 [node name="Hide_Button" parent="AdvancedControlsVBox/Label/HBox1" index="1"]
 visible = true
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="AdvancedControlsHBox" type="HBoxContainer" parent="AdvancedControlsVBox"]
 layout_mode = 2
@@ -217,8 +225,11 @@ size_flags_stretch_ratio = 0.75
 layout_mode = 2
 
 [node name="Label_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/Label/HBox1" index="0" groups=["Node Label Level 1"]]
-self_modulate = Color(0, 0.266667, 0.321569, 1)
+self_modulate = Color(0, 0.27, 0.32, 1)
 button_text = "Frame Range"
+
+[node name="Hide_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox"]
 visible = false
@@ -289,7 +300,7 @@ text = "-"
 increase_value = false
 
 [node name="VFrameUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -298,7 +309,7 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="VFrameDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -330,7 +341,7 @@ text = "-"
 increase_value = false
 
 [node name="HFrameUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -339,7 +350,7 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="HFrameDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -359,8 +370,11 @@ size_flags_stretch_ratio = 0.75
 layout_mode = 2
 
 [node name="Label_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/Label/HBox1" index="0" groups=["Node Label Level 1"]]
-self_modulate = Color(0, 0.266667, 0.321569, 1)
+self_modulate = Color(0, 0.27, 0.32, 1)
 button_text = "FPS"
+
+[node name="Hide_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox"]
 visible = false
@@ -424,7 +438,7 @@ text = "-"
 increase_value = false
 
 [node name="SpeedUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -433,7 +447,7 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="SpeedDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -454,8 +468,11 @@ size_flags_stretch_ratio = 0.75
 layout_mode = 2
 
 [node name="Label_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/Label/HBox1" index="0" groups=["Node Label Level 1"]]
-self_modulate = Color(0, 0.266667, 0.321569, 1)
+self_modulate = Color(0, 0.27, 0.32, 1)
 button_text = "Sprite Size (Pixels)"
+
+[node name="Hide_Button" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Label3" type="ColorRect" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox"]
 visible = false
@@ -526,7 +543,7 @@ text = "-"
 increase_value = false
 
 [node name="HeightSpriteSizeUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -535,7 +552,7 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="HeightSpriteSizeDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox1" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -567,7 +584,7 @@ text = "-"
 increase_value = false
 
 [node name="WidthSpriteSizeUp" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3
@@ -576,7 +593,7 @@ auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="WidthSpriteSizeDown" parent="AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/VBox2" groups=["Table Action"] instance=ExtResource("4_pr4se")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(40, 30)
 layout_mode = 2
 size_flags_vertical = 3

@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends DatabaseManager
 
 var table = "DataTypes"
 var relatedNodeName :String

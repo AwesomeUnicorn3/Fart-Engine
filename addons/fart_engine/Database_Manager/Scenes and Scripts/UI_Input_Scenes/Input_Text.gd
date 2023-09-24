@@ -16,7 +16,7 @@ func _init() -> void:
 #	display_child.visible = !show_input_node   
 
 
-func get_text() -> String:
+func get_text_value() -> String:
 	return _get_input_value()["text"]
 
 

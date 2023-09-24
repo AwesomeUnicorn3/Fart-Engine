@@ -41,9 +41,6 @@ func change_global_variable(which_var, which_field:String,  to_what, _event_name
 func remove_event(_event_name :String, _event_node_name:String, event_node):
 	event_node.is_queued_for_delete = true
 	event_node.visible = false
-	await event_node.get_tree().process_frame
-#	event_node.is_refreshing = false
-#	event_node.refresh_event_data()
 
 
 func print_to_console(input_text :String ,_event_name :String, _event_node_name:String, _event_node):
@@ -51,7 +48,7 @@ func print_to_console(input_text :String ,_event_name :String, _event_node_name:
 
 
 func wait(how_long: float, _event_name :String, _event_node_name:String, _event_node):
-	await FART.root.get_tree().create_timer(how_long).timeout
+	await FART.fart_root.get_tree().create_timer(how_long).timeout
 
 
 func transfer_player(which_map :int, what_coordinates, _event_name :String, _event_node_name:String, _event_node):
@@ -119,24 +116,13 @@ func change_game_state(to_what:String, _event_name :String, _event_node_name:Str
 
 #NO COMMAND YET AVAIALBLE
 func remove_unused_maps():
-	var maps_node = FART.root.get_node("map")
+	var maps_node = FART.fart_root.get_node("map")
 	for child in maps_node.get_children():
 		if child != FART.current_map_node:
 			for event in child.event_array:
 				if is_instance_valid(event):
 					event.is_queued_for_delete = true
 			child.queue_free()
-
-
-func change_player_health(to_what:String, _event_name :String, _event_node_name:String, _event_node):
-	var player_node = FART.player_node
-	var player_max_health: int = player_node.current_health.z
-	var player_min_health: int = player_node.current_health.x
-	var player_current_health: int = player_node.current_health.y
-	
-	player_node.current_health.y = clamp(player_current_health - int(to_what), player_min_health, player_max_health)
-	FART.emit_signal("player_health_updated")
-#	print("Current Player HP: ", FART.player_node.current_health.y)
 
 
 func set_camera_speed(to_what:float, _event_name :String, _event_node_name:String, _event_node):
@@ -156,5 +142,12 @@ func move_camera_to_event(return_to_player :bool, how_long :float, use_this_even
 		return_event_name = other_event_name["text"]
 	FART.CAMERA.move_camera_to_event(return_event_name, return_to_player, how_long)
 	#[return_to_player, how_long, use_this_event, other_event_name, event_name]}
-	
-	
+
+
+func change_player_health(health_change: float, knockback:float, custom_cooldown:float, use_default_cooldown:bool,  set_number:bool, operation :int, _event_name :String, _event_node_name:String, _event_node):
+	FART.player_node.change_player_health(health_change, knockback, custom_cooldown, use_default_cooldown, set_number, operation, _event_node)
+
+
+
+#	print("Current Player HP: ", FART.player_node.current_health.y)
+#{ "change_player_health": [-50, 125, 0, true, "Event 3"] }

@@ -87,7 +87,7 @@ func set_inputNode_value():
 
 
 func set_user_input_value():
-	var DBENGINE = DatabaseEngine.new()
+	var DBENGINE = DatabaseManager.new()
 	var vec = inputNode.get_text()
 	vec = DBENGINE.convert_string_to_vector(vec)
 	

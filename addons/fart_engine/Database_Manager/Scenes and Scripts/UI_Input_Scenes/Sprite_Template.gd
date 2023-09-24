@@ -45,12 +45,14 @@ func startup():
 
 
 func set_preview_position() -> void:
+#	print("SHOW FIELD: ", show_field)
 	if show_field:
 		if !sprite_animation.visible:
 			sprite_animation.visible = true
 		control_position = $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox.get_rect().size
 		control_position.x += (preview_window.size.x - (sprite_cell_size.x * sprite_scale.x)) / 2
 		control_position.y = $StandardControlsHBox/PreviewVBox/Label3.size.y + $Label.size.y + 5
+#		print("CONTROL POSITION: ", control_position)
 		sprite_animation.set_position(control_position)
 	else:
 		if sprite_animation.visible:
@@ -142,7 +144,9 @@ func set_sprite_atlas(atlas_path :String):
 
 func get_data_and_create_sprite():
 	input_data = _get_input_value()
+#	print("GET AND CREATE START 1")
 	await create_sprite_animation()
+#	print("GET AND CREATE START 2")
 	set_preview_animation_size()
 	set_preview_position()
 
@@ -307,8 +311,9 @@ func _on_atlasHFrame_button_up(increase) -> void:
 	var input_value :String = modify_value(atlas_h_input.get_text(), increase)
 	input_value = input_value_clamp(input_value)
 	atlas_h_input.set_text(input_value)
-	atlas_dict["frames"].y = input_value.to_int()
-	frame_vector.y = atlas_dict["frames"].y
+	var atlas_frame:Vector2 = DBENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
+	atlas_frame.y = input_value.to_int()
+	frame_vector.y = atlas_frame.y
 	on_text_changed(true)
 	set_sprite_default_size()
 	get_data_and_create_sprite()

@@ -8,7 +8,7 @@ extends VBoxContainer
 @export var selection_table_name = ""
 
 
-var DBENGINE :DatabaseEngine = DatabaseEngine.new()
+var DBENGINE :DatabaseManager = DatabaseManager.new()
 var selected_datatype: String = "1"
 
 

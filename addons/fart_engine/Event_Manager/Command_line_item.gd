@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends DatabaseManager
 
 var parent_node : Object
 var line_item_dictionary :Dictionary = {}

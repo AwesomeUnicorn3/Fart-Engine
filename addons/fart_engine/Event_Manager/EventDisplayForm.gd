@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends TableManager
 
 signal buttons_enabled
 signal table_buttons_created
@@ -8,7 +8,7 @@ signal reload_buttons_complete
 
 
 @onready var btn_itemselect = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
-@onready var event_editor_input_form = preload("res://addons/fart_engine/Event_Manager/Event Editor Input Form.tscn")
+@onready var event_editor_input_form = preload("res://addons/fart_engine/Event_Manager/EventInputForm.tscn")
 
 @onready var btn_saveChanges = $VBox1/HBox1/SaveChanges
 @onready var btn_addNewItem = $VBox1/HBox1/AddNewItem
@@ -237,9 +237,9 @@ func refresh_data(SelectedEventName : String):
 func create_table_buttons():
 #Loop through the item_list dictionary and add a button for each item
 #	print("EVENT MANAGER - CREATE TABLE BUTTONS - BEGIN")
-	var event_list_array :Array = get_list_of_events()
+	var event_list_dict :Dictionary = get_list_of_events()
 	
-	for Event_Name in event_list_array:
+	for Event_Name in event_list_dict:
 		var label :String 
 		var event_dict:Dictionary = import_event_data(Event_Name)
 		var event_display_name:String =  get_text(event_dict["0"]["Display Name"])
@@ -334,15 +334,17 @@ func _on_AddNewItem_button_up():
 	event_display_name = await current_event_editor_input._on_Create_New_Event_Button_button_up(false)
 	#reload_buttons()
 
-	get_main_node()._ready()
+#	get_main_node()._ready()
 	await get_tree().process_frame
-	#table_list.get_node(event_display_name)._on_Navigation_Button_button_up()
+	reload_buttons()
+	await get_tree().process_frame
+	table_list.get_node(event_display_name)._on_Navigation_Button_button_up()
 
 
 func delete_selected_item():
 	delete_event(current_event_editor_input.event_name)
-	get_main_node()._ready()
-	#reload_buttons()
+#	get_main_node()._ready()
+	reload_buttons()
 	table_list.get_child(0)._on_Navigation_Button_button_up()
 
 

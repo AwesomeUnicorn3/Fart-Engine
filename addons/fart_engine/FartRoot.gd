@@ -1,13 +1,13 @@
 @tool
 
-extends Control
+extends EditorManager
+#
+#signal refresh_all_data
+#signal save_complete
 
-signal refresh_all_data
-signal save_complete
 
-
-@onready var DBENGINE :DatabaseEngine = DatabaseEngine.new()
-@onready var tabTemplate := preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Tab_Template.tscn")
+#@onready var DBENGINE :DatabaseManager = DatabaseManager.new()
+@onready var tabTemplate := preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/TableTemplate.tscn")
 @onready var NavigationButton := preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
 @onready var main_display_level_1 := $MainDisplay_Level1
 @onready var main_display_level_2 := $MainDisplay_Level1/MainDisplay_Level2
@@ -17,22 +17,10 @@ signal save_complete
 @onready var welcome_label = $ProjectWelcomeLabel/Welcome_Label
 @onready var table_display := $MainDisplay_Level1/MainDisplay_Level2/TableDisplay
 
-var settings_dict :Dictionary = {}
-var global_data_dict :Dictionary = {}
-var global_settings_profile :String = ""
-var do_not_delete_dict: Dictionary = {}
-var button_dict :Dictionary = {}
-var display_form_dict :Dictionary = {}
-var category_settings_dict: Dictionary = {}
-var selected_tab_name :String= ""
-var selected_category :String = "Game Settings"
-var is_uds_main_updating: bool = false
-
 
 func _ready():
-#	if Engine.is_editor_hint():
-#		DBENGINE = DatabaseEngine.new()
 	if is_uds_main_updating == false:
+		set_fart_root(self)
 		is_uds_main_updating = true
 		print("FART Main _Ready Begin")
 		connect_signals()
@@ -53,43 +41,20 @@ func _ready():
 
 		set_buttom_theme("Top Row")
 		set_buttom_theme("Category")
-		DBENGINE.set_background_theme($Background)
+		set_background_theme($Background)
 		await get_tree().create_timer(0.1).timeout
 		is_uds_main_updating = false
 		
 		
 		table_category.get_node(selected_category)._on_Navigation_Button_button_up()
-var is_editor_saving:bool = false
-
-
-func when_editor_saved():
-
-	if !is_editor_saving:
-		is_editor_saving = true
-		if !is_uds_main_updating:
-			print("FART MAIN: WHEN EDITOR SAVED  - START")
-			for table_name in display_form_dict:
-				var table_node = display_form_dict[table_name]["Node"]
-				if table_node != null:
-					if !table_node.is_in_group("Database"):
-						display_form_dict[table_name]["Node"]._on_Save_button_up()
-						print(table_name, " SAVE COMPLETE")
-			DBENGINE.update_input_actions_table()
-			DBENGINE.update_UI_method_table()
-			DBENGINE.add_items_to_inventory_table()
-			await get_tree().create_timer(0.2).timeout
-		is_editor_saving = false
-		print("FART MAIN - WHEN EDITOR SAVED - END")
-	save_complete.emit()
-
 
 
 func add_category_buttons():
-	var categories_dict :Dictionary = DBENGINE.import_data("Table Category")
-	var sorted_category_dict :Dictionary = DBENGINE.list_keys_in_display_order("Table Category")
+	var categories_dict :Dictionary = import_data("Table Category")
+	var sorted_category_dict :Dictionary = list_keys_in_display_order("Table Category")
 	for key in sorted_category_dict.size():
 		var key_string:String = str(key + 1)
-		var category_name :String = DBENGINE.get_text(categories_dict[sorted_category_dict[key_string][1]]["Display Name"])
+		var category_name :String = get_text(categories_dict[sorted_category_dict[key_string][1]]["Display Name"])
 		var new_button :TextureButton = add_new_button(category_name, category_name, NavigationButton, table_category, "Category")
 		add_category_to_dict(category_name)
 	await get_tree().process_frame
@@ -182,8 +147,8 @@ func clear_table_buttons():
 
 
 func set_buttom_theme(group: String):
-	var project_table: Dictionary = DBENGINE.import_data("Project Settings")
-	var fart_editor_themes_table: Dictionary = DBENGINE.import_data("Fart Editor Themes")
+	var project_table: Dictionary = import_data("Project Settings")
+	var fart_editor_themes_table: Dictionary = import_data("Fart Editor Themes")
 	var theme_profile: String = project_table["1"]["Fart Editor Theme"]
 	var category_color: Color = str_to_var(fart_editor_themes_table[theme_profile][group + " Button"])
 
@@ -273,16 +238,16 @@ func auto_select_table():
 
 
 func add_tables_in_category(category :String):
-	var tables_dict = DBENGINE.import_data("Table Data")
-	var sorted_tables_dict = DBENGINE.list_keys_in_display_order("Table Data")
-	var table_data = DBENGINE.import_data("Table Data", true)
-	var category_dict = DBENGINE.import_data("Table Category")
-	var category_key = DBENGINE.get_id_from_display_name(category_dict, category)
+	var tables_dict = import_data("Table Data")
+	var sorted_tables_dict = list_keys_in_display_order("Table Data")
+	var table_data = import_data("Table Data", true)
+	var category_dict = import_data("Table Category")
+	var category_key = get_id_from_display_name(category_dict, category)
 	for BtnIndex in sorted_tables_dict:
 		var tableKey: String = sorted_tables_dict[BtnIndex][1]
-		var create_tab :bool = DBENGINE.convert_string_to_type(tables_dict[tableKey]["Create Tab"])
+		var create_tab :bool = convert_string_to_type(tables_dict[tableKey]["Create Tab"])
 		var table_category_key :String  = str(tables_dict[tableKey]["Table Category"])
-		var display_name: String = DBENGINE.get_text(tables_dict[tableKey]["Display Name"])
+		var display_name: String = get_text(tables_dict[tableKey]["Display Name"])
 		var table_already_exists: bool = false
 		if display_form_dict.has(tableKey):
 			if display_form_dict[tableKey]["Node"] != null:

@@ -1,0 +1,122 @@
+[gd_scene load_steps=7 format=3 uid="uid://bvvoje1g7icev"]
+
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_ud6wi"]
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_List_Forms/Change_Player_Health_EventInputForm.gd" id="2_wnxkc"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="3_10i14"]
+[ext_resource type="PackedScene" uid="uid://c7c0ymusji584" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="4_4w82s"]
+[ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_37vin"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_3df8y"]
+
+[node name="ChangePlayerHealth_EventInputForm" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ud6wi")
+script = ExtResource("2_wnxkc")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.282292
+anchor_top = 0.22037
+anchor_right = 0.75
+anchor_bottom = 0.744444
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+text = "Change Player Health"
+horizontal_alignment = 1
+
+[node name="Checkbox_Template2" parent="Control/VBoxContainer" instance=ExtResource("5_37vin")]
+layout_mode = 2
+true_text = "Set"
+false_text = "Change"
+label_text = "Set or Change Health"
+
+[node name="Input" parent="Control/VBoxContainer/Checkbox_Template2/Hbox1/Background" index="0"]
+text = "Change"
+
+[node name="CheckBox" parent="Control/VBoxContainer/Checkbox_Template2/Hbox1/Background" index="1"]
+button_pressed = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="ItemType_Selection" parent="Control/VBoxContainer/HBoxContainer2" instance=ExtResource("3_10i14")]
+layout_mode = 2
+selection_table_name = "Operations"
+label_text = "Select Operation"
+
+[node name="Number_Counter3" parent="Control/VBoxContainer/HBoxContainer2" instance=ExtResource("4_4w82s")]
+layout_mode = 2
+is_int = true
+can_be_negative = false
+label_text = "Health Change"
+
+[node name="Number_Counter" parent="Control/VBoxContainer" instance=ExtResource("4_4w82s")]
+layout_mode = 2
+can_be_negative = false
+label_text = "Knockback Force"
+
+[node name="Checkbox_Template" parent="Control/VBoxContainer" instance=ExtResource("5_37vin")]
+layout_mode = 2
+label_text = "Use Default Player cooldown time"
+
+[node name="Input" parent="Control/VBoxContainer/Checkbox_Template/Hbox1/Background" index="0"]
+text = "True"
+
+[node name="CheckBox" parent="Control/VBoxContainer/Checkbox_Template/Hbox1/Background" index="1"]
+button_pressed = true
+
+[node name="Number_Counter2" parent="Control/VBoxContainer" instance=ExtResource("4_4w82s")]
+visible = false
+layout_mode = 2
+can_be_negative = true
+label_text = "Custom Cooldown Time"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Accept" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_3df8y")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+button_text = "Accept"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Cancel" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_3df8y")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+button_text = "Cancel"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="Control/VBoxContainer/Checkbox_Template2"]
+[editable path="Control/VBoxContainer/Checkbox_Template2/Label"]
+[editable path="Control/VBoxContainer/Checkbox_Template"]
+[editable path="Control/VBoxContainer/Checkbox_Template/Label"]

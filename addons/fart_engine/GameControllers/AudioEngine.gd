@@ -118,7 +118,7 @@ func iterate_through_audio(repeat:bool, repeat_amount:int):
 			var audio_player :AudioStreamPlayer2D
 			audio_player = await get_next_audio_player()
 			set_variable_data(audio_index, audio_player, current_audio_dictionary)
-			await FART.root.get_tree().process_frame
+			await FART.fart_root.get_tree().process_frame
 			audio_player.play()
 			await audio_player.finished
 

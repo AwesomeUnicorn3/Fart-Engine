@@ -1,5 +1,5 @@
 @tool
-extends DatabaseEngine
+extends DatabaseManager
 
 @onready var input_dictionary_template = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Dictionary_input.tscn")
 @onready var inputContainer = $VBox1/Scroll1/VBox1

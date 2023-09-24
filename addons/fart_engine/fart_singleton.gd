@@ -1,4 +1,4 @@
-extends DatabaseEngine
+extends DatabaseManager
 #SHOULD ONLY INCLUDE SCRIPT THAT I WANT ACCESSIBLE TO THE USER
 signal save_game_data
 signal save_complete
@@ -22,13 +22,13 @@ var save_game_data_dict: Dictionary
 
 var inputMapActions :Array
 var movementDirections_dict :Dictionary
-var Static_Game_Dict := {}
-var Dynamic_Game_Dict := {}
+static var Static_Game_Dict := {}
+static var Dynamic_Game_Dict := {}
 var Global_Options_Dict := {}
 
-var settings_dict :Dictionary = {}
-var global_data_dict :Dictionary = {}
-var global_settings_profile :String = ""
+#var settings_dict :Dictionary = {}
+#var global_data_dict :Dictionary = {}
+#var global_settings_profile :String = ""
 
 var save_dict = {}
 var curr_tbl_loc = ""
@@ -58,11 +58,13 @@ var operatingSystem :String
 
 func _ready():
 	if !Engine.is_editor_hint():
+		set_root_node()
 		operatingSystem = OS.get_name()
 		Static_Game_Dict = create_dictionary_of_all_tables()
 		Dynamic_Game_Dict = {}
+		
 		set_var_type_dict(Static_Game_Dict)
-		set_root_node()
+		
 		await get_tree().create_timer(0.1).timeout
 		add_required_scenes_to_UI()
 		await get_tree().create_timer(0.1).timeout
@@ -141,7 +143,7 @@ func _input(event):
 
 
 func show_in_game_main_menu(show :bool = true):
-	root.get_node("UI/InGameMainMenu").visible = show
+	fart_root.get_node("UI/InGameMainMenu").visible = show
 #	show_gui(!show)
 
 
@@ -163,7 +165,7 @@ func remove_map_from_root():
 
 
 func get_UI_window():
-	var UI = root.get_node("UI")
+	var UI = fart_root.get_node("UI")
 	return UI
 
 
@@ -238,7 +240,7 @@ func load_and_set_map(map_path := ""):
 	#set game state to 7 (Scene transition)
 	set_game_state("7")
 	var map_node = load(map_path).instantiate()
-	root.get_node("map").add_child(map_node)
+	fart_root.get_node("map").add_child(map_node)
 	var map_input: Dictionary = {"text" : map_path}
 	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Current Map"] = map_input
 	await set_current_map(map_node, map_path)
@@ -314,7 +316,7 @@ func load_game(file_name : String):
 
 
 func get_player_node():
-	player_node = await root.find_child("Player", true, false)
+	player_node = await fart_root.find_child("Player", true, false)
 	return player_node
 
 
@@ -324,7 +326,7 @@ func get_player_interaction_area():
 	return interation_area
 
 
-func move_player_to_map_Ysort(current_map_node, objectNode :Node = player_node, parent :Node = root):
+func move_player_to_map_Ysort(current_map_node, objectNode :Node = player_node, parent :Node = fart_root):
 	parent.remove_child(objectNode)
 	current_map_node.ysort_node.add_child(objectNode)
 
@@ -332,7 +334,7 @@ func move_player_to_map_Ysort(current_map_node, objectNode :Node = player_node, 
 func remove_player_from_map_node():
 	if player_node != null:
 		player_node.get_parent().remove_child(player_node)
-		root.add_child(player_node)
+		fart_root.add_child(player_node)
 
 
 func set_player_position_in_db(new_position):
@@ -496,7 +498,7 @@ func add_required_scenes_to_UI():
 
 	var playerScene_ID :String = str(global_data_dict["Default Player Scene"])
 	var playerScene_Scene :Variant = load(menu_scenes[playerScene_ID]["Path"]).instantiate()
-	root.add_child(playerScene_Scene)
+	fart_root.add_child(playerScene_Scene)
 	playerScene_Scene.set_name("Player")
 
 	add_map_node_to_root()
@@ -507,31 +509,31 @@ func add_required_scenes_to_UI():
 	var TitleScreen_ID :String = str(global_data_dict["Title Screen"])
 	var TitleScreen_Scene :Variant = load(menu_scenes[TitleScreen_ID]["Path"]).instantiate()
 	TitleScreen_Scene.set_name("TitleScreen")
-	root.get_node("UI").add_child(TitleScreen_Scene)
+	fart_root.get_node("UI").add_child(TitleScreen_Scene)
 	TitleScreen_Scene.visible = true
 
 	var GUI_ID :String = str(global_data_dict["Default GUI"])
 	var GUI_Scene :Variant = load(menu_scenes[GUI_ID]["Path"]).instantiate()
 	GUI_Scene.set_name("GUI")
-	root.get_node("UI").add_child(GUI_Scene)
+	fart_root.get_node("UI").add_child(GUI_Scene)
 	GUI_Scene.visible = false
 
 	var MainMenu_ID :String = str(global_data_dict["Default In-Game Menu"])
 	var Menu_Scene :Variant = load(menu_scenes[MainMenu_ID]["Path"]).instantiate()
 	Menu_Scene.set_name("InGameMainMenu")
-	root.get_node("UI").add_child(Menu_Scene)
+	fart_root.get_node("UI").add_child(Menu_Scene)
 	Menu_Scene.visible = false
 
 	var LoadMenu_ID :String = str(global_data_dict["Default Load Game Menu"])
 	var LoadMenu_Scene :Variant = load(menu_scenes[LoadMenu_ID]["Path"]).instantiate()
 	LoadMenu_Scene.visible = false
 	LoadMenu_Scene.set_name("LoadGameMenu")
-	root.get_node("UI").add_child(LoadMenu_Scene)
+	fart_root.get_node("UI").add_child(LoadMenu_Scene)
 
 	var PlayerDeath_ID :String = str(global_data_dict["Default Player Death Scene"])
 	var PlayerDeath_Scene :Variant = load(menu_scenes[PlayerDeath_ID]["Path"]).instantiate()
 	PlayerDeath_Scene.set_name("PlayerDeathScene")
-	root.get_node("UI").add_child(PlayerDeath_Scene)
+	fart_root.get_node("UI").add_child(PlayerDeath_Scene)
 	PlayerDeath_Scene.visible = false
 
 	add_loading_screen_to_UI()
@@ -544,23 +546,23 @@ func add_required_scenes_to_UI():
 func add_map_node_to_root():
 	var node :Node2D = Node2D.new()
 	node.set_name("map")
-	root.add_child(node)
+	fart_root.add_child(node)
 
 
 func add_UI_node_to_root():
 	var node :CanvasLayer = CanvasLayer.new()
 	node.set_name("UI")
-	root.add_child(node)
+	fart_root.add_child(node)
 
 func add_sfx_node_to_root():
 	var node :Node = Node.new()
 	node.set_name("SFX")
-	root.add_child(node)
+	fart_root.add_child(node)
 
 func add_bgm_node_to_root():
 	var node :Node = Node.new()
 	node.set_name("BGM")
-	root.add_child(node)
+	fart_root.add_child(node)
 
 func add_loading_screen_to_UI():
 	var node :Control = Control.new()
@@ -618,22 +620,22 @@ func play_state_BGM(gameState_dict:Dictionary, gameState:String):
 
 
 func set_player_death_state(is_visible:bool):
-	root.get_node("UI/PlayerDeathScene").visible = is_visible
+	fart_root.get_node("UI/PlayerDeathScene").visible = is_visible
 
 
 	if is_visible:
 		await AUDIO.audio_finished
 		call_deferred("quit_game")
-		root.get_node("UI/PlayerDeathScene").visible = false
+		fart_root.get_node("UI/PlayerDeathScene").visible = false
 
 
 
 func show_load_game_menu(is_visible:bool):
-	root.get_node("UI/LoadGameMenu").visible = is_visible
+	fart_root.get_node("UI/LoadGameMenu").visible = is_visible
 
 
 func show_title_screen(is_visible:bool):
-	root.get_node("UI/TitleScreen").visible = is_visible
+	fart_root.get_node("UI/TitleScreen").visible = is_visible
 
 
 func set_player_movement_state(canMove :bool):
@@ -641,8 +643,8 @@ func set_player_movement_state(canMove :bool):
 		player_node.set_character_movement(canMove)
 
 
-func damage_player(damage_amount, knockback_power, event_position):
-	player_node._damage_player(damage_amount, knockback_power, event_position)
+#func damage_player(damage_amount, knockback_power, event_position):
+#	player_node._damage_player(damage_amount, knockback_power, event_position)
 
 
 
@@ -672,8 +674,8 @@ func add_loading_screen_to_root(load_scene:bool):
 		get_UI_window().get_node("LoadingScreen").visible = true
 
 	else :
-		if root.get_node("UI/LoadingScreen").get_children().size() > 0:
-			await root.get_tree().create_timer(.5).timeout #EVENTUALLY ID LIKE TO CHANGE THE TIME TO A VARIABLE THAT THE USER CAN SET
-			for child in root.get_node("UI/LoadingScreen").get_children():
+		if fart_root.get_node("UI/LoadingScreen").get_children().size() > 0:
+			await fart_root.get_tree().create_timer(.5).timeout #EVENTUALLY ID LIKE TO CHANGE THE TIME TO A VARIABLE THAT THE USER CAN SET
+			for child in fart_root.get_node("UI/LoadingScreen").get_children():
 				child.queue_free()
 			get_UI_window().get_node("LoadingScreen").visible = false

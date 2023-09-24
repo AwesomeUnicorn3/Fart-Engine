@@ -1,19 +1,18 @@
 @tool
-extends Sprite2D
+class_name StartingPosition extends Sprite2D
 
 var current_position :Vector2 = Vector2.ZERO
 var previous_position:Vector2 = Vector2.ZERO
 var position_updated :bool = true
+var current_map_path:String
 var DBENGINE 
-var editor 
 var save_table_wait_index :int = 0
-var set_position_button
+
 
 func _ready():
-	
 	if get_tree().get_edited_scene_root() != null:
 	#Set current position based on Global Data info
-		DBENGINE = DatabaseEngine.new()
+		DBENGINE = DatabaseManager.new()
 		var global_data_dict = DBENGINE.import_data("Global Data")
 		current_position = DBENGINE.convert_string_to_vector(global_data_dict[await DBENGINE.get_global_settings_profile()]["Player Starting Position"])
 		set_position(current_position)
@@ -26,15 +25,22 @@ func _ready():
 
 func update_starting_position_in_profile(CurrentPosition):
 #	print("BEGIN UPDATE STARTING POSITION IN PROFILE")
-	
-	
+	var display_form_dict = DatabaseManager.display_form_dict
 	var global_data_dict = DBENGINE.import_data("Global Data")
 	var profileid:String = await DBENGINE.get_global_settings_profile()
 #	print("CurrentPosition: ", CurrentPosition)
 	global_data_dict[profileid]["Player Starting Position"] = CurrentPosition
 	DBENGINE.save_file(DBENGINE.table_save_path + "Global Data" + DBENGINE.table_file_format, global_data_dict)
+	if display_form_dict.has("Global Data"):
+		var display_node:Node = display_form_dict["Global Data"]["Node"]
+		if display_node!= null:
+			display_node.reload_data_without_saving()
 #	print("END UPDATE STARTING POSITION IN PROFILE")
 
+func remove_starting_node(map):
+	#GET MAP NODE
+	#REMOVE SELF
+	queue_free()
 
 func _process(delta):
 	if position != previous_position:
@@ -49,15 +55,5 @@ func _process(delta):
 	
 	elif save_table_wait_index == 0 and !position_updated:
 		position_updated = true
-
-		await update_starting_position_in_profile(current_position)
-#		await self.get_tree().create_timer(.5).timeout
-
-
-		editor  = load("res://addons/fart_engine/EditorEngine.gd").new()
-		var main_node = editor.get_editor_interface().get_editor_main_screen().get_node("FART ENGINE")
-		var UDS_main_node: Control = await DBENGINE.return_to_AU3Engine()
-		UDS_main_node._ready()
-		editor.save_current_scene()
-
+		update_starting_position_in_profile(current_position)
 

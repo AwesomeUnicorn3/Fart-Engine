@@ -7,13 +7,11 @@ signal player_exited_interaction_area
 #signal player_entered_damage_area
 #signal player_exited_damage_area
 #@onready var MOVEMENTENGINE :MovementEngine = MovementEngine.new()
-#@onready var DBENGINE :DatabaseEngine = DatabaseEngine.new()
 @onready var interaction_shader_material :ShaderMaterial = load("res://addons/fart_engine/Event_Manager/2dOutline_Material.tres")
 @onready var shadow_shader:ShaderMaterial = preload("res://addons/fart_engine/Character_Manager/ShadowMaterial.tres")
 
 @export var event_name :String = ""
-var DBENGINE:DatabaseEngine
-#var velocity :Vector2
+var DBENGINE:DatabaseManager
 var root_node : EventHandler
 var collision_node :CollisionShape2D
 var sprite_animation :AnimatedSprite2D
@@ -23,7 +21,7 @@ var event_animation_dictionary :Dictionary = {}
 var event_shadow_dictionary :Dictionary = {}
 var interaction_area :Area2D
 var attack_area :Area2D
-var event_list :Array = []
+#var event_list :Array = []
 var event_dict :Dictionary = {}
 var command_dict :Dictionary = {}
 var event_node_name := ""
@@ -66,43 +64,63 @@ var damage_player_on_touch:bool = true
 var knockback_power:float = 0
 var damage_cooldown_time:float = 0
 var damage_amount:int = 0
+var can_be_pushed:bool = false
+var push_speed:float = 0.0
 
 
-var idle = "Idle"
-var walk_left = "Walk Left"
-var walk_right ="Walk Right"
-var walk_up = "Walk Up"
-var walk_down ="Walk Down"
+
+
+
+
+
+
+###--------------IMPORTANT FOR EVENT PROCESSING BUT SHOULD IT BE IN THIS SCRIPT------------------
+func get_event_dict(event_name:String):
+#	if !DBENGINE.all_events_dict.has(event_name):
+#		DBENGINE.all_events_dict = DBENGINE.get_list_of_events()
+#		print(DBENGINE.all_events_dict)
+#	event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
+#	var all_events_dict := {}
+#	var all_events_dict = DBENGINE.get_list_of_events()
+
+#	for eventName in DBENGINE.all_events_dict :
+#		print("EVENT NAME: ", eventName)
+#		var array = []
+#		array = eventName.rsplit(".")
+#		eventName = array[0]
+#		all_events_dict[eventName] = DBENGINE.import_event_data(eventName)
+	return DatabaseManager.all_events_dict[event_name]
+
+
+
+
+
+
+
 
 
 func _ready() -> void:
-	
 	if Engine.is_editor_hint():
-		DBENGINE = DatabaseEngine.new()
+		DBENGINE = DatabaseManager.new()
 		root_node = get_tree().get_edited_scene_root().get_child(get_index())
-		event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
 		connect("draw",_on_event_draw)
 
 	else:
 		DBENGINE = FART
-		event_list = DBENGINE.list_files_with_param(DBENGINE.table_save_path + DBENGINE.event_folder, DBENGINE.table_file_format)
 		is_updating_animations = true
 		await DBENGINE.map_loaded
 		
 		set_initial_in_game_values()
 
-
 		if event_name != "":
 			set_initial_values()
-
 
 			await add_sprite_and_collision()
 
 			if active_page != "":
 				autorun_commands()
 				interaction_area.monitoring = true
-#			else:
-#				clear_event_children()
+
 
 	set_event_node_default_settings()
 	is_updating_animations = false
@@ -141,9 +159,11 @@ func player_interaction_excited():
 func set_interaction_shader():
 	sprite_animation.set_material(interaction_shader_material)
 
+
 func clear_interaction_shader():
 	if sprite_animation != null:
 		sprite_animation.set_material(null)
+
 
 func set_event_node_default_settings():
 	set_collision_layer_value(1, false)
@@ -167,11 +187,8 @@ func set_initial_in_game_values():
 	create_event_data_dict()
 	var Name = name
 	var event_position = DBENGINE.save_game_data_dict[current_map_key][name]["Position"]
-#	create_event_data_dict()
-#	event_dict = get_event_dict(event_name)
 
 	if DBENGINE.save_game_data_dict[current_map_key].has(name):
-#		update_event_data()
 		var attached_event_editor :String = event_name
 		var attached_event_save_file :String = DBENGINE.save_game_data_dict[current_map_key][name]["Attached Event"]["text"]
 		if attached_event_editor != attached_event_save_file:
@@ -181,9 +198,6 @@ func set_initial_in_game_values():
 	event_position = DBENGINE.save_game_data_dict[current_map_key][name]["Position"]
 	var posvect :Vector2 = DBENGINE.convert_string_to_vector(str(event_position))
 	set_global_position(posvect)
-	
-#	local_variables_dict = DBENGINE.convert_string_to_type(DBENGINE.save_game_data_dict[current_map_key][name]["Local Variables"])
-#	options_button_variables_dict = DBENGINE.convert_string_to_type(DBENGINE.save_game_data_dict[current_map_key][name]["Event Dialog Variables"])
 
 
 func set_initial_values():
@@ -199,13 +213,13 @@ func get_trigger_index(triggerKey:String):
 
 func _on_event_draw():
 	if event_name != "":
-		clear_event_children()
+		var current_event_dict = event_dict
 		event_dict = get_event_dict(event_name)
 		active_page = "1"
-#		var DBENGINE :DatabaseEngine = DatabaseEngine.new()
-#		loop_animation = DBENGINE.convert_string_to_type(event_dict[active_page]["Loop Animation"])
-#		DBENGINE.queue_free()
-		add_sprite_and_collision()
+		if current_event_dict != event_dict:
+
+			clear_event_children()
+			add_sprite_and_collision()
 
 
 func emit_refresh_event_signal():
@@ -229,7 +243,7 @@ func _process(delta):
 
 func event_damage_player():
 	if damage_player_on_touch and !is_damage_cooldown_active and player_is_in_damage_area:
-		FART.damage_player(damage_amount, knockback_power, self.position)
+		FART.player_node.change_player_health(damage_amount, knockback_power, 0,true, false, 2, self)
 		damage_cooldown_timer()
 
 
@@ -270,47 +284,30 @@ func state_machine(delta):
 			"Random Movement":
 				random_movement(delta)
 
-#	else:
-#		static_movement(delta)
+	match state:
+		"BEING_PUSHED":
+			push_movement(delta)
+		"SLOW_DOWN":
+			slow_from_push(delta)
 
 
-#func static_movement(delta):
-#	if !is_updating_animations:
-#		var sprite_texture_data  :Dictionary
-#		if Engine.is_editor_hint() or sprite_animation == null:
-#			pass
-##			DBENGINE = DatabaseEngine.new()
-##			sprite_texture_data = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
-#		else:
-#			sprite_texture_data = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
-#
-##		if loop_animation:
-##			if draw_shadow:
-##				set_shadow("Default Animation", sprite_texture_data)
-##				shadow_sprite_animation.play("Default Animation")
-##			sprite_animation.play("Default Animation")
-#
-#
-#
-#
-#
-#
-#				#var sprite_texture_data  :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
-##				var sprite_atlas_dict :Dictionary = sprite_texture_data["atlas_dict"]
-##				var sprite_advanced_dict :Dictionary = sprite_texture_data["advanced_dict"]
-##				var begin_frame :int = DBENGINE.convert_string_to_vector(sprite_advanced_dict["frame_range"]).x
-##				sprite_animation.play("Default Animation")
-##				sprite_animation.stop()
-##				sprite_animation.set_frame(begin_frame - 1)
-#			if draw_shadow:
-##					set_shadow("Default Animation", sprite_texture_data)
-#				shadow_sprite_animation.play("Default Animation")
-##					shadow_sprite_animation.stop()
-##					shadow_sprite_animation.set_frame(begin_frame - 1)
-##				sprite_animation.play("Default Animation")
-#			call_deferred("enable_collision","Default Animation")
-#			DBENGINE.set_sprite_scale(sprite_animation,"Default Animation" , sprite_texture_data)
-#	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+func set_state(new_state: String):
+	state = new_state
+
+
+func set_pushed_state():
+	if can_be_pushed:
+		set_state("BEING_PUSHED")
+
+
+func push_movement(delta):
+	var direction:Vector2 = self.global_position - player_node.global_position
+	velocity = direction.normalized() * push_speed#PUSH SPEED
+
+
+func push_ended():
+	if state == "BEING_PUSHED":
+		set_state("SLOW_DOWN")
 
 
 func random_movement(delta):
@@ -323,17 +320,16 @@ func random_movement(delta):
 	move_event(delta)
 
 
-func get_next_direction() -> Vector2:
-	randomize()
-	var dirX :float = randf_range(-.99, .99)
-	var dirY :float = randf_range(-.99, .99)
-	return Vector2(dirX, dirY)
-
-
 func idle_movement(delta):
-	if !is_updating_animations:
-		play_event_sprite_animation(idle)
+	if !self.is_updating_animations:
+		self.play_event_sprite_animation(idle)
 	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+
+
+func slow_from_push(delta):
+	velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+	if abs(velocity.round()) == Vector2.ZERO:
+		set_state("idle")
 
 
 func move_toward_player(delta):
@@ -352,6 +348,9 @@ func move_event(delta):
 	elif direction.y > 0:
 		play_event_sprite_animation(walk_down)
 	velocity = set_character_velocity(velocity,direction,max_speed,friction,acceleration,false,delta)
+
+
+
 
 
 func play_event_sprite_animation(animation_name: String):
@@ -378,37 +377,7 @@ func play_sprite_animation_static_or_editor(sprite_texture_data: Dictionary):
 #		shadow_sprite_animation.set_frame(begin_frame - 1)
 
 
-func set_shadow(animation_name :String, texture_data :Dictionary = event_animation_dictionary):
-	
-#	var scale_size = shadow_sprite_animation.get_scale()
-#	shadow_sprite_animation.set_scale(Vector2(shadow_sprite_animation.scale.x,shadow_sprite_animation.scale.y))
-	shadow_sprite_frames = shadow_sprite_animation.sprite_frames
-	if texture_data.has("animation_dictionary"):
-		texture_data  = DBENGINE.convert_string_to_type(texture_data["animation_dictionary"][animation_name])
-	var atlas_dict :Dictionary = texture_data["atlas_dict"]
-	var advanced_dict :Dictionary  = texture_data["advanced_dict"]
-	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"])
-	var sprite_frame_size:Vector2 = DBENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
-	var sprite_final_size = advanced_dict["sprite_size"]
-	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
-	DBENGINE.set_sprite_scale(shadow_sprite_animation,animation_name , texture_data)
-#	shadow_sprite_animation.set_material(shadow_shader)
-#	shadow_sprite_animation.material.set_shader_parameter("sprite_size", sprite_cell_size)
 
-
-func add_shadow_animation():
-	shadow_sprite_animation.set_name("ShadowSprite")
-	shadow_sprite_frames = shadow_sprite_animation.sprite_frames
-	shadow_sprite_animation.show_behind_parent = true
-	add_child(shadow_sprite_animation)
-
-
-
-func set_editor_or_static_shadow():
-	shadow_sprite_animation = AnimatedSprite2D.new()
-	var shadow_sprite_texture_data :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
-	set_default_animation(shadow_sprite_texture_data, shadow_sprite_animation)
-	set_shadow("Default Animation", shadow_sprite_texture_data)
 
 
 func set_default_animation(sprite_texture_data, animation_player):
@@ -506,9 +475,8 @@ func create_event_data_dict():
 #		player_damage_exited()
 
 func interaction_area_entered(area): #Player touch
-#	if area.get_parent() == FART.player_node:
-#		player_damage_entered()
-	
+
+
 	if !is_interaction_in_progress:
 		if event_trigger == "1" and character_is_in_interaction_area and can_interact: #Player Touch
 			await run_commands()
@@ -528,14 +496,7 @@ func run_commands():
 	can_interact = true
 
 
-func attack_player_area_exited(area):
-	state = previous_state
 
-
-func attack_player_area_entered(area): #Player touch
-	if !is_interaction_in_progress and state != "Move Towards Player":
-		previous_state = state
-		state = "Move Towards Player"
 
 
 func call_commands():
@@ -558,16 +519,7 @@ func call_commands():
 
 
 
-func get_event_dict(event_name:String):
-	var all_events_dict := {}
-	var this_event_dict:= {}
-	for eventName in event_list:
-		var array = []
-		array = eventName.rsplit(".")
-		eventName = array[0]
-		all_events_dict[eventName] = DBENGINE.import_event_data(eventName)
-	this_event_dict = all_events_dict[event_name]
-	return this_event_dict
+
 
 
 func get_active_event_page() -> String:
@@ -619,7 +571,7 @@ func get_active_event_page() -> String:
 
 
 
-func apply_operator(value1, value2, operator):
+func apply_operator(value1, value2, operator:String):
 	var return_value
 	match operator:
 		"1":#+
@@ -690,10 +642,6 @@ func get_global_variable_index_name_from_display_name(If_Key_Name_DropDown):
 func refresh_event_data():
 	if !is_refreshing:
 		if !is_queued_for_delete:
-#			visible = false
-##			sprite_animation.stop()
-#			call_deferred("queue_free")
-#		else:
 			var current_active_page := active_page
 			active_page = get_active_event_page()
 			if active_page != "":
@@ -727,7 +675,10 @@ func set_active_page_variables():
 	knockback_power = DBENGINE.convert_string_to_type(event_dict[active_page]["Knockback Power"])
 	damage_cooldown_time = DBENGINE.convert_string_to_type(event_dict[active_page]["Damage Cooldown Time"])
 	damage_amount = DBENGINE.convert_string_to_type(event_dict[active_page]["Damage Amount"])
+	can_be_pushed = DBENGINE.convert_string_to_type(event_dict[active_page]["Can Be Pushed"])
+	push_speed = DBENGINE.convert_string_to_type(event_dict[active_page]["Being Pushed Speed"])
 	autorun_complete = false
+
 
 func add_sprite_and_collision():
 	var active_page_data :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page])
@@ -771,18 +722,21 @@ func add_and_play_animation_group():
 
 
 func set_editor_or_static_animation(sprite_texture_data:Dictionary):
-#	await clear_event_animations()
 	sprite_animation = AnimatedSprite2D.new()
 	sprite_animation.set_name("event_sprite")
 	sprite_texture_data  = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
-	
 	set_default_animation(sprite_texture_data, sprite_animation)
-
 	add_child(sprite_animation)
 
 
-#	sprite_animation.set_owner(self)
+func attack_player_area_exited(area):
+	state = previous_state
 
+
+func attack_player_area_entered(area): #Player touch
+	if !is_interaction_in_progress and state != "Move Towards Player":
+		previous_state = state
+		state = "Move Towards Player"
 
 func set_collision_area(sprite_texture_data:Dictionary):
 	collision_node = DBENGINE.get_collision_shape("Default Animation", sprite_texture_data)
@@ -804,6 +758,7 @@ func set_interaction_area(sprite_texture_data:Dictionary):
 	interaction_area.area_entered.connect(player_damage_entered)
 	interaction_area.area_exited.connect(player_damage_exited)
 
+
 func set_attack_player_area(sprite_texture_data:Dictionary):
 	attack_area = DBENGINE.create_event_attack_area("Default Animation", sprite_texture_data)
 	call_deferred("add_child", attack_area)
@@ -822,8 +777,8 @@ func clear_event_children():
 		for child in root_node.get_children():
 			var childname :String = child.name
 			child.name = childname + "1"
-			child.call_deferred("queue_free")
-			#child.queue_free()
+			#child.call_deferred("queue_free")
+			child.queue_free()
 
 
 func show_event_toolbar_in_editor(selected_node_name):
@@ -832,3 +787,40 @@ func show_event_toolbar_in_editor(selected_node_name):
 
 func is_new_event_object() -> void:
 	pass
+
+
+
+
+
+#SHADOW FUNCTIONS----NEED TO REFACTOR
+func set_shadow(animation_name :String, texture_data :Dictionary = event_animation_dictionary):
+	
+#	var scale_size = shadow_sprite_animation.get_scale()
+#	shadow_sprite_animation.set_scale(Vector2(shadow_sprite_animation.scale.x,shadow_sprite_animation.scale.y))
+	shadow_sprite_frames = shadow_sprite_animation.sprite_frames
+	if texture_data.has("animation_dictionary"):
+		texture_data  = DBENGINE.convert_string_to_type(texture_data["animation_dictionary"][animation_name])
+	var atlas_dict :Dictionary = texture_data["atlas_dict"]
+	var advanced_dict :Dictionary  = texture_data["advanced_dict"]
+	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"])
+	var sprite_frame_size:Vector2 = DBENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
+	var sprite_final_size = advanced_dict["sprite_size"]
+	var sprite_cell_size := Vector2(sprite_texture.get_size().x / sprite_frame_size.y ,sprite_texture.get_size().y / sprite_frame_size.x)
+	DBENGINE.set_sprite_scale(shadow_sprite_animation,animation_name , texture_data)
+#	shadow_sprite_animation.set_material(shadow_shader)
+#	shadow_sprite_animation.material.set_shader_parameter("sprite_size", sprite_cell_size)
+
+
+func add_shadow_animation():
+	shadow_sprite_animation.set_name("ShadowSprite")
+	shadow_sprite_frames = shadow_sprite_animation.sprite_frames
+	shadow_sprite_animation.show_behind_parent = true
+	add_child(shadow_sprite_animation)
+
+
+
+func set_editor_or_static_shadow():
+	shadow_sprite_animation = AnimatedSprite2D.new()
+	var shadow_sprite_texture_data :Dictionary = DBENGINE.convert_string_to_type(event_dict[active_page]["Default Animation"])
+	set_default_animation(shadow_sprite_texture_data, shadow_sprite_animation)
+	set_shadow("Default Animation", shadow_sprite_texture_data)

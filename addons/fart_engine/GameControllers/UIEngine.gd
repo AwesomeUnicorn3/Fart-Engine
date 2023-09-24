@@ -39,11 +39,11 @@ func open_menu(menu_name:String):
 func load_game():
 	FART.set_game_state("9")
 #	var LoadGameMenu : Node = load("res://addons/fart_engine/Example Game/LoadGameMenu.tscn").instantiate()
-#	FART.root.get_node("UI").add_child(LoadGameMenu)
+#	FART.fart_root.get_node("UI").add_child(LoadGameMenu)
 
 
 func exit_program():
-	FART.root.get_tree().quit()
+	FART.fart_root.get_tree().quit()
 
 
 func move_camera():

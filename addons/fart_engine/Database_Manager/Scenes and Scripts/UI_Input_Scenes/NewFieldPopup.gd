@@ -3,7 +3,7 @@ extends Control
 signal newfieldinput_closed
 
 var main_dict :Dictionary
-var DBENGINE :DatabaseEngine = DatabaseEngine.new()
+var DBENGINE :DatabaseManager = DatabaseManager.new()
 
 
 func _ready():

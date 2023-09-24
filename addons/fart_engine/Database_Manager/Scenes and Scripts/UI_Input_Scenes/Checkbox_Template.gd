@@ -31,6 +31,7 @@ func _set_input_value(node_value):
 	inputNode.button_pressed = node_value
 	_on_input_toggled(node_value, true)
 
+
 func _get_input_value():
 	var return_value :bool
 	inputNode = await _get_input_node()

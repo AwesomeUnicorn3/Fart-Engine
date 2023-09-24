@@ -68,7 +68,7 @@ func get_parent_table():
 
 
 func get_button_base_color()-> Color:
-	var DBENGINE: DatabaseEngine = DatabaseEngine.new()
+	var DBENGINE: DatabaseManager = DatabaseManager.new()
 	var project_table: Dictionary = DBENGINE.import_data("Project Settings")
 	var fart_editor_themes_table: Dictionary = DBENGINE.import_data("Fart Editor Themes")
 	
@@ -94,7 +94,7 @@ func get_button_base_color()-> Color:
 
 
 func get_font_base_color():
-	var DBENGINE: DatabaseEngine = DatabaseEngine.new()
+	var DBENGINE: DatabaseManager = DatabaseManager.new()
 	var project_table: Dictionary = DBENGINE.import_data("Project Settings")
 	var fart_editor_themes_table: Dictionary = DBENGINE.import_data("Fart Editor Themes")
 	var theme_profile: String = project_table["1"]["Fart Editor Theme"]

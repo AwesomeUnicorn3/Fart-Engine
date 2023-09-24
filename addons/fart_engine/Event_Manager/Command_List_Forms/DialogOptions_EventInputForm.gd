@@ -6,7 +6,7 @@ extends CommandForm
 
 @onready var value_node := $Control/VBoxContainer/Checkbox_Template
 
-var DBENGINE: DatabaseEngine = DatabaseEngine.new()
+var DBENGINE: DatabaseManager = DatabaseManager.new()
 
 var function_name :String = "change_dialog_options" #must be name of valid function
 var which_var :String

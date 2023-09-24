@@ -8,9 +8,9 @@ var is_following_player: bool = true
 
 
 func _ready():
-	if !FART.root.has_node("Camera Controller"):
+	if !FART.fart_root.has_node("Camera Controller"):
 		camera_controller = CharacterBody2D.new()
-		FART.root.add_child(camera_controller)
+		FART.fart_root.add_child(camera_controller)
 	set_main_camera(await get_default_camera())
 	set_camera_smooth_speed(FART.get_field_value("Camera List",await FART.get_global_settings_profile(), "Smoothing Speed"))
 
@@ -53,17 +53,18 @@ func follow_player(delta):
 
 
 func add_camera_to_map(map_node):
-	FART.root.remove_child(camera_controller)
+	FART.fart_root.remove_child(camera_controller)
 	await FART.get_tree().process_frame
 	map_node.add_child(camera_controller)
 	camera_controller.set_position(FART.player_node.position)
 
 
 func remove_camera_from_map():
-	var camera_parent = camera_controller.get_parent()
-	camera_parent.remove_child(camera_controller)
-	await FART.get_tree().process_frame
-	FART.root.add_child(camera_controller)
+	if camera_controller != null:
+		var camera_parent = camera_controller.get_parent()
+		camera_parent.remove_child(camera_controller)
+		await FART.get_tree().process_frame
+		FART.fart_root.add_child(camera_controller)
 
 
 

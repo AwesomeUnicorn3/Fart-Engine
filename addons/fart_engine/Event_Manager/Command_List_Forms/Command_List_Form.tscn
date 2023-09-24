@@ -107,7 +107,7 @@ size_flags_vertical = 3
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/InventoryVBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Inventory"
+text = "Player Options"
 horizontal_alignment = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/InventoryVBoxContainer"]
@@ -129,6 +129,16 @@ text = "Modify Inventory"
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Modify Inventory"
+
+[node name="transfer_player" parent="VBoxContainer/HBoxContainer/InventoryVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Transfer Player"
+
+[node name="change_player_health" parent="VBoxContainer/HBoxContainer/InventoryVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Change Player Health"
 
 [node name="ProgressionVBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -182,6 +192,7 @@ layout_mode = 2
 button_text = "Wait"
 
 [node name="MovementVBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -201,11 +212,6 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="transfer_player" parent="VBoxContainer/HBoxContainer/MovementVBoxContainer/ScrollContainer/VBoxContainer" groups=["Table Action"] instance=ExtResource("4_ihgyg")]
-self_modulate = Color(0.37, 0.16, 0.79, 1)
-layout_mode = 2
-button_text = "Transfer Player"
 
 [node name="MiscVBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -284,13 +290,14 @@ button_text = "Camera Follow Event"
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/DialogVBoxContainer/ScrollContainer/VBoxContainer/start_dialog" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/InventoryVBoxContainer/ScrollContainer/VBoxContainer/modify_player_inventory1" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/InventoryVBoxContainer/ScrollContainer/VBoxContainer/modify_player_inventory" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/InventoryVBoxContainer/ScrollContainer/VBoxContainer/transfer_player" to="." method="_open_selected_form"]
+[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/InventoryVBoxContainer/ScrollContainer/VBoxContainer/change_player_health" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_game_state" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_local_variable" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_dialog_options" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/change_global_variable" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/remove_event" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/ProgressionVBoxContainer/ScrollContainer/VBoxContainer/wait" to="." method="_open_selected_form"]
-[connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MovementVBoxContainer/ScrollContainer/VBoxContainer/transfer_player" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer/print_to_console" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/MiscVBoxContainer/ScrollContainer/VBoxContainer/sfx" to="." method="_open_selected_form"]
 [connection signal="btn_pressed" from="VBoxContainer/HBoxContainer/CameraVBoxContainer/ScrollContainer/VBoxContainer/set_camera_speed" to="." method="_open_selected_form"]

@@ -27,7 +27,7 @@ func reset_values():
 func set_input(input_dict :Dictionary = get_default_values()):
 	await reset_values()
 	await get_tree().process_frame
-	var DBENGINE :DatabaseEngine = DatabaseEngine.new()
+	var DBENGINE :DatabaseManager = DatabaseManager.new()
 	var input_data_dict :Dictionary = DBENGINE.import_data("Table Data", true)
 	
 	for key_index in input_data_dict["Column"].size():
@@ -44,7 +44,7 @@ func set_input(input_dict :Dictionary = get_default_values()):
 	
 
 func get_default_values():
-	var default_dict :Dictionary = DatabaseEngine.new().import_data("Table Data")["Blank"]
+	var default_dict :Dictionary = DatabaseManager.new().import_data("Table Data")["Blank"]
 	return default_dict
 
 

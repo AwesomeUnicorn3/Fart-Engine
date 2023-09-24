@@ -3,7 +3,7 @@ extends CommandForm
 
 @onready var map_node := $Control/VBoxContainer/DropDown_Template
 @onready var vector_node := $Control/VBoxContainer/Input_Vector
-@onready var DBENGINE : DatabaseEngine = DatabaseEngine.new()
+@onready var DBENGINE : DatabaseManager = DatabaseManager.new()
 
 var function_name :String = "transfer_player" #must be name of valid function
 var which_map :String

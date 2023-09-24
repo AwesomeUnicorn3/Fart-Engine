@@ -14,7 +14,7 @@ func _init() -> void:
 	pitch_slider = get_node("HBoxContainer/VBoxContainer/HBoxContainer2/HSlider")
 	volume_slider = get_node("HBoxContainer/VBoxContainer/HBoxContainer/HSlider")
 	max_distance_input = $HBoxContainer/VBoxContainer/MaxDistance
-	_set_input_value(DBENGINE.convert_string_to_type(DBENGINE.get_default_value(type)))
+	_set_input_value(convert_string_to_type(get_default_value(type)))
 
 func loop_changed(value):
 	input_data["loop_audio"] = value
