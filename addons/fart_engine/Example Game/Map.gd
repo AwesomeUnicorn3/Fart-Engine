@@ -20,7 +20,7 @@ func get_event_dict():
 		DBENGINE = DBENGINE.new()
 	else:
 		DBENGINE = FART
-	var table_dict :Dictionary = DBENGINE.import_data("Table Data")
+	var table_dict :Dictionary = DBENGINE.import_data("10000")
 	var event_dict = {}
 	for table_name in table_dict:
 		var is_event = DBENGINE.convert_string_to_type(table_dict[table_name]["Is Event"])

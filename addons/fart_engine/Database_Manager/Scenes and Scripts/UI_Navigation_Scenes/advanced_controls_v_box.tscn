@@ -31,20 +31,10 @@ visible = false
 layout_mode = 2
 size_flags_vertical = 1
 
-[node name="Label_Button" parent="Label/HBox1" index="0"]
-button_text = "Advanced Options"
-
-[node name="Hide_Button" parent="Label/HBox1" index="1"]
-button_text = "Show"
-
 [node name="Input_Array" parent="." instance=ExtResource("4_us1dx")]
-visible = false
 layout_mode = 2
 
 [node name="Label" parent="Input_Array" index="0"]
-visible = false
-
-[node name="ActionSelection" parent="Input_Array/Control" index="0"]
 visible = false
 
 [connection signal="checkbox_pressed" from="Checkbox_Template" to="." method="_on_checkbox_template_checkbox_pressed"]

@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_yg2hi"]
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/LoadGameMenu.gd" id="2_bsjy1"]
-[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/au3_ui_button.gd" id="3_7lyv2"]
+[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/FartUIButton.gd" id="3_7lyv2"]
 [ext_resource type="Texture2D" uid="uid://b0iy6vjj3vy0j" path="res://fart_data/png/KeyWee.png" id="3_mpriv"]
 
 [node name="LoadGameMenu" type="Control"]

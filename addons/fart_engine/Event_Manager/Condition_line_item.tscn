@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://cvdteo5jg62qn"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Condition_line_item.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="2_q1clg"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="2_q1clg"]
 [ext_resource type="PackedScene" uid="uid://3ptlys0saqnv" path="res://addons/fart_engine/Event_Manager/TableKeyField_Dropdown_Template.tscn" id="3_wrdmd"]
 [ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_f1jwx"]
-[ext_resource type="PackedScene" uid="uid://caa8n4gw1ppk5" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="7"]
 
 [node name="Condition_line_item" type="HBoxContainer"]

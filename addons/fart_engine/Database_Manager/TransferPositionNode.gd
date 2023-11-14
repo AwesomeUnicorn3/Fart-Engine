@@ -6,7 +6,7 @@ signal position_changed
 var current_position :Vector2 = Vector2.ZERO
 var previous_position:Vector2 = Vector2.ZERO
 var position_updated :bool = true
-var DBENGINE := DatabaseManager.new()
+
 var save_table_wait_index :int = 0
 var CurrentPosition
 var par_node
@@ -14,7 +14,7 @@ var par_node
 func _ready():
 	
 	if get_tree().get_edited_scene_root() != null:
-		var global_data_dict = DBENGINE.import_data("Global Data")
+		var global_data_dict = DatabaseManager.all_tables_merged_dict["10002"]
 		set_position(current_position)
 		previous_position.x = current_position.x - 5
 	else:

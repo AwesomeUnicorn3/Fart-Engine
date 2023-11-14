@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvgqyulbqgdb7"]
+[gd_scene load_steps=6 format=3 uid="uid://cvgqyulbqgdb7"]
 
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="1_xi0xo"]
 [ext_resource type="Script" path="res://addons/fart_engine/Fart_Custom_Nodes/fart_data_display_input.gd" id="1_ya2ss"]
-[ext_resource type="PackedScene" uid="uid://caa8n4gw1ppk5" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="2_0qb88"]
-[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="5_icee1"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="5_icee1"]
 [ext_resource type="PackedScene" uid="uid://bhhe1y6ucvenk" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Array.tscn" id="5_lpdec"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_uf8l7"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="6_uf8l7"]
 
 [node name="fart_data_display_input" type="Control"]
 custom_minimum_size = Vector2(600, 0)
@@ -40,19 +39,11 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_vertical = 1
 
-[node name="Label_Button" parent="VBoxContainer/Input_Label_Template/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-button_text = "Fart Data Display"
-
-[node name="Hide_Button" parent="VBoxContainer/Input_Label_Template/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="DisplayTypeSelection" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_0qb88")]
+[node name="DisplayTypeSelection" parent="VBoxContainer/HBoxContainer" instance=ExtResource("5_icee1")]
 layout_mode = 2
-selection_table_name = "DisplaySelection"
 label_text = "Select Display Field"
 is_label_button = false
 
@@ -104,7 +95,6 @@ size_flags_stretch_ratio = 0.25
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Accept"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
@@ -112,7 +102,6 @@ auto_set_minimum_size = false
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
 

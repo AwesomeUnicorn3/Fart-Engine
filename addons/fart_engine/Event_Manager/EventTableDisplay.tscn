@@ -1,0 +1,138 @@
+[gd_scene load_steps=6 format=3 uid="uid://c7w4mfwiuasxy"]
+
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_ttuoc"]
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/EventTableDisplay.gd" id="2_cxtl0"]
+[ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="3_v7tcm"]
+[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="5_n7xhb"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="7_18gwy"]
+
+[node name="EventTableDisplay" type="Control" groups=["Database", "Tab"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_ttuoc")
+script = ExtResource("2_cxtl0")
+
+[node name="Background" parent="." instance=ExtResource("3_v7tcm")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBox1" type="HBoxContainer" parent="VBox1"]
+layout_mode = 2
+
+[node name="Navigation Button_Template" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("7_18gwy")]
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "Refresh Events"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Center1" type="CenterContainer" parent="VBox1/HBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBox1/HBox1/Center1"]
+visible = false
+layout_mode = 2
+text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
+
+[node name="SaveChanges" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("7_18gwy")]
+layout_mode = 2
+custom_text = "Save Event Page"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Label" type="Label" parent="VBox1/HBox1"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBox1/HBox1"]
+visible = false
+layout_mode = 2
+
+[node name="AddNewItem" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("7_18gwy")]
+layout_mode = 2
+custom_text = "New Event"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Label3" type="Label" parent="VBox1/HBox1"]
+layout_mode = 2
+
+[node name="DeleteSelectedItem" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("7_18gwy")]
+layout_mode = 2
+custom_text = "Delete Event"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Cancel" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("7_18gwy")]
+visible = false
+layout_mode = 2
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Label4" type="Label" parent="VBox1/HBox1"]
+layout_mode = 2
+
+[node name="HBox2" type="HBoxContainer" parent="VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox2"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+follow_focus = true
+
+[node name="Table_Buttons" type="VBoxContainer" parent="VBox1/HBox2/Scroll1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Scroll2" type="HBoxContainer" parent="VBox1/HBox2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel1" type="PanelContainer" parent="VBox1/HBox2/Scroll2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="VBox1/HBox2/Scroll2/Panel1"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.0823529)
+
+[node name="Hbox3" type="HBoxContainer" parent="VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="VersionLabel" parent="VBox1/Hbox3" instance=ExtResource("5_n7xhb")]
+layout_mode = 2
+
+[node name="Button_Float" type="Node" parent="."]
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="button_up" from="VBox1/HBox1/Navigation Button_Template" to="." method="_on_refresh_events_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/SaveChanges" to="." method="_on_Save_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/AddNewItem" to="." method="_on_AddNewItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/DeleteSelectedItem" to="." method="_on_DeleteSelectedItem_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/Cancel" to="." method="_on_DeleteSelectedItem_button_up"]

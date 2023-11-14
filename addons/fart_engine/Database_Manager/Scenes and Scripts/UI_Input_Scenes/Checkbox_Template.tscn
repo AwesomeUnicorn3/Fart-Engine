@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4"]
 
 [node name="Checkbox_Template" type="VBoxContainer"]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2(0, 75)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,16 +13,11 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1")
+label_text = "Checkbox_Template"
 
 [node name="Label" parent="." instance=ExtResource("4")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
-
-[node name="Label_Button" parent="Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Hide_Button" parent="Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Hbox1" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 25)
@@ -42,7 +37,8 @@ size_flags_vertical = 3
 color = Color(0.172549, 0.164706, 0.196078, 1)
 
 [node name="Input" type="CheckButton" parent="Hbox1/Background"]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

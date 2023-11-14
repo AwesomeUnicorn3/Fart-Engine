@@ -1,9 +1,9 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
 var omit_changed = true
 var main_dictionary : Dictionary = {}
-@onready var input_form = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DictionaryInput_Form.tscn")
+@onready var input_form = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DictionaryInput_Form.tscn")
 
 
 
@@ -41,7 +41,7 @@ func _get_input_value():
 func _set_input_value(node_value):
 
 	if str(node_value) == "Default":
-		node_value = DBENGINE.convert_string_to_type(default)
+		node_value = convert_string_to_type(default)
 	if typeof(node_value) == TYPE_STRING:
 		node_value = str_to_var(node_value)
 	main_dictionary = node_value

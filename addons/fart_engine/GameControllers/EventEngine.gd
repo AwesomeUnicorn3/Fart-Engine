@@ -12,30 +12,30 @@ func _ready():
 
 func change_local_variable(which_var:Variant, to_what:bool, _event_name :String, event_node_name :String, _event_node):
 	which_var = var_to_str(which_var)
-	var local_variable_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Local Variables"])
+	var local_variable_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["10022"][FART.current_map_key][event_node_name]["Local Variables"])
 	local_variable_dict["input_dict"][which_var] = to_what
 	FART.save_game_data_dict[FART.current_map_key][event_node_name]["Local Variables"] = local_variable_dict
 
 
 func change_event_options_variable(which_var:String, _event_name :String, event_node_name :String, _event_node):
-	var event_options_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
+	var event_options_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["10022"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
 	event_options_dict["input_dict"][which_var] = true
-	FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
+	FART.Dynamic_Game_Dict["10022"][FART.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
 #	print(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
 
 func change_dialog_options(which_var:Variant,  to_what:bool, _event_name :String, event_node_name :String, _event_node):
 	which_var = var_to_str(which_var)
-	var event_options_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
+	var event_options_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["10022"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
 	event_options_dict["input_dict"][which_var] = to_what
-	FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
+	FART.Dynamic_Game_Dict["10022"][FART.current_map_key][event_node_name]["Event Dialog Variables"] = event_options_dict
 #	print(FART.Dynamic_Game_Dict["Event Save Data"][FART.current_map_key][event_node_name]["Event Dialog Variables"])
 
 
 
 
 func change_global_variable(which_var, which_field:String,  to_what, _event_name :String, _event_node_name :String, _event_node):
-	var global_variable_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["Global Variables"])
-	FART.Dynamic_Game_Dict["Global Variables"][str(which_var)][which_field] = to_what
+	var global_variable_dict  = FART.convert_string_to_type(FART.Dynamic_Game_Dict["10029"])
+	FART.Dynamic_Game_Dict["10029"][str(which_var)][which_field] = to_what
 
 
 func remove_event(_event_name :String, _event_node_name:String, event_node):
@@ -105,7 +105,7 @@ func sfx(audio_data :Dictionary, _event_name :String, _event_node_name:String, _
 
 
 func change_game_state(to_what:String, _event_name :String, _event_node_name:String, _event_node):
-	var gameState_dict :Dictionary = FART.Static_Game_Dict["Game State"]
+	var gameState_dict :Dictionary = FART.Static_Game_Dict["10027"]
 	for key in gameState_dict:
 		if FART.get_text(gameState_dict[key]["Display Name"]) == to_what:
 			to_what = key

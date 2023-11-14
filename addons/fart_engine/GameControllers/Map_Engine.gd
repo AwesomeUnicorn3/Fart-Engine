@@ -53,11 +53,11 @@ func _ready():
 			if !map_event_dict.has(event):
 				FART.save_game_data_dict[current_map_key].erase(event)
 
-	var newgame  = FART.get_field_value("Global Data",await FART.get_global_settings_profile(), "NewGame")
+	var newgame  = await FART.get_field_value(str(00002),await FART.get_global_settings_profile(), "NewGame")
 	if newgame == true:
-		var starting_position = FART.convert_string_to_vector(FART.Static_Game_Dict["Global Data"][await FART.get_global_settings_profile()]["Player Starting Position"])
+		var starting_position = FART.convert_string_to_vector(FART.Static_Game_Dict["10002"][await FART.get_global_settings_profile()]["Player Starting Position"])
 		player_node.set_position(starting_position)
-		FART.set_save_data_value("Global Data", await FART.get_global_settings_profile(), "NewGame", false)
+		FART.set_save_data_value(str(00002), await FART.get_global_settings_profile(), "NewGame", false)
 
 	await FART.move_player_to_map_Ysort(self)
 	FART.CAMERA.add_camera_to_map(self)

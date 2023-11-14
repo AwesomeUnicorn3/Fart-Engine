@@ -12,12 +12,12 @@ func _ready():
 		camera_controller = CharacterBody2D.new()
 		FART.fart_root.add_child(camera_controller)
 	set_main_camera(await get_default_camera())
-	set_camera_smooth_speed(FART.get_field_value("Camera List",await FART.get_global_settings_profile(), "Smoothing Speed"))
+	set_camera_smooth_speed(await FART.get_field_value("10012",await FART.get_global_settings_profile(), "Smoothing Speed"))
 
 
 
 func get_default_camera()-> Camera2D:
-	var default_camera: Camera2D = load(FART.get_field_value("Camera List",await FART.get_global_settings_profile(), "Camera Scene")).instantiate()
+	var default_camera: Camera2D = load(await FART.get_field_value("10012",await FART.get_global_settings_profile(), "Camera Scene")).instantiate()
 	default_camera.name = "Camera Controller"
 	return default_camera
 

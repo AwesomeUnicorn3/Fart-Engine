@@ -1,0 +1,151 @@
+[gd_scene load_steps=9 format=3 uid="uid://cf6sgjirdteun"]
+
+[ext_resource type="Theme" uid="uid://bo3gu4nrkb880" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_25.tres" id="1_alyag"]
+[ext_resource type="Script" path="res://addons/fart_engine/FartRoot_MainPage.gd" id="2_7f8t6"]
+[ext_resource type="PackedScene" uid="uid://bqwjqshj5056o" path="res://addons/fart_engine/Example Game/Fart_Background_Color.tscn" id="2_v67ep"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="3_di2qt"]
+[ext_resource type="Texture2D" uid="uid://5os0hp7n0x5y" path="res://addons/fart_engine/Editor_Icons/Default_Editor_Label_Texture.png" id="4_7h2qe"]
+[ext_resource type="PackedScene" uid="uid://0ill6t8ua6iu" path="res://addons/fart_engine/SaveFile_Manager/DisplaySaveFile.tscn" id="5_8w1it"]
+[ext_resource type="PackedScene" uid="uid://c7w4mfwiuasxy" path="res://addons/fart_engine/Event_Manager/EventTableDisplay.tscn" id="6_dfpdk"]
+[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="7_euagw"]
+
+[node name="FartMain" type="Control" groups=["UDS_Root"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_alyag")
+script = ExtResource("2_7f8t6")
+metadata/_edit_vertical_guides_ = []
+
+[node name="Background" parent="." instance=ExtResource("2_v67ep")]
+layout_mode = 1
+color = Color(0.02, 0, 0.2, 1)
+
+[node name="ProjectWelcomeLabel" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -13.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Welcome_Label" type="Label" parent="ProjectWelcomeLabel"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Welcome to the Awesome Unicorn 3 Database"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainDisplay_Level1" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_layout_mode = 1
+
+[node name="MainDisplay_Level2" type="VBoxContainer" parent="MainDisplay_Level1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MainDisplay_Level3" type="VBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="MainProjectHeaderScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3"]
+layout_mode = 2
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="MainProjectHeader" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RefreshTables" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database", "Top Row"] instance=ExtResource("3_di2qt")]
+self_modulate = Color(0.41, 0.17, 0.44, 1)
+custom_minimum_size = Vector2(125, 40)
+layout_mode = 2
+custom_text = "Refresh Fart Engine"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="DisplaySaveFile" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database", "Top Row"] instance=ExtResource("3_di2qt")]
+self_modulate = Color(0.41, 0.17, 0.44, 1)
+custom_minimum_size = Vector2(125, 40)
+layout_mode = 2
+custom_text = "Edit Save Files"
+auto_set_minimum_size = false
+
+[node name="Event_Manager" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader" groups=["Database", "Top Row"] instance=ExtResource("3_di2qt")]
+self_modulate = Color(0.41, 0.17, 0.44, 1)
+custom_minimum_size = Vector2(125, 40)
+layout_mode = 2
+custom_text = "Events"
+auto_set_minimum_size = false
+
+[node name="TableCategoryScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3"]
+layout_mode = 2
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="TableCategory" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/TableCategoryScroll"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TableButtonsScroll" type="ScrollContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3"]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+follow_focus = true
+vertical_scroll_mode = 0
+
+[node name="TableButtons" type="HBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/TableButtonsScroll"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HideNavigation" parent="MainDisplay_Level1/MainDisplay_Level2" groups=["Database", "Top Row"] instance=ExtResource("3_di2qt")]
+self_modulate = Color(0.41, 0.17, 0.44, 1)
+custom_minimum_size = Vector2(150, 25)
+layout_mode = 2
+texture_normal = ExtResource("4_7h2qe")
+texture_pressed = ExtResource("4_7h2qe")
+custom_text = "Show/Hide Top Panel"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="TableDisplay" type="Control" parent="MainDisplay_Level1/MainDisplay_Level2"]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_layout_mode = 1
+
+[node name="DisplaySaveFile" parent="MainDisplay_Level1/MainDisplay_Level2/TableDisplay" instance=ExtResource("5_8w1it")]
+visible = false
+layout_mode = 1
+
+[node name="Event_Manager" parent="MainDisplay_Level1/MainDisplay_Level2/TableDisplay" instance=ExtResource("6_dfpdk")]
+visible = false
+layout_mode = 1
+
+[node name="VersionLabel" type="VBoxContainer" parent="MainDisplay_Level1/MainDisplay_Level2"]
+layout_mode = 2
+
+[node name="Control" parent="MainDisplay_Level1/MainDisplay_Level2/VersionLabel" instance=ExtResource("7_euagw")]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/MainDisplay_Level3/MainProjectHeaderScroll/MainProjectHeader/RefreshTables" to="." method="_ready"]
+[connection signal="button_up" from="MainDisplay_Level1/MainDisplay_Level2/HideNavigation" to="." method="_on_hide_navigation_button_up"]

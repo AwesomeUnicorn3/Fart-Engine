@@ -1,0 +1,239 @@
+[gd_scene load_steps=5 format=3 uid="uid://7aknajkgeawg"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupNewField.gd" id="1_4vsnu"]
+[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="3_fk2l1"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="4_rgqyx"]
+[ext_resource type="PackedScene" uid="uid://4x3l1nwo5cbu" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/accept_cancel_buttons.tscn" id="5_rgw8q"]
+
+[node name="PopupNewField" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4vsnu")
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -327.5
+offset_top = -59.0
+offset_right = 327.5
+offset_bottom = 59.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="HBox1" type="HBoxContainer" parent="VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Input_Text" parent="VBox1/HBox1" instance=ExtResource("3_fk2l1")]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+size_flags_vertical = 0
+label_text = "New Field Name"
+is_label_button = false
+
+[node name="Label_Button" parent="VBox1/HBox1/Input_Text/Input_Node/Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="VBox1/HBox1/Input_Text/Input_Node/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="AdvancedControlsVBox" parent="VBox1/HBox1/Input_Text/Input_Node" index="2"]
+visible = false
+
+[node name="Label_Button" parent="VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Label/HBox1" index="0"]
+self_modulate = Color(0, 0.27, 0.32, 1)
+
+[node name="Hide_Button" parent="VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Underline" parent="VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Bold" parent="VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Italics" parent="VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/AdvancedControlsHBox" index="2"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Label_Button" parent="VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="input_templateBuffer" parent="VBox1/HBox1/Input_Text" index="2"]
+visible = false
+
+[node name="ItemType_Selection" parent="VBox1/HBox1" instance=ExtResource("4_rgqyx")]
+layout_mode = 2
+size_flags_vertical = 0
+label_text = "Field Data Type"
+reference_table_name = "10017"
+
+[node name="Input" parent="VBox1/HBox1/ItemType_Selection" index="1"]
+item_count = 17
+popup/item_0/text = "Text"
+popup/item_1/text = "Number Range"
+popup/item_1/id = 1
+popup/item_2/text = "Audio"
+popup/item_2/id = 2
+popup/item_3/text = "Conditions"
+popup/item_3/id = 3
+popup/item_4/text = "Commands"
+popup/item_4/id = 4
+popup/item_5/text = "Dialog"
+popup/item_5/id = 5
+popup/item_6/text = "List"
+popup/item_6/id = 6
+popup/item_7/text = "Dialog Options"
+popup/item_7/id = 7
+popup/item_8/text = "Field Value Selection"
+popup/item_8/id = 8
+popup/item_9/text = "Number"
+popup/item_9/id = 9
+popup/item_10/text = "Color"
+popup/item_10/id = 10
+popup/item_11/text = "True or False"
+popup/item_11/id = 11
+popup/item_12/text = "Dropdown List"
+popup/item_12/id = 12
+popup/item_13/text = "Icon Display"
+popup/item_13/id = 13
+popup/item_14/text = "Scene Path"
+popup/item_14/id = 14
+popup/item_15/text = "Sprite Animation"
+popup/item_15/id = 15
+popup/item_16/text = "Vector 2 or 3"
+popup/item_16/id = 16
+
+[node name="input_templateBuffer" parent="VBox1/HBox1/ItemType_Selection" index="2"]
+visible = false
+
+[node name="Table_Selection" parent="VBox1/HBox1" instance=ExtResource("4_rgqyx")]
+visible = false
+layout_mode = 2
+size_flags_vertical = 0
+label_text = "Table_Selection"
+reference_table_name = "10000"
+
+[node name="Input" parent="VBox1/HBox1/Table_Selection" index="1"]
+item_count = 44
+popup/item_0/text = "Table Data"
+popup/item_1/text = "Character Formation"
+popup/item_1/id = 1
+popup/item_2/text = "Global Settings"
+popup/item_2/id = 2
+popup/item_3/text = "ItemType"
+popup/item_3/id = 3
+popup/item_4/text = "FieldPref"
+popup/item_4/id = 4
+popup/item_5/text = "Control Categories"
+popup/item_5/id = 5
+popup/item_6/text = "Character Classes"
+popup/item_6/id = 6
+popup/item_7/text = "Sprite Groups"
+popup/item_7/id = 7
+popup/item_8/text = "Event Triggers"
+popup/item_8/id = 8
+popup/item_9/text = "Event Table Template"
+popup/item_9/id = 9
+popup/item_10/text = "Global Variables"
+popup/item_10/id = 10
+popup/item_11/text = "Game Data"
+popup/item_11/id = 11
+popup/item_12/text = "Inequalities"
+popup/item_12/id = 12
+popup/item_13/text = "Event Movement States"
+popup/item_13/id = 13
+popup/item_14/text = "Dialog Groups"
+popup/item_14/id = 14
+popup/item_15/text = "SFX Groups"
+popup/item_15/id = 15
+popup/item_16/text = "Game State"
+popup/item_16/id = 16
+popup/item_17/text = "Action Types"
+popup/item_17/id = 17
+popup/item_18/text = "Movement Directions"
+popup/item_18/id = 18
+popup/item_19/text = "Animation States"
+popup/item_19/id = 19
+popup/item_20/text = "Animation Groups"
+popup/item_20/id = 20
+popup/item_21/text = "UI Scenes"
+popup/item_21/id = 21
+popup/item_22/text = "Project Settings"
+popup/item_22/id = 22
+popup/item_23/text = "None"
+popup/item_23/id = 23
+popup/item_24/text = "Table Category"
+popup/item_24/id = 24
+popup/item_25/text = "UI Navigation"
+popup/item_25/id = 25
+popup/item_26/text = "Testing Table"
+popup/item_26/id = 26
+popup/item_27/text = "Local Variables"
+popup/item_27/id = 27
+popup/item_28/text = "Operations"
+popup/item_28/id = 28
+popup/item_29/text = "AU3 InputMap"
+popup/item_29/id = 29
+popup/item_30/text = "UI Script Methods"
+popup/item_30/id = 30
+popup/item_31/text = "UI Methods"
+popup/item_31/id = 31
+popup/item_32/text = "Fart Editor Themes"
+popup/item_32/id = 32
+popup/item_33/text = "Data Types"
+popup/item_33/id = 33
+popup/item_34/text = "Event Dialog Variables"
+popup/item_34/id = 34
+popup/item_35/text = "Event Save Data"
+popup/item_35/id = 35
+popup/item_36/text = "DisplaySelection"
+popup/item_36/id = 36
+popup/item_37/text = "Inventory"
+popup/item_37/id = 37
+popup/item_38/text = "Camera List"
+popup/item_38/id = 38
+popup/item_39/text = "Maps"
+popup/item_39/id = 39
+popup/item_40/text = "Items"
+popup/item_40/id = 40
+popup/item_41/text = "Controls"
+popup/item_41/id = 41
+popup/item_42/text = "Characters"
+popup/item_42/id = 42
+popup/item_43/text = "GlobalOptions"
+popup/item_43/id = 43
+
+[node name="input_templateBuffer" parent="VBox1/HBox1/Table_Selection" index="2"]
+visible = false
+
+[node name="AcceptCancelButtons" parent="VBox1" instance=ExtResource("5_rgw8q")]
+layout_mode = 2
+
+[connection signal="item_selected" from="VBox1/HBox1/ItemType_Selection/Input" to="." method="_on_input_item_selected"]
+[connection signal="item_selected" from="VBox1/HBox1/Table_Selection/Input" to="." method="_on_table_input_item_selected"]
+[connection signal="button_up" from="VBox1/AcceptCancelButtons/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="VBox1/AcceptCancelButtons/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="VBox1/HBox1/Input_Text"]
+[editable path="VBox1/HBox1/Input_Text/Input_Node/Label"]
+[editable path="VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="VBox1/HBox1/Input_Text/input_templateBuffer"]
+[editable path="VBox1/HBox1/ItemType_Selection"]
+[editable path="VBox1/HBox1/ItemType_Selection/Label"]
+[editable path="VBox1/HBox1/Table_Selection"]
+[editable path="VBox1/HBox1/Table_Selection/Label"]
+[editable path="VBox1/AcceptCancelButtons"]

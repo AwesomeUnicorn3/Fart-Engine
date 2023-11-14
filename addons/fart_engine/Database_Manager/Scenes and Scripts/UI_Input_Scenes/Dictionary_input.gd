@@ -1,7 +1,7 @@
 @tool
 extends DatabaseManager
 
-var table = "DataTypes"
+var table = "10017"
 var relatedNodeName :String
 
 @onready var Input_field = $Input_Text
@@ -20,7 +20,7 @@ func swap_input_node(relatedNode, datatypeNode, itemType, tableName):
 	call_deferred("removeNode",relatedNode)
 	
 	if itemType == "5":
-		var tblSelect_tscn = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_TableSelect.tscn")
+		var tblSelect_tscn = all_popups_dict["TableSelect"]
 		var tblSelect = tblSelect_tscn.instantiate()
 		tblSelect.par_node = self
 		parent_node.add_child(tblSelect)
@@ -31,9 +31,9 @@ func swap_input_node(relatedNode, datatypeNode, itemType, tableName):
 
 		parent_node.mainDictionary[key]["TableName " + nodeNumber] = tableName
 
-	var dataType_Input = await add_input_node(1, 1, relatedNodeName, {}, self, null, "Default", itemType, tableName)
-	datatypeNode.relatedInputNode = dataType_Input
-	move_child(dataType_Input,pos)
+	#var dataType_Input = await add_input_node(1, 1, relatedNodeName, {}, self, null, "Default", itemType, tableName)
+#	datatypeNode.relatedInputNode = dataType_Input
+#	move_child(dataType_Input,pos)
 
 
 func removeNode(relatedNode):

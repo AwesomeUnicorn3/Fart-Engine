@@ -2,12 +2,12 @@
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_ivx4h"]
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_List_Forms/Dialog_EventInputForm.gd" id="2_c5mqh"]
-[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="3_h33vw"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="3_h33vw"]
 [ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_i1cdv"]
 [ext_resource type="PackedScene" uid="uid://cy0f7smblnqgn" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dialog.tscn" id="5_ol278"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_bv2kl"]
-[ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Popup_Delete_Confirm.tscn" id="6_hfxxd"]
-[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="8_1mjeo"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="6_bv2kl"]
+[ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupDeleteConfirm.tscn" id="6_hfxxd"]
+[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupSelectField.tscn" id="8_1mjeo"]
 
 [node name="Dialog_EventInputForm" type="Control" groups=["Tab"]]
 layout_mode = 3
@@ -26,6 +26,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="Popups@popup_deleteKey@PanelContainer@VBoxContainer@Itemlist@32198" type="VScrollBar" parent="."]
+layout_mode = 0
 
 [node name="Control" type="ScrollContainer" parent="."]
 layout_mode = 0
@@ -61,17 +64,12 @@ button_pressed = true
 text = "Single"
 
 [node name="KeyDropdown" parent="Control/VBoxContainer" instance=ExtResource("3_h33vw")]
-visible = false
 layout_mode = 2
-selection_table_name = "Dialog Groups"
 label_text = "Select Group"
 is_label_button = false
 
 [node name="Input" parent="Control/VBoxContainer/KeyDropdown" index="1"]
-item_count = 1
-selected = 0
 popup/item_0/text = "First Interaction"
-popup/item_0/id = 0
 
 [node name="input_dialog" parent="Control/VBoxContainer" instance=ExtResource("5_ol278")]
 layout_mode = 2
@@ -102,9 +100,6 @@ text = "Default"
 [node name="Scene_Selection_ScenePath" parent="Control/VBoxContainer/input_dialog/SceneSelection_HBox" index="1"]
 visible = false
 
-[node name="ActionSelection" parent="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Input_Array/Control" index="0"]
-visible = false
-
 [node name="Label_Button" parent="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Input_Array/Control/HBoxContainer/Label3/HBox1" index="0"]
 visible = false
 
@@ -117,18 +112,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Accept" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_bv2kl")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Accept"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="Cancel" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("6_bv2kl")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
@@ -179,23 +172,6 @@ grow_vertical = 1
 visible = false
 layout_mode = 1
 
-[node name="PanelContainer" parent="Popups/popup_deleteKey" index="0"]
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 429.0
-offset_bottom = 201.0
-grow_horizontal = 1
-grow_vertical = 1
-
-[node name="32198" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="1"]
-layout_mode = 0
-
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
 
@@ -227,5 +203,9 @@ layout_mode = 0
 [editable path="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Input_Array"]
 [editable path="Control/VBoxContainer/input_dialog/AdvancedControlsVBox/Input_Array/Control/HBoxContainer/Label3"]
 [editable path="Popups/Popup_Delete_Confirm"]
+[editable path="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/AcceptCancelButtons"]
 [editable path="Popups/popup_deleteKey"]
-[editable path="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Label2"]
+[editable path="Popups/popup_deleteKey/VBoxContainer/Label2"]
+[editable path="Popups/popup_deleteKey/VBoxContainer/Input_Dropdown"]
+[editable path="Popups/popup_deleteKey/VBoxContainer/Input_Dropdown/Label"]
+[editable path="Popups/popup_deleteKey/VBoxContainer/AcceptCancelButtons"]

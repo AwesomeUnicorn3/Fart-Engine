@@ -1,10 +1,10 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
 var sfx_name
 var volume_slider :Slider#= $HBoxContainer/VBoxContainer/HBoxContainer/HSlider
 var pitch_slider :Slider#= $HBoxContainer/VBoxContainer/HBoxContainer2/HSlider
-var max_distance_input :Node
+var max_distance_input  #= $HBoxContainer/VBoxContainer/MaxDistance
 var fileSelectedNode :Node
 var is_audio_playing :bool = false
 
@@ -13,7 +13,7 @@ func _init() -> void:
 	await input_load_complete
 	pitch_slider = get_node("HBoxContainer/VBoxContainer/HBoxContainer2/HSlider")
 	volume_slider = get_node("HBoxContainer/VBoxContainer/HBoxContainer/HSlider")
-	max_distance_input = $HBoxContainer/VBoxContainer/MaxDistance
+	max_distance_input = get_node("HBoxContainer/VBoxContainer/MaxDistance")
 	_set_input_value(convert_string_to_type(get_default_value(type)))
 
 func loop_changed(value):
@@ -46,16 +46,15 @@ func _on_FileDialog_file_selected(path :String):
 			print("File Not Added")
 		else:
 			print("File Added")
-			var editor  = load("res://addons/fart_engine/EditorEngine.gd").new()
-			editor.refresh_editor(self)
-			await editor.Editor_Refresh_Complete
+			refresh_editor(self)
+			await Editor_Refresh_Complete
 			curr_sfx_path.set_stream(load(str(new_file_path)))
 			$HBoxContainer/VBoxContainer2/sfx_name.set_text(new_file_path.get_file())
 
 
 func edit_audio_file() -> void:
 	on_text_changed(true)
-	var FileSelectDialog = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
+	var FileSelectDialog = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
 	fileSelectedNode = FileSelectDialog.instantiate()
 	var par = get_main_tab(self)
 	par.get_node("Popups").visible = true
@@ -107,19 +106,20 @@ func _set_input_value(node_value):
 		node_value = str_to_var(node_value)
 	input_data = node_value
 	var stream :String = input_data["stream"]
-	var stream_path :String = DBENGINE.table_save_path + DBENGINE.sfx_folder + stream
+	var stream_path :String = DatabaseManager.table_save_path + DatabaseManager.sfx_folder + stream
 	var volume :float = input_data["volume"].to_float()
 	var pitch :float = input_data["pitch"].to_float()
 	var maxdistance :float = input_data["max_distance"]
-	
+	if inputNode == null:
+		await get_input_node()
 	inputNode.set_stream(load(stream_path))
 	inputNode.set_volume_db(volume)
 	inputNode.set_pitch_scale(pitch)
 
-	$HBoxContainer/VBoxContainer2/sfx_name.set_text(stream_path.get_file())
+	$HBoxContainer/VBoxContainer2/sfx_name.set_text_value(stream_path.get_file())
 	$HBoxContainer/VBoxContainer/HBoxContainer/HSlider.set_value(volume)
 	$HBoxContainer/VBoxContainer/HBoxContainer2/HSlider.set_value(pitch)
-	max_distance_input._set_input_value(maxdistance)
+	$HBoxContainer/VBoxContainer/MaxDistance._set_input_value(str(maxdistance))
 
 
 func _get_input_value():

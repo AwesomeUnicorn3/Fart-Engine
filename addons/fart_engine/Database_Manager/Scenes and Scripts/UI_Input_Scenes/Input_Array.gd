@@ -1,5 +1,5 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
 @export var showDeleteButton:bool = true
 @export var showListItemLabel:bool = true
@@ -47,20 +47,20 @@ func _get_input_value():
 
 func _set_input_value(node_value):
 	if node_value == null:
-		node_value =  DBENGINE.get_default_value(type)
+		node_value =  get_default_value(type)
 #	print(node_value)
 	if typeof(node_value) == 4:
 		node_value = str_to_var(node_value)
 	input_data = node_value
 	options_dict = input_data["options_dict"]
 	$Control/ActionSelection.populate_list()
-	var action_name_id = $Control/ActionSelection.get_dropdown_index_from_key(options_dict["action"])
+	var action_name_id :int = $Control/ActionSelection.get_dropdown_index_from_key(options_dict["action"])
 	$Control/ActionSelection.select_index(action_name_id)
 	set_input_data()
 
 
 
-func delete_selected_key(index:String):
+func _on_button_press_delete_selected_key(index:String):
 	input_dict.erase(index)
 	await get_tree().process_frame
 	for key in input_dict.size() + 1:
@@ -73,11 +73,12 @@ func delete_selected_key(index:String):
 	_set_input_value(input_data)
 
 
+
 func add_new_key():
 	_get_input_value()
 	var next_index :String = str(input_dict.size() + 1)
 	var action_type :String = options_dict["action"]
-	var default_dict  = DBENGINE.get_default_value(action_type)
+	var default_dict  = get_default_value(action_type)
 	input_dict[next_index] = {"Input_Node": default_dict, "ChkBox": true}
 	input_data["input_dict"] = input_dict
 	_set_input_value(input_data)
@@ -107,7 +108,7 @@ func set_input_data():
 				current_input = input_dict[index]
 
 		var input_type :String = options_dict["action"]
-		var next_scene = DBENGINE.get_input_type_node(input_type).instantiate()
+		var next_scene = get_input_type_node(input_type).instantiate()
 		var node_value = input_dict[index]
 		#instantiate a container with a delete button
 		var input_control_node :HBoxContainer = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/InputArray_Node_Field.tscn").instantiate()
@@ -116,7 +117,7 @@ func set_input_data():
 		input_control_node.show_selection_checkbox(showSelectionCheckbox)
 		$Control/Scroll1/Input.add_child(input_control_node)
 		#add new input node to new_container
-		var newInputNode = DBENGINE.create_datatype_node(input_type)
+		var newInputNode = create_datatype_node(input_type)
 		newInputNode.set_name("Input_Node")
 		
 		input_control_node.add_child(newInputNode)
@@ -126,12 +127,12 @@ func set_input_data():
 		
 		next_scene.set_name(index)
 		input_control_node.set_name(index)
-		input_control_node.array_item_delete.connect(delete_selected_key)
+		input_control_node.array_item_delete.connect(_on_button_press_delete_selected_key)
 		newInputNode.show_label(showListItemLabel)
 
 		input_control_node._set_input_value(node_value)
 		Control.new().size_flags_changed
-		#connect new_container delete signal to delete_selected_key
+
 		#be sure to emit the signal with the input_node name as the index arguement
 
 

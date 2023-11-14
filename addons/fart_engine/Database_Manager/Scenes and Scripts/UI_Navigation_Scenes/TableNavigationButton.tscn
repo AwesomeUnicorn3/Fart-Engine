@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://bn46xjau2w8ol"]
+
+[ext_resource type="Texture2D" uid="uid://rsax0u1fg2ry" path="res://fart_data/png/Navigation_Button.png" id="1_6sx5g"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/TableNavigationButton.gd" id="2_21dqr"]
+[ext_resource type="Texture2D" uid="uid://dqurrqjs28f7u" path="res://fart_data/png/Navigation_Button_Pressed.png" id="2_atll8"]
+
+[node name="TableNavigationButton" type="TextureButton"]
+custom_minimum_size = Vector2(150, 30)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+action_mode = 0
+texture_normal = ExtResource("1_6sx5g")
+texture_pressed = ExtResource("2_atll8")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_21dqr")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Default"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+uppercase = true
+
+[node name="DisplayLabel" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Test Key"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+uppercase = true
+metadata/_edit_layout_mode = 1

@@ -1,7 +1,7 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
-@onready var keyselect : PackedScene = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect.tscn")
+@onready var keyselect : PackedScene = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect.tscn")
 
 var parent
 var action_string_button
@@ -85,10 +85,10 @@ func delete_selected_key(index:String):
 func add_new_key():
 	var next_index :String = str(input_dict.size() + 1)
 	var default_dict :Dictionary
-	if typeof(DBENGINE.get_default_value(type)) == TYPE_STRING:
-		default_dict  = str_to_var(DBENGINE.get_default_value(type))
+	if typeof(get_default_value(type)) == TYPE_STRING:
+		default_dict  = str_to_var(get_default_value(type))
 	else:
-		default_dict = DBENGINE.get_default_value(type)
+		default_dict = get_default_value(type)
 	input_dict[next_index] = default_dict["input_dict"]["1"]
 	_set_input_value(input_data)
 	var new_input  = $Scroll1/Input.get_node(next_index)
@@ -108,7 +108,7 @@ func set_input_data():
 
 		var keyname :String = current_dict["keyname"]
 		var keycode :String = OS.get_keycode_string(str(current_dict["keycode"]).to_int())
-		var edit_button = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_UserInput_Button.tscn").instantiate()
+		var edit_button = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_UserInput_Button.tscn").instantiate()
 		$Scroll1/Input.add_child(edit_button)
 		edit_button.set_name(index)
 		edit_button.get_node("KeySelectButton/KeyName").set_text(keyname)

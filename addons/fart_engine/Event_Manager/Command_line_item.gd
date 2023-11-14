@@ -1,9 +1,8 @@
 @tool
-extends DatabaseManager
+extends CommandManager
 
-var parent_node : Object
 var line_item_dictionary :Dictionary = {}
-var CommandInputForm
+
 
 @onready var Key_field := $Key
 @onready var script_input := $ScriptInput
@@ -13,7 +12,7 @@ var key_index :String
 
 func _on_DeleteButton_button_up() -> void:
 	key_index = Key_field.inputNode.text
-	parent_node._delete_selected_list_item(key_index)
+	_delete_selected_list_item(key_index)
 
 
 func _on_command_up_button_up():

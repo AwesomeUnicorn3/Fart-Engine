@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1klfol683pf1"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupSelectField.gd" id="1_7iak7"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_4q2et"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="3_w1n1l"]
+[ext_resource type="PackedScene" uid="uid://4x3l1nwo5cbu" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/accept_cancel_buttons.tscn" id="4_37676"]
+
+[node name="PopupSelectField" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7iak7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -312.0
+offset_top = -81.5
+offset_right = 312.0
+offset_bottom = 81.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label2" parent="VBoxContainer" instance=ExtResource("2_4q2et")]
+layout_mode = 2
+
+[node name="Input_Dropdown" parent="VBoxContainer" instance=ExtResource("3_w1n1l")]
+layout_mode = 2
+
+[node name="AcceptCancelButtons" parent="VBoxContainer" instance=ExtResource("4_37676")]
+layout_mode = 2
+
+[connection signal="item_selected" from="VBoxContainer/Input_Dropdown/Input" to="." method="_on_input_item_selected"]
+[connection signal="button_up" from="VBoxContainer/AcceptCancelButtons/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="VBoxContainer/AcceptCancelButtons/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="VBoxContainer/Label2"]
+[editable path="VBoxContainer/Input_Dropdown"]
+[editable path="VBoxContainer/Input_Dropdown/Label"]
+[editable path="VBoxContainer/AcceptCancelButtons"]

@@ -12,6 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_u0hkx")
+label_text = "ColorSelection_Template"
 
 [node name="Label" parent="." instance=ExtResource("2_1lmac")]
 layout_mode = 2
@@ -27,57 +28,15 @@ size_flags_horizontal = 3
 text = "Pick Color"
 
 [node name="HBox3" type="HBoxContainer" parent="HBoxContainer"]
-visible = false
+custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Input" type="LineEdit" parent="HBoxContainer/HBox3"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Color(1, 1, 1, 1)"
 placeholder_text = "Enter Value As Text"
-max_length = 45
-caret_blink = true
-
-[node name="InputR" type="LineEdit" parent="HBoxContainer/HBox3"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-text = "0"
-placeholder_text = "Enter Value As Text"
-alignment = 1
-max_length = 45
-caret_blink = true
-
-[node name="InputG" type="LineEdit" parent="HBoxContainer/HBox3"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-text = "0"
-placeholder_text = "Enter Value As Text"
-alignment = 1
-max_length = 45
-caret_blink = true
-
-[node name="InputB" type="LineEdit" parent="HBoxContainer/HBox3"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-text = "0"
-placeholder_text = "Enter Value As Text"
-alignment = 1
-max_length = 45
-caret_blink = true
-
-[node name="InputA" type="LineEdit" parent="HBoxContainer/HBox3"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-text = "0"
-placeholder_text = "Enter Value As Text"
-alignment = 1
 max_length = 45
 caret_blink = true
 

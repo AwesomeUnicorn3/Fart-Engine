@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwkxfkjegdq45"]
+
+[ext_resource type="PackedScene" uid="uid://4x3l1nwo5cbu" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/accept_cancel_buttons.tscn" id="2_ya4py"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupNewTable.gd" id="3"]
+
+[node name="PopupNewTable" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3")
+
+[node name="MainVBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -349.0
+offset_top = -244.0
+offset_right = 349.0
+offset_bottom = 211.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UserInputScroll" type="ScrollContainer" parent="MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UserInputVBox" type="VBoxContainer" parent="MainVBox/UserInputScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AcceptCancelButtons" parent="MainVBox" instance=ExtResource("2_ya4py")]
+layout_mode = 2
+
+[connection signal="visibility_changed" from="." to="." method="_on_popup_newTable_visibility_changed"]
+[connection signal="button_up" from="MainVBox/AcceptCancelButtons/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="MainVBox/AcceptCancelButtons/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="MainVBox/AcceptCancelButtons"]

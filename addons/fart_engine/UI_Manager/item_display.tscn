@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://vhq1ps2v5hrg"]
 
-[ext_resource type="Texture2D" uid="uid://chhcuoy68eank" path="res://fart_data/png/dhood_RupeeIcon.png" id="1_5s3tk"]
-[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/item_display.gd" id="1_k3wog"]
+[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/item_display.gd" id="1_51sst"]
+[ext_resource type="Texture2D" uid="uid://chhcuoy68eank" path="res://fart_data/png/dhood_RupeeIcon.png" id="2_cr3yy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_mfrv2"]
 font_size = 30
@@ -10,7 +10,7 @@ font_size = 30
 custom_minimum_size = Vector2(75, 100)
 size_flags_horizontal = 3
 color = Color(0, 0, 0, 0.176471)
-script = ExtResource("1_k3wog")
+script = ExtResource("1_51sst")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -19,7 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_5s3tk")
+texture = ExtResource("2_cr3yy")
 expand_mode = 1
 
 [node name="Label" type="Label" parent="TextureRect"]

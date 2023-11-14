@@ -1,14 +1,14 @@
 @tool
 extends EditorPlugin
 
-const MainPanel = preload("res://addons/fart_engine/FartRoot.tscn")
+const MainPanel = preload("res://addons/fart_engine/FartRoot_MainPage.tscn")
 var main_panel_instance
 var toolbar = preload("res://addons/fart_engine/Event_Manager/Event_Tools.tscn").instantiate()
 
 
 func _init():
 	add_autoload_singleton("FART", "res://addons/fart_engine/fart_singleton.gd")
-#	add_autoload_singleton('Quest', "res://addons/Quest_Manager/Quest_Scripts.gd")
+
 
 func _enter_tree():
 	print("Plugin Has Entered the Chat")
@@ -26,7 +26,7 @@ func _enter_tree():
 	
 	add_control_to_container(CONTAINER_CANVAS_EDITOR_MENU, toolbar)
 	EditorManager.toolbar = toolbar
-	connect_signals()
+#	connect_signals()
 	print("Signals Connected")
 	toolbar.visible = false
 
@@ -44,8 +44,8 @@ func get_editor_interface_node():
 
 func add_custom_types():
 	var icon =preload("res://addons/fart_engine/Editor_Icons/FartEngineIcon.png") #get_editor_interface().get_base_control().get_theme_icon("CharacterBody2D", "EditorIcons")
-	add_custom_type("Fart Event", "CharacterBody2D", preload("res://addons/fart_engine/Example Game/Event.gd"), icon)
-	add_custom_type("Fart UI Button", "TextureButton", preload("res://addons/fart_engine/UI_Manager/au3_ui_button.gd"), icon)
+	add_custom_type("Fart Event", "CharacterBody2D", preload("res://addons/fart_engine/Example Game/EventHandler.gd"), icon)
+	add_custom_type("Fart UI Button", "TextureButton", preload("res://addons/fart_engine/UI_Manager/FartUIButton.gd"), icon)
 #	add_custom_type("Fart Data Display", "Control", preload("res://addons/fart_engine/Fart_Custom_Nodes/Fart_Data_Display.gd"), icon)
 	
 
@@ -114,15 +114,15 @@ func _refresh_data():
 #		selected_node = null
 
 
-func connect_signals():
-	resource_saved.connect(main_panel_instance.when_editor_saved)
+#func connect_signals():
+#	resource_saved.connect(main_panel_instance.when_editor_saved)
 
 #func _apply_changes():
 #	print("APPLY CHANGES")
 #	main_panel_instance.when_editor_saved()
 
-func _save_external_data():
-	main_panel_instance.when_editor_saved(1)
+#func _save_external_data():
+#	main_panel_instance.when_editor_saved(1)
 
 
 

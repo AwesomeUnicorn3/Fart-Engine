@@ -2,9 +2,9 @@
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_wgw5n"]
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_List_Forms/PlayerTransfer_EventInputForm.gd" id="2_a1b5a"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="3_u4idg"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="3_u4idg"]
 [ext_resource type="PackedScene" uid="uid://d1b7rp10lemc" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Vector.tscn" id="4_8dugu"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="5_fo51n"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="5_fo51n"]
 
 [node name="PlayerTransfer_EventInputForm" type="Control"]
 layout_mode = 3
@@ -56,10 +56,10 @@ horizontal_alignment = 1
 
 [node name="DropDown_Template" parent="Control/VBoxContainer" instance=ExtResource("3_u4idg")]
 layout_mode = 2
-selection_table_name = "Maps"
-label_text = "DropDown_Template"
+label_text = "Map Name"
 is_label_button = false
 show_field = true
+reference_table_name = "10034"
 
 [node name="OpenMap_Button" type="Button" parent="Control/VBoxContainer"]
 layout_mode = 2
@@ -75,18 +75,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Accept" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("5_fo51n")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Accept"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="Cancel" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("5_fo51n")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
 

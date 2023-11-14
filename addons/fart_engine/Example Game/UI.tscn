@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/UI.gd" id="1_n0l2f"]
 [ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/Fart_UI_Button.png" id="2_ws1m2"]
-[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/au3_ui_button.gd" id="3_k542j"]
+[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/FartUIButton.gd" id="3_k542j"]
 [ext_resource type="PackedScene" uid="uid://bgj1soos3p52i" path="res://addons/fart_engine/Example Game/inventory_menu.tscn" id="4_4vvcp"]
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/FPS_Display.gd" id="4_xxpdq"]
 [ext_resource type="PackedScene" uid="uid://say43mgnaxsb" path="res://addons/fart_engine/Example Game/PlayerHPDisplay.tscn" id="5_twqnn"]

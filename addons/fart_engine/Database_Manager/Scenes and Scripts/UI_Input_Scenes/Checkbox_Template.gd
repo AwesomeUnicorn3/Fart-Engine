@@ -1,5 +1,5 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
 @export var true_text :String = "True"
 @export var false_text :String = "False"
@@ -24,7 +24,7 @@ func _on_input_toggled(button_pressed :bool, do_not_emit_signal:bool = false):
 
 func _set_input_value(node_value):
 	if typeof(node_value) == TYPE_STRING:
-		node_value = DBENGINE.custom_to_bool(node_value)
+		node_value = custom_to_bool(node_value)
 		
 	inputNode = await _get_input_node()
 	inputNode.visible = true

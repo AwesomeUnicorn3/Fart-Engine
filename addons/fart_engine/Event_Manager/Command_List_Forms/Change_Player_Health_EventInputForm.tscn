@@ -2,10 +2,10 @@
 
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_ud6wi"]
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_List_Forms/Change_Player_Health_EventInputForm.gd" id="2_wnxkc"]
-[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="3_10i14"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="3_10i14"]
 [ext_resource type="PackedScene" uid="uid://c7c0ymusji584" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="4_4w82s"]
 [ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="5_37vin"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_3df8y"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="6_3df8y"]
 
 [node name="ChangePlayerHealth_EventInputForm" type="Control"]
 layout_mode = 3
@@ -62,8 +62,8 @@ layout_mode = 2
 
 [node name="ItemType_Selection" parent="Control/VBoxContainer/HBoxContainer2" instance=ExtResource("3_10i14")]
 layout_mode = 2
-selection_table_name = "Operations"
 label_text = "Select Operation"
+reference_table_name = "10036"
 
 [node name="Number_Counter3" parent="Control/VBoxContainer/HBoxContainer2" instance=ExtResource("4_4w82s")]
 layout_mode = 2
@@ -89,7 +89,6 @@ button_pressed = true
 [node name="Number_Counter2" parent="Control/VBoxContainer" instance=ExtResource("4_4w82s")]
 visible = false
 layout_mode = 2
-can_be_negative = true
 label_text = "Custom Cooldown Time"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
@@ -101,7 +100,6 @@ size_flags_horizontal = 3
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Accept"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
@@ -109,7 +107,6 @@ auto_set_minimum_size = false
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
 

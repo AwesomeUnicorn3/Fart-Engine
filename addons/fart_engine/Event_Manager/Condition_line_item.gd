@@ -1,5 +1,5 @@
 @tool
-extends TableManager
+extends EditorManager
 
 
 @onready var right_operator := $RightOperator
@@ -14,9 +14,9 @@ extends TableManager
 @onready var compare_option = $Compare_Option
 
 
-var table = "DataTypes"
+#var table = "10017"
 var relatedNodeName
-var parent_node : Object
+#var parent_node : Object
 var inequalities_table:Dictionary ={}
 var line_item_dictionary :Dictionary = {}
 var text_inequality_dict: Dictionary = {}
@@ -49,7 +49,6 @@ func set_right_operators(value:Dictionary):
 
 func filter_inequalities():
 	var datatype = left_operator.selected_datatype
-	var datatype_dict: Dictionary = await import_data("DataTypes")
 	var is_datatype_number:bool = convert_string_to_type(datatype_dict[datatype]["Is Number"])
 	if is_datatype_number:
 		inequality_dropdown.populate_list()
@@ -62,15 +61,13 @@ func filter_inequalities():
 
 
 func get_inequality_dicts():
-	inequalities_table = import_data(inequality_dropdown.selection_table_name)
-	var datatype_table:Dictionary = import_data("DataTypes")
-
+	inequalities_table = all_tables_merged_dict[inequality_dropdown.selection_table_name]
 	var index:int = 1
 	for key in inequalities_table:
 		var is_text_operator:bool = convert_string_to_type(inequalities_table[key]["Is Text Operator"])
 		if is_text_operator:
 			text_inequality_raw_dict[key] = inequalities_table[key]
-			var displayName:String = get_text(inequalities_table[key]["Display Name"])
+			var displayName:String = get_value_as_text(inequalities_table[key]["Display Name"])
 			text_inequality_dict[str(index)] = [displayName,key, "0"]
 			index += 1
 #	print("TEXT INEQUALITY DICT: ", text_inequality_dict)
@@ -80,7 +77,7 @@ func add_input_node_for_event_condition(table_name:String, key_ID:String, field_
 	var datatype = left_operator.selected_datatype
 	for child in newParent.get_children():
 		child.queue_free()
-	var new_input_node = create_independant_input_node(table_name, key_ID, field_ID )
+	var new_input_node = await create_input_node(table_name, key_ID, field_ID )
 	new_input_node.label_text = "VALUE"
 	new_input_node.is_label_button = false
 	new_input_node.show_field= true
@@ -88,9 +85,12 @@ func add_input_node_for_event_condition(table_name:String, key_ID:String, field_
 	new_input_node.set_h_size_flags(SIZE_EXPAND)
 	newParent.add_child(new_input_node)
 	if datatype == "5":
-		var left_field_ref_table: String = get_reference_table(table_name, key_ID, field_ID)
-		new_input_node.selection_table_name = left_field_ref_table
-		new_input_node.populate_list()
+		pass
+		#!!!!!THIS NEEDS TO BE LOOKED AT AND FIXED!!!!!!!!!!!
+#		var left_field_ref_table: String = get_reference_table(table_name, key_ID, field_ID)
+#		new_input_node.selection_table_name = left_field_ref_table
+#		new_input_node.populate_list()
+
 	if datatype == "1":
 		new_input_node.show_advanced_node(false)
 
@@ -110,7 +110,7 @@ func _on_static_option_checkbox_pressed(button_pressed):
 
 func get_key_ID():
 	var return_val:String
-	return_val = key_display.get_text()
+	return_val = key_display.get_text_value()
 	return return_val
 
 

@@ -5,16 +5,15 @@ var current_position :Vector2 = Vector2.ZERO
 var previous_position:Vector2 = Vector2.ZERO
 var position_updated :bool = true
 var current_map_path:String
-var DBENGINE 
+
 var save_table_wait_index :int = 0
 
 
 func _ready():
 	if get_tree().get_edited_scene_root() != null:
 	#Set current position based on Global Data info
-		DBENGINE = DatabaseManager.new()
-		var global_data_dict = DBENGINE.import_data("Global Data")
-		current_position = DBENGINE.convert_string_to_vector(global_data_dict[await DBENGINE.get_global_settings_profile()]["Player Starting Position"])
+		var global_data_dict = DatabaseManager.all_tables_merged_dict["10002"]
+		current_position = DatabaseManager.convert_string_to_vector(global_data_dict[await DatabaseManager.get_global_settings_profile()]["Player Starting Position"])
 		set_position(current_position)
 		previous_position = current_position
 		
@@ -26,13 +25,13 @@ func _ready():
 func update_starting_position_in_profile(CurrentPosition):
 #	print("BEGIN UPDATE STARTING POSITION IN PROFILE")
 	var display_form_dict = DatabaseManager.display_form_dict
-	var global_data_dict = DBENGINE.import_data("Global Data")
-	var profileid:String = await DBENGINE.get_global_settings_profile()
+	var global_data_dict = DatabaseManager.all_tables_merged_dict["10002"]
+	var profileid:String = await DatabaseManager.get_global_settings_profile()
 #	print("CurrentPosition: ", CurrentPosition)
 	global_data_dict[profileid]["Player Starting Position"] = CurrentPosition
-	DBENGINE.save_file(DBENGINE.table_save_path + "Global Data" + DBENGINE.table_file_format, global_data_dict)
-	if display_form_dict.has("Global Data"):
-		var display_node:Node = display_form_dict["Global Data"]["Node"]
+	DatabaseManager.save_file(DatabaseManager.table_save_path + "10002" + DatabaseManager.table_file_format, global_data_dict)
+	if display_form_dict.has("10002"):
+		var display_node:Node = display_form_dict["10002"]["Node"]
 		if display_node!= null:
 			display_node.reload_data_without_saving()
 #	print("END UPDATE STARTING POSITION IN PROFILE")

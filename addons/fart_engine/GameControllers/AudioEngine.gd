@@ -126,14 +126,14 @@ func iterate_through_audio(repeat:bool, repeat_amount:int):
 func set_selected_group_dict_data(audio_dict, is_group:bool):
 	selected_group_dictionary = {}
 	var group_name :String = ""
-	var static_audio_group_dictionary :Dictionary = FART.Static_Game_Dict["SFX Groups"]
-	var static_audio_group_data_dictionary :Dictionary = FART.import_data("SFX Groups", true)
+	var static_audio_group_dictionary :Dictionary = FART.Static_Game_Dict["10039"]
+	var static_audio_group_data_dictionary :Dictionary = FART.import_data("10039", true)
 	if is_group:
 		group_name = audio_dict["audio_data"]["Group Name"]
 		var group_index = FART.get_id_from_display_name(static_audio_group_dictionary, group_name)
 		var index = 1
-		for field in static_audio_group_data_dictionary["Column"]:
-			var field_name = static_audio_group_data_dictionary["Column"][field]["FieldName"]
+		for field in static_audio_group_data_dictionary[FART.FIELD]:
+			var field_name = static_audio_group_data_dictionary[FART.FIELD][field]["FieldName"]
 			if field_name != "Display Name":
 				selected_group_dictionary[str(index)] = static_audio_group_dictionary[group_name][field_name]
 				index += 1

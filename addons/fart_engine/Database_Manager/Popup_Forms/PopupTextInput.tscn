@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://caqgsgl2x8u5x"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupTextInput.gd" id="1_1q8u6"]
+[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="2_4gqc3"]
+[ext_resource type="PackedScene" uid="uid://4x3l1nwo5cbu" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/accept_cancel_buttons.tscn" id="3_sr44w"]
+
+[node name="PopupTextInput" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1q8u6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -74.0
+offset_right = 250.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Input_Text" parent="VBoxContainer" instance=ExtResource("2_4gqc3")]
+layout_mode = 2
+label_text = "New Key Display Name"
+is_label_button = false
+
+[node name="AdvancedControlsVBox" parent="VBoxContainer/Input_Text/Input_Node" index="2"]
+visible = false
+
+[node name="AcceptCancelButtons" parent="VBoxContainer" instance=ExtResource("3_sr44w")]
+layout_mode = 2
+
+[connection signal="text_changed" from="VBoxContainer/Input_Text/Input_Node/Input" to="." method="_on_input_text_changed"]
+[connection signal="button_up" from="VBoxContainer/AcceptCancelButtons/Accept" to="." method="_on_accept_button_up"]
+[connection signal="button_up" from="VBoxContainer/AcceptCancelButtons/Cancel" to="." method="_on_cancel_button_up"]
+
+[editable path="VBoxContainer/Input_Text"]
+[editable path="VBoxContainer/Input_Text/Input_Node/Label"]
+[editable path="VBoxContainer/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="VBoxContainer/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="VBoxContainer/Input_Text/input_templateBuffer"]
+[editable path="VBoxContainer/AcceptCancelButtons"]

@@ -1,5 +1,5 @@
 @tool
-extends CommandForm
+extends CommandFormManager
 
 
 @onready var operation_inputNode = $Control/VBoxContainer/HBoxContainer2/ItemType_Selection
@@ -10,8 +10,6 @@ extends CommandForm
 @onready var use_default_cooldown_inputNode = $Control/VBoxContainer/Checkbox_Template
 
 
-var function_name :String = "change_player_health" #must be name of valid function
-
 var health_change :float
 var knockback :float
 var custom_cooldown :float
@@ -19,9 +17,9 @@ var use_default_cooldown :bool
 var set_number:bool
 var operation:String
 
-var event_name :String = ""
 
 func _ready():
+	function_name = "change_player_health" 
 	operation_inputNode.populate_list()
 	use_default_cooldown_inputNode.inputNode.toggled.connect(_on_default_cooldown_pressed)
 	use_default_cooldown_inputNode.inputNode.emit_signal("toggled", true)
@@ -49,13 +47,13 @@ func get_input_values():
 	operation = operation_inputNode.get_input_value()
 
 
-	event_name = commandListForm.CommandInputForm.source_node.parent_node.event_name
+	#event_name = source_node.parent_node.event_name
 	var return_function_dict = {function_name : [health_change, knockback, custom_cooldown, use_default_cooldown, set_number, operation, event_name]}
 	return return_function_dict
 
 
 func _on_accept_button_up():
-	commandListForm.CommandInputForm.function_dict = get_input_values()
+	function_dict = get_input_values()
 	get_parent()._on_close_button_up()
 
 

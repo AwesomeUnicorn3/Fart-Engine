@@ -1,10 +1,7 @@
 @tool
-extends TableManager
+extends EditorManager
 
-@onready var Navigation_Button: PackedScene = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn")
-#@onready var tableButton = preload("res://addons/fart_engine/SaveFile_Manager/Navigation_Button_table.tscn")
-#@onready var keyButton = preload("res://addons/fart_engine/SaveFile_Manager/Navigation_Button_Key.tscn")
-
+@onready var Navigation_Button: PackedScene = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn")
 @onready var value_input = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn")
 
 @onready var fileContainer = $Main_VBox/Display_HBox/File_Scroll/VBox1
@@ -15,12 +12,13 @@ extends TableManager
 
 
 var saveFile = {} #Current working dictionary
-var FileSelected
+var table_name
 var TableSelected
 var KeySelected
 var ValueSelected
 var EventSelected
-var input_changed = false
+var input_changed:bool = false
+#var input_changed = false
 
 
 func _ready() -> void:
@@ -42,16 +40,16 @@ func navigation_button_up(button: TextureButton):
 #	print("NAVIGATION BUTTON UP", button.text)
 	
 	if button.is_in_group("File_Button"):
-		_on_file_button_up(button.text)
+		_on_file_button_up(button.get_label_text())
 		
 	elif button.is_in_group("Table_Button"):
-		_on_table_button_up(button.text)
+		_on_table_button_up(button.get_label_text())
 		
 	elif button.is_in_group("Key_Button"):
-		_on_key_button_up(button.text)
+		_on_key_button_up(button.get_label_text())
 		
 	elif button.is_in_group("Event_Button"):
-		_on_event_button_up(button.text)
+		_on_event_button_up(button.get_label_text())
 	
 	button.disabled = true
 	button.reset_self_modulate()
@@ -66,7 +64,7 @@ func _on_file_button_up(saveName):
 	clear_single_container(keyContainer)
 	clear_single_container(valueContainer)
 	clear_single_container(eventContainer)
-	FileSelected = saveName
+	table_name = saveName
 	$Main_VBox/Header_Button_HBox/DeleteFile.disabled = false
 	saveFile = load_save_file(fileLocation)
 	set_saveFile_data("table")
@@ -116,22 +114,23 @@ func set_saveFile_data(get_value: String):
 
 		"value":
 			ValueSelected = ""
-			var modified_table_name = TableSelected
+#			var modified_table_name = TableSelected
 #			if modified_table_name == "Inventory":
 #				modified_table_name = "Items"
 #			print("MODIFIED TABLE NAME: ", modified_table_name)
-			if modified_table_name == "Event Save Data":
-				load_save_data(modified_table_name)
+			if TableSelected == "10022":
+				load_save_data(TableSelected)
 			else:
 				for k in saveFile[TableSelected][KeySelected]: # k = field Name
+					#print(k, ":  K VALUE: ", TableSelected)
 					ValueSelected = saveFile[TableSelected][KeySelected][k]
-					var input = create_input_node(k, modified_table_name)
+					var input = await create_input_node_custom_dict(k, TableSelected)
 					valueContainer.add_child(input)
 					if input.has_method("populate_list"):
-						var reference_table = get_reference_table(modified_table_name, KeySelected, k)
-						input.selection_table_name = reference_table
-					input._set_input_value(ValueSelected)
-					input.labelNode.set_text(k)
+						var reference_table = get_reference_table_name(TableSelected, KeySelected, k)
+						input.reference_table_name = reference_table
+					input._set_input_value(var_to_str(ValueSelected))
+					input.labelNode.set_text_value(k)
 					input.is_label_button = false
 		"event":
 				ValueSelected = ""
@@ -139,13 +138,13 @@ func set_saveFile_data(get_value: String):
 				for value_dict in saveFile[TableSelected][KeySelected][EventSelected]: # k = field Name
 #					print(value_dict)
 					ValueSelected = saveFile[TableSelected][KeySelected][EventSelected][value_dict]
-					var input = create_input_node(value_dict, TableSelected)
+					var input = await create_input_node_custom_dict(value_dict, TableSelected)
 					valueContainer.add_child(input)
 					if input.has_method("populate_list"):
-						var reference_table = get_reference_table(TableSelected, KeySelected, value_dict)
+						var reference_table = get_reference_table_name(TableSelected, KeySelected, value_dict)
 						input.selection_table_name = reference_table
-					input._set_input_value(ValueSelected)
-					input.labelNode.set_text(value_dict)
+					input._set_input_value(str(ValueSelected))
+					input.labelNode.set_text_value(value_dict)
 					input.is_label_button = false
 
 
@@ -191,7 +190,7 @@ func create_button(valueName:String, container: VBoxContainer, button: PackedSce
 	valueName = str(valueName)
 	container.add_child(Button_Scene)
 	Button_Scene.set_name(valueName)
-	Button_Scene.set_text(valueName)
+	Button_Scene.set_text_value(valueName)
 	Button_Scene.change_button_size()
 
 
@@ -202,18 +201,18 @@ func _on_DisplaySaveFile_visibility_changed() -> void:
 #		_ready()
 
 
-func _on_Save_button_up() -> void:
+func _on_display_save_button_up() -> void:
 	#CODE TO SAVE CHANGES TO SAVEfILE
 	#loop through input column, get all values
 	$Popups.visible = true
-	if TableSelected != "Event Save Data":
+	if TableSelected != "10022":
 		if valueContainer.get_children().size() >= 2:
 			for i in valueContainer.get_children():
 				if "inputNode" in i:
 					var curr_value = i._get_input_value()
 					var curr_field = i.labelNode.text
 					saveFile[TableSelected][KeySelected][curr_field] = curr_value
-		var fileName = save_game_path + FileSelected + save_format
+		var fileName = save_game_path + table_name + save_format
 		save_file(fileName, saveFile)
 	else:
 		if valueContainer.get_children().size() >= 2:
@@ -222,7 +221,7 @@ func _on_Save_button_up() -> void:
 					var curr_value = i._get_input_value()
 					var curr_field = i.labelNode.text
 					saveFile[TableSelected][KeySelected][EventSelected][curr_field] = curr_value
-		var fileName = save_game_path + FileSelected + save_format
+		var fileName = save_game_path + table_name + save_format
 		save_file(fileName, saveFile)
 	
 	emit_signal("table_save_complete")
@@ -239,7 +238,7 @@ func _on_DeleteFile_button_up() -> void:
 	var popup_label = $Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/Label
 	var popup_label2 = $Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/Label2
 	var lbl_text : String = popup_label2.get_text()
-	lbl_text = lbl_text.replace("%", FileSelected.to_upper())
+	lbl_text = lbl_text.replace("%", table_name.to_upper())
 	popup_label.set_text(lbl_text)
 
 func input_node_changed(text):
@@ -252,7 +251,7 @@ func _input_node_changed(hidden = true):
 	$Main_VBox/Header_Button_HBox/Save.reset_self_modulate()
 
 func _on_Delete_Accept_button_up() -> void:
-	var fileName = save_game_path + FileSelected + save_format
+	var fileName = save_game_path + table_name + save_format
 	var dir :DirAccess = DirAccess.open(save_game_path)
 	dir.remove(fileName)
 	_ready()

@@ -1,5 +1,5 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
 var x_label #= $HBox2/X
 var x_input #= $HBox3/InputX

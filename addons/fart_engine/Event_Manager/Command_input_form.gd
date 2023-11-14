@@ -1,7 +1,7 @@
 @tool
-extends DatabaseManager
+extends EditorManager
 
-signal save_complete
+#signal save_complete
 signal rearrange_commands
 signal edit_command
 
@@ -11,9 +11,9 @@ var mainDictionary : Dictionary = {}
 #var local_variable_dictionary : Dictionary 
 
 var condition_types_dict : Dictionary = {"Inventory Item": "", "Event Variable": "", "Global Variable": ""}
-var parent_node
+#var parent_node
 var source_node
-
+var edit_state:bool = false
 var function_dict :Dictionary = {}
 
 
@@ -101,7 +101,7 @@ func create_input_fields():
 		var command_line_string = str(command_line)
 		var command_line_node = CommandLineItem.instantiate()
 		inputContainer.add_child(command_line_node)
-		command_line_node.CommandInputForm = self
+		command_line_node.source_node = self
 		command_line_node.Key_field.inputNode.set_text(str(command_line_string))
 		command_line_node.parent_node = self
 		command_line_node.line_item_dictionary = mainDictionary[command_line_string]
@@ -110,10 +110,10 @@ func create_input_fields():
 
 func open_selected_form_for_editing(function_name :String ,old_command_dict:Dictionary, key_value :String) -> void:
 	#show Command List Form
-	var CommandListForm = load("res://addons/fart_engine/Event_Manager/Command_List_Forms/Command_List_Form.tscn").instantiate()
+	var CommandListForm = preload("res://addons/fart_engine/Event_Manager/Command_List_Forms/Command_List_Form.tscn").instantiate()
 	#send key value to command list form so it can append the main dictionary with the new command dict
 	add_child(CommandListForm)
-	CommandListForm.CommandInputForm = self
+	CommandListForm.source_node = self
 	CommandListForm._open_selected_form(function_name, true)
 	CommandListForm.emit_signal("set_input", old_command_dict)
 
@@ -127,10 +127,11 @@ func open_selected_form_for_editing(function_name :String ,old_command_dict:Dict
 func _on_AddItem_button_up() -> void:
 	#show Command List Form
 	var CommandListForm = preload("res://addons/fart_engine/Event_Manager/Command_List_Forms/Command_List_Form.tscn").instantiate()
+	CommandListForm.source_node = self
 	#send key value to command list form so it can append the main dictionary with the new command dict
 	var key_value = get_next_key()
 	add_child(CommandListForm)
-	CommandListForm.CommandInputForm = self
+
 	await CommandListForm.closed
 	if function_dict != {}:
 		mainDictionary[str(key_value)] = function_dict

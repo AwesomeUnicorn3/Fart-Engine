@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/fart_engine/Fart_Custom_Nodes/table_key_field_Fart_Data.gd" id="1_x3hbd"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_nemso"]
-[ext_resource type="PackedScene" uid="uid://caa8n4gw1ppk5" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="3_8gew2"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="3_8gew2"]
 
 [node name="TableKeyField" type="VBoxContainer"]
 script = ExtResource("1_x3hbd")

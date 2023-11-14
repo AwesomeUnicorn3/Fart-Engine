@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2p31ida3cnij"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Popup_Forms/Popup_Background.gd" id="1_w3nxv"]
+
+[node name="Popup_Background" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w3nxv")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.792157)

@@ -1,5 +1,5 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
 var parent
 var input_dict :Dictionary = {}
@@ -20,17 +20,17 @@ func startup():
 func populate_dropdown_inputs():
 	event_dialog_options_table.populate_list()
 #	print("SORTED TABLE: ", event_dialog_options_table.sorted_table)
-	var event_dialog_options_dict: Dictionary = DBENGINE.import_data(event_dialog_options_table.selection_table_name)
+	var event_dialog_options_dict: Dictionary = all_tables_merged_dict[event_dialog_options_table.table_name]
 	var selection_dict: Dictionary = event_dialog_options_dict[event_dialog_options_table.selectedItemKey]
 #	print("SELECTION DICT: ", selection_dict)
 #	event_dialog_variable.selection_table = selection_dict
 	
 	
 	var field_list: Dictionary = {}
-	var field_selected_table_data_dict: Dictionary = DBENGINE.import_data(event_dialog_options_table.selectedItemKey, true)
+	var field_selected_table_data_dict: Dictionary = all_tables_merged_data_dict[event_dialog_options_table.selectedItemKey]
 	for key in selection_dict:
 		if key != "Display Name":
-			field_list[key] = {"Datatype": DBENGINE.get_datatype(key, field_selected_table_data_dict)}
+			field_list[key] = {"Datatype": await get_datatype(key, event_dialog_options_table.selectedItemKey)}
 	event_dialog_variable.populate_list(false, true, true, field_list)
 	
 	

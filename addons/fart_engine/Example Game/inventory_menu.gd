@@ -12,7 +12,7 @@ func _ready():
 
 
 func on_inventory_update():
-	main_inventory_dict = FART.Dynamic_Game_Dict["Inventory"]
+	main_inventory_dict = FART.Dynamic_Game_Dict["10031"]
 	for item in main_inventory_dict:
 		var item_count:int = int(main_inventory_dict[item]["ItemCount"])
 		if !local_inventory_dict.has(item):

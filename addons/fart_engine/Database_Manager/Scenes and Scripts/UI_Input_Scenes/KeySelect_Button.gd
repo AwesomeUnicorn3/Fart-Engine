@@ -1,7 +1,7 @@
 @tool
 extends Button
 
-@onready var keyselect : PackedScene = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect.tscn")
+@onready var keyselect : PackedScene = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/KeySelect.tscn")
 @onready var parent = get_parent()
 
 var action_string_button

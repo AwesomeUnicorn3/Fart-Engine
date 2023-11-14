@@ -1,0 +1,474 @@
+[gd_scene load_steps=11 format=3 uid="uid://nel1vy6brpp5"]
+
+[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="1_5826e"]
+[ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/EventInputForm.gd" id="2_jkj5g"]
+[ext_resource type="PackedScene" uid="uid://bqwjqshj5056o" path="res://addons/fart_engine/Example Game/Fart_Background_Color.tscn" id="3_ty2dn"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4_lko1u"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="5_4ay7h"]
+[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="6_ljtos"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="7_5pxcd"]
+[ext_resource type="PackedScene" uid="uid://7aknajkgeawg" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/NewFieldPopup.tscn" id="8_hj7de"]
+[ext_resource type="PackedScene" uid="uid://ceao37vrqplqj" path="res://addons/fart_engine/Event_Manager/popup_Event_Selection.tscn" id="9_7tmu3"]
+[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="10_wxtov"]
+
+[node name="EventEditorInputForm" type="Control" groups=["Tab"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_5826e")
+script = ExtResource("2_jkj5g")
+
+[node name="Background" parent="." instance=ExtResource("3_ty2dn")]
+layout_mode = 1
+color = Color(0.2, 0.19, 0.19, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Input_Label_Template2" parent="VBoxContainer" instance=ExtResource("4_lko1u")]
+layout_mode = 2
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+
+[node name="HBox1" parent="VBoxContainer/Input_Label_Template2" index="0"]
+custom_minimum_size = Vector2(0, 30)
+
+[node name="Label_Button" parent="VBoxContainer/Input_Label_Template2/HBox1" index="0"]
+mouse_filter = 2
+button_text = "Event Editor"
+
+[node name="Input_Label_Template3" parent="VBoxContainer" instance=ExtResource("4_lko1u")]
+layout_mode = 2
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+
+[node name="HBox1" parent="VBoxContainer/Input_Label_Template3" index="0"]
+custom_minimum_size = Vector2(0, 30)
+
+[node name="Label_Button" parent="VBoxContainer/Input_Label_Template3/HBox1" index="0"]
+mouse_filter = 2
+button_text = "!!!!!Warning - Save before Switching to another page!!!!"
+
+[node name="input_templateBuffer" parent="VBoxContainer" instance=ExtResource("5_4ay7h")]
+layout_mode = 2
+
+[node name="HBox3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Input_Text" parent="VBoxContainer/HBox3" instance=ExtResource("6_ljtos")]
+layout_mode = 2
+label_text = "Event Name"
+is_label_button = false
+
+[node name="Buffer" type="Label" parent="VBoxContainer/HBox3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="HBox1" type="HBoxContainer" parent="VBoxContainer/HBox3"]
+layout_mode = 2
+alignment = 1
+
+[node name="Add_Page_Button" parent="VBoxContainer/HBox3/HBox1" groups=["Table Action"] instance=ExtResource("7_5pxcd")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+button_text = "Add Page"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Copy_Page_Button" parent="VBoxContainer/HBox3/HBox1" groups=["Table Action"] instance=ExtResource("7_5pxcd")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+button_text = "Copy Page"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Delete_Page_Button" parent="VBoxContainer/HBox3/HBox1" groups=["Table Action"] instance=ExtResource("7_5pxcd")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+button_text = "Delete Page"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Hbox4" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Scroll1" type="ScrollContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+follow_focus = true
+vertical_scroll_mode = 2
+
+[node name="VBox1" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Top" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="A" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="B" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="C" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Top"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Middle" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="A" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Middle"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="B" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Middle"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="C" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/Middle"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bottom" type="VBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBox2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Save_Close_Button" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2" groups=["Table Action"] instance=ExtResource("7_5pxcd")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Save and Close"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Save_Close_Button1" type="Button" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Save and Close"
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Save_Page_Button" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2" groups=["Table Action"] instance=ExtResource("7_5pxcd")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Save Page"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Save_Page_Button1" type="Button" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save Page"
+
+[node name="Cancel_Button" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2" groups=["Table Action"] instance=ExtResource("7_5pxcd")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+layout_mode = 2
+button_text = "Cancel"
+auto_connect_signals = false
+auto_set_minimum_size = false
+
+[node name="Cancel_Button1" type="Button" parent="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+text = "Cancel"
+
+[node name="Popups" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.894118)
+
+[node name="ListInput" type="Control" parent="Popups"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="FileSelect" type="Control" parent="Popups"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="popup_delete_confirm" type="Control" parent="Popups"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -185.5
+offset_top = -91.0
+offset_right = 185.5
+offset_bottom = 91.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="PanelContainer" type="ColorRect" parent="Popups/popup_delete_confirm"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_layout_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Popups/popup_delete_confirm/PanelContainer"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Are you sure you want to delete %?"
+
+[node name="Label2" type="Label" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Are you sure you want to delete %?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Accept" type="Button" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="Popups/popup_delete_confirm/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="popup_newValue" parent="Popups" instance=ExtResource("8_hj7de")]
+visible = false
+layout_mode = 1
+
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection" index="1"]
+item_count = 17
+popup/item_15/text = "Dialog Options"
+popup/item_15/id = 15
+popup/item_16/text = "Field Value Selection"
+popup/item_16/id = 16
+
+[node name="Input" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection" index="1"]
+item_count = 44
+popup/item_20/text = "Event Movement States"
+popup/item_21/text = "Dialog Groups"
+popup/item_22/text = "SFX Groups"
+popup/item_23/text = "Game State"
+popup/item_24/text = "Action Types"
+popup/item_25/text = "Movement Directions"
+popup/item_26/text = "Animation States"
+popup/item_27/text = "Animation Groups"
+popup/item_28/text = "UI Scenes"
+popup/item_29/text = "None"
+popup/item_30/text = "Table Category"
+popup/item_31/text = "UI Navigation"
+popup/item_32/text = "Testing Table"
+popup/item_33/text = "Local Variables"
+popup/item_34/text = "Operations"
+popup/item_35/text = "AU3 InputMap"
+popup/item_36/text = "UI Script Methods"
+popup/item_37/text = "UI Methods"
+popup/item_38/text = "Fart Editor Themes"
+popup/item_39/text = "Event Dialog Variables"
+popup/item_40/text = "Event Save Data"
+popup/item_40/id = 40
+popup/item_41/text = "DisplaySelection"
+popup/item_41/id = 41
+popup/item_42/text = "Inventory"
+popup/item_42/id = 42
+popup/item_43/text = "Camera List"
+popup/item_43/id = 43
+
+[node name="PopupMenu2" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="1"]
+item_count = 7
+item_0/text = "Character Classes"
+item_0/checkable = 2
+item_0/checked = true
+item_0/id = 0
+item_1/text = "Control Categories"
+item_1/checkable = 2
+item_1/id = 1
+item_2/text = "DataTypes"
+item_2/checkable = 2
+item_2/id = 2
+item_3/text = "Field_Pref_Values"
+item_3/checkable = 2
+item_3/id = 3
+item_4/text = "Item_Type"
+item_4/checkable = 2
+item_4/id = 4
+item_5/text = "Items"
+item_5/checkable = 2
+item_5/id = 5
+item_6/text = "Maps"
+item_6/checkable = 2
+item_6/id = 6
+
+[node name="PopupMenu3" type="PopupMenu" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Input" index="2"]
+item_count = 7
+item_0/text = "Character Classes"
+item_0/checkable = 2
+item_0/checked = true
+item_0/id = 0
+item_1/text = "Control Categories"
+item_1/checkable = 2
+item_1/id = 1
+item_2/text = "DataTypes"
+item_2/checkable = 2
+item_2/id = 2
+item_3/text = "Field_Pref_Values"
+item_3/checkable = 2
+item_3/id = 3
+item_4/text = "Item_Type"
+item_4/checkable = 2
+item_4/id = 4
+item_5/text = "Items"
+item_5/checkable = 2
+item_5/id = 5
+item_6/text = "Maps"
+item_6/checkable = 2
+item_6/id = 6
+
+[node name="Accept" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox2" index="0"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+
+[node name="Cancel" parent="Popups/popup_newValue/PanelContainer/VBox1/HBox2" index="1"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+
+[node name="popup_Event_Selection" parent="Popups" instance=ExtResource("9_7tmu3")]
+visible = false
+layout_mode = 1
+
+[node name="popup_deleteKey" parent="Popups" instance=ExtResource("10_wxtov")]
+visible = false
+layout_mode = 1
+
+[node name="PanelContainer" parent="Popups/popup_deleteKey" index="0"]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 429.0
+offset_bottom = 201.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="Label_Button" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Label2/HBox1" index="0"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="Hide_Button" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Label2/HBox1" index="1"]
+self_modulate = Color(0.43, 0.45, 0.55, 1)
+
+[node name="VScrollBar2" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="1"]
+layout_mode = 0
+
+[node name="VScrollBar3" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="2"]
+layout_mode = 0
+
+[node name="Accept" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+
+[node name="Cancel" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+
+[connection signal="button_up" from="VBoxContainer/HBox3/HBox1/Add_Page_Button" to="." method="add_new_event_page"]
+[connection signal="button_up" from="VBoxContainer/HBox3/HBox1/Copy_Page_Button" to="." method="_on_Copy_Page_Button_button_up"]
+[connection signal="button_up" from="VBoxContainer/HBox3/HBox1/Delete_Page_Button" to="." method="_on_Delete_Page_Button_button_up"]
+[connection signal="button_up" from="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2/Save_Close_Button" to="." method="_on_Save_Close_Button_button_up"]
+[connection signal="button_up" from="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2/Save_Close_Button1" to="." method="_on_Save_Close_Button_button_up"]
+[connection signal="button_up" from="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2/Save_Page_Button" to="." method="_on_Save_Page_Button_button_up"]
+[connection signal="button_up" from="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2/Save_Page_Button1" to="." method="_on_Save_Page_Button_button_up"]
+[connection signal="button_up" from="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2/Cancel_Button" to="." method="_on_Button_button_up"]
+[connection signal="button_up" from="VBoxContainer/VBoxContainer/Scroll1/VBox1/HBox2/Cancel_Button1" to="." method="_on_Button_button_up"]
+[connection signal="button_up" from="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Create_New_Event_Button" to="." method="_on_Create_New_Event_Button_button_up"]
+[connection signal="button_up" from="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox2/Accept" to="." method="_on_event_selection_Accept_button_up"]
+[connection signal="button_up" from="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox2/Cancel" to="." method="_on_event_selection_Cancel_button_up"]
+
+[editable path="VBoxContainer/Input_Label_Template2"]
+[editable path="VBoxContainer/Input_Label_Template3"]
+[editable path="VBoxContainer/HBox3/Input_Text"]
+[editable path="VBoxContainer/HBox3/Input_Text/Input_Node/Label"]
+[editable path="VBoxContainer/HBox3/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="VBoxContainer/HBox3/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="VBoxContainer/HBox3/Input_Text/input_templateBuffer"]
+[editable path="Popups/popup_newValue"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Input_Text/input_templateBuffer"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/ItemType_Selection/Label"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection"]
+[editable path="Popups/popup_newValue/PanelContainer/VBox1/HBox1/Table_Selection/Label"]
+[editable path="Popups/popup_Event_Selection"]
+[editable path="Popups/popup_Event_Selection/PanelContainer/VBox1/Input_Label_Template"]
+[editable path="Popups/popup_Event_Selection/PanelContainer/VBox1/HBox1/Existing_Events_Dropdown"]
+[editable path="Popups/popup_deleteKey"]
+[editable path="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Label2"]

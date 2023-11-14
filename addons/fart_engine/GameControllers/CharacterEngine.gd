@@ -20,7 +20,7 @@ var shadow_sprite_animation  :AnimatedSprite2D
 var shadow_sprite_frames :SpriteFrames
 var sprite_group_id :String
 var use_save_dict :bool = true
-var character_dictionary_name = "Characters"
+var character_dictionary_name = "10016"
 var gravity: float  #Game gravity (Think of this as y acceleration) - DBAA
 var is_gravity_active:bool
 var base_gravity: float
@@ -50,7 +50,7 @@ func _ready() -> void:
 		if FART.dict_loaded == false:
 			await FART.DbManager_loaded
 		FART.CAMERA._ready()
-		var newgame = FART.get_field_value("Global Data",await FART.get_global_settings_profile(), "NewGame")
+		var newgame = await FART.get_field_value("10002",await FART.get_global_settings_profile(), "NewGame")
 		if newgame:
 			use_save_dict = false
 			#FARTset_save_data_value("Global Data", await FART.get_global_settings_profile(), "NewGame", false)
@@ -72,17 +72,17 @@ func set_required_variables():
 	var upscale :float = 10.0
 
 	var activeCharacterId = FART.get_lead_character_id()
-	characterFriction = FART.get_field_value(character_dictionary_name, activeCharacterId, "Friction", use_save_dict) * upscale
-	characterAcceleration = FART.get_field_value(character_dictionary_name, activeCharacterId, "Acceleration", use_save_dict) * upscale
-	characterMaxSpeed = FART.get_field_value(character_dictionary_name, activeCharacterId, "Max Speed", use_save_dict) * upscale
-	characterJumpSpeed = FART.get_field_value(character_dictionary_name, activeCharacterId, "Jump Speed", use_save_dict) * upscale
-	draw_shadow = FART.get_field_value(character_dictionary_name, activeCharacterId, "Draw Shadow", use_save_dict)
-	invincibility_time = FART.get_field_value(character_dictionary_name, activeCharacterId, "Invincible Time", use_save_dict)
+	characterFriction = await FART.get_field_value(character_dictionary_name, activeCharacterId, "Friction", use_save_dict) * upscale
+	characterAcceleration = await FART.get_field_value(character_dictionary_name, activeCharacterId, "Acceleration", use_save_dict) * upscale
+	characterMaxSpeed = await FART.get_field_value(character_dictionary_name, activeCharacterId, "Max Speed", use_save_dict) * upscale
+	characterJumpSpeed = await FART.get_field_value(character_dictionary_name, activeCharacterId, "Jump Speed", use_save_dict) * upscale
+	draw_shadow = await FART.get_field_value(character_dictionary_name, activeCharacterId, "Draw Shadow", use_save_dict)
+	invincibility_time = await FART.get_field_value(character_dictionary_name, activeCharacterId, "Invincible Time", use_save_dict)
 
-	gravity = FART.get_field_value("Global Data", await FART.get_global_settings_profile(), "Gravity Force", use_save_dict) * upscale
+	gravity =await  FART.get_field_value("10002", await FART.get_global_settings_profile(), "Gravity Force", use_save_dict) * upscale
 	base_gravity = gravity
-	characterMass = FART.get_field_value(character_dictionary_name, activeCharacterId, "Mass", use_save_dict) * upscale
-	is_gravity_active = FART.get_field_value("Global Data", await FART.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
+	characterMass = await FART.get_field_value(character_dictionary_name, activeCharacterId, "Mass", use_save_dict) * upscale
+	is_gravity_active = await FART.get_field_value("10002", await FART.get_global_settings_profile(), "Is Gravity Active", use_save_dict)
 	set_initial_player_health()
 
 
@@ -121,8 +121,8 @@ func set_raycast_target_position(interaction_raycast:RayCast2D, target_pos_x:flo
 
 func _physics_process(delta):
 
-	if FART.Dynamic_Game_Dict.has("Global Data"):
-		var game_active :bool = FART.Dynamic_Game_Dict['Global Data'][await FART.get_global_settings_profile()]["Is Game Active"]
+	if FART.Dynamic_Game_Dict.has("10002"):
+		var game_active :bool = FART.Dynamic_Game_Dict["10002"][await FART.get_global_settings_profile()]["Is Game Active"]
 		if game_active:
 
 			emit_player_exited_interaction_signal()
@@ -158,7 +158,7 @@ func is_interaction_raycast_colliding() -> bool:
 				if collision_body != null:
 					var collision_parent  = collision_body.get_parent()
 					if "can_interact" in collision_parent:
-						print(collision_parent.name)
+#						print(collision_parent.name)
 						emit_player_entered_interaction_signal(collision_parent)
 						is_colliding = true
 
@@ -231,8 +231,8 @@ func get_direction():
 		#loop through input actions, if action is movement, run the below code
 		for actionKey in FART.CurrentInputAction_dict: #ONCE SET UP, THIS SHOULD BE ONLY MOVEMENT ACTIONS
 				var actionStrength :float = FART.CurrentInputAction_dict[actionKey]["action_strength"]
-				var directionKey :String  = str(FART.convert_string_to_type(FART.Static_Game_Dict["AU3 InputMap"][actionKey]["Movement Direction"]))
-				var movement_direction = FART.convert_string_to_vector(FART.Static_Game_Dict["Movement Directions"][directionKey]["Direction Vector"])
+				var directionKey :String  = str(FART.convert_string_to_type(FART.Static_Game_Dict["10007"][actionKey]["Movement Direction"]))
+				var movement_direction = FART.convert_string_to_vector(FART.Static_Game_Dict["10035"][directionKey]["Direction Vector"])
 				direction.x += movement_direction.x * actionStrength
 				direction.y += movement_direction.y * actionStrength
 	direction = direction.normalized()
@@ -275,7 +275,7 @@ func save_player_data():
 
 func set_initial_player_health():
 	await get_tree().create_timer(0.1).timeout
-	current_health = FART.get_save_data_value(character_dictionary_name, FART.get_lead_character_id(), "HP", use_save_dict)
+	current_health = await FART.get_save_data_value(character_dictionary_name, FART.get_lead_character_id(), "HP", use_save_dict)
 	FART.emit_signal("player_health_updated")
 #	print("CURRENT HEALTH: ", current_health)
 
@@ -283,11 +283,11 @@ func save_player_health():
 	FART.set_save_data_value(character_dictionary_name, FART.get_lead_character_id(), "HP", current_health)
 
 func set_animation_sprites():
-	sprite_group_id = str(FART.Static_Game_Dict["Characters"][FART.get_lead_character_id()]["Animation State Profile"])
+	sprite_group_id = str(FART.Static_Game_Dict["10016"][FART.get_lead_character_id()]["Animation State Profile"])
 	#sprite group dict should containe one state's up,down,left,right animations
 	
-	var animationStates_dict :Dictionary = FART.Static_Game_Dict["Animation States"]
-	var animationGroups_dict :Dictionary = FART.Static_Game_Dict["Animation Groups"]
+	var animationStates_dict :Dictionary = FART.Static_Game_Dict["10010"]
+	var animationGroups_dict :Dictionary = FART.Static_Game_Dict["10009"]
 	
 	for animState in animationStates_dict[sprite_group_id]:
 		if animState != "Display Name":
@@ -312,7 +312,7 @@ func set_animation_sprites():
 				$ShadowAnimSprites.add_child(new_shadow_animation)
 
 func add_sprite_group_to_node(animatedSprite :AnimatedSprite2D, sprite_dict :Dictionary, animation_state :String):
-	var sprite_group_dict :Dictionary = FART.Static_Game_Dict["Sprite Groups"]
+	var sprite_group_dict :Dictionary = FART.Static_Game_Dict["10040"]
 	var spriteFrames : SpriteFrames = SpriteFrames.new()
 	for anim in sprite_dict:
 		

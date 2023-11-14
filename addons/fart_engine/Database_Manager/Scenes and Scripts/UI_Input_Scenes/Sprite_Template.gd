@@ -1,5 +1,5 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
 @export var increment = 1
 
@@ -22,16 +22,18 @@ var sprite_size :Vector2
 var atlas_dict :Dictionary
 var advanced_dict :Dictionary
 
-@onready var atlas_h_input := $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/HInput
-@onready var atlas_v_input := $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VInput
+@onready var atlas_h_input := $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/HFrames
+@onready var atlas_v_input :=  $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/HFrames
+
 @onready var sprite_animation := $AnimatedSprite
 @onready var preview_window := $StandardControlsHBox/PreviewVBox/Control/PreviewWindow
 
-@onready var vframe := $AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VFrame
-@onready var hframe :=$AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/HFrame
-@onready var speed_input :=$AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/SpeedInput
-@onready var height_sprite_size :=$AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/HeightSpriteSize
-@onready var width_sprite_size :=$AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/WidthSpriteSize
+@onready var vframe : = $AdvancedControlsVBox/AdvancedControlsHBox/BeginFrame
+@onready var hframe := $AdvancedControlsVBox/AdvancedControlsHBox/EndFrame
+@onready var speed_input := $AdvancedControlsVBox/AdvancedControlsHBox/FPS
+@onready var height_sprite_size := $AdvancedControlsVBox/AdvancedControlsHBox/FrameHeight
+@onready var width_sprite_size := $AdvancedControlsVBox/AdvancedControlsHBox/FrameWidth
+
 
 func _init() -> void:
 	type = "8"
@@ -42,6 +44,7 @@ func startup():
 	sprite_animation.visible = false
 	if show_field:
 		sprite_animation.visible = true
+	
 
 
 func set_preview_position() -> void:
@@ -63,12 +66,8 @@ func set_preview_position() -> void:
 func _on_TextureButton_button_up():
 	on_text_changed(true)
 
-#	if !parent_node.has_node("Popups"):
-#		var new_child = load("res://addons/UDSEngine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Popups.tscn").instantiate()
-#		parent_node.add_child(new_child)
-#		new_child.set_name("Popups")
 
-	var FileSelectDialog = load("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
+	var FileSelectDialog = preload("res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/FileSelectDialog.tscn")
 	fileSelectedNode = FileSelectDialog.instantiate()
 	parent_node.get_node("Popups").visible = true
 	parent_node.get_node("Popups/FileSelect").visible = true
@@ -84,13 +83,13 @@ func _on_TextureButton_button_up():
 func create_sprite_animation():
 	if sprite_animation.is_playing():
 		sprite_animation.stop()
-	sprite_animation.get_sprite_frames().remove_animation(labelNode.get_text())
-	DBENGINE.add_animation_to_animatedSprite(labelNode.get_text(), input_data,sprite_animation, false)
-	sprite_animation.play(labelNode.get_text())
+	sprite_animation.get_sprite_frames().remove_animation(labelNode.get_label_text())
+	add_animation_to_animatedSprite(labelNode.get_label_text(), input_data,sprite_animation, false)
+	sprite_animation.play(labelNode.get_label_text())
 
 
 func set_preview_animation_size():
-	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"])
+	var sprite_texture = load(table_save_path + icon_folder + atlas_dict["texture_name"])
 	var sprite_count = frame_vector
 	sprite_cell_size = Vector2(sprite_texture.get_size().x / sprite_count.y ,sprite_texture.get_size().y / sprite_count.x)
 	var sprite_cell_ratio : float = sprite_cell_size.y / sprite_cell_size.x
@@ -105,7 +104,7 @@ func set_preview_animation_size():
 
 
 func set_sprite_default_size():
-	var sprite_texture = load(DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"])
+	var sprite_texture = load(table_save_path + icon_folder + atlas_dict["texture_name"])
 	var sprite_height = sprite_texture.get_size().y / frame_vector.x
 	var sprite_width = sprite_texture.get_size().x / frame_vector.y
 	sprite_cell_size = Vector2(sprite_height ,sprite_width)
@@ -118,7 +117,7 @@ func _on_FileDialog_sprite_file_selected(path: String) -> void:
 	remove_dialog()
 	
 	var new_file_name = path.get_file() #
-	var new_file_path = DBENGINE.table_save_path + DBENGINE.icon_folder + new_file_name #
+	var new_file_path = table_save_path + icon_folder + new_file_name #
 	var curr_icon_path : Node = inputNode #
 	if parent_node.is_file_in_folder(parent_node.table_save_path + parent_node.icon_folder, new_file_name): #Check if selected folder is Icon folder and has selected file
 		set_sprite_atlas(new_file_path)
@@ -130,10 +129,8 @@ func _on_FileDialog_sprite_file_selected(path: String) -> void:
 			print("File Not Added")
 		else:
 			print("File Added")
-			#trigger the import process for it to load to texture rect
-			var editor  = load("res://addons/fart_engine/EditorEngine.gd").new()
-			editor.refresh_editor(self)
-			await editor.Editor_Refresh_Complete
+			refresh_editor(self)
+			await Editor_Refresh_Complete
 
 			set_sprite_atlas(new_file_path)
 	get_data_and_create_sprite()
@@ -203,33 +200,33 @@ func _set_input_value(node_value):
 
 func set_atlas_data():
 	atlas_dict = {}
-	atlas_h_input = $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/HInput
-	atlas_v_input = $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VInput
+#	atlas_h_input = $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/HInput
+#	atlas_v_input = $StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/VBox1/VBox1/VInput
 	get_input_node()
 	atlas_dict = input_data["atlas_dict"]
-	frame_vector = DBENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
-	atlas_v_input.set_text(str(frame_vector.x))
-	atlas_h_input.set_text(str(frame_vector.y))
-	var sprite_path = DBENGINE.table_save_path + DBENGINE.icon_folder + atlas_dict["texture_name"]
-	inputNode.set_texture_normal(load(str(sprite_path))) 
+	frame_vector = convert_string_to_vector(str(atlas_dict["frames"]))
+	atlas_v_input._set_input_value(str(frame_vector.x))
+	atlas_h_input._set_input_value(str(frame_vector.y))
+	var sprite_path = table_save_path + icon_folder + atlas_dict["texture_name"]
+	$StandardControlsHBox/SpriteAtlasHBox/SpriteAtlasVBox/Input.set_texture_normal(load(str(sprite_path)))
 
 
 func set_advanced_data():
-	vframe = $AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VFrame
-	hframe =$AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/HFrame
-	speed_input =$AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/SpeedInput
-	height_sprite_size =$AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/HeightSpriteSize
-	width_sprite_size =$AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/WidthSpriteSize
+#	vframe = $AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/VFrame
+#	hframe =$AdvancedControlsVBox/AdvancedControlsHBox/FrameRangeVBox/VBox1/HFrame
+#	speed_input =$AdvancedControlsVBox/AdvancedControlsHBox/SpeedVBox/VBox1/SpeedInput
+#	height_sprite_size =$AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/HeightSpriteSize
+#	width_sprite_size =$AdvancedControlsVBox/AdvancedControlsHBox/SpriteSizeVBox/VBox1/WidthSpriteSize
 	advanced_dict = {}
 	advanced_dict = input_data["advanced_dict"]
-	frame_range = DBENGINE.convert_string_to_vector(str(advanced_dict["frame_range"]))
+	frame_range = convert_string_to_vector(str(advanced_dict["frame_range"]))
 	speed = advanced_dict["speed"]
-	sprite_size = DBENGINE.convert_string_to_vector(str(advanced_dict["sprite_size"]))
-	vframe.set_text(str(frame_range.x))
-	hframe.set_text(str(frame_range.y))
-	speed_input.set_text(str(speed))
-	height_sprite_size.set_text(str(sprite_size.x))
-	width_sprite_size.set_text(str(sprite_size.y))
+	sprite_size = convert_string_to_vector(str(advanced_dict["sprite_size"]))
+	vframe._set_input_value(str(frame_range.x))
+	hframe._set_input_value(str(frame_range.y))
+	speed_input._set_input_value(str(speed))
+	height_sprite_size._set_input_value(str(sprite_size.x))
+	width_sprite_size._set_input_value(str(sprite_size.y))
 	hide_advanced_options = advanced_dict["show_advanced"]
 	show_advanced_options()
 
@@ -241,7 +238,7 @@ func _on_hide_advanced_button_up():
 func show_advanced_options():
 	var showhide_dict := {false : "Show", true : "Hide"}
 	$AdvancedControlsVBox/AdvancedControlsHBox.visible = hide_advanced_options
-	$AdvancedControlsVBox/Label/HBox1/Hide_Button.set_text(showhide_dict[hide_advanced_options])
+	$AdvancedControlsVBox/Label/HBox1/Hide_Button.set_text_value(showhide_dict[hide_advanced_options])
 
 
 func set_hide_advanced():
@@ -311,7 +308,7 @@ func _on_atlasHFrame_button_up(increase) -> void:
 	var input_value :String = modify_value(atlas_h_input.get_text(), increase)
 	input_value = input_value_clamp(input_value)
 	atlas_h_input.set_text(input_value)
-	var atlas_frame:Vector2 = DBENGINE.convert_string_to_vector(str(atlas_dict["frames"]))
+	var atlas_frame:Vector2 = convert_string_to_vector(str(atlas_dict["frames"]))
 	atlas_frame.y = input_value.to_int()
 	frame_vector.y = atlas_frame.y
 	on_text_changed(true)

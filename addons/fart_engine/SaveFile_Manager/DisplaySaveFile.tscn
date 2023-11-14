@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://addons/fart_engine/SaveFile_Manager/DisplaySaveFile.gd" id="1"]
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_62w8q"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="3_pi623"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="3_pi623"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4_ei3xg"]
-[ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Popup_Delete_Confirm.tscn" id="4_vh2p1"]
+[ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupDeleteConfirm.tscn" id="4_vh2p1"]
 
 [node name="DisplaySaveFile" type="Control" groups=["Database", "Tab"]]
 layout_mode = 3
@@ -44,14 +44,14 @@ text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
 self_modulate = Color(0.111, 0.048, 0.237, 1)
 layout_mode = 2
 disabled = true
-button_text = "Save"
+custom_text = "Save"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="DeleteFile" parent="Main_VBox/Header_Button_HBox" groups=["Table Action"] instance=ExtResource("3_pi623")]
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
-button_text = "Delete  File"
+custom_text = "Delete"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
@@ -74,13 +74,6 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_vertical = 1
 
-[node name="Label_Button" parent="Main_VBox/Display_HBox/File_Scroll/VBox1/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-button_text = "File Number"
-
-[node name="Hide_Button" parent="Main_VBox/Display_HBox/File_Scroll/VBox1/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
 [node name="Table_Scroll" type="ScrollContainer" parent="Main_VBox/Display_HBox"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -94,13 +87,6 @@ size_flags_vertical = 3
 [node name="Label" parent="Main_VBox/Display_HBox/Table_Scroll/VBox1" instance=ExtResource("4_ei3xg")]
 layout_mode = 2
 size_flags_vertical = 1
-
-[node name="Label_Button" parent="Main_VBox/Display_HBox/Table_Scroll/VBox1/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-button_text = "Table"
-
-[node name="Hide_Button" parent="Main_VBox/Display_HBox/Table_Scroll/VBox1/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Key_Scroll" type="ScrollContainer" parent="Main_VBox/Display_HBox"]
 custom_minimum_size = Vector2(150, 0)
@@ -116,13 +102,6 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_vertical = 1
 
-[node name="Label_Button" parent="Main_VBox/Display_HBox/Key_Scroll/VBox1/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-button_text = "Key"
-
-[node name="Hide_Button" parent="Main_VBox/Display_HBox/Key_Scroll/VBox1/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
 [node name="Key_Scroll_Event" type="ScrollContainer" parent="Main_VBox/Display_HBox"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -137,13 +116,6 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_vertical = 1
 
-[node name="Label_Button" parent="Main_VBox/Display_HBox/Key_Scroll_Event/VBox1/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-button_text = "Event"
-
-[node name="Hide_Button" parent="Main_VBox/Display_HBox/Key_Scroll_Event/VBox1/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
 [node name="Field_Scroll" type="ScrollContainer" parent="Main_VBox/Display_HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -157,13 +129,6 @@ size_flags_vertical = 3
 [node name="Label" parent="Main_VBox/Display_HBox/Field_Scroll/VBox1" instance=ExtResource("4_ei3xg")]
 layout_mode = 2
 size_flags_vertical = 1
-
-[node name="Label_Button" parent="Main_VBox/Display_HBox/Field_Scroll/VBox1/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-button_text = "Field"
-
-[node name="Hide_Button" parent="Main_VBox/Display_HBox/Field_Scroll/VBox1/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Popups" type="ColorRect" parent="."]
 visible = false
@@ -229,12 +194,6 @@ text = "Cancel"
 [node name="Popup_Delete_Confirm" parent="Popups" instance=ExtResource("4_vh2p1")]
 visible = false
 layout_mode = 1
-
-[node name="Accept_Button" parent="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer" index="0"]
-self_modulate = Color(0.37, 0.16, 0.79, 1)
-
-[node name="Cancel_Button" parent="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/HBoxContainer" index="1"]
-self_modulate = Color(0.37, 0.16, 0.79, 1)
 
 [connection signal="button_up" from="Main_VBox/Header_Button_HBox/Save" to="." method="_on_Save_button_up"]
 [connection signal="button_up" from="Main_VBox/Header_Button_HBox/DeleteFile" to="." method="_on_DeleteFile_button_up"]

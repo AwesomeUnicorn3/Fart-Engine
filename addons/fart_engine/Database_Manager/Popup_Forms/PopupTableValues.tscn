@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://o5v1fcs2mgj6"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupTableValues.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://4x3l1nwo5cbu" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/accept_cancel_buttons.tscn" id="2_lk01g"]
+
+[node name="popup_edit_table_values" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2")
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.5
+offset_top = -116.5
+offset_right = 310.5
+offset_bottom = 116.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="Scroll1" type="ScrollContainer" parent="VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBox1" type="VBoxContainer" parent="VBox1/Scroll1"]
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AcceptCancelButtons" parent="VBox1" instance=ExtResource("2_lk01g")]
+layout_mode = 2
+
+[connection signal="btn_pressed" from="VBox1/AcceptCancelButtons/Accept" to="." method="_on_accept_btn_pressed"]
+[connection signal="btn_pressed" from="VBox1/AcceptCancelButtons/Cancel" to="." method="_on_cancel_btn_pressed"]
+
+[editable path="VBox1/AcceptCancelButtons"]

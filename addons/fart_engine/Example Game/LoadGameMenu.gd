@@ -1,6 +1,6 @@
 extends Control
 
-@onready var loadFileSelect : Resource = load("res://addons/fart_engine/Example Game/LoadFileSelect.tscn")
+@onready var loadFileSelect : Resource = preload("res://addons/fart_engine/Example Game/LoadFileSelect.tscn")
 @onready var file_list_container := $VBox1/Scroll1/VBox1
 
 var save_files_arr: Array =[]
@@ -16,7 +16,7 @@ func _ready() -> void:
 		while FART.fart_root == null:
 			await get_tree().process_frame
 		var global_settings_profile_current = await FART.get_global_settings_profile(true)
-		var map_path : String = FART.get_text(save_file_dict["Global Data"][global_settings_profile_current]["Current Map"])
+		var map_path : String = FART.get_text(save_file_dict["10002"][global_settings_profile_current]["Current Map"])
 		
 		loadFileSelect_new.file_name = i
 		loadFileSelect_new.parent_container = self

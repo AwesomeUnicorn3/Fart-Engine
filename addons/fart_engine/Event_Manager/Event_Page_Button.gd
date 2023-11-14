@@ -18,8 +18,9 @@ func set_disabled(value: bool):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:
 #	pass
-func set_text(text: String):
-	$"Navigation Button".set_text(text)
+func set_label(text: String):
+	#print("TEXT VALUE FOR SET LABEL: ", text)
+	$"Navigation Button".set_text_value(text)
 
 func on_Button_button_up() -> void:
 	get_node("../../..").enable_all_page_buttons()

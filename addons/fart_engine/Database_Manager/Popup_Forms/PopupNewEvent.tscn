@@ -1,0 +1,94 @@
+[gd_scene load_steps=5 format=3 uid="uid://dx2alxmoll736"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupNewEvent.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://4x3l1nwo5cbu" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/accept_cancel_buttons.tscn" id="4_8ei0m"]
+
+[node name="popup_newEvent" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -357.5
+offset_top = -61.0
+offset_right = 357.5
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+metadata/_edit_layout_mode = 1
+
+[node name="Input_Text" parent="VBox1" instance=ExtResource("2")]
+layout_mode = 2
+label_text = "Table Name"
+is_label_button = false
+
+[node name="AdvancedControlsVBox" parent="VBox1/Input_Text/Input_Node" index="2"]
+visible = false
+
+[node name="Table_RefName" parent="VBox1" instance=ExtResource("2")]
+visible = false
+layout_mode = 2
+label_text = "Enter Nickname for table "
+is_label_button = false
+
+[node name="List_Checkbox" parent="VBox1" instance=ExtResource("3")]
+visible = false
+layout_mode = 2
+label_text = "Is Table a List?"
+
+[node name="Incl_inSavefile" parent="VBox1" instance=ExtResource("3")]
+visible = false
+layout_mode = 2
+label_text = "Include in Save Files?"
+
+[node name="DB_Tab" parent="VBox1" instance=ExtResource("3")]
+visible = false
+layout_mode = 2
+label_text = "Create Database Tab?"
+
+[node name="Key_Input" parent="VBox1" instance=ExtResource("2")]
+visible = false
+layout_mode = 2
+label_text = "First Key Name"
+is_label_button = false
+
+[node name="Field_Input" parent="VBox1" instance=ExtResource("2")]
+visible = false
+layout_mode = 2
+label_text = "First Field Name"
+is_label_button = false
+
+[node name="Label2" type="Label" parent="VBox1"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 1
+
+[node name="AcceptCancelButtons" parent="VBox1" instance=ExtResource("4_8ei0m")]
+layout_mode = 2
+
+[connection signal="visibility_changed" from="." to="." method="_on_popup_newTable_visibility_changed"]
+[connection signal="toggled" from="VBox1/List_Checkbox/Hbox1/Background/Input" to="." method="_on_Input_toggled"]
+[connection signal="btn_pressed" from="VBox1/AcceptCancelButtons/Accept" to="." method="_on_accept_btn_pressed"]
+[connection signal="btn_pressed" from="VBox1/AcceptCancelButtons/Cancel" to="." method="_on_cancel_btn_pressed"]
+
+[editable path="VBox1/Input_Text"]
+[editable path="VBox1/Input_Text/Input_Node/Label"]
+[editable path="VBox1/Input_Text/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="VBox1/Input_Text/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="VBox1/Input_Text/input_templateBuffer"]
+[editable path="VBox1/List_Checkbox"]
+[editable path="VBox1/List_Checkbox/Label"]
+[editable path="VBox1/AcceptCancelButtons"]

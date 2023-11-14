@@ -1,5 +1,5 @@
 @tool
-extends CommandForm
+extends CommandFormManager
 
 @onready var group_checkbox := $Control/VBoxContainer/SFXGroupCheckbox
 @onready var group_dropdown := $Control/VBoxContainer/HBoxContainer3/SFXGroupDropdown
@@ -11,8 +11,6 @@ extends CommandForm
 @onready var wait_checkbox := $Control/VBoxContainer/WaitCheckbox
 
 
-var function_name :String = "sfx" #must be name of valid function
-var event_name :String = ""
 var current_function_data :Dictionary
 var audio_data :Dictionary
 var repeat_audio : bool
@@ -21,7 +19,7 @@ var wait :bool
 var is_group :bool
 
 func _ready():
-
+	function_name = "sfx"
 	group_dropdown.populate_list()
 	
 	group_checkbox.inputNode.toggled.connect(set_group_checkbox)
@@ -70,7 +68,7 @@ func set_input_values(old_function_dict :Dictionary):
 	wait_checkbox._set_input_value(wait)
 
 func get_input_values():
-	event_name = commandListForm.CommandInputForm.source_node.parent_node.event_name
+	event_name = source_node.parent_node.event_name
 
 	audio_data["Group Name"] = group_dropdown.inputNode.get_text()
 	audio_data["Single"] = single_audio_input._get_input_value()
@@ -85,5 +83,5 @@ func get_input_values():
 	return return_function_dict
 	
 func _on_accept_button_up():
-	commandListForm.CommandInputForm.function_dict = get_input_values()
+	function_dict = get_input_values()
 	get_parent()._on_close_button_up()

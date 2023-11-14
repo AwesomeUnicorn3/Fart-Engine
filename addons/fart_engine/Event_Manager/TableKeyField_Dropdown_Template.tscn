@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/TableKeyField_Dropdown_Template.gd" id="1_j6gc8"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="1_j8lfd"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="2_gijan"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="2_gijan"]
 
 [node name="IfStatement" type="VBoxContainer"]
 anchors_preset = 15

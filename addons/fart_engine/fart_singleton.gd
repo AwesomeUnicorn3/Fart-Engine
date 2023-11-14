@@ -58,7 +58,7 @@ var operatingSystem :String
 
 func _ready():
 	if !Engine.is_editor_hint():
-		set_root_node()
+		fart_root = self
 		operatingSystem = OS.get_name()
 		Static_Game_Dict = create_dictionary_of_all_tables()
 		Dynamic_Game_Dict = {}
@@ -78,7 +78,9 @@ func _ready():
 
 
 func create_dictionary_of_all_tables():
-	var table_list_dict = import_data("Table Data")
+#	while all_tables_merged_dict
+#	var table_list_dict = all_tables_merged_dict["10000"]
+	#dirPath, file_type, deep_search:bool = false, ignore_table_array : Array = [], array_exclude_begins_with : Array = []) -> Array:
 	tables_list = list_files_with_param(table_save_path, table_file_format, ["Table Data.json"])
 	var dict := {}
 	for tableName in tables_list:
@@ -88,7 +90,7 @@ func create_dictionary_of_all_tables():
 			if save_dir.has("OptionsData.json"):
 				Global_Options_Dict = import_data(save_path_global)
 			else:
-				Global_Options_Dict = import_data("Options")
+				Global_Options_Dict = import_data("10037")
 				save_global_options_data()
 		else:
 			var array = []
@@ -106,9 +108,9 @@ func _process(delta):
 
 
 func input_process():
-	for actionKey in FART.Static_Game_Dict["AU3 InputMap"]:
-		var actionType :String = str(Static_Game_Dict["AU3 InputMap"][actionKey]["Action Type"])
-		var actionName :String = get_displayName_text(str_to_var(FART.Static_Game_Dict["AU3 InputMap"][actionKey]["Display Name"]))
+	for actionKey in FART.Static_Game_Dict["10007"]:
+		var actionType :String = str(Static_Game_Dict["10007"][actionKey]["Action Type"])
+		var actionName :String = get_displayName_text(str_to_var(FART.Static_Game_Dict["10007"][actionKey]["Display Name"]))
 
 		if actionType == "1":
 			if !CurrentInputAction_dict.has(actionKey):
@@ -129,11 +131,11 @@ func input_process():
 
 
 func _input(event):
-		for actionKey in Static_Game_Dict["AU3 InputMap"]:
-			var actionType :String = str(Static_Game_Dict["AU3 InputMap"][actionKey]["Action Type"])
+		for actionKey in Static_Game_Dict["10007"]:
+			var actionType :String = str(Static_Game_Dict["10007"][actionKey]["Action Type"])
 			if actionType == "6": #Shortcut input
 				if gameState == "2":
-					var action :String = get_displayName_text(str_to_var(Static_Game_Dict["AU3 InputMap"][actionKey]["Display Name"]))
+					var action :String = get_displayName_text(str_to_var(Static_Game_Dict["10007"][actionKey]["Display Name"]))
 					var actionStrength :float = Input.get_action_strength(action)
 					var is_action_just_pressed :bool = Input.is_action_just_pressed(action)
 					#MAYBE PUT A CALL V HERE ONLY IF IS ACTION JUST PRESSED IS TRUE, THAT WILL CALL
@@ -193,11 +195,11 @@ func set_current_map(map_node :Node, map_path:String):
 
 
 func get_map_dict() -> Dictionary:
-	var map_dict : Dictionary = await import_data("Maps")
+	var map_dict : Dictionary = await import_data("10034")
 	return map_dict
 
 func get_event_save_dict() -> Dictionary:
-	if !Dynamic_Game_Dict.has("Event Save Data"):
+	if !Dynamic_Game_Dict.has("10022"):
 		create_event_save_data()
 	else:
 		save_game_data_dict = Dynamic_Game_Dict["Event Save Data"]
@@ -230,7 +232,7 @@ func get_map_name(map_path : String):
 	var map_name : String =""
 	for map_id in map_dict:
 		if map_dict[map_id]["Path"] == map_path:
-			map_name = get_text(map_dict[map_id]["Display Name"])
+			map_name = get_value_as_text(map_dict[map_id]["Display Name"])
 			break
 	return map_name
 
@@ -242,7 +244,7 @@ func load_and_set_map(map_path := ""):
 	var map_node = load(map_path).instantiate()
 	fart_root.get_node("map").add_child(map_node)
 	var map_input: Dictionary = {"text" : map_path}
-	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Current Map"] = map_input
+	Dynamic_Game_Dict["10002"][await get_global_settings_profile()]["Current Map"] = map_input
 	await set_current_map(map_node, map_path)
 	emit_signal("map_data_updated")
 	#hide load screen
@@ -258,12 +260,12 @@ func save_game():
 	emit_signal("save_game_data")
 #	current_map_node.save_event_data()
 	set_save_game_data()
-	save_id = Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Save ID"]
+	save_id = Dynamic_Game_Dict["10002"][await get_global_settings_profile()]["Save ID"]
 	if int(save_id) == 0: #set save id when player loads game
 		set_save_path()
 	id = str(save_id)
 	var time:Dictionary = {"text" : Time.get_date_dict_from_system()}
-	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Time"] = time
+	Dynamic_Game_Dict["10002"][await get_global_settings_profile()]["Time"] = time
 	var save_d :Dictionary = Dynamic_Game_Dict
 	var save_path :String = save_game_path + id + save_format
 	save_file(save_path, save_d)
@@ -297,19 +299,19 @@ func set_save_path():
 		id = str(save_id)
 		save_path = save_game_path + id + save_format
 		doFileExists = directory.file_exists(save_path)
-	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Save ID"] = save_id
+	Dynamic_Game_Dict["10002"][await get_global_settings_profile()]["Save ID"] = save_id
 
 
 func load_game(file_name : String):
 	dict_loaded = false
 	Dynamic_Game_Dict = load_save_file(file_name)
 	load_and_set_map(await get_current_map_path())
-	var player_pos  = convert_string_to_vector(str(get_field_value("Global Data", await get_global_settings_profile(), "Player POS")))
+	var player_pos  = convert_string_to_vector(str(await get_field_value("10002", await get_global_settings_profile(), "Player POS")))
 	player_node.load_game = true
 	player_node.set_player_position(player_pos)
 	player_node._ready()
 #	add_all_items_to_player_inventory()
-	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Is Game Active"] = true
+	Dynamic_Game_Dict["10002"][await get_global_settings_profile()]["Is Game Active"] = true
 	dict_loaded = true
 	inventory_updated.emit()
 	emit_signal("DbManager_loaded")
@@ -338,11 +340,11 @@ func remove_player_from_map_node():
 
 
 func set_player_position_in_db(new_position):
-	set_save_data_value("Global Data", await get_global_settings_profile(), "Player POS", new_position)
+	set_save_data_value("10002", await get_global_settings_profile(), "Player POS", new_position)
 
 
 func get_player_position_from_db():
-	var player_vector_position = get_field_value("Global Data", await get_global_settings_profile(), "Player POS")
+	var player_vector_position = await get_field_value("10002", await get_global_settings_profile(), "Player POS")
 	return player_vector_position
 
 
@@ -351,7 +353,7 @@ func set_save_data_value(table_name :String, key_name :String, value_name :Strin
 
 
 func get_save_data_value(table_name :String, key_name :String, value_name :String, from_save_dict :bool = true):
-	var datatype = get_datatype(value_name, import_data(table_name, true))
+	var datatype = await get_datatype(value_name, table_name)
 	var rtn_value
 	if from_save_dict and Dynamic_Game_Dict.has(table_name):
 		rtn_value = convert_string_to_type(str(Dynamic_Game_Dict[table_name][key_name][value_name]), datatype)
@@ -361,7 +363,7 @@ func get_save_data_value(table_name :String, key_name :String, value_name :Strin
 
 #SAME AS ABOVE BUT NEED TO MIGRATE THOSE THAT USE THIS ON TO THE ABOVE BECAUSE BETTER NAME
 func get_field_value(table_name :String, key_name :String, value_name :String, from_save_dict :bool = true):
-	var datatype = get_datatype(value_name, import_data(table_name, true))
+	var datatype = await get_datatype(value_name, table_name)
 	var rtn_value
 	if from_save_dict and Dynamic_Game_Dict.has(table_name):
 		rtn_value = convert_string_to_type(str(Dynamic_Game_Dict[table_name][key_name][value_name]), datatype)
@@ -372,17 +374,17 @@ func get_field_value(table_name :String, key_name :String, value_name :String, f
 
 func new_game():
 	dict_loaded = false
-	var tbl_data = import_data("Table Data")
+	var tbl_data = await import_data("10000")
 	tables_list = list_files_with_param(table_save_path, table_file_format)
 #	set_var_type_table(tbl_data)
 	var dict = {}
-	for d in tables_list:
-		if d == "Table Data.json":
+	for table_ID in tables_list:
+		if table_ID == "10000.json":
 			pass
 		else:
 			var array = []
-			var name = d
-			array = name.rsplit(".")
+#			var name = table_ID
+			array = table_ID.rsplit(".")
 			var tblname = array[0]
 			var deleteme = tbl_data[tblname]
 			var dictname = tblname
@@ -394,7 +396,7 @@ func new_game():
 	set_var_type_dict(Dynamic_Game_Dict)
 	add_all_items_to_player_inventory()
 	load_and_set_map(await get_starting_map_path())
-	Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Is Game Active"] = true
+	Dynamic_Game_Dict["10002"][await get_global_settings_profile()]["Is Game Active"] = true
 	dict_loaded = true
 	inventory_updated.emit()
 	player_node.set_required_variables()
@@ -402,19 +404,20 @@ func new_game():
 
 
 func get_game_title():
-	var initial_save_data : Dictionary = await import_data("Global Data")
-	var game_title = get_text(initial_save_data[await get_global_settings_profile()]["Game Title"])
+	#called before creating merged tables
+	var initial_save_data : Dictionary = await import_data("10002")
+	var game_title = get_value_as_text(initial_save_data[await get_global_settings_profile()]["Game Title"])
 	return game_title
 
 
 func get_starting_map_path():
-	var current_map_key : String = var_to_str(Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]['Starting Map'])
+	var current_map_key : String = var_to_str(Dynamic_Game_Dict["10002"][await get_global_settings_profile()]['Starting Map'])
 	var current_map_path :String = Static_Game_Dict['Maps'][current_map_key]["Path"]
 	return current_map_path
 
 
 func get_current_map_path() -> String:
-	var current_map_path : String = get_text(Dynamic_Game_Dict['Global Data'][await get_global_settings_profile()]['Current Map'])
+	var current_map_path : String = get_value_as_text(Dynamic_Game_Dict['10028'][await get_global_settings_profile()]['Current Map'])
 	return current_map_path
 
 
@@ -432,8 +435,8 @@ func sort_filename_ascending(a, b):
 
 
 func get_lead_character_id(): #Character the player is actively controlling
-	var lead_char_id :String = str(Static_Game_Dict['Character Formation']["1"]["ID"])
-	var lead_char_name :String = get_text(Static_Game_Dict["Characters"][lead_char_id]["Display Name"])
+	var lead_char_id :String = str(Static_Game_Dict['10014']["1"]["ID"])
+	var lead_char_name :String = get_value_as_text(Static_Game_Dict["10016"][lead_char_id]["Display Name"])
 	return lead_char_id
 
 #######BEGIN CONTROL FUNCTIONS###############################33
@@ -447,30 +450,30 @@ func get_lead_character_id(): #Character the player is actively controlling
 #				InputMap.action_erase_event(action_name, action_event)
 
 func get_displayName_text(displayName_dict :Dictionary) -> String: 
-	var displayName :String = get_text(displayName_dict)
+	var displayName :String = get_value_as_text(displayName_dict)
 	return displayName
 
 
 #######################################BEGIN INVENTORY FUNCTIONS###############################################################################
 
 func add_all_items_to_player_inventory():
-	var item_dict : Dictionary = Static_Game_Dict["Items"]
-	if !Dynamic_Game_Dict["Inventory"].has("Default Item"):
-		Dynamic_Game_Dict["Inventory"] = {}
+	var item_dict : Dictionary = Static_Game_Dict["10005"]
+	if !Dynamic_Game_Dict["10031"].has("Default Item"):
+		Dynamic_Game_Dict["10031"] = {}
 	for item_name in item_dict:
 		change_player_inventory(item_name)
 
 
 func change_player_inventory(item_name :String, count :int = 0, increase_value := true):
-	var dict_static_items = Static_Game_Dict["Items"]
+	var dict_static_items = Static_Game_Dict["10005"]
 	count = int(abs(count))
 	if !increase_value:
 		count = int(-abs(count))
 	if dict_static_items.has(item_name):
 		if!is_item_in_inventory(item_name):
-			Dynamic_Game_Dict["Inventory"][item_name] = {"ItemCount" : 0}
-		var inv_count = int(Dynamic_Game_Dict["Inventory"][item_name]["ItemCount"])
-		Dynamic_Game_Dict["Inventory"][item_name]["ItemCount"] =  inv_count + count
+			Dynamic_Game_Dict["10031"][item_name] = {"ItemCount" : 0}
+		var inv_count = int(Dynamic_Game_Dict["10031"][item_name]["ItemCount"])
+		Dynamic_Game_Dict["10031"][item_name]["ItemCount"] =  inv_count + count
 	else:
 		print(item_name, " needs to be added to Item Table")
 	return Dynamic_Game_Dict["Inventory"][item_name]["ItemCount"]
@@ -478,7 +481,7 @@ func change_player_inventory(item_name :String, count :int = 0, increase_value :
 
 func is_item_in_inventory(item_name : String):
 	var value = false
-	var dict_inventory = Dynamic_Game_Dict["Inventory"]
+	var dict_inventory = Dynamic_Game_Dict["10031"]
 	if dict_inventory.has(item_name):
 		value = true
 	return value
@@ -488,13 +491,13 @@ func add_required_scenes_to_UI():
 
 	var global_dict :Dictionary
 
-	if Dynamic_Game_Dict.has("Global Data"):
+	if Dynamic_Game_Dict.has("10002"):
 		global_dict = Dynamic_Game_Dict
-		Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Game State"] = gameState
+		Dynamic_Game_Dict["10002"][await get_global_settings_profile()]["Game State"] = gameState
 	else:
 		global_dict = Static_Game_Dict
-	var menu_scenes :Dictionary = Static_Game_Dict["UI Scenes"]
-	var global_data_dict :Dictionary = global_dict["Global Data"][await get_global_settings_profile()]
+	var menu_scenes :Dictionary = Static_Game_Dict["10044"]
+	var global_data_dict :Dictionary = global_dict["10002"][await get_global_settings_profile()]
 
 	var playerScene_ID :String = str(global_data_dict["Default Player Scene"])
 	var playerScene_Scene :Variant = load(menu_scenes[playerScene_ID]["Path"]).instantiate()
@@ -589,14 +592,14 @@ func add_audio_node_to_UI():
 func set_game_state(newGameState :String):
 	gameState = newGameState
 	var global_dict :Dictionary
-	if Dynamic_Game_Dict.has("Global Data"):
+	if Dynamic_Game_Dict.has("10002"):
 		global_dict = Dynamic_Game_Dict
-		Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Game State"] = gameState
+		Dynamic_Game_Dict["10002"][await get_global_settings_profile()]["Game State"] = gameState
 	else:
 		global_dict = Static_Game_Dict
 
-	var global_data_dict :Dictionary = global_dict["Global Data"][await get_global_settings_profile()]
-	var gameState_dict :Dictionary = Static_Game_Dict["Game State"]
+	var global_data_dict :Dictionary = global_dict["10002"][await get_global_settings_profile()]
+	var gameState_dict :Dictionary = Static_Game_Dict["10027"]
 	await play_state_BGM(gameState_dict, str(gameState))
 	show_gui(convert_string_to_type(gameState_dict[str(gameState)]["Show GUI"]))
 	show_in_game_main_menu(convert_string_to_type(gameState_dict[str(gameState)]["Show In-Game Menu"]))
@@ -655,13 +658,13 @@ func show_gui(show :bool):
 
 func add_loading_screen_to_root(load_scene:bool):
 	var global_dict :Dictionary
-	if Dynamic_Game_Dict.has("Global Data"):
+	if Dynamic_Game_Dict.has("10002"):
 		global_dict = Dynamic_Game_Dict
-		Dynamic_Game_Dict["Global Data"][await get_global_settings_profile()]["Game State"] = gameState
+		Dynamic_Game_Dict["10002"][await get_global_settings_profile()]["Game State"] = gameState
 	else:
 		global_dict = Static_Game_Dict
-	var menu_scenes :Dictionary = Static_Game_Dict["UI Scenes"]
-	var global_data_dict :Dictionary = global_dict["Global Data"][await get_global_settings_profile()]
+	var menu_scenes :Dictionary = Static_Game_Dict["10044"]
+	var global_data_dict :Dictionary = global_dict["10002"][await get_global_settings_profile()]
 
 
 	if load_scene:

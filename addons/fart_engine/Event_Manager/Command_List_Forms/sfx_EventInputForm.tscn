@@ -4,11 +4,11 @@
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_List_Forms/SFX_EventInputForm.gd" id="2_ih0ic"]
 [ext_resource type="PackedScene" uid="uid://b847fivc5bimb" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_audio.tscn" id="3_ragve"]
 [ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="4_827w4"]
-[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="4_jlqec"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="4_jlqec"]
 [ext_resource type="PackedScene" uid="uid://c7c0ymusji584" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="6_k2qp6"]
-[ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Popup_Delete_Confirm.tscn" id="7_8h4ip"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="7_th31x"]
-[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/popup_deleteKey.tscn" id="9_m025f"]
+[ext_resource type="PackedScene" uid="uid://dlthmlrbks64q" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupDeleteConfirm.tscn" id="7_8h4ip"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="7_th31x"]
+[ext_resource type="PackedScene" uid="uid://c1klfol683pf1" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupSelectField.tscn" id="9_m025f"]
 
 [node name="SFX_EventInputForm" type="Control" groups=["Tab"]]
 layout_mode = 3
@@ -27,6 +27,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="Popups@popup_deleteKey@PanelContainer@VBoxContainer@Itemlist@258747" type="VScrollBar" parent="."]
+layout_mode = 0
+
+[node name="Popups@popup_deleteKey@PanelContainer@VBoxContainer@Itemlist@254352" type="VScrollBar" parent="."]
+layout_mode = 0
+
+[node name="Popups@popup_deleteKey@PanelContainer@VBoxContainer@Itemlist@32198" type="VScrollBar" parent="."]
+layout_mode = 0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1
@@ -75,9 +84,9 @@ layout_mode = 2
 
 [node name="SFXGroupDropdown" parent="Control/VBoxContainer/HBoxContainer3" instance=ExtResource("4_jlqec")]
 layout_mode = 2
-selection_table_name = "SFX Groups"
 label_text = "SFX Group"
 is_label_button = false
+reference_table_name = "10039"
 
 [node name="SFXSingleAudioInput" parent="Control/VBoxContainer/HBoxContainer3" instance=ExtResource("3_ragve")]
 visible = false
@@ -114,18 +123,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Accept" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("7_th31x")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Accept"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
 [node name="Cancel" parent="Control/VBoxContainer/HBoxContainer" groups=["Table Action"] instance=ExtResource("7_th31x")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
@@ -163,20 +170,15 @@ layout_mode = 1
 visible = false
 layout_mode = 1
 
-[node name="258747" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="1"]
-layout_mode = 0
-
-[node name="254352" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="2"]
-layout_mode = 0
-
-[node name="32198" type="VScrollBar" parent="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Itemlist" index="3"]
-layout_mode = 0
-
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_button_up"]
 [connection signal="button_up" from="Control/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_cancel_button_up"]
 
 [editable path="Control/VBoxContainer/SFXGroupCheckbox"]
 [editable path="Control/VBoxContainer/SFXGroupCheckbox/Label"]
 [editable path="Popups/Popup_Delete_Confirm"]
+[editable path="Popups/Popup_Delete_Confirm/PanelContainer/VBoxContainer/AcceptCancelButtons"]
 [editable path="Popups/popup_deleteKey"]
-[editable path="Popups/popup_deleteKey/PanelContainer/VBoxContainer/Label2"]
+[editable path="Popups/popup_deleteKey/VBoxContainer/Label2"]
+[editable path="Popups/popup_deleteKey/VBoxContainer/Input_Dropdown"]
+[editable path="Popups/popup_deleteKey/VBoxContainer/Input_Dropdown/Label"]
+[editable path="Popups/popup_deleteKey/VBoxContainer/AcceptCancelButtons"]

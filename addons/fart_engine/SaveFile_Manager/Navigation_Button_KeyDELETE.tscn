@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdtokh2pmt6qv"]
+
+[sub_resource type="GDScript" id="GDScript_651kd"]
+script/source = "@tool
+extends Button
+
+#var root
+#
+
+## Called when the node enters the scene tree for the first time.
+#func _ready():
+#	root = get_main_tab(get_parent())
+#
+#
+#
+## Called every frame. 'delta' is the elapsed time since the previous frame.
+##func _process(delta):
+##	pass
+#func get_main_tab(par):
+#	#Get main tab scene which should have the popup container and necessary script
+#	while !par.get_groups().has(\"UDS_Root\"):
+#		par = par.get_parent()
+#	return par
+
+func _on_Navigation_Button_button_up():
+	get_node(\"../../../../..\")._on_key_button_up(text)
+"
+
+[node name="Navigation Button" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Database Editor"
+script = SubResource("GDScript_651kd")
+
+[connection signal="button_up" from="." to="." method="_on_Navigation_Button_button_up"]

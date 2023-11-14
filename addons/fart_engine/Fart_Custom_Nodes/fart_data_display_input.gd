@@ -1,15 +1,15 @@
 @tool
-extends Control
+extends EditorManager
 signal input_closed
 
-var DBENGINE: DatabaseManager = DatabaseManager.new()
 
-var display_type_selection: InputEngine = null
-var table_selection: InputEngine = null
-var key_selection: InputEngine = null
-var field_selection: InputEngine = null
-#var value_selection: InputEngine = null
-#var name_value_checkbox:InputEngine = null
+
+var display_type_selection: FartDatatype = null
+var table_selection: FartDatatype = null
+var key_selection: FartDatatype = null
+var field_selection: FartDatatype = null
+#var value_selection: FartDatatype = null
+#var name_value_checkbox:FartDatatype = null
 
 var display_type_selection_value :String = ""
 var containers_identified: bool = false
@@ -82,7 +82,7 @@ func update_table_selection():
 	table_selection.populate_list()
 	selected_table_dict = table_selection.selection_table
 	for key in selected_table_dict[selected_table_dict.keys()[0]]:
-		if key == "Table Data":
+		if key == "10000":
 			selected_table_dict.erase(key)
 			
 	table_selection.selection_table = selected_table_dict
@@ -93,15 +93,15 @@ func update_table_selection():
 var field_list: Dictionary = {}
 func update_key(include_display_name:bool = false):
 	var selected_table_key: String = table_selection.selectedItemKey
-	selected_table_dict = DBENGINE.import_data(selected_table_key)
-	var selected_table_data_dict: Dictionary = DBENGINE.import_data(selected_table_key, true)
+	selected_table_dict = all_tables_merged_dict[selected_table_key]
+	var selected_table_data_dict: Dictionary = all_tables_merged_data_dict[selected_table_key]
 
 	key_selection.selection_table_name = table_selection._get_input_value()
 	key_selection.populate_list()
 	var sorted_key_list: Dictionary = key_selection.sorted_table
 	field_list = {}
 	for key in selected_table_dict[selected_table_dict.keys()[0]]:
-		field_list[key] = {"Datatype": DBENGINE.get_datatype(key, selected_table_data_dict)} 
+		field_list[key] = {"Datatype": await DatabaseManager.get_datatype(key, selected_table_key)} 
 
 
 #		if key == "Display Name":

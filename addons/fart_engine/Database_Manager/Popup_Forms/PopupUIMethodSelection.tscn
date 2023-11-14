@@ -1,0 +1,109 @@
+[gd_scene load_steps=7 format=3 uid="uid://boqwm8hen1mt0"]
+
+[ext_resource type="Theme" uid="uid://cvs3ru70gnho3" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_15.tres" id="1_nubly"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupUIMethodSelection.gd" id="2_3frra"]
+[ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_ecpdj"]
+[ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4_dw0or"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="5_sdegg"]
+[ext_resource type="PackedScene" uid="uid://4x3l1nwo5cbu" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/accept_cancel_buttons.tscn" id="6_scq16"]
+
+[node name="popup_UIMethod_Selection" type="Control"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_nubly")
+script = ExtResource("2_3frra")
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -262.0
+offset_top = -73.5
+offset_right = 262.0
+offset_bottom = 73.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Input_Label_Template" parent="VBox1" instance=ExtResource("3_ecpdj")]
+layout_mode = 2
+size_flags_stretch_ratio = 0.25
+
+[node name="HBox1" parent="VBox1/Input_Label_Template" index="0"]
+custom_minimum_size = Vector2(0, 30)
+
+[node name="input_templateBuffer" parent="VBox1" instance=ExtResource("4_dw0or")]
+layout_mode = 2
+
+[node name="HBox1" type="HBoxContainer" parent="VBox1"]
+layout_mode = 2
+
+[node name="Existing_Events_Dropdown" parent="VBox1/HBox1" instance=ExtResource("5_sdegg")]
+layout_mode = 2
+label_text = "Select Method"
+is_label_button = false
+showLabel = false
+
+[node name="Label" parent="VBox1/HBox1/Existing_Events_Dropdown" index="0"]
+visible = false
+
+[node name="Input" parent="VBox1/HBox1/Existing_Events_Dropdown" index="1"]
+item_count = 10
+popup/item_0/text = "save game"
+popup/item_1/text = "close in game menu"
+popup/item_1/id = 1
+popup/item_2/text = "open in game menu"
+popup/item_2/id = 2
+popup/item_3/text = "close current menu"
+popup/item_3/id = 3
+popup/item_4/text = "quit game"
+popup/item_4/id = 4
+popup/item_5/text = "open menu"
+popup/item_5/id = 5
+popup/item_6/text = "do nothing"
+popup/item_6/id = 6
+popup/item_7/text = "new game"
+popup/item_7/id = 7
+popup/item_8/text = "load game"
+popup/item_8/id = 8
+popup/item_9/text = "exit program"
+popup/item_9/id = 9
+
+[node name="input_templateBuffer" parent="VBox1/HBox1/Existing_Events_Dropdown" index="2"]
+visible = false
+
+[node name="Label" type="Label" parent="VBox1/HBox1"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.01
+
+[node name="Create_New_Event_Button" type="Button" parent="VBox1/HBox1"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Create New Event"
+
+[node name="input_templateBuffer2" parent="VBox1" instance=ExtResource("4_dw0or")]
+layout_mode = 2
+
+[node name="AcceptCancelButtons" parent="VBox1" instance=ExtResource("6_scq16")]
+layout_mode = 2
+
+[connection signal="btn_pressed" from="VBox1/AcceptCancelButtons/Accept" to="." method="_on_accept_btn_pressed"]
+[connection signal="btn_pressed" from="VBox1/AcceptCancelButtons/Cancel" to="." method="_on_cancel_btn_pressed"]
+
+[editable path="VBox1/Input_Label_Template"]
+[editable path="VBox1/HBox1/Existing_Events_Dropdown"]
+[editable path="VBox1/HBox1/Existing_Events_Dropdown/Label"]
+[editable path="VBox1/AcceptCancelButtons"]

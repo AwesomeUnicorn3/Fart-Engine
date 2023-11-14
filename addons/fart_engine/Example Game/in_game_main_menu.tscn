@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/fart_engine/Example Game/in_game_main_menu.gd" id="1_xogkx"]
 [ext_resource type="Texture2D" uid="uid://c884eb1tycoal" path="res://fart_data/png/Fart_UI_Button.png" id="2_kbav2"]
-[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/au3_ui_button.gd" id="2_vpb3h"]
+[ext_resource type="Script" path="res://addons/fart_engine/UI_Manager/FartUIButton.gd" id="2_vpb3h"]
 
 [node name="InGameMainMenu" type="Control"]
 layout_mode = 3

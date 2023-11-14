@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Dialog.gd" id="1_llltj"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_10bmy"]
 [ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="3_dqeig"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="4_w2kcd"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="4_w2kcd"]
 [ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="5_wrppd"]
 [ext_resource type="PackedScene" uid="uid://bcdug8ct1087b" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Sprite_Template.tscn" id="6_tpyqe"]
-[ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.tscn" id="7_i3lw5"]
+[ext_resource type="PackedScene" uid="uid://jcs70y6hwbi6" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Icon_Template.tscn" id="7_i3lw5"]
 [ext_resource type="PackedScene" uid="uid://bvvjo3tmjc5ds" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ScenePath_Template.tscn" id="8_jrydt"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="9_wgfu8"]
 [ext_resource type="PackedScene" uid="uid://bp7bq0b2kkfqc" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/advanced_controls_v_box.tscn" id="10_femu8"]
@@ -46,9 +46,9 @@ is_label_button = false
 
 [node name="CharacterName_Dropdown" parent="CharacterName_HBox" instance=ExtResource("4_w2kcd")]
 layout_mode = 2
-selection_table_name = "Characters"
 label_text = "Character Name"
 is_label_button = false
+reference_table_name = "10015"
 
 [node name="CharacterName_Text" parent="CharacterName_HBox" instance=ExtResource("5_wrppd")]
 layout_mode = 2
@@ -56,20 +56,11 @@ show_advanced_options_node = true
 label_text = "Custom Name"
 is_label_button = false
 
-[node name="Display_Child" parent="CharacterName_HBox/CharacterName_Text/Input_Node/AdvancedControlsVBox" index="2"]
-visible = false
-
 [node name="Dialog_Text" parent="." instance=ExtResource("5_wrppd")]
 layout_mode = 2
 show_advanced_options_node = true
 label_text = "Dialog Text"
 is_label_button = false
-
-[node name="Hide_Button" parent="Dialog_Text/Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
-button_text = "Show"
-
-[node name="Display_Child" parent="Dialog_Text/Input_Node/AdvancedControlsVBox" index="2"]
-visible = false
 
 [node name="IconSelection_HBox" type="HBoxContainer" parent="."]
 layout_mode = 2

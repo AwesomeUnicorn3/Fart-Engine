@@ -119,8 +119,8 @@ func display_options_buttons():
 		var btn_text: String = FART.get_text(event_option_buttons_dict[btn_key]["Input_Node"]["Button_Text"])
 		var dialog_var: String = event_option_buttons_dict[btn_key]["Input_Node"]["Dialog_Option"]
 		
-		var newbtn: TextureButton = load(FART.get_field_value("UI Scenes", "10", "Path")).instantiate()
-		var btn_color: Color = FART.get_field_value("UI Scenes", "10", "Background Color")
+		var newbtn: TextureButton = load(await FART.get_field_value("UI Scenes", "10", "Path")).instantiate()
+		var btn_color: Color = await FART.get_field_value("UI Scenes", "10", "Background Color")
 		newbtn.reset_self_modulate()
 		dialog_scene.get_node("VBoxContainer/TopVBox/VBoxContainer/OptionScroll/OptionButtonParent").add_child(newbtn)
 		newbtn.set_input_values(btn_text, dialog_var, "")
@@ -141,15 +141,15 @@ func _on_option_button_pressed(optbtn: TextureButton):
 func set_selected_group_dict_data(dialog_dict):
 	selected_group_dictionary = {}
 	var group_name :String = ""
-	var static_dialog_group_dictionary :Dictionary = FART.Static_Game_Dict["Dialog Groups"]
-	var static_dialog_group_data_dictionary :Dictionary = FART.import_data("Dialog Groups", true)
+	var static_dialog_group_dictionary :Dictionary = FART.Static_Game_Dict["10018"]
+	var static_dialog_group_data_dictionary :Dictionary = FART.import_data("10018", true)
 	if dialog_dict.has("Group Name"):
 		group_name = dialog_dict["Group Name"]
 		#Get Group dict
 		var group_index = FART.get_id_from_display_name(static_dialog_group_dictionary, group_name)
 		var index = 1
-		for field in static_dialog_group_data_dictionary["Column"]:
-			var field_name = static_dialog_group_data_dictionary["Column"][field]["FieldName"]
+		for field in static_dialog_group_data_dictionary[FART.FIELD]:
+			var field_name = static_dialog_group_data_dictionary[FART.FIELD][field]["FieldName"]
 			if field_name != "Display Name":
 				selected_group_dictionary[str(index)] = static_dialog_group_dictionary[group_index][field_name]
 				index += 1

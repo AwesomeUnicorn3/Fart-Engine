@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Array.gd" id="2_3vmfu"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_77ecb"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4_tpyhl"]
-[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="5_hf5fs"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_b2i82"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="5_hf5fs"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="6_b2i82"]
 
 [node name="Input_Array" type="VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
@@ -32,10 +32,10 @@ size_flags_vertical = 3
 
 [node name="ActionSelection" parent="Control" instance=ExtResource("5_hf5fs")]
 layout_mode = 2
-selection_table_name = "DataTypes"
 label_text = "Data Type"
 is_label_button = false
 show_field = true
+reference_table_name = "10017"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 2
@@ -50,10 +50,7 @@ custom_minimum_size = Vector2(0, 30)
 [node name="Label_Button" parent="Control/HBoxContainer/Label3/HBox1" index="0" groups=["Node Label Level 1"]]
 self_modulate = Color(0, 0.27, 0.32, 1)
 custom_minimum_size = Vector2(50, 30)
-button_text = "Begin List"
-
-[node name="Hide_Button" parent="Control/HBoxContainer/Label3/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
+custom_text = "Items"
 
 [node name="AddKeyButton" type="Button" parent="Control/HBoxContainer"]
 visible = false
@@ -65,7 +62,6 @@ text = "+"
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
-button_text = "+"
 auto_connect_signals = false
 auto_set_minimum_size = false
 

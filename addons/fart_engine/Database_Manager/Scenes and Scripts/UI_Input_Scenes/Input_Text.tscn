@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.gd" id="1_iu5hn"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_5ug2b"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="3_ie1oh"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="3_ie1oh"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4_7t6ft"]
 
 [node name="Input_Text" type="VBoxContainer"]
@@ -13,6 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_iu5hn")
+label_text = "Input_Text"
 
 [node name="Input_Node" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -20,12 +21,6 @@ size_flags_vertical = 3
 
 [node name="Label" parent="Input_Node" instance=ExtResource("2_5ug2b")]
 layout_mode = 2
-
-[node name="Label_Button" parent="Input_Node/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Hide_Button" parent="Input_Node/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Input" type="TextEdit" parent="Input_Node"]
 custom_minimum_size = Vector2(0, 50)
@@ -42,11 +37,11 @@ layout_mode = 2
 
 [node name="Label_Button" parent="Input_Node/AdvancedControlsVBox/Label/HBox1" index="0" groups=["Node Label Level 1"]]
 self_modulate = Color(0, 0.27, 0.32, 1)
-button_text = "Advanced Options"
+custom_text = "Advanced Options"
 
 [node name="Hide_Button" parent="Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
 visible = true
-self_modulate = Color(0.43, 0.45, 0.55, 1)
+custom_text = "Hide"
 
 [node name="AdvancedControlsHBox" type="HBoxContainer" parent="Input_Node/AdvancedControlsVBox"]
 visible = false
@@ -57,7 +52,6 @@ self_modulate = Color(0.43, 0.45, 0.55, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 toggle_mode = true
-button_text = "U"
 auto_connect_signals = false
 auto_set_minimum_size = false
 is_sticky = true
@@ -67,7 +61,6 @@ self_modulate = Color(0.43, 0.45, 0.55, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 toggle_mode = true
-button_text = "B"
 auto_connect_signals = false
 auto_set_minimum_size = false
 is_sticky = true
@@ -77,12 +70,12 @@ self_modulate = Color(0.43, 0.45, 0.55, 1)
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 toggle_mode = true
-button_text = "I"
 auto_connect_signals = false
 auto_set_minimum_size = false
 is_sticky = true
 
 [node name="Display_Child" type="VBoxContainer" parent="Input_Node/AdvancedControlsVBox"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -90,11 +83,7 @@ size_flags_vertical = 3
 layout_mode = 2
 
 [node name="Label_Button" parent="Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-button_text = "How the text will look in-game"
-
-[node name="Hide_Button" parent="Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
+custom_text = "Display Field"
 
 [node name="display" type="RichTextLabel" parent="Input_Node/AdvancedControlsVBox/Display_Child"]
 custom_minimum_size = Vector2(0, 50)
@@ -125,7 +114,7 @@ selection_enabled = true
 [node name="input_templateBuffer" parent="." instance=ExtResource("4_7t6ft")]
 layout_mode = 2
 
-[connection signal="caret_changed" from="Input_Node/Input" to="." method="_on_input_caret_changed"]
+[connection signal="text_changed" from="Input_Node/Input" to="." method="_on_input_text_changed"]
 [connection signal="button_up" from="Input_Node/AdvancedControlsVBox/Label/HBox1/Hide_Button" to="." method="_on_hide_advanced_button_up"]
 [connection signal="toggled" from="Input_Node/AdvancedControlsVBox/AdvancedControlsHBox/Underline" to="." method="_on_underline_toggled"]
 [connection signal="toggled" from="Input_Node/AdvancedControlsVBox/AdvancedControlsHBox/Bold" to="." method="_on_bold_toggled"]

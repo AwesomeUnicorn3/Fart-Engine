@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bo2087gahkrno"]
+[gd_scene load_steps=10 format=3 uid="uid://colwsfs3cd6u8"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Event_Manager/Command_line_item.gd" id="1_e07xx"]
 [ext_resource type="Texture2D" uid="uid://dn3ux1tww516x" path="res://fart_data/png/UpArrow.png" id="2_c0tqh"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bibakghdwgusq" path="res://fart_data/png/DownArrow.png" id="3_3oiyx"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.gd" id="3_ttj7m"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="4_3gskb"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_d6q0e"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="4_d6q0e"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="5_qewnm"]
 [ext_resource type="PackedScene" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text_Multiline.tscn" id="8_w54ti"]
 
@@ -59,11 +59,7 @@ is_label_button = false
 layout_mode = 2
 
 [node name="Label_Button" parent="Key/Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
 custom_minimum_size = Vector2(75, 30)
-
-[node name="Hide_Button" parent="Key/Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
 
 [node name="Input" type="LineEdit" parent="Key"]
 layout_mode = 2

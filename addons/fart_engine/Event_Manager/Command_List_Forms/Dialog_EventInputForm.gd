@@ -1,17 +1,16 @@
 @tool
-extends CommandForm
+extends CommandFormManager
 
 @onready var key_node := $Control/VBoxContainer/KeyDropdown
 @onready var input_dialog_node := $Control/VBoxContainer/input_dialog
-#var value_node
-var function_name :String = "start_dialog" #must be name of valid function
+
 var dialog_data :Dictionary
-var event_name :String = ""
 var is_group :bool
 
 
 
 func _ready():
+	function_name = "start_dialog" 
 	key_node.populate_list()
 	$Control/VBoxContainer/TrueorFalse.inputNode.toggled.connect(set_group_or_single)
 	$Control/VBoxContainer/TrueorFalse.inputNode.emit_signal("toggled",true )
@@ -35,11 +34,11 @@ func get_input_values():
 		dialog_data["Group Name"] = $Control/VBoxContainer/KeyDropdown.inputNode.get_text()
 	else:
 		dialog_data = $Control/VBoxContainer/input_dialog._get_input_value()
-	event_name = commandListForm.CommandInputForm.source_node.parent_node.event_name
+	event_name = source_node.parent_node.event_name
 	var return_function_dict = {function_name : [dialog_data, event_name]}
 	return return_function_dict
 
 
 func _on_accept_button_up():
-	commandListForm.CommandInputForm.function_dict = get_input_values()
+	function_dict = get_input_values()
 	get_parent()._on_close_button_up()

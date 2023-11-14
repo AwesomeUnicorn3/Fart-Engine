@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="3_a5huw"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="3_a5huw"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ScenePath_Template.gd" id="5"]
 
 [node name="ScenePath_Template" type="VBoxContainer"]
@@ -24,12 +24,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ChangeSceneButton" parent="HBoxContainer" groups=["Table Action"] instance=ExtResource("3_a5huw")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
-button_text = "Edit Path"
+custom_text = "Change Scene"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="ChangeSceneButton1" type="Button" parent="HBoxContainer"]
 visible = false
@@ -45,7 +44,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
-[node name="Input" type="LineEdit" parent="HBoxContainer"]
+[node name="Input" type="LineEdit" parent="HBoxContainer" groups=["Input"]]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -69,12 +68,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="OpenScene" parent="HBoxContainer" groups=["Table Action"] instance=ExtResource("3_a5huw")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
-button_text = "Open Scene"
+custom_text = "Open"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="OpenScene1" type="Button" parent="HBoxContainer"]
 visible = false

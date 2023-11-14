@@ -1,7 +1,7 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
-@onready var input_form = load("res://addons/fart_engine/Event_Manager/Command_input_form.tscn")
+@onready var input_form = preload("res://addons/fart_engine/Event_Manager/Command_input_form.tscn")
 
 var omit_changed = true
 var main_dictionary : Dictionary = {}
@@ -22,11 +22,11 @@ func set_inputValue():
 
 func _on_Add_New_Item_button_up() -> void:
 	var main_node_for_dict_form : Node = null
-	var root_node = parent_node.get_main_node(parent_node)
+	var root_node = fart_root
 	if root_node.name == "root":
 		main_node_for_dict_form = parent_node.popup_main.get_node("ListInput")
 	else:
-		main_node_for_dict_form = parent_node.get_main_node(parent_node)
+		main_node_for_dict_form = fart_root
 	var inputForm = input_form.instantiate()
 	on_text_changed()
 	parent_node.popup_main.visible = true

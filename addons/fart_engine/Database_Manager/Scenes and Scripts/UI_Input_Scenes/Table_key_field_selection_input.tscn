@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0mcy1x4mvpbh"]
+[gd_scene load_steps=5 format=3 uid="uid://b0mcy1x4mvpbh"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Table_key_field_selection_input.gd" id="1_ukfat"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="2_6a0mc"]
-[ext_resource type="PackedScene" uid="uid://caa8n4gw1ppk5" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/DropDown_Template.tscn" id="3_uc8hq"]
-[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/ItemType_Selection.tscn" id="4_t745l"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="6_aiv1r"]
+[ext_resource type="PackedScene" uid="uid://civbxt4nfyill" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_DropdownList.tscn" id="4_t745l"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="6_aiv1r"]
 
 [node name="TableKeyField_Input" type="VBoxContainer"]
 custom_minimum_size = Vector2(500, 175)
@@ -21,12 +20,6 @@ script = ExtResource("1_ukfat")
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="Label_Button" parent="Label/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
-[node name="Hide_Button" parent="Label/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
 layout_mode = 2
@@ -40,27 +33,17 @@ visible = false
 layout_mode = 2
 size_flags_vertical = 1
 
-[node name="Label_Button" parent="Input/Input_Label_Template/HBox1" index="0"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-button_text = "Fart Data Display"
-
-[node name="Hide_Button" parent="Input/Input_Label_Template/HBox1" index="1"]
-self_modulate = Color(0.43, 0.45, 0.55, 1)
-
 [node name="HBoxContainer" type="HBoxContainer" parent="Input"]
 layout_mode = 2
 
-[node name="DisplayTypeSelection" parent="Input/HBoxContainer" instance=ExtResource("3_uc8hq")]
+[node name="DisplayTypeSelection" parent="Input/HBoxContainer" instance=ExtResource("4_t745l")]
 layout_mode = 2
-selection_table_name = "DisplaySelection"
 label_text = "Select Display Field"
 is_label_button = false
 
 [node name="Input" parent="Input/HBoxContainer/DisplayTypeSelection" index="1"]
 item_count = 3
-selected = 0
 popup/item_0/text = "Field Value"
-popup/item_0/id = 0
 popup/item_1/text = "Key Name"
 popup/item_1/id = 1
 popup/item_2/text = "Table Name"
@@ -109,7 +92,6 @@ size_flags_stretch_ratio = 0.25
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Accept"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
@@ -117,7 +99,6 @@ auto_set_minimum_size = false
 self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-button_text = "Cancel"
 auto_connect_signals = false
 auto_set_minimum_size = false
 
@@ -129,3 +110,4 @@ auto_set_minimum_size = false
 [editable path="Label"]
 [editable path="Input/Input_Label_Template"]
 [editable path="Input/HBoxContainer/DisplayTypeSelection"]
+[editable path="Input/HBoxContainer/DisplayTypeSelection/Label"]

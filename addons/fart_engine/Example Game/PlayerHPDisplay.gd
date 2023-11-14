@@ -7,7 +7,7 @@ func _ready():
 
 
 func _on_player_health_update():
-	print(FART.player_node.current_health.y)
+#	print(FART.player_node.current_health.y)
 	set_min(FART.player_node.current_health.x)
 	set_max(FART.player_node.current_health.z)
 	set_value(FART.player_node.current_health.y)

@@ -1,5 +1,5 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
 @onready var CharacterName_Checkbox := $CharacterName_HBox/CharacterName_Checkbox
 @onready var CharacterName_Dropdown := $CharacterName_HBox/CharacterName_Dropdown
@@ -86,8 +86,8 @@ func _set_input_value(node_value):
 	CharacterName_Checkbox.inputNode.button_pressed = use_character_dropdown
 	CharacterName_Checkbox.inputNode.emit_signal("toggled",use_character_dropdown )
 	CharacterName_Dropdown.inputNode.set_text(input_data["character_name_dropdown"])
-	CharacterName_Text.inputNode.set_text(DBENGINE.get_text(input_data["character_name_text"]))
-	Dialog_Text.inputNode.set_text(DBENGINE.get_text(input_data["dialog_text"]))
+	CharacterName_Text.inputNode.set_text(CharacterName_Text.inputNode.get_text_value(input_data["character_name_text"]))
+	Dialog_Text.inputNode.set_text(Dialog_Text.inputNode.get_text_value(input_data["dialog_text"]))
 	var use_animation :bool = input_data["icon_selection_checkbox"]
 	IconSelection_Checkbox.inputNode.button_pressed = use_animation
 	IconSelection_Checkbox.inputNode.emit_signal("toggled",use_animation)

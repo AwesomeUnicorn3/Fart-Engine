@@ -21,7 +21,7 @@ func _get_input_value() -> Dictionary:
 	for child in get_children():
 		if child.has_method('_get_input_value'):
 			return_dict[child.name] = child._get_input_value()
-	print(return_dict)
+	#print(return_dict)
 	return return_dict
 
 
@@ -30,5 +30,5 @@ func _set_input_value(node_value):
 		node_value = str_to_var(node_value)
 	for child in get_children():
 		if child.has_method('_set_input_value'):
-			print(node_value)
-			child._set_input_value(node_value[child.name])
+			#print("NODE VALUE: ", node_value)
+			child._set_input_value(node_value)

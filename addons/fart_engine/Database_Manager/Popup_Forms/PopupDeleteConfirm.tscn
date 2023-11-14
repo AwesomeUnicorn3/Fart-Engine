@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlthmlrbks64q"]
+
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Popup_Forms/PopupDeleteConfirm.gd" id="1_8b66x"]
+[ext_resource type="PackedScene" uid="uid://4x3l1nwo5cbu" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/accept_cancel_buttons.tscn" id="2_7uotr"]
+
+[node name="Popup_Delete_Confirm" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8b66x")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -278.5
+offset_top = -75.5
+offset_right = 278.5
+offset_bottom = 75.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 30
+text = "Are you sure you want to delete %?"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Label2" type="Label" parent="PanelContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 30
+text = "Are you sure you want to delete %?"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="AcceptCancelButtons" parent="PanelContainer/VBoxContainer" instance=ExtResource("2_7uotr")]
+layout_mode = 2
+
+[connection signal="btn_pressed" from="PanelContainer/VBoxContainer/AcceptCancelButtons/Accept" to="." method="_on_accept_btn_pressed"]
+[connection signal="btn_pressed" from="PanelContainer/VBoxContainer/AcceptCancelButtons/Cancel" to="." method="_on_cancel_btn_pressed"]
+
+[editable path="PanelContainer/VBoxContainer/AcceptCancelButtons"]

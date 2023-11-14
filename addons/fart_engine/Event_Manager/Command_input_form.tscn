@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_ykv7a"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="2_srs0f"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_wfmec"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_rlduj"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button_Template.tscn" id="4_rlduj"]
 
 [node name="Command_input_form" type="Control"]
 layout_mode = 3
@@ -47,7 +47,7 @@ button_text = "Command List"
 
 [node name="Close" parent="VBox1/HBox1/Label2/HBox1" index="2" groups=["Table Action"] instance=ExtResource("4_rlduj")]
 visible = false
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Close"
 auto_connect_signals = false
@@ -62,7 +62,7 @@ size_flags_stretch_ratio = 10.0
 text = "Commands"
 
 [node name="AddItem" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_rlduj")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Add Command"
 auto_connect_signals = false
@@ -81,7 +81,7 @@ size_flags_horizontal = 3
 text = "Save"
 
 [node name="Close" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_rlduj")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 button_text = "Save and Close"
 auto_connect_signals = false

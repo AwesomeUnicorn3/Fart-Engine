@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Event_Commands.gd" id="2_qvopt"]
 [ext_resource type="PackedScene" uid="uid://b0x40ln8a6syy" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Label_Template.tscn" id="3_mu3gj"]
 [ext_resource type="PackedScene" uid="uid://c0mw0jwbq1np4" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/input_templateBuffer.tscn" id="4_wcfvt"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_y6x7p"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="4_y6x7p"]
 
 [node name="Input_Event_Commands" type="VBoxContainer"]
 anchors_preset = 15
@@ -13,6 +13,7 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 theme = ExtResource("1_bctwc")
 script = ExtResource("2_qvopt")
+label_text = "Input_Event_Commands"
 
 [node name="Label" parent="." instance=ExtResource("3_mu3gj")]
 layout_mode = 2
@@ -36,9 +37,9 @@ size_flags_horizontal = 3
 text = "Edit List"
 
 [node name="Navigation Button" parent="HBoxContainer" groups=["Table Action"] instance=ExtResource("4_y6x7p")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
-button_text = "Edit Commands"
+custom_text = "Edit"
 auto_connect_signals = false
 auto_set_minimum_size = false
 

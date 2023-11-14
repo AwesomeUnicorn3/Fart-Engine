@@ -42,7 +42,7 @@ func set_character_velocity(curr_velocity:Vector2,direction:Vector2,characterMax
 
 func get_direction_string(direction:Vector2):
 	var direction_string :String = "Idle"
-	var movement_dict :Dictionary = FART.Static_Game_Dict["Movement Directions"]
+	var movement_dict :Dictionary = FART.Static_Game_Dict["10035"]
 	for key in movement_dict:
 		var directionVector :Vector2 = FART.convert_string_to_vector(movement_dict[key]["Direction Vector"])
 		if direction == directionVector:

@@ -9,7 +9,7 @@ var main_page = null
 var bufferSize :int = 10
 
 
-func set_label_text(keyName :String, displayName :String = "", displayNameVisible :bool = true):
+func set_select_button_label_text(keyName :String, displayName :String = "", displayNameVisible :bool = true):
 	$Label.set_text(keyName) #must be set no matter what is displayed
 	if displayNameVisible and displayName != "":
 		$DisplayLabel.set_text(displayName)
@@ -83,4 +83,4 @@ func _on_pressed():
 
 
 func _on_mouse_entered():
-	main_page.button_focus_index = name
+	DatabaseManager.BTN_focus_index = name

@@ -1,5 +1,5 @@
 @tool
-extends InputEngine
+extends FartDatatype
 
 var fileSelectedNode :Node
 var popupDialog : FileDialog

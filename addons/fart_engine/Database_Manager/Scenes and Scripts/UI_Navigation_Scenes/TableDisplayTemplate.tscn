@@ -1,0 +1,247 @@
+[gd_scene load_steps=7 format=3 uid="uid://c1x7xqj1wrnjx"]
+
+[ext_resource type="Theme" uid="uid://c521sxmdt64pl" path="res://addons/fart_engine/Database_Manager/Theme and Style/main_30.tres" id="1_m3t28"]
+[ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/TableDisplayTemplate.gd" id="2_uilmv"]
+[ext_resource type="PackedScene" uid="uid://bl1nyj51u0sv" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Background.tscn" id="3_bgxdt"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="4_0au0a"]
+[ext_resource type="PackedScene" uid="uid://tp32onmujtc3" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_Text.tscn" id="5_6t333"]
+[ext_resource type="PackedScene" uid="uid://chrrvye6ijyav" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/VersionLabel.tscn" id="6_xrx0e"]
+
+[node name="Tab_Template" type="Control" groups=["Tab"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_m3t28")
+script = ExtResource("2_uilmv")
+metadata/_edit_horizontal_guides_ = [636.0]
+metadata/_edit_vertical_guides_ = [-14.0]
+
+[node name="Background" parent="." instance=ExtResource("3_bgxdt")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox1" type="VBoxContainer" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
+
+[node name="HBox1" type="HBoxContainer" parent="VBox1"]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RefreshData_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_0au0a")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "Refresh Data"
+auto_connect_signals = false
+
+[node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBox1/HBox1/CenterContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 13
+text = "CHANGES HAVE BEEN MADE BUT NOT SAVED"
+
+[node name="AddNewTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_0au0a")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "New Table"
+auto_connect_signals = false
+
+[node name="DeleteTable_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_0au0a")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "Delete Table"
+auto_connect_signals = false
+
+[node name="AddNewKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_0au0a")]
+visible = false
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "New Key"
+auto_connect_signals = false
+
+[node name="DuplicateKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_0au0a")]
+visible = false
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "Copy Key"
+auto_connect_signals = false
+
+[node name="DeleteSelectedKey_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_0au0a")]
+visible = false
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "Delete Key"
+auto_connect_signals = false
+
+[node name="SaveChanges_Button" parent="VBox1/HBox1" groups=["Table Action"] instance=ExtResource("4_0au0a")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "Save Table"
+auto_connect_signals = false
+
+[node name="TableName" parent="VBox1" instance=ExtResource("5_6t333")]
+layout_mode = 2
+size_flags_vertical = 3
+label_text = "TableName"
+
+[node name="Input" parent="VBox1/TableName/Input_Node" index="1"]
+visible = false
+
+[node name="AdvancedControlsVBox" parent="VBox1/TableName/Input_Node" index="2"]
+visible = false
+
+[node name="Label_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Label/HBox1" index="0"]
+custom_text = ""
+
+[node name="Hide_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
+custom_text = ""
+
+[node name="Label_Button" parent="VBox1/TableName/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="0"]
+custom_text = ""
+
+[node name="Key" parent="VBox1" instance=ExtResource("5_6t333")]
+layout_mode = 2
+label_text = "Key"
+is_label_button = false
+
+[node name="Label" parent="VBox1/Key/Input_Node" index="0"]
+visible = false
+
+[node name="Input" parent="VBox1/Key/Input_Node" index="1"]
+text = "10012"
+editable = false
+
+[node name="AdvancedControlsVBox" parent="VBox1/Key/Input_Node" index="2"]
+visible = false
+
+[node name="Label_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Label/HBox1" index="0"]
+custom_text = ""
+
+[node name="Hide_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Label/HBox1" index="1"]
+custom_text = ""
+
+[node name="Label_Button" parent="VBox1/Key/Input_Node/AdvancedControlsVBox/Display_Child/Label/HBox1" index="0"]
+custom_text = ""
+
+[node name="HBox2" type="HBoxContainer" parent="VBox1"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="VBox1/HBox2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBox1/HBox2/CenterContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 13
+
+[node name="AddNewField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_0au0a")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "New Field"
+auto_connect_signals = false
+
+[node name="DeleteField_Button" parent="VBox1/HBox2" groups=["Table Action"] instance=ExtResource("4_0au0a")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+custom_text = "Delete Field"
+auto_connect_signals = false
+
+[node name="HBox3" type="HBoxContainer" parent="VBox1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 11.82
+
+[node name="Scroll1" type="ScrollContainer" parent="VBox1/HBox3"]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Key_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll1"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Scroll2" type="ScrollContainer" parent="VBox1/HBox3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll2"]
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Vetical_Separator" type="PanelContainer" parent="VBox1/HBox3"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+
+[node name="Scroll3" type="ScrollContainer" parent="VBox1/HBox3"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Field_List_Vbox" type="VBoxContainer" parent="VBox1/HBox3/Scroll3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Version_Label" parent="VBox1" instance=ExtResource("6_xrx0e")]
+visible = false
+layout_mode = 2
+
+[node name="Button_Float" type="Node" parent="."]
+
+[connection signal="button_up" from="VBox1/HBox1/RefreshData_Button" to="." method="reload_data_without_saving"]
+[connection signal="button_up" from="VBox1/HBox1/AddNewTable_Button" to="." method="_on_add_new_table_button_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/DeleteTable_Button" to="." method="_on_delete_table_button_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/AddNewKey_Button" to="." method="show_new_key_input_form"]
+[connection signal="button_up" from="VBox1/HBox1/DuplicateKey_Button" to="." method="_on_duplicate_key_button_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/DeleteSelectedKey_Button" to="." method="_on_delete_selected_key_button_button_up"]
+[connection signal="button_up" from="VBox1/HBox1/SaveChanges_Button" to="." method="_on_Save_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/AddNewField_Button" to="." method="_on_add_new_field_button_button_up"]
+[connection signal="button_up" from="VBox1/HBox2/DeleteField_Button" to="." method="_on_delete_field_button_button_up"]
+
+[editable path="VBox1/TableName"]
+[editable path="VBox1/TableName/Input_Node/Label"]
+[editable path="VBox1/TableName/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="VBox1/TableName/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="VBox1/TableName/input_templateBuffer"]
+[editable path="VBox1/Key"]
+[editable path="VBox1/Key/Input_Node/Label"]
+[editable path="VBox1/Key/Input_Node/AdvancedControlsVBox/Label"]
+[editable path="VBox1/Key/Input_Node/AdvancedControlsVBox/Display_Child/Label"]
+[editable path="VBox1/Key/input_templateBuffer"]

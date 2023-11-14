@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://bmfbavfcn0pq8" path="res://fart_data/sfx/SFX_fart1.wav" id="3_lca6n"]
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Input_audio.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://c7c0ymusji584" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Number_Counter_Float.tscn" id="4_77njg"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="4_pc2lw"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="4_pc2lw"]
 
 [node name="Input_sfx" type="VBoxContainer"]
 anchors_preset = 15
@@ -44,29 +44,27 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 
 [node name="sfx_name" parent="HBoxContainer/VBoxContainer2" groups=["Table Action"] instance=ExtResource("4_pc2lw")]
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_vertical = 3
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="Play" parent="HBoxContainer/VBoxContainer2" groups=["Table Action"] instance=ExtResource("4_pc2lw")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_vertical = 3
-button_text = "Play"
+custom_text = "Play"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="Stop" parent="HBoxContainer/VBoxContainer2" groups=["Table Action"] instance=ExtResource("4_pc2lw")]
-self_modulate = Color(0.368627, 0.156863, 0.788235, 1)
+self_modulate = Color(0.37, 0.16, 0.79, 1)
 layout_mode = 2
 size_flags_vertical = 3
-button_text = "Stop"
+custom_text = "Stop Playback"
 auto_connect_signals = false
 auto_set_minimum_size = false
-auto_set_color = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2

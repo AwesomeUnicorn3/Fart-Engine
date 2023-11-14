@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d3so6uqlaf4o8"]
 
 [ext_resource type="Script" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/InputArray_Node_Field.gd" id="1_l4eig"]
-[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/Navigation_Button.tscn" id="2_5qrtg"]
+[ext_resource type="PackedScene" uid="uid://cw2c256dbf611" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Navigation_Scenes/NavigationButtonTemplate.tscn" id="2_5qrtg"]
 [ext_resource type="PackedScene" uid="uid://bfgpjcl3ojtf7" path="res://addons/fart_engine/Database_Manager/Scenes and Scripts/UI_Input_Scenes/Checkbox_Template.tscn" id="3_f7755"]
 
 [node name="HBoxContainer" type="HBoxContainer"]
@@ -33,12 +33,8 @@ visible = false
 custom_minimum_size = Vector2(5, 30)
 
 [node name="Label" parent="ChkBox/Label/HBox1/Label_Button" index="0"]
-self_modulate = Color(1, 1, 1, 1)
 offset_right = -116.0
 text = "ChkBox"
-
-[node name="DisplayLabel" parent="ChkBox/Label/HBox1/Label_Button" index="1"]
-self_modulate = Color(1, 1, 1, 1)
 
 [node name="Input" parent="ChkBox/Hbox1/Background" index="0"]
 visible = false

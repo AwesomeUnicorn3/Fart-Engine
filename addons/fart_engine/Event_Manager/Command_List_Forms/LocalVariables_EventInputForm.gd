@@ -1,20 +1,13 @@
 @tool
-extends CommandForm
+extends CommandFormManager
 
 @onready var key_dropdown := $Control/VBoxContainer/KeyDropdown
 @onready var field_dropdown = $Control/VBoxContainer/FieldDropdown
-
 @onready var value_node := $Control/VBoxContainer/Checkbox_Template
-
-var DBENGINE: DatabaseManager = DatabaseManager.new()
-
-var function_name :String = "change_local_variable" #must be name of valid function
-var which_var :String
-var to_what :String
-var event_name :String = ""
 
 
 func _ready():
+	function_name = "change_local_variable" 
 	key_dropdown.populate_list()
 #	field_dropdown.selection_table_name = key_dropdown._get_input_value()
 #	field_dropdown.populate_list()
@@ -29,28 +22,22 @@ func set_input_values(old_function_dict :Dictionary):
 func get_input_values():
 	which_var = field_dropdown.get_input_value()
 	to_what = value_node.inputNode.text
-	event_name = commandListForm.CommandInputForm.source_node.parent_node.event_name
+	event_name = source_node.parent_node.event_name
 	var return_function_dict = {function_name : [which_var, to_what, event_name]}
 	return return_function_dict
 
 
 func _on_accept_button_up():
-	commandListForm.CommandInputForm.function_dict = get_input_values()
+	function_dict = get_input_values()
 	get_parent()._on_close_button_up()
 
 
 func _on_key_dropdown_input_selection_changed():
 	var field_list: Dictionary = {}
-	var field_selected_table_data_dict: Dictionary = DBENGINE.import_data(key_dropdown.selection_table_name, true)
+	var field_selected_table_data_dict: Dictionary = all_tables_merged_data_dict[key_dropdown.selection_table_name]
 	for key in key_dropdown.selection_table[key_dropdown.selection_table.keys()[0]]:
 		if key != "Display Name":
-			field_list[key] = {"Datatype": DBENGINE.get_datatype(key, field_selected_table_data_dict)}
+			field_list[key] = {"Datatype": await get_datatype(key, key_dropdown.selection_table_name)}
 	field_dropdown.populate_list(false, true, true, field_list)
 #	var field_list: Dictionary = {}
-#	var selected_table_data_dict: Dictionary = DBENGINE.import_data(key_dropdown.selection_table_name, true)
-#	for key in key_dropdown.selection_table[key_dropdown.selection_table.keys()[0]]:
-#		if key != "Display Name":
-#			field_list[key] = {"Datatype": DBENGINE.get_datatype(key, selected_table_data_dict)}
-##	field_dropdown.selection_table = field_list
-#	field_dropdown.populate_list(false, true, true, field_list)
-	#populate_list(update_selection_table :bool = true, select_index:bool = true, use_custom_dict :bool = false, custom_dict:Dictionary = {}):
+ 
